@@ -1,0 +1,26 @@
+Consider the following documentation stub for a Python function.
+
+```python
+$stub_src
+```
+
+Suppose this function were correctly implemented, as suggested by
+the documentation stub, and the implemented function were called
+with these arguments: 
+
+$args
+
+What would the output of the function be? Use the following output
+format:
+
+<thought>
+ANY THOUGHTS
+</thought>
+<answer>
+FINAL ANSWER
+</answer>
+
+If your answer is x, show it as it would printed by a Python
+interpreter called by print(x). Specifically if x is a string do NOT
+include quotes around it.  Also, do not include any text other than
+the final answer between the <answer> and </answer> tags.
