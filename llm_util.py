@@ -14,9 +14,11 @@ def _result(str_response, **kw):
   """
   return str_response
 
-def llm(prompt, service='anthropic', model=None):
+def llm(prompt, service='anthropic', model=None, echo_service=False):
   """Use an LLM model.
   """
+  if echo_service:
+    print(f'calling service={service} model={model}')
   if service == 'openai':
     if model is None: model='gpt-4o-mini'
     client = openai.OpenAI()

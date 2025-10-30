@@ -4,9 +4,16 @@
 import logging
 import pprint
 
+#
+# Define some routines with Pythonic interfaces that are will be
+# implemented with an LLM.  All you need to do with these routines is
+# give return types and doc strings. Optionally they can be given
+# local configurations.
+#
+
 import secretagent as sec
 
-@sec.subagent(echo=True)
+@sec.subagent()
 def analyze_sentence(sentence: str) -> (str, str, str):
   """Extract a names of a player, and action, and an optional event.
 
@@ -20,7 +27,7 @@ def analyze_sentence(sentence: str) -> (str, str, str):
   ('Santi Cazorla', 'scored a touchdown.', '')
   """
 
-@sec.subagent(echo=True)
+@sec.subagent()
 def sport_for(x: str)-> str:
   """Return the name of the sport associated with a player, action, or event.
 
@@ -37,7 +44,7 @@ def sport_for(x: str)-> str:
   'American football and rugby'
   """
     
-@sec.subagent(echo=True)
+@sec.subagent()
 def consistent_sports(sport1: str, sport2: str) -> bool:
   """Compare two descriptions of sports, and determine if they are consistent.
 
@@ -46,7 +53,13 @@ def consistent_sports(sport1: str, sport2: str) -> bool:
   """
   ...
 
+#
+# Now these subagents can be called as if they were implemented in Python.
+#
+
 def sports_understanding_workflow(sentence):
+  """A workflow that uses the subagents defined above.
+  """
   player, action, event = analyze_sentence(sentence)
   player_sport = sport_for(player)
   action_sport = sport_for(action)
@@ -58,7 +71,17 @@ def sports_understanding_workflow(sentence):
   return result
 
 if __name__ == '__main__':
-  sec.configure(service="anthropic", model="claude-3-haiku-20240307")
-  sports_understanding_workflow("DeMar DeRozan was called for the goal tend.")
 
-    
+  # configure the service and model used by default
+  sec.configure(service="anthropic", model="claude-haiku-4-5-20251001")
+
+  # this context will push some more things into the configuration and
+  # remove them when we exit - in this case echo the service used
+  # and the subagent inputs/outputs
+  with sec.configuration(echo_call=True, echo_service=True):
+    result = sports_understanding_workflow("Tim Duncan scored from inside the paint.")
+
+  # this context records all the subagent calls in a list of dicts
+  with sec.recorder() as rollout:
+    result = sports_understanding_workflow("DeMar DeRozan was called for the goal tend.")
+    pprint.pprint(rollout)

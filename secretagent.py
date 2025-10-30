@@ -6,16 +6,21 @@ import logging
 import pathlib
 import re
 
+from contextlib import contextmanager
 from string import Template
 
 import llm_util
 
-GLOBAL_CONFIG = dict(
-    service="anthropic",
-    model="claude-3-haiku-20240307")
+#
+# global configuration of the secretagent package
+#
+
+GLOBAL_CONFIG = {}
 
 def configure(**kw):
-    """Set global coniguration properties."""
+    """Set global configuration properties.
+    """
+    global GLOBAL_CONFIG
     GLOBAL_CONFIG.update(kw)
 
 def get_config(key: str, local_config=None):
@@ -23,10 +28,50 @@ def get_config(key: str, local_config=None):
 
     Prefer the local_config if both are set.
     """
+    global GLOBAL_CONFIG
     if local_config:
         return local_config.get(key) or GLOBAL_CONFIG.get(key)
     else:
         return GLOBAL_CONFIG.get(key)
+
+@contextmanager
+def configuration(**kw):
+    """Add some additional configuration information.
+
+    Original configuration will be restored on exit.
+    """
+    global GLOBAL_CONFIG
+    saved_config = {**GLOBAL_CONFIG}
+    configure(**kw)
+    yield GLOBAL_CONFIG
+    GLOBAL_CONFIG = saved_config
+
+#
+# recording subagent actions
+#
+
+RECORDING = False
+RECORD = []
+
+@contextmanager
+def recorder():
+    """Start recording subagent actions.
+
+    Returns a list of dicts, each dict describing a subagent call.
+    """
+    global RECORDING, RECORD
+    RECORDING = True; RECORD = []
+    yield RECORD
+    RECORDING = False; RECORD = []    
+
+def _record(**kw):
+    global RECORDING, RECORD
+    if RECORDING:
+        RECORD.append({**kw})
+
+#
+# core machinery for subagents
+#
 
 def program_trace_prompt_llm(func, *args, **kw):
     """Construct a prompt that calls an LLM to predict the output of the function.
@@ -49,10 +94,11 @@ def program_trace_prompt_llm(func, *args, **kw):
         ])
     prompt = template.substitute(dict(stub_src=trimmed_src, args=input_args))
     return llm_util.llm(
-        prompt, get_config('service', kw), get_config('model', kw))
+        prompt, get_config('service', kw), get_config('model', kw), get_config('echo_service'))
 
 def parse_llm_output(func, text):
-    """Take LLM output and return the final answer, in the correct type."""
+    """Take LLM output and return the final answer, in the correct type.
+    """
     return_type = func.__annotations__.get('return', str)
     final_answer = re.search(r'<answer>\n?(.*)\n?</answer>', text).group(1)
     result = None
@@ -64,16 +110,19 @@ def parse_llm_output(func, text):
         result = ast.literal_eval(final_answer)
     return result
 
-def subagent(echo=False):
-    """Mark a function as something to be implemented via an LLM prompt.
+def subagent(**subagent_kw):
+    """Decorator to mark a function as implemented via an LLM prompt.
     """
     def inner_stub(func):
         @functools.wraps(func)
         def wrapper(*args, **kw):
-            if echo: print(f'Calling {func.__name__} {args}...')
-            llm_response = program_trace_prompt_llm(func, *args, **kw)
-            answer = parse_llm_output(func, llm_response)
-            if echo: print(f'...{func.__name__} returned {answer}')
+            with configuration(**subagent_kw):
+                echo = get_config('echo_call')
+                if echo: print(f'Calling {func.__name__} {args}...')
+                llm_response = program_trace_prompt_llm(func, *args, **kw)
+                answer = parse_llm_output(func, llm_response)
+                if echo: print(f'...{func.__name__} returned {answer}')
+                _record(func=func.__name__, args=args, kw=kw, output=answer)
             return answer
         return wrapper
     return inner_stub
