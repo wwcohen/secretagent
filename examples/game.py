@@ -1,10 +1,10 @@
 """Todo:
 
-game.examine(item_name)
+ - n_th_review(n, description)
+ - room_descriptions from neighbors, not always random.
+ - add directions to room description generation
+ - 
 
-n_th_review(n, description)
-
-@config with examples?
 """
 
 from cachier import cachier
@@ -17,68 +17,51 @@ from typing import Callable
 
 import secretagent as sec
 
-#
-# game look (todo: put inside game)
-#
-
-def play(game):
-    """Game play loop.
-    """
-    game.look()
-    while True:
-        if game.status == 'won':
-            print('You win!')
-            break
-        elif game.status == 'lost':
-            print('You lost.')                
-            break
-        try:
-            command = input('>> ')
-            if not command:
-                break
-            game.do_command(command)
-        except EOFError:
-            break
-        except Exception as ex:
-            print(f"Exception: {ex}")
-            print(f"You can't '{command}'")
-    print("Bye.")
-
-
+import pyramid_game
 
 #
 # LLM access
 #
 
 @cachier()
-@sec.subagent(echo_call=True, echo_response=True)
-def refusal(command: str, room_description: str, player_inv: list[str], room_inv: list[str]) -> str:
+@sec.subagent()
+def refusal(
+        command: str, 
+        room_description: str, 
+        valid_directions: list[str],
+        player_inv: list[str],
+        room_inv: list[str]) -> str:
     """Explain why a command is not applicable here.
 
     Inputs:
       command: the inapplicable command issued by the player
       room_description: a description of the current room
+      valid_directions: a list of directions that can be traveled
       player_inv: a list of the items carried by the player.
+      room_inv: a list of the items in the room.
 
     Output:
       An explanation as to why the command is invalid.
 
     Some examples:
 
-    >>> refusal("go south", "You are in a vast desert with an old pyramid just north of you", [], [])
+    >>> refusal("go south", "You are in a vast desert with an old pyramid just north of you", ['north'], [], [])
     "The desert is much too hostile to explore without the proper equipment."
     
-    >>> refusal("examine whip", "You are in the entrance to a dark tunnel", ["fedora", "gun"], [])
+    >>> refusal("examine whip", "You are in the entrance to a dark tunnel", ['north'], ["fedora", "gun"], [])
     "You don't see anything like that here."
 
-    >>> refusal("talk to the mummy", "You are in a burial chamber.", [], [])
+    >>> refusal("talk to the mummy", "You are in a burial chamber.", ['south', 'west'], [], [])
     "It seems unlikely that the mummy will answer, since it has been dead for a while."
     """
 
 @cachier()
-@sec.subagent(echo_call=True, echo_response=True)
+@sec.subagent()
 def describe_new_room(room_name: str, nearby_room_descriptions: tuple[str]) -> str:
     """Return a 2-3 sentence description of a room in a text adventure game.
+
+    The descriptions are consistent with the descriptions of the
+    nearly rooms.
 
     Inputs:
       room_name: a short name of the room
@@ -109,11 +92,11 @@ def normalize_command(user_command: str, possible_commands: list[str]) -> str:
 
     Some examples:
 
-    >>> normalize_command("north", ["go north", "inv", "look"])
-    "go north"
-
     >>> normalize_command("east", ["go north", "inv", "look"])
     ""
+
+    >>> normalize_command("n", ["go north", "inv", "look"])
+    "go north"
 
     >>> normalize_command("what am I holding?",  ["go north", "inv", "look"]
     "inv"
@@ -220,13 +203,18 @@ class Game(BaseModel):
         """
         possible = self.possible_commands()
         matching_command = normalize_command(command, list(possible.keys()))
-        print(f'LLM: I think "{command}" means "{matching_command}"')
+        print(f'LLM: "{command}" means "{matching_command}"')
         if matching_command:
             possible[matching_command]()
         else:
             player = self.player
             room = self.rooms[player.loc]
-            print(fpara(refusal(command, room.description, player.inv, room.inv)))
+            print(fpara(refusal(
+                command, 
+                room.description,
+                list(room.neighbors.keys()),
+                player.inv,
+                room.inv)))
 
     #
     # operations invoked by game commands
@@ -279,15 +267,8 @@ class Game(BaseModel):
         """
         room = self.rooms[self.player.loc]
         next_room_name = room.neighbors.get(direction)
-        if next_room_name is None:
-            print(f"You can't go {direction}.")
-        else:
-            self._enter_room(next_room_name, direction)
-            self.look()
-
-    #
-    # don't work now because of local_actions
-    #
+        self._enter_room(next_room_name, direction)
+        self.look()
 
     def save_data(self, filename):
         """Save the core data for the game.
@@ -297,61 +278,41 @@ class Game(BaseModel):
         print(f'Saved to {filename}.')
 
     @staticmethod
-    def restore(filename):
+    def restore_data(filename):
         """Restore the game's data.
         """
+        print(f'Loading game data from {filename}.')
         with open(filename) as fp:
             return Game.model_validate_json(fp.read())
-        
 
-def make_pyramid_game():
-    game = Game.restore('pyramid.json')
 
-    # attach special actions to locations
-    def open_sarcophagus():
-        # local command for 'tunnel end'
-        if 'crowbar' in game.player.inv:
-            print('Using the crowbar, you are able to force the lid of the sarcophagus aside.')
-            room = game.rooms['tunnel end']
-            room.description = fpara(
-                """There's a stone sarcophagus at the end of the
-                tunnel, with the lid pushed aside. You can't see into
-                the sarcophagus without getting closer.""")
-            room.neighbors['inside'] = 'sarcophagus'
-            room.neighbors['inside the sarcophagus'] = 'sarcophagus'
-        else:
-            print('The lid is much too heavy to move.')
-    game.rooms['tunnel end'].local_commands['open sarcophagus'] = open_sarcophagus
+#
+# game play loop
+#
 
-    def neutralize_raven():
-        #for the raven statue
-        if 'fedora' in game.player.inv:
-            game.player.inv.remove('fedora')
-            print('The hat slips down and covers the eyes of the statue.  Much better!')
-            room = game.rooms['raven statue']
-            room.description = fpara(
-                """There is statue here of a man with a raven's head
-                wearing a hat.  Somehow it seems to resent the
-                hat...and you don't feel inclined to get close to it.
-                """)
-            room.neighbors['east'] = 'raven room east'
-    game.rooms['raven statue'].local_commands['put fedora on raven statue'] = neutralize_raven
+def play(game):
+    """Game play loop.
+    """
+    game.look()
+    while not game.status:
+        try:
+            command = input('>> ')
+            if command:
+                game.do_command(command)
+        except EOFError:
+            break
+        except Exception as ex:
+            # this would be a bug
+            print(f"Exception: {ex}")
+            print(f"You can't '{command}'")
 
-    def open_treasure():
-        if 'knife' in game.player.inv:
-            print(fpara(
-                """The chains seem to melt away under the edge of the
-                sacred knife, and the doors ponderously swing open.
-                Inside is an untouched royal tomb, where countless
-                treasures are laid out around a golden sarcophagus.
-                """))
-            game.status = 'won'
-    game.rooms['treasure room doorway'].local_commands['cut the chains with the knife'] = open_treasure
+    if game.status:
+        print(f'\nYou {game.status}!')
+    else:
+        print("Bye.")
 
-    return game
 
 if __name__ == '__main__':
     sec.configure(service="anthropic", model="claude-haiku-4-5-20251001")
-    #sec.configure(service="anthropic", model="claude-sonnet-4-5-20250929")
-    game = make_pyramid_game()
+    game = pyramid_game.make_game()
     play(game)
