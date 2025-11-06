@@ -1,17 +1,17 @@
-Consider the following documentation stub for a Python function.
+Consider the following documentation stub for a Python function.  Note
+that this is documentation, not a full implementation.
 
 ```python
 $stub_src
 ```
 
-Suppose this function were correctly implemented, as suggested by
-the documentation stub, and the implemented function were called
-with these arguments: 
+Imagine that this function was fully implemented as suggested by the
+documentation stub, and that function were called with these arguments:
 
 $args
 
-What would the output of the function be? Use the following output
-format:
+Propose a possible output of the function for these inputs that is
+consistent with the documentation.  Use the following output format:
 
 <thought>
 ANY THOUGHTS

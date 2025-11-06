@@ -99,9 +99,13 @@ def program_trace_prompt_llm(func, *args, **kw):
 def parse_llm_output(func, text):
     """Take LLM output and return the final answer, in the correct type.
     """
+    try:
+        match_result = re.search(r'<answer>(.*)</answer>', text, re.DOTALL|re.MULTILINE)
+        final_answer = match_result.group(1).strip()
+    except AttributeError:
+        raise AttributeError('cannot find final answer')
+
     return_type = func.__annotations__.get('return', str)
-    final_answer = re.search(r'<answer>\n?(.*)\n?</answer>', text).group(1)
-    result = None
     try:
         # type is something simple like 'str', 'int'
         result = return_type(final_answer)
@@ -120,6 +124,10 @@ def subagent(**subagent_kw):
                 echo = get_config('echo_call')
                 if echo: print(f'Calling {func.__name__} {args}...')
                 llm_response = program_trace_prompt_llm(func, *args, **kw)
+                if get_config('echo_response'):
+                    print('--- llm response ---')
+                    print(llm_response)
+                    print('--- end response ---')
                 answer = parse_llm_output(func, llm_response)
                 if echo: print(f'...{func.__name__} returned {answer}')
                 _record(func=func.__name__, args=args, kw=kw, output=answer)
