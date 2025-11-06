@@ -4,7 +4,7 @@ game.examine(item_name)
 
 n_th_review(n, description)
 
-@config examples
+@config with examples?
 """
 
 from cachier import cachier
@@ -18,7 +18,7 @@ from typing import Callable
 import secretagent as sec
 
 #
-# LLM access
+# game look (todo: put inside game)
 #
 
 def play(game):
@@ -26,6 +26,12 @@ def play(game):
     """
     game.look()
     while True:
+        if game.status == 'won':
+            print('You win!')
+            break
+        elif game.status == 'lost':
+            print('You lost.')                
+            break
         try:
             command = input('>> ')
             if not command:
@@ -39,8 +45,13 @@ def play(game):
     print("Bye.")
 
 
+
+#
+# LLM access
+#
+
 @cachier()
-@sec.subagent()
+@sec.subagent(echo_call=True, echo_response=True)
 def refusal(command: str, room_description: str, player_inv: list[str], room_inv: list[str]) -> str:
     """Explain why a command is not applicable here.
 
@@ -65,7 +76,7 @@ def refusal(command: str, room_description: str, player_inv: list[str], room_inv
     """
 
 @cachier()
-@sec.subagent()
+@sec.subagent(echo_call=True, echo_response=True)
 def describe_new_room(room_name: str, nearby_room_descriptions: tuple[str]) -> str:
     """Return a 2-3 sentence description of a room in a text adventure game.
 
@@ -125,7 +136,7 @@ def clarify(input_sentence: str) -> str:
 #
 
 def fpara(paragraph: str, width=60):
-    """Format a paragraph-long text description."""
+    """Nicely format a paragraph-long piece of text."""
     return fill(
         dedent(paragraph).strip(),
         replace_whitespace=True,
@@ -148,7 +159,7 @@ class Room(BaseModel):
             all_descriptions = [r.description for r in rooms.values() if r.description]
             sample_descriptions = random.sample(all_descriptions, k=target_n_examples)
             # make args cachable
-            description = describe_new_room(self.name, tuple(sample_descriptions))
+            self.description = fpara(describe_new_room(self.name, tuple(sample_descriptions)))
         return self.description
 
 class Item(BaseModel):
@@ -163,9 +174,10 @@ class Game(BaseModel):
     player: Player
     items: dict[str, Item] = Field(default={})
     rooms: dict[str, Room] = Field(default={})
+    status: str = ''
 
     def _enter_room(self, room_name, direction):
-        """Move the player intoin the given direction into the named room.
+        """Move the player in the given direction into the named room.
 
         If the room hasn't been created yet, create a simple version
         of it.
@@ -198,6 +210,8 @@ class Game(BaseModel):
             {f'take {it}': partial(self.take, item_name=it) for it in room.inv})
         commands.update(
             {f'drop {it}': partial(self.drop, item_name=it) for it in self.player.inv})
+        commands.update(
+            {f'examine {it}': partial(self.examine, item_name=it) for it in self.player.inv})
         commands.update(room.local_commands)
         return commands
 
@@ -214,6 +228,10 @@ class Game(BaseModel):
             room = self.rooms[player.loc]
             print(fpara(refusal(command, room.description, player.inv, room.inv)))
 
+    #
+    # operations invoked by game commands
+    #
+
     def inv(self):
         """List what player is carrying.
         """
@@ -221,7 +239,7 @@ class Game(BaseModel):
         if not player.inv:
             print('You are not carrying anything.')
         else:
-            print(clarify('You have: ', ', '.join(player.inv)))
+            print(clarify('You have: ' + ', '.join(player.inv)))
 
     def look(self):
         """Describe the current room and contents.
@@ -251,6 +269,11 @@ class Game(BaseModel):
         room.inv.append(item_name)
         print(clarify(f'You drop {item_name}'))
 
+    def examine(self, item_name):
+        """Examine an item you have closely.
+        """
+        print(self.items[item_name].description)
+
     def go(self, direction):
         """Go to an adjacent room.
         """
@@ -262,8 +285,12 @@ class Game(BaseModel):
             self._enter_room(next_room_name, direction)
             self.look()
 
-    def save(self, filename):
-        """Save the gane.
+    #
+    # don't work now because of local_actions
+    #
+
+    def save_data(self, filename):
+        """Save the core data for the game.
         """
         with open(filename, 'w') as fp:
             fp.write(self.model_dump_json(indent=2))
@@ -271,92 +298,60 @@ class Game(BaseModel):
 
     @staticmethod
     def restore(filename):
-        """Restore the game.
+        """Restore the game's data.
         """
         with open(filename) as fp:
             return Game.model_validate_json(fp.read())
         
 
-def make_game():
-    game = Game(
-        player=Player(
-            loc='in front',
-            inv = ['bullwhip', 'fedora']),
-        items={
-            'bullwhip': Item(
-                name='bullwhip',
-                description='The bullwhip is old and worn, made of black leather.'),
-            'fedora': Item(
-                name='fedora',
-                description='The fedora is gray and stained but comfortable-looking.'),
-            'crowbar': Item(
-                name='crowbar',
-                description=fpara("""
-                The crowbar is about 4 feet long, and made of sturdy iron.
-                You guess that it was abandoned by some previous grave
-                robbers. There are no markings on it, and it could have
-                been made ten years ago or two hundred.
-                """),
-            ),
-        },
-        rooms = {
-            'in front': Room(
-                name='in front',
-                description=fpara("""
-                You're in in front to an ancient pyramid.  The structure is
-                old and crumbling, and looks to be thousands of years old.
-                All around you is a wind-swept desert, dry and completely empty.
-                To the north of you is a tunnel into the side of the pyramid,
-                probably made by grave robbers long ago.
-                """),
-                neighbors=dict(north='tunnel entrance'),
-            ),
-            'tunnel entrance': Room(
-                name='tunnel entrance',
-                description=fpara("""
-                The tunnel leads up into the ancient pyramid at a steep angle.
-                Faded hieroglyphics are painted on the huge stones that
-                line the tunnel walls, along with dim images of animal-headed
-                figures.  Partway up, a cedar door with a broken seal is
-                hanging open.
-                """),
-                neighbors=dict(
-                    south='in front', north='tunnel end', east='empty room'),
-            inv=['crowbar'],
-            ),
-            'tunnel end': Room(
-                name='tunnel end',
-                description=fpara("""
-                The tunnel ends at heavy stone door.
-                """),
-                neighbors=dict(south='tunnel entrance'),
-            ),
-            'thrown room': Room(
-                name='thrown room',
-                neighbors=dict(south='tunnel end'),
-                description=fpara("""
-                You are surrounded by the treasures of a long-dead pharoah.
-                """),
-            ),
-        }
-    )
-    # attach special actions to locations
-    def open_stone_door():
-        # local for 'tunnel end'
-        if 'crowbar' in game.player.inv:
-            print('Using the crowbar, you are able to force the stone door open!')
-            game.rooms['tunnel end'].neighbors['north'] = 'thrown room'
-        else:
-            print('The stone door seems to be immovable.')
+def make_pyramid_game():
+    game = Game.restore('pyramid.json')
 
-    game.rooms['tunnel end'].local_commands['open door'] = open_stone_door
+    # attach special actions to locations
+    def open_sarcophagus():
+        # local command for 'tunnel end'
+        if 'crowbar' in game.player.inv:
+            print('Using the crowbar, you are able to force the lid of the sarcophagus aside.')
+            room = game.rooms['tunnel end']
+            room.description = fpara(
+                """There's a stone sarcophagus at the end of the
+                tunnel, with the lid pushed aside. You can't see into
+                the sarcophagus without getting closer.""")
+            room.neighbors['inside'] = 'sarcophagus'
+            room.neighbors['inside the sarcophagus'] = 'sarcophagus'
+        else:
+            print('The lid is much too heavy to move.')
+    game.rooms['tunnel end'].local_commands['open sarcophagus'] = open_sarcophagus
+
+    def neutralize_raven():
+        #for the raven statue
+        if 'fedora' in game.player.inv:
+            game.player.inv.remove('fedora')
+            print('The hat slips down and covers the eyes of the statue.  Much better!')
+            room = game.rooms['raven statue']
+            room.description = fpara(
+                """There is statue here of a man with a raven's head
+                wearing a hat.  Somehow it seems to resent the
+                hat...and you don't feel inclined to get close to it.
+                """)
+            room.neighbors['east'] = 'raven room east'
+    game.rooms['raven statue'].local_commands['put fedora on raven statue'] = neutralize_raven
+
+    def open_treasure():
+        if 'knife' in game.player.inv:
+            print(fpara(
+                """The chains seem to melt away under the edge of the
+                sacred knife, and the doors ponderously swing open.
+                Inside is an untouched royal tomb, where countless
+                treasures are laid out around a golden sarcophagus.
+                """))
+            game.status = 'won'
+    game.rooms['treasure room doorway'].local_commands['cut the chains with the knife'] = open_treasure
 
     return game
 
 if __name__ == '__main__':
     sec.configure(service="anthropic", model="claude-haiku-4-5-20251001")
     #sec.configure(service="anthropic", model="claude-sonnet-4-5-20250929")
-    game = make_game()
+    game = make_pyramid_game()
     play(game)
-
-    
