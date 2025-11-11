@@ -1,11 +1,15 @@
 """
 status:
+  - test_yaml.py is mostly working
   - pyramid.yaml is the current layout (up to raven status)
-  - need to wrap descriptions in fpara
-  - need to add paths
-    - maybe manually with a 'brief' description that is expanded?
-    - or via a 'path' json construct which I replace by calling make_path?
-  - maybe add puzzle links (as strings) to the yaml
+  - save/restore in json still works
+
+  - maybe add puzzle links (as strings) to the yaml?
+     - as local_commands[special action] = None ?
+
+ - bullwhip puzzle
+ - feather-guided maze in a cavern?
+   (4x4 grid, add random edges until corners connect)
 
 https://www.bbc.com/news/science-environment-41845445
 - from entrance 
@@ -281,6 +285,7 @@ def make_data():
 def add_puzzles(game):
 
     def notice_sarcophagus_passage():
+        # should this only happen once???
         print(fpara(
             """
             The sarcophagus conceals a dim passage that slants down and to the north.
@@ -293,8 +298,8 @@ def add_puzzles(game):
         #how to get past the raven statue
         if 'fedora' in game.player.inv:
             print('The hat slips down and covers the eyes of the statue.  Much better!')
+            # the raven statue room changes and you can't get the hat back
             room = game.rooms['raven statue']
-            # the room changes and you can't get the hat back
             game.player.inv.remove('fedora')
             room.description = fpara(
                 """There is statue here of a man with a raven's head

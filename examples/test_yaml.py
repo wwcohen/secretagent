@@ -60,15 +60,15 @@ def make_path(game: Game, start:str, end:str, dirs:str, name:str, hint:str):
         room = next_room
 
 if __name__ == '__main__':
-#    data = make_data()
-#    print(yaml.safe_dump(
-#        json.loads(data.model_dump_json()),
-#        default_flow_style=False))
 
     sec.configure(service="anthropic", model="claude-haiku-4-5-20251001")
 
     with open('pyramid.yaml') as fp:
         data = yaml.load(fp, Loader=yaml.FullLoader)
+        
+        # collect the paths to create
+        # re-format all the descriptions with fpara
+
         paths_to_make = []
         for room_name in data['rooms']:
             room = data['rooms'][room_name]
@@ -78,6 +78,8 @@ if __name__ == '__main__':
                 del room['neighbors']['PATH']
             if 'description' in room:
                 room['description'] = fpara(room['description'])
+
+        # create the game
         game = Game.model_validate(data)
         for path_kw in paths_to_make:
             print('making path', path_kw)

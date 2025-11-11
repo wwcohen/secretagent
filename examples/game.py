@@ -1,16 +1,9 @@
 """Todo:
 
-game builder 
- - programatically add some paths and mazes
- - move room description gen to world builder, with a game-specific
-prompt, and programatic choice of a nearby room.  make room
-generations discuss the exits.
- - bullwhip puzzle
- - feather-guided maze in a cavern?
-   (4x4 grid, add random edges until corners connect)
-
 game
  - add hints
+ - narrate transition, exits (maybe just with clarify)
+ - drop game-building stuff
  - n_th_review(n, description)
 
 """
@@ -33,9 +26,9 @@ import secretagent as sec
 def refusal(
         command: str, 
         room_description: str, 
-        valid_directions: list[str],
-        player_inv: list[str],
-        room_inv: list[str]) -> str:
+        valid_directions: tuple[str],
+        player_inv: tuple[str],
+        room_inv: tuple[str]) -> str:
     """Explain why a command is not applicable here.
 
     Inputs:
@@ -209,12 +202,11 @@ class Game(BaseModel):
         else:
             player = self.player
             room = self.rooms[player.loc]
-            print(fpara(refusal(
-                command, 
-                room.description,
-                list(room.neighbors.keys()),
-                player.inv,
-                room.inv)))
+            exits = tuple(room.neighbors.keys())
+            print(fpara(
+                refusal(
+                    command,
+                    room.description, exits, tuple(player.inv), tuple(room.inv))))
 
     #
     # operations invoked by game commands
