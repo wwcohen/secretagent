@@ -17,7 +17,7 @@ def translate(english_sentence: str) -> str:
 
 Then you can configure an LLM and run your unimplemented Python routine.
 
-``python
+```python
 >>> configure(service="anthropic", model="claude-haiku-4-5-20251001")
 >>> print(translate("What's for lunch today?"))
 Qu'est-ce qu'il y a pour le déjeuner aujourd'hui?
