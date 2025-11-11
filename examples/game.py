@@ -1,9 +1,17 @@
 """Todo:
 
+game builder 
+ - programatically add some paths and mazes
+ - move room description gen to world builder, with a game-specific
+prompt, and programatic choice of a nearby room.  make room
+generations discuss the exits.
+ - bullwhip puzzle
+ - feather-guided maze in a cavern?
+   (4x4 grid, add random edges until corners connect)
+
+game
+ - add hints
  - n_th_review(n, description)
- - room_descriptions from neighbors, not always random.
- - add directions to room description generation
- - 
 
 """
 
@@ -17,13 +25,10 @@ from typing import Callable
 
 import secretagent as sec
 
-import pyramid_game
 
-#
 # LLM access
 #
 
-@cachier()
 @sec.subagent()
 def refusal(
         command: str, 
@@ -57,24 +62,7 @@ def refusal(
 
 @cachier()
 @sec.subagent()
-def describe_new_room(room_name: str, nearby_room_descriptions: tuple[str]) -> str:
-    """Return a 2-3 sentence description of a room in a text adventure game.
-
-    The descriptions are consistent with the descriptions of the
-    nearly rooms.
-
-    Inputs:
-      room_name: a short name of the room
-      nearby_room_descriptions: a tuple of descriptions of nearby rooms.
-
-    Output:
-      a description of the room, similar in flavor to the
-    nearby rooms.
-    """
-
-@cachier()
-@sec.subagent()
-def normalize_command(user_command: str, possible_commands: list[str]) -> str:
+def normalize_command(user_command: str, possible_commands: tuple[str]) -> str:
     """Given a user command, find a possible command that matches
     it, if possible.
 
@@ -92,13 +80,13 @@ def normalize_command(user_command: str, possible_commands: list[str]) -> str:
 
     Some examples:
 
-    >>> normalize_command("east", ["go north", "inv", "look"])
+    >>> normalize_command("east", ("go north", "inv", "look"))
     ""
 
-    >>> normalize_command("n", ["go north", "inv", "look"])
+    >>> normalize_command("n", ("go north", "inv", "look"))
     "go north"
 
-    >>> normalize_command("what am I holding?",  ["go north", "inv", "look"]
+    >>> normalize_command("what am I holding?",  ("go north", "inv", "look"))
     "inv"
     """
 
@@ -127,7 +115,7 @@ def fpara(paragraph: str, width=60):
 
 class Room(BaseModel):
     name: str
-    neighbors: dict[str, str]
+    neighbors: dict[str, str] = Field(default={})
     description: str | None = Field(default=None)
     previously_entered: int = 0
     inv: list[str] = Field(default=[]) # items here
@@ -155,9 +143,21 @@ class Player(BaseModel):
 
 class Game(BaseModel):
     player: Player
-    items: dict[str, Item] = Field(default={})
-    rooms: dict[str, Room] = Field(default={})
-    status: str = ''
+    items: dict[str, Item] = {}
+    rooms: dict[str, Room] = {}
+    state: dict[str, str] = {}  # for status='won', etc
+
+    def add_room(self, room):
+        self.rooms[room.name] = room
+
+    def get_room(self, room_name):
+        return self.rooms[room_name]
+
+    def add_item(self, item):
+        self.items[item.name] = item
+
+    def get_item(self, item_name):
+        return self.items[item_name]
 
     def _enter_room(self, room_name, direction):
         """Move the player in the given direction into the named room.
@@ -202,7 +202,7 @@ class Game(BaseModel):
         """Perform a command.
         """
         possible = self.possible_commands()
-        matching_command = normalize_command(command, list(possible.keys()))
+        matching_command = normalize_command(command, tuple(possible.keys()))
         print(f'LLM: "{command}" means "{matching_command}"')
         if matching_command:
             possible[matching_command]()
@@ -286,33 +286,28 @@ class Game(BaseModel):
             return Game.model_validate_json(fp.read())
 
 
-#
-# game play loop
-#
+    def play(self):
+        """Game play loop.
+        """
+        self.look()
+        while 'status' not in self.state:
+            try:
+                command = input('>> ')
+                if command:
+                    self.do_command(command)
+            except EOFError:
+                break
+            except Exception as ex:
+                # this would be a bug
+                print(f"Exception: {ex}")
+                print(f"You can't '{command}'")
 
-def play(game):
-    """Game play loop.
-    """
-    game.look()
-    while not game.status:
-        try:
-            command = input('>> ')
-            if command:
-                game.do_command(command)
-        except EOFError:
-            break
-        except Exception as ex:
-            # this would be a bug
-            print(f"Exception: {ex}")
-            print(f"You can't '{command}'")
-
-    if game.status:
-        print(f'\nYou {game.status}!')
-    else:
-        print("Bye.")
+        if 'status' in self.state:
+            print(f'\nYou {self.state["status"]}')
+        else:
+            print("Bye.")
 
 
 if __name__ == '__main__':
-    sec.configure(service="anthropic", model="claude-haiku-4-5-20251001")
     game = pyramid_game.make_game()
     play(game)
