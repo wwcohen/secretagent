@@ -1,5 +1,5 @@
 # secretagent
-Lightweight codebase for building agentic systems
+Lightweight codebase for building agentic systems where everything looks like code.
 
 ## Quickstart
 
