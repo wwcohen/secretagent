@@ -28,30 +28,30 @@
     "in front": {
       "name": "in front",
       "neighbors": {
-        "north": "tunnel entrance"
+        "north": "tunnel 0"
       },
       "description": "You're in in front to an ancient pyramid.  The structure is\nold and crumbling, and looks to be thousands of years old.\nAll around you is a wind-swept desert, dry and completely\nempty. To the north of you is a tunnel into the side of the\npyramid, probably made by grave robbers long ago.",
       "previously_entered": 0,
       "inv": [],
       "local_commands": {}
     },
-    "tunnel entrance": {
-      "name": "tunnel entrance",
+    "tunnel start": {
+      "name": "tunnel start",
       "neighbors": {
         "south": "in front",
-        "north": "tunnel midpoint",
+        "north": "tunnel start",
         "east": "east passage 1"
       },
-      "description": "You're at the entrance to a wide tunnel, which leads up into\nthe ancient pyramid at a steep angle.  Faded hieroglyphics\nare painted on the huge stones that line the tunnel walls,\nalong with dim images of animal-headed figures.  In the\neast, a cedar door with a broken seal is hanging partly\nopen.",
+      "description": "You're at the entrance to a wide tunnel, which leads up into\nthe ancient pyramid at a steep angle.  Faded hieroglyphics\nare painted on the huge stones that line the tunnel walls,\nalong with dim images of animal-headed figures.  In the\neast, a cedar door with a broken seal is hanging, partly\nopen.",
       "previously_entered": 0,
       "inv": [],
       "local_commands": {}
     },
-    "tunnel midpoint": {
-      "name": "tunnel midpoint",
+    "tunnel i": {
+      "name": "tunnel i",
       "neighbors": {
-        "south": "tunnel entrance",
-        "north": "tunnel end"
+        "north": "tunnel 2",
+        "south": "tunnel 3"
       },
       "description": null,
       "previously_entered": 0,
@@ -61,7 +61,7 @@
     "tunnel end": {
       "name": "tunnel end",
       "neighbors": {
-        "south": "tunnel midpoint"
+        "south": "tunnel 3"
       },
       "description": "The tunnel ends at huge sarcophagus, with a heavy stone lid.\nThe lid is ornately carved but much to heavy to remove.",
       "previously_entered": 0,
@@ -71,43 +71,10 @@
     "sarcophagus": {
       "name": "sarcophagus",
       "neighbors": {
-        "down": "passage down",
+        "down": "passage down 1",
         "south": "tunnel end"
       },
-      "description": "Aside from you, the sarcophagus                    is\nempty...in fact it contains less than nothing.\nThe only thing inside is a dim passage that slants down.",
-      "previously_entered": 0,
-      "inv": [],
-      "local_commands": {}
-    },
-    "passage down": {
-      "name": "passage down",
-      "neighbors": {
-        "up": "sarcophagus",
-        "west": "west passage"
-      },
-      "description": "The passage twists steeply downward and to the west.\nMassive stone blocks line the sides, and they are roughly\ncut, without ornamentation.",
-      "previously_entered": 0,
-      "inv": [],
-      "local_commands": {}
-    },
-    "west passage": {
-      "name": "west passage",
-      "neighbors": {
-        "east": "passage down",
-        "down": "steep stairs"
-      },
-      "description": null,
-      "previously_entered": 0,
-      "inv": [],
-      "local_commands": {}
-    },
-    "steep stairs": {
-      "name": "steep stairs",
-      "neighbors": {
-        "up": "west passage",
-        "down": "treasure room doorway"
-      },
-      "description": null,
+      "description": "Aside from you, the sarcophagus                is empty...in\nfact it contains less than nothing.                The only\nthing inside is a dim passage that slants down.",
       "previously_entered": 0,
       "inv": [],
       "local_commands": {}
@@ -118,30 +85,6 @@
         "up": "steep stairs"
       },
       "description": "As the stairs descend they seem to be no longer\nin the pyramid but cut into the living rock.  The\nwalls are cool and damp.  At the bottom of the stairs\nis a double doorway, with huge rings on either side.\nThe rings are linked by black chains wrought of meteoric\nsteel, intertwined with silver wires bent into\nstrange symbols that seem to writhe and twist when you\nlook at them.",
-      "previously_entered": 0,
-      "inv": [],
-      "local_commands": {}
-    },
-    "east passage 1": {
-      "name": "east passage 1",
-      "neighbors": {
-        "west": "tunnel entrance",
-        "east": "east passage 2"
-      },
-      "description": null,
-      "previously_entered": 0,
-      "inv": [
-        "crowbar"
-      ],
-      "local_commands": {}
-    },
-    "east passage 2": {
-      "name": "east passage 2",
-      "neighbors": {
-        "west": "east passage 1",
-        "east": "raven room"
-      },
-      "description": null,
       "previously_entered": 0,
       "inv": [],
       "local_commands": {}
@@ -162,7 +105,7 @@
       "neighbors": {
         "west": "raven room"
       },
-      "description": "The paint on the statue is faded, but visible, and when it\nwas new it must have been magnificent.  The eyes have been\ntorn out: perhaps they were jewels and were stolen by\nrobbers.    In spite of this it somehow seems that the\nstatue follows you with its eyes as you cross the room,\nespecially when you try and move past it, to the east.",
+      "description": "The paint on the statue is faded, but visible, and when it\nwas new it must have been magnificent.  The eyes have been\ntorn out: perhaps they were jewels and were stolen by\nrobbers.  In spite of this it somehow seems that the statue\nfollows you with its eyes as you cross the room, especially\nwhen you try and move past it, to the east.",
       "previously_entered": 0,
       "inv": [],
       "local_commands": {}
@@ -180,5 +123,5 @@
       "local_commands": {}
     }
   },
-  "status": ""
+  "state": {}
 }
