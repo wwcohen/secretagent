@@ -106,12 +106,33 @@ def parse_llm_output(func, text):
         raise AttributeError('cannot find final answer')
 
     return_type = func.__annotations__.get('return', str)
+    
+    # SPECIAL HANDLING FOR BOOLEANS
+    if return_type is bool:
+        # Handle common boolean representations
+        final_answer_lower = final_answer.lower().strip()
+        if final_answer_lower in ('true', 'yes', '1', 'y'):
+            return True
+        elif final_answer_lower in ('false', 'no', '0', 'n'):
+            return False
+        else:
+            # Fallback to ast.literal_eval for "True"/"False" strings
+            try:
+                return ast.literal_eval(final_answer.capitalize())
+            except:
+                raise ValueError(f"Cannot parse '{final_answer}' as boolean")
+    
     try:
-        # type is something simple like 'str', 'int'
+        # type is something simple like 'str', 'int', 'float'
         result = return_type(final_answer)
-    except TypeError:
-        # type is complex - for now don't both validating it
-        result = ast.literal_eval(final_answer)
+    except (TypeError, ValueError):
+        # type is complex - use ast.literal_eval
+        # Also handles strings that look like Python literals
+        try:
+            result = ast.literal_eval(final_answer)
+        except (ValueError, SyntaxError):
+            # If all else fails, return as string
+            result = final_answer
     return result
 
 def subagent(**subagent_kw):
