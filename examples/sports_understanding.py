@@ -1,15 +1,10 @@
-"""A demo of secretagent
+"""A demo of secretagent, based on the 'sports_understanding' task in
+BBH.
 """
 
 import logging
 import pprint
 
-#
-# Define some routines with Pythonic interfaces that are will be
-# implemented with an LLM.  All you need to do with these routines is
-# give return types and doc strings. Optionally they can be given
-# local configurations.
-#
 
 import secretagent as sec
 
