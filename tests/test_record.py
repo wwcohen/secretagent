@@ -28,7 +28,7 @@ def test_recorder_enables_recording():
 
 def test_recorder_clears_record_on_exit():
     with record.recorder() as rec:
-        record._record(func="foo", args=(1,))
+        record.record(func="foo", args=(1,))
         assert len(rec) == 1
     assert record.RECORD == []
 
@@ -39,32 +39,32 @@ def test_recorder_clears_previous_records():
         assert rec == []
 
 
-# --- _record() ---
+# --- record() ---
 
 def test_record_appends_when_recording():
     with record.recorder() as rec:
-        record._record(func="translate", args=("hello",), output="hola")
+        record.record(func="translate", args=("hello",), output="hola")
         assert len(rec) == 1
         assert rec[0] == {"func": "translate", "args": ("hello",), "output": "hola"}
 
 
 def test_record_ignores_when_not_recording():
-    record._record(func="translate", args=("hello",))
+    record.record(func="translate", args=("hello",))
     assert record.RECORD == []
 
 
 def test_record_multiple_entries():
     with record.recorder() as rec:
-        record._record(func="a", args=(1,))
-        record._record(func="b", args=(2,))
-        record._record(func="c", args=(3,))
+        record.record(func="a", args=(1,))
+        record.record(func="b", args=(2,))
+        record.record(func="c", args=(3,))
         assert len(rec) == 3
         assert [r["func"] for r in rec] == ["a", "b", "c"]
 
 
 def test_record_preserves_arbitrary_kwargs():
     with record.recorder() as rec:
-        record._record(x=1, y="two", z=[3])
+        record.record(x=1, y="two", z=[3])
         assert rec[0] == {"x": 1, "y": "two", "z": [3]}
 
 

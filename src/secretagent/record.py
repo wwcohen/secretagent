@@ -14,7 +14,7 @@ def recorder():
     yield RECORD
     RECORDING = False; RECORD = []    
 
-def _record(**kw):
+def record(**kw):
     global RECORDING, RECORD
     if RECORDING:
         RECORD.append({**kw})

@@ -6,7 +6,7 @@ import pathlib
 import re
 
 from string import Template
-from secretagent import llm_util
+from secretagent import llm_util, config, record
 
 #
 # core machinery for subagents
@@ -32,8 +32,9 @@ def program_trace_prompt_llm(func, *args, **kw):
             for argname, argval in kw
         ])
     prompt = template.substitute(dict(stub_src=trimmed_src, args=input_args))
-    return llm_util.llm(
-        prompt, get_config('service', kw), get_config('model', kw), get_config('echo_service'))
+    model_output, stats = llm_util.llm(
+        prompt, config.get('model', kw), config.get('echo_model'))
+    return model_output, stats
 
 def parse_llm_output(func, text):
     """Take LLM output and return the final answer, in the correct type.
@@ -59,17 +60,17 @@ def ptool(**subagent_kw):
     def inner_stub(func):
         @functools.wraps(func)
         def wrapper(*args, **kw):
-            with configuration(**subagent_kw):
-                echo = get_config('echo_call')
+            with config.configuration(**subagent_kw):
+                echo = config.get('echo_call')
                 if echo: print(f'Calling {func.__name__} {args}...')
-                llm_response = program_trace_prompt_llm(func, *args, **kw)
-                if get_config('echo_response'):
+                llm_response, _stats = program_trace_prompt_llm(func, *args, **kw)
+                if config.get('echo_response'):
                     print('--- llm response ---')
                     print(llm_response)
                     print('--- end response ---')
                 answer = parse_llm_output(func, llm_response)
                 if echo: print(f'...{func.__name__} returned {answer}')
-                _record(func=func.__name__, args=args, kw=kw, output=answer)
+                record.record(func=func.__name__, args=args, kw=kw, output=answer)
             return answer
         return wrapper
     return inner_stub
