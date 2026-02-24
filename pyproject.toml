@@ -8,5 +8,5 @@ dependencies = [
     "pytest>=9.0.2",
 ]
 
-[tool.setuptools]
-packages = ["secretagent"]
+[tool.setuptools.packages.find]
+where = ["src"]
