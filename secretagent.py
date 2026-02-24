@@ -106,11 +106,11 @@ def parse_llm_output(func, text):
         raise AttributeError('cannot find final answer')
 
     return_type = func.__annotations__.get('return', str)
-    try:
-        # type is something simple like 'str', 'int'
+    if return_type in [int, str, float]:
         result = return_type(final_answer)
-    except TypeError:
+    else:
         # type is complex - for now don't both validating it
+        # with typeguard.check_type(result, return_type)
         result = ast.literal_eval(final_answer)
     return result
 

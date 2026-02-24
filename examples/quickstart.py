@@ -1,6 +1,6 @@
-from secretagent import subagent, configure
+import secretagent as sage
 
-@subagent()
+@sage.ptool.ptool()
 def translate(english_sentence: str) -> str:
     """Translate a sentence in English to French.
     """
