@@ -2,13 +2,11 @@
 BBH.
 """
 
-import logging
+from secretagent import ptool, config, record
+
 import pprint
 
-
-import secretagent as sec
-
-@sec.subagent()
+@ptool.ptool()
 def analyze_sentence(sentence: str) -> (str, str, str):
   """Extract a names of a player, and action, and an optional event.
 
@@ -22,7 +20,7 @@ def analyze_sentence(sentence: str) -> (str, str, str):
   ('Santi Cazorla', 'scored a touchdown.', '')
   """
 
-@sec.subagent()
+@ptool.ptool()
 def sport_for(x: str)-> str:
   """Return the name of the sport associated with a player, action, or event.
 
@@ -39,7 +37,7 @@ def sport_for(x: str)-> str:
   'American football and rugby'
   """
     
-@sec.subagent()
+@ptool.ptool()
 def consistent_sports(sport1: str, sport2: str) -> bool:
   """Compare two descriptions of sports, and determine if they are consistent.
 
@@ -68,15 +66,15 @@ def sports_understanding_workflow(sentence):
 if __name__ == '__main__':
 
   # configure the service and model used by default
-  sec.configure(service="anthropic", model="claude-haiku-4-5-20251001")
+  config.configure(service="anthropic", model="claude-haiku-4-5-20251001")
 
   # this context will push some more things into the configuration and
   # remove them when we exit - in this case echo the service used
   # and the subagent inputs/outputs
-  with sec.configuration(echo_call=True, echo_service=True):
+  with config.configuration(echo_call=True, echo_service=True):
     result = sports_understanding_workflow("Tim Duncan scored from inside the paint.")
 
   # this context records all the subagent calls in a list of dicts
-  with sec.recorder() as rollout:
+  with record.recorder() as rollout:
     result = sports_understanding_workflow("DeMar DeRozan was called for the goal tend.")
     pprint.pprint(rollout)
