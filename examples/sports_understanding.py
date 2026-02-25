@@ -3,10 +3,9 @@ BBH.
 """
 
 from secretagent import ptool, config, record
-
 import pprint
 
-@ptool.ptool()
+@ptool.ptool(method='one_prompt')
 def analyze_sentence(sentence: str) -> (str, str, str):
   """Extract a names of a player, and action, and an optional event.
 
@@ -20,7 +19,7 @@ def analyze_sentence(sentence: str) -> (str, str, str):
   ('Santi Cazorla', 'scored a touchdown.', '')
   """
 
-@ptool.ptool()
+@ptool.ptool(method='one_prompt')
 def sport_for(x: str)-> str:
   """Return the name of the sport associated with a player, action, or event.
 
@@ -37,7 +36,7 @@ def sport_for(x: str)-> str:
   'American football and rugby'
   """
     
-@ptool.ptool()
+@ptool.ptool(method='one_prompt')
 def consistent_sports(sport1: str, sport2: str) -> bool:
   """Compare two descriptions of sports, and determine if they are consistent.
 
@@ -66,11 +65,11 @@ def sports_understanding_workflow(sentence):
 if __name__ == '__main__':
 
   # configure the service and model used by default
-  config.configure(service="anthropic", model="claude-haiku-4-5-20251001")
+  config.configure(model="claude-haiku-4-5-20251001")
 
   # this context will push some more things into the configuration and
-  # remove them when we exit - in this case echo the service used
-  # and the subagent inputs/outputs
+  # remove them when we exit - in this case request to echo the
+  # service used and the subagent inputs/outputs
   with config.configuration(echo_call=True, echo_service=True):
     result = sports_understanding_workflow("Tim Duncan scored from inside the paint.")
 

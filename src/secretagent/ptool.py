@@ -1,77 +1,110 @@
-import ast
 import functools
 import inspect
-import logging
-import pathlib
-import re
 
-from string import Template
-from secretagent import llm_util, config, record
+from pydantic import BaseModel
+from typing import Any, Callable, Optional
 
-#
-# core machinery for subagents
-#
+from secretagent import implement
 
-def program_trace_prompt_llm(func, *args, **kw):
-    """Construct a prompt that calls an LLM to predict the output of the function.
+class Implementation(BaseModel):
+    """An implemention of a ptool.
+
+    Also records provenance information.
     """
-    template_file = pathlib.Path(__file__).parent / "prompts" / "program_trace_prompt.txt"
-    with open(template_file, 'r') as fp:
-        template = Template(fp.read())
+    fn: Callable
+    method: str
+    kwargs: dict[str, Any] = {}
 
-    # drop the decorator line from the source of func
-    full_src = inspect.getsource(func)
-    trimmed_src = '\n'.join(full_src.split('\n')[1:])
-    # format the inputs
-    input_args = '; '.join(
-        [
-            f'{argname} = {repr(argval)}'
-            for argval, (argname, _) in zip(args, func.__annotations__.items())
-        ] + [
-            f'{argname} = {repr(argval)}'
-            for argname, argval in kw
-        ])
-    prompt = template.substitute(dict(stub_src=trimmed_src, args=input_args))
-    model_output, stats = llm_util.llm(
-        prompt, config.get('model', kw), config.get('echo_model'))
-    return model_output, stats
+_REGISTRY : dict[str, Optional[Implementation]] = {}
 
-def parse_llm_output(func, text):
-    """Take LLM output and return the final answer, in the correct type.
-    """
-    try:
-        match_result = re.search(r'<answer>(.*)</answer>', text, re.DOTALL|re.MULTILINE)
-        final_answer = match_result.group(1).strip()
-    except AttributeError:
-        raise AttributeError('cannot find final answer')
+def ptool(method=None, **method_kw):
+    """Decorator to mark a function as a 'pseudo tool'.
 
-    return_type = func.__annotations__.get('return', str)
-    if return_type in [int, str, float]:
-        result = return_type(final_answer)
-    else:
-        # type is complex - for now don't both validating it
-        # with typeguard.check_type(result, return_type)
-        result = ast.literal_eval(final_answer)
-    return result
-
-def ptool(**subagent_kw):
-    """Decorator to mark a function as implemented via an LLM prompt.
+    Pseudo tools are called like Python functions but their
+    implementations can be changed on the fly.  In particular they can
+    be configured to be implementated by an LLM or an agent.
     """
     def inner_stub(func):
+        # if an implementation method is specified register that
+        if method is not None:
+            implement_via(func, method, **method_kw)
+        # the decorated function will call whatever's currently registered
         @functools.wraps(func)
         def wrapper(*args, **kw):
-            with config.configuration(**subagent_kw):
-                echo = config.get('echo_call')
-                if echo: print(f'Calling {func.__name__} {args}...')
-                llm_response, _stats = program_trace_prompt_llm(func, *args, **kw)
-                if config.get('echo_response'):
-                    print('--- llm response ---')
-                    print(llm_response)
-                    print('--- end response ---')
-                answer = parse_llm_output(func, llm_response)
-                if echo: print(f'...{func.__name__} returned {answer}')
-                record.record(func=func.__name__, args=args, kw=kw, output=answer)
-            return answer
+            try:
+                return _REGISTRY[func.__name__].fn(*args, **kw)
+            except KeyError:
+                raise NotImplementedError(f'ptool "{func.__name__}" is not bound to any implementation')
         return wrapper
     return inner_stub
     
+def implement_via(func: Callable, method: str, **kw):
+    """Register an Implementation for a ptool.
+
+    The implementation will be created by the indicated method.
+    Valid methods and their arguments are:
+    
+    'echo', echo_goal=False:  just echo the inputs and optionally
+      the docstring and return null.
+
+    'one_prompt' or 'ptp', model=...: show an LLM the ptool stub,
+      including the docstring, ask it to predict the output, and then
+      try and convert the predicted output to the expected return
+      value.
+
+    Any previously registered implementation will be replaced by the
+    new one.
+
+    """
+    match method:
+        case 'echo':
+            _REGISTRY[func.__name__] = Implementation(
+                fn = _echo_wrapper(func, **kw),
+                method='echo', kwargs=kw)
+        case 'ptp' | 'one_prompt':
+            _REGISTRY[func.__name__] = Implementation(
+                fn = implement.ptp(func, **kw),
+                method='echo', kwargs=kw)
+        case _:
+            raise NotImplementedError(f'Invalid implementation method {method}')
+
+def _echo_wrapper(func, echo_goal=False):
+    """A toy function to drop into an Implementation
+    """
+    @functools.wraps(func)
+    def echo_call(*args, **kw):
+        print(f'Called {func.__name__} on {args} {kw}')
+        if echo_goal:
+            print('Goal', func.__doc__)
+        return None
+    return echo_call
+
+#
+# testing
+#
+
+@ptool(method='ptp', model="claude-haiku-4-5-20251001")
+def sport_for(player_or_event: str) -> str:
+    """Return the sport associated with a famous player."""
+    ...
+
+if __name__ == '__main__':
+    # raise error
+    try:
+        print('init', sport_for('Kobe Bryant'))
+    except Exception as ex:
+        print(f'raised: {ex}')
+
+    implement_via(sport_for, 'echo')
+    # echo, no goal
+    print('echo', sport_for('Kobe Bryant'))
+
+    implement_via(sport_for, 'echo', echo_goal=True)
+    # echo, with goal
+    print('echo w goal', sport_for('Kobe Bryant'))
+
+    implement_via(sport_for, 'ptp', model="claude-haiku-4-5-20251001")
+    # echo, with goal
+    print('rebound to ptp', sport_for('Kobe Bryant'))
+
+
