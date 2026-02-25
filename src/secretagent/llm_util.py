@@ -1,3 +1,6 @@
+"""Access an LLM model, and monitors cost, latency, etc.
+"""
+
 import time
 from litellm import completion, token_counter, completion_cost
 

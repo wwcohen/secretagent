@@ -1,3 +1,8 @@
+"""Defining and working with 'pseudo tools', which look like
+unimplemented Python functions, but which can be configured by adding
+LLM-based implementations.
+"""
+
 import functools
 import inspect
 

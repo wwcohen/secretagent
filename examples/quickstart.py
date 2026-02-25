@@ -4,7 +4,7 @@ from secretagent import ptool, config
 # translation.  An Anthropic API key must be stored in your
 # environment for this to work.
 
-@ptool.ptool('ptp', model='claude-haiku-4-5-20251001')
+@ptool.ptool('simulate_from_stub', model='claude-haiku-4-5-20251001')
 def translate(english_sentence: str) -> str:
     """Translate a sentence in English to French.
     """

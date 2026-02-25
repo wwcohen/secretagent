@@ -1,3 +1,7 @@
+"""Context manager that will keep track of what ptools are called
+while it is active.
+"""
+
 from contextlib import contextmanager
 
 RECORDING = False
