@@ -1,3 +1,6 @@
+"""Simple configuration strategy.
+"""
+
 from contextlib import contextmanager
 
 GLOBAL_CONFIG = {}

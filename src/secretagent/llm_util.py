@@ -2,7 +2,9 @@
 """
 
 import time
-from litellm import completion, token_counter, completion_cost
+
+from litellm import completion, completion_cost
+
 
 def llm(prompt: str, model: str, echo_model: bool = False) -> tuple[str, dict[str,...]]: 
   """Use an LLM model.
@@ -22,15 +24,13 @@ def llm(prompt: str, model: str, echo_model: bool = False) -> tuple[str, dict[st
   latency = time.time() - start_time
   model_output = response.choices[0].message.content
   stats = dict(
-    input_tokens=token_counter(
-      model=model, messages=messages),
-    output_tokens=token_counter(
-      model=model, messages=[
-        dict(role='user', content=model_output)]),
+    input_tokens=response.usage.prompt_tokens,
+    output_tokens=response.usage.completion_tokens,
     latency=latency,
     cost=completion_cost(completion_response=response),
   )
   return model_output, stats
+
 
 if __name__ == '__main__':
   # example model: together_ai/deepseek-ai/Deepseek-V3.1
@@ -40,3 +40,4 @@ if __name__ == '__main__':
   model = sys.argv[-1]
   prompt = sys.argv[1:-1]
   pprint(llm(' '.join(prompt), model, echo_model=True))
+

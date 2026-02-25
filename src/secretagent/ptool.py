@@ -68,7 +68,8 @@ def implement_via(func: Callable, method: str, **kw):
     'simulate_from_stub', model=...: show an LLM the ptool stub,
       including the docstring, ask it to predict the output, and then
       try and convert the predicted output to the expected return
-      value.
+      value.  If 'pydantic=True' is in the kw then a Pydantic agent
+      will be used.
 
     'direct': implement the ptool like an ordinary python function (so
       there should be a code implementation given, like an ordinary
@@ -86,9 +87,13 @@ def implement_via(func: Callable, method: str, **kw):
         case 'echo':
             _REGISTRY[func.__name__] = Implementation(
                 fn=implement.echo_func_call(func, **kw), method='echo', kwargs=kw)
-        case 'simulate_from_stub':
+        case 'simulate_from_stub' if not kw.get('pydantic'):
             _REGISTRY[func.__name__] = Implementation(
                 fn=implement.simulate_from_stub(func, **kw),
+                method='echo', kwargs=kw)
+        case 'simulate_from_stub' if kw.get('pydantic'):
+            _REGISTRY[func.__name__] = Implementation(
+                fn=implement.simulate_from_stub_with_pydantic(func, **kw),
                 method='echo', kwargs=kw)
         case _:
             raise NotImplementedError(f'Invalid implementation method {method}')

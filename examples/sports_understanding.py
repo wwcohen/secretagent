@@ -73,7 +73,23 @@ if __name__ == '__main__':
   with config.configuration(echo_call=True, echo_service=True):
     result = sports_understanding_workflow("Tim Duncan scored from inside the paint.")
 
-  # this context records all the subagent calls in a list of dicts
+  # record all the ptool calls
   with record.recorder() as rollout:
     result = sports_understanding_workflow("DeMar DeRozan was called for the goal tend.")
     pprint.pprint(rollout)
+
+  # a pydantic agent version of this
+  @ptool.ptool(method='simulate_from_stub', pydantic=True, tools=[analyze_sentence, sport_for, consistent_sports])
+  def is_sports_sentence_plausible(sentence: str) -> bool:
+    """Decide if a sentence about sports is plausible and consistent.
+  
+    The expected approach is to analyze the sentence and find all
+    players and events mentioned, determine which sports are
+    associated with these, and then determine if the sports are
+    consistent with each other.
+    """
+
+  with record.recorder() as rollout:
+    print(is_sports_sentence_plausible("Tim Duncan scored from inside the paint."))
+    pprint.pprint(rollout)
+    
