@@ -1,14 +1,27 @@
+"""Ways to implement a ptool
+"""
+
 import ast
 import inspect
 import pathlib
 import re
+import functools
 
 from string import Template
 from typing import Callable
 
 from secretagent import config, llm_util, record
 
-def ptp(func, **prompt_kw):
+def echo_func_call(func, echo_goal=False):
+    @functools.wraps(func)
+    def _echo_func_call(*args, **kw):
+        print(f'Called {func.__name__} on {args} {kw}')
+        if echo_goal:
+            print('Goal', func.__doc__)
+        return None
+    return _echo_func_call
+
+def simulate_from_stub(func, **prompt_kw):
     def wrapper(*args, **kw):
         with config.configuration(**prompt_kw):
             echo = config.get('echo_call')

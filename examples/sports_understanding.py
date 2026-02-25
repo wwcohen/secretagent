@@ -5,7 +5,7 @@ BBH.
 from secretagent import ptool, config, record
 import pprint
 
-@ptool.ptool(method='one_prompt')
+@ptool.ptool(method='simulate_from_stub')
 def analyze_sentence(sentence: str) -> (str, str, str):
   """Extract a names of a player, and action, and an optional event.
 
@@ -19,7 +19,7 @@ def analyze_sentence(sentence: str) -> (str, str, str):
   ('Santi Cazorla', 'scored a touchdown.', '')
   """
 
-@ptool.ptool(method='one_prompt')
+@ptool.ptool(method='simulate_from_stub')
 def sport_for(x: str)-> str:
   """Return the name of the sport associated with a player, action, or event.
 
@@ -36,7 +36,7 @@ def sport_for(x: str)-> str:
   'American football and rugby'
   """
     
-@ptool.ptool(method='one_prompt')
+@ptool.ptool(method='simulate_from_stub')
 def consistent_sports(sport1: str, sport2: str) -> bool:
   """Compare two descriptions of sports, and determine if they are consistent.
 

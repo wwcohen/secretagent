@@ -15,14 +15,27 @@ class Implementation(BaseModel):
     method: str
     kwargs: dict[str, Any] = {}
 
+# the registry map ptool names to their implementions
+
 _REGISTRY : dict[str, Optional[Implementation]] = {}
 
 def ptool(method=None, **method_kw):
-    """Decorator to mark a function as a 'pseudo tool'.
+    """Decorator to mark a function as a 'pseudo tool (ptool)'.
 
-    Pseudo tools are called like Python functions but their
+    ptools usually have input/output type signatures and docstrings to
+    explain what they should do, but usually do not have any
+    associated function definition.  When a ptool is called from
+    Python, the function call is forwarded to an appropriate
+    Implementation.
+    
+
+    ptools can be called like Python functions but their
     implementations can be changed on the fly.  In particular they can
-    be configured to be implementated by an LLM or an agent.
+    be configured to be implemented by an LLM or an agent.
+
+    If a 'method' is provided, then an implementation will be
+    constructed when the ptool is added to the registry - just as if
+    implement_via was called after ptool construction.
     """
     def inner_stub(func):
         # if an implementation method is specified register that
@@ -34,12 +47,12 @@ def ptool(method=None, **method_kw):
             try:
                 return _REGISTRY[func.__name__].fn(*args, **kw)
             except KeyError:
-                raise NotImplementedError(f'ptool "{func.__name__}" is not bound to any implementation')
+                raise NotImplementedError(f'no implementation registered for ptool "{func.__name__}"')
         return wrapper
     return inner_stub
     
 def implement_via(func: Callable, method: str, **kw):
-    """Register an Implementation for a ptool.
+    """Register an Implementation for the ptool 'func'.
 
     The implementation will be created by the indicated method.
     Valid methods and their arguments are:
@@ -47,64 +60,35 @@ def implement_via(func: Callable, method: str, **kw):
     'echo', echo_goal=False:  just echo the inputs and optionally
       the docstring and return null.
 
-    'one_prompt' or 'ptp', model=...: show an LLM the ptool stub,
+    'simulate_from_stub', model=...: show an LLM the ptool stub,
       including the docstring, ask it to predict the output, and then
       try and convert the predicted output to the expected return
       value.
+
+    'direct': implement the ptool like an ordinary python function (so
+      there should be a code implementation given, like an ordinary
+      python function).
 
     Any previously registered implementation will be replaced by the
     new one.
 
     """
     match method:
+        case 'direct':
+            _REGISTRY[func.__name__] = Implementation(
+                fn=func, method='direct', kwargs=kw)
         case 'echo':
             _REGISTRY[func.__name__] = Implementation(
-                fn = _echo_wrapper(func, **kw),
-                method='echo', kwargs=kw)
-        case 'ptp' | 'one_prompt':
+                fn=implement.echo_func_call(func, **kw), method='echo', kwargs=kw)
+        case 'simulate_from_stub':
             _REGISTRY[func.__name__] = Implementation(
-                fn = implement.ptp(func, **kw),
+                fn=implement.simulate_from_stub(func, **kw),
                 method='echo', kwargs=kw)
         case _:
             raise NotImplementedError(f'Invalid implementation method {method}')
 
-def _echo_wrapper(func, echo_goal=False):
-    """A toy function to drop into an Implementation
-    """
-    @functools.wraps(func)
-    def echo_call(*args, **kw):
-        print(f'Called {func.__name__} on {args} {kw}')
-        if echo_goal:
-            print('Goal', func.__doc__)
-        return None
-    return echo_call
-
-#
-# testing
-#
-
-@ptool(method='ptp', model="claude-haiku-4-5-20251001")
-def sport_for(player_or_event: str) -> str:
-    """Return the sport associated with a famous player."""
-    ...
-
-if __name__ == '__main__':
-    # raise error
-    try:
-        print('init', sport_for('Kobe Bryant'))
-    except Exception as ex:
-        print(f'raised: {ex}')
-
-    implement_via(sport_for, 'echo')
-    # echo, no goal
-    print('echo', sport_for('Kobe Bryant'))
-
-    implement_via(sport_for, 'echo', echo_goal=True)
-    # echo, with goal
-    print('echo w goal', sport_for('Kobe Bryant'))
-
-    implement_via(sport_for, 'ptp', model="claude-haiku-4-5-20251001")
-    # echo, with goal
-    print('rebound to ptp', sport_for('Kobe Bryant'))
-
+def list() -> list[dict[str, Any]]:
+    """Return a list of registered ptools with their method and kwargs."""
+    return [{'name': name, 'method': impl.method, 'kwargs': impl.kwargs}
+            for name, impl in _REGISTRY.items()]
 
