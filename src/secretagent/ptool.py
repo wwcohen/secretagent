@@ -75,8 +75,9 @@ def implement_via(func: Callable, method: str, **kw):
     """
     match method:
         case 'direct':
+            original = getattr(func, '__wrapped__', func)
             _REGISTRY[func.__name__] = Implementation(
-                fn=func, method='direct', kwargs=kw)
+                fn=original, method='direct', kwargs=kw)
         case 'echo':
             _REGISTRY[func.__name__] = Implementation(
                 fn=implement.echo_func_call(func, **kw), method='echo', kwargs=kw)

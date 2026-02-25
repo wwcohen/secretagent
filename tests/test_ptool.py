@@ -54,6 +54,16 @@ def test_list_after_rebind():
     assert entries[0]['kwargs'] == {'echo_goal': True}
 
 
+def test_direct():
+    @ptool()
+    def sport_for(player_or_event: str) -> str:
+        """Return the sport associated with a famous player."""
+        return {'Kobe Bryant': 'basketball', 'Babe Ruth': 'baseball'}[player_or_event]
+    implement_via(sport_for, 'direct')
+    assert sport_for('Kobe Bryant') == 'basketball'
+    assert sport_for('Babe Ruth') == 'baseball'
+
+
 @needs_api_key
 def test_rebind_to_simulate_from_stub():
     implement_via(sport_for, 'simulate_from_stub', model="claude-haiku-4-5-20251001")
