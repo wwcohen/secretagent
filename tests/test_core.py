@@ -45,6 +45,19 @@ def test_rebind():
     assert sport_for.implementation.factory_kwargs == {'echo_doc': True}
 
 
+def test_implement_via_decorator(capsys):
+    @implement_via('echo', echo_doc=True)
+    def too_long(x: str, n: int = 3) -> bool:
+        """x is longer than n characters."""
+        ...
+
+    too_long("hello world")
+    captured = capsys.readouterr()
+    assert 'too_long' in captured.out
+    assert 'x is longer than n characters' in captured.out
+    _INTERFACES.remove(too_long)
+
+
 def test_direct():
     @interface
     def sport_for_direct(player_or_event: str) -> str:

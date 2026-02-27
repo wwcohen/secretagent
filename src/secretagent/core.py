@@ -239,32 +239,3 @@ _FACTORIES['direct'] = DirectFactory()
 _FACTORIES['echo'] = EchoFactory()
 _FACTORIES['simulate'] = SimulateFactory()
 
-if __name__ == '__main__':
-    @interface
-    def too_short(x: str, n : int  = 3) -> bool:
-        """x is shorter than n characters."""
-        ...
-    
-    print('throw error'.center(60, '='))
-    try:
-        too_short("hi")
-    except NotImplementedError as ex:
-        print('threw', ex)
-
-    print('echo with doc'.center(60, '='))
-    too_short.implement_via('echo', echo_doc=True)
-    too_short("hi")
-
-    print('echo with no doc'.center(60, '='))
-    too_short.implement_via('echo')
-    too_short("hi")    
-
-    @implement_via('echo', echo_doc=True)
-    def too_long(x: str, n : int  = 3) -> bool:
-        """x is longer than n characters."""
-        ...
-    print('echo with doc from @implement_via'.center(60, '='))
-    too_long("hello world")
-
-    too_long.implement_via('simulate', model='claude-haiku-4-5-20251001')    
-    print(too_long("hello world! nice out huh"))
