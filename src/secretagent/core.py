@@ -1,18 +1,12 @@
 """Core components of SecretAgents package: interfaces and implementations.
 """
 
-import ast
 import functools
 import inspect
-import re
 
-from abc import ABC, abstractmethod
+from abc import abstractmethod
 from pydantic import BaseModel, Field
-from string import Template
-from textwrap import dedent
 from typing import Any, Callable, Optional
-
-from secretagent import config, llm_util, record
 
 # registries of defined interfaces and implementation factories
 
@@ -25,6 +19,10 @@ def all_interfaces() -> list['Interface']:
 def all_factories() -> list[tuple[str, 'Implementation.Factory']]:
     return _FACTORIES.items()
 
+def register_factory(name: str, factory: 'Implementation.Factory'):
+    """Register an Implementation.Factory under the given name."""
+    _FACTORIES[name] = factory
+
 class Interface(BaseModel):
     """Pythonic description of an agent, prompted model, or tool.
 
@@ -35,7 +33,9 @@ class Interface(BaseModel):
     name: str = Field(description="Name of the stub function")
     doc: str = Field(description="Docstring for stub")
     src: str = Field(description="Source code for the stub")
-    annotations: dict[str, type] = Field(description="Type annotations for the stub")
+    # Any rather than type because generic aliases like tuple[str, str, str]
+    # are not instances of type, and Pydantic can't validate GenericAlias.
+    annotations: dict[str, Any] = Field(description="Type annotations for the stub")
     implementation: Optional['Implementation'] = Field(
         default=None,
         description="Implemenation to which Implemenation is currently bound")
@@ -135,107 +135,5 @@ class Implementation(BaseModel):
                 factory_method=self.__class__.__name__,
                 factory_kwargs=builder_kwargs)
 
-#
-# some Implementation.Factories
-#
-
-class DirectFactory(Implementation.Factory):
-    """Use the function body as the implementation.
-    """
-    def build_fn(self, interface: Interface, **_kw) -> Callable:
-        return interface.func
-
-class EchoFactory(Implementation.Factory):
-    """Just echos the arguments to a function
-    """
-    def build_fn(self, interface: Interface, echo_doc=False, **_kw) -> Implementation:
-        def result_fn(*args, **kw):
-            print(f'Called {interface.signature(*args, **kw)}')
-            if echo_doc:
-                print('doc'.center(40, '-'))
-                print(interface.doc)
-        return result_fn
-
-class SimulateFactory(Implementation.Factory):
-    """Simulate a function call with an LLM.
-    """
-    def build_fn(self, interface: Interface, **prompt_kw) -> Implementation:
-        def result_fn(*args, **kw):
-            with config.configuration(**prompt_kw):
-                prompt = self.create_prompt(interface, *args, **kw)
-                llm_output, stats = llm_util.llm(
-                    prompt, config.get('model'), config.get('echo_model'))
-                return_type = interface.annotations.get('return', str)
-                answer = self.parse_output(return_type, llm_output)
-                record.record(func=interface.name, args=args, kw=kw, output=answer, stats=stats)
-                return answer
-        return result_fn
-    
-    def create_prompt(self, interface, *args, **kw):
-        """Construct a prompt that calls an LLM to predict the output of the function.
-        """
-        template_str = """
-        Consider the following documentation stub for a Python function.  Note
-        that this is documentation, not a full implementation.
-        ```python
-        $stub_src
-        ```
-
-        Imagine that this function was fully implemented as suggested by the
-        documentation stub, and that function were called with these arguments:
-    
-        $args
-
-        Propose a possible output of the function for these inputs that is
-        consistent with the documentation. Use the following output format:
-
-        $thoughts
-        <answer>
-        FINAL ANSWER
-        </answer>
-
-        If your answer is x, show it as it would printed by a Python
-        interpreter called by print(x). Specifically if x is a string do NOT
-        include quotes around it.  Also, do not include any text other than
-        the final answer between the <answer> and </answer> tags.
-        """
-        template = Template(dedent(template_str))
-        arg_names = list(interface.annotations.keys())[:-1]
-        input_args = '; '.join(
-            [
-                f'{argname} = {repr(argval)}'
-                for argval, argname in zip(args, arg_names)
-            ] + [
-                f'{argname} = {repr(argval)}'
-                for argname, argval in kw.items()
-            ])
-        if config.get('thinking'):
-            thoughts = "<thought>\nANY THOUGHTS\n</thought>\n"
-        else:
-            thoughts = ""
-        prompt = template.substitute(
-            dict(stub_src=interface.src,
-                 args=input_args,
-                 thoughts=thoughts))
-        return prompt
-
-    def parse_output(self, return_type, text):
-        """Take LLM output and return the final answer, in the correct type.
-        """
-        try:
-            match_result = re.search(r'<answer>(.*)</answer>', text, re.DOTALL|re.MULTILINE)
-            final_answer = match_result.group(1).strip()
-        except AttributeError:
-            raise AttributeError('cannot find final answer')
-        if return_type in [int, str, float]:
-            result = return_type(final_answer)
-        else:
-            # type is complex - for now don't both validating it
-            # with typeguard.check_type(result, return_type)
-            result = ast.literal_eval(final_answer)
-        return result
-    
-_FACTORIES['direct'] = DirectFactory()
-_FACTORIES['echo'] = EchoFactory()
-_FACTORIES['simulate'] = SimulateFactory()
-
+# auto-register built-in factories
+import secretagent.core_impl  # noqa: E402, F401

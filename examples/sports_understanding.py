@@ -7,7 +7,7 @@ from secretagent.core import interface, implement_via
 import pprint
 
 @interface
-def analyze_sentence(sentence: str) -> (str, str, str):
+def analyze_sentence(sentence: str) -> tuple[str, str, str]:
   """Extract a names of a player, and action, and an optional event.
 
   The action should be as descriptive as possible.  The event will be
@@ -82,21 +82,4 @@ if __name__ == '__main__':
   # record all the ptool calls
   with record.recorder() as rollout:
     result = sports_understanding_workflow("DeMar DeRozan was called for the goal tend.")
-    pprint.pprint(rollout)
-
-  # a pydantic agent version of this
-  from secretagent.pydantic_impl import SimulatePydanticFactory
-
-  @implement_via('simulate_pydantic', tools=[analyze_sentence, sport_for, consistent_sports])
-  def is_sports_sentence_plausible(sentence: str) -> bool:
-    """Decide if a sentence about sports is plausible and consistent.
-
-    The expected approach is to analyze the sentence and find all
-    players and events mentioned, determine which sports are
-    associated with these, and then determine if the sports are
-    consistent with each other.
-    """
-
-  with record.recorder() as rollout:
-    print(is_sports_sentence_plausible("Tim Duncan scored from inside the paint."))
     pprint.pprint(rollout)

@@ -6,14 +6,17 @@ to implement an Interface.
 
 import time
 
+from textwrap import dedent
 from typing import Callable
+from string import Template
 
 from pydantic_ai import Agent
 from pydantic_ai_litellm import LiteLLMModel
 from litellm import cost_per_token
 
 from secretagent import config, record
-from secretagent.core import Interface, Implementation, SimulateFactory, _FACTORIES
+from secretagent.core import Interface, register_factory
+from secretagent.core_impl import SimulateFactory
 
 
 class SimulatePydanticFactory(SimulateFactory):
@@ -26,18 +29,21 @@ class SimulatePydanticFactory(SimulateFactory):
 
     def build_fn(self, interface: Interface, tools=None, **prompt_kw) -> Callable:
         tools = tools or []
+        # pydantic seems to need tools to be functions, not just callable
+        for i in range(len(tools)):
+            if isinstance(tools[i], Interface):
+                tools[i] = tools[i].func
 
         def result_fn(*args, **kw):
             with config.configuration(**prompt_kw):
                 prompt = self.create_prompt(interface, *args, **kw)
-                prompt = _remove_postprocessing_scaffolding(prompt)
                 return_type = interface.annotations.get('return', str)
                 model = LiteLLMModel(model_name=config.get('model'))
                 agent = Agent(model, output_type=return_type, tools=tools)
                 start_time = time.time()
                 result = agent.run_sync(prompt)
-                answer = result.output
                 latency = time.time() - start_time
+                answer = result.output
                 usage = result.usage()
                 input_cost, output_cost = cost_per_token(
                     model=config.get('model'),
@@ -52,7 +58,8 @@ class SimulatePydanticFactory(SimulateFactory):
                 )
                 record.record(
                     func=interface.name,
-                    args=args, kw=kw,
+                    args=args,
+                    kw=kw,
                     output=answer,
                     messages=_summarize_messages(result.all_messages()),
                     stats=stats)
@@ -60,11 +67,43 @@ class SimulatePydanticFactory(SimulateFactory):
 
         return result_fn
 
+    def create_prompt(self, interface, *args, **kw):
+        """Construct a prompt that calls an LLM to predict the output of the function.
+        """
+        template_str = """
+        Consider the following documentation stub for a Python function.  Note
+        that this is documentation, not a full implementation.
+        ```python
+        $stub_src
+        ```
 
-def _remove_postprocessing_scaffolding(stub_prompt: str) -> str:
-    end = stub_prompt.find(' Use the following output format')
-    return stub_prompt[:end]
+        Imagine that this function was fully implemented as suggested by the
+        documentation stub, and that function were called with these arguments:
 
+        $args
+
+        Propose a possible output of the function for these inputs that is
+        consistent with the documentation.
+        """
+        template = Template(dedent(template_str))
+        arg_names = list(interface.annotations.keys())[:-1]
+        input_args = '; '.join(
+            [
+                f'{argname} = {repr(argval)}'
+                for argval, argname in zip(args, arg_names)
+            ] + [
+                f'{argname} = {repr(argval)}'
+                for argname, argval in kw.items()
+            ])
+        if config.get('thinking'):
+            thoughts = "<thought>\nANY THOUGHTS\n</thought>\n"
+        else:
+            thoughts = ""
+        prompt = template.substitute(
+            dict(stub_src=interface.src,
+                 args=input_args,
+                 thoughts=thoughts))
+        return prompt
 
 def _summarize_messages(messages):
     """Summarize pydantic-ai messages into a simple list of steps.
@@ -86,4 +125,4 @@ def _summarize_messages(messages):
     return steps
 
 
-_FACTORIES['simulate_pydantic'] = SimulatePydanticFactory()
+register_factory('simulate_pydantic', SimulatePydanticFactory())

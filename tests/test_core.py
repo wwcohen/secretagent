@@ -71,6 +71,16 @@ def test_direct():
     _INTERFACES.remove(sport_for_direct)
 
 
+def test_prompt_llm_requires_exactly_one_template():
+    """Must give exactly one of prompt_template_str or prompt_template_file."""
+    with pytest.raises(ValueError, match='Exactly one'):
+        sport_for.implement_via('prompt_llm')
+    with pytest.raises(ValueError, match='Exactly one'):
+        sport_for.implement_via('prompt_llm',
+                                prompt_template_str='hi',
+                                prompt_template_file='foo.txt')
+
+
 @needs_api_key
 def test_simulate():
     sport_for.implement_via('simulate', model="claude-haiku-4-5-20251001")
