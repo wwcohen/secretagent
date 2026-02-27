@@ -8,6 +8,7 @@ dependencies = [
     "litellm>=1.81.15",
     "pydantic-ai>=1.63.0",
     "pydantic-ai-litellm>=0.2.3",
+    "pydantic-evals>=1.63.0",
     "pytest>=9.0.2",
 ]
 
