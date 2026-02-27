@@ -2825,6 +2825,7 @@ dependencies = [
     { name = "litellm" },
     { name = "pydantic-ai" },
     { name = "pydantic-ai-litellm" },
+    { name = "pydantic-evals" },
     { name = "pytest" },
 ]
 
@@ -2833,6 +2834,7 @@ requires-dist = [
     { name = "litellm", specifier = ">=1.81.15" },
     { name = "pydantic-ai", specifier = ">=1.63.0" },
     { name = "pydantic-ai-litellm", specifier = ">=0.2.3" },
+    { name = "pydantic-evals", specifier = ">=1.63.0" },
     { name = "pytest", specifier = ">=9.0.2" },
 ]
 

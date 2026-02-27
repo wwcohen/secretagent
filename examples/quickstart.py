@@ -20,7 +20,8 @@ def translate(english_sentence: str) -> str:
 #    english_text: str
 #    french_text: str
 
-#@implement_via('simulate_from_stub', model='claude-haiku-4-5-20251001', pydantic=True)
+#from secretagent.pydantic_impl import SimulatePydanticFactory
+#@implement_via('simulate_pydantic', model='claude-haiku-4-5-20251001')
 #def translate_structured(english_sentence: str) -> FrenchEnglishTranslation:
 #    """Translate a sentence in English to French.
 #    """

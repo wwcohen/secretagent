@@ -2,10 +2,11 @@
 BBH.
 """
 
-from secretagent import ptool, config, record
+from secretagent import config, record
+from secretagent.core import interface, implement_via
 import pprint
 
-@ptool.ptool(method='simulate_from_stub')
+@interface
 def analyze_sentence(sentence: str) -> (str, str, str):
   """Extract a names of a player, and action, and an optional event.
 
@@ -19,7 +20,7 @@ def analyze_sentence(sentence: str) -> (str, str, str):
   ('Santi Cazorla', 'scored a touchdown.', '')
   """
 
-@ptool.ptool(method='simulate_from_stub')
+@interface
 def sport_for(x: str)-> str:
   """Return the name of the sport associated with a player, action, or event.
 
@@ -35,8 +36,8 @@ def sport_for(x: str)-> str:
   >>> sport_for('scored a touchdown.')
   'American football and rugby'
   """
-    
-@ptool.ptool(method='simulate_from_stub')
+
+@interface
 def consistent_sports(sport1: str, sport2: str) -> bool:
   """Compare two descriptions of sports, and determine if they are consistent.
 
@@ -67,6 +68,11 @@ if __name__ == '__main__':
   # configure the service and model used by default
   config.configure(model="claude-haiku-4-5-20251001")
 
+  # bind all stubs to simulate
+  analyze_sentence.implement_via('simulate')
+  sport_for.implement_via('simulate')
+  consistent_sports.implement_via('simulate')
+
   # this context will push some more things into the configuration and
   # remove them when we exit - in this case request to echo the
   # service used and the subagent inputs/outputs
@@ -79,10 +85,12 @@ if __name__ == '__main__':
     pprint.pprint(rollout)
 
   # a pydantic agent version of this
-  @ptool.ptool(method='simulate_from_stub', pydantic=True, tools=[analyze_sentence, sport_for, consistent_sports])
+  from secretagent.pydantic_impl import SimulatePydanticFactory
+
+  @implement_via('simulate_pydantic', tools=[analyze_sentence, sport_for, consistent_sports])
   def is_sports_sentence_plausible(sentence: str) -> bool:
     """Decide if a sentence about sports is plausible and consistent.
-  
+
     The expected approach is to analyze the sentence and find all
     players and events mentioned, determine which sports are
     associated with these, and then determine if the sports are
@@ -92,4 +100,3 @@ if __name__ == '__main__':
   with record.recorder() as rollout:
     print(is_sports_sentence_plausible("Tim Duncan scored from inside the paint."))
     pprint.pprint(rollout)
-    

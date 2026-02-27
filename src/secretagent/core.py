@@ -139,6 +139,12 @@ class Implementation(BaseModel):
 # some Implementation.Factories
 #
 
+class DirectFactory(Implementation.Factory):
+    """Use the function body as the implementation.
+    """
+    def build_fn(self, interface: Interface, **_kw) -> Callable:
+        return interface.func
+
 class EchoFactory(Implementation.Factory):
     """Just echos the arguments to a function
     """
@@ -229,6 +235,7 @@ class SimulateFactory(Implementation.Factory):
             result = ast.literal_eval(final_answer)
         return result
     
+_FACTORIES['direct'] = DirectFactory()
 _FACTORIES['echo'] = EchoFactory()
 _FACTORIES['simulate'] = SimulateFactory()
 
