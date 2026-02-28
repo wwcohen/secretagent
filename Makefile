@@ -1,6 +1,5 @@
 test:
-	uv run pytest tests/test_config.py -v
-	uv run pytest tests/test_record.py -v
+	uv run pytest tests/ -v
 
 quickstart:
 	uv run examples/quickstart.py

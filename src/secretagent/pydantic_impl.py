@@ -47,12 +47,12 @@ class SimulatePydanticFactory(SimulateFactory):
                 usage = result.usage()
                 input_cost, output_cost = cost_per_token(
                     model=config.get('model'),
-                    prompt_tokens=usage.request_tokens,
-                    completion_tokens=usage.response_tokens,
+                    prompt_tokens=usage.input_tokens,
+                    completion_tokens=usage.output_tokens,
                 )
                 stats = dict(
-                    input_tokens=usage.request_tokens,
-                    output_tokens=usage.response_tokens,
+                    input_tokens=usage.input_tokens,
+                    output_tokens=usage.output_tokens,
                     latency=latency,
                     cost=input_cost + output_cost,
                 )

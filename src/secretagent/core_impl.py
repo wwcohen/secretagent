@@ -42,7 +42,7 @@ class SimulateFactory(Implementation.Factory):
             with config.configuration(**prompt_kw):
                 prompt = self.create_prompt(interface, *args, **kw)
                 llm_output, stats = llm_util.llm(
-                    prompt, config.get('model'), config.get('echo_model'))
+                    prompt, config.get('model'))
                 return_type = interface.annotations.get('return', str)
                 answer = self.parse_output(return_type, llm_output)
                 record.record(func=interface.name, args=args, kw=kw, output=answer, stats=stats)
@@ -153,7 +153,7 @@ class PromptLLMFactory(Implementation.Factory):
                 prompt = template.substitute(
                     dict(stub_src=interface.src, args=input_args))
                 llm_output, stats = llm_util.llm(
-                    prompt, config.get('model'), config.get('echo_model'))
+                    prompt, config.get('model'))
                 return_type = interface.annotations.get('return', str)
                 answer = _extract_answer(return_type, llm_output, answer_pattern)
                 record.record(func=interface.name, args=args, kw=kw,

@@ -2,12 +2,14 @@
 BBH.
 """
 
-from secretagent import config, record
-from secretagent.core import interface, implement_via
-import pprint
+from secretagent.ptool import ptool
 
-@interface
-def analyze_sentence(sentence: str) -> tuple[str, str, str]:
+#
+# tools
+#
+
+@ptool()
+def analyze_sentence(sentence: str) -> (str, str, str):
   """Extract a names of a player, and action, and an optional event.
 
   The action should be as descriptive as possible.  The event will be
@@ -20,7 +22,7 @@ def analyze_sentence(sentence: str) -> tuple[str, str, str]:
   ('Santi Cazorla', 'scored a touchdown.', '')
   """
 
-@interface
+@ptool()
 def sport_for(x: str)-> str:
   """Return the name of the sport associated with a player, action, or event.
 
@@ -36,8 +38,8 @@ def sport_for(x: str)-> str:
   >>> sport_for('scored a touchdown.')
   'American football and rugby'
   """
-
-@interface
+    
+@ptool()
 def consistent_sports(sport1: str, sport2: str) -> bool:
   """Compare two descriptions of sports, and determine if they are consistent.
 
@@ -46,10 +48,7 @@ def consistent_sports(sport1: str, sport2: str) -> bool:
   """
   ...
 
-#
-# Now these subagents can be called as if they were implemented in Python.
-#
-
+@ptool(method='direct')
 def sports_understanding_workflow(sentence):
   """A workflow that uses the subagents defined above.
   """
@@ -62,30 +61,3 @@ def sports_understanding_workflow(sentence):
     result = result and consistent_sports(player_sport, event_sport)
   print(f'Final answer: {"yes" if result else "no"}')
   return result
-
-if __name__ == '__main__':
-
-  def _print_section_head(tag: str):
-    print(f' {tag} '.center(60, '-'))
-
-  # configure the service and model used by default
-  config.configure(model="claude-haiku-4-5-20251001")
-
-  _print_section_head('workflow with simulated interfaces, echoing llms')
-
-  analyze_sentence.implement_via('simulate')
-  sport_for.implement_via('simulate')
-  consistent_sports.implement_via('simulate')
-
-  # this context will push some more things into the configuration and
-  # remove them when we exit - in this case request to echo the
-  # service used and the subagent inputs/outputs
-  with config.configuration(echo_service=True, echo_llm_input=True, echo_llm_output=True):
-    result = sports_understanding_workflow("Tim Duncan scored from inside the paint.")
-
-  _print_section_head('recorded workflow with simulated interfaces')
-
-  # record all the ptool calls
-  with record.recorder() as rollout:
-    result = sports_understanding_workflow("DeMar DeRozan was called for the goal tend.")
-    pprint.pprint(rollout)

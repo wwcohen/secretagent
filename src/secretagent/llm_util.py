@@ -3,17 +3,31 @@
 
 import time
 
+
+from secretagent import config
 from litellm import completion, completion_cost
 
 
-def llm(prompt: str, model: str, echo_model: bool = False) -> tuple[str, dict[str,...]]: 
+def _print_boxed(text: str, tag:str = ''):
+  lines = text.split('\n')
+  width = max(len(line) for line in lines)
+  print('┌' + tag.center(width+2, '─') + '┐')
+  for line in lines:
+    print('│ ' + line.ljust(width) + ' │')
+  print('└' + '─' * (width + 2) + '┘')
+
+  
+def llm(prompt: str, model: str) -> tuple[str, dict[str,...]]: 
   """Use an LLM model.
 
   Returns result as a string plus a dictionary of measurements,
   including # input_tokens, # output_tokens, latency in seconds, and 
   """
-  if echo_model:
+  if config.get('echo_model'):
     print(f'calling model {model}')
+
+  if config.get('echo_llm_input'):
+    _print_boxed(prompt, 'llm_input')
 
   messages = [dict(role='user', content=prompt)]
   start_time = time.time()
@@ -23,6 +37,10 @@ def llm(prompt: str, model: str, echo_model: bool = False) -> tuple[str, dict[st
   )
   latency = time.time() - start_time
   model_output = response.choices[0].message.content
+
+  if config.get('echo_llm_output'):
+    _print_boxed(model_output, 'llm_output')
+
   stats = dict(
     input_tokens=response.usage.prompt_tokens,
     output_tokens=response.usage.completion_tokens,
