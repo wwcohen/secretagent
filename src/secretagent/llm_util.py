@@ -8,14 +8,14 @@ from secretagent import config
 from litellm import completion, completion_cost
 
 
-def _print_boxed(text: str, tag:str = ''):
-  lines = text.split('\n')
-  width = max(len(line) for line in lines)
-  print('┌' + tag.center(width+2, '─') + '┐')
-  for line in lines:
-    print('│ ' + line.ljust(width) + ' │')
-  print('└' + '─' * (width + 2) + '┘')
-
+def echo_boxed(text: str, tag:str = ''):
+    """Echo some text in a pretty box."""
+    lines = text.split('\n')
+    width = max(len(line) for line in lines)
+    print('┌' + tag.center(width+2, '─') + '┐')
+    for line in lines:
+        print('│ ' + line.ljust(width) + ' │')
+    print('└' + '─' * (width + 2) + '┘')
   
 def llm(prompt: str, model: str) -> tuple[str, dict[str,...]]: 
   """Use an LLM model.
@@ -27,7 +27,7 @@ def llm(prompt: str, model: str) -> tuple[str, dict[str,...]]:
     print(f'calling model {model}')
 
   if config.get('echo_llm_input'):
-    _print_boxed(prompt, 'llm_input')
+    echo_boxed(prompt, 'llm_input')
 
   messages = [dict(role='user', content=prompt)]
   start_time = time.time()
@@ -39,7 +39,7 @@ def llm(prompt: str, model: str) -> tuple[str, dict[str,...]]:
   model_output = response.choices[0].message.content
 
   if config.get('echo_llm_output'):
-    _print_boxed(model_output, 'llm_output')
+    echo_boxed(model_output, 'llm_output')
 
   stats = dict(
     input_tokens=response.usage.prompt_tokens,

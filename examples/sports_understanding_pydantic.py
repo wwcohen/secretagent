@@ -53,22 +53,20 @@ def sports_understanding_workflow(sentence):
   return consistent(find_sports(analyze_sentence(sentence)))
 
 @interface
-def sports_understanding_agent(sentence):
+def are_sports_in_sentence_consistent(sentence: str) -> bool:
   """An agent that uses the subagents defined above.
   """
 
 if __name__ == '__main__':
 
-    config.configure(model="claude-haiku-4-5-20251001")
+    config.configure(model="claude-haiku-4-5-20251001", echo_llm_input=True, echo_llm_output=True)
 
-    print('no tools - workflow'.center(60, '='))
+    are_sports_in_sentence_consistent.implement_via(
+        'simulate_pydantic', tools=[analyze_sentence, find_sports, consistent])
+
     with record.recorder() as rollout:
-        print(sports_understanding_workflow("Tim Duncan scored from inside the paint."))
+        result = are_sports_in_sentence_consistent("Tim Duncan scored from inside the paint.")
+        print('result is', result)
         pprint.pprint(rollout)
 
-    # TODO: this doesn't actually work any more
-    print('tools - agent'.center(60, '='))
-    sports_understanding_agent.implement_via('simulate_pydantic', tools=[analyze_sentence, find_sports, consistent])
-    with record.recorder() as rollout:
-        print(sports_understanding_agent("Tim Duncan scored from inside the paint."))
-        pprint.pprint(rollout)
+

@@ -4,6 +4,7 @@ Provides SimulatePydanticFactory, which uses a pydantic-ai Agent
 to implement an Interface.
 """
 
+import asyncio
 import time
 
 from textwrap import dedent
@@ -18,6 +19,7 @@ from secretagent import config, record
 from secretagent.core import Interface, register_factory
 from secretagent.core_impl import SimulateFactory
 
+from secretagent.llm_util import echo_boxed
 
 class SimulatePydanticFactory(SimulateFactory):
     """Simulate a function call using a pydantic-ai Agent.
@@ -32,18 +34,31 @@ class SimulatePydanticFactory(SimulateFactory):
         # pydantic seems to need tools to be functions, not just callable
         for i in range(len(tools)):
             if isinstance(tools[i], Interface):
-                tools[i] = tools[i].func
+                tools[i] = tools[i].implementation.implementing_fn
 
         def result_fn(*args, **kw):
             with config.configuration(**prompt_kw):
-                prompt = self.create_prompt(interface, *args, **kw)
-                return_type = interface.annotations.get('return', str)
+
                 model = LiteLLMModel(model_name=config.get('model'))
+
+                if config.get('echo_model'):
+                    print(f'calling model {model}')
+
+                return_type = interface.annotations.get('return', str)
                 agent = Agent(model, output_type=return_type, tools=tools)
+
+                prompt = self.create_prompt(interface, *args, **kw)
+                if config.get('echo_llm_input'):
+                    echo_boxed(prompt, 'llm_input')
+
                 start_time = time.time()
                 result = agent.run_sync(prompt)
                 latency = time.time() - start_time
+
                 answer = result.output
+                if config.get('echo_llm_output'):
+                    echo_boxed(str(answer), 'llm_output')
+
                 usage = result.usage()
                 input_cost, output_cost = cost_per_token(
                     model=config.get('model'),
@@ -123,6 +138,5 @@ def _summarize_messages(messages):
                 case 'tool-return':
                     steps.append({'tool_return': part.tool_name, 'output': part.content})
     return steps
-
 
 register_factory('simulate_pydantic', SimulatePydanticFactory())
