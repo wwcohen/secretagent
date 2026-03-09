@@ -7,7 +7,6 @@ import time
 from secretagent import config
 from litellm import completion, completion_cost
 
-
 def echo_boxed(text: str, tag:str = ''):
     """Echo some text in a pretty box."""
     lines = text.split('\n')
