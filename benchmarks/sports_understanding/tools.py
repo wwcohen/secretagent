@@ -2,13 +2,13 @@
 BBH.
 """
 
-from secretagent.ptool import ptool
+from secretagent.core import interface, implement_via
 
 #
 # tools
 #
 
-@ptool()
+@interface
 def analyze_sentence(sentence: str) -> (str, str, str):
   """Extract a names of a player, and action, and an optional event.
 
@@ -22,7 +22,7 @@ def analyze_sentence(sentence: str) -> (str, str, str):
   ('Santi Cazorla', 'scored a touchdown.', '')
   """
 
-@ptool()
+@interface
 def sport_for(x: str)-> str:
   """Return the name of the sport associated with a player, action, or event.
 
@@ -39,7 +39,7 @@ def sport_for(x: str)-> str:
   'American football and rugby'
   """
     
-@ptool()
+@interface
 def consistent_sports(sport1: str, sport2: str) -> bool:
   """Compare two descriptions of sports, and determine if they are consistent.
 
@@ -48,8 +48,8 @@ def consistent_sports(sport1: str, sport2: str) -> bool:
   """
   ...
 
-@ptool(method='direct')
-def sports_understanding_workflow(sentence):
+@implement_via(method='direct')
+def sports_understanding(sentence):
   """A workflow that uses the subagents defined above.
   """
   player, action, event = analyze_sentence(sentence)
@@ -59,5 +59,4 @@ def sports_understanding_workflow(sentence):
   if event:
     event_sport = sport_for(event)
     result = result and consistent_sports(player_sport, event_sport)
-  print(f'Final answer: {"yes" if result else "no"}')
   return result

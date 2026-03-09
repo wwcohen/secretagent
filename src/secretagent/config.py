@@ -33,7 +33,7 @@ def get(key: str, default=None) -> Any:
 def require(key: str) -> Any:
     """Get a required value using dot-notation (e.g. 'llm.model').
 
-    If the value is not present or is None, throw an error.
+    If the value is not present or is None an error is thrown.
     """
     val = get(key)
     if val is None:
@@ -48,6 +48,12 @@ def configuration(cfg=None, **kw):
     """
     global GLOBAL_CONFIG
     saved = GLOBAL_CONFIG.copy()
-    configure(cfg, **kw)
+    configure(cfg=cfg, **kw)
     yield GLOBAL_CONFIG
     GLOBAL_CONFIG = saved
+
+def save(filename):
+    """Save the global configuration in a file.
+    """
+    with open(filename, 'w') as fp:
+        fp.write(OmegaConf.to_yaml(GLOBAL_CONFIG))
