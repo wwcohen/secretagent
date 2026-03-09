@@ -19,19 +19,40 @@ with only a type signature and docstring, and decorate them with
 `@interface`.  These stubs are later *bound* to implementations
 via `implement_via()` and a registry of `Implementation.Factory` classes.
 
+## Configuration
+
+ * `src/secretagent/config.py` manages configurations 
+ * `config.configure(yaml_file=...)` loads a hierarchical config
+   * Dot notation is used for config keys, eg 'llm.model' or 'echo.llm_input'
+ * `config.configure(cfg={...})` loads a user-specified config
+ * `config.configure(llm=dict(model='gpt-5', echo={...})` also loads specific config values
+ * `with config.configuration(echo=dict(service=True, ...)):` is a context manager
+ that sets config parameters temporarily and restores them when it exits.
+
+ * By convention:
+   * Everyone accesses the global config, rather than passing down
+     pieces of it as arguments.  Instead use the `with configuration`
+     context manager.
+   * Fail early when required parameters are missing: When a
+   configuration parameter is needed by a subroutine, the caller
+   should access that param with 'config.require' and pass down the
+   required values as a parameter.
+
 ### Core API (`secretagent.core`)
 
  * `@interface` — decorator that turns a stub function into an `Interface`
  * `@implement_via(method, **kw)` — decorator that creates an Interface and binds it in one step
- * `iface.implement_via(method, **kw)` — bind an existing Interface to an implementation
+ * `interface.implement_via(method, **kw)` — bind an existing Interface to an implementation
  * `all_interfaces()` — list all registered Interfaces
  * `all_factories()` — list all registered Factory name/instance pairs
+ * `register_factory()` - add a new Implementation.Factory to the registery
 
 ### Built-in factories (registered in `_FACTORIES`)
 
  * `'direct'` — use the function body as the implementation
  * `'echo'` — print the call signature (useful for debugging)
  * `'simulate'` — prompt an LLM to predict the function output (uses `llm_util`)
+ * `'prompt_llm'` — use a custom prompt template to predict the function
  * `'simulate_pydantic'` — like simulate but uses a pydantic-ai Agent (in `pydantic_impl.py`)
 
 ### Key files

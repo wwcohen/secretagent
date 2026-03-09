@@ -25,7 +25,7 @@ def _bind_simulate(su):
 def test_workflow():
     su = _import_sports()
     _bind_simulate(su)
-    with config.configuration(model="claude-haiku-4-5-20251001"):
+    with config.configuration(llm={'model': "claude-haiku-4-5-20251001"}):
         result = su.sports_understanding_workflow('Kobe Bryant scored a layup')
         assert result
 
@@ -36,7 +36,7 @@ def test_workflow():
 def test_recording():
     su = _import_sports()
     _bind_simulate(su)
-    with config.configuration(model="claude-haiku-4-5-20251001"), record.recorder() as rollout:
+    with config.configuration(llm={'model': "claude-haiku-4-5-20251001"}), record.recorder() as rollout:
         su.sports_understanding_workflow("DeMar DeRozan was called for the goal tend.")
         assert len(rollout) >= 4
         for entry in rollout:

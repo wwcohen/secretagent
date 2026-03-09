@@ -39,16 +39,16 @@ class SimulatePydanticFactory(SimulateFactory):
         def result_fn(*args, **kw):
             with config.configuration(**prompt_kw):
 
-                model = LiteLLMModel(model_name=config.get('model'))
+                model = LiteLLMModel(model_name=config.require('llm.model'))
 
-                if config.get('echo_model'):
+                if config.get('echo.model'):
                     print(f'calling model {model}')
 
                 return_type = interface.annotations.get('return', str)
                 agent = Agent(model, output_type=return_type, tools=tools)
 
                 prompt = self.create_prompt(interface, *args, **kw)
-                if config.get('echo_llm_input'):
+                if config.get('echo.llm_input'):
                     echo_boxed(prompt, 'llm_input')
 
                 start_time = time.time()
@@ -56,12 +56,12 @@ class SimulatePydanticFactory(SimulateFactory):
                 latency = time.time() - start_time
 
                 answer = result.output
-                if config.get('echo_llm_output'):
+                if config.get('echo.llm_output'):
                     echo_boxed(str(answer), 'llm_output')
 
                 usage = result.usage()
                 input_cost, output_cost = cost_per_token(
-                    model=config.get('model'),
+                    model=config.get('llm.model'),
                     prompt_tokens=usage.input_tokens,
                     completion_tokens=usage.output_tokens,
                 )
@@ -110,7 +110,7 @@ class SimulatePydanticFactory(SimulateFactory):
                 f'{argname} = {repr(argval)}'
                 for argname, argval in kw.items()
             ])
-        if config.get('thinking'):
+        if config.get('llm.thinking'):
             thoughts = "<thought>\nANY THOUGHTS\n</thought>\n"
         else:
             thoughts = ""

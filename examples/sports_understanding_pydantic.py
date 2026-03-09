@@ -59,7 +59,7 @@ def are_sports_in_sentence_consistent(sentence: str) -> bool:
 
 if __name__ == '__main__':
 
-    config.configure(model="claude-haiku-4-5-20251001", echo_llm_input=True, echo_llm_output=True)
+    config.configure(llm={'model': "claude-haiku-4-5-20251001"}, echo={'llm_input': True, 'llm_output': True})
 
     are_sports_in_sentence_consistent.implement_via(
         'simulate_pydantic', tools=[analyze_sentence, find_sports, consistent])

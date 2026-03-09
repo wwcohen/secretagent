@@ -22,10 +22,10 @@ def llm(prompt: str, model: str) -> tuple[str, dict[str,...]]:
   Returns result as a string plus a dictionary of measurements,
   including # input_tokens, # output_tokens, latency in seconds, and 
   """
-  if config.get('echo_model'):
+  if config.get('echo.model'):
     print(f'calling model {model}')
 
-  if config.get('echo_llm_input'):
+  if config.get('echo.llm_input'):
     echo_boxed(prompt, 'llm_input')
 
   messages = [dict(role='user', content=prompt)]
@@ -37,7 +37,7 @@ def llm(prompt: str, model: str) -> tuple[str, dict[str,...]]:
   latency = time.time() - start_time
   model_output = response.choices[0].message.content
 
-  if config.get('echo_llm_output'):
+  if config.get('echo.llm_output'):
     echo_boxed(model_output, 'llm_output')
 
   stats = dict(

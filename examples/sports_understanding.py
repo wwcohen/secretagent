@@ -6,6 +6,11 @@ from secretagent import config, record
 from secretagent.core import interface, implement_via
 import pprint
 
+#
+# Define some simple Interfaces.  These need not be implemented in
+# Python - an LLM can be used instead.
+#
+
 @interface
 def analyze_sentence(sentence: str) -> tuple[str, str, str]:
   """Extract a names of a player, and action, and an optional event.
@@ -47,7 +52,7 @@ def consistent_sports(sport1: str, sport2: str) -> bool:
   ...
 
 #
-# Now these subagents can be called as if they were implemented in Python.
+# The interfaces can be called in code just like Python.
 #
 
 def sports_understanding_workflow(sentence):
@@ -63,29 +68,52 @@ def sports_understanding_workflow(sentence):
   print(f'Final answer: {"yes" if result else "no"}')
   return result
 
+
+#
+# A main that demonstrates how to use Interfaces
+#
+
 if __name__ == '__main__':
 
+  # make the output a little prettier
   def _print_section_head(tag: str):
     print(f' {tag} '.center(60, '-'))
 
-  # configure the service and model used by default
-  config.configure(model="claude-haiku-4-5-20251001")
+  # configure the model used by default - any liteLLM model is ok
+  config.configure(llm={'model': "claude-haiku-4-5-20251001"})
 
-  _print_section_head('workflow with simulated interfaces, echoing llms')
+  # the easiest way to implement an interface is to 'simulate' it
+  # using an LLM. This code binds the interfaces above to that
+  # implementation strategy
 
   analyze_sentence.implement_via('simulate')
   sport_for.implement_via('simulate')
   consistent_sports.implement_via('simulate')
 
-  # this context will push some more things into the configuration and
-  # remove them when we exit - in this case request to echo the
-  # service used and the subagent inputs/outputs
-  with config.configuration(echo_service=True, echo_llm_input=True, echo_llm_output=True):
+  _print_section_head('workflow with simulated interfaces')
+
+  # this context manager will push some more things into the
+  # configuration and remove them when we exit - in this case we
+  # config request to echo the service used and the subagent
+  # inputs/outputs
+  with config.configuration(echo={'service': True, 'llm_input': True, 'llm_output': True}):
+
+    # finally call the workflow
     result = sports_understanding_workflow("Tim Duncan scored from inside the paint.")
 
-  _print_section_head('recorded workflow with simulated interfaces')
+  # example of using a recorder to log calls to interfaces
 
-  # record all the ptool calls
+  _print_section_head('recording the same workflow')
   with record.recorder() as rollout:
     result = sports_understanding_workflow("DeMar DeRozan was called for the goal tend.")
     pprint.pprint(rollout)
+
+  # rebinding one of the interfaces to a custom prompt
+  _print_section_head('reminding an interface to a different implementation')
+
+  sport_for.implement_via(
+    'prompt_llm',
+    prompt_template_str="Answer without thinking: what sport is associated with '$x'?")
+
+  with config.configuration(echo={'service': True, 'llm_input': True, 'llm_output': True}):
+    print(sport_for('Michael Jordan'))

@@ -1,93 +1,92 @@
 import pytest
+from omegaconf import OmegaConf
 from secretagent import config
 
 
 @pytest.fixture(autouse=True)
 def reset_global_config():
     """Reset GLOBAL_CONFIG before each test."""
-    config.GLOBAL_CONFIG = {}
+    config.GLOBAL_CONFIG = OmegaConf.create()
     yield
-    config.GLOBAL_CONFIG = {}
+    config.GLOBAL_CONFIG = OmegaConf.create()
 
 
 # --- configure() ---
 
-def test_configure_sets_values():
-    config.configure(service="anthropic", model="claude")
-    assert config.GLOBAL_CONFIG == {"service": "anthropic", "model": "claude"}
+def test_configure_sets_flat_values():
+    config.configure(llm={'model': 'claude'})
+    assert config.GLOBAL_CONFIG.llm.model == 'claude'
 
 
-def test_configure_updates_existing():
-    config.configure(service="anthropic")
-    config.configure(model="claude")
-    assert config.GLOBAL_CONFIG == {"service": "anthropic", "model": "claude"}
+def test_configure_merges():
+    config.configure(llm={'model': 'claude'})
+    config.configure(echo={'model': True})
+    assert config.GLOBAL_CONFIG.llm.model == 'claude'
+    assert config.GLOBAL_CONFIG.echo.model is True
 
 
 def test_configure_overwrites_key():
-    config.configure(service="anthropic")
-    config.configure(service="openai")
-    assert config.GLOBAL_CONFIG["service"] == "openai"
+    config.configure(llm={'model': 'claude'})
+    config.configure(llm={'model': 'gpt-4'})
+    assert config.GLOBAL_CONFIG.llm.model == 'gpt-4'
 
 
 # --- get() ---
 
-def test_get_from_global():
-    config.configure(service="anthropic")
-    assert config.get("service") == "anthropic"
+def test_get_dot_notation():
+    config.configure(llm={'model': 'claude'})
+    assert config.get('llm.model') == 'claude'
 
 
 def test_get_missing_key_returns_none():
-    assert config.get("nonexistent") is None
+    assert config.get('nonexistent') is None
 
 
-def test_get_local_overrides_global():
-    config.configure(service="anthropic")
-    local = {"service": "openai"}
-    assert config.get("service", local) == "openai"
+def test_get_with_default():
+    assert config.get('nonexistent', 'fallback') == 'fallback'
 
 
-def test_get_falls_back_to_global():
-    config.configure(model="claude")
-    local = {"service": "openai"}
-    assert config.get("model", local) == "claude"
+def test_get_ignores_default_when_key_exists():
+    config.configure(llm={'model': 'claude'})
+    assert config.get('llm.model', 'fallback') == 'claude'
 
 
-def test_get_empty_local_uses_global():
-    config.configure(service="anthropic")
-    assert config.get("service", {}) == "anthropic"
+def test_get_nested_missing_returns_default():
+    config.configure(llm={'model': 'claude'})
+    assert config.get('llm.thinking', False) is False
 
 
 # --- configuration() context manager ---
 
 def test_configuration_applies_overrides():
-    config.configure(service="anthropic")
-    with config.configuration(service="openai") as cfg:
-        assert cfg["service"] == "openai"
+    config.configure(llm={'model': 'claude'})
+    with config.configuration(llm={'model': 'gpt-4'}) as cfg:
+        assert cfg.llm.model == 'gpt-4'
 
 
 def test_configuration_restores_on_exit():
-    config.configure(service="anthropic", model="claude")
-    with config.configuration(service="openai"):
+    config.configure(llm={'model': 'claude'})
+    with config.configuration(llm={'model': 'gpt-4'}):
         pass
-    assert config.GLOBAL_CONFIG == {"service": "anthropic", "model": "claude"}
+    assert config.GLOBAL_CONFIG.llm.model == 'claude'
 
 
 def test_configuration_adds_new_keys_temporarily():
-    config.configure(service="anthropic")
-    with config.configuration(echo_call=True):
-        assert config.GLOBAL_CONFIG["echo_call"] is True
-    assert "echo_call" not in config.GLOBAL_CONFIG
+    config.configure(llm={'model': 'claude'})
+    with config.configuration(echo={'call': True}):
+        assert config.GLOBAL_CONFIG.echo.call is True
+    assert config.get('echo.call') is None
 
 
 def test_configuration_nesting():
-    config.configure(service="anthropic")
-    with config.configuration(service="openai"):
-        with config.configuration(service="gemini"):
-            assert config.GLOBAL_CONFIG["service"] == "gemini"
-        assert config.GLOBAL_CONFIG["service"] == "openai"
-    assert config.GLOBAL_CONFIG["service"] == "anthropic"
+    config.configure(llm={'model': 'claude'})
+    with config.configuration(llm={'model': 'gpt-4'}):
+        with config.configuration(llm={'model': 'gemini'}):
+            assert config.GLOBAL_CONFIG.llm.model == 'gemini'
+        assert config.GLOBAL_CONFIG.llm.model == 'gpt-4'
+    assert config.GLOBAL_CONFIG.llm.model == 'claude'
 
 
 def test_configuration_yields_live_config():
-    with config.configuration(service="anthropic") as cfg:
+    with config.configuration(llm={'model': 'claude'}) as cfg:
         assert cfg is config.GLOBAL_CONFIG

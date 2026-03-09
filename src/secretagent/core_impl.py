@@ -42,7 +42,7 @@ class SimulateFactory(Implementation.Factory):
             with config.configuration(**prompt_kw):
                 prompt = self.create_prompt(interface, *args, **kw)
                 llm_output, stats = llm_util.llm(
-                    prompt, config.get('model'))
+                    prompt, config.require('llm.model'))
                 return_type = interface.annotations.get('return', str)
                 answer = self.parse_output(return_type, llm_output)
                 record.record(func=interface.name, args=args, kw=kw, output=answer, stats=stats)
@@ -87,7 +87,7 @@ class SimulateFactory(Implementation.Factory):
                 f'{argname} = {repr(argval)}'
                 for argname, argval in kw.items()
             ])
-        if config.get('thinking'):
+        if config.get('llm.thinking'):
             thoughts = "<thought>\nANY THOUGHTS\n</thought>\n"
         else:
             thoughts = ""
@@ -122,7 +122,7 @@ class PromptLLMFactory(Implementation.Factory):
     pattern.
 
     Builder kwargs (passed to implement_via):
-        prompt_template_str: A string.Template with $stub_src and $args
+        prompt_template_str: A string.Template with $args
             placeholders. Exactly one of prompt_template_str or
             prompt_template_file must be given.
         prompt_template_file: Path to a file containing the template.
@@ -133,7 +133,7 @@ class PromptLLMFactory(Implementation.Factory):
     def build_fn(self, interface: Interface,
                  prompt_template_str=None,
                  prompt_template_file=None,
-                 answer_pattern=r'<answer>(.*)</answer>',
+                 answer_pattern=None,
                  **prompt_kw) -> Callable:
         if (prompt_template_str is None) == (prompt_template_file is None):
             raise ValueError(
@@ -145,15 +145,11 @@ class PromptLLMFactory(Implementation.Factory):
         def result_fn(*args, **kw):
             with config.configuration(**prompt_kw):
                 arg_names = list(interface.annotations.keys())[:-1]
-                input_args = '; '.join(
-                    [f'{argname} = {repr(argval)}'
-                     for argval, argname in zip(args, arg_names)]
-                    + [f'{argname} = {repr(argval)}'
-                       for argname, argval in kw.items()])
-                prompt = template.substitute(
-                    dict(stub_src=interface.src, args=input_args))
+                arg_dict = dict(zip(arg_names, args))
+                arg_dict.update(kw)
+                prompt = template.substitute(arg_dict)
                 llm_output, stats = llm_util.llm(
-                    prompt, config.get('model'))
+                    prompt, config.require('llm.model'))
                 return_type = interface.annotations.get('return', str)
                 answer = _extract_answer(return_type, llm_output, answer_pattern)
                 record.record(func=interface.name, args=args, kw=kw,

@@ -83,7 +83,7 @@ def test_prompt_llm_requires_exactly_one_template():
 
 @needs_api_key
 def test_simulate():
-    sport_for.implement_via('simulate', model="claude-haiku-4-5-20251001")
+    sport_for.implement_via('simulate', llm = dict(model="claude-haiku-4-5-20251001"))
     result = sport_for('Kobe Bryant')
     assert isinstance(result, str)
     assert len(result) > 0
