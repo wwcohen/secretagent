@@ -4,7 +4,6 @@ Provides SimulatePydanticFactory, which uses a pydantic-ai Agent
 to implement an Interface.
 """
 
-import asyncio
 import time
 
 from textwrap import dedent

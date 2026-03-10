@@ -4,7 +4,7 @@ import pandas as pd
 from pathlib import Path
 import os
 from tqdm import tqdm
-from typing import Any, Optional
+from typing import Any
 
 from secretagent import config
 from secretagent.dataset import Case, Dataset

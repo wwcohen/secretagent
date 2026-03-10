@@ -3,7 +3,7 @@ BBH.
 """
 
 from secretagent import config, record
-from secretagent.core import interface, implement_via
+from secretagent.core import interface
 import pprint
 
 #

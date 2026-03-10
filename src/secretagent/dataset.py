@@ -3,11 +3,10 @@
 
 from __future__ import annotations # forward references
 
-import datetime
+import random
+
 from pydantic import BaseModel
 from typing import Any, Optional
-
-from secretagent.core import Interface
 
 
 class Case(BaseModel):
