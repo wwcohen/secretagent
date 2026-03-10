@@ -3,6 +3,7 @@
 
 import time
 
+from cachier import cachier
 
 from secretagent import config
 from litellm import completion, completion_cost
@@ -16,6 +17,8 @@ def echo_boxed(text: str, tag:str = ''):
         print('│ ' + line.ljust(width) + ' │')
     print('└' + '─' * (width + 2) + '┘')
   
+@cachier()
+
 def llm(prompt: str, model: str) -> tuple[str, dict[str,...]]: 
   """Use an LLM model.
 

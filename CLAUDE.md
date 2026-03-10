@@ -29,6 +29,18 @@ via `implement_via()` and a registry of `Implementation.Factory` classes.
  * `with config.configuration(echo=dict(service=True, ...)):` is a context manager
  that sets config parameters temporarily and restores them when it exits.
 
+### Configuration keys
+
+ * `llm.model` — LLM model name passed to litellm (e.g. `claude-haiku-4-5-20251001`)
+ * `llm.thinking` — if truthy, include `<thought>` scaffolding in simulate prompts
+ * `echo.model` — print which model is being called
+ * `echo.llm_input` — print the prompt sent to the LLM in a box
+ * `echo.llm_output` — print the LLM response in a box
+ * `echo.service` — print service information
+ * `echo.call` — print function call signatures (used by EchoFactory)
+ * `evaluate.expt_name` — name tag for the experiment (used in result filenames and dataframes)
+ * `evaluate.result_dir` — directory to save results CSV and config YAML snapshot
+
  * By convention:
    * Everyone accesses the global config, rather than passing down
      pieces of it as arguments.  Instead use the `with configuration`
@@ -62,5 +74,7 @@ via `implement_via()` and a registry of `Implementation.Factory` classes.
  * `src/secretagent/config.py` — global/local configuration via `configure()` and `configuration()` context manager
  * `src/secretagent/record.py` — recording of interface calls via `recorder()` context manager
  * `src/secretagent/llm_util.py` — low-level LLM call helper
+ * `src/secretagent/dataset.py` — Case and Dataset models for evaluation data
+ * `src/secretagent/evaluate.py` — Evaluator base class for running experiments on datasets
  * `tests/` — pytest tests (`test_core.py`, `test_config.py`, `test_record.py`)
  * `examples/` — quickstart.py, sports_understanding.py

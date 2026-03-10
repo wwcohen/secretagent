@@ -1,19 +1,27 @@
 import json
+import pandas as pd
 from pathlib import Path
 import re
 from typing import Any
 
-from secretagent.record import recorder
+from secretagent import record, config
 from secretagent.core import Interface
-from secretagent.dataset import Dataset, Case, Evaluator
+from secretagent.dataset import Dataset, Case
+from secretagent.evaluate import Evaluator
+
 import tools
 
-class ExptEvaluator(Evaluator):
+class SportsUnderstandingEvaluator(Evaluator):
 
     def measure(self, example: Case, interface: Interface) -> dict[str, Any]:
-        with recorder() as rec:
+        with record.recorder() as records:
             result = tools.sports_understanding(*example.input_args)
-            STOPPED HERE
+            llm_usage_stats = self.aggregate_usage_stats(records)
+            return dict(
+                predicted_output=result,
+                expected_output=example.expected_output,
+                correct=int(result == example.expected_output),
+                **llm_usage_stats)
 
 def load_dataset(split: str) -> Dataset:
     def example_as_case(index, example):
@@ -37,11 +45,23 @@ def load_dataset(split: str) -> Dataset:
 
 
 if __name__ == '__main__':
+    config.configure(llm={'model': "claude-haiku-4-5-20251001"})
+
     dataset = load_dataset('valid')
-    dataset.head(4)
+    dataset.head(6)
     print('dataset is', dataset.summary())
     
     tools.analyze_sentence.implement_via('simulate')
     tools.sport_for.implement_via('simulate')
     tools.consistent_sports.implement_via('simulate')
     
+    evaluator = SportsUnderstandingEvaluator()
+    eval_cfg = dict(
+        expt_name='workflow_debug',
+        result_dir=Path(__file__).parent / 'results'
+    )
+
+    with config.configuration(evaluate=eval_cfg):
+        result = evaluator.evaluate(dataset, tools.sports_understanding)
+        df = pd.DataFrame(result)
+    print(df)

@@ -5,6 +5,7 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
+    "cachier>=4.1.0",
     "litellm>=1.81.15",
     "omegaconf>=2.3.0",
     "pandas>=3.0.1",

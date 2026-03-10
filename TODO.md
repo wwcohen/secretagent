@@ -1,6 +1,7 @@
 Next steps
 
  * implement Evaluator based on the old runexpt code with changes 
+   * PARTLY DONE but no changes
    * but always store in results/YYYYMMDD.HHMMSS/{config.yaml,result.cvs}
    * checkpoint results every so often
  * in benchmarks/sports_understanding/
