@@ -4,6 +4,7 @@ import os
 import pytest
 from pydantic import BaseModel
 from secretagent.core import _INTERFACES
+from secretagent import config
 
 needs_api_key = pytest.mark.skipif(
     not os.environ.get("ANTHROPIC_API_KEY"),
@@ -74,7 +75,8 @@ def _reasonable(french_translation: str) -> bool:
 def test_quickstart_translate_returns_reasonable_string():
     """translate should return a non-empty string."""
     qs = _import_quickstart()
-    result = qs.translate("Hello, how are you?")
+    with config.configuration(cachier={'enable_caching':False}):
+        result = qs.translate("Hello, how are you?")
     assert isinstance(result, str)
     assert len(result) > 0
     assert _reasonable(result)
@@ -84,7 +86,8 @@ def test_quickstart_translate_returns_reasonable_string():
 def test_quickstart_translate_structured_returns_reasonable_model():
     """translate_structured should return a FrenchEnglishTranslation."""
     qs = _import_quickstart()
-    result = qs.translate_structured("Hello, how are you?")
+    with config.configuration(cachier={'enable_caching':False}):
+        result = qs.translate_structured("Hello, how are you?")
     assert isinstance(result, qs.FrenchEnglishTranslation)
     assert isinstance(result.english_text, str)
     assert isinstance(result.french_text, str)

@@ -3,9 +3,8 @@
 
 import time
 
-from cachier import cachier
-
 from secretagent import config
+from secretagent.cache_util import cached, clear_all_caches
 from litellm import completion, completion_cost
 
 def echo_boxed(text: str, tag:str = ''):
@@ -16,14 +15,12 @@ def echo_boxed(text: str, tag:str = ''):
     for line in lines:
         print('│ ' + line.ljust(width) + ' │')
     print('└' + '─' * (width + 2) + '┘')
-  
-@cachier()
 
-def llm(prompt: str, model: str) -> tuple[str, dict[str,...]]: 
+def _llm_impl(prompt: str, model: str) -> tuple[str, dict[str,...]]:
   """Use an LLM model.
 
   Returns result as a string plus a dictionary of measurements,
-  including # input_tokens, # output_tokens, latency in seconds, and 
+  including # input_tokens, # output_tokens, latency in seconds, and
   """
   if config.get('echo.model'):
     print(f'calling model {model}')
@@ -51,13 +48,7 @@ def llm(prompt: str, model: str) -> tuple[str, dict[str,...]]:
   )
   return model_output, stats
 
-
-if __name__ == '__main__':
-  # example model: together_ai/deepseek-ai/Deepseek-V3.1
-  import sys
-  from pprint import pprint
-  print(f'Expected format: {sys.argv[0]} prompt .... MODEL')
-  model = sys.argv[-1]
-  prompt = sys.argv[1:-1]
-  pprint(llm(' '.join(prompt), model, echo_model=True))
+def llm(prompt: str, model: str) -> tuple[str, dict[str,...]]:
+  """Use an LLM model, with optional cachier caching via config."""
+  return cached(_llm_impl)(prompt, model)
 
