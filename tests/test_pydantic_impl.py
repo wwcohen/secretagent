@@ -1,4 +1,4 @@
-"""Tests for secretagent.pydantic_impl."""
+"""Tests for secretagent.implement_pydantic."""
 
 import os
 import pytest
@@ -7,7 +7,7 @@ from pydantic import BaseModel
 
 from secretagent import config, record
 from secretagent.core import interface, all_factories, _INTERFACES
-from secretagent.pydantic_impl import SimulatePydanticFactory, _summarize_messages
+from secretagent.implement_pydantic import SimulatePydanticFactory, _summarize_messages
 
 needs_api_key = pytest.mark.skipif(
     not os.environ.get("ANTHROPIC_API_KEY"),

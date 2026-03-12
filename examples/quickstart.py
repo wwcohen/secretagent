@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 
 from secretagent.core import implement_via
-import secretagent.pydantic_impl  # noqa: F401 (registers simulate_pydantic factory)
+import secretagent.implement_pydantic  # noqa: F401 (registers simulate_pydantic factory)
 
 # This will implement 'translate' via asking an llm to generate a
 # translation.  An Anthropic API key must be stored in your

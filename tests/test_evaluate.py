@@ -27,14 +27,8 @@ def _make_dataset(n=3):
 
 class DummyEvaluator(Evaluator):
     """Simple evaluator that calls the interface and checks correctness."""
-    def measure(self, example: Case, iface) -> dict[str, Any]:
-        output = iface(*example.input_args)
-        return dict(
-            name=example.name,
-            output=output,
-            correct=(output == example.expected_output),
-            stats={'cost': 0.01, 'latency': 0.1},
-        )
+    def compare_predictions(self, predicted_output, expected_output) -> dict[str, Any]:
+        return dict(correct=(predicted_output == expected_output))
 
 
 @interface

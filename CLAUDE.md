@@ -68,12 +68,13 @@ via `implement_via()` and a registry of `Implementation.Factory` classes.
  * `'echo'` — print the call signature (useful for debugging)
  * `'simulate'` — prompt an LLM to predict the function output (uses `llm_util`)
  * `'prompt_llm'` — use a custom prompt template to predict the function
- * `'simulate_pydantic'` — like simulate but uses a pydantic-ai Agent (in `pydantic_impl.py`)
+ * `'simulate_pydantic'` — like simulate but uses a pydantic-ai Agent (in `implement_pydantic.py`)
 
 ### Key files
 
  * `src/secretagent/core.py` — Interface, Implementation, Factory base class, and built-in factories
- * `src/secretagent/pydantic_impl.py` — SimulatePydanticFactory (pydantic-ai Agent backend)
+ * `src/secretagent/implement_pydantic.py` — SimulatePydanticFactory (pydantic-ai Agent backend)
+ * `src/secretagent/implement_core.py` — built-in factories (direct, echo, simulate, prompt_llm)
  * `src/secretagent/config.py` — global/local configuration via `configure()` and `configuration()` context manager
  * `src/secretagent/record.py` — recording of interface calls via `recorder()` context manager
  * `src/secretagent/cache_util.py` — runtime cachier wrapper that reads config at call time

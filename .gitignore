@@ -1,3 +1,8 @@
+# project-specific stuff
+
+benchmarks/*/llm_cache/*
+benchmarks/*/results/*
+
 # emacs
 
 *~

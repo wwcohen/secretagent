@@ -8,6 +8,8 @@ Next steps
      * zero shot simulate
      * workflow with ptools
      * react with ptools
+     * use smaller models till the task gets "interesting"
+
  * move over old result cli methods to soemwhere in src/secretagent --- analyze?
  * then look at code generation from react pipelines
  * rename core_impl and pydantic_impl to impl_core/impl_pydantic?

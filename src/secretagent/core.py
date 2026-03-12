@@ -17,6 +17,7 @@ def all_interfaces() -> list['Interface']:
     return _INTERFACES
     
 def all_factories() -> list[tuple[str, 'Implementation.Factory']]:
+    """Return all registered Implementation.Factory's."""
     return _FACTORIES.items()
 
 def register_factory(name: str, factory: 'Implementation.Factory'):
@@ -99,6 +100,24 @@ def implement_via(method=None, **method_kw) -> Callable:
         return result
     return wrapper
 
+def implement_via_config(ptool_module, tools_cfg):
+    """Bind the tools in tool_module to implementations specified by a
+    config. The tools_cfg should look something like the following.
+
+    implementations:
+      analyze_sentence:
+        method: simulate
+      sport_for:
+        method: simulate
+    """
+    for func_name, factory_kws in tools_cfg.items():
+        factory_kws = dict(factory_kws)
+        # get the method and remove it from the config for this tool
+        method = factory_kws.pop('method')
+        interface = getattr(ptool_module, func_name)
+        interface.implement_via(method, **factory_kws)
+
+
 class Implementation(BaseModel):
     """An implemention for an Interface - mainly represented as a
     Python function.
@@ -136,4 +155,4 @@ class Implementation(BaseModel):
                 factory_kwargs=builder_kwargs)
 
 # auto-register built-in factories
-import secretagent.core_impl  # noqa: E402, F401
+import secretagent.implement_core  # noqa: E402, F401

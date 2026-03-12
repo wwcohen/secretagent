@@ -17,7 +17,7 @@ from litellm import cost_per_token
 from secretagent import config, record
 from secretagent.cache_util import cached, clear_all_caches
 from secretagent.core import Interface, register_factory
-from secretagent.core_impl import SimulateFactory
+from secretagent.implement_core import SimulateFactory
 from secretagent.llm_util import echo_boxed
 
 def _run_agent_hashkey(_, kwds):

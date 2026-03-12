@@ -1,6 +1,9 @@
 test:
 	uv run pytest tests/ -v
 
+wc:
+	wc src/secretagent/*.py
+
 quickstart:
 	uv run examples/quickstart.py
 

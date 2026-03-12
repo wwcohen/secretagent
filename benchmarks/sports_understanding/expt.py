@@ -27,7 +27,7 @@ from typing import Any
 import typer
 
 from secretagent import record, config
-from secretagent.core import Interface
+from secretagent.core import Interface, implement_via_config
 from secretagent.dataset import Dataset, Case
 from secretagent.evaluate import Evaluator
 
@@ -35,19 +35,19 @@ from secretagent.evaluate import Evaluator
 # tools are the tools and interfaces
 #
 
-import tools
+import ptools
+
+#
+# dataset-specific metrics
+#
 
 class SportsUnderstandingEvaluator(Evaluator):
+    def compare_predictions(self, predicted_output, expected_output) -> dict[str, Any]:
+        return dict(correct=(predicted_output == expected_output))
 
-    def measure(self, example: Case, interface: Interface) -> dict[str, Any]:
-        with record.recorder() as records:
-            result = tools.sports_understanding(*example.input_args)
-            llm_usage_stats = self.aggregate_usage_stats(records)
-            return dict(
-                predicted_output=result,
-                expected_output=example.expected_output,
-                correct=int(result == example.expected_output),
-                **llm_usage_stats)
+#
+# how to load the dataset
+#
 
 def load_dataset(split: str) -> Dataset:
     def example_as_case(index, example):
@@ -69,9 +69,8 @@ def load_dataset(split: str) -> Dataset:
             ],
         )
 
-
 #
-# machinery to support using this as a CLI
+# machinery to support using this file as a CLI
 #
 
 app = typer.Typer()
@@ -87,36 +86,31 @@ def callback():
 CONF_DIR = Path(__file__).parent / 'conf'
 
 @app.command(context_settings={"allow_extra_args": True, "allow_interspersed_args": False})
-def run(
-    ctx: typer.Context,
-    model: str = typer.Option(None, help="Override llm.model"),
-    split: str = typer.Option(None, help="Override dataset.split"),
-    expt_name: str = typer.Option(None, help="Override evaluate.expt_name"),
-    n: int = typer.Option(0, help="Number of examples (0 for all)"),
-):
+def run(ctx: typer.Context, expt_name: str = typer.Option(None, help="Set evaluate.expt_name")):
     """Run sports understanding evaluation.
 
     Extra args are parsed as config overrides in dot notation, e.g.:
         uv run python expt.py run llm.model=gpt-4o cachier.enable_caching=false
     """
 
+    # configure with conf/conf.yaml plus any command-line args
     config_file =  Path(__file__).parent / 'conf' / 'conf.yaml'
     config.configure(yaml_file=config_file, dotlist=ctx.args)
+
+    # make the cache_dir and etc be relative to this directory
     config.set_root(Path(__file__).parent)
 
+    # load the dataset, following the config
     dataset = load_dataset(config.require('dataset.split')).configure(
         shuffle_seed=config.get('dataset.shuffle_seed'),
         n=config.get('dataset.n'))
     print('dataset is', dataset.summary())
 
-    tools_cfg = config.require('tools')
-    for name, tool_cfg in tools_cfg.items():
-        tool_cfg = dict(tool_cfg)
-        method = tool_cfg.pop('method')
-        getattr(tools, name).implement_via(method, **tool_cfg)
+    # configure the ptools
+    implement_via_config(ptools, config.require('ptools'))
 
     evaluator = SportsUnderstandingEvaluator()
-    result = evaluator.evaluate(dataset, tools.sports_understanding)
+    result = evaluator.evaluate(dataset, ptools.sports_understanding)
     df = pd.DataFrame(result)
     print(df)
 
