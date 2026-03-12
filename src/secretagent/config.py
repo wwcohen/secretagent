@@ -7,12 +7,13 @@ from typing import Any
 
 GLOBAL_CONFIG: DictConfig = OmegaConf.create()
 
-def configure(yaml_file=None, cfg=None, **kw):
+def configure(yaml_file=None, cfg=None, dotlist=None, **kw):
     """Merge in config from a DictConfig, YAML file path, or keyword args.
 
     Arguments:
       yaml_file: will be passed to OmegaConf.load() unless it's None
       cfg: will be passed to OmegaConf.merge() unless it's None
+      dot_list: a list of strings like "llm.model=gpt3.5" or None
 
     All other keyword arguments will be merged with OmegaConf.
     """
@@ -21,6 +22,8 @@ def configure(yaml_file=None, cfg=None, **kw):
         GLOBAL_CONFIG = OmegaConf.merge(GLOBAL_CONFIG, OmegaConf.load(yaml_file))
     if cfg is not None:
         GLOBAL_CONFIG = OmegaConf.merge(GLOBAL_CONFIG, cfg)
+    if dotlist is not None:
+        configure(cfg=OmegaConf.from_dotlist(dotlist))
     if kw:
         GLOBAL_CONFIG = OmegaConf.merge(GLOBAL_CONFIG, kw)
 

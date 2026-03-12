@@ -86,30 +86,25 @@ def callback():
 
 CONF_DIR = Path(__file__).parent / 'conf'
 
-@app.command()
+@app.command(context_settings={"allow_extra_args": True, "allow_interspersed_args": False})
 def run(
+    ctx: typer.Context,
     model: str = typer.Option(None, help="Override llm.model"),
     split: str = typer.Option(None, help="Override dataset.split"),
     expt_name: str = typer.Option(None, help="Override evaluate.expt_name"),
     n: int = typer.Option(0, help="Number of examples (0 for all)"),
 ):
-    """Run sports understanding evaluation."""
+    """Run sports understanding evaluation.
+
+    Extra args are parsed as config overrides in dot notation, e.g.:
+        uv run python expt.py run llm.model=gpt-4o cachier.enable_caching=false
+    """
 
     config_file =  Path(__file__).parent / 'conf' / 'conf.yaml'
-    config.configure(yaml_file=config_file)
-
-    # resolve relative paths (e.g. result_dir) against the benchmark directory
+    config.configure(yaml_file=config_file, dotlist=ctx.args)
     config.set_root(Path(__file__).parent)
-    # apply CLI overrides
-    if model:
-        config.configure(llm={'model': model})
-    if split:
-        config.configure(dataset={'split': split})
-    if expt_name:
-        config.configure(evaluate={'expt_name': expt_name})
 
-    dataset = load_dataset(config.require('dataset.split'))
-    dataset = dataset.configure(
+    dataset = load_dataset(config.require('dataset.split')).configure(
         shuffle_seed=config.get('dataset.shuffle_seed'),
         n=config.get('dataset.n'))
     print('dataset is', dataset.summary())
