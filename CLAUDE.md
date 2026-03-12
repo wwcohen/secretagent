@@ -40,6 +40,9 @@ via `implement_via()` and a registry of `Implementation.Factory` classes.
  * `echo.call` — print function call signatures (used by EchoFactory)
  * `evaluate.expt_name` — name tag for the experiment (used in result filenames and dataframes)
  * `evaluate.result_dir` — directory to save results CSV and config YAML snapshot
+ * `cachier.enable_caching` — if `False`, bypass cachier entirely (default `True`)
+ * `cachier.cache_dir` — directory for cachier's on-disk cache
+ * Other `cachier.*` keys are passed through to `@cachier()` (e.g. `stale_after`, `allow_none`)
 
  * By convention:
    * Everyone accesses the global config, rather than passing down
@@ -73,6 +76,7 @@ via `implement_via()` and a registry of `Implementation.Factory` classes.
  * `src/secretagent/pydantic_impl.py` — SimulatePydanticFactory (pydantic-ai Agent backend)
  * `src/secretagent/config.py` — global/local configuration via `configure()` and `configuration()` context manager
  * `src/secretagent/record.py` — recording of interface calls via `recorder()` context manager
+ * `src/secretagent/cache_util.py` — runtime cachier wrapper that reads config at call time
  * `src/secretagent/llm_util.py` — low-level LLM call helper
  * `src/secretagent/dataset.py` — Case and Dataset models for evaluation data
  * `src/secretagent/evaluate.py` — Evaluator base class for running experiments on datasets

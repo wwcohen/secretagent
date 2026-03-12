@@ -3029,6 +3029,7 @@ dependencies = [
     { name = "pydantic-ai-litellm" },
     { name = "pydantic-evals" },
     { name = "pytest" },
+    { name = "typer" },
 ]
 
 [package.metadata]
@@ -3041,6 +3042,7 @@ requires-dist = [
     { name = "pydantic-ai-litellm", specifier = ">=0.2.3" },
     { name = "pydantic-evals", specifier = ">=1.63.0" },
     { name = "pytest", specifier = ">=9.0.2" },
+    { name = "typer", specifier = ">=0.24.1" },
 ]
 
 [[package]]

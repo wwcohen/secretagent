@@ -1,13 +1,39 @@
+"""Sports understanding benchmark experiment.
+
+Example CLI commands:
+
+    # run with defaults from conf/conf.yaml
+    uv run python expt.py run
+
+    # run first 6 examples only
+    uv run python expt.py run --n 6
+
+    # override model and experiment name
+    uv run python expt.py run --model gpt-4o --expt-name gpt4o_test
+
+    # use a different config file
+    uv run python expt.py run --config-file conf/ablation.yaml
+
+    # override dataset split
+    uv run python expt.py run --split test
+"""
+
 import json
 import pandas as pd
 from pathlib import Path
 import re
 from typing import Any
 
+import typer
+
 from secretagent import record, config
 from secretagent.core import Interface
 from secretagent.dataset import Dataset, Case
 from secretagent.evaluate import Evaluator
+
+#
+# tools are the tools and interfaces
+#
 
 import tools
 
@@ -44,24 +70,61 @@ def load_dataset(split: str) -> Dataset:
         )
 
 
-if __name__ == '__main__':
-    config.configure(llm={'model': "claude-haiku-4-5-20251001"})
+#
+# machinery to support using this as a CLI
+#
 
-    dataset = load_dataset('valid')
-    dataset.head(6)
+app = typer.Typer()
+
+@app.callback()
+def callback():
+    """Sports understanding benchmark.
+
+    This callback ensures typer treats the app as a multi-command CLI
+    rather than collapsing a single subcommand to the top level.
+    """
+
+CONF_DIR = Path(__file__).parent / 'conf'
+
+@app.command()
+def run(
+    model: str = typer.Option(None, help="Override llm.model"),
+    split: str = typer.Option(None, help="Override dataset.split"),
+    expt_name: str = typer.Option(None, help="Override evaluate.expt_name"),
+    n: int = typer.Option(0, help="Number of examples (0 for all)"),
+):
+    """Run sports understanding evaluation."""
+
+    config_file =  Path(__file__).parent / 'conf' / 'conf.yaml'
+    config.configure(yaml_file=config_file)
+
+    # resolve relative paths (e.g. result_dir) against the benchmark directory
+    config.set_root(Path(__file__).parent)
+    # apply CLI overrides
+    if model:
+        config.configure(llm={'model': model})
+    if split:
+        config.configure(dataset={'split': split})
+    if expt_name:
+        config.configure(evaluate={'expt_name': expt_name})
+
+    dataset = load_dataset(config.require('dataset.split'))
+    dataset = dataset.configure(
+        shuffle_seed=config.get('dataset.shuffle_seed'),
+        n=config.get('dataset.n'))
     print('dataset is', dataset.summary())
-    
-    tools.analyze_sentence.implement_via('simulate')
-    tools.sport_for.implement_via('simulate')
-    tools.consistent_sports.implement_via('simulate')
-    
-    evaluator = SportsUnderstandingEvaluator()
-    eval_cfg = dict(
-        expt_name='workflow_debug',
-        result_dir=Path(__file__).parent / 'results'
-    )
 
-    with config.configuration(evaluate=eval_cfg):
-        result = evaluator.evaluate(dataset, tools.sports_understanding)
-        df = pd.DataFrame(result)
+    tools_cfg = config.require('tools')
+    for name, tool_cfg in tools_cfg.items():
+        tool_cfg = dict(tool_cfg)
+        method = tool_cfg.pop('method')
+        getattr(tools, name).implement_via(method, **tool_cfg)
+
+    evaluator = SportsUnderstandingEvaluator()
+    result = evaluator.evaluate(dataset, tools.sports_understanding)
+    df = pd.DataFrame(result)
     print(df)
+
+
+if __name__ == '__main__':
+    app()

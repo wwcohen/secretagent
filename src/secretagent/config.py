@@ -52,6 +52,28 @@ def configuration(cfg=None, **kw):
     yield GLOBAL_CONFIG
     GLOBAL_CONFIG = saved
 
+def set_root(new_root):
+    """Resolve relative paths in config against new_root.
+
+    Finds every config value whose key ends with '_dir' or '_file',
+    and if the value is a relative path, prepends new_root to make
+    it absolute.
+    """
+    from pathlib import Path
+    new_root = Path(new_root)
+
+    def _resolve(cfg, prefix=''):
+        for key in cfg:
+            full_key = f'{prefix}{key}' if prefix else key
+            val = cfg[key]
+            if isinstance(val, DictConfig):
+                _resolve(val, full_key + '.')
+            elif isinstance(val, str) and (key.endswith('_dir') or key.endswith('_file')):
+                if not Path(val).is_absolute():
+                    OmegaConf.update(GLOBAL_CONFIG, full_key, str(new_root / val))
+
+    _resolve(GLOBAL_CONFIG)
+
 def save(filename):
     """Save the global configuration in a file.
     """

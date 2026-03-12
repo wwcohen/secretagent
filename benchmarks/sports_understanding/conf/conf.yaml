@@ -1,0 +1,19 @@
+llm:
+  model: claude-haiku-4-5-20251001
+
+evaluate:
+  expt_name: workflow_debug
+  result_dir: results
+
+dataset:
+  split: valid
+  shuffle_seed: 137
+  n: 4
+
+tools:
+  analyze_sentence:
+    method: simulate
+  sport_for:
+    method: simulate
+  consistent_sports:
+    method: simulate
