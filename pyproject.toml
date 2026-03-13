@@ -13,6 +13,7 @@ dependencies = [
     "pydantic-ai-litellm>=0.2.3",
     "pydantic-evals>=1.63.0",
     "pytest>=9.0.2",
+    "smolagents>=1.22.0",
     "typer>=0.24.1",
 ]
 
