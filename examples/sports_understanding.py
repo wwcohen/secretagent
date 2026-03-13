@@ -1,5 +1,5 @@
-"""A demo of secretagent, based on the 'sports_understanding' task in
-BBH.
+"""Another simple demo of secretagent, based on the
+'sports_understanding' task in the BIG Bench Hard benchmark.
 """
 
 from secretagent import config, record
@@ -7,8 +7,8 @@ from secretagent.core import interface
 import pprint
 
 #
-# Define some simple Interfaces.  These need not be implemented in
-# Python - an LLM can be used instead.
+# Define some simple Interfaces - these look like Python functions but
+# are not implemented (yet)
 #
 
 @interface
@@ -69,48 +69,51 @@ def sports_understanding_workflow(sentence):
   return result
 
 
+# make the output a little prettier
+def _print_section_head(tag: str):
+  print(f' {tag} '.center(60, '-'))
+
 #
 # A main that demonstrates how to use Interfaces
 #
 
 if __name__ == '__main__':
 
-  # make the output a little prettier
-  def _print_section_head(tag: str):
-    print(f' {tag} '.center(60, '-'))
-
-  # configure the model used by default - any liteLLM model is ok
+  # Configure the model used by default - any liteLLM model is ok,
+  # as long as you have API keys set up!
   config.configure(llm={'model': "claude-haiku-4-5-20251001"})
 
-  # the easiest way to implement an interface is to 'simulate' it
-  # using an LLM. This code binds the interfaces above to that
-  # implementation strategy
+  # One way to implement an interface is to 'simulate' it using an
+  # LLM. This code binds the interfaces above to that implementation
+  # strategy.
 
   analyze_sentence.implement_via('simulate')
   sport_for.implement_via('simulate')
   consistent_sports.implement_via('simulate')
 
   _print_section_head('workflow with simulated interfaces')
+  result = sports_understanding_workflow("Tim Duncan scored from inside the paint.")
+  print('Result is', result)
 
-  # this context manager will push some more things into the
-  # configuration and remove them when we exit - in this case we
-  # config request to echo the service used and the subagent
-  # inputs/outputs
+  # This context manager will push some more things into the
+  # configuration and remove them when we exit.  In this case we
+  # config request to trace some actions.
   with config.configuration(echo={'service': True, 'llm_input': True, 'llm_output': True}):
-
-    # finally call the workflow
     result = sports_understanding_workflow("Tim Duncan scored from inside the paint.")
+    print('Traced result is', result)
 
-  # example of using a recorder to log calls to interfaces
+  # You can get back more information using a this context manager
 
   _print_section_head('recording the same workflow')
   with record.recorder() as rollout:
     result = sports_understanding_workflow("DeMar DeRozan was called for the goal tend.")
     pprint.pprint(rollout)
 
-  # rebinding one of the interfaces to a custom prompt
-  _print_section_head('reminding an interface to a different implementation')
+  # Another implementation strategy is just to define your own prompt
+  # template, either with a string (prompt_template_str) or a file
+  # (prompt_template_file).
 
+  _print_section_head('reminding an interface to a different implementation')
   sport_for.implement_via(
     'prompt_llm',
     prompt_template_str="Answer without thinking: what sport is associated with '$x'?")

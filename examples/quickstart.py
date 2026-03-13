@@ -1,3 +1,6 @@
+"""A simple example of how to use the secretagent package.
+"""
+
 from pydantic import BaseModel
 
 from secretagent.core import implement_via
@@ -7,14 +10,18 @@ import secretagent.implement_pydantic  # noqa: F401 (registers simulate_pydantic
 # translation.  An Anthropic API key must be stored in your
 # environment for this to work.
 
-# a barebones example
+# Values of 'llm.model' are passed to the litellm backend, so anything
+# litellm understands will work.
 
 @implement_via('simulate', llm={'model': 'claude-haiku-4-5-20251001'})
 def translate(english_sentence: str) -> str:
     """Translate a sentence in English to French.
     """
 
-# an example with a structured Pydantic output
+# A second example with a structured output.  The 'simulate_pydantic'
+# implementation is more powerful - it's backed up by the Pydantic AI
+# package, which also supports tools calls in a ReAct framework - and
+# is also better at structured outputs.
 
 class FrenchEnglishTranslation(BaseModel):
     english_text: str

@@ -134,12 +134,12 @@ def test_implement_via_config_passes_extra_kwargs():
     mod.my_func = my_func
 
     tools_cfg = OmegaConf.create({
-        "my_func": {"method": "echo", "echo_doc": True},
+        "my_func": {"method": "direct"},
     })
     implement_via_config(mod, tools_cfg)
 
     assert my_func.implementation is not None
-    assert my_func.implementation.factory_kwargs == {"echo_doc": True}
+    assert my_func.implementation.factory_kwargs == {}
     _INTERFACES.remove(my_func)
 
 

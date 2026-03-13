@@ -1,6 +1,6 @@
 """Built-in Implementation.Factory classes for secretagent.
 
-Provides DirectFactory, EchoFactory, SimulateFactory, and PromptLLMFactory.
+Provides DirectFactory, SimulateFactory, PromptLLMFactory, and PoTFactory.
 """
 
 import ast
@@ -16,23 +16,18 @@ import types
 from secretagent import config, llm_util, record
 from secretagent.core import Interface, Implementation, register_factory, all_interfaces
 
+PROMPT_TEMPLATE_DIR = pathlib.Path(__file__).parent / 'prompt_templates'
+
+def _load_template(name: str) -> Template:
+    """Load a prompt template from the prompt_templates directory."""
+    return Template((PROMPT_TEMPLATE_DIR / name).read_text())
+
 class DirectFactory(Implementation.Factory):
     """Use the function body as the implementation.
     """
     def build_fn(self, interface: Interface, **_kw) -> Callable:
         return interface.func
 
-
-class EchoFactory(Implementation.Factory):
-    """Just echos the arguments to a function.
-    """
-    def build_fn(self, interface: Interface, echo_doc=False, **_kw) -> Callable:
-        def result_fn(*args, **kw):
-            print(f'Called {interface.signature(*args, **kw)}')
-            if echo_doc:
-                print('doc'.center(40, '-'))
-                print(interface.doc)
-        return result_fn
 
 
 class SimulateFactory(Implementation.Factory):
@@ -53,41 +48,8 @@ class SimulateFactory(Implementation.Factory):
     def create_prompt(self, interface, *args, **kw):
         """Construct a prompt that calls an LLM to predict the output of the function.
         """
-        template_str = """
-        Consider the following documentation stub for a Python function.  Note
-        that this is documentation, not a full implementation.
-        ```python
-        $stub_src
-        ```
-
-        Imagine that this function was fully implemented as suggested by the
-        documentation stub, and that function were called with these arguments:
-
-        $args
-
-        Propose a possible output of the function for these inputs that is
-        consistent with the documentation. Use the following output format:
-
-        $thoughts
-        <answer>
-        FINAL ANSWER
-        </answer>
-
-        If your answer is x, show it as it would printed by a Python
-        interpreter called by print(x). Specifically if x is a string do NOT
-        include quotes around it.  Also, do not include any text other than
-        the final answer between the <answer> and </answer> tags.
-        """
-        template = Template(dedent(template_str))
-        arg_names = list(interface.annotations.keys())[:-1]
-        input_args = '; '.join(
-            [
-                f'{argname} = {repr(argval)}'
-                for argval, argname in zip(args, arg_names)
-            ] + [
-                f'{argname} = {repr(argval)}'
-                for argname, argval in kw.items()
-            ])
+        template = _load_template('simulate.txt')
+        input_args = interface.format_args(*args, **kw)
         if config.get('llm.thinking'):
             thoughts = "<thought>\nANY THOUGHTS\n</thought>\n"
         else:
@@ -186,7 +148,7 @@ class PoTFactory(Implementation.Factory):
         tool_functions = {
             called_inf.name: called_inf.implementation.implementing_fn
             for called_inf in all_interfaces()
-            if called_inf != interface}
+            if called_inf != interface and called_inf.implementation is not None}
         python_executor = LocalPythonExecutor(
             additional_authorized_imports=(additional_imports or []),
             )
@@ -208,27 +170,22 @@ class PoTFactory(Implementation.Factory):
                     str,
                     llm_output,
                     answer_pattern='```python\n(.*)\n```')
+                if config.get('echo.code_eval_input'):
+                    llm_util.echo_boxed(generated_code, 'code_eval_input')
                 code_output = python_executor(generated_code)
                 answer = code_output.output
                 if config.get('echo.code_eval_output'):
                     llm_util.echo_boxed(str(answer), 'code_eval_output')
-                record.record(func=interface.name, args=args, kw=kw, output=answer, stats=stats, pot=generated_code)
+                record.record(
+                    func=interface.name, args=args, kw=kw, output=answer, stats=stats,
+                    step_info=dict(generated_code=generated_code))
                 return answer
         return result_fn
 
     def create_prompt(self, interface, additional_authorized_imports, *args, **kw):
         """Construct a prompt that calls an LLM to predict the output of the function.
         """
-        arg_names = list(interface.annotations.keys())[:-1]
-        #TODO refactor
-        input_args = '; '.join(
-            [
-                f'{argname} = {repr(argval)}'
-                for argval, argname in zip(args, arg_names)
-            ] + [
-                f'{argname} = {repr(argval)}'
-                for argname, argval in kw.items()
-            ])
+        input_args = interface.format_args(*args, **kw)
         tool_stub_src_listing = '\n\n'.join([
             tool_interface.src
             for tool_interface in all_interfaces()
@@ -257,53 +214,12 @@ class PoTFactory(Implementation.Factory):
             thoughts=thoughts
         )
 
-        template_str = """
-        Consider the following documentation stub for a Python function.  Note
-        that this is documentation, not a full implementation.
-        ```python
-        $main_stub_src
-        ```
-
-        The unseen implementation might call any of the following
-        'tool' methods.
-
-        ```python
-        $tool_stub_src_listing
-        ```
-
-        Imagine that all of these functions were implemented as
-        suggested by the documentation stubs, and that function
-        $func_name was called with these arguments:
-
-        $input_args
-
-        Output Python code that would compute the output of
-        $func_name, by calling the tools, FOR THESE INPUTS.
-        The code MUST call final_answer(result) as the last
-        line to return the result.
-
-        Note it is NOT necessary for the code to be a completely
-        general inplementation, it only needs to work for these
-        specific inputs.
-
-        $imports
-        Use the following output format:
-
-        $thoughts
-        <answer>
-        ```python
-        CODE TO COMPUTE OUTPUT FOR THESE INPUTS
-        final_answer(result)
-        ```
-        </answer>
-        """
-        template = Template(dedent(template_str))
+        template = _load_template('program_of_thought.txt')
         prompt = template.substitute(**template_bindings)
         return prompt
 
 
 register_factory('direct', DirectFactory())
-register_factory('echo', EchoFactory())
 register_factory('simulate', SimulateFactory())
 register_factory('program_of_thought', PoTFactory())
 register_factory('prompt_llm', PromptLLMFactory())

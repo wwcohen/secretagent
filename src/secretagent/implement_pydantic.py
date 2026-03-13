@@ -5,9 +5,9 @@ to implement an Interface.
 """
 
 import hashlib
+import pathlib
 from string import Template
 import time
-from textwrap import dedent
 from typing import Callable
 
 from pydantic_ai import Agent
@@ -107,7 +107,7 @@ class SimulatePydanticFactory(SimulateFactory):
                     args=args,
                     kw=kw,
                     output=answer,
-                    messages=messages,
+                    step_info=messages,
                     stats=stats)
                 return answer
         return result_fn
@@ -115,31 +115,9 @@ class SimulatePydanticFactory(SimulateFactory):
     def create_prompt(self, interface, *args, **kw):
         """Construct a prompt that calls an LLM to predict the output of the function.
         """
-        template_str = """
-        Consider the following documentation stub for a Python function.  Note
-        that this is documentation, not a full implementation.
-        ```python
-        $stub_src
-        ```
-
-        Imagine that this function was fully implemented as suggested by the
-        documentation stub, and that function were called with these arguments:
-
-        $args
-
-        Propose a possible output of the function for these inputs that is
-        consistent with the documentation.
-        """
-        template = Template(dedent(template_str))
-        arg_names = list(interface.annotations.keys())[:-1]
-        input_args = '; '.join(
-            [
-                f'{argname} = {repr(argval)}'
-                for argval, argname in zip(args, arg_names)
-            ] + [
-                f'{argname} = {repr(argval)}'
-                for argname, argval in kw.items()
-            ])
+        template_path = pathlib.Path(__file__).parent / 'prompt_templates' / 'simulate_pydantic.txt'
+        template = Template(template_path.read_text())
+        input_args = interface.format_args(*args, **kw)
         if config.get('llm.thinking'):
             thoughts = "<thought>\nANY THOUGHTS\n</thought>\n"
         else:

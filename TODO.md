@@ -1,8 +1,6 @@
 Next steps
 
  * Refactor expt.py
-   * move tool configuration to core.py? or core_impl?
-   * clean up Evaluator/measure? maybe abstract is compare outputs expected, predicted?? 
    * write conf - data loaders and implementations
      * zero shot prompt_llm
      * zero shot simulate

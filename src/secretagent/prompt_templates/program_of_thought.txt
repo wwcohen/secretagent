@@ -1,0 +1,38 @@
+Consider the following documentation stub for a Python function.  Note
+that this is documentation, not a full implementation.
+```python
+$main_stub_src
+```
+
+The unseen implementation might call any of the following
+'tool' methods.
+
+```python
+$tool_stub_src_listing
+```
+
+Imagine that all of these functions were implemented as
+suggested by the documentation stubs, and that function
+$func_name was called with these arguments:
+
+$input_args
+
+Output Python code that would compute the output of
+$func_name, by calling the tools, FOR THESE INPUTS.
+The code MUST call final_answer(result) as the last
+line to return the result.
+
+Note it is NOT necessary for the code to be a completely
+general inplementation, it only needs to work for these
+specific inputs.
+
+$imports
+Use the following output format:
+
+$thoughts
+<answer>
+```python
+CODE TO COMPUTE OUTPUT FOR THESE INPUTS
+final_answer(result)
+```
+</answer>

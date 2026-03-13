@@ -1,4 +1,4 @@
-"""Access an LLM model, and monitors cost, latency, etc.
+"""Access an LLM model, and monitor cost, latency, etc.
 """
 
 import time
@@ -49,6 +49,9 @@ def _llm_impl(prompt: str, model: str) -> tuple[str, dict[str,...]]:
   return model_output, stats
 
 def llm(prompt: str, model: str) -> tuple[str, dict[str,...]]:
-  """Use an LLM model, with optional cachier caching via config."""
+  """Use an LLM model, with optional cachier caching via config.
+
+  See cache_util.py for why this weird process is necessary.
+  """
   return cached(_llm_impl)(prompt, model)
 

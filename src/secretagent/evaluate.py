@@ -1,3 +1,6 @@
+"""Support for evaluating agents on Datasets.
+"""
+
 from abc import ABC, abstractmethod
 import datetime
 import json
@@ -30,11 +33,14 @@ class Evaluator(ABC):
     def measure(self, example: Case, interface: Interface) -> dict[str, Any]:
         """Measure performance on a case.
         """
+        # record a run
         with record.recorder() as records:
             predicted_output = interface(*example.input_args)
             llm_usage_stats = self.aggregate_usage_stats(records)
+        # compute the dataset-dependent metrics
         metrics = self.compare_predictions(
             predicted_output, example.expected_output)
+        # merge all the metrics and records together
         return dict(
             predicted_output=predicted_output,
             expected_output=example.expected_output,
@@ -71,11 +77,18 @@ class Evaluator(ABC):
                 result = self.measure(example, interface)
                 results.append(dict(expt_name=expt_name, **result))
         else:
+            # generate new directory
             timestamp = datetime.datetime.now().strftime('%Y%m%d.%H%M%S')
             filestem = f'{timestamp}.{expt_name}'
             dirname = Path(result_dir) / filestem
             os.makedirs(dirname, exist_ok=True)
+
+            # write out the current config 
             config.save(dirname / 'config.yaml')
+            print(f'config saved in {dirname}/config.yaml')
+
+            # save the results as they come in into a jsonl file,
+            # we we can monitor progress as we go
             with open(dirname / 'results.jsonl', 'w') as fp:
                 results = []
                 for example in tqdm(dataset.cases):
@@ -83,7 +96,11 @@ class Evaluator(ABC):
                     row = dict(expt_name=expt_name, **result)
                     results.append(row)
                     fp.write(json.dumps(row) + '\n')
+
+            # also save the full set of results as a CSV to load in
+            # later
             df = pd.DataFrame(results)
             df.to_csv(dirname / 'results.csv')
             print(f'saved in {dirname}/results.csv')
+
         return results

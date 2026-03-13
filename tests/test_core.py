@@ -27,34 +27,24 @@ def test_unbound_interface_raises():
         sport_for('Kobe Bryant')
 
 
-def test_echo(capsys):
-    sport_for.implement_via('echo')
-    result = sport_for('Kobe Bryant')
-    assert result is None
-
-
 def test_all_interfaces():
     names = [i.name for i in all_interfaces()]
     assert 'sport_for' in names
 
 
 def test_rebind():
-    sport_for.implement_via('echo')
-    sport_for.implement_via('echo', echo_doc=True)
+    sport_for.implement_via('direct')
+    sport_for.implement_via('direct')
     assert sport_for.implementation is not None
-    assert sport_for.implementation.factory_kwargs == {'echo_doc': True}
 
 
-def test_implement_via_decorator(capsys):
-    @implement_via('echo', echo_doc=True)
+def test_implement_via_decorator():
+    @implement_via('direct')
     def too_long(x: str, n: int = 3) -> bool:
         """x is longer than n characters."""
-        ...
+        return len(x) > n
 
-    too_long("hello world")
-    captured = capsys.readouterr()
-    assert 'too_long' in captured.out
-    assert 'x is longer than n characters' in captured.out
+    assert too_long("hello world") is True
     _INTERFACES.remove(too_long)
 
 

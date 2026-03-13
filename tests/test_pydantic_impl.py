@@ -159,5 +159,5 @@ def test_simulate_pydantic_records():
     assert len(rollout) == 1
     assert rollout[0]['func'] == 'double'
     assert 'stats' in rollout[0]
-    assert 'messages' in rollout[0]
+    assert 'step_info' in rollout[0]
     _INTERFACES.remove(double)

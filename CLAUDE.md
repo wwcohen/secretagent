@@ -36,6 +36,7 @@ via `implement_via()` and a registry of `Implementation.Factory` classes.
  * `echo.model` — print which model is being called
  * `echo.llm_input` — print the prompt sent to the LLM in a box
  * `echo.llm_output` — print the LLM response in a box
+ * `echo.code_eval_output` — print result of executing LLM-generated code
  * `echo.service` — print service information
  * `echo.call` — print function call signatures (used by EchoFactory)
  * `evaluate.expt_name` — name tag for the experiment (used in result filenames and dataframes)
@@ -65,9 +66,9 @@ via `implement_via()` and a registry of `Implementation.Factory` classes.
 ### Built-in factories (registered in `_FACTORIES`)
 
  * `'direct'` — use the function body as the implementation
- * `'echo'` — print the call signature (useful for debugging)
  * `'simulate'` — prompt an LLM to predict the function output (uses `llm_util`)
  * `'prompt_llm'` — use a custom prompt template to predict the function
+ * `'program_of_thought'` — generate Python code with an LLM and execute it in a sandboxed executor
  * `'simulate_pydantic'` — like simulate but uses a pydantic-ai Agent (in `implement_pydantic.py`)
 
 ### Key files

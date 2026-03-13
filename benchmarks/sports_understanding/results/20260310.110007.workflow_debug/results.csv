@@ -1,7 +1,0 @@
-,expt_name,predicted_output,expected_output,correct,input_tokens,output_tokens,latency,cost
-0,workflow_debug,False,False,1,1532.0,731.0,8.76591420173645,0.005187000000000001
-1,workflow_debug,True,True,1,1213.0,438.0,5.707722902297974,0.0034029999999999998
-2,workflow_debug,False,False,1,1523.0,630.0,9.490604877471924,0.004673
-3,workflow_debug,False,False,1,1212.0,378.0,4.892670154571533,0.0031020000000000006
-4,workflow_debug,True,True,1,1781.0,453.0,6.772979736328125,0.004046
-5,workflow_debug,True,True,1,1217.0,490.0,5.808593988418579,0.003667

@@ -53,6 +53,18 @@ class Interface(BaseModel):
         factory = _FACTORIES[method]
         self.implementation = factory.build_implementation(self, **kwargs)
 
+    def format_args(self, *args, **kw) -> str:
+        """Format positional and keyword args as 'name = value; ...' string."""
+        arg_names = list(self.annotations.keys())[:-1]
+        parts = [
+            f'{argname} = {repr(argval)}'
+            for argval, argname in zip(args, arg_names)
+        ] + [
+            f'{argname} = {repr(argval)}'
+            for argname, argval in kw.items()
+        ]
+        return '; '.join(parts)
+
     def signature(self, *args, **kw):
         arg_str = ', '.join([repr(a) for a in args])
         kw_str = ', '.join([f'{lhs}={repr(rhs)}' for lhs, rhs in kw.items()])

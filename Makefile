@@ -4,6 +4,9 @@ test:
 wc:
 	wc src/secretagent/*.py
 
+cloc:	
+	cloc src/secretagent
+
 quickstart:
 	uv run examples/quickstart.py
 

@@ -1,0 +1,13 @@
+Consider the following documentation stub for a Python function.  Note
+that this is documentation, not a full implementation.
+```python
+$stub_src
+```
+
+Imagine that this function was fully implemented as suggested by the
+documentation stub, and that function were called with these arguments:
+
+$args
+
+Propose a possible output of the function for these inputs that is
+consistent with the documentation.

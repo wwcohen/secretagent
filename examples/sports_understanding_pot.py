@@ -1,6 +1,10 @@
-"""A demo of secretagent, based on the 'sports_understanding' task in
-BBH.
+"""Another simple demo of secretagent based on the
+'sports_understanding' task in the BIG Bench Hard benchmark.
+
+This demonstrates the 'Program of Thoughts' implementation, and also
+makes more use of structured inputs/outputs.
 """
+
 
 from secretagent import config, record
 from secretagent.core import interface, implement_via
@@ -44,18 +48,31 @@ def consistent(sports: SportsInSentence) -> bool:
 
 @implement_via('program_of_thought')
 def are_sports_in_sentence_consistent(sentence: str) -> bool:
-  """An agent that uses the subagents defined above.
+  """An agent that uses the subagents defined above, in some order
+  that it determines on a case-by-case bases.
   """
 
 if __name__ == '__main__':
 
+    # Echo a bunch of things, including the generated code.
+    # If you want to use caching with structured objects
+    # it's best to not use the default cache.
     config.configure(
         llm={'model': "claude-haiku-4-5-20251001"}, 
-        echo={'llm_input': True, 'llm_output': True, 'code_eval_output': True},
-        cachier={'enable_caching':True, 'cache_dir':'/tmp/su_pyd.d'})
+        echo={'llm_input': True, 'llm_output': True, 
+              'code_eval_input': True, 'code_eval_output': True},
+        cachier={'enable_caching': True, 'cache_dir': '/tmp/su_pyd.d'})
 
     with record.recorder() as rollout:
         result = are_sports_in_sentence_consistent("Tim Duncan scored from inside the paint.")
         print('result is', result)
         pprint.pprint(rollout)
 
+    # Find the generated code
+    print(f' generated code '.center(60, '-'))    
+    for step in rollout:
+        if 'step_info' not in step: continue
+        if 'generated_code' not in step['step_info']: continue
+        print(step['step_info']['generated_code'])
+    print(f' result '.center(60, '-'))    
+    print(result)
