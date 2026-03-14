@@ -54,34 +54,42 @@ def test_aggregate_usage_stats():
 
 # --- evaluate ---
 
-def test_evaluate_returns_results():
+def test_evaluate_returns_csv_path(tmp_path):
+    config.configure(evaluate={'result_dir': str(tmp_path)})
     ev = DummyEvaluator()
     ds = _make_dataset(3)
-    results = ev.evaluate(ds, times_ten)
-    assert len(results) == 3
-    for r in results:
-        assert r['correct']
-        assert r['expt_name'] == '**unnamed_expt**'
+    csv_path = ev.evaluate(ds, times_ten)
+    assert csv_path.name == 'results.csv'
+    assert csv_path.exists()
+    # read back and verify contents
+    import pandas as pd
+    df = pd.read_csv(csv_path, index_col='case_name')
+    assert len(df) == 3
+    assert all(df['correct'])
+    assert list(df.index) == ['case_0', 'case_1', 'case_2']
 
 
-def test_evaluate_uses_expt_name():
-    config.configure(evaluate={'expt_name': 'my_expt'})
+def test_evaluate_uses_expt_name(tmp_path):
+    config.configure(evaluate={'expt_name': 'my_expt', 'result_dir': str(tmp_path)})
     ev = DummyEvaluator()
     ds = _make_dataset(2)
-    results = ev.evaluate(ds, times_ten)
-    assert all(r['expt_name'] == 'my_expt' for r in results)
+    csv_path = ev.evaluate(ds, times_ten)
+    assert 'my_expt' in csv_path.parent.name
+    import json
+    jsonl_path = csv_path.parent / 'results.jsonl'
+    rows = [json.loads(line) for line in jsonl_path.read_text().splitlines()]
+    assert all(r['expt_name'] == 'my_expt' for r in rows)
 
 
 def test_evaluate_saves_results(tmp_path):
     config.configure(evaluate={'expt_name': 'save_test', 'result_dir': str(tmp_path)})
     ev = DummyEvaluator()
     ds = _make_dataset(2)
-    ev.evaluate(ds, times_ten)
+    csv_path = ev.evaluate(ds, times_ten)
 
-    # should have created a timestamped subdirectory
-    subdirs = list(tmp_path.iterdir())
-    assert len(subdirs) == 1
-    result_dir = subdirs[0]
+    # returned path should be inside a timestamped subdirectory
+    result_dir = csv_path.parent
     assert 'save_test' in result_dir.name
-    assert (result_dir / 'results.csv').exists()
+    assert csv_path.exists()
+    assert (result_dir / 'results.jsonl').exists()
     assert (result_dir / 'config.yaml').exists()

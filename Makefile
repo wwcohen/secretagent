@@ -13,3 +13,6 @@ quickstart:
 examples: quickstart
 	uv run examples/sports_understanding.py
 	uv run examples/sports_understanding_pydantic.py
+
+expt:
+	uv run benchmarks/sports_understanding/expt.py run

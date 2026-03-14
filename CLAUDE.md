@@ -54,6 +54,11 @@ via `implement_via()` and a registry of `Implementation.Factory` classes.
    should access that param with 'config.require' and pass down the
    required values as a parameter.
 
+### Some useful llm.model values
+
+ * `claude-haiku-4-5-20251001` - quick cheap and stable, needs Anthropic API key
+ * `deepseek-v3-0324` - cheap but strong reasoning model
+
 ### Core API (`secretagent.core`)
 
  * `@interface` — decorator that turns a stub function into an `Interface`

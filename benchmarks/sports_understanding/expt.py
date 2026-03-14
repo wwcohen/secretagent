@@ -30,6 +30,7 @@ from secretagent import record, config
 from secretagent.core import Interface, implement_via_config
 from secretagent.dataset import Dataset, Case
 from secretagent.evaluate import Evaluator
+from secretagent.savefile import getfiles
 
 #
 # tools are the tools and interfaces
@@ -110,8 +111,8 @@ def run(ctx: typer.Context, expt_name: str = typer.Option(None, help="Set evalua
     implement_via_config(ptools, config.require('ptools'))
 
     evaluator = SportsUnderstandingEvaluator()
-    result = evaluator.evaluate(dataset, ptools.sports_understanding)
-    df = pd.DataFrame(result)
+    csv_path = evaluator.evaluate(dataset, ptools.sports_understanding)
+    df = pd.read_csv(csv_path)
     print(df)
 
 

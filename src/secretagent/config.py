@@ -13,7 +13,7 @@ def configure(yaml_file=None, cfg=None, dotlist=None, **kw):
     Arguments:
       yaml_file: will be passed to OmegaConf.load() unless it's None
       cfg: will be passed to OmegaConf.merge() unless it's None
-      dot_list: a list of strings like "llm.model=gpt3.5" or None
+      dotlist: a list of strings like "llm.model=gpt3.5" or None
 
     All other keyword arguments will be merged with OmegaConf.
     """
