@@ -2,15 +2,13 @@
 """
 
 from abc import ABC, abstractmethod
-import datetime
 import json
-import pandas as pd
-from pathlib import Path
 import os
+import pandas as pd
 from tqdm import tqdm
 from typing import Any
 
-from secretagent import config, record
+from secretagent import config, record, savefile
 from secretagent.dataset import Case, Dataset
 from secretagent.core import Interface
 
@@ -77,30 +75,23 @@ class Evaluator(ABC):
                 result = self.measure(example, interface)
                 results.append(dict(expt_name=expt_name, **result))
         else:
-            # generate new directory
-            timestamp = datetime.datetime.now().strftime('%Y%m%d.%H%M%S')
-            filestem = f'{timestamp}.{expt_name}'
-            dirname = Path(result_dir) / filestem
-            os.makedirs(dirname, exist_ok=True)
-
-            # write out the current config 
-            config.save(dirname / 'config.yaml')
-            print(f'config saved in {dirname}/config.yaml')
-
-            # save the results as they come in into a jsonl file,
-            # we we can monitor progress as we go
-            with open(dirname / 'results.jsonl', 'w') as fp:
+            csv_path, jsonl_path = savefile.filename_list(
+                'evaluate.result_dir',
+                ['results.csv', 'results.jsonl'],
+                file_under='evaluate.expt_name')
+            # save results incrementally as jsonl so we can monitor progress
+            with open(jsonl_path, 'w') as fp:
                 results = []
                 for example in tqdm(dataset.cases):
                     result = self.measure(example, interface)
                     row = dict(expt_name=expt_name, **result)
                     results.append(row)
                     fp.write(json.dumps(row) + '\n')
-
-            # also save the full set of results as a CSV to load in
-            # later
+                    fp.flush()
+                    os.fsync(fp.fileno())
+            # also save as CSV for easy loading
             df = pd.DataFrame(results)
-            df.to_csv(dirname / 'results.csv')
-            print(f'saved in {dirname}/results.csv')
+            df.to_csv(csv_path)
+            print(f'saved in {csv_path}')
 
         return results
