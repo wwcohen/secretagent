@@ -57,7 +57,7 @@ def two_expts(tmp_path):
 # --- list tests ---
 
 def test_list_shows_all(two_expts):
-    result = runner.invoke(app, ['list'])
+    result = runner.invoke(app, ['list', '--no-most-recent'])
     assert result.exit_code == 0
     assert 'baseline' in result.output
     assert 'improved' in result.output
@@ -65,14 +65,14 @@ def test_list_shows_all(two_expts):
 
 
 def test_list_filter_by_expt(two_expts):
-    result = runner.invoke(app, ['list', '--expt', 'baseline'])
+    result = runner.invoke(app, ['list', '--no-most-recent', '--expt', 'baseline'])
     assert result.exit_code == 0
     assert 'baseline' in result.output
     assert 'improved' not in result.output
 
 
 def test_list_most_recent(two_expts):
-    result = runner.invoke(app, ['list', '--most-recent'])
+    result = runner.invoke(app, ['list'])
     assert result.exit_code == 0
     assert 'improved' in result.output
     # only one line with a count
@@ -90,7 +90,7 @@ def test_list_no_results(tmp_path):
 # --- average tests ---
 
 def test_average_shows_metrics(two_expts):
-    result = runner.invoke(app, ['average'])
+    result = runner.invoke(app, ['average', '--no-most-recent'])
     assert result.exit_code == 0
     assert 'baseline' in result.output
     assert 'improved' in result.output
@@ -105,7 +105,7 @@ def test_average_single_expt(two_expts):
 
 
 def test_average_shows_cost(two_expts):
-    result = runner.invoke(app, ['average'])
+    result = runner.invoke(app, ['average', '--no-most-recent'])
     assert result.exit_code == 0
     assert '$' in result.output
 
@@ -113,7 +113,7 @@ def test_average_shows_cost(two_expts):
 # --- pair tests ---
 
 def test_pair_runs(two_expts):
-    result = runner.invoke(app, ['pair'])
+    result = runner.invoke(app, ['pair', '--no-most-recent'])
     assert result.exit_code == 0
     assert 'baseline' in result.output
     assert 'improved' in result.output
@@ -129,7 +129,7 @@ def test_pair_needs_two_expts(two_expts):
 
 
 def test_pair_custom_metric(two_expts):
-    result = runner.invoke(app, ['pair', '--metric', 'cost'])
+    result = runner.invoke(app, ['pair', '--no-most-recent', '--metric', 'cost'])
     assert result.exit_code == 0
     assert 'cost' in result.output
 
@@ -137,7 +137,7 @@ def test_pair_custom_metric(two_expts):
 # --- compare tests ---
 
 def test_compare_shows_diffs(two_expts):
-    result = runner.invoke(app, ['compare'])
+    result = runner.invoke(app, ['compare', '--no-most-recent'])
     assert result.exit_code == 0
     assert 'llm.model' in result.output
     assert 'model-a' in result.output
@@ -158,6 +158,6 @@ def test_config_file_option(two_expts, tmp_path):
         {'evaluate': {'result_dir': str(tmp_path)}})))
     # reset config so result_dir is not set
     config.GLOBAL_CONFIG = OmegaConf.create()
-    result = runner.invoke(app, ['--config-file', str(cfg_file), 'list'])
+    result = runner.invoke(app, ['--config-file', str(cfg_file), 'list', '--no-most-recent'])
     assert result.exit_code == 0
     assert 'baseline' in result.output

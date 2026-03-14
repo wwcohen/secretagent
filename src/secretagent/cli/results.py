@@ -40,6 +40,14 @@ from secretagent import config, savefile
 
 app = typer.Typer()
 
+_EXTRA_ARGS = {"allow_extra_args": True, "allow_interspersed_args": False}
+
+
+def _apply_dotlist(ctx: typer.Context):
+    """Apply any dotlist config overrides from extra CLI args."""
+    if ctx.args:
+        config.configure(dotlist=ctx.args)
+
 
 def _get_dirs(
     expt: Optional[str],
@@ -87,12 +95,14 @@ def _flatten(d, prefix=''):
     return items
 
 
-@app.command('list')
+@app.command('list', context_settings=_EXTRA_ARGS)
 def list_experiments(
+    ctx: typer.Context,
     expt: Optional[str] = typer.Option(None, help='Filter by expt_name'),
-    most_recent: bool = typer.Option(False, help='Only show most recent'),
+    most_recent: bool = typer.Option(True, help='Only show most recent; use --no-most-recent for all'),
 ):
     """Show available experiment directories and row counts."""
+    _apply_dotlist(ctx)
     basedir = config.require('evaluate.result_dir')
     dirs = savefile.getfiles(basedir, file_under=expt, most_recent=most_recent)
     if not dirs:
@@ -107,13 +117,15 @@ def list_experiments(
             typer.echo(f'    ?  {d.name}  (no results.csv)')
 
 
-@app.command()
+@app.command(context_settings=_EXTRA_ARGS)
 def average(
+    ctx: typer.Context,
     expt: Optional[str] = typer.Option(None, help='Filter by expt_name'),
-    most_recent: bool = typer.Option(False, help='Only show most recent'),
+    most_recent: bool = typer.Option(True, help='Only show most recent; use --no-most-recent for all'),
     metric: str = typer.Option('correct', help='Metric column to summarize'),
 ):
     """Report mean +/- stderr of a metric and latency, grouped by experiment."""
+    _apply_dotlist(ctx)
     dirs = _get_dirs(expt, most_recent)
     df = _load_csv(dirs)
     stats = df.groupby('expt_name').agg(
@@ -132,13 +144,15 @@ def average(
     typer.echo(stats[['n', metric, 'latency', 'cost']].to_string())
 
 
-@app.command()
+@app.command(context_settings=_EXTRA_ARGS)
 def pair(
+    ctx: typer.Context,
     expt: Optional[str] = typer.Option(None, help='Filter by expt_name'),
-    most_recent: bool = typer.Option(False, help='Only show most recent'),
+    most_recent: bool = typer.Option(True, help='Only show most recent; use --no-most-recent for all'),
     metric: str = typer.Option('correct', help='Metric column to compare'),
 ):
     """Run paired t-tests on a metric and latency across experiments."""
+    _apply_dotlist(ctx)
     dirs = _get_dirs(expt, most_recent)
     df = _load_csv(dirs)
     experiments = sorted(df['expt_name'].unique())
@@ -163,12 +177,14 @@ def pair(
         typer.echo(f'  latency:  t={lat_t:+.3f}  p={lat_p:.4f}{"  *" if lat_p < 0.05 else ""}')
 
 
-@app.command()
+@app.command(context_settings=_EXTRA_ARGS)
 def compare(
+    ctx: typer.Context,
     expt: Optional[str] = typer.Option(None, help='Filter by expt_name'),
-    most_recent: bool = typer.Option(False, help='Only show most recent'),
+    most_recent: bool = typer.Option(True, help='Only show most recent; use --no-most-recent for all'),
 ):
     """Show configuration differences between experiments."""
+    _apply_dotlist(ctx)
     dirs = _get_dirs(expt, most_recent)
     if len(dirs) < 2:
         typer.echo('Need at least 2 experiment directories to compare.')
@@ -201,20 +217,18 @@ def compare(
         typer.echo(f'{key:<30}  {vals}')
 
 
-@app.callback(context_settings={"allow_extra_args": True, "allow_interspersed_args": False})
+@app.callback()
 def main(
-    ctx: typer.Context,
     config_file: Optional[str] = typer.Option(None, help='YAML config file to load'),
 ):
     """Analyze experiment results saved by savefile.
 
-    Extra args are parsed as config overrides in dot notation, e.g.:
-        uv run -m secretagent.cli.results --config-file conf.yaml list evaluate.result_dir=/tmp/results
+    Extra args after the subcommand are parsed as config overrides in
+    dot notation, e.g.:
+        uv run -m secretagent.cli.results list evaluate.result_dir=/tmp/results
     """
     if config_file:
         config.configure(yaml_file=config_file)
-    if ctx.args:
-        config.configure(dotlist=ctx.args)
 
 
 if __name__ == '__main__':
