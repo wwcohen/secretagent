@@ -5,6 +5,10 @@ before config is loaded), this module provides a `cached()` wrapper
 that reads cachier config at call time and applies it dynamically.
 """
 
+import os
+import pickle
+import warnings
+
 from secretagent import config
 
 # Cache of decorated functions: (fn, config_key) -> decorated_fn
@@ -37,11 +41,72 @@ def cached(fn, **cachier_kw):
     return _DECORATED[cache_key]
 
 
+_STATS_KEYS = {'input_tokens', 'output_tokens', 'latency', 'cost'}
+
+
+def _is_stats_dict(obj):
+    """True if obj is a dict containing the expected stats keys."""
+    return isinstance(obj, dict) and _STATS_KEYS.issubset(obj)
+
+
+def _find_stats(val):
+    """Find a stats dict inside a cached return value (typically a tuple)."""
+    if _is_stats_dict(val):
+        return val
+    if isinstance(val, tuple):
+        for item in val:
+            if _is_stats_dict(item):
+                return item
+    return None
+
+
+def extract_cached_stats(cache_dir=None):
+    """Extract stats dicts from the cachier cache of LLM calls.
+
+    Scans all cachier pickle files in cache_dir, and for each cached
+    return value finds the stats dict (identified by having keys
+    input_tokens, output_tokens, latency, cost).
+
+    Args:
+        cache_dir: Path to the cachier cache directory.  If None,
+            uses the configured cachier.cache_dir.
+
+    Returns:
+        List of stats dicts, each with keys like input_tokens,
+        output_tokens, latency, cost.
+    """
+    if cache_dir is None:
+        cache_dir = config.get('cachier', {}).get('cache_dir')
+    if cache_dir is None:
+        raise ValueError("No cache_dir specified and none configured in cachier.cache_dir")
+
+    stats_list = []
+    for fname in os.listdir(cache_dir):
+        fpath = os.path.join(cache_dir, fname)
+        if not os.path.isfile(fpath):
+            continue
+        try:
+            with open(fpath, 'rb') as f:
+                cache_dict = pickle.load(f)
+        except (pickle.UnpicklingError, EOFError, Exception):
+            continue
+        if not isinstance(cache_dict, dict):
+            continue
+        for entry in cache_dict.values():
+            val = getattr(entry, 'value', None)
+            if val is None:
+                continue
+            stats = _find_stats(val)
+            if stats is not None:
+                stats_list.append(stats)
+    return stats_list
+
+
 def clear_all_caches():
     """Clear all cachier caches created through cached()."""
     for decorated_fn in _DECORATED.values():
         try:
             decorated_fn.clear_cache()
-        except Exception:
-            pass
+        except Exception as e:
+            warnings.warn(f"Failed to clear cache for {decorated_fn.__name__}: {e}")
     _DECORATED.clear()

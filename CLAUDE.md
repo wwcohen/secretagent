@@ -87,5 +87,34 @@ via `implement_via()` and a registry of `Implementation.Factory` classes.
  * `src/secretagent/llm_util.py` — low-level LLM call helper
  * `src/secretagent/dataset.py` — Case and Dataset models for evaluation data
  * `src/secretagent/evaluate.py` — Evaluator base class for running experiments on datasets
+ * `src/secretagent/cli/` — command-line tools (see below)
  * `tests/` — pytest tests (`test_core.py`, `test_config.py`, `test_record.py`)
  * `examples/` — quickstart.py, sports_understanding.py
+
+### CLI tools
+
+CLI tools live in `src/secretagent/cli/` and are run as modules with `uv run -m`.
+They accept `--help` for full usage. Config overrides can be passed as dotlist
+args after the subcommand (e.g. `evaluate.result_dir=/tmp/results`).
+
+ * **results** — analyze experiment results saved by `savefile`
+
+       # List available experiments
+       uv run -m secretagent.cli.results list
+
+       # Show mean +/- stderr for the two most recent experiments
+       uv run -m secretagent.cli.results average --most-recent
+
+       # Paired t-test across experiments
+       uv run -m secretagent.cli.results pair
+
+       # Compare configs between experiments
+       uv run -m secretagent.cli.results compare
+
+ * **costs** — summarize LLM costs from the cachier cache
+
+       # Summarize costs from a specific cache directory
+       uv run -m secretagent.cli.costs benchmarks/sports_understanding/llm_cache
+
+       # Use the configured cachier.cache_dir from a config file
+       uv run -m secretagent.cli.costs --config-file conf.yaml
