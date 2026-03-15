@@ -49,8 +49,13 @@ def consistent_sports(sport1: str, sport2: str) -> bool:
   ...
 
 @implement_via(method='direct')
-def sports_understanding(sentence):
-  """A workflow that uses the subagents defined above.
+def sports_understanding(sentence) -> bool:
+  """Use the defined subagents to determine plausibility of a
+  sports-related sentence.
+
+  Specifically, determines if the sports associated with the player,
+  action and event in a sentence are all consistent with each other.
+
   """
   player, action, event = analyze_sentence(sentence)
   player_sport = sport_for(player)

@@ -15,4 +15,8 @@ examples: quickstart
 	uv run examples/sports_understanding_pydantic.py
 
 expt:
-	uv run benchmarks/sports_understanding/expt.py run
+	time uv run benchmarks/sports_understanding/expt.py run
+
+costs:
+	uv run -m secretagent.cli.costs benchmarks/sports_understanding/llm_cache
+

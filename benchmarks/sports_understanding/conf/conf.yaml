@@ -5,13 +5,12 @@ cachier:
   cache_dir: llm_cache
 
 evaluate:
-  expt_name: workflow_debug
   result_dir: results
+  expt_name: pot
 
 dataset:
   split: valid
   shuffle_seed: 137
-  n: 4
 
 ptools:
   analyze_sentence:
@@ -20,3 +19,5 @@ ptools:
     method: simulate
   consistent_sports:
     method: simulate
+  sports_understanding:
+    method: program_of_thought

@@ -16,7 +16,7 @@ from litellm import cost_per_token
 
 from secretagent import config, record
 from secretagent.cache_util import cached, clear_all_caches
-from secretagent.core import Interface, register_factory
+from secretagent.core import Interface, all_interfaces, register_factory
 from secretagent.implement_core import SimulateFactory
 from secretagent.llm_util import echo_boxed
 
@@ -84,9 +84,19 @@ class SimulatePydanticFactory(SimulateFactory):
     Reuses SimulateFactory.create_prompt() for the prompt, but strips
     the <answer> scaffolding and delegates to a pydantic-ai Agent
     for execution and output parsing.
+
+    The options tools can take on several values
+      tools = None or missing means don't use tools
+      tools = '__all__' means use all other registered interfaces
+      tools = [f1,...,fk] where the f's are interfaces or functions
+        means just those tools
     """
 
     def build_fn(self, interface: Interface, tools=None, **prompt_kw) -> Callable:
+        if tools == '__all__':
+            # use all implemented interfaces except the current one
+            tools = [iface for iface in all_interfaces()
+                     if iface is not interface and iface.implementation is not None]
         tools = tools or []
         # pydantic seems to need tools to be functions, not just callable
         for i in range(len(tools)):

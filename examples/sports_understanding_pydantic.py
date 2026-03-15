@@ -64,8 +64,9 @@ if __name__ == '__main__':
         echo={'llm_input': True, 'llm_output': True},
         cachier={'enable_caching':True, 'cache_dir':'/tmp/su_pyd.d'})
 
+    # or could use tools=[analyze_sentence, find_sports, consistent]
     are_sports_in_sentence_consistent.implement_via(
-        'simulate_pydantic', tools=[analyze_sentence, find_sports, consistent])
+        'simulate_pydantic', tools='__all__')
 
     with record.recorder() as rollout:
         result = are_sports_in_sentence_consistent("Tim Duncan scored from inside the paint.")
