@@ -1,0 +1,38 @@
+{
+  "dataset_name": "oolong-synth",
+  "splits": {
+    "validation": 1300,
+    "test": 5200
+  },
+  "features": "{'id': Value('int64'), 'context_len': Value('int64'), 'dataset': Value('string'), 'context_window_text': Value('string'), 'context_window_text_with_labels': Value('string'), 'question': Value('string'), 'task_group': Value('string'), 'task': Value('string'), 'answer': Value('string'), 'answer_type': Value('string'), 'input_subset': Value('string'), 'num_labels': Value('int64'), 'context_window_id': Value('int64')}",
+  "columns": [
+    "id",
+    "context_len",
+    "dataset",
+    "context_window_text",
+    "context_window_text_with_labels",
+    "question",
+    "task_group",
+    "task",
+    "answer",
+    "answer_type",
+    "input_subset",
+    "num_labels",
+    "context_window_id"
+  ],
+  "first_example_keys": [
+    "id",
+    "context_len",
+    "dataset",
+    "context_window_text",
+    "context_window_text_with_labels",
+    "question",
+    "task_group",
+    "task",
+    "answer",
+    "answer_type",
+    "input_subset",
+    "num_labels",
+    "context_window_id"
+  ]
+}

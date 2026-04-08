@@ -1,0 +1,59 @@
+llm:
+  model: together_ai/deepseek-ai/DeepSeek-V3
+
+cachier:
+  cache_dir: llm_cache
+
+evaluate:
+  # Oolong rewrites result_dir to results/<context_len>/ (or results/flat/) per run.
+  result_dir: results
+  expt_name: oolong_default
+
+echo:
+  model: false
+  llm_input: false
+  llm_output: true
+
+# Pydantic Logfire: traces for pydantic-ai Agents (classify_entry_batch, answer if simulate_pydantic).
+# Run: logfire auth   then set enable: true. Optional: service_name, console: true, send_to_logfire: false
+logfire:
+  enable: true
+  service_name: oolong-expt
+
+dataset:
+  split: validation
+  shuffle_seed: 42
+  n: null
+  # For per-length shards, set this in CLI or uncomment.
+  # context_len: 1024
+
+oolong:
+  # Concurrent threads for phase 1 (per window) and phase 2 (per row). API rate limits may cap speedup.
+  max_workers: 4
+  # When true, write classification_results.json (full phase-1 schema + records per window) beside results.csv.
+  write_classification_results_json: true
+  window_cache_dir: window_cache
+  enable_window_cache: true
+  # Separate window_cache + cachier dirs per llm.model (parallel / multi-model experiments).
+  scope_caches_to_model: true
+  token_budget_per_call: 1280
+  schema_infer_line_limit: 20
+  schema_retries: 4
+  schema_backoff: 1.7
+  classify_retries: 10
+  classify_backoff: 1.5
+  assumed_context_len_for_batching: 1024
+  answer_retries: 1
+  # Toggle cachier usage only for phase-2 answering (ptools.answer_question calls).
+  # Phase-1 window cache is still controlled by enable_window_cache.
+  phase2_enable_llm_cache: true
+
+ptools:
+  answer_question:
+    method: direct
+  infer_context_schema:
+    method: simulate_pydantic
+  classify_entry_batch:
+    method: simulate_pydantic
+  answer_from_cached_records:
+    method: program_of_thought
