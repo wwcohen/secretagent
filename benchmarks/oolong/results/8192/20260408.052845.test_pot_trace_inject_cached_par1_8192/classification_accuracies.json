@@ -1,0 +1,143 @@
+{
+  "expt_name": "test_pot_trace_inject_cached_par1_8192",
+  "llm_model": "together_ai/deepseek-ai/DeepSeek-V3",
+  "n_windows": 16,
+  "mean_accuracy_on_matched": 0.7051388798040583,
+  "mean_accuracy_over_gold": 0.7051388798040583,
+  "micro_accuracy_on_matched": 0.703745108999441,
+  "micro_accuracy_over_gold": 0.6963495575221239,
+  "total_correct_on_matched": 1259,
+  "total_matched_records": 1789,
+  "total_gold_records": 1808,
+  "per_context_window": [
+    {
+      "context_window_id": 20009,
+      "accuracy_on_matched": 0.0,
+      "accuracy_over_gold": 0.0,
+      "correct_on_matched": 0,
+      "matched_records": 0,
+      "gold_records": 19
+    },
+    {
+      "context_window_id": 20010,
+      "accuracy_on_matched": 1.0,
+      "accuracy_over_gold": 1.0,
+      "correct_on_matched": 19,
+      "matched_records": 19,
+      "gold_records": 19
+    },
+    {
+      "context_window_id": 30009,
+      "accuracy_on_matched": 0.9012345679012346,
+      "accuracy_over_gold": 0.9012345679012346,
+      "correct_on_matched": 73,
+      "matched_records": 81,
+      "gold_records": 81
+    },
+    {
+      "context_window_id": 30010,
+      "accuracy_on_matched": 0.8395061728395061,
+      "accuracy_over_gold": 0.8395061728395061,
+      "correct_on_matched": 68,
+      "matched_records": 81,
+      "gold_records": 81
+    },
+    {
+      "context_window_id": 40009,
+      "accuracy_on_matched": 0.0,
+      "accuracy_over_gold": 0.0,
+      "correct_on_matched": 0,
+      "matched_records": 164,
+      "gold_records": 164
+    },
+    {
+      "context_window_id": 40010,
+      "accuracy_on_matched": 0.0,
+      "accuracy_over_gold": 0.0,
+      "correct_on_matched": 0,
+      "matched_records": 164,
+      "gold_records": 164
+    },
+    {
+      "context_window_id": 50009,
+      "accuracy_on_matched": 0.8673469387755102,
+      "accuracy_over_gold": 0.8673469387755102,
+      "correct_on_matched": 85,
+      "matched_records": 98,
+      "gold_records": 98
+    },
+    {
+      "context_window_id": 50010,
+      "accuracy_on_matched": 0.8979591836734694,
+      "accuracy_over_gold": 0.8979591836734694,
+      "correct_on_matched": 88,
+      "matched_records": 98,
+      "gold_records": 98
+    },
+    {
+      "context_window_id": 60009,
+      "accuracy_on_matched": 0.8194444444444444,
+      "accuracy_over_gold": 0.8194444444444444,
+      "correct_on_matched": 118,
+      "matched_records": 144,
+      "gold_records": 144
+    },
+    {
+      "context_window_id": 60010,
+      "accuracy_on_matched": 0.8611111111111112,
+      "accuracy_over_gold": 0.8611111111111112,
+      "correct_on_matched": 124,
+      "matched_records": 144,
+      "gold_records": 144
+    },
+    {
+      "context_window_id": 70009,
+      "accuracy_on_matched": 0.7884615384615384,
+      "accuracy_over_gold": 0.7884615384615384,
+      "correct_on_matched": 82,
+      "matched_records": 104,
+      "gold_records": 104
+    },
+    {
+      "context_window_id": 70010,
+      "accuracy_on_matched": 0.7307692307692307,
+      "accuracy_over_gold": 0.7307692307692307,
+      "correct_on_matched": 76,
+      "matched_records": 104,
+      "gold_records": 104
+    },
+    {
+      "context_window_id": 80009,
+      "accuracy_on_matched": 0.8611111111111112,
+      "accuracy_over_gold": 0.8611111111111112,
+      "correct_on_matched": 124,
+      "matched_records": 144,
+      "gold_records": 144
+    },
+    {
+      "context_window_id": 80010,
+      "accuracy_on_matched": 0.8819444444444444,
+      "accuracy_over_gold": 0.8819444444444444,
+      "correct_on_matched": 127,
+      "matched_records": 144,
+      "gold_records": 144
+    },
+    {
+      "context_window_id": 90009,
+      "accuracy_on_matched": 0.88,
+      "accuracy_over_gold": 0.88,
+      "correct_on_matched": 132,
+      "matched_records": 150,
+      "gold_records": 150
+    },
+    {
+      "context_window_id": 90010,
+      "accuracy_on_matched": 0.9533333333333334,
+      "accuracy_over_gold": 0.9533333333333334,
+      "correct_on_matched": 143,
+      "matched_records": 150,
+      "gold_records": 150
+    }
+  ],
+  "classification_accuracy_csv": "classification_accuracy.csv"
+}

@@ -1,0 +1,151 @@
+{
+  "expt_name": "test_pot_trace_inject_cached_par1",
+  "llm_model": "together_ai/deepseek-ai/DeepSeek-V3",
+  "n_windows": 17,
+  "mean_accuracy_on_matched": 0.8762394770283017,
+  "mean_accuracy_over_gold": 0.8762394770283017,
+  "micro_accuracy_on_matched": 0.8501742160278746,
+  "micro_accuracy_over_gold": 0.8501742160278746,
+  "total_correct_on_matched": 732,
+  "total_matched_records": 861,
+  "total_gold_records": 861,
+  "per_context_window": [
+    {
+      "context_window_id": 20006,
+      "accuracy_on_matched": 1.0,
+      "accuracy_over_gold": 1.0,
+      "correct_on_matched": 9,
+      "matched_records": 9,
+      "gold_records": 9
+    },
+    {
+      "context_window_id": 20007,
+      "accuracy_on_matched": 1.0,
+      "accuracy_over_gold": 1.0,
+      "correct_on_matched": 9,
+      "matched_records": 9,
+      "gold_records": 9
+    },
+    {
+      "context_window_id": 20008,
+      "accuracy_on_matched": 1.0,
+      "accuracy_over_gold": 1.0,
+      "correct_on_matched": 9,
+      "matched_records": 9,
+      "gold_records": 9
+    },
+    {
+      "context_window_id": 30006,
+      "accuracy_on_matched": 0.9210526315789473,
+      "accuracy_over_gold": 0.9210526315789473,
+      "correct_on_matched": 35,
+      "matched_records": 38,
+      "gold_records": 38
+    },
+    {
+      "context_window_id": 30008,
+      "accuracy_on_matched": 0.9473684210526315,
+      "accuracy_over_gold": 0.9473684210526315,
+      "correct_on_matched": 36,
+      "matched_records": 38,
+      "gold_records": 38
+    },
+    {
+      "context_window_id": 40006,
+      "accuracy_on_matched": 0.7662337662337663,
+      "accuracy_over_gold": 0.7662337662337663,
+      "correct_on_matched": 59,
+      "matched_records": 77,
+      "gold_records": 77
+    },
+    {
+      "context_window_id": 40008,
+      "accuracy_on_matched": 0.7792207792207793,
+      "accuracy_over_gold": 0.7792207792207793,
+      "correct_on_matched": 60,
+      "matched_records": 77,
+      "gold_records": 77
+    },
+    {
+      "context_window_id": 50006,
+      "accuracy_on_matched": 0.782608695652174,
+      "accuracy_over_gold": 0.782608695652174,
+      "correct_on_matched": 36,
+      "matched_records": 46,
+      "gold_records": 46
+    },
+    {
+      "context_window_id": 50008,
+      "accuracy_on_matched": 0.8913043478260869,
+      "accuracy_over_gold": 0.8913043478260869,
+      "correct_on_matched": 41,
+      "matched_records": 46,
+      "gold_records": 46
+    },
+    {
+      "context_window_id": 60006,
+      "accuracy_on_matched": 0.8823529411764706,
+      "accuracy_over_gold": 0.8823529411764706,
+      "correct_on_matched": 60,
+      "matched_records": 68,
+      "gold_records": 68
+    },
+    {
+      "context_window_id": 60008,
+      "accuracy_on_matched": 0.8676470588235294,
+      "accuracy_over_gold": 0.8676470588235294,
+      "correct_on_matched": 59,
+      "matched_records": 68,
+      "gold_records": 68
+    },
+    {
+      "context_window_id": 70006,
+      "accuracy_on_matched": 0.8367346938775511,
+      "accuracy_over_gold": 0.8367346938775511,
+      "correct_on_matched": 41,
+      "matched_records": 49,
+      "gold_records": 49
+    },
+    {
+      "context_window_id": 70008,
+      "accuracy_on_matched": 0.7551020408163265,
+      "accuracy_over_gold": 0.7551020408163265,
+      "correct_on_matched": 37,
+      "matched_records": 49,
+      "gold_records": 49
+    },
+    {
+      "context_window_id": 80006,
+      "accuracy_on_matched": 0.8970588235294118,
+      "accuracy_over_gold": 0.8970588235294118,
+      "correct_on_matched": 61,
+      "matched_records": 68,
+      "gold_records": 68
+    },
+    {
+      "context_window_id": 80008,
+      "accuracy_on_matched": 0.8088235294117647,
+      "accuracy_over_gold": 0.8088235294117647,
+      "correct_on_matched": 55,
+      "matched_records": 68,
+      "gold_records": 68
+    },
+    {
+      "context_window_id": 90006,
+      "accuracy_on_matched": 0.9014084507042254,
+      "accuracy_over_gold": 0.9014084507042254,
+      "correct_on_matched": 64,
+      "matched_records": 71,
+      "gold_records": 71
+    },
+    {
+      "context_window_id": 90008,
+      "accuracy_on_matched": 0.8591549295774648,
+      "accuracy_over_gold": 0.8591549295774648,
+      "correct_on_matched": 61,
+      "matched_records": 71,
+      "gold_records": 71
+    }
+  ],
+  "classification_accuracy_csv": "classification_accuracy.csv"
+}

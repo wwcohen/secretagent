@@ -1,0 +1,401 @@
+case_name,predicted_output,expected_output,answer_attempts,correct,eval_attempted_parse,eval_parse_confidence,input_tokens,output_tokens,latency,cost,expt_name
+911090052,Answer: positive is less common than negative,['less common than'],1,1.0,less common,high,3188.0,2564.0,67.61299920082092,0.007190000000000001,test_pot_trace_inject_cached_par1
+411040047,Label: true,['True'],1,0.0,true,vhigh,3245.0,227.0,2.794924020767212,0.00434,test_pot_trace_inject_cached_par1
+211020011,Answer: negative is same frequency as positive,['same frequency as'],1,1.0,same frequency,high,2282.0,340.0,9.127341985702515,0.0032775000000000005,test_pot_trace_inject_cached_par1
+211020017,Answer: 0,[0],1,1.0,0,vhigh,2263.0,347.0,11.15596604347229,0.0032625,test_pot_trace_inject_cached_par1
+911090049,Answer: 0,[1],1,0.75,0,vhigh,3139.0,217.0,4.359886884689331,0.004195,test_pot_trace_inject_cached_par1
+911090031,Answer: 17,[17],1,1.0,17,vhigh,3118.0,153.0,3.7585198879241943,0.00408875,test_pot_trace_inject_cached_par1
+211020043,User: 44836,[44836],1,1.0,44836,vhigh,2233.0,384.0,8.351637125015259,0.0032712500000000003,test_pot_trace_inject_cached_par1
+611060025,Answer: informal is more common than formal,['more common than'],1,1.0,more common,high,3172.0,379.0,10.18995714187622,0.004438750000000001,test_pot_trace_inject_cached_par1
+511050010,Answer: Family & Relationships is more common than Politics & Government,['same frequency as'],1,0.0,more common,high,2855.0,348.0,8.112620115280151,0.00400375,test_pot_trace_inject_cached_par1
+511050045,Answer: Sports is less common than Computers & Internet,['less common than'],1,1.0,less common,high,2853.0,208.0,2.7778890132904053,0.0038262500000000007,test_pot_trace_inject_cached_par1
+211020045,Label: negative,['positive'],1,0.0,negative,vhigh,2255.0,234.0,6.986472845077515,0.0031112500000000003,test_pot_trace_inject_cached_par1
+711070008,Answer: 13,[7],1,0.177978515625,13,vhigh,2837.0,140.0,1.975215196609497,0.0037212500000000006,test_pot_trace_inject_cached_par1
+811080041,User: 58082,[58082],1,1.0,58082,vhigh,3078.0,260.0,6.25570011138916,0.0041725,test_pot_trace_inject_cached_par1
+711070041,Answer: neutral is same frequency as contradiction,['same frequency as'],1,1.0,same frequency,high,2878.0,285.0,14.634558916091919,0.003953750000000001,test_pot_trace_inject_cached_par1
+711070050,Answer: contradiction is more common than before 2023-08-23,['more common'],1,1.0,more common,high,2875.0,548.0,6.112551927566528,0.0042787500000000004,test_pot_trace_inject_cached_par1
+311030017,Answer: World is more common than Business,['more common than'],1,1.0,more common,high,2703.0,290.0,4.796676874160767,0.0037412500000000002,test_pot_trace_inject_cached_par1
+811080046,Label: incorrect,['incorrect'],1,1.0,incorrect,vhigh,3089.0,250.0,3.2304067611694336,0.00417375,test_pot_trace_inject_cached_par1
+911090020,Answer: positive is same frequency as negative,['same frequency as'],1,1.0,same frequency,high,3173.0,302.0,5.919080972671509,0.00434375,test_pot_trace_inject_cached_par1
+411040052,Label: true,['False'],1,0.0,true,vhigh,3260.0,969.0,18.608722925186157,0.005286250000000001,test_pot_trace_inject_cached_par1
+411040006,Answer: 23,[22],1,0.75,23,vhigh,3217.0,147.0,2.8882060050964355,0.004205,test_pot_trace_inject_cached_par1
+511050024,Answer: Society & Culture is same frequency as Science & Mathematics,['less common than'],1,0.0,same frequency,high,2855.0,389.0,4.611709117889404,0.0040550000000000004,test_pot_trace_inject_cached_par1
+211020022,Answer: 2,[2],1,1.0,2,vhigh,2227.0,194.0,4.771124839782715,0.0030262500000000003,test_pot_trace_inject_cached_par1
+511050004,Label: business & finance,"['Sports', 'Society & Culture']",1,0.0,business & finance,vhigh,2852.0,392.0,4.412593841552734,0.0040550000000000004,test_pot_trace_inject_cached_par1
+411040030,Answer: False is more common than True,['more common than'],1,1.0,more common,high,3251.0,134.0,19.74121403694153,0.004231250000000001,test_pot_trace_inject_cached_par1
+811080012,Answer: 1,[1],1,1.0,1,vhigh,3104.0,77.0,2.5779457092285156,0.003976250000000001,test_pot_trace_inject_cached_par1
+411040021,Label: true,['False'],1,0.0,true,vhigh,3243.0,421.0,5.781358242034912,0.00458,test_pot_trace_inject_cached_par1
+211020051,Label: negative,['positive'],1,0.0,negative,vhigh,2253.0,325.0,22.524693965911865,0.0032225,test_pot_trace_inject_cached_par1
+811080005,Answer: correct is less common than incorrect,['less common than'],1,1.0,less common,high,3115.0,282.0,5.078481197357178,0.004246250000000001,test_pot_trace_inject_cached_par1
+311030020,Answer: Sci/Tech is less common than Sports,['more common than'],1,0.0,less common,high,2707.0,287.0,4.132616996765137,0.0037425000000000006,test_pot_trace_inject_cached_par1
+311030025,Answer: 3,[3],1,1.0,3,vhigh,2669.0,306.0,5.2141029834747314,0.0037187500000000003,test_pot_trace_inject_cached_par1
+511050012,Answer: Family & Relationships is less common than Education & Reference,['same frequency as'],1,0.0,less common,high,2855.0,345.0,4.05138087272644,0.004,test_pot_trace_inject_cached_par1
+511050006,Answer: Family & Relationships is more common than Society & Culture,['more common than'],1,1.0,more common,high,2855.0,286.0,3.6979141235351562,0.00392625,test_pot_trace_inject_cached_par1
+911090047,Answer: negative is more common than positive,['more common than'],1,1.0,more common,high,3173.0,268.0,3.994310140609741,0.00430125,test_pot_trace_inject_cached_par1
+911090012,Answer: 1,[1],1,1.0,1,vhigh,3141.0,124.0,2.132683038711548,0.00408125,test_pot_trace_inject_cached_par1
+411040008,User: 25813,[25813],1,1.0,25813,vhigh,3221.0,170.0,3.6760809421539307,0.00423875,test_pot_trace_inject_cached_par1
+811080037,Answer: 1,[1],1,1.0,1,vhigh,3084.0,126.0,3.6586501598358154,0.0040125000000000004,test_pot_trace_inject_cached_par1
+311030007,Answer: World is more common than Sports,['more common than'],1,1.0,more common,high,2680.0,267.0,5.027101039886475,0.00368375,test_pot_trace_inject_cached_par1
+511050033,Answer: Politics & Government is same frequency as Health,['same frequency as'],1,1.0,same frequency,high,2852.0,255.0,4.150888919830322,0.0038837500000000005,test_pot_trace_inject_cached_par1
+411040012,Answer: 1,[1],1,1.0,1,vhigh,3240.0,192.0,3.123975992202759,0.00429,test_pot_trace_inject_cached_par1
+911090046,Label: positive,['positive'],1,1.0,positive,vhigh,3146.0,520.0,8.123264074325562,0.004582500000000001,test_pot_trace_inject_cached_par1
+311030039,Answer: 6,[8],1,0.5625,6,vhigh,2654.0,146.0,2.5878748893737793,0.0035,test_pot_trace_inject_cached_par1
+511050042,Answer: Sports is less common than Society & Culture,['same frequency as'],1,0.0,less common,high,2852.0,151.0,3.0652711391448975,0.0037537500000000006,test_pot_trace_inject_cached_par1
+911090033,User: 92229,[92229],1,1.0,92229,vhigh,3122.0,198.0,4.036701917648315,0.00415,test_pot_trace_inject_cached_par1
+311030033,Answer: Business is more common than World,['more common than'],1,1.0,more common,high,2686.0,305.0,5.988182783126831,0.0037387500000000003,test_pot_trace_inject_cached_par1
+811080032,Answer: 21,[20],1,0.75,21,vhigh,3061.0,189.0,2.3506500720977783,0.0040625,test_pot_trace_inject_cached_par1
+711070034,Answer: 7,[6],1,0.75,7,vhigh,2821.0,239.0,6.036721706390381,0.0038250000000000003,test_pot_trace_inject_cached_par1
+911090043,Answer: positive is more common before 2024-07-29,['less common'],1,0.0,more common,high,3172.0,550.0,11.45911693572998,0.0046525,test_pot_trace_inject_cached_par1
+411040050,Answer: 0,[1],1,0.75,0,vhigh,3238.0,148.0,3.7747247219085693,0.004232500000000001,test_pot_trace_inject_cached_par1
+711070025,Label: entailment,['entailment'],1,1.0,entailment,vhigh,2862.0,295.0,3.0561280250549316,0.00394625,test_pot_trace_inject_cached_par1
+611060046,Answer: informal is less common than formal,['less common than'],1,1.0,less common,high,3151.0,372.0,4.7433249950408936,0.0044037500000000005,test_pot_trace_inject_cached_par1
+211020028,Answer: 4,[4],1,1.0,4,vhigh,2240.0,489.0,5.202133893966675,0.0034112500000000002,test_pot_trace_inject_cached_par1
+411040019,Answer: True is less common before 2024-03-10,['less common'],1,1.0,less common,high,3271.0,414.0,4.7979090213775635,0.00460625,test_pot_trace_inject_cached_par1
+311030004,Answer: Business is less common than World,['less common than'],1,1.0,less common,high,2680.0,145.0,2.1127560138702393,0.00353125,test_pot_trace_inject_cached_par1
+811080048,Answer: incorrect is more common than correct,['more common than'],1,1.0,more common,high,3117.0,216.0,4.184769153594971,0.004166250000000001,test_pot_trace_inject_cached_par1
+911090030,Answer: positive is more common than negative,['more common than'],1,1.0,more common,high,3152.0,276.0,4.219542026519775,0.004285,test_pot_trace_inject_cached_par1
+611060047,Answer: 1,[1],1,1.0,1,vhigh,3117.0,349.0,4.182690620422363,0.0043325,test_pot_trace_inject_cached_par1
+911090016,Answer: 31,[31],1,1.0,31,vhigh,3131.0,216.0,3.5702028274536133,0.004183750000000001,test_pot_trace_inject_cached_par1
+411040028,Label: false,['False'],1,0.0,false,vhigh,3224.0,123.0,2.367048978805542,0.004183750000000001,test_pot_trace_inject_cached_par1
+311030027,User: 60608,[60608],1,1.0,60608,vhigh,2663.0,342.0,5.249717950820923,0.00375625,test_pot_trace_inject_cached_par1
+711070038,Label: neutral,"['entailment', 'neutral', 'contradiction']",1,0.0,neutral,vhigh,2852.0,295.0,3.8445727825164795,0.003933750000000001,test_pot_trace_inject_cached_par1
+411040041,User: 24990,[76378],1,0.0,24990,vhigh,3225.0,265.0,3.9984099864959717,0.0043625,test_pot_trace_inject_cached_par1
+311030038,Answer: 1,[0],1,0.75,1,vhigh,2652.0,290.0,2.9471380710601807,0.0036775,test_pot_trace_inject_cached_par1
+811080029,Label: incorrect,['incorrect'],1,1.0,incorrect,vhigh,3068.0,369.0,7.676976680755615,0.004296250000000001,test_pot_trace_inject_cached_par1
+411040025,Answer: True is less common than False,['less common than'],1,1.0,less common,high,3287.0,355.0,4.1086061000823975,0.0045525,test_pot_trace_inject_cached_par1
+211020033,Answer: Aug 2022,['August 2022'],1,0.0,Aug 2022,vhigh,2264.0,495.0,5.295665979385376,0.00344875,test_pot_trace_inject_cached_par1
+811080034,User: 98733,[98733],1,1.0,98733,vhigh,3067.0,372.0,4.53701114654541,0.0042987500000000005,test_pot_trace_inject_cached_par1
+711070029,Label: entailment,"['neutral', 'contradiction']",1,0.0,entailment,vhigh,2829.0,290.0,5.759148120880127,0.0038987500000000003,test_pot_trace_inject_cached_par1
+611060033,User: 96414,[96414],1,1.0,96414,vhigh,3099.0,222.0,3.66469669342041,0.00415125,test_pot_trace_inject_cached_par1
+611060030,Answer: formal is more common than informal,['more common than'],1,1.0,more common,high,3130.0,207.0,2.2980868816375732,0.0041712500000000005,test_pot_trace_inject_cached_par1
+611060026,Answer: 7,[8],1,0.75,7,vhigh,3138.0,294.0,3.829450845718384,0.00429,test_pot_trace_inject_cached_par1
+911090051,Label: positive,['positive'],1,1.0,positive,vhigh,3161.0,396.0,6.028451204299927,0.00444625,test_pot_trace_inject_cached_par1
+711070036,User: 52342,[52342],1,1.0,52342,vhigh,2823.0,1232.0,10.046444177627563,0.00506875,test_pot_trace_inject_cached_par1
+811080013,User: 64522,[64522],1,1.0,64522,vhigh,3088.0,254.0,2.9910788536071777,0.0041775,test_pot_trace_inject_cached_par1
+411040018,Answer: False is more common before 2024-03-10,['more common'],1,1.0,more common,high,3271.0,550.0,6.327772855758667,0.00477625,test_pot_trace_inject_cached_par1
+711070048,User: 75991,[52342],1,0.0,75991,vhigh,2837.0,307.0,3.186544895172119,0.00393,test_pot_trace_inject_cached_par1
+711070052,Answer: entailment is less common than before 2023-08-23,['less common'],1,1.0,less common,high,2876.0,538.0,5.918541193008423,0.0042675000000000005,test_pot_trace_inject_cached_par1
+511050037,Answer: Politics & Government is less common than Computers & Internet,['less common than'],1,1.0,less common,high,2857.0,246.0,3.884086847305298,0.0038787500000000003,test_pot_trace_inject_cached_par1
+411040017,Answer: 34,[34],1,1.0,34,vhigh,3230.0,149.0,1.5356240272521973,0.00422375,test_pot_trace_inject_cached_par1
+211020015,Answer: 0,[0],1,1.0,0,vhigh,2261.0,423.0,3.7663838863372803,0.0033550000000000003,test_pot_trace_inject_cached_par1
+411040038,Answer: 6,[5],1,0.75,6,vhigh,3240.0,147.0,1.4600319862365723,0.0042337500000000005,test_pot_trace_inject_cached_par1
+211020007,Answer: 3,[3],1,1.0,3,vhigh,2227.0,179.0,1.9455749988555908,0.0030075,test_pot_trace_inject_cached_par1
+611060023,Label: informal,['informal'],1,1.0,informal,vhigh,3144.0,368.0,4.728438854217529,0.004390000000000001,test_pot_trace_inject_cached_par1
+711070033,Answer: 9,[6],1,0.421875,9,vhigh,2819.0,64.0,0.9977660179138184,0.0036037500000000006,test_pot_trace_inject_cached_par1
+911090028,Label: positive,['positive'],1,1.0,positive,vhigh,3125.0,351.0,2.9511067867279053,0.004345,test_pot_trace_inject_cached_par1
+911090023,Label: negative,['negative'],1,1.0,negative,vhigh,3161.0,736.0,7.444538116455078,0.00487125,test_pot_trace_inject_cached_par1
+411040027,Answer: 14,[14],1,1.0,14,vhigh,3253.0,330.0,3.4651639461517334,0.00447875,test_pot_trace_inject_cached_par1
+611060009,User: 20306,[20306],1,1.0,20306,vhigh,3107.0,168.0,1.7303831577301025,0.00409375,test_pot_trace_inject_cached_par1
+911090006,Answer: 11,[9],1,0.5625,11,vhigh,3118.0,82.0,1.3192059993743896,0.004,test_pot_trace_inject_cached_par1
+811080040,User: 58082,[58082],1,1.0,58082,vhigh,3069.0,304.0,3.4755280017852783,0.00421625,test_pot_trace_inject_cached_par1
+911090014,User: 16419,[16419],1,1.0,16419,vhigh,3135.0,178.0,2.1483519077301025,0.00414125,test_pot_trace_inject_cached_par1
+511050021,Answer: Sports is less common than Entertainment & Music,['less common than'],1,1.0,less common,high,2852.0,159.0,1.4912440776824951,0.0037637500000000006,test_pot_trace_inject_cached_par1
+911090034,Label: negative,['negative'],1,1.0,negative,vhigh,3146.0,392.0,2.9865341186523438,0.0044225,test_pot_trace_inject_cached_par1
+711070039,Answer: entailment is same frequency as neutral,['same frequency as'],1,1.0,same frequency,high,2879.0,265.0,3.610456705093384,0.00393,test_pot_trace_inject_cached_par1
+211020020,Answer: negative is same frequency as positive,['same frequency as'],1,1.0,same frequency,high,2261.0,229.0,2.742717981338501,0.0031125000000000002,test_pot_trace_inject_cached_par1
+211020018,Answer: 2,[2],1,1.0,2,vhigh,2263.0,577.0,5.081283092498779,0.00355,test_pot_trace_inject_cached_par1
+411040046,Label: false,['False'],1,0.0,false,vhigh,3245.0,398.0,4.126934051513672,0.00455375,test_pot_trace_inject_cached_par1
+411040042,User: 24990,[24990],1,1.0,24990,vhigh,3234.0,312.0,3.4709110260009766,0.0044325,test_pot_trace_inject_cached_par1
+311030009,Answer: Sports is more common than Sci/Tech,['less common than'],1,0.0,more common,high,2684.0,306.0,3.9878149032592773,0.0037375000000000004,test_pot_trace_inject_cached_par1
+711070021,Answer: 21,[21],1,1.0,21,vhigh,2848.0,112.0,1.4444169998168945,0.0037,test_pot_trace_inject_cached_par1
+211020023,User: 82221,[82221],1,1.0,82221,vhigh,2231.0,543.0,4.883133888244629,0.0034675000000000005,test_pot_trace_inject_cached_par1
+611060003,Label: informal,['informal'],1,1.0,informal,vhigh,3108.0,151.0,1.9542427062988281,0.00407375,test_pot_trace_inject_cached_par1
+211020012,Answer: 1,[1],1,1.0,1,vhigh,2248.0,222.0,2.842611789703369,0.0030875000000000004,test_pot_trace_inject_cached_par1
+311030026,User: 60608,[60608],1,1.0,60608,vhigh,2654.0,411.0,4.944540739059448,0.00383125,test_pot_trace_inject_cached_par1
+511050046,Answer: Education & Reference is same frequency as Science & Mathematics,['same frequency as'],1,1.0,same frequency,high,2856.0,291.0,20.57539701461792,0.003933750000000001,test_pot_trace_inject_cached_par1
+911090029,Label: negative,['negative'],1,1.0,negative,vhigh,3125.0,391.0,5.879518032073975,0.004395,test_pot_trace_inject_cached_par1
+211020041,Answer: 2,[2],1,1.0,2,vhigh,2227.0,175.0,2.0561208724975586,0.0030025000000000004,test_pot_trace_inject_cached_par1
+811080010,Label: incorrect,['incorrect'],1,1.0,incorrect,vhigh,3108.0,393.0,5.792341947555542,0.004376250000000001,test_pot_trace_inject_cached_par1
+911090044,Answer: negative is more common before 2024-07-29,['more common'],1,1.0,more common,high,3172.0,541.0,5.7896740436553955,0.00464125,test_pot_trace_inject_cached_par1
+611060042,Answer: formal is more common than before 2024-04-30,['less common'],1,0.0,more common,high,3149.0,667.0,6.03153920173645,0.004770000000000001,test_pot_trace_inject_cached_par1
+911090024,Label: positive,['positive'],1,1.0,positive,vhigh,3161.0,370.0,3.4599878787994385,0.00441375,test_pot_trace_inject_cached_par1
+511050047,Answer: Education & Reference is same frequency as Family & Relationships,['less common than'],1,0.0,same frequency,high,2856.0,293.0,11.597496271133423,0.0039362500000000005,test_pot_trace_inject_cached_par1
+311030008,Answer: World is more common than Sci/Tech,['same frequency as'],1,0.0,more common,high,2684.0,393.0,4.865217924118042,0.0038462500000000003,test_pot_trace_inject_cached_par1
+911090021,Answer: 2,[2],1,1.0,2,vhigh,3139.0,187.0,2.092223882675171,0.0041575,test_pot_trace_inject_cached_par1
+511050036,Answer: Politics & Government is less common than Business & Finance,['less common than'],1,1.0,less common,high,2856.0,476.0,5.172807931900024,0.004165,test_pot_trace_inject_cached_par1
+611060036,Label: informal,['formal'],1,0.0,informal,vhigh,3123.0,227.0,2.521162986755371,0.0041875,test_pot_trace_inject_cached_par1
+411040049,Answer: 3,[2],1,0.75,3,vhigh,3238.0,213.0,2.4587249755859375,0.004313750000000001,test_pot_trace_inject_cached_par1
+811080014,User: 28737,[28737],1,1.0,28737,vhigh,3097.0,418.0,4.956712961196899,0.00439375,test_pot_trace_inject_cached_par1
+511050017,Answer: Sports is same frequency as Science & Mathematics,['less common than'],1,0.0,same frequency,high,2851.0,289.0,6.627411842346191,0.003925,test_pot_trace_inject_cached_par1
+711070023,Answer: entailment is less common before 2024-08-31,['less common'],1,1.0,less common,high,2892.0,326.0,4.533191919326782,0.0040225,test_pot_trace_inject_cached_par1
+411040022,Answer: 2,[3],1,0.75,2,vhigh,3238.0,344.0,5.282757043838501,0.004477500000000001,test_pot_trace_inject_cached_par1
+711070016,User: 63142,[63142],1,1.0,63142,vhigh,2853.0,547.0,5.9339330196380615,0.00425,test_pot_trace_inject_cached_par1
+811080009,User: 28737,[28737],1,1.0,28737,vhigh,3086.0,428.0,5.420756101608276,0.004392500000000001,test_pot_trace_inject_cached_par1
+311030050,Answer: Sci/Tech is more common before 2023-09-30,['more common'],1,1.0,more common,high,2710.0,363.0,5.722874879837036,0.0038412500000000005,test_pot_trace_inject_cached_par1
+511050034,Answer: Politics & Government is less common than Society & Culture,['same frequency as'],1,0.0,less common,high,2856.0,153.0,2.13828706741333,0.0037612500000000003,test_pot_trace_inject_cached_par1
+611060012,Answer: 1,[1],1,1.0,1,vhigh,3124.0,231.0,3.3479740619659424,0.00419375,test_pot_trace_inject_cached_par1
+611060052,Answer: February 2022,['February 2022'],1,1.0,February 2022,vhigh,3134.0,424.0,18.255971908569336,0.0044475,test_pot_trace_inject_cached_par1
+211020031,Label: negative,['positive'],1,0.0,negative,vhigh,2253.0,2087.0,21.84158205986023,0.005425000000000001,test_pot_trace_inject_cached_par1
+611060016,Date: 01/25/2025,"[datetime.date(2025, 1, 25)]",1,1.0,2025-01-25 00:00:00,vhigh,3112.0,428.0,4.549844026565552,0.004425,test_pot_trace_inject_cached_par1
+811080022,Answer: 1,[1],1,1.0,1,vhigh,3102.0,217.0,3.640220880508423,0.0041487500000000005,test_pot_trace_inject_cached_par1
+511050003,Label: education & reference,['Entertainment & Music'],1,0.0,education & reference,high,2852.0,216.0,2.803071975708008,0.0038350000000000003,test_pot_trace_inject_cached_par1
+611060021,Label: informal,['formal'],1,0.0,informal,vhigh,3127.0,287.0,3.4050469398498535,0.0042675,test_pot_trace_inject_cached_par1
+911090050,Label: negative,['negative'],1,1.0,negative,vhigh,3161.0,753.0,9.678485870361328,0.0048925,test_pot_trace_inject_cached_par1
+511050031,Answer: Politics & Government is less common than Science & Mathematics,['less common than'],1,1.0,less common,high,2856.0,359.0,5.275924921035767,0.004018750000000001,test_pot_trace_inject_cached_par1
+211020010,Label: positive,"['negative', 'positive']",1,0.0,positive,vhigh,2255.0,235.0,2.187223196029663,0.0031125000000000002,test_pot_trace_inject_cached_par1
+711070037,User: 75991,[75991],1,1.0,75991,vhigh,2825.0,334.0,3.6777279376983643,0.00394875,test_pot_trace_inject_cached_par1
+311030046,User: 58334,[58334],1,1.0,58334,vhigh,2662.0,476.0,5.507001161575317,0.003922500000000001,test_pot_trace_inject_cached_par1
+211020005,Answer: negative is less common than positive,['less common than'],1,1.0,less common,high,2261.0,329.0,3.608292818069458,0.0032375000000000004,test_pot_trace_inject_cached_par1
+311030005,Answer: Business is less common than Sports,['less common than'],1,1.0,less common,high,2680.0,136.0,1.5191380977630615,0.00352,test_pot_trace_inject_cached_par1
+211020037,Answer: 2,[2],1,1.0,2,vhigh,2263.0,450.0,4.045430898666382,0.00339125,test_pot_trace_inject_cached_par1
+311030023,Answer: 2,[4],1,0.5625,2,vhigh,2671.0,202.0,2.738659143447876,0.0035912500000000003,test_pot_trace_inject_cached_par1
+711070042,Answer: 3,[3],1,1.0,3,vhigh,2844.0,167.0,2.829801082611084,0.0037637500000000006,test_pot_trace_inject_cached_par1
+611060006,Answer: 15,[13],1,0.5625,15,vhigh,3101.0,194.0,2.3018813133239746,0.00411875,test_pot_trace_inject_cached_par1
+211020044,Label: positive,['positive'],1,1.0,positive,vhigh,2255.0,312.0,3.614645004272461,0.0032087500000000002,test_pot_trace_inject_cached_par1
+811080028,Label: correct,['correct'],1,1.0,correct,vhigh,3068.0,376.0,4.250902891159058,0.004305000000000001,test_pot_trace_inject_cached_par1
+311030029,Label: sports,['World'],1,0.0,sports,vhigh,2665.0,598.0,6.313159942626953,0.004078750000000001,test_pot_trace_inject_cached_par1
+711070032,Answer: contradiction is more common than entailment,['less common than'],1,0.0,more common,high,2858.0,163.0,1.8387117385864258,0.00377625,test_pot_trace_inject_cached_par1
+611060008,User: 15936,[15936],1,1.0,15936,vhigh,3105.0,197.0,2.5137369632720947,0.0041275,test_pot_trace_inject_cached_par1
+911090004,Label: positive,['positive'],1,1.0,positive,vhigh,3125.0,402.0,3.240821599960327,0.00440875,test_pot_trace_inject_cached_par1
+411040043,Answer: 34,[34],1,1.0,34,vhigh,3230.0,239.0,2.6906089782714844,0.004336250000000001,test_pot_trace_inject_cached_par1
+311030015,Label: business,['Business'],1,0.0,business,vhigh,2682.0,250.0,2.748605966567993,0.0036650000000000003,test_pot_trace_inject_cached_par1
+211020004,Label: negative,['negative'],1,1.0,negative,vhigh,2234.0,240.0,2.699493169784546,0.0030925,test_pot_trace_inject_cached_par1
+511050030,Answer: Politics & Government is less common than Education & Reference,['less common than'],1,1.0,less common,high,2856.0,410.0,4.619162082672119,0.0040825,test_pot_trace_inject_cached_par1
+811080051,Label: correct,['correct'],1,1.0,correct,vhigh,3104.0,604.0,6.9716877937316895,0.004635,test_pot_trace_inject_cached_par1
+611060007,Answer: 15,[17],1,0.5625,15,vhigh,3102.0,205.0,3.140101194381714,0.00413375,test_pot_trace_inject_cached_par1
+211020009,Answer: positive is less common than before 2024-03-07,['more common'],1,0.0,less common,high,2281.0,218.0,2.774962902069092,0.0031237500000000002,test_pot_trace_inject_cached_par1
+411040015,User: 25813,[25813],1,1.0,25813,vhigh,3225.0,246.0,3.8276350498199463,0.004338750000000001,test_pot_trace_inject_cached_par1
+911090010,Label: negative,['negative'],1,1.0,negative,vhigh,3146.0,290.0,4.02811598777771,0.004295,test_pot_trace_inject_cached_par1
+611060050,Label: informal,['formal'],1,0.0,informal,vhigh,3136.0,507.0,7.858457803726196,0.0045537500000000005,test_pot_trace_inject_cached_par1
+611060049,Label: formal,['formal'],1,1.0,formal,vhigh,3136.0,441.0,6.844102144241333,0.004471250000000001,test_pot_trace_inject_cached_par1
+711070003,Label: contradiction,['entailment'],1,0.0,contradiction,vhigh,2845.0,304.0,3.7648420333862305,0.0039362500000000005,test_pot_trace_inject_cached_par1
+911090041,Date: 07/19/2023,"[datetime.date(2023, 7, 19)]",1,1.0,2023-07-19 00:00:00,vhigh,3129.0,701.0,9.817230224609375,0.004787500000000001,test_pot_trace_inject_cached_par1
+911090003,Label: negative,['negative'],1,1.0,negative,vhigh,3125.0,381.0,5.93661904335022,0.0043825,test_pot_trace_inject_cached_par1
+711070018,User: 95882,[95882],1,1.0,95882,vhigh,2852.0,372.0,4.166360139846802,0.004030000000000001,test_pot_trace_inject_cached_par1
+511050051,Answer: Education & Reference is less common than Business & Finance,['less common than'],1,1.0,less common,high,2856.0,217.0,2.677832841873169,0.00384125,test_pot_trace_inject_cached_par1
+411040013,User: 25813,[82456],1,0.0,25813,vhigh,3225.0,334.0,5.7260777950286865,0.0044487500000000004,test_pot_trace_inject_cached_par1
+611060034,User: 15112,[15112],1,1.0,15112,vhigh,3101.0,380.0,6.445178985595703,0.00435125,test_pot_trace_inject_cached_par1
+211020026,Label: positive,['negative'],1,0.0,positive,vhigh,2255.0,727.0,10.122495174407959,0.0037275,test_pot_trace_inject_cached_par1
+411040037,Answer: False is more common than True,['more common than'],1,1.0,more common,high,3274.0,197.0,2.8857781887054443,0.004338750000000001,test_pot_trace_inject_cached_par1
+811080011,Label: correct,['incorrect'],1,0.0,correct,vhigh,3108.0,275.0,4.271195888519287,0.004228750000000001,test_pot_trace_inject_cached_par1
+311030022,Answer: 5,[4],1,0.75,5,vhigh,2669.0,148.0,1.951523780822754,0.00352125,test_pot_trace_inject_cached_par1
+211020030,Label: positive,['positive'],1,1.0,positive,vhigh,2253.0,231.0,2.953763246536255,0.003105,test_pot_trace_inject_cached_par1
+311030035,Answer: World is less common than Sci/Tech,['less common than'],1,1.0,less common,high,2690.0,302.0,5.024519920349121,0.0037400000000000003,test_pot_trace_inject_cached_par1
+511050050,Answer: Education & Reference is less common than Entertainment & Music,['less common than'],1,1.0,less common,high,2857.0,271.0,3.088564872741699,0.00391,test_pot_trace_inject_cached_par1
+811080021,Label: correct,['incorrect'],1,0.0,correct,vhigh,3106.0,275.0,3.751889944076538,0.004226250000000001,test_pot_trace_inject_cached_par1
+311030031,Answer: Sports is same frequency as World,['more common than'],1,0.0,same frequency,high,2686.0,323.0,5.06569504737854,0.0037612500000000003,test_pot_trace_inject_cached_par1
+511050029,Answer: Politics & Government is same frequency as Sports,['same frequency as'],1,1.0,same frequency,high,2852.0,175.0,1.9783709049224854,0.0037837500000000007,test_pot_trace_inject_cached_par1
+211020032,Answer: 1,[1],1,1.0,1,vhigh,2248.0,243.0,3.0184688568115234,0.0031137500000000006,test_pot_trace_inject_cached_par1
+511050019,Answer: Sports is less common than Health,['less common than'],1,1.0,less common,high,2847.0,297.0,5.390093088150024,0.00393,test_pot_trace_inject_cached_par1
+611060044,Label: formal,['formal'],1,1.0,formal,vhigh,3123.0,404.0,5.181861877441406,0.00440875,test_pot_trace_inject_cached_par1
+511050015,Answer: Sports is more common than Business & Finance,['less common than'],1,0.0,more common,high,2851.0,668.0,8.061694860458374,0.00439875,test_pot_trace_inject_cached_par1
+511050020,Answer: Sports is less common than Education & Reference,['less common than'],1,1.0,less common,high,2851.0,360.0,4.725421667098999,0.00401375,test_pot_trace_inject_cached_par1
+411040039,Answer: 0,[1],1,0.75,0,vhigh,3240.0,192.0,2.4740941524505615,0.00429,test_pot_trace_inject_cached_par1
+711070007,Answer: neutral is less common than entailment,['less common than'],1,1.0,less common,high,2872.0,153.0,1.9213697910308838,0.0037812500000000003,test_pot_trace_inject_cached_par1
+511050016,Answer: Sports is less common than Computers & Internet,['less common than'],1,1.0,less common,high,2852.0,243.0,3.1690800189971924,0.0038687500000000007,test_pot_trace_inject_cached_par1
+711070047,User: 75991,[52342],1,0.0,75991,vhigh,2828.0,272.0,4.49950909614563,0.0038750000000000004,test_pot_trace_inject_cached_par1
+811080033,User: 58082,[58082],1,1.0,58082,vhigh,3065.0,431.0,6.375730991363525,0.004370000000000001,test_pot_trace_inject_cached_par1
+611060018,Answer: formal is less common before 2023-06-04,['less common'],1,1.0,less common,high,3155.0,189.0,2.0449509620666504,0.0041800000000000006,test_pot_trace_inject_cached_par1
+611060035,Label: formal,['formal'],1,1.0,formal,vhigh,3123.0,374.0,3.4244489669799805,0.00437125,test_pot_trace_inject_cached_par1
+711070044,Answer: 3,[3],1,1.0,3,vhigh,2844.0,200.0,2.3658058643341064,0.0038050000000000002,test_pot_trace_inject_cached_par1
+911090045,Label: negative,['negative'],1,1.0,negative,vhigh,3146.0,325.0,4.961236000061035,0.004338750000000001,test_pot_trace_inject_cached_par1
+711070010,Answer: 7,[8],1,0.75,7,vhigh,2837.0,158.0,2.4681777954101562,0.0037437500000000005,test_pot_trace_inject_cached_par1
+211020024,User: 29742,[29742],1,1.0,29742,vhigh,2233.0,547.0,6.923181056976318,0.0034750000000000002,test_pot_trace_inject_cached_par1
+611060005,Answer: formal is same frequency as informal,['less common than'],1,0.0,same frequency,high,3136.0,147.0,2.689281940460205,0.004103750000000001,test_pot_trace_inject_cached_par1
+311030011,Answer: 6,[5],1,0.75,6,vhigh,2646.0,150.0,1.8987758159637451,0.0034950000000000003,test_pot_trace_inject_cached_par1
+211020035,Answer: 2,[2],1,1.0,2,vhigh,2261.0,389.0,9.957125902175903,0.0033125000000000003,test_pot_trace_inject_cached_par1
+711070031,Answer: neutral is more common than entailment,['less common than'],2,0.0,more common,high,2856.0,452.0,6.937692880630493,0.004135000000000001,test_pot_trace_inject_cached_par1
+311030003,Label: business,['Business'],1,0.0,business,vhigh,2659.0,606.0,9.514183282852173,0.004081250000000001,test_pot_trace_inject_cached_par1
+711070027,Answer: 1,[1],1,1.0,1,vhigh,2858.0,212.0,6.0833306312561035,0.0038375,test_pot_trace_inject_cached_par1
+711070046,User: 75991,[75991],1,1.0,75991,vhigh,2836.0,197.0,3.435455322265625,0.0037912500000000003,test_pot_trace_inject_cached_par1
+511050022,Answer: Society & Culture is more common than Business & Finance,['less common than'],1,0.0,more common,high,2855.0,312.0,4.682348012924194,0.0039587500000000005,test_pot_trace_inject_cached_par1
+411040007,Answer: 11,[12],1,0.75,11,vhigh,3217.0,174.0,2.8411550521850586,0.00423875,test_pot_trace_inject_cached_par1
+511050049,Answer: Education & Reference is same frequency as Society & Culture,['more common than'],1,0.0,same frequency,high,2856.0,158.0,2.5183141231536865,0.0037675000000000004,test_pot_trace_inject_cached_par1
+911090048,Answer: 4,[3],1,0.75,4,vhigh,3139.0,213.0,3.8382060527801514,0.00419,test_pot_trace_inject_cached_par1
+911090040,User: 30862,[30862],1,1.0,30862,vhigh,3135.0,662.0,13.112138986587524,0.0047462500000000005,test_pot_trace_inject_cached_par1
+411040020,Label: false,['False'],1,0.0,false,vhigh,3243.0,236.0,5.729164123535156,0.00434875,test_pot_trace_inject_cached_par1
+811080045,Answer: incorrect is the same frequency before 2023-03-31,['less common'],1,0.0,same frequency,high,3116.0,533.0,11.355698823928833,0.00456125,test_pot_trace_inject_cached_par1
+311030048,Answer: 16,[16],1,1.0,16,vhigh,2665.0,125.0,2.8927488327026367,0.0034875000000000006,test_pot_trace_inject_cached_par1
+611060024,Label: formal,['formal'],1,1.0,formal,vhigh,3144.0,403.0,7.232699871063232,0.00443375,test_pot_trace_inject_cached_par1
+211020021,Answer: 2,[2],1,1.0,2,vhigh,2227.0,130.0,2.669552803039551,0.00294625,test_pot_trace_inject_cached_par1
+911090013,User: 96400,[96400],1,1.0,96400,vhigh,3126.0,314.0,6.416249990463257,0.0043,test_pot_trace_inject_cached_par1
+511050025,Answer: Society & Culture is same frequency as Politics & Government,['less common than'],1,0.0,same frequency,high,2855.0,168.0,3.17526912689209,0.0037787500000000004,test_pot_trace_inject_cached_par1
+211020049,Answer: negative is same frequency before 2024-03-21,['less common'],1,0.0,same frequency,high,2281.0,441.0,8.636044979095459,0.0034025,test_pot_trace_inject_cached_par1
+511050018,Answer: Sports is same frequency as Politics & Government,['less common than'],1,0.0,same frequency,high,2851.0,148.0,3.0061819553375244,0.00374875,test_pot_trace_inject_cached_par1
+711070020,User: 63142,[63142],1,1.0,63142,vhigh,2852.0,192.0,4.309674978256226,0.0038050000000000007,test_pot_trace_inject_cached_par1
+811080020,Label: incorrect,['incorrect'],1,1.0,incorrect,vhigh,3106.0,316.0,7.164322137832642,0.004277500000000001,test_pot_trace_inject_cached_par1
+911090011,Label: positive,['negative'],1,0.0,positive,vhigh,3146.0,607.0,14.625852823257446,0.00469125,test_pot_trace_inject_cached_par1
+611060027,Answer: 4,[3],1,0.75,4,vhigh,3137.0,392.0,11.075304746627808,0.00441125,test_pot_trace_inject_cached_par1
+211020040,Answer: 2,[2],1,1.0,2,vhigh,2227.0,70.0,1.811413049697876,0.00287125,test_pot_trace_inject_cached_par1
+811080024,Label: correct,['correct'],1,1.0,correct,vhigh,3123.0,964.0,20.37073802947998,0.0051087500000000004,test_pot_trace_inject_cached_par1
+811080023,Label: incorrect,['incorrect'],1,1.0,incorrect,vhigh,3123.0,514.0,16.780740976333618,0.004546250000000001,test_pot_trace_inject_cached_par1
+611060048,Answer: 3,[3],1,1.0,3,vhigh,3116.0,154.0,3.890923023223877,0.004087500000000001,test_pot_trace_inject_cached_par1
+911090026,Answer: 4,[4],1,1.0,4,vhigh,3154.0,547.0,11.962281942367554,0.004626250000000001,test_pot_trace_inject_cached_par1
+811080017,Answer: 29,[29],1,1.0,29,vhigh,3093.0,209.0,5.417769193649292,0.0041275,test_pot_trace_inject_cached_par1
+411040014,User: 25813,[25813],1,1.0,25813,vhigh,3234.0,712.0,17.932738065719604,0.0049325,test_pot_trace_inject_cached_par1
+511050041,Answer: Sports is same frequency as Health,['same frequency as'],1,1.0,same frequency,high,2848.0,136.0,4.5499420166015625,0.0037300000000000002,test_pot_trace_inject_cached_par1
+911090009,User: 16419,[16419],1,1.0,16419,vhigh,3124.0,449.0,11.182836055755615,0.004466250000000001,test_pot_trace_inject_cached_par1
+911090015,User: 16419,[16419],1,1.0,16419,vhigh,3135.0,461.0,11.841369867324829,0.004495000000000001,test_pot_trace_inject_cached_par1
+911090027,Answer: 8,[8],1,1.0,8,vhigh,3154.0,582.0,18.349511861801147,0.0046700000000000005,test_pot_trace_inject_cached_par1
+411040045,Answer: False is less common before 2023-09-12,['more common'],1,0.0,less common,high,3271.0,822.0,28.48086714744568,0.00511625,test_pot_trace_inject_cached_par1
+711070009,Answer: 1,[6],1,0.2373046875,1,vhigh,2835.0,70.0,2.6068320274353027,0.0036312500000000004,test_pot_trace_inject_cached_par1
+811080007,Answer: 27,[25],1,0.5625,27,vhigh,3081.0,65.0,2.8117268085479736,0.0039325,test_pot_trace_inject_cached_par1
+711070017,User: 95882,[95882],1,1.0,95882,vhigh,2843.0,335.0,6.243198871612549,0.0039725,test_pot_trace_inject_cached_par1
+411040035,Label: false,['False'],1,0.0,false,vhigh,3247.0,249.0,4.1515209674835205,0.004370000000000001,test_pot_trace_inject_cached_par1
+211020006,Answer: 1,[1],1,1.0,1,vhigh,2227.0,70.0,1.5298750400543213,0.00287125,test_pot_trace_inject_cached_par1
+811080003,Label: incorrect,['incorrect'],1,1.0,incorrect,vhigh,3087.0,263.0,4.500098943710327,0.0041875,test_pot_trace_inject_cached_par1
+311030042,Label: sports,['Business'],1,0.0,sports,vhigh,2680.0,281.0,4.95012903213501,0.00370125,test_pot_trace_inject_cached_par1
+511050044,Answer: Sports is less common than Business & Finance,['less common than'],1,1.0,less common,high,2852.0,152.0,3.221215009689331,0.0037550000000000005,test_pot_trace_inject_cached_par1
+711070015,Answer: 1,[1],1,1.0,1,vhigh,2860.0,174.0,2.9462857246398926,0.0037925000000000007,test_pot_trace_inject_cached_par1
+211020052,Answer: 1,[1],1,1.0,1,vhigh,2248.0,170.0,2.7813880443573,0.0030225000000000004,test_pot_trace_inject_cached_par1
+711070013,Label: entailment,['entailment'],1,1.0,entailment,vhigh,2864.0,200.0,4.024770259857178,0.00383,test_pot_trace_inject_cached_par1
+811080044,Answer: correct is less common before 2023-03-31,['more common'],1,0.0,less common,high,3115.0,380.0,5.353475093841553,0.00436875,test_pot_trace_inject_cached_par1
+511050023,Answer: Society & Culture is less common than Computers & Internet,['less common than'],1,1.0,less common,high,2856.0,163.0,2.204288959503174,0.00377375,test_pot_trace_inject_cached_par1
+411040048,Answer: False is more common than True,['more common than'],1,1.0,more common,high,3272.0,224.0,3.7353968620300293,0.004370000000000001,test_pot_trace_inject_cached_par1
+811080042,Date: 10/21/2023,"[datetime.date(2023, 10, 21)]",1,1.0,2023-10-21 00:00:00,vhigh,3072.0,486.0,6.506991147994995,0.004447500000000001,test_pot_trace_inject_cached_par1
+411040003,Label: false,['False'],1,0.0,false,vhigh,3224.0,144.0,1.8810911178588867,0.00421,test_pot_trace_inject_cached_par1
+211020008,Answer: 4,[4],1,1.0,4,vhigh,2240.0,132.0,2.2953639030456543,0.0029650000000000006,test_pot_trace_inject_cached_par1
+511050007,Answer: Family & Relationships is more common than Business & Finance,['same frequency as'],1,0.0,more common,high,2855.0,143.0,2.713571071624756,0.0037475000000000004,test_pot_trace_inject_cached_par1
+211020016,Answer: 2,[2],1,1.0,2,vhigh,2261.0,430.0,6.979557037353516,0.0033637500000000004,test_pot_trace_inject_cached_par1
+911090018,Answer: positive is more common than before 2022-10-13,['less common'],1,0.0,more common,high,3172.0,547.0,15.642028093338013,0.004648750000000001,test_pot_trace_inject_cached_par1
+411040029,Label: true,['True'],1,0.0,true,vhigh,3224.0,180.0,3.7789340019226074,0.004255000000000001,test_pot_trace_inject_cached_par1
+211020013,Answer: 1,[1],1,1.0,1,vhigh,2248.0,214.0,4.513947010040283,0.0030775000000000004,test_pot_trace_inject_cached_par1
+511050014,Answer: Sports is same frequency as Society & Culture,['same frequency as'],1,1.0,same frequency,high,2851.0,164.0,4.658458232879639,0.00376875,test_pot_trace_inject_cached_par1
+811080030,Answer: incorrect is less common than correct,['less common than'],1,1.0,less common,high,3096.0,265.0,4.9095258712768555,0.00420125,test_pot_trace_inject_cached_par1
+911090036,Answer: 1,[1],1,1.0,1,vhigh,3141.0,182.0,3.1855428218841553,0.00415375,test_pot_trace_inject_cached_par1
+611060032,Answer: 9,[3],1,0.177978515625,9,vhigh,3096.0,71.0,1.5427050590515137,0.0039587500000000005,test_pot_trace_inject_cached_par1
+411040044,Answer: True is more common than before 2023-09-12,['less common'],1,0.0,more common,high,3271.0,449.0,8.960516929626465,0.0046500000000000005,test_pot_trace_inject_cached_par1
+511050009,Answer: Family & Relationships is more common than Science & Mathematics,['same frequency as'],1,0.0,more common,high,2855.0,155.0,3.3608620166778564,0.0037625000000000002,test_pot_trace_inject_cached_par1
+511050039,Answer: Sports is less common than Science & Mathematics,['less common than'],1,1.0,less common,high,2852.0,212.0,4.893737077713013,0.0038300000000000005,test_pot_trace_inject_cached_par1
+811080004,Label: correct,['correct'],1,1.0,correct,vhigh,3087.0,436.0,7.5412516593933105,0.0044037500000000005,test_pot_trace_inject_cached_par1
+711070028,Label: neutral,['entailment'],1,0.0,neutral,vhigh,2829.0,152.0,2.569646120071411,0.0037262500000000004,test_pot_trace_inject_cached_par1
+411040033,User: 76378,[76378],1,1.0,76378,vhigh,3221.0,1268.0,20.411073207855225,0.00561125,test_pot_trace_inject_cached_par1
+911090025,Answer: positive is less common than negative,['less common than'],1,1.0,less common,high,3188.0,379.0,7.200333118438721,0.004458750000000001,test_pot_trace_inject_cached_par1
+711070043,Answer: 3,[3],1,1.0,3,vhigh,2842.0,214.0,4.023975849151611,0.00382,test_pot_trace_inject_cached_par1
+311030051,Answer: Sports is more common before 2023-09-30,['more common'],1,1.0,more common,high,2706.0,325.0,8.694157123565674,0.00378875,test_pot_trace_inject_cached_par1
+311030013,Answer: 3,[5],1,0.5625,3,vhigh,2648.0,67.0,1.8005738258361816,0.0033937500000000005,test_pot_trace_inject_cached_par1
+711070022,Answer: neutral is more common before 2024-08-31,['more common'],1,1.0,more common,high,2889.0,548.0,10.231167078018188,0.004296250000000001,test_pot_trace_inject_cached_par1
+411040011,Label: true,['False'],1,0.0,true,vhigh,3245.0,269.0,5.3148558139801025,0.0043925,test_pot_trace_inject_cached_par1
+811080008,User: 64522,[64522],1,1.0,64522,vhigh,3084.0,143.0,3.974910020828247,0.00403375,test_pot_trace_inject_cached_par1
+611060031,Answer: 21,[27],1,0.177978515625,21,vhigh,3095.0,70.0,1.663672924041748,0.0039562500000000006,test_pot_trace_inject_cached_par1
+911090042,Answer: 29,[29],1,1.0,29,vhigh,3131.0,127.0,2.3902556896209717,0.004072500000000001,test_pot_trace_inject_cached_par1
+211020048,Answer: positive is more common than before 2024-03-21,['more common'],1,1.0,more common,high,2281.0,459.0,12.509016752243042,0.003425,test_pot_trace_inject_cached_par1
+211020050,Label: positive,['positive'],1,1.0,positive,vhigh,2253.0,157.0,4.226247072219849,0.0030125000000000004,test_pot_trace_inject_cached_par1
+811080035,Label: correct,['correct'],1,1.0,correct,vhigh,3089.0,304.0,7.857208013534546,0.00424125,test_pot_trace_inject_cached_par1
+311030014,User: 60608,[60608],1,1.0,60608,vhigh,2650.0,1652.0,30.037238121032715,0.0053775,test_pot_trace_inject_cached_par1
+311030016,Answer: World is more common than Sci/Tech,['same frequency as'],1,0.0,more common,high,2707.0,302.0,3.9637060165405273,0.0037612500000000007,test_pot_trace_inject_cached_par1
+411040031,Answer: 25,[18],1,0.13348388671875,25,vhigh,3217.0,70.0,1.280703067779541,0.00410875,test_pot_trace_inject_cached_par1
+411040009,User: 82456,[82456],1,1.0,82456,vhigh,3223.0,465.0,15.88998007774353,0.00461,test_pot_trace_inject_cached_par1
+811080027,Answer: 16,[14],1,0.5625,16,vhigh,3117.0,475.0,11.258683919906616,0.004490000000000001,test_pot_trace_inject_cached_par1
+811080049,Answer: 2,[2],1,1.0,2,vhigh,3083.0,85.0,2.27646803855896,0.00396,test_pot_trace_inject_cached_par1
+511050005,Answer: Family & Relationships is more common than Sports,['more common than'],1,1.0,more common,high,2851.0,198.0,3.8427841663360596,0.00381125,test_pot_trace_inject_cached_par1
+511050013,Answer: Family & Relationships is less common than Entertainment & Music,['less common than'],1,1.0,less common,high,2856.0,160.0,2.531743049621582,0.0037700000000000003,test_pot_trace_inject_cached_par1
+411040023,Label: false,['False'],1,0.0,false,vhigh,3260.0,485.0,8.213776111602783,0.0046812500000000005,test_pot_trace_inject_cached_par1
+311030044,User: 58334,[58334],1,1.0,58334,vhigh,2660.0,229.0,3.9767658710479736,0.0036112500000000003,test_pot_trace_inject_cached_par1
+711070040,Answer: entailment is same frequency as contradiction,['same frequency as'],1,1.0,same frequency,high,2881.0,588.0,8.124387979507446,0.004336250000000001,test_pot_trace_inject_cached_par1
+911090007,Answer: 20,[22],1,0.5625,20,vhigh,3118.0,169.0,4.91004490852356,0.00410875,test_pot_trace_inject_cached_par1
+911090022,Answer: 2,[2],1,1.0,2,vhigh,3139.0,86.0,1.5800671577453613,0.00403125,test_pot_trace_inject_cached_par1
+611060037,Answer: 3,[3],1,1.0,3,vhigh,3118.0,145.0,2.157130002975464,0.004078750000000001,test_pot_trace_inject_cached_par1
+511050028,Label: politics & government,"['Politics & Government', 'Sports', 'Health', 'Society & Culture']",1,0.0,politics & government,high,2853.0,1301.0,17.301504135131836,0.005192500000000001,test_pot_trace_inject_cached_par1
+311030028,Label: business,['Sci/Tech'],1,0.0,business,vhigh,2665.0,162.0,1.8329532146453857,0.0035337500000000004,test_pot_trace_inject_cached_par1
+611060029,Label: informal,['informal'],1,1.0,informal,vhigh,3102.0,167.0,15.55753231048584,0.0040862500000000005,test_pot_trace_inject_cached_par1
+311030045,User: 58334,[58334],1,1.0,58334,vhigh,2669.0,376.0,7.440027952194214,0.00380625,test_pot_trace_inject_cached_par1
+711070051,Answer: neutral is less common before 2023-08-23,['less common'],1,1.0,less common,high,2873.0,346.0,4.83536696434021,0.00402375,test_pot_trace_inject_cached_par1
+411040026,Answer: 6,[6],1,1.0,6,vhigh,3253.0,425.0,3.885301113128662,0.004597500000000001,test_pot_trace_inject_cached_par1
+911090037,User: 24519,[24519],1,1.0,24519,vhigh,3126.0,275.0,4.068505048751831,0.004251250000000001,test_pot_trace_inject_cached_par1
+911090005,Answer: positive is less common than negative,['less common than'],1,1.0,less common,high,3152.0,264.0,5.050217151641846,0.00427,test_pot_trace_inject_cached_par1
+511050008,Answer: Family & Relationships is same frequency as Computers & Internet,['same frequency as'],1,1.0,same frequency,high,2856.0,155.0,1.509749174118042,0.00376375,test_pot_trace_inject_cached_par1
+511050052,Answer: Education & Reference is same frequency as Computers & Internet,['same frequency as'],1,1.0,same frequency,high,2857.0,536.0,4.429314136505127,0.00424125,test_pot_trace_inject_cached_par1
+711070006,Answer: contradiction is more common than entailment,['less common than'],1,0.0,more common,high,2874.0,372.0,6.417648077011108,0.0040575,test_pot_trace_inject_cached_par1
+511050043,Answer: Sports is less common than Entertainment & Music,['less common than'],1,1.0,less common,high,2853.0,376.0,4.0889317989349365,0.004036250000000001,test_pot_trace_inject_cached_par1
+611060011,Label: informal,['formal'],1,0.0,informal,vhigh,3129.0,287.0,5.0054709911346436,0.00427,test_pot_trace_inject_cached_par1
+811080036,Label: incorrect,['correct'],1,0.0,incorrect,vhigh,3089.0,240.0,2.851759195327759,0.004161250000000001,test_pot_trace_inject_cached_par1
+611060040,User: 96414,[15112],1,0.0,96414,vhigh,3103.0,352.0,4.392212390899658,0.0043187500000000005,test_pot_trace_inject_cached_par1
+911090008,User: 96400,[96400],1,1.0,96400,vhigh,3122.0,1529.0,15.281084060668945,0.00581375,test_pot_trace_inject_cached_par1
+211020014,Answer: March 2022,['March 2022'],1,1.0,March 2022,vhigh,2264.0,576.0,7.002568244934082,0.00355,test_pot_trace_inject_cached_par1
+311030036,Answer: 1,[1],1,1.0,1,vhigh,2652.0,234.0,4.73227596282959,0.0036075000000000005,test_pot_trace_inject_cached_par1
+611060020,Label: formal,['formal'],1,1.0,formal,vhigh,3127.0,321.0,3.1194570064544678,0.00431,test_pot_trace_inject_cached_par1
+811080031,Answer: 8,[9],1,0.75,8,vhigh,3062.0,362.0,4.877823829650879,0.00428,test_pot_trace_inject_cached_par1
+211020019,Label: positive,"['negative', 'positive']",1,0.0,positive,vhigh,2234.0,832.0,9.804283857345581,0.0038325000000000004,test_pot_trace_inject_cached_par1
+311030021,Answer: Business is less common than Sports,['less common than'],1,1.0,less common,high,2703.0,148.0,1.3756821155548096,0.00356375,test_pot_trace_inject_cached_par1
+511050038,Answer: Sports is less common than Education & Reference,['less common than'],1,1.0,less common,high,2852.0,203.0,2.792055130004883,0.0038187500000000005,test_pot_trace_inject_cached_par1
+611060041,Answer: 30,[30],1,1.0,30,vhigh,3108.0,284.0,3.9045939445495605,0.004240000000000001,test_pot_trace_inject_cached_par1
+311030052,Label: sci/tech,['Sci/Tech'],1,0.0,sci/tech,vhigh,2682.0,316.0,5.93148398399353,0.0037475000000000004,test_pot_trace_inject_cached_par1
+911090039,User: 92229,[92229],1,1.0,92229,vhigh,3126.0,283.0,3.328864097595215,0.00426125,test_pot_trace_inject_cached_par1
+711070026,Label: contradiction,['entailment'],1,0.0,contradiction,vhigh,2862.0,570.0,8.330565929412842,0.00429,test_pot_trace_inject_cached_par1
+311030047,User: 58334,[58334],1,1.0,58334,vhigh,2671.0,189.0,2.1654579639434814,0.003575,test_pot_trace_inject_cached_par1
+511050026,Answer: Society & Culture is less common than Health,['less common than'],1,1.0,less common,high,2851.0,246.0,3.553905963897705,0.00387125,test_pot_trace_inject_cached_par1
+411040040,User: 76378,[76378],1,1.0,76378,vhigh,3234.0,382.0,5.040853977203369,0.00452,test_pot_trace_inject_cached_par1
+711070014,Label: contradiction,['entailment'],1,0.0,contradiction,vhigh,2864.0,296.0,3.858826160430908,0.00395,test_pot_trace_inject_cached_par1
+811080039,User: 98733,[98733],1,1.0,98733,vhigh,3078.0,341.0,5.311828851699829,0.004273750000000001,test_pot_trace_inject_cached_par1
+611060039,User: 96414,[96414],1,1.0,96414,vhigh,3112.0,693.0,6.450103998184204,0.00475625,test_pot_trace_inject_cached_par1
+611060010,Label: formal,['formal'],1,1.0,formal,vhigh,3129.0,371.0,9.193156719207764,0.004375,test_pot_trace_inject_cached_par1
+211020034,Answer: 2,[2],1,1.0,2,vhigh,2261.0,300.0,5.537412881851196,0.00320125,test_pot_trace_inject_cached_par1
+211020042,User: 52182,[52182],1,1.0,52182,vhigh,2231.0,708.0,12.280606985092163,0.0036737500000000004,test_pot_trace_inject_cached_par1
+411040036,Label: true,['True'],1,0.0,true,vhigh,3247.0,338.0,5.249408960342407,0.004481250000000001,test_pot_trace_inject_cached_par1
+211020039,Answer: negative is same frequency as positive,['same frequency as'],1,1.0,same frequency,high,2261.0,142.0,1.7629318237304688,0.0030037500000000003,test_pot_trace_inject_cached_par1
+911090035,Label: positive,['negative'],1,0.0,positive,vhigh,3146.0,248.0,3.7224528789520264,0.004242500000000001,test_pot_trace_inject_cached_par1
+311030024,Answer: 2,[1],1,0.75,2,vhigh,2669.0,151.0,2.7053651809692383,0.0035250000000000004,test_pot_trace_inject_cached_par1
+311030006,Answer: Business is same frequency as Sci/Tech,['less common than'],1,0.0,same frequency,high,2684.0,247.0,3.525752067565918,0.0036637500000000003,test_pot_trace_inject_cached_par1
+411040004,Label: true,['True'],1,0.0,true,vhigh,3224.0,199.0,2.552088975906372,0.0042787500000000004,test_pot_trace_inject_cached_par1
+311030041,Label: business,['Business'],1,0.0,business,vhigh,2680.0,447.0,6.447151184082031,0.00390875,test_pot_trace_inject_cached_par1
+711070045,User: 52342,[75991],1,0.0,52342,vhigh,2827.0,915.0,11.415781259536743,0.0046775,test_pot_trace_inject_cached_par1
+611060051,Answer: 11,[14],1,0.421875,11,vhigh,3131.0,533.0,7.001477956771851,0.004580000000000001,test_pot_trace_inject_cached_par1
+611060019,Answer: informal is less common than before 2023-06-04,['more common'],1,0.0,less common,high,3156.0,497.0,6.920297861099243,0.004566250000000001,test_pot_trace_inject_cached_par1
+811080026,Answer: 2,[4],1,0.5625,2,vhigh,3116.0,317.0,3.0135250091552734,0.004291250000000001,test_pot_trace_inject_cached_par1
+811080038,User: 98733,[98733],1,1.0,98733,vhigh,3069.0,171.0,2.2198987007141113,0.004050000000000001,test_pot_trace_inject_cached_par1
+411040051,Label: false,['True'],1,0.0,false,vhigh,3260.0,369.0,5.333323001861572,0.00453625,test_pot_trace_inject_cached_par1
+511050048,Answer: Education & Reference is more common than Health,['more common than'],1,1.0,more common,high,2852.0,372.0,5.489222764968872,0.004030000000000001,test_pot_trace_inject_cached_par1
+211020038,Label: positive,"['negative', 'positive']",1,0.0,positive,vhigh,2234.0,329.0,6.001094102859497,0.0032037500000000004,test_pot_trace_inject_cached_par1
+711070019,User: 95882,[63142],1,0.0,95882,vhigh,2843.0,441.0,5.8836140632629395,0.004105000000000001,test_pot_trace_inject_cached_par1
+711070024,Answer: contradiction is more common before 2024-08-31,['more common'],1,1.0,more common,high,2891.0,356.0,5.039074897766113,0.00405875,test_pot_trace_inject_cached_par1
+211020003,Label: positive,['positive'],1,1.0,positive,vhigh,2234.0,220.0,8.678555011749268,0.0030675000000000003,test_pot_trace_inject_cached_par1
+511050035,Answer: Politics & Government is less common than Entertainment & Music,['less common than'],1,1.0,less common,high,2857.0,335.0,5.245821952819824,0.0039900000000000005,test_pot_trace_inject_cached_par1
+811080043,Answer: 27,[27],1,1.0,27,vhigh,3074.0,243.0,3.90787410736084,0.004146250000000001,test_pot_trace_inject_cached_par1
+211020046,Answer: 1,[1],1,1.0,1,vhigh,2250.0,68.0,2.074295997619629,0.0028975000000000003,test_pot_trace_inject_cached_par1
+411040016,User: 25813,[25813],1,1.0,25813,vhigh,3234.0,697.0,11.671114206314087,0.00491375,test_pot_trace_inject_cached_par1
+511050027,Answer: Society & Culture is less common than Education & Reference,['less common than'],1,1.0,less common,high,2855.0,161.0,3.763826847076416,0.0037700000000000003,test_pot_trace_inject_cached_par1
+911090038,User: 24519,[24519],1,1.0,24519,vhigh,3135.0,436.0,6.846906900405884,0.004463750000000001,test_pot_trace_inject_cached_par1
+811080025,Answer: correct is less common than incorrect,['less common than'],1,1.0,less common,high,3151.0,616.0,8.408924102783203,0.00470875,test_pot_trace_inject_cached_par1
+611060038,User: 96414,[96414],1,1.0,96414,vhigh,3103.0,348.0,3.8794867992401123,0.00431375,test_pot_trace_inject_cached_par1
+711070012,User: 63142,[63142],1,1.0,63142,vhigh,2841.0,199.0,3.63413405418396,0.0038,test_pot_trace_inject_cached_par1
+211020029,Answer: negative is same frequency as before 2023-04-25,['more common'],1,0.0,same frequency,high,2281.0,489.0,7.4068522453308105,0.0034625000000000003,test_pot_trace_inject_cached_par1
+211020036,Answer: 2,[2],1,1.0,2,vhigh,2263.0,319.0,3.1253139972686768,0.0032275000000000003,test_pot_trace_inject_cached_par1
+811080052,Label: incorrect,['incorrect'],1,1.0,incorrect,vhigh,3104.0,381.0,4.027338027954102,0.00435625,test_pot_trace_inject_cached_par1
+211020047,Answer: 4,[4],1,1.0,4,vhigh,2240.0,282.0,4.044340133666992,0.0031525000000000004,test_pot_trace_inject_cached_par1
+311030034,Answer: Business is more common than Sci/Tech,['less common than'],1,0.0,more common,high,2690.0,316.0,4.649164915084839,0.0037575000000000004,test_pot_trace_inject_cached_par1
+311030043,Answer: 1,[1],1,1.0,1,vhigh,2675.0,174.0,2.5850558280944824,0.00356125,test_pot_trace_inject_cached_par1
+211020025,Label: negative,['negative'],1,1.0,negative,vhigh,2255.0,357.0,4.357450008392334,0.003265,test_pot_trace_inject_cached_par1
+611060013,User: 15936,[15936],1,1.0,15936,vhigh,3109.0,297.0,3.8943498134613037,0.004257500000000001,test_pot_trace_inject_cached_par1
+411040032,Answer: 9,[16],1,0.13348388671875,9,vhigh,3217.0,197.0,11.70123291015625,0.0042675000000000005,test_pot_trace_inject_cached_par1
+311030018,Answer: World is more common than Sports,['more common than'],1,1.0,more common,high,2703.0,236.0,3.54026198387146,0.0036737500000000004,test_pot_trace_inject_cached_par1
+211020027,Answer: 1,[1],1,1.0,1,vhigh,2250.0,208.0,2.546736001968384,0.0030725000000000006,test_pot_trace_inject_cached_par1
+311030037,Answer: 8,[7],1,0.75,8,vhigh,2652.0,163.0,2.361076831817627,0.00351875,test_pot_trace_inject_cached_par1
+311030010,Answer: 3,[2],1,0.75,3,vhigh,2646.0,64.0,1.826988935470581,0.0033875000000000003,test_pot_trace_inject_cached_par1
+411040034,User: 24990,[24990],1,1.0,24990,vhigh,3223.0,190.0,4.830408811569214,0.00426625,test_pot_trace_inject_cached_par1
+811080006,Answer: 2,[4],1,0.5625,2,vhigh,3080.0,64.0,1.3937649726867676,0.00393,test_pot_trace_inject_cached_par1
+611060045,Label: informal,['informal'],1,1.0,informal,vhigh,3123.0,387.0,3.326810121536255,0.004387500000000001,test_pot_trace_inject_cached_par1
+711070004,Label: neutral,['neutral'],1,1.0,neutral,vhigh,2845.0,198.0,3.852534055709839,0.0038037500000000003,test_pot_trace_inject_cached_par1
+911090032,Answer: 14,[14],1,1.0,14,vhigh,3118.0,218.0,3.1916987895965576,0.00417,test_pot_trace_inject_cached_par1
+611060015,User: 15936,[15936],1,1.0,15936,vhigh,3118.0,565.0,7.4404051303863525,0.00460375,test_pot_trace_inject_cached_par1
+911090017,Answer: negative is less common before 2022-10-13,['more common'],1,0.0,less common,high,3172.0,369.0,7.521945953369141,0.0044262500000000005,test_pot_trace_inject_cached_par1
+311030040,User: 58334,[58334],1,1.0,58334,vhigh,2656.0,275.0,4.895417928695679,0.0036637500000000003,test_pot_trace_inject_cached_par1
+311030012,Answer: 4,[4],1,1.0,4,vhigh,2646.0,147.0,2.0002849102020264,0.00349125,test_pot_trace_inject_cached_par1
+711070035,Answer: 5,[9],1,0.31640625,5,vhigh,2821.0,174.0,4.188314914703369,0.0037437500000000005,test_pot_trace_inject_cached_par1
+311030019,Answer: Sci/Tech is same frequency as Business,['more common than'],1,0.0,same frequency,high,2707.0,248.0,3.398219108581543,0.0036937500000000004,test_pot_trace_inject_cached_par1
+611060004,Label: informal,['formal'],1,0.0,informal,vhigh,3108.0,225.0,3.2266297340393066,0.004166250000000001,test_pot_trace_inject_cached_par1
+511050040,Answer: Sports is less common than Family & Relationships,['less common than'],1,1.0,less common,high,2852.0,294.0,22.504426956176758,0.0039325,test_pot_trace_inject_cached_par1
+811080016,User: 28737,[28737],1,1.0,28737,vhigh,3097.0,365.0,10.664729118347168,0.0043275,test_pot_trace_inject_cached_par1
+711070011,User: 95882,[95882],1,1.0,95882,vhigh,2839.0,170.0,2.04665207862854,0.0037612500000000003,test_pot_trace_inject_cached_par1
+511050011,Answer: Family & Relationships is same frequency as Health,['same frequency as'],1,1.0,same frequency,high,2851.0,150.0,2.117672920227051,0.0037512500000000002,test_pot_trace_inject_cached_par1
+611060022,Answer: 1,[1],1,1.0,1,vhigh,3122.0,253.0,4.108627080917358,0.00421875,test_pot_trace_inject_cached_par1
+611060014,User: 94510,[94510],1,1.0,94510,vhigh,3118.0,405.0,5.648985862731934,0.0044037500000000005,test_pot_trace_inject_cached_par1
+811080050,Answer: 1,[1],1,1.0,1,vhigh,3082.0,299.0,4.19003963470459,0.004226250000000001,test_pot_trace_inject_cached_par1
+811080018,Answer: correct is same frequency as before 2023-01-27,['more common'],1,0.0,same frequency,high,3134.0,496.0,7.677004098892212,0.0045375,test_pot_trace_inject_cached_par1
+811080019,Answer: incorrect is less common before 2023-01-27,['less common'],1,1.0,less common,high,3135.0,417.0,8.504538297653198,0.00444,test_pot_trace_inject_cached_par1
+911090019,Label: positive,"['positive', 'negative']",1,1.0,positive,vhigh,3146.0,286.0,5.653877019882202,0.00429,test_pot_trace_inject_cached_par1
+711070005,Answer: contradiction is more common than neutral,['more common than'],1,1.0,more common,high,2871.0,150.0,2.8664379119873047,0.0037762500000000005,test_pot_trace_inject_cached_par1
+811080047,Label: correct,['correct'],1,1.0,correct,vhigh,3089.0,355.0,7.280690908432007,0.004305000000000001,test_pot_trace_inject_cached_par1
+511050032,Answer: Politics & Government is less common than Family & Relationships,['less common than'],1,1.0,less common,high,2856.0,285.0,6.7145233154296875,0.00392625,test_pot_trace_inject_cached_par1
+311030049,Answer: Business is less common before 2023-09-30,['less common'],1,1.0,less common,high,2706.0,814.0,13.418530702590942,0.0044,test_pot_trace_inject_cached_par1
+711070049,Answer: 21,[21],1,1.0,21,vhigh,2832.0,339.0,6.502192974090576,0.00396375,test_pot_trace_inject_cached_par1
+411040005,Answer: False is more common than True,['more common than'],1,1.0,more common,high,3251.0,435.0,7.036674976348877,0.0046075000000000005,test_pot_trace_inject_cached_par1
+311030030,Answer: Sports is less common than Business,['less common than'],1,1.0,less common,high,2686.0,136.0,1.9627580642700195,0.0035275000000000003,test_pot_trace_inject_cached_par1
+411040024,Label: true,['True'],1,0.0,true,vhigh,3260.0,414.0,6.210000991821289,0.0045925,test_pot_trace_inject_cached_par1
+611060017,Answer: 28,[28],1,1.0,28,vhigh,3114.0,260.0,4.238472938537598,0.0042175,test_pot_trace_inject_cached_par1
+611060028,Label: formal,['formal'],1,1.0,formal,vhigh,3102.0,139.0,1.9995050430297852,0.00405125,test_pot_trace_inject_cached_par1
+611060043,Answer: informal is more common before 2024-04-30,['more common'],1,1.0,more common,high,3150.0,356.0,5.953125,0.0043825,test_pot_trace_inject_cached_par1
+311030032,Answer: Sports is less common than Sci/Tech,['less common than'],1,1.0,less common,high,2690.0,151.0,2.5557210445404053,0.0035512500000000006,test_pot_trace_inject_cached_par1
+811080015,User: 28737,[28737],1,1.0,28737,vhigh,3088.0,382.0,9.31058931350708,0.0043375,test_pot_trace_inject_cached_par1
+411040010,Label: false,['False'],1,0.0,false,vhigh,3245.0,275.0,5.751945972442627,0.0044,test_pot_trace_inject_cached_par1
+711070030,Answer: neutral is more common than contradiction,['same frequency as'],1,0.0,more common,high,2855.0,206.0,4.786017894744873,0.0038262500000000002,test_pot_trace_inject_cached_par1

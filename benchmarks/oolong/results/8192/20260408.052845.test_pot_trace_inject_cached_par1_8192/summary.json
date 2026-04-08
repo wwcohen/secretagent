@@ -1,0 +1,13 @@
+{
+  "n_cases": 400,
+  "n_exceptions": 0,
+  "mean_correct": 0.5976191826263875,
+  "mean_latency_seconds": 8.597322955131531,
+  "sum_latency_seconds": 3438.9291820526123,
+  "mean_cost_usd": 0.007979940625,
+  "sum_cost_usd": 3.1919762499999997,
+  "results_csv": "results.csv",
+  "expt_name": "test_pot_trace_inject_cached_par1_8192",
+  "classification_accuracies_json": "classification_accuracies.json",
+  "classification_results_json": "classification_results.json"
+}

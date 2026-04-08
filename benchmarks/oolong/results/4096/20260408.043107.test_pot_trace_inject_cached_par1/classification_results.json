@@ -1,0 +1,5780 @@
+{
+  "expt_name": "test_pot_trace_inject_cached_par1",
+  "llm_model": "together_ai/deepseek-ai/DeepSeek-V3",
+  "dataset_split": "test",
+  "n_windows": 17,
+  "classification_accuracies_json": "classification_accuracies.json",
+  "per_context_window": [
+    {
+      "context_window_id": 20006,
+      "phase1": {
+        "dataset": "imdb",
+        "schema": {
+          "label_set": [
+            "positive",
+            "negative"
+          ],
+          "regular_expression": "^Date: (.+?) \\|\\| User: (\\d+) \\|\\| Instance: (.+)$"
+        },
+        "classification": {
+          "records": [
+            {
+              "idx": 0,
+              "date": "Feb 19, 2025",
+              "user_id": 91464,
+              "label": "positive"
+            },
+            {
+              "idx": 1,
+              "date": "Dec 24, 2023",
+              "user_id": 91464,
+              "label": "negative"
+            },
+            {
+              "idx": 2,
+              "date": "Sep 09, 2022",
+              "user_id": 91464,
+              "label": "positive"
+            },
+            {
+              "idx": 3,
+              "date": "Oct 04, 2023",
+              "user_id": 91464,
+              "label": "positive"
+            },
+            {
+              "idx": 4,
+              "date": "Jan 07, 2023",
+              "user_id": 91464,
+              "label": "positive"
+            },
+            {
+              "idx": 5,
+              "date": "Jun 17, 2023",
+              "user_id": 91464,
+              "label": "positive"
+            },
+            {
+              "idx": 6,
+              "date": "Sep 02, 2024",
+              "user_id": 91464,
+              "label": "negative"
+            },
+            {
+              "idx": 7,
+              "date": "Jun 08, 2023",
+              "user_id": 91464,
+              "label": "positive"
+            },
+            {
+              "idx": 8,
+              "date": "Feb 27, 2025",
+              "user_id": 91464,
+              "label": "negative"
+            }
+          ],
+          "matched_line_count": 9,
+          "label_set_used": [
+            "positive",
+            "negative"
+          ],
+          "batch_size": 5
+        },
+        "debug": {
+          "schema_error": null,
+          "regex_valid": true,
+          "regex_error": null,
+          "entry_line_count": 9,
+          "batch_errors": [],
+          "classify_splits": 0,
+          "classify_leaf_retries": 0,
+          "classify_chunk_retries": 0
+        }
+      }
+    },
+    {
+      "context_window_id": 20007,
+      "phase1": {
+        "dataset": "imdb",
+        "schema": {
+          "label_set": [
+            "positive",
+            "negative"
+          ],
+          "regular_expression": "^Date: (.+?) \\|\\| User: (\\d+) \\|\\| Instance: (.+)$"
+        },
+        "classification": {
+          "records": [
+            {
+              "idx": 0,
+              "date": "Jan 05, 2024",
+              "user_id": 84259,
+              "label": "positive"
+            },
+            {
+              "idx": 1,
+              "date": "Mar 16, 2022",
+              "user_id": 84259,
+              "label": "positive"
+            },
+            {
+              "idx": 2,
+              "date": "May 13, 2022",
+              "user_id": 84259,
+              "label": "negative"
+            },
+            {
+              "idx": 3,
+              "date": "Sep 29, 2023",
+              "user_id": 84259,
+              "label": "positive"
+            },
+            {
+              "idx": 4,
+              "date": "Jun 02, 2022",
+              "user_id": 84259,
+              "label": "positive"
+            },
+            {
+              "idx": 5,
+              "date": "May 12, 2023",
+              "user_id": 84259,
+              "label": "negative"
+            },
+            {
+              "idx": 6,
+              "date": "Apr 23, 2024",
+              "user_id": 80209,
+              "label": "positive"
+            },
+            {
+              "idx": 7,
+              "date": "Jan 20, 2024",
+              "user_id": 84259,
+              "label": "positive"
+            },
+            {
+              "idx": 8,
+              "date": "Nov 10, 2024",
+              "user_id": 84259,
+              "label": "positive"
+            }
+          ],
+          "matched_line_count": 9,
+          "label_set_used": [
+            "positive",
+            "negative"
+          ],
+          "batch_size": 5
+        },
+        "debug": {
+          "schema_error": null,
+          "regex_valid": true,
+          "regex_error": null,
+          "entry_line_count": 9,
+          "batch_errors": [],
+          "classify_splits": 0,
+          "classify_leaf_retries": 0,
+          "classify_chunk_retries": 0
+        }
+      }
+    },
+    {
+      "context_window_id": 20008,
+      "phase1": {
+        "dataset": "imdb",
+        "schema": {
+          "label_set": [
+            "positive",
+            "negative"
+          ],
+          "regular_expression": "^Date: (.+?) \\|\\| User: (\\d+) \\|\\| Instance: (.+)$"
+        },
+        "classification": {
+          "records": [
+            {
+              "idx": 0,
+              "date": "May 23, 2022",
+              "user_id": 30219,
+              "label": "negative"
+            },
+            {
+              "idx": 1,
+              "date": "Apr 18, 2024",
+              "user_id": 59535,
+              "label": "positive"
+            },
+            {
+              "idx": 2,
+              "date": "Apr 20, 2023",
+              "user_id": 59535,
+              "label": "negative"
+            },
+            {
+              "idx": 3,
+              "date": "Sep 07, 2023",
+              "user_id": 59535,
+              "label": "negative"
+            },
+            {
+              "idx": 4,
+              "date": "Jul 30, 2024",
+              "user_id": 59535,
+              "label": "positive"
+            },
+            {
+              "idx": 5,
+              "date": "Sep 10, 2024",
+              "user_id": 59535,
+              "label": "negative"
+            },
+            {
+              "idx": 6,
+              "date": "Aug 09, 2023",
+              "user_id": 59535,
+              "label": "negative"
+            },
+            {
+              "idx": 7,
+              "date": "Dec 20, 2022",
+              "user_id": 59535,
+              "label": "negative"
+            },
+            {
+              "idx": 8,
+              "date": "Nov 08, 2022",
+              "user_id": 76143,
+              "label": "negative"
+            }
+          ],
+          "matched_line_count": 9,
+          "label_set_used": [
+            "positive",
+            "negative"
+          ],
+          "batch_size": 5
+        },
+        "debug": {
+          "schema_error": null,
+          "regex_valid": true,
+          "regex_error": null,
+          "entry_line_count": 9,
+          "batch_errors": [],
+          "classify_splits": 0,
+          "classify_leaf_retries": 0,
+          "classify_chunk_retries": 0
+        }
+      }
+    },
+    {
+      "context_window_id": 30006,
+      "phase1": {
+        "dataset": "agnews",
+        "schema": {
+          "label_set": [
+            "sports",
+            "world",
+            "business",
+            "sci/tech"
+          ],
+          "regular_expression": "^Date: ([A-Za-z]{3} \\d{2}, \\d{4}) \\|\\| User: (\\d+) \\|\\| Instance: (.+)$"
+        },
+        "classification": {
+          "records": [
+            {
+              "idx": 0,
+              "date": "Jan 09, 2025",
+              "user_id": 22165,
+              "label": "sports"
+            },
+            {
+              "idx": 1,
+              "date": "Jun 07, 2023",
+              "user_id": 22165,
+              "label": "business"
+            },
+            {
+              "idx": 2,
+              "date": "Feb 23, 2023",
+              "user_id": 22165,
+              "label": "business"
+            },
+            {
+              "idx": 3,
+              "date": "Jan 20, 2024",
+              "user_id": 22165,
+              "label": "business"
+            },
+            {
+              "idx": 4,
+              "date": "Apr 01, 2023",
+              "user_id": 22165,
+              "label": "sci/tech"
+            },
+            {
+              "idx": 5,
+              "date": "May 24, 2022",
+              "user_id": 22165,
+              "label": "business"
+            },
+            {
+              "idx": 6,
+              "date": "Jul 17, 2024",
+              "user_id": 22165,
+              "label": "world"
+            },
+            {
+              "idx": 7,
+              "date": "Jun 03, 2024",
+              "user_id": 80327,
+              "label": "sci/tech"
+            },
+            {
+              "idx": 8,
+              "date": "Dec 03, 2024",
+              "user_id": 22165,
+              "label": "business"
+            },
+            {
+              "idx": 9,
+              "date": "Dec 12, 2022",
+              "user_id": 42492,
+              "label": "business"
+            },
+            {
+              "idx": 10,
+              "date": "Sep 30, 2022",
+              "user_id": 22165,
+              "label": "sports"
+            },
+            {
+              "idx": 11,
+              "date": "May 25, 2024",
+              "user_id": 80327,
+              "label": "business"
+            },
+            {
+              "idx": 12,
+              "date": "Sep 07, 2022",
+              "user_id": 22165,
+              "label": "world"
+            },
+            {
+              "idx": 13,
+              "date": "Jul 23, 2022",
+              "user_id": 80327,
+              "label": "world"
+            },
+            {
+              "idx": 14,
+              "date": "Jun 24, 2023",
+              "user_id": 97224,
+              "label": "business"
+            },
+            {
+              "idx": 15,
+              "date": "Sep 20, 2022",
+              "user_id": 40866,
+              "label": "business"
+            },
+            {
+              "idx": 16,
+              "date": "Mar 20, 2023",
+              "user_id": 68378,
+              "label": "sci/tech"
+            },
+            {
+              "idx": 17,
+              "date": "Jul 14, 2023",
+              "user_id": 68378,
+              "label": "world"
+            },
+            {
+              "idx": 18,
+              "date": "Jul 26, 2024",
+              "user_id": 12726,
+              "label": "business"
+            },
+            {
+              "idx": 19,
+              "date": "Nov 18, 2023",
+              "user_id": 68378,
+              "label": "sci/tech"
+            },
+            {
+              "idx": 20,
+              "date": "Jan 21, 2023",
+              "user_id": 68378,
+              "label": "sports"
+            },
+            {
+              "idx": 21,
+              "date": "Dec 22, 2023",
+              "user_id": 13829,
+              "label": "world"
+            },
+            {
+              "idx": 22,
+              "date": "Jun 21, 2022",
+              "user_id": 20630,
+              "label": "sports"
+            },
+            {
+              "idx": 23,
+              "date": "Feb 16, 2023",
+              "user_id": 68378,
+              "label": "sports"
+            },
+            {
+              "idx": 24,
+              "date": "Nov 18, 2024",
+              "user_id": 62264,
+              "label": "world"
+            },
+            {
+              "idx": 25,
+              "date": "Aug 04, 2023",
+              "user_id": 80327,
+              "label": "business"
+            },
+            {
+              "idx": 26,
+              "date": "Sep 15, 2022",
+              "user_id": 10210,
+              "label": "world"
+            },
+            {
+              "idx": 27,
+              "date": "Nov 16, 2022",
+              "user_id": 60374,
+              "label": "sports"
+            },
+            {
+              "idx": 28,
+              "date": "May 21, 2023",
+              "user_id": 68378,
+              "label": "sports"
+            },
+            {
+              "idx": 29,
+              "date": "Jan 20, 2023",
+              "user_id": 22165,
+              "label": "sports"
+            },
+            {
+              "idx": 30,
+              "date": "Dec 28, 2022",
+              "user_id": 22165,
+              "label": "world"
+            },
+            {
+              "idx": 31,
+              "date": "Dec 23, 2024",
+              "user_id": 68378,
+              "label": "world"
+            },
+            {
+              "idx": 32,
+              "date": "Dec 27, 2022",
+              "user_id": 68378,
+              "label": "world"
+            },
+            {
+              "idx": 33,
+              "date": "Oct 24, 2022",
+              "user_id": 67088,
+              "label": "world"
+            },
+            {
+              "idx": 34,
+              "date": "Feb 15, 2025",
+              "user_id": 68378,
+              "label": "business"
+            },
+            {
+              "idx": 35,
+              "date": "May 19, 2022",
+              "user_id": 68378,
+              "label": "business"
+            },
+            {
+              "idx": 36,
+              "date": "Nov 08, 2023",
+              "user_id": 68378,
+              "label": "sports"
+            },
+            {
+              "idx": 37,
+              "date": "Jun 27, 2023",
+              "user_id": 22165,
+              "label": "business"
+            }
+          ],
+          "matched_line_count": 38,
+          "label_set_used": [
+            "sports",
+            "world",
+            "business",
+            "sci/tech"
+          ],
+          "batch_size": 10
+        },
+        "debug": {
+          "schema_error": null,
+          "regex_valid": true,
+          "regex_error": null,
+          "entry_line_count": 38,
+          "batch_errors": [],
+          "classify_splits": 0,
+          "classify_leaf_retries": 0,
+          "classify_chunk_retries": 0
+        }
+      }
+    },
+    {
+      "context_window_id": 30008,
+      "phase1": {
+        "dataset": "agnews",
+        "schema": {
+          "label_set": [
+            "sports",
+            "world",
+            "business",
+            "sci/tech"
+          ],
+          "regular_expression": "^Date: (.+?) \\|\\| User: (\\d+) \\|\\| Instance: (.+)$"
+        },
+        "classification": {
+          "records": [
+            {
+              "idx": 0,
+              "date": "Mar 23, 2023",
+              "user_id": 16226,
+              "label": "business"
+            },
+            {
+              "idx": 1,
+              "date": "Feb 03, 2025",
+              "user_id": 77874,
+              "label": "world"
+            },
+            {
+              "idx": 2,
+              "date": "Mar 10, 2023",
+              "user_id": 72294,
+              "label": "business"
+            },
+            {
+              "idx": 3,
+              "date": "Jan 09, 2023",
+              "user_id": 72294,
+              "label": "business"
+            },
+            {
+              "idx": 4,
+              "date": "Apr 25, 2024",
+              "user_id": 32592,
+              "label": "sports"
+            },
+            {
+              "idx": 5,
+              "date": "Mar 16, 2023",
+              "user_id": 77874,
+              "label": "business"
+            },
+            {
+              "idx": 6,
+              "date": "Apr 17, 2022",
+              "user_id": 77874,
+              "label": "business"
+            },
+            {
+              "idx": 7,
+              "date": "Feb 06, 2023",
+              "user_id": 77874,
+              "label": "sports"
+            },
+            {
+              "idx": 8,
+              "date": "Jan 26, 2025",
+              "user_id": 72294,
+              "label": "business"
+            },
+            {
+              "idx": 9,
+              "date": "Aug 23, 2022",
+              "user_id": 99263,
+              "label": "business"
+            },
+            {
+              "idx": 10,
+              "date": "Nov 13, 2022",
+              "user_id": 16226,
+              "label": "business"
+            },
+            {
+              "idx": 11,
+              "date": "Dec 26, 2023",
+              "user_id": 16226,
+              "label": "business"
+            },
+            {
+              "idx": 12,
+              "date": "Oct 25, 2023",
+              "user_id": 77874,
+              "label": "sports"
+            },
+            {
+              "idx": 13,
+              "date": "Aug 14, 2023",
+              "user_id": 72294,
+              "label": "business"
+            },
+            {
+              "idx": 14,
+              "date": "Feb 08, 2024",
+              "user_id": 72294,
+              "label": "sci/tech"
+            },
+            {
+              "idx": 15,
+              "date": "Mar 24, 2022",
+              "user_id": 71090,
+              "label": "world"
+            },
+            {
+              "idx": 16,
+              "date": "Oct 30, 2024",
+              "user_id": 16226,
+              "label": "sports"
+            },
+            {
+              "idx": 17,
+              "date": "Jul 05, 2024",
+              "user_id": 16226,
+              "label": "business"
+            },
+            {
+              "idx": 18,
+              "date": "Mar 14, 2025",
+              "user_id": 16226,
+              "label": "business"
+            },
+            {
+              "idx": 19,
+              "date": "Feb 17, 2022",
+              "user_id": 99901,
+              "label": "business"
+            },
+            {
+              "idx": 20,
+              "date": "Mar 07, 2024",
+              "user_id": 72294,
+              "label": "world"
+            },
+            {
+              "idx": 21,
+              "date": "Nov 24, 2024",
+              "user_id": 16226,
+              "label": "business"
+            },
+            {
+              "idx": 22,
+              "date": "Oct 30, 2024",
+              "user_id": 77874,
+              "label": "sports"
+            },
+            {
+              "idx": 23,
+              "date": "Mar 09, 2025",
+              "user_id": 16226,
+              "label": "business"
+            },
+            {
+              "idx": 24,
+              "date": "Feb 22, 2025",
+              "user_id": 16226,
+              "label": "business"
+            },
+            {
+              "idx": 25,
+              "date": "Apr 14, 2025",
+              "user_id": 16226,
+              "label": "sci/tech"
+            },
+            {
+              "idx": 26,
+              "date": "Oct 07, 2024",
+              "user_id": 72294,
+              "label": "business"
+            },
+            {
+              "idx": 27,
+              "date": "Jun 06, 2025",
+              "user_id": 77874,
+              "label": "business"
+            },
+            {
+              "idx": 28,
+              "date": "Jun 19, 2024",
+              "user_id": 77874,
+              "label": "business"
+            },
+            {
+              "idx": 29,
+              "date": "Apr 06, 2023",
+              "user_id": 39359,
+              "label": "business"
+            },
+            {
+              "idx": 30,
+              "date": "Sep 26, 2022",
+              "user_id": 16226,
+              "label": "sports"
+            },
+            {
+              "idx": 31,
+              "date": "Mar 04, 2022",
+              "user_id": 16226,
+              "label": "world"
+            },
+            {
+              "idx": 32,
+              "date": "Oct 04, 2024",
+              "user_id": 39938,
+              "label": "business"
+            },
+            {
+              "idx": 33,
+              "date": "Apr 06, 2023",
+              "user_id": 72294,
+              "label": "world"
+            },
+            {
+              "idx": 34,
+              "date": "Jul 03, 2023",
+              "user_id": 72294,
+              "label": "business"
+            },
+            {
+              "idx": 35,
+              "date": "May 12, 2022",
+              "user_id": 72294,
+              "label": "world"
+            },
+            {
+              "idx": 36,
+              "date": "Nov 15, 2024",
+              "user_id": 77874,
+              "label": "business"
+            },
+            {
+              "idx": 37,
+              "date": "Mar 18, 2022",
+              "user_id": 77874,
+              "label": "sports"
+            }
+          ],
+          "matched_line_count": 38,
+          "label_set_used": [
+            "sports",
+            "world",
+            "business",
+            "sci/tech"
+          ],
+          "batch_size": 10
+        },
+        "debug": {
+          "schema_error": null,
+          "regex_valid": true,
+          "regex_error": null,
+          "entry_line_count": 38,
+          "batch_errors": [],
+          "classify_splits": 0,
+          "classify_leaf_retries": 0,
+          "classify_chunk_retries": 0
+        }
+      }
+    },
+    {
+      "context_window_id": 40006,
+      "phase1": {
+        "dataset": "negation",
+        "schema": {
+          "label_set": [
+            "true",
+            "false"
+          ],
+          "regular_expression": "^Date: ([^|]+) \\|\\| User: (\\d+) \\|\\| Instance: (.+)$"
+        },
+        "classification": {
+          "records": [
+            {
+              "idx": 0,
+              "date": "Jan 26, 2023",
+              "user_id": 14457,
+              "label": "false"
+            },
+            {
+              "idx": 1,
+              "date": "Apr 06, 2022",
+              "user_id": 10724,
+              "label": "false"
+            },
+            {
+              "idx": 2,
+              "date": "Jul 28, 2023",
+              "user_id": 82428,
+              "label": "false"
+            },
+            {
+              "idx": 3,
+              "date": "Sep 13, 2022",
+              "user_id": 60734,
+              "label": "false"
+            },
+            {
+              "idx": 4,
+              "date": "May 12, 2023",
+              "user_id": 82428,
+              "label": "true"
+            },
+            {
+              "idx": 5,
+              "date": "Apr 05, 2025",
+              "user_id": 60734,
+              "label": "false"
+            },
+            {
+              "idx": 6,
+              "date": "Oct 23, 2023",
+              "user_id": 14457,
+              "label": "false"
+            },
+            {
+              "idx": 7,
+              "date": "Sep 22, 2022",
+              "user_id": 14457,
+              "label": "false"
+            },
+            {
+              "idx": 8,
+              "date": "Nov 15, 2024",
+              "user_id": 21902,
+              "label": "false"
+            },
+            {
+              "idx": 9,
+              "date": "Aug 07, 2022",
+              "user_id": 14457,
+              "label": "false"
+            },
+            {
+              "idx": 10,
+              "date": "Aug 30, 2024",
+              "user_id": 14457,
+              "label": "false"
+            },
+            {
+              "idx": 11,
+              "date": "Dec 30, 2022",
+              "user_id": 28140,
+              "label": "false"
+            },
+            {
+              "idx": 12,
+              "date": "Sep 01, 2024",
+              "user_id": 10724,
+              "label": "true"
+            },
+            {
+              "idx": 13,
+              "date": "Nov 01, 2023",
+              "user_id": 38174,
+              "label": "false"
+            },
+            {
+              "idx": 14,
+              "date": "Jun 14, 2024",
+              "user_id": 85375,
+              "label": "true"
+            },
+            {
+              "idx": 15,
+              "date": "Mar 07, 2024",
+              "user_id": 82428,
+              "label": "true"
+            },
+            {
+              "idx": 16,
+              "date": "Dec 30, 2023",
+              "user_id": 28140,
+              "label": "false"
+            },
+            {
+              "idx": 17,
+              "date": "Apr 30, 2022",
+              "user_id": 28140,
+              "label": "false"
+            },
+            {
+              "idx": 18,
+              "date": "Jun 05, 2025",
+              "user_id": 88590,
+              "label": "true"
+            },
+            {
+              "idx": 19,
+              "date": "Aug 17, 2023",
+              "user_id": 67584,
+              "label": "false"
+            },
+            {
+              "idx": 20,
+              "date": "Mar 27, 2025",
+              "user_id": 14457,
+              "label": "false"
+            },
+            {
+              "idx": 21,
+              "date": "Aug 26, 2024",
+              "user_id": 60734,
+              "label": "false"
+            },
+            {
+              "idx": 22,
+              "date": "Dec 07, 2024",
+              "user_id": 67584,
+              "label": "false"
+            },
+            {
+              "idx": 23,
+              "date": "Jul 17, 2022",
+              "user_id": 67584,
+              "label": "false"
+            },
+            {
+              "idx": 24,
+              "date": "Apr 18, 2024",
+              "user_id": 88590,
+              "label": "true"
+            },
+            {
+              "idx": 25,
+              "date": "Oct 05, 2024",
+              "user_id": 28140,
+              "label": "true"
+            },
+            {
+              "idx": 26,
+              "date": "Sep 10, 2023",
+              "user_id": 70715,
+              "label": "false"
+            },
+            {
+              "idx": 27,
+              "date": "Feb 03, 2024",
+              "user_id": 28140,
+              "label": "true"
+            },
+            {
+              "idx": 28,
+              "date": "Jul 26, 2022",
+              "user_id": 88590,
+              "label": "false"
+            },
+            {
+              "idx": 29,
+              "date": "Jul 02, 2022",
+              "user_id": 10724,
+              "label": "false"
+            },
+            {
+              "idx": 30,
+              "date": "Jul 26, 2024",
+              "user_id": 86626,
+              "label": "false"
+            },
+            {
+              "idx": 31,
+              "date": "Jun 17, 2023",
+              "user_id": 67584,
+              "label": "true"
+            },
+            {
+              "idx": 32,
+              "date": "Aug 28, 2023",
+              "user_id": 25751,
+              "label": "false"
+            },
+            {
+              "idx": 33,
+              "date": "Mar 10, 2022",
+              "user_id": 14457,
+              "label": "false"
+            },
+            {
+              "idx": 34,
+              "date": "Jun 24, 2024",
+              "user_id": 28140,
+              "label": "false"
+            },
+            {
+              "idx": 35,
+              "date": "May 15, 2025",
+              "user_id": 14457,
+              "label": "false"
+            },
+            {
+              "idx": 36,
+              "date": "Feb 22, 2024",
+              "user_id": 14457,
+              "label": "false"
+            },
+            {
+              "idx": 37,
+              "date": "Aug 24, 2022",
+              "user_id": 28140,
+              "label": "true"
+            },
+            {
+              "idx": 38,
+              "date": "Dec 09, 2023",
+              "user_id": 90689,
+              "label": "false"
+            },
+            {
+              "idx": 39,
+              "date": "Jan 08, 2023",
+              "user_id": 28140,
+              "label": "true"
+            },
+            {
+              "idx": 40,
+              "date": "May 20, 2022",
+              "user_id": 28140,
+              "label": "true"
+            },
+            {
+              "idx": 41,
+              "date": "Mar 03, 2023",
+              "user_id": 28140,
+              "label": "true"
+            },
+            {
+              "idx": 42,
+              "date": "Sep 03, 2024",
+              "user_id": 20352,
+              "label": "true"
+            },
+            {
+              "idx": 43,
+              "date": "Sep 30, 2024",
+              "user_id": 34824,
+              "label": "false"
+            },
+            {
+              "idx": 44,
+              "date": "May 29, 2022",
+              "user_id": 82428,
+              "label": "true"
+            },
+            {
+              "idx": 45,
+              "date": "May 26, 2022",
+              "user_id": 60734,
+              "label": "false"
+            },
+            {
+              "idx": 46,
+              "date": "Nov 23, 2023",
+              "user_id": 67584,
+              "label": "false"
+            },
+            {
+              "idx": 47,
+              "date": "Jan 15, 2024",
+              "user_id": 28140,
+              "label": "true"
+            },
+            {
+              "idx": 48,
+              "date": "Oct 12, 2022",
+              "user_id": 88590,
+              "label": "false"
+            },
+            {
+              "idx": 49,
+              "date": "Jun 29, 2023",
+              "user_id": 82428,
+              "label": "true"
+            },
+            {
+              "idx": 50,
+              "date": "Mar 13, 2024",
+              "user_id": 82428,
+              "label": "true"
+            },
+            {
+              "idx": 51,
+              "date": "Oct 02, 2022",
+              "user_id": 28140,
+              "label": "false"
+            },
+            {
+              "idx": 52,
+              "date": "Oct 09, 2024",
+              "user_id": 82428,
+              "label": "false"
+            },
+            {
+              "idx": 53,
+              "date": "Jul 31, 2023",
+              "user_id": 67584,
+              "label": "false"
+            },
+            {
+              "idx": 54,
+              "date": "May 20, 2024",
+              "user_id": 10724,
+              "label": "true"
+            },
+            {
+              "idx": 55,
+              "date": "Dec 05, 2023",
+              "user_id": 67584,
+              "label": "false"
+            },
+            {
+              "idx": 56,
+              "date": "Jan 23, 2024",
+              "user_id": 15178,
+              "label": "false"
+            },
+            {
+              "idx": 57,
+              "date": "Jun 30, 2022",
+              "user_id": 88590,
+              "label": "true"
+            },
+            {
+              "idx": 58,
+              "date": "Oct 07, 2023",
+              "user_id": 60734,
+              "label": "false"
+            },
+            {
+              "idx": 59,
+              "date": "Sep 14, 2023",
+              "user_id": 14457,
+              "label": "true"
+            },
+            {
+              "idx": 60,
+              "date": "Aug 13, 2024",
+              "user_id": 82428,
+              "label": "true"
+            },
+            {
+              "idx": 61,
+              "date": "Jul 25, 2022",
+              "user_id": 82428,
+              "label": "false"
+            },
+            {
+              "idx": 62,
+              "date": "May 17, 2025",
+              "user_id": 88590,
+              "label": "false"
+            },
+            {
+              "idx": 63,
+              "date": "Apr 17, 2023",
+              "user_id": 67584,
+              "label": "true"
+            },
+            {
+              "idx": 64,
+              "date": "Dec 09, 2023",
+              "user_id": 28140,
+              "label": "true"
+            },
+            {
+              "idx": 65,
+              "date": "Feb 06, 2023",
+              "user_id": 28140,
+              "label": "false"
+            },
+            {
+              "idx": 66,
+              "date": "Jul 23, 2023",
+              "user_id": 82428,
+              "label": "true"
+            },
+            {
+              "idx": 67,
+              "date": "May 08, 2022",
+              "user_id": 10724,
+              "label": "true"
+            },
+            {
+              "idx": 68,
+              "date": "Mar 11, 2024",
+              "user_id": 88590,
+              "label": "true"
+            },
+            {
+              "idx": 69,
+              "date": "Mar 03, 2022",
+              "user_id": 28140,
+              "label": "true"
+            },
+            {
+              "idx": 70,
+              "date": "Dec 25, 2024",
+              "user_id": 14457,
+              "label": "false"
+            },
+            {
+              "idx": 71,
+              "date": "Sep 02, 2024",
+              "user_id": 67584,
+              "label": "false"
+            },
+            {
+              "idx": 72,
+              "date": "Oct 07, 2022",
+              "user_id": 14457,
+              "label": "false"
+            },
+            {
+              "idx": 73,
+              "date": "Oct 18, 2023",
+              "user_id": 28140,
+              "label": "true"
+            },
+            {
+              "idx": 74,
+              "date": "Mar 27, 2022",
+              "user_id": 88590,
+              "label": "true"
+            },
+            {
+              "idx": 75,
+              "date": "Jan 30, 2024",
+              "user_id": 14457,
+              "label": "false"
+            },
+            {
+              "idx": 76,
+              "date": "Apr 20, 2022",
+              "user_id": 14457,
+              "label": "true"
+            }
+          ],
+          "matched_line_count": 77,
+          "label_set_used": [
+            "true",
+            "false"
+          ],
+          "batch_size": 25
+        },
+        "debug": {
+          "schema_error": null,
+          "regex_valid": true,
+          "regex_error": null,
+          "entry_line_count": 77,
+          "batch_errors": [],
+          "classify_splits": 0,
+          "classify_leaf_retries": 0,
+          "classify_chunk_retries": 0
+        }
+      }
+    },
+    {
+      "context_window_id": 40008,
+      "phase1": {
+        "dataset": "negation",
+        "schema": {
+          "label_set": [
+            "true",
+            "false"
+          ],
+          "regular_expression": "^Date: (.+?) \\|\\| User: (\\d+) \\|\\| Instance: (.+)$"
+        },
+        "classification": {
+          "records": [
+            {
+              "idx": 0,
+              "date": "Jan 31, 2025",
+              "user_id": 81122,
+              "label": "false"
+            },
+            {
+              "idx": 1,
+              "date": "Oct 30, 2022",
+              "user_id": 73415,
+              "label": "false"
+            },
+            {
+              "idx": 2,
+              "date": "Apr 26, 2023",
+              "user_id": 80093,
+              "label": "false"
+            },
+            {
+              "idx": 3,
+              "date": "Nov 29, 2023",
+              "user_id": 58948,
+              "label": "false"
+            },
+            {
+              "idx": 4,
+              "date": "Aug 21, 2022",
+              "user_id": 34223,
+              "label": "false"
+            },
+            {
+              "idx": 5,
+              "date": "Jun 17, 2023",
+              "user_id": 83387,
+              "label": "true"
+            },
+            {
+              "idx": 6,
+              "date": "Nov 27, 2022",
+              "user_id": 37721,
+              "label": "false"
+            },
+            {
+              "idx": 7,
+              "date": "Jul 29, 2024",
+              "user_id": 34223,
+              "label": "false"
+            },
+            {
+              "idx": 8,
+              "date": "Aug 03, 2023",
+              "user_id": 68092,
+              "label": "false"
+            },
+            {
+              "idx": 9,
+              "date": "Dec 18, 2024",
+              "user_id": 96624,
+              "label": "false"
+            },
+            {
+              "idx": 10,
+              "date": "Jan 01, 2025",
+              "user_id": 30352,
+              "label": "false"
+            },
+            {
+              "idx": 11,
+              "date": "Mar 10, 2023",
+              "user_id": 34223,
+              "label": "false"
+            },
+            {
+              "idx": 12,
+              "date": "Nov 02, 2023",
+              "user_id": 96624,
+              "label": "false"
+            },
+            {
+              "idx": 13,
+              "date": "Apr 15, 2024",
+              "user_id": 73415,
+              "label": "false"
+            },
+            {
+              "idx": 14,
+              "date": "Mar 25, 2025",
+              "user_id": 80093,
+              "label": "true"
+            },
+            {
+              "idx": 15,
+              "date": "Feb 25, 2022",
+              "user_id": 73415,
+              "label": "false"
+            },
+            {
+              "idx": 16,
+              "date": "May 24, 2025",
+              "user_id": 80093,
+              "label": "false"
+            },
+            {
+              "idx": 17,
+              "date": "Nov 08, 2024",
+              "user_id": 68092,
+              "label": "false"
+            },
+            {
+              "idx": 18,
+              "date": "Jun 02, 2022",
+              "user_id": 58948,
+              "label": "false"
+            },
+            {
+              "idx": 19,
+              "date": "Jul 07, 2024",
+              "user_id": 58948,
+              "label": "true"
+            },
+            {
+              "idx": 20,
+              "date": "Dec 25, 2024",
+              "user_id": 96624,
+              "label": "true"
+            },
+            {
+              "idx": 21,
+              "date": "Nov 01, 2023",
+              "user_id": 96624,
+              "label": "false"
+            },
+            {
+              "idx": 22,
+              "date": "Jan 29, 2024",
+              "user_id": 68092,
+              "label": "false"
+            },
+            {
+              "idx": 23,
+              "date": "Jan 04, 2025",
+              "user_id": 58948,
+              "label": "true"
+            },
+            {
+              "idx": 24,
+              "date": "Feb 14, 2024",
+              "user_id": 83387,
+              "label": "true"
+            },
+            {
+              "idx": 25,
+              "date": "Nov 16, 2023",
+              "user_id": 69140,
+              "label": "false"
+            },
+            {
+              "idx": 26,
+              "date": "Jul 03, 2022",
+              "user_id": 34223,
+              "label": "true"
+            },
+            {
+              "idx": 27,
+              "date": "Aug 23, 2023",
+              "user_id": 83387,
+              "label": "false"
+            },
+            {
+              "idx": 28,
+              "date": "Oct 09, 2024",
+              "user_id": 73415,
+              "label": "false"
+            },
+            {
+              "idx": 29,
+              "date": "Dec 01, 2022",
+              "user_id": 73415,
+              "label": "false"
+            },
+            {
+              "idx": 30,
+              "date": "Apr 19, 2025",
+              "user_id": 58948,
+              "label": "false"
+            },
+            {
+              "idx": 31,
+              "date": "Jun 02, 2024",
+              "user_id": 80093,
+              "label": "false"
+            },
+            {
+              "idx": 32,
+              "date": "Apr 08, 2022",
+              "user_id": 83301,
+              "label": "false"
+            },
+            {
+              "idx": 33,
+              "date": "Nov 16, 2023",
+              "user_id": 70420,
+              "label": "true"
+            },
+            {
+              "idx": 34,
+              "date": "Sep 12, 2024",
+              "user_id": 80093,
+              "label": "false"
+            },
+            {
+              "idx": 35,
+              "date": "Jun 26, 2024",
+              "user_id": 73415,
+              "label": "true"
+            },
+            {
+              "idx": 36,
+              "date": "Aug 22, 2022",
+              "user_id": 80093,
+              "label": "true"
+            },
+            {
+              "idx": 37,
+              "date": "Aug 30, 2024",
+              "user_id": 80093,
+              "label": "false"
+            },
+            {
+              "idx": 38,
+              "date": "Jun 06, 2022",
+              "user_id": 58948,
+              "label": "false"
+            },
+            {
+              "idx": 39,
+              "date": "Jun 30, 2023",
+              "user_id": 83387,
+              "label": "false"
+            },
+            {
+              "idx": 40,
+              "date": "Oct 22, 2023",
+              "user_id": 96624,
+              "label": "false"
+            },
+            {
+              "idx": 41,
+              "date": "Aug 24, 2022",
+              "user_id": 58948,
+              "label": "false"
+            },
+            {
+              "idx": 42,
+              "date": "Mar 15, 2022",
+              "user_id": 73415,
+              "label": "false"
+            },
+            {
+              "idx": 43,
+              "date": "Sep 01, 2022",
+              "user_id": 58948,
+              "label": "true"
+            },
+            {
+              "idx": 44,
+              "date": "Feb 06, 2025",
+              "user_id": 96624,
+              "label": "false"
+            },
+            {
+              "idx": 45,
+              "date": "Jun 17, 2023",
+              "user_id": 83387,
+              "label": "false"
+            },
+            {
+              "idx": 46,
+              "date": "May 08, 2023",
+              "user_id": 68092,
+              "label": "true"
+            },
+            {
+              "idx": 47,
+              "date": "Nov 11, 2022",
+              "user_id": 73415,
+              "label": "false"
+            },
+            {
+              "idx": 48,
+              "date": "May 08, 2023",
+              "user_id": 58948,
+              "label": "false"
+            },
+            {
+              "idx": 49,
+              "date": "Dec 20, 2023",
+              "user_id": 83387,
+              "label": "false"
+            },
+            {
+              "idx": 50,
+              "date": "Apr 09, 2025",
+              "user_id": 73415,
+              "label": "false"
+            },
+            {
+              "idx": 51,
+              "date": "Aug 17, 2024",
+              "user_id": 73415,
+              "label": "true"
+            },
+            {
+              "idx": 52,
+              "date": "Nov 01, 2023",
+              "user_id": 61481,
+              "label": "true"
+            },
+            {
+              "idx": 53,
+              "date": "Dec 04, 2022",
+              "user_id": 77039,
+              "label": "true"
+            },
+            {
+              "idx": 54,
+              "date": "Nov 29, 2024",
+              "user_id": 16978,
+              "label": "true"
+            },
+            {
+              "idx": 55,
+              "date": "Mar 25, 2025",
+              "user_id": 96453,
+              "label": "true"
+            },
+            {
+              "idx": 56,
+              "date": "Jan 29, 2023",
+              "user_id": 96624,
+              "label": "false"
+            },
+            {
+              "idx": 57,
+              "date": "Apr 30, 2022",
+              "user_id": 83387,
+              "label": "false"
+            },
+            {
+              "idx": 58,
+              "date": "Apr 27, 2023",
+              "user_id": 53073,
+              "label": "false"
+            },
+            {
+              "idx": 59,
+              "date": "Sep 28, 2022",
+              "user_id": 83387,
+              "label": "false"
+            },
+            {
+              "idx": 60,
+              "date": "Aug 10, 2022",
+              "user_id": 96624,
+              "label": "false"
+            },
+            {
+              "idx": 61,
+              "date": "Jun 05, 2025",
+              "user_id": 58948,
+              "label": "false"
+            },
+            {
+              "idx": 62,
+              "date": "Oct 09, 2024",
+              "user_id": 24779,
+              "label": "false"
+            },
+            {
+              "idx": 63,
+              "date": "Mar 24, 2025",
+              "user_id": 73415,
+              "label": "false"
+            },
+            {
+              "idx": 64,
+              "date": "Aug 22, 2022",
+              "user_id": 73415,
+              "label": "true"
+            },
+            {
+              "idx": 65,
+              "date": "Nov 08, 2023",
+              "user_id": 34441,
+              "label": "false"
+            },
+            {
+              "idx": 66,
+              "date": "Jun 28, 2022",
+              "user_id": 80093,
+              "label": "false"
+            },
+            {
+              "idx": 67,
+              "date": "Mar 25, 2022",
+              "user_id": 96624,
+              "label": "false"
+            },
+            {
+              "idx": 68,
+              "date": "Apr 25, 2024",
+              "user_id": 73415,
+              "label": "false"
+            },
+            {
+              "idx": 69,
+              "date": "Nov 17, 2022",
+              "user_id": 80093,
+              "label": "true"
+            },
+            {
+              "idx": 70,
+              "date": "Jul 09, 2022",
+              "user_id": 83387,
+              "label": "false"
+            },
+            {
+              "idx": 71,
+              "date": "Mar 17, 2023",
+              "user_id": 80093,
+              "label": "true"
+            },
+            {
+              "idx": 72,
+              "date": "Sep 20, 2022",
+              "user_id": 34223,
+              "label": "false"
+            },
+            {
+              "idx": 73,
+              "date": "Oct 27, 2023",
+              "user_id": 68092,
+              "label": "true"
+            },
+            {
+              "idx": 74,
+              "date": "Jul 08, 2024",
+              "user_id": 80093,
+              "label": "true"
+            },
+            {
+              "idx": 75,
+              "date": "Mar 07, 2022",
+              "user_id": 94735,
+              "label": "false"
+            },
+            {
+              "idx": 76,
+              "date": "Aug 04, 2022",
+              "user_id": 80093,
+              "label": "false"
+            }
+          ],
+          "matched_line_count": 77,
+          "label_set_used": [
+            "true",
+            "false"
+          ],
+          "batch_size": 25
+        },
+        "debug": {
+          "schema_error": null,
+          "regex_valid": true,
+          "regex_error": null,
+          "entry_line_count": 77,
+          "batch_errors": [],
+          "classify_splits": 0,
+          "classify_leaf_retries": 0,
+          "classify_chunk_retries": 0
+        }
+      }
+    },
+    {
+      "context_window_id": 50006,
+      "phase1": {
+        "dataset": "yahoo",
+        "schema": {
+          "label_set": [
+            "entertainment & music",
+            "politics & government",
+            "education & reference",
+            "family & relationships",
+            "society & culture",
+            "science & mathematics",
+            "sports",
+            "health",
+            "computers & internet",
+            "business & finance"
+          ],
+          "regular_expression": "^Date: ([A-Za-z]{3} \\d{2}, \\d{4}) \\|\\| User: (\\d+) \\|\\| Instance: (.+)$"
+        },
+        "classification": {
+          "records": [
+            {
+              "idx": 0,
+              "date": "May 23, 2022",
+              "user_id": 58658,
+              "label": "sports"
+            },
+            {
+              "idx": 1,
+              "date": "Jun 02, 2025",
+              "user_id": 12764,
+              "label": "society & culture"
+            },
+            {
+              "idx": 2,
+              "date": "Mar 02, 2023",
+              "user_id": 78225,
+              "label": "business & finance"
+            },
+            {
+              "idx": 3,
+              "date": "Jun 02, 2022",
+              "user_id": 11248,
+              "label": "education & reference"
+            },
+            {
+              "idx": 4,
+              "date": "Apr 06, 2024",
+              "user_id": 40757,
+              "label": "society & culture"
+            },
+            {
+              "idx": 5,
+              "date": "Feb 04, 2025",
+              "user_id": 11248,
+              "label": "computers & internet"
+            },
+            {
+              "idx": 6,
+              "date": "Jan 31, 2024",
+              "user_id": 58658,
+              "label": "business & finance"
+            },
+            {
+              "idx": 7,
+              "date": "Sep 11, 2022",
+              "user_id": 22521,
+              "label": "health"
+            },
+            {
+              "idx": 8,
+              "date": "May 06, 2025",
+              "user_id": 11248,
+              "label": "entertainment & music"
+            },
+            {
+              "idx": 9,
+              "date": "Apr 13, 2023",
+              "user_id": 11248,
+              "label": "science & mathematics"
+            },
+            {
+              "idx": 10,
+              "date": "Sep 26, 2022",
+              "user_id": 11248,
+              "label": "health"
+            },
+            {
+              "idx": 11,
+              "date": "Mar 28, 2025",
+              "user_id": 58153,
+              "label": "education & reference"
+            },
+            {
+              "idx": 12,
+              "date": "Aug 12, 2024",
+              "user_id": 58153,
+              "label": "business & finance"
+            },
+            {
+              "idx": 13,
+              "date": "Apr 14, 2025",
+              "user_id": 92981,
+              "label": "education & reference"
+            },
+            {
+              "idx": 14,
+              "date": "Jul 30, 2023",
+              "user_id": 58658,
+              "label": "politics & government"
+            },
+            {
+              "idx": 15,
+              "date": "May 23, 2023",
+              "user_id": 58153,
+              "label": "education & reference"
+            },
+            {
+              "idx": 16,
+              "date": "Mar 11, 2025",
+              "user_id": 53555,
+              "label": "education & reference"
+            },
+            {
+              "idx": 17,
+              "date": "Apr 17, 2025",
+              "user_id": 58153,
+              "label": "computers & internet"
+            },
+            {
+              "idx": 18,
+              "date": "Feb 04, 2023",
+              "user_id": 11248,
+              "label": "politics & government"
+            },
+            {
+              "idx": 19,
+              "date": "Sep 19, 2024",
+              "user_id": 12764,
+              "label": "family & relationships"
+            },
+            {
+              "idx": 20,
+              "date": "Feb 06, 2025",
+              "user_id": 58153,
+              "label": "computers & internet"
+            },
+            {
+              "idx": 21,
+              "date": "Apr 23, 2023",
+              "user_id": 11248,
+              "label": "sports"
+            },
+            {
+              "idx": 22,
+              "date": "Jun 11, 2023",
+              "user_id": 98365,
+              "label": "business & finance"
+            },
+            {
+              "idx": 23,
+              "date": "Jun 24, 2022",
+              "user_id": 38853,
+              "label": "education & reference"
+            },
+            {
+              "idx": 24,
+              "date": "May 02, 2022",
+              "user_id": 11248,
+              "label": "society & culture"
+            },
+            {
+              "idx": 25,
+              "date": "Jun 15, 2024",
+              "user_id": 33537,
+              "label": "society & culture"
+            },
+            {
+              "idx": 26,
+              "date": "Nov 24, 2024",
+              "user_id": 11248,
+              "label": "politics & government"
+            },
+            {
+              "idx": 27,
+              "date": "Aug 14, 2024",
+              "user_id": 11248,
+              "label": "science & mathematics"
+            },
+            {
+              "idx": 28,
+              "date": "Dec 27, 2023",
+              "user_id": 21127,
+              "label": "health"
+            },
+            {
+              "idx": 29,
+              "date": "Jun 12, 2023",
+              "user_id": 11248,
+              "label": "entertainment & music"
+            },
+            {
+              "idx": 30,
+              "date": "Dec 09, 2024",
+              "user_id": 58658,
+              "label": "entertainment & music"
+            },
+            {
+              "idx": 31,
+              "date": "Mar 09, 2022",
+              "user_id": 86955,
+              "label": "computers & internet"
+            },
+            {
+              "idx": 32,
+              "date": "Oct 09, 2023",
+              "user_id": 15664,
+              "label": "health"
+            },
+            {
+              "idx": 33,
+              "date": "Jan 23, 2025",
+              "user_id": 58658,
+              "label": "business & finance"
+            },
+            {
+              "idx": 34,
+              "date": "Apr 25, 2023",
+              "user_id": 58658,
+              "label": "business & finance"
+            },
+            {
+              "idx": 35,
+              "date": "Jun 16, 2024",
+              "user_id": 11248,
+              "label": "entertainment & music"
+            },
+            {
+              "idx": 36,
+              "date": "Jul 22, 2024",
+              "user_id": 58658,
+              "label": "society & culture"
+            },
+            {
+              "idx": 37,
+              "date": "May 20, 2023",
+              "user_id": 11248,
+              "label": "society & culture"
+            },
+            {
+              "idx": 38,
+              "date": "Aug 24, 2024",
+              "user_id": 58658,
+              "label": "politics & government"
+            },
+            {
+              "idx": 39,
+              "date": "Oct 07, 2023",
+              "user_id": 74118,
+              "label": "society & culture"
+            },
+            {
+              "idx": 40,
+              "date": "Oct 29, 2023",
+              "user_id": 12764,
+              "label": "politics & government"
+            },
+            {
+              "idx": 41,
+              "date": "Feb 14, 2025",
+              "user_id": 58153,
+              "label": "family & relationships"
+            },
+            {
+              "idx": 42,
+              "date": "Nov 11, 2023",
+              "user_id": 58658,
+              "label": "society & culture"
+            },
+            {
+              "idx": 43,
+              "date": "Sep 05, 2022",
+              "user_id": 58153,
+              "label": "entertainment & music"
+            },
+            {
+              "idx": 44,
+              "date": "Jul 17, 2024",
+              "user_id": 58153,
+              "label": "health"
+            },
+            {
+              "idx": 45,
+              "date": "Jul 08, 2023",
+              "user_id": 11248,
+              "label": "business & finance"
+            }
+          ],
+          "matched_line_count": 46,
+          "label_set_used": [
+            "entertainment & music",
+            "politics & government",
+            "education & reference",
+            "family & relationships",
+            "society & culture",
+            "science & mathematics",
+            "sports",
+            "health",
+            "computers & internet",
+            "business & finance"
+          ],
+          "batch_size": 15
+        },
+        "debug": {
+          "schema_error": null,
+          "regex_valid": true,
+          "regex_error": null,
+          "entry_line_count": 46,
+          "batch_errors": [],
+          "classify_splits": 0,
+          "classify_leaf_retries": 0,
+          "classify_chunk_retries": 0
+        }
+      }
+    },
+    {
+      "context_window_id": 50008,
+      "phase1": {
+        "dataset": "yahoo",
+        "schema": {
+          "label_set": [
+            "business & finance",
+            "education & reference",
+            "sports",
+            "society & culture",
+            "science & mathematics",
+            "computers & internet",
+            "health",
+            "politics & government",
+            "entertainment & music",
+            "family & relationships"
+          ],
+          "regular_expression": "^Date: ([A-Za-z]{3} \\d{1,2}, \\d{4}) \\|\\| User: (\\d+) \\|\\| Instance: (.+)$"
+        },
+        "classification": {
+          "records": [
+            {
+              "idx": 0,
+              "date": "Dec 14, 2024",
+              "user_id": 56374,
+              "label": "society & culture"
+            },
+            {
+              "idx": 1,
+              "date": "Jan 11, 2024",
+              "user_id": 56374,
+              "label": "business & finance"
+            },
+            {
+              "idx": 2,
+              "date": "Feb 04, 2025",
+              "user_id": 56374,
+              "label": "computers & internet"
+            },
+            {
+              "idx": 3,
+              "date": "Jan 27, 2023",
+              "user_id": 56374,
+              "label": "education & reference"
+            },
+            {
+              "idx": 4,
+              "date": "Mar 23, 2023",
+              "user_id": 59121,
+              "label": "health"
+            },
+            {
+              "idx": 5,
+              "date": "Dec 11, 2022",
+              "user_id": 59287,
+              "label": "politics & government"
+            },
+            {
+              "idx": 6,
+              "date": "Jul 04, 2023",
+              "user_id": 56374,
+              "label": "family & relationships"
+            },
+            {
+              "idx": 7,
+              "date": "Jul 30, 2024",
+              "user_id": 57916,
+              "label": "sports"
+            },
+            {
+              "idx": 8,
+              "date": "Aug 10, 2022",
+              "user_id": 57916,
+              "label": "entertainment & music"
+            },
+            {
+              "idx": 9,
+              "date": "Sep 18, 2023",
+              "user_id": 40493,
+              "label": "entertainment & music"
+            },
+            {
+              "idx": 10,
+              "date": "Mar 28, 2024",
+              "user_id": 41379,
+              "label": "society & culture"
+            },
+            {
+              "idx": 11,
+              "date": "Oct 01, 2023",
+              "user_id": 27532,
+              "label": "computers & internet"
+            },
+            {
+              "idx": 12,
+              "date": "Mar 17, 2022",
+              "user_id": 59121,
+              "label": "business & finance"
+            },
+            {
+              "idx": 13,
+              "date": "Jun 13, 2023",
+              "user_id": 59121,
+              "label": "education & reference"
+            },
+            {
+              "idx": 14,
+              "date": "Mar 22, 2023",
+              "user_id": 56374,
+              "label": "health"
+            },
+            {
+              "idx": 15,
+              "date": "Jun 29, 2023",
+              "user_id": 40493,
+              "label": "entertainment & music"
+            },
+            {
+              "idx": 16,
+              "date": "Mar 23, 2023",
+              "user_id": 59121,
+              "label": "entertainment & music"
+            },
+            {
+              "idx": 17,
+              "date": "Sep 01, 2024",
+              "user_id": 56374,
+              "label": "education & reference"
+            },
+            {
+              "idx": 18,
+              "date": "Jan 10, 2024",
+              "user_id": 56374,
+              "label": "family & relationships"
+            },
+            {
+              "idx": 19,
+              "date": "Sep 03, 2022",
+              "user_id": 56374,
+              "label": "business & finance"
+            },
+            {
+              "idx": 20,
+              "date": "Oct 18, 2024",
+              "user_id": 57916,
+              "label": "business & finance"
+            },
+            {
+              "idx": 21,
+              "date": "Apr 09, 2025",
+              "user_id": 57916,
+              "label": "health"
+            },
+            {
+              "idx": 22,
+              "date": "Nov 12, 2022",
+              "user_id": 57916,
+              "label": "health"
+            },
+            {
+              "idx": 23,
+              "date": "Sep 16, 2023",
+              "user_id": 90440,
+              "label": "business & finance"
+            },
+            {
+              "idx": 24,
+              "date": "Feb 20, 2023",
+              "user_id": 59121,
+              "label": "health"
+            },
+            {
+              "idx": 25,
+              "date": "Dec 07, 2023",
+              "user_id": 59121,
+              "label": "politics & government"
+            },
+            {
+              "idx": 26,
+              "date": "May 09, 2022",
+              "user_id": 40493,
+              "label": "business & finance"
+            },
+            {
+              "idx": 27,
+              "date": "Jul 10, 2024",
+              "user_id": 59121,
+              "label": "education & reference"
+            },
+            {
+              "idx": 28,
+              "date": "Oct 25, 2023",
+              "user_id": 59121,
+              "label": "entertainment & music"
+            },
+            {
+              "idx": 29,
+              "date": "Jun 09, 2025",
+              "user_id": 59121,
+              "label": "education & reference"
+            },
+            {
+              "idx": 30,
+              "date": "Sep 06, 2024",
+              "user_id": 24296,
+              "label": "science & mathematics"
+            },
+            {
+              "idx": 31,
+              "date": "Mar 15, 2022",
+              "user_id": 71637,
+              "label": "politics & government"
+            },
+            {
+              "idx": 32,
+              "date": "Aug 22, 2024",
+              "user_id": 56374,
+              "label": "science & mathematics"
+            },
+            {
+              "idx": 33,
+              "date": "Nov 15, 2022",
+              "user_id": 59121,
+              "label": "politics & government"
+            },
+            {
+              "idx": 34,
+              "date": "Sep 13, 2022",
+              "user_id": 40493,
+              "label": "society & culture"
+            },
+            {
+              "idx": 35,
+              "date": "Sep 23, 2024",
+              "user_id": 59121,
+              "label": "society & culture"
+            },
+            {
+              "idx": 36,
+              "date": "May 29, 2023",
+              "user_id": 59121,
+              "label": "entertainment & music"
+            },
+            {
+              "idx": 37,
+              "date": "Mar 25, 2024",
+              "user_id": 99653,
+              "label": "business & finance"
+            },
+            {
+              "idx": 38,
+              "date": "Aug 10, 2023",
+              "user_id": 56374,
+              "label": "sports"
+            },
+            {
+              "idx": 39,
+              "date": "Jul 17, 2024",
+              "user_id": 57916,
+              "label": "health"
+            },
+            {
+              "idx": 40,
+              "date": "Jun 12, 2023",
+              "user_id": 56374,
+              "label": "science & mathematics"
+            },
+            {
+              "idx": 41,
+              "date": "Jan 01, 2025",
+              "user_id": 57916,
+              "label": "education & reference"
+            },
+            {
+              "idx": 42,
+              "date": "Jul 01, 2024",
+              "user_id": 57916,
+              "label": "education & reference"
+            },
+            {
+              "idx": 43,
+              "date": "Aug 23, 2022",
+              "user_id": 40493,
+              "label": "society & culture"
+            },
+            {
+              "idx": 44,
+              "date": "Aug 07, 2023",
+              "user_id": 57916,
+              "label": "computers & internet"
+            },
+            {
+              "idx": 45,
+              "date": "Oct 12, 2023",
+              "user_id": 40493,
+              "label": "health"
+            }
+          ],
+          "matched_line_count": 46,
+          "label_set_used": [
+            "business & finance",
+            "education & reference",
+            "sports",
+            "society & culture",
+            "science & mathematics",
+            "computers & internet",
+            "health",
+            "politics & government",
+            "entertainment & music",
+            "family & relationships"
+          ],
+          "batch_size": 15
+        },
+        "debug": {
+          "schema_error": null,
+          "regex_valid": true,
+          "regex_error": null,
+          "entry_line_count": 46,
+          "batch_errors": [],
+          "classify_splits": 0,
+          "classify_leaf_retries": 0,
+          "classify_chunk_retries": 0
+        }
+      }
+    },
+    {
+      "context_window_id": 60006,
+      "phase1": {
+        "dataset": "formality",
+        "schema": {
+          "label_set": [
+            "formal",
+            "informal"
+          ],
+          "regular_expression": "^Date: (.+?) \\|\\| User: (\\d+) \\|\\| Instance: (.+)$"
+        },
+        "classification": {
+          "records": [
+            {
+              "idx": 0,
+              "date": "Nov 04, 2022",
+              "user_id": 86989,
+              "label": "formal"
+            },
+            {
+              "idx": 1,
+              "date": "Jan 22, 2025",
+              "user_id": 81388,
+              "label": "informal"
+            },
+            {
+              "idx": 2,
+              "date": "Jul 28, 2023",
+              "user_id": 31766,
+              "label": "informal"
+            },
+            {
+              "idx": 3,
+              "date": "Apr 06, 2022",
+              "user_id": 80886,
+              "label": "formal"
+            },
+            {
+              "idx": 4,
+              "date": "Aug 19, 2023",
+              "user_id": 73234,
+              "label": "informal"
+            },
+            {
+              "idx": 5,
+              "date": "Dec 03, 2022",
+              "user_id": 86989,
+              "label": "formal"
+            },
+            {
+              "idx": 6,
+              "date": "Nov 29, 2023",
+              "user_id": 80886,
+              "label": "formal"
+            },
+            {
+              "idx": 7,
+              "date": "Sep 29, 2023",
+              "user_id": 80886,
+              "label": "formal"
+            },
+            {
+              "idx": 8,
+              "date": "Mar 22, 2025",
+              "user_id": 86989,
+              "label": "formal"
+            },
+            {
+              "idx": 9,
+              "date": "Apr 29, 2025",
+              "user_id": 80886,
+              "label": "informal"
+            },
+            {
+              "idx": 10,
+              "date": "Jan 07, 2024",
+              "user_id": 81388,
+              "label": "informal"
+            },
+            {
+              "idx": 11,
+              "date": "Jun 01, 2024",
+              "user_id": 86989,
+              "label": "formal"
+            },
+            {
+              "idx": 12,
+              "date": "Jun 25, 2022",
+              "user_id": 67433,
+              "label": "informal"
+            },
+            {
+              "idx": 13,
+              "date": "Jul 01, 2024",
+              "user_id": 41518,
+              "label": "formal"
+            },
+            {
+              "idx": 14,
+              "date": "Feb 18, 2023",
+              "user_id": 60652,
+              "label": "informal"
+            },
+            {
+              "idx": 15,
+              "date": "Apr 09, 2022",
+              "user_id": 81388,
+              "label": "informal"
+            },
+            {
+              "idx": 16,
+              "date": "Apr 25, 2024",
+              "user_id": 58528,
+              "label": "formal"
+            },
+            {
+              "idx": 17,
+              "date": "Nov 08, 2022",
+              "user_id": 85113,
+              "label": "formal"
+            },
+            {
+              "idx": 18,
+              "date": "Sep 24, 2022",
+              "user_id": 86989,
+              "label": "informal"
+            },
+            {
+              "idx": 19,
+              "date": "May 15, 2025",
+              "user_id": 55678,
+              "label": "formal"
+            },
+            {
+              "idx": 20,
+              "date": "Mar 22, 2023",
+              "user_id": 86989,
+              "label": "formal"
+            },
+            {
+              "idx": 21,
+              "date": "Jul 25, 2024",
+              "user_id": 86989,
+              "label": "formal"
+            },
+            {
+              "idx": 22,
+              "date": "May 24, 2025",
+              "user_id": 86989,
+              "label": "informal"
+            },
+            {
+              "idx": 23,
+              "date": "Sep 23, 2023",
+              "user_id": 51593,
+              "label": "informal"
+            },
+            {
+              "idx": 24,
+              "date": "May 01, 2024",
+              "user_id": 86989,
+              "label": "formal"
+            },
+            {
+              "idx": 25,
+              "date": "May 10, 2024",
+              "user_id": 86989,
+              "label": "formal"
+            },
+            {
+              "idx": 26,
+              "date": "Jul 26, 2022",
+              "user_id": 80886,
+              "label": "informal"
+            },
+            {
+              "idx": 27,
+              "date": "Dec 01, 2022",
+              "user_id": 86989,
+              "label": "formal"
+            },
+            {
+              "idx": 28,
+              "date": "Apr 03, 2022",
+              "user_id": 86989,
+              "label": "informal"
+            },
+            {
+              "idx": 29,
+              "date": "Jun 08, 2022",
+              "user_id": 73234,
+              "label": "informal"
+            },
+            {
+              "idx": 30,
+              "date": "Jan 09, 2025",
+              "user_id": 58528,
+              "label": "informal"
+            },
+            {
+              "idx": 31,
+              "date": "Nov 21, 2024",
+              "user_id": 58528,
+              "label": "informal"
+            },
+            {
+              "idx": 32,
+              "date": "Oct 01, 2022",
+              "user_id": 81388,
+              "label": "formal"
+            },
+            {
+              "idx": 33,
+              "date": "Mar 09, 2025",
+              "user_id": 81388,
+              "label": "formal"
+            },
+            {
+              "idx": 34,
+              "date": "Jun 30, 2024",
+              "user_id": 86989,
+              "label": "formal"
+            },
+            {
+              "idx": 35,
+              "date": "Apr 28, 2024",
+              "user_id": 80886,
+              "label": "formal"
+            },
+            {
+              "idx": 36,
+              "date": "Apr 25, 2025",
+              "user_id": 98967,
+              "label": "formal"
+            },
+            {
+              "idx": 37,
+              "date": "Jul 14, 2023",
+              "user_id": 48219,
+              "label": "formal"
+            },
+            {
+              "idx": 38,
+              "date": "Aug 30, 2022",
+              "user_id": 81388,
+              "label": "informal"
+            },
+            {
+              "idx": 39,
+              "date": "Jan 16, 2025",
+              "user_id": 55678,
+              "label": "formal"
+            },
+            {
+              "idx": 40,
+              "date": "Dec 14, 2023",
+              "user_id": 81388,
+              "label": "formal"
+            },
+            {
+              "idx": 41,
+              "date": "Jan 29, 2024",
+              "user_id": 86989,
+              "label": "formal"
+            },
+            {
+              "idx": 42,
+              "date": "Feb 26, 2023",
+              "user_id": 55678,
+              "label": "formal"
+            },
+            {
+              "idx": 43,
+              "date": "Dec 18, 2023",
+              "user_id": 99130,
+              "label": "formal"
+            },
+            {
+              "idx": 44,
+              "date": "Aug 18, 2024",
+              "user_id": 58528,
+              "label": "formal"
+            },
+            {
+              "idx": 45,
+              "date": "Oct 12, 2022",
+              "user_id": 80886,
+              "label": "formal"
+            },
+            {
+              "idx": 46,
+              "date": "Sep 16, 2022",
+              "user_id": 73234,
+              "label": "informal"
+            },
+            {
+              "idx": 47,
+              "date": "Apr 24, 2022",
+              "user_id": 80886,
+              "label": "formal"
+            },
+            {
+              "idx": 48,
+              "date": "Jun 29, 2024",
+              "user_id": 80886,
+              "label": "formal"
+            },
+            {
+              "idx": 49,
+              "date": "Jul 21, 2024",
+              "user_id": 80886,
+              "label": "formal"
+            },
+            {
+              "idx": 50,
+              "date": "Jul 18, 2022",
+              "user_id": 73234,
+              "label": "formal"
+            },
+            {
+              "idx": 51,
+              "date": "Nov 10, 2022",
+              "user_id": 55678,
+              "label": "formal"
+            },
+            {
+              "idx": 52,
+              "date": "Jul 08, 2022",
+              "user_id": 55678,
+              "label": "informal"
+            },
+            {
+              "idx": 53,
+              "date": "Sep 14, 2024",
+              "user_id": 86989,
+              "label": "informal"
+            },
+            {
+              "idx": 54,
+              "date": "May 17, 2025",
+              "user_id": 81388,
+              "label": "informal"
+            },
+            {
+              "idx": 55,
+              "date": "Apr 23, 2022",
+              "user_id": 80886,
+              "label": "formal"
+            },
+            {
+              "idx": 56,
+              "date": "May 04, 2025",
+              "user_id": 55678,
+              "label": "formal"
+            },
+            {
+              "idx": 57,
+              "date": "Jun 09, 2023",
+              "user_id": 76518,
+              "label": "informal"
+            },
+            {
+              "idx": 58,
+              "date": "Jan 24, 2023",
+              "user_id": 81388,
+              "label": "formal"
+            },
+            {
+              "idx": 59,
+              "date": "Feb 27, 2024",
+              "user_id": 63731,
+              "label": "formal"
+            },
+            {
+              "idx": 60,
+              "date": "Feb 03, 2024",
+              "user_id": 58528,
+              "label": "formal"
+            },
+            {
+              "idx": 61,
+              "date": "Jul 22, 2024",
+              "user_id": 86989,
+              "label": "formal"
+            },
+            {
+              "idx": 62,
+              "date": "Jan 03, 2024",
+              "user_id": 81388,
+              "label": "formal"
+            },
+            {
+              "idx": 63,
+              "date": "Mar 18, 2023",
+              "user_id": 59371,
+              "label": "formal"
+            },
+            {
+              "idx": 64,
+              "date": "Mar 21, 2022",
+              "user_id": 73234,
+              "label": "informal"
+            },
+            {
+              "idx": 65,
+              "date": "Sep 10, 2023",
+              "user_id": 80886,
+              "label": "informal"
+            },
+            {
+              "idx": 66,
+              "date": "Feb 27, 2025",
+              "user_id": 73234,
+              "label": "formal"
+            },
+            {
+              "idx": 67,
+              "date": "Feb 04, 2025",
+              "user_id": 55678,
+              "label": "formal"
+            }
+          ],
+          "matched_line_count": 68,
+          "label_set_used": [
+            "formal",
+            "informal"
+          ],
+          "batch_size": 20
+        },
+        "debug": {
+          "schema_error": null,
+          "regex_valid": true,
+          "regex_error": null,
+          "entry_line_count": 68,
+          "batch_errors": [],
+          "classify_splits": 0,
+          "classify_leaf_retries": 0,
+          "classify_chunk_retries": 0
+        }
+      }
+    },
+    {
+      "context_window_id": 60008,
+      "phase1": {
+        "dataset": "formality",
+        "schema": {
+          "label_set": [
+            "informal",
+            "formal"
+          ],
+          "regular_expression": "^Date: ([A-Za-z]{3} \\d{2}, \\d{4}) \\|\\| User: (\\d+) \\|\\| Instance: (.+)$"
+        },
+        "classification": {
+          "records": [
+            {
+              "idx": 0,
+              "date": "Oct 31, 2024",
+              "user_id": 34960,
+              "label": "informal"
+            },
+            {
+              "idx": 1,
+              "date": "Jul 01, 2023",
+              "user_id": 83058,
+              "label": "formal"
+            },
+            {
+              "idx": 2,
+              "date": "Jul 07, 2023",
+              "user_id": 90688,
+              "label": "informal"
+            },
+            {
+              "idx": 3,
+              "date": "Jan 17, 2025",
+              "user_id": 90688,
+              "label": "informal"
+            },
+            {
+              "idx": 4,
+              "date": "Jul 31, 2023",
+              "user_id": 26053,
+              "label": "informal"
+            },
+            {
+              "idx": 5,
+              "date": "May 19, 2025",
+              "user_id": 37957,
+              "label": "informal"
+            },
+            {
+              "idx": 6,
+              "date": "Dec 12, 2022",
+              "user_id": 34960,
+              "label": "formal"
+            },
+            {
+              "idx": 7,
+              "date": "Apr 29, 2024",
+              "user_id": 42472,
+              "label": "informal"
+            },
+            {
+              "idx": 8,
+              "date": "May 05, 2023",
+              "user_id": 34960,
+              "label": "formal"
+            },
+            {
+              "idx": 9,
+              "date": "Dec 25, 2023",
+              "user_id": 83058,
+              "label": "formal"
+            },
+            {
+              "idx": 10,
+              "date": "Jun 21, 2022",
+              "user_id": 45260,
+              "label": "informal"
+            },
+            {
+              "idx": 11,
+              "date": "Apr 18, 2025",
+              "user_id": 27856,
+              "label": "informal"
+            },
+            {
+              "idx": 12,
+              "date": "Jun 08, 2025",
+              "user_id": 90688,
+              "label": "informal"
+            },
+            {
+              "idx": 13,
+              "date": "Mar 04, 2024",
+              "user_id": 83058,
+              "label": "informal"
+            },
+            {
+              "idx": 14,
+              "date": "Apr 19, 2024",
+              "user_id": 59440,
+              "label": "informal"
+            },
+            {
+              "idx": 15,
+              "date": "Mar 04, 2024",
+              "user_id": 90688,
+              "label": "informal"
+            },
+            {
+              "idx": 16,
+              "date": "Apr 20, 2024",
+              "user_id": 34960,
+              "label": "formal"
+            },
+            {
+              "idx": 17,
+              "date": "Mar 25, 2025",
+              "user_id": 69380,
+              "label": "formal"
+            },
+            {
+              "idx": 18,
+              "date": "Feb 13, 2024",
+              "user_id": 83058,
+              "label": "formal"
+            },
+            {
+              "idx": 19,
+              "date": "May 21, 2024",
+              "user_id": 97727,
+              "label": "formal"
+            },
+            {
+              "idx": 20,
+              "date": "Jun 23, 2023",
+              "user_id": 13984,
+              "label": "informal"
+            },
+            {
+              "idx": 21,
+              "date": "Mar 30, 2023",
+              "user_id": 49297,
+              "label": "formal"
+            },
+            {
+              "idx": 22,
+              "date": "May 29, 2024",
+              "user_id": 94171,
+              "label": "informal"
+            },
+            {
+              "idx": 23,
+              "date": "May 26, 2024",
+              "user_id": 18005,
+              "label": "informal"
+            },
+            {
+              "idx": 24,
+              "date": "Sep 13, 2024",
+              "user_id": 41253,
+              "label": "formal"
+            },
+            {
+              "idx": 25,
+              "date": "May 04, 2022",
+              "user_id": 90688,
+              "label": "informal"
+            },
+            {
+              "idx": 26,
+              "date": "May 30, 2022",
+              "user_id": 59440,
+              "label": "informal"
+            },
+            {
+              "idx": 27,
+              "date": "Jan 31, 2025",
+              "user_id": 87488,
+              "label": "informal"
+            },
+            {
+              "idx": 28,
+              "date": "Nov 20, 2024",
+              "user_id": 90688,
+              "label": "informal"
+            },
+            {
+              "idx": 29,
+              "date": "Apr 18, 2025",
+              "user_id": 97727,
+              "label": "informal"
+            },
+            {
+              "idx": 30,
+              "date": "Mar 17, 2024",
+              "user_id": 90688,
+              "label": "formal"
+            },
+            {
+              "idx": 31,
+              "date": "Dec 05, 2024",
+              "user_id": 34960,
+              "label": "formal"
+            },
+            {
+              "idx": 32,
+              "date": "Mar 29, 2023",
+              "user_id": 83058,
+              "label": "formal"
+            },
+            {
+              "idx": 33,
+              "date": "Apr 24, 2022",
+              "user_id": 28201,
+              "label": "informal"
+            },
+            {
+              "idx": 34,
+              "date": "Jul 26, 2024",
+              "user_id": 69875,
+              "label": "informal"
+            },
+            {
+              "idx": 35,
+              "date": "Nov 22, 2024",
+              "user_id": 83058,
+              "label": "informal"
+            },
+            {
+              "idx": 36,
+              "date": "Aug 15, 2023",
+              "user_id": 36484,
+              "label": "formal"
+            },
+            {
+              "idx": 37,
+              "date": "Jan 02, 2025",
+              "user_id": 83058,
+              "label": "formal"
+            },
+            {
+              "idx": 38,
+              "date": "Dec 27, 2022",
+              "user_id": 59440,
+              "label": "informal"
+            },
+            {
+              "idx": 39,
+              "date": "Feb 11, 2024",
+              "user_id": 97727,
+              "label": "formal"
+            },
+            {
+              "idx": 40,
+              "date": "Aug 27, 2023",
+              "user_id": 77857,
+              "label": "informal"
+            },
+            {
+              "idx": 41,
+              "date": "Jun 14, 2022",
+              "user_id": 44274,
+              "label": "formal"
+            },
+            {
+              "idx": 42,
+              "date": "Jan 23, 2025",
+              "user_id": 90688,
+              "label": "informal"
+            },
+            {
+              "idx": 43,
+              "date": "Sep 29, 2022",
+              "user_id": 87488,
+              "label": "informal"
+            },
+            {
+              "idx": 44,
+              "date": "Apr 09, 2023",
+              "user_id": 87488,
+              "label": "informal"
+            },
+            {
+              "idx": 45,
+              "date": "May 17, 2025",
+              "user_id": 87488,
+              "label": "informal"
+            },
+            {
+              "idx": 46,
+              "date": "May 15, 2022",
+              "user_id": 76643,
+              "label": "informal"
+            },
+            {
+              "idx": 47,
+              "date": "Jun 14, 2024",
+              "user_id": 83058,
+              "label": "formal"
+            },
+            {
+              "idx": 48,
+              "date": "Apr 08, 2022",
+              "user_id": 90688,
+              "label": "informal"
+            },
+            {
+              "idx": 49,
+              "date": "Nov 18, 2024",
+              "user_id": 90688,
+              "label": "formal"
+            },
+            {
+              "idx": 50,
+              "date": "Jun 11, 2022",
+              "user_id": 30081,
+              "label": "formal"
+            },
+            {
+              "idx": 51,
+              "date": "Jul 23, 2023",
+              "user_id": 87488,
+              "label": "formal"
+            },
+            {
+              "idx": 52,
+              "date": "Apr 26, 2024",
+              "user_id": 59440,
+              "label": "informal"
+            },
+            {
+              "idx": 53,
+              "date": "Dec 06, 2022",
+              "user_id": 80820,
+              "label": "formal"
+            },
+            {
+              "idx": 54,
+              "date": "Sep 06, 2024",
+              "user_id": 34960,
+              "label": "formal"
+            },
+            {
+              "idx": 55,
+              "date": "Sep 25, 2024",
+              "user_id": 59440,
+              "label": "formal"
+            },
+            {
+              "idx": 56,
+              "date": "May 29, 2025",
+              "user_id": 97727,
+              "label": "informal"
+            },
+            {
+              "idx": 57,
+              "date": "Jul 23, 2022",
+              "user_id": 87488,
+              "label": "formal"
+            },
+            {
+              "idx": 58,
+              "date": "May 29, 2025",
+              "user_id": 34960,
+              "label": "formal"
+            },
+            {
+              "idx": 59,
+              "date": "Oct 31, 2023",
+              "user_id": 64428,
+              "label": "formal"
+            },
+            {
+              "idx": 60,
+              "date": "Mar 07, 2022",
+              "user_id": 29085,
+              "label": "informal"
+            },
+            {
+              "idx": 61,
+              "date": "Apr 16, 2023",
+              "user_id": 97727,
+              "label": "formal"
+            },
+            {
+              "idx": 62,
+              "date": "Jun 27, 2022",
+              "user_id": 90688,
+              "label": "informal"
+            },
+            {
+              "idx": 63,
+              "date": "Jun 13, 2024",
+              "user_id": 34960,
+              "label": "informal"
+            },
+            {
+              "idx": 64,
+              "date": "Nov 28, 2022",
+              "user_id": 65340,
+              "label": "formal"
+            },
+            {
+              "idx": 65,
+              "date": "Apr 05, 2024",
+              "user_id": 87488,
+              "label": "formal"
+            },
+            {
+              "idx": 66,
+              "date": "Oct 31, 2022",
+              "user_id": 97727,
+              "label": "informal"
+            },
+            {
+              "idx": 67,
+              "date": "Mar 03, 2023",
+              "user_id": 87488,
+              "label": "formal"
+            }
+          ],
+          "matched_line_count": 68,
+          "label_set_used": [
+            "informal",
+            "formal"
+          ],
+          "batch_size": 20
+        },
+        "debug": {
+          "schema_error": null,
+          "regex_valid": true,
+          "regex_error": null,
+          "entry_line_count": 68,
+          "batch_errors": [],
+          "classify_splits": 0,
+          "classify_leaf_retries": 0,
+          "classify_chunk_retries": 0
+        }
+      }
+    },
+    {
+      "context_window_id": 70006,
+      "phase1": {
+        "dataset": "multinli",
+        "schema": {
+          "label_set": [
+            "neutral",
+            "contradiction",
+            "entailment"
+          ],
+          "regular_expression": "^Date: (.+?) \\|\\| User: (\\d+) \\|\\| Instance: (.+?) -> (.+)$"
+        },
+        "classification": {
+          "records": [
+            {
+              "idx": 0,
+              "date": "Oct 24, 2022",
+              "user_id": 24944,
+              "label": "contradiction"
+            },
+            {
+              "idx": 1,
+              "date": "Apr 18, 2025",
+              "user_id": 25844,
+              "label": "entailment"
+            },
+            {
+              "idx": 2,
+              "date": "May 30, 2022",
+              "user_id": 24944,
+              "label": "contradiction"
+            },
+            {
+              "idx": 3,
+              "date": "Jan 18, 2023",
+              "user_id": 99841,
+              "label": "contradiction"
+            },
+            {
+              "idx": 4,
+              "date": "Jan 10, 2025",
+              "user_id": 24944,
+              "label": "neutral"
+            },
+            {
+              "idx": 5,
+              "date": "Aug 30, 2022",
+              "user_id": 24944,
+              "label": "neutral"
+            },
+            {
+              "idx": 6,
+              "date": "Sep 18, 2024",
+              "user_id": 24944,
+              "label": "contradiction"
+            },
+            {
+              "idx": 7,
+              "date": "Sep 23, 2022",
+              "user_id": 25844,
+              "label": "contradiction"
+            },
+            {
+              "idx": 8,
+              "date": "Feb 05, 2024",
+              "user_id": 99841,
+              "label": "neutral"
+            },
+            {
+              "idx": 9,
+              "date": "Mar 04, 2024",
+              "user_id": 99841,
+              "label": "neutral"
+            },
+            {
+              "idx": 10,
+              "date": "Jun 10, 2024",
+              "user_id": 25844,
+              "label": "contradiction"
+            },
+            {
+              "idx": 11,
+              "date": "Aug 27, 2024",
+              "user_id": 60970,
+              "label": "entailment"
+            },
+            {
+              "idx": 12,
+              "date": "Jun 02, 2025",
+              "user_id": 25844,
+              "label": "neutral"
+            },
+            {
+              "idx": 13,
+              "date": "Apr 19, 2022",
+              "user_id": 24944,
+              "label": "entailment"
+            },
+            {
+              "idx": 14,
+              "date": "Mar 31, 2023",
+              "user_id": 22828,
+              "label": "neutral"
+            },
+            {
+              "idx": 15,
+              "date": "Oct 04, 2023",
+              "user_id": 60970,
+              "label": "contradiction"
+            },
+            {
+              "idx": 16,
+              "date": "Mar 21, 2025",
+              "user_id": 24944,
+              "label": "contradiction"
+            },
+            {
+              "idx": 17,
+              "date": "Feb 21, 2023",
+              "user_id": 60970,
+              "label": "entailment"
+            },
+            {
+              "idx": 18,
+              "date": "Apr 16, 2022",
+              "user_id": 13040,
+              "label": "entailment"
+            },
+            {
+              "idx": 19,
+              "date": "Feb 26, 2024",
+              "user_id": 99841,
+              "label": "entailment"
+            },
+            {
+              "idx": 20,
+              "date": "Sep 20, 2024",
+              "user_id": 25844,
+              "label": "entailment"
+            },
+            {
+              "idx": 21,
+              "date": "Sep 23, 2023",
+              "user_id": 54349,
+              "label": "entailment"
+            },
+            {
+              "idx": 22,
+              "date": "Mar 12, 2023",
+              "user_id": 25844,
+              "label": "contradiction"
+            },
+            {
+              "idx": 23,
+              "date": "May 31, 2022",
+              "user_id": 81289,
+              "label": "entailment"
+            },
+            {
+              "idx": 24,
+              "date": "May 27, 2024",
+              "user_id": 88515,
+              "label": "contradiction"
+            },
+            {
+              "idx": 25,
+              "date": "Aug 30, 2024",
+              "user_id": 99841,
+              "label": "contradiction"
+            },
+            {
+              "idx": 26,
+              "date": "Jan 21, 2023",
+              "user_id": 60970,
+              "label": "contradiction"
+            },
+            {
+              "idx": 27,
+              "date": "Nov 06, 2022",
+              "user_id": 24944,
+              "label": "entailment"
+            },
+            {
+              "idx": 28,
+              "date": "Jun 03, 2022",
+              "user_id": 99841,
+              "label": "contradiction"
+            },
+            {
+              "idx": 29,
+              "date": "Dec 12, 2024",
+              "user_id": 24944,
+              "label": "neutral"
+            },
+            {
+              "idx": 30,
+              "date": "Jun 08, 2025",
+              "user_id": 99841,
+              "label": "contradiction"
+            },
+            {
+              "idx": 31,
+              "date": "Feb 20, 2022",
+              "user_id": 99841,
+              "label": "neutral"
+            },
+            {
+              "idx": 32,
+              "date": "Mar 22, 2025",
+              "user_id": 77031,
+              "label": "contradiction"
+            },
+            {
+              "idx": 33,
+              "date": "Apr 22, 2024",
+              "user_id": 77842,
+              "label": "entailment"
+            },
+            {
+              "idx": 34,
+              "date": "Apr 03, 2022",
+              "user_id": 25844,
+              "label": "contradiction"
+            },
+            {
+              "idx": 35,
+              "date": "Feb 28, 2022",
+              "user_id": 24944,
+              "label": "entailment"
+            },
+            {
+              "idx": 36,
+              "date": "Apr 27, 2023",
+              "user_id": 99841,
+              "label": "neutral"
+            },
+            {
+              "idx": 37,
+              "date": "Nov 14, 2022",
+              "user_id": 25844,
+              "label": "entailment"
+            },
+            {
+              "idx": 38,
+              "date": "Oct 09, 2022",
+              "user_id": 25844,
+              "label": "entailment"
+            },
+            {
+              "idx": 39,
+              "date": "Jan 14, 2025",
+              "user_id": 60970,
+              "label": "contradiction"
+            },
+            {
+              "idx": 40,
+              "date": "Aug 03, 2022",
+              "user_id": 24944,
+              "label": "neutral"
+            },
+            {
+              "idx": 41,
+              "date": "Jul 19, 2023",
+              "user_id": 25844,
+              "label": "contradiction"
+            },
+            {
+              "idx": 42,
+              "date": "Feb 16, 2025",
+              "user_id": 25844,
+              "label": "entailment"
+            },
+            {
+              "idx": 43,
+              "date": "Sep 19, 2023",
+              "user_id": 79498,
+              "label": "neutral"
+            },
+            {
+              "idx": 44,
+              "date": "Jul 12, 2024",
+              "user_id": 68220,
+              "label": "entailment"
+            },
+            {
+              "idx": 45,
+              "date": "Feb 02, 2023",
+              "user_id": 60970,
+              "label": "contradiction"
+            },
+            {
+              "idx": 46,
+              "date": "Mar 19, 2023",
+              "user_id": 24944,
+              "label": "neutral"
+            },
+            {
+              "idx": 47,
+              "date": "Nov 19, 2023",
+              "user_id": 64490,
+              "label": "contradiction"
+            },
+            {
+              "idx": 48,
+              "date": "Nov 13, 2022",
+              "user_id": 99841,
+              "label": "entailment"
+            }
+          ],
+          "matched_line_count": 49,
+          "label_set_used": [
+            "neutral",
+            "contradiction",
+            "entailment"
+          ],
+          "batch_size": 15
+        },
+        "debug": {
+          "schema_error": null,
+          "regex_valid": true,
+          "regex_error": null,
+          "entry_line_count": 49,
+          "batch_errors": [],
+          "classify_splits": 0,
+          "classify_leaf_retries": 0,
+          "classify_chunk_retries": 0
+        }
+      }
+    },
+    {
+      "context_window_id": 70008,
+      "phase1": {
+        "dataset": "multinli",
+        "schema": {
+          "label_set": [
+            "entailment",
+            "contradiction",
+            "neutral"
+          ],
+          "regular_expression": "^Date: (.+?) \\|\\| User: (\\d+) \\|\\| Instance: (.+?) -> (.+?)$"
+        },
+        "classification": {
+          "records": [
+            {
+              "idx": 0,
+              "date": "Dec 19, 2023",
+              "user_id": 52144,
+              "label": "entailment"
+            },
+            {
+              "idx": 1,
+              "date": "Oct 08, 2023",
+              "user_id": 52144,
+              "label": "entailment"
+            },
+            {
+              "idx": 2,
+              "date": "Jan 04, 2024",
+              "user_id": 29629,
+              "label": "entailment"
+            },
+            {
+              "idx": 3,
+              "date": "Jan 19, 2024",
+              "user_id": 28074,
+              "label": "entailment"
+            },
+            {
+              "idx": 4,
+              "date": "Nov 30, 2023",
+              "user_id": 29629,
+              "label": "contradiction"
+            },
+            {
+              "idx": 5,
+              "date": "Jun 23, 2024",
+              "user_id": 28074,
+              "label": "entailment"
+            },
+            {
+              "idx": 6,
+              "date": "Apr 18, 2024",
+              "user_id": 78209,
+              "label": "entailment"
+            },
+            {
+              "idx": 7,
+              "date": "Jan 28, 2024",
+              "user_id": 28074,
+              "label": "entailment"
+            },
+            {
+              "idx": 8,
+              "date": "Jun 24, 2024",
+              "user_id": 28074,
+              "label": "entailment"
+            },
+            {
+              "idx": 9,
+              "date": "Aug 16, 2022",
+              "user_id": 52144,
+              "label": "entailment"
+            },
+            {
+              "idx": 10,
+              "date": "Nov 24, 2024",
+              "user_id": 29629,
+              "label": "entailment"
+            },
+            {
+              "idx": 11,
+              "date": "Jun 12, 2022",
+              "user_id": 52144,
+              "label": "contradiction"
+            },
+            {
+              "idx": 12,
+              "date": "Jan 20, 2025",
+              "user_id": 59461,
+              "label": "contradiction"
+            },
+            {
+              "idx": 13,
+              "date": "May 29, 2024",
+              "user_id": 88538,
+              "label": "entailment"
+            },
+            {
+              "idx": 14,
+              "date": "Mar 08, 2022",
+              "user_id": 76865,
+              "label": "entailment"
+            },
+            {
+              "idx": 15,
+              "date": "Nov 15, 2023",
+              "user_id": 71777,
+              "label": "entailment"
+            },
+            {
+              "idx": 16,
+              "date": "Aug 10, 2022",
+              "user_id": 89706,
+              "label": "neutral"
+            },
+            {
+              "idx": 17,
+              "date": "May 13, 2023",
+              "user_id": 52144,
+              "label": "entailment"
+            },
+            {
+              "idx": 18,
+              "date": "May 10, 2024",
+              "user_id": 29629,
+              "label": "neutral"
+            },
+            {
+              "idx": 19,
+              "date": "Jun 08, 2023",
+              "user_id": 52144,
+              "label": "entailment"
+            },
+            {
+              "idx": 20,
+              "date": "Jul 23, 2023",
+              "user_id": 36942,
+              "label": "neutral"
+            },
+            {
+              "idx": 21,
+              "date": "Oct 03, 2023",
+              "user_id": 52144,
+              "label": "contradiction"
+            },
+            {
+              "idx": 22,
+              "date": "Apr 05, 2022",
+              "user_id": 28074,
+              "label": "neutral"
+            },
+            {
+              "idx": 23,
+              "date": "Jul 20, 2022",
+              "user_id": 61616,
+              "label": "contradiction"
+            },
+            {
+              "idx": 24,
+              "date": "Oct 28, 2023",
+              "user_id": 29629,
+              "label": "entailment"
+            },
+            {
+              "idx": 25,
+              "date": "Oct 12, 2022",
+              "user_id": 67868,
+              "label": "contradiction"
+            },
+            {
+              "idx": 26,
+              "date": "Oct 03, 2022",
+              "user_id": 59461,
+              "label": "neutral"
+            },
+            {
+              "idx": 27,
+              "date": "May 19, 2023",
+              "user_id": 52144,
+              "label": "neutral"
+            },
+            {
+              "idx": 28,
+              "date": "Oct 03, 2024",
+              "user_id": 52144,
+              "label": "neutral"
+            },
+            {
+              "idx": 29,
+              "date": "Mar 28, 2024",
+              "user_id": 28074,
+              "label": "entailment"
+            },
+            {
+              "idx": 30,
+              "date": "Dec 08, 2023",
+              "user_id": 52144,
+              "label": "entailment"
+            },
+            {
+              "idx": 31,
+              "date": "Jun 19, 2024",
+              "user_id": 59461,
+              "label": "entailment"
+            },
+            {
+              "idx": 32,
+              "date": "May 16, 2022",
+              "user_id": 68678,
+              "label": "contradiction"
+            },
+            {
+              "idx": 33,
+              "date": "Jul 27, 2023",
+              "user_id": 46078,
+              "label": "entailment"
+            },
+            {
+              "idx": 34,
+              "date": "Jun 15, 2022",
+              "user_id": 59461,
+              "label": "entailment"
+            },
+            {
+              "idx": 35,
+              "date": "Oct 27, 2022",
+              "user_id": 52144,
+              "label": "entailment"
+            },
+            {
+              "idx": 36,
+              "date": "Jul 04, 2024",
+              "user_id": 28074,
+              "label": "entailment"
+            },
+            {
+              "idx": 37,
+              "date": "Sep 23, 2022",
+              "user_id": 29629,
+              "label": "entailment"
+            },
+            {
+              "idx": 38,
+              "date": "Jul 05, 2022",
+              "user_id": 52144,
+              "label": "neutral"
+            },
+            {
+              "idx": 39,
+              "date": "Aug 03, 2024",
+              "user_id": 52144,
+              "label": "contradiction"
+            },
+            {
+              "idx": 40,
+              "date": "Mar 20, 2023",
+              "user_id": 59461,
+              "label": "entailment"
+            },
+            {
+              "idx": 41,
+              "date": "May 20, 2025",
+              "user_id": 28074,
+              "label": "contradiction"
+            },
+            {
+              "idx": 42,
+              "date": "Oct 06, 2022",
+              "user_id": 28074,
+              "label": "contradiction"
+            },
+            {
+              "idx": 43,
+              "date": "Mar 19, 2022",
+              "user_id": 59461,
+              "label": "neutral"
+            },
+            {
+              "idx": 44,
+              "date": "Feb 03, 2025",
+              "user_id": 59461,
+              "label": "contradiction"
+            },
+            {
+              "idx": 45,
+              "date": "Mar 24, 2024",
+              "user_id": 29629,
+              "label": "entailment"
+            },
+            {
+              "idx": 46,
+              "date": "Jul 09, 2022",
+              "user_id": 26947,
+              "label": "entailment"
+            },
+            {
+              "idx": 47,
+              "date": "Aug 16, 2023",
+              "user_id": 52144,
+              "label": "entailment"
+            },
+            {
+              "idx": 48,
+              "date": "Sep 09, 2022",
+              "user_id": 39575,
+              "label": "neutral"
+            }
+          ],
+          "matched_line_count": 49,
+          "label_set_used": [
+            "entailment",
+            "contradiction",
+            "neutral"
+          ],
+          "batch_size": 15
+        },
+        "debug": {
+          "schema_error": null,
+          "regex_valid": true,
+          "regex_error": null,
+          "entry_line_count": 49,
+          "batch_errors": [],
+          "classify_splits": 0,
+          "classify_leaf_retries": 0,
+          "classify_chunk_retries": 0
+        }
+      }
+    },
+    {
+      "context_window_id": 80006,
+      "phase1": {
+        "dataset": "metaphors",
+        "schema": {
+          "label_set": [
+            "correct",
+            "incorrect"
+          ],
+          "regular_expression": "^Date: (.+?) \\|\\| User: (\\d+) \\|\\| Instance: (.+?) <--> (.+?)$"
+        },
+        "classification": {
+          "records": [
+            {
+              "idx": 0,
+              "date": "Feb 16, 2024",
+              "user_id": 80973,
+              "label": "incorrect"
+            },
+            {
+              "idx": 1,
+              "date": "Jan 30, 2025",
+              "user_id": 11940,
+              "label": "incorrect"
+            },
+            {
+              "idx": 2,
+              "date": "Jan 17, 2023",
+              "user_id": 98006,
+              "label": "correct"
+            },
+            {
+              "idx": 3,
+              "date": "Jun 21, 2025",
+              "user_id": 11940,
+              "label": "incorrect"
+            },
+            {
+              "idx": 4,
+              "date": "May 18, 2024",
+              "user_id": 18665,
+              "label": "incorrect"
+            },
+            {
+              "idx": 5,
+              "date": "Jan 06, 2024",
+              "user_id": 76850,
+              "label": "incorrect"
+            },
+            {
+              "idx": 6,
+              "date": "Nov 12, 2024",
+              "user_id": 11940,
+              "label": "incorrect"
+            },
+            {
+              "idx": 7,
+              "date": "Feb 12, 2023",
+              "user_id": 81207,
+              "label": "incorrect"
+            },
+            {
+              "idx": 8,
+              "date": "Jan 15, 2025",
+              "user_id": 80973,
+              "label": "incorrect"
+            },
+            {
+              "idx": 9,
+              "date": "Mar 24, 2023",
+              "user_id": 98006,
+              "label": "incorrect"
+            },
+            {
+              "idx": 10,
+              "date": "Sep 15, 2022",
+              "user_id": 45008,
+              "label": "incorrect"
+            },
+            {
+              "idx": 11,
+              "date": "Aug 18, 2022",
+              "user_id": 94079,
+              "label": "incorrect"
+            },
+            {
+              "idx": 12,
+              "date": "Feb 01, 2024",
+              "user_id": 76850,
+              "label": "incorrect"
+            },
+            {
+              "idx": 13,
+              "date": "Mar 28, 2022",
+              "user_id": 39099,
+              "label": "incorrect"
+            },
+            {
+              "idx": 14,
+              "date": "Feb 11, 2024",
+              "user_id": 18665,
+              "label": "incorrect"
+            },
+            {
+              "idx": 15,
+              "date": "Oct 19, 2023",
+              "user_id": 18665,
+              "label": "incorrect"
+            },
+            {
+              "idx": 16,
+              "date": "Oct 12, 2023",
+              "user_id": 11940,
+              "label": "incorrect"
+            },
+            {
+              "idx": 17,
+              "date": "Nov 07, 2024",
+              "user_id": 76850,
+              "label": "incorrect"
+            },
+            {
+              "idx": 18,
+              "date": "Apr 15, 2024",
+              "user_id": 11940,
+              "label": "incorrect"
+            },
+            {
+              "idx": 19,
+              "date": "Jan 25, 2023",
+              "user_id": 11940,
+              "label": "incorrect"
+            },
+            {
+              "idx": 20,
+              "date": "May 15, 2022",
+              "user_id": 76850,
+              "label": "incorrect"
+            },
+            {
+              "idx": 21,
+              "date": "Nov 26, 2023",
+              "user_id": 72302,
+              "label": "incorrect"
+            },
+            {
+              "idx": 22,
+              "date": "Sep 24, 2022",
+              "user_id": 76850,
+              "label": "correct"
+            },
+            {
+              "idx": 23,
+              "date": "Feb 03, 2024",
+              "user_id": 39099,
+              "label": "incorrect"
+            },
+            {
+              "idx": 24,
+              "date": "Nov 19, 2022",
+              "user_id": 18665,
+              "label": "correct"
+            },
+            {
+              "idx": 25,
+              "date": "Sep 12, 2022",
+              "user_id": 27449,
+              "label": "correct"
+            },
+            {
+              "idx": 26,
+              "date": "Sep 22, 2024",
+              "user_id": 98006,
+              "label": "incorrect"
+            },
+            {
+              "idx": 27,
+              "date": "Oct 23, 2024",
+              "user_id": 13810,
+              "label": "incorrect"
+            },
+            {
+              "idx": 28,
+              "date": "Jul 03, 2022",
+              "user_id": 11940,
+              "label": "incorrect"
+            },
+            {
+              "idx": 29,
+              "date": "Nov 22, 2023",
+              "user_id": 91473,
+              "label": "incorrect"
+            },
+            {
+              "idx": 30,
+              "date": "Apr 20, 2025",
+              "user_id": 39099,
+              "label": "incorrect"
+            },
+            {
+              "idx": 31,
+              "date": "Oct 10, 2024",
+              "user_id": 76850,
+              "label": "incorrect"
+            },
+            {
+              "idx": 32,
+              "date": "Oct 31, 2023",
+              "user_id": 11940,
+              "label": "correct"
+            },
+            {
+              "idx": 33,
+              "date": "Nov 12, 2024",
+              "user_id": 98006,
+              "label": "incorrect"
+            },
+            {
+              "idx": 34,
+              "date": "Feb 08, 2025",
+              "user_id": 18665,
+              "label": "incorrect"
+            },
+            {
+              "idx": 35,
+              "date": "Apr 28, 2024",
+              "user_id": 18665,
+              "label": "incorrect"
+            },
+            {
+              "idx": 36,
+              "date": "Dec 10, 2024",
+              "user_id": 80973,
+              "label": "incorrect"
+            },
+            {
+              "idx": 37,
+              "date": "Mar 31, 2025",
+              "user_id": 39099,
+              "label": "incorrect"
+            },
+            {
+              "idx": 38,
+              "date": "Oct 15, 2022",
+              "user_id": 23893,
+              "label": "incorrect"
+            },
+            {
+              "idx": 39,
+              "date": "Jan 19, 2024",
+              "user_id": 11940,
+              "label": "incorrect"
+            },
+            {
+              "idx": 40,
+              "date": "Feb 06, 2024",
+              "user_id": 18665,
+              "label": "incorrect"
+            },
+            {
+              "idx": 41,
+              "date": "Jun 22, 2024",
+              "user_id": 60242,
+              "label": "incorrect"
+            },
+            {
+              "idx": 42,
+              "date": "Apr 28, 2025",
+              "user_id": 52826,
+              "label": "incorrect"
+            },
+            {
+              "idx": 43,
+              "date": "Jun 02, 2022",
+              "user_id": 98006,
+              "label": "incorrect"
+            },
+            {
+              "idx": 44,
+              "date": "Nov 28, 2022",
+              "user_id": 18665,
+              "label": "incorrect"
+            },
+            {
+              "idx": 45,
+              "date": "May 27, 2024",
+              "user_id": 18665,
+              "label": "incorrect"
+            },
+            {
+              "idx": 46,
+              "date": "Feb 25, 2024",
+              "user_id": 80973,
+              "label": "incorrect"
+            },
+            {
+              "idx": 47,
+              "date": "Feb 20, 2024",
+              "user_id": 39099,
+              "label": "incorrect"
+            },
+            {
+              "idx": 48,
+              "date": "Jun 02, 2025",
+              "user_id": 80973,
+              "label": "incorrect"
+            },
+            {
+              "idx": 49,
+              "date": "May 23, 2025",
+              "user_id": 18665,
+              "label": "incorrect"
+            },
+            {
+              "idx": 50,
+              "date": "Dec 03, 2023",
+              "user_id": 18665,
+              "label": "incorrect"
+            },
+            {
+              "idx": 51,
+              "date": "Nov 27, 2023",
+              "user_id": 80973,
+              "label": "incorrect"
+            },
+            {
+              "idx": 52,
+              "date": "Jul 30, 2022",
+              "user_id": 76850,
+              "label": "incorrect"
+            },
+            {
+              "idx": 53,
+              "date": "Jun 19, 2025",
+              "user_id": 80973,
+              "label": "incorrect"
+            },
+            {
+              "idx": 54,
+              "date": "Oct 04, 2022",
+              "user_id": 27197,
+              "label": "incorrect"
+            },
+            {
+              "idx": 55,
+              "date": "Nov 24, 2024",
+              "user_id": 41180,
+              "label": "incorrect"
+            },
+            {
+              "idx": 56,
+              "date": "Mar 17, 2024",
+              "user_id": 98006,
+              "label": "incorrect"
+            },
+            {
+              "idx": 57,
+              "date": "Jul 22, 2022",
+              "user_id": 15349,
+              "label": "incorrect"
+            },
+            {
+              "idx": 58,
+              "date": "Dec 15, 2022",
+              "user_id": 18665,
+              "label": "incorrect"
+            },
+            {
+              "idx": 59,
+              "date": "Jul 27, 2024",
+              "user_id": 98006,
+              "label": "incorrect"
+            },
+            {
+              "idx": 60,
+              "date": "Jun 20, 2024",
+              "user_id": 23007,
+              "label": "incorrect"
+            },
+            {
+              "idx": 61,
+              "date": "Dec 30, 2022",
+              "user_id": 37919,
+              "label": "incorrect"
+            },
+            {
+              "idx": 62,
+              "date": "Dec 12, 2024",
+              "user_id": 39099,
+              "label": "incorrect"
+            },
+            {
+              "idx": 63,
+              "date": "Nov 09, 2023",
+              "user_id": 18665,
+              "label": "correct"
+            },
+            {
+              "idx": 64,
+              "date": "Mar 07, 2024",
+              "user_id": 11940,
+              "label": "incorrect"
+            },
+            {
+              "idx": 65,
+              "date": "May 30, 2022",
+              "user_id": 39099,
+              "label": "incorrect"
+            },
+            {
+              "idx": 66,
+              "date": "Feb 09, 2023",
+              "user_id": 76850,
+              "label": "incorrect"
+            },
+            {
+              "idx": 67,
+              "date": "Jun 06, 2022",
+              "user_id": 39099,
+              "label": "correct"
+            }
+          ],
+          "matched_line_count": 68,
+          "label_set_used": [
+            "correct",
+            "incorrect"
+          ],
+          "batch_size": 20
+        },
+        "debug": {
+          "schema_error": null,
+          "regex_valid": true,
+          "regex_error": null,
+          "entry_line_count": 68,
+          "batch_errors": [],
+          "classify_splits": 0,
+          "classify_leaf_retries": 0,
+          "classify_chunk_retries": 1
+        }
+      }
+    },
+    {
+      "context_window_id": 80008,
+      "phase1": {
+        "dataset": "metaphors",
+        "schema": {
+          "label_set": [
+            "correct",
+            "incorrect"
+          ],
+          "regular_expression": "^Date: (.+?) \\|\\| User: (\\d+) \\|\\| Instance: (.+?) <--> (.+)$"
+        },
+        "classification": {
+          "records": [
+            {
+              "idx": 0,
+              "date": "Sep 09, 2024",
+              "user_id": 12639,
+              "label": "correct"
+            },
+            {
+              "idx": 1,
+              "date": "Oct 13, 2023",
+              "user_id": 43371,
+              "label": "correct"
+            },
+            {
+              "idx": 2,
+              "date": "Jun 14, 2025",
+              "user_id": 91525,
+              "label": "correct"
+            },
+            {
+              "idx": 3,
+              "date": "Apr 21, 2024",
+              "user_id": 91525,
+              "label": "incorrect"
+            },
+            {
+              "idx": 4,
+              "date": "Dec 24, 2022",
+              "user_id": 91525,
+              "label": "incorrect"
+            },
+            {
+              "idx": 5,
+              "date": "Mar 12, 2025",
+              "user_id": 96369,
+              "label": "incorrect"
+            },
+            {
+              "idx": 6,
+              "date": "Dec 06, 2022",
+              "user_id": 27501,
+              "label": "incorrect"
+            },
+            {
+              "idx": 7,
+              "date": "Dec 09, 2024",
+              "user_id": 64527,
+              "label": "incorrect"
+            },
+            {
+              "idx": 8,
+              "date": "Jan 24, 2024",
+              "user_id": 27501,
+              "label": "correct"
+            },
+            {
+              "idx": 9,
+              "date": "Apr 30, 2022",
+              "user_id": 37144,
+              "label": "correct"
+            },
+            {
+              "idx": 10,
+              "date": "Jan 17, 2025",
+              "user_id": 32719,
+              "label": "correct"
+            },
+            {
+              "idx": 11,
+              "date": "Apr 20, 2022",
+              "user_id": 27501,
+              "label": "incorrect"
+            },
+            {
+              "idx": 12,
+              "date": "Feb 22, 2024",
+              "user_id": 37144,
+              "label": "incorrect"
+            },
+            {
+              "idx": 13,
+              "date": "Jul 11, 2024",
+              "user_id": 43371,
+              "label": "incorrect"
+            },
+            {
+              "idx": 14,
+              "date": "Jun 13, 2022",
+              "user_id": 27501,
+              "label": "correct"
+            },
+            {
+              "idx": 15,
+              "date": "Nov 14, 2024",
+              "user_id": 91525,
+              "label": "correct"
+            },
+            {
+              "idx": 16,
+              "date": "Nov 13, 2024",
+              "user_id": 68261,
+              "label": "correct"
+            },
+            {
+              "idx": 17,
+              "date": "Aug 03, 2023",
+              "user_id": 43371,
+              "label": "correct"
+            },
+            {
+              "idx": 18,
+              "date": "Nov 15, 2024",
+              "user_id": 27501,
+              "label": "incorrect"
+            },
+            {
+              "idx": 19,
+              "date": "Oct 09, 2022",
+              "user_id": 27501,
+              "label": "correct"
+            },
+            {
+              "idx": 20,
+              "date": "May 02, 2025",
+              "user_id": 43371,
+              "label": "incorrect"
+            },
+            {
+              "idx": 21,
+              "date": "Jan 22, 2024",
+              "user_id": 91525,
+              "label": "incorrect"
+            },
+            {
+              "idx": 22,
+              "date": "Mar 28, 2025",
+              "user_id": 49577,
+              "label": "incorrect"
+            },
+            {
+              "idx": 23,
+              "date": "Jul 18, 2022",
+              "user_id": 37144,
+              "label": "incorrect"
+            },
+            {
+              "idx": 24,
+              "date": "Dec 02, 2024",
+              "user_id": 49577,
+              "label": "correct"
+            },
+            {
+              "idx": 25,
+              "date": "Jul 04, 2022",
+              "user_id": 49577,
+              "label": "correct"
+            },
+            {
+              "idx": 26,
+              "date": "Mar 06, 2022",
+              "user_id": 91525,
+              "label": "correct"
+            },
+            {
+              "idx": 27,
+              "date": "Oct 08, 2024",
+              "user_id": 49577,
+              "label": "incorrect"
+            },
+            {
+              "idx": 28,
+              "date": "Aug 03, 2023",
+              "user_id": 91525,
+              "label": "incorrect"
+            },
+            {
+              "idx": 29,
+              "date": "Mar 02, 2025",
+              "user_id": 91525,
+              "label": "correct"
+            },
+            {
+              "idx": 30,
+              "date": "Oct 07, 2024",
+              "user_id": 37144,
+              "label": "correct"
+            },
+            {
+              "idx": 31,
+              "date": "Mar 05, 2024",
+              "user_id": 91525,
+              "label": "incorrect"
+            },
+            {
+              "idx": 32,
+              "date": "May 23, 2022",
+              "user_id": 99062,
+              "label": "incorrect"
+            },
+            {
+              "idx": 33,
+              "date": "Aug 28, 2023",
+              "user_id": 82244,
+              "label": "correct"
+            },
+            {
+              "idx": 34,
+              "date": "Jun 18, 2024",
+              "user_id": 27603,
+              "label": "incorrect"
+            },
+            {
+              "idx": 35,
+              "date": "Nov 25, 2022",
+              "user_id": 49577,
+              "label": "incorrect"
+            },
+            {
+              "idx": 36,
+              "date": "Oct 16, 2023",
+              "user_id": 34531,
+              "label": "incorrect"
+            },
+            {
+              "idx": 37,
+              "date": "Feb 01, 2024",
+              "user_id": 82244,
+              "label": "incorrect"
+            },
+            {
+              "idx": 38,
+              "date": "Mar 03, 2024",
+              "user_id": 91525,
+              "label": "correct"
+            },
+            {
+              "idx": 39,
+              "date": "Aug 03, 2024",
+              "user_id": 49577,
+              "label": "incorrect"
+            },
+            {
+              "idx": 40,
+              "date": "Nov 16, 2024",
+              "user_id": 49577,
+              "label": "incorrect"
+            },
+            {
+              "idx": 41,
+              "date": "Jul 23, 2022",
+              "user_id": 49577,
+              "label": "incorrect"
+            },
+            {
+              "idx": 42,
+              "date": "Jan 08, 2024",
+              "user_id": 86304,
+              "label": "incorrect"
+            },
+            {
+              "idx": 43,
+              "date": "Nov 12, 2024",
+              "user_id": 82244,
+              "label": "correct"
+            },
+            {
+              "idx": 44,
+              "date": "Mar 16, 2024",
+              "user_id": 49577,
+              "label": "incorrect"
+            },
+            {
+              "idx": 45,
+              "date": "Oct 13, 2022",
+              "user_id": 82244,
+              "label": "incorrect"
+            },
+            {
+              "idx": 46,
+              "date": "Feb 24, 2022",
+              "user_id": 43371,
+              "label": "incorrect"
+            },
+            {
+              "idx": 47,
+              "date": "Jun 11, 2022",
+              "user_id": 43371,
+              "label": "incorrect"
+            },
+            {
+              "idx": 48,
+              "date": "Sep 21, 2024",
+              "user_id": 24696,
+              "label": "incorrect"
+            },
+            {
+              "idx": 49,
+              "date": "Oct 20, 2023",
+              "user_id": 91525,
+              "label": "incorrect"
+            },
+            {
+              "idx": 50,
+              "date": "May 30, 2022",
+              "user_id": 37144,
+              "label": "incorrect"
+            },
+            {
+              "idx": 51,
+              "date": "Jun 16, 2024",
+              "user_id": 82244,
+              "label": "incorrect"
+            },
+            {
+              "idx": 52,
+              "date": "Jan 16, 2025",
+              "user_id": 91525,
+              "label": "correct"
+            },
+            {
+              "idx": 53,
+              "date": "May 17, 2025",
+              "user_id": 27501,
+              "label": "incorrect"
+            },
+            {
+              "idx": 54,
+              "date": "Feb 05, 2024",
+              "user_id": 49577,
+              "label": "incorrect"
+            },
+            {
+              "idx": 55,
+              "date": "Nov 29, 2024",
+              "user_id": 27501,
+              "label": "incorrect"
+            },
+            {
+              "idx": 56,
+              "date": "Feb 02, 2025",
+              "user_id": 27501,
+              "label": "correct"
+            },
+            {
+              "idx": 57,
+              "date": "May 15, 2024",
+              "user_id": 77763,
+              "label": "incorrect"
+            },
+            {
+              "idx": 58,
+              "date": "Jun 10, 2025",
+              "user_id": 91525,
+              "label": "incorrect"
+            },
+            {
+              "idx": 59,
+              "date": "May 23, 2024",
+              "user_id": 13416,
+              "label": "incorrect"
+            },
+            {
+              "idx": 60,
+              "date": "Oct 11, 2024",
+              "user_id": 27501,
+              "label": "incorrect"
+            },
+            {
+              "idx": 61,
+              "date": "Jun 03, 2023",
+              "user_id": 48705,
+              "label": "correct"
+            },
+            {
+              "idx": 62,
+              "date": "Sep 03, 2024",
+              "user_id": 49577,
+              "label": "incorrect"
+            },
+            {
+              "idx": 63,
+              "date": "Nov 14, 2022",
+              "user_id": 37144,
+              "label": "incorrect"
+            },
+            {
+              "idx": 64,
+              "date": "Aug 07, 2022",
+              "user_id": 49577,
+              "label": "incorrect"
+            },
+            {
+              "idx": 65,
+              "date": "Jan 09, 2025",
+              "user_id": 49577,
+              "label": "incorrect"
+            },
+            {
+              "idx": 66,
+              "date": "Apr 02, 2025",
+              "user_id": 98585,
+              "label": "correct"
+            },
+            {
+              "idx": 67,
+              "date": "Nov 01, 2022",
+              "user_id": 27501,
+              "label": "correct"
+            }
+          ],
+          "matched_line_count": 68,
+          "label_set_used": [
+            "correct",
+            "incorrect"
+          ],
+          "batch_size": 20
+        },
+        "debug": {
+          "schema_error": null,
+          "regex_valid": true,
+          "regex_error": null,
+          "entry_line_count": 68,
+          "batch_errors": [],
+          "classify_splits": 0,
+          "classify_leaf_retries": 0,
+          "classify_chunk_retries": 0
+        }
+      }
+    },
+    {
+      "context_window_id": 90006,
+      "phase1": {
+        "dataset": "app_reviews",
+        "schema": {
+          "label_set": [
+            "positive",
+            "negative"
+          ],
+          "regular_expression": "^Date: (.+?) \\|\\| User: (\\d+) \\|\\| Instance: (.+)$"
+        },
+        "classification": {
+          "records": [
+            {
+              "idx": 0,
+              "date": "Jan 22, 2023",
+              "user_id": 76529,
+              "label": "positive"
+            },
+            {
+              "idx": 1,
+              "date": "Apr 21, 2025",
+              "user_id": 63720,
+              "label": "negative"
+            },
+            {
+              "idx": 2,
+              "date": "Jun 30, 2022",
+              "user_id": 36865,
+              "label": "negative"
+            },
+            {
+              "idx": 3,
+              "date": "Feb 18, 2022",
+              "user_id": 76173,
+              "label": "positive"
+            },
+            {
+              "idx": 4,
+              "date": "Feb 26, 2025",
+              "user_id": 51111,
+              "label": "positive"
+            },
+            {
+              "idx": 5,
+              "date": "Oct 06, 2022",
+              "user_id": 51111,
+              "label": "negative"
+            },
+            {
+              "idx": 6,
+              "date": "Sep 16, 2022",
+              "user_id": 39473,
+              "label": "positive"
+            },
+            {
+              "idx": 7,
+              "date": "Apr 09, 2022",
+              "user_id": 55442,
+              "label": "positive"
+            },
+            {
+              "idx": 8,
+              "date": "Dec 05, 2024",
+              "user_id": 26037,
+              "label": "positive"
+            },
+            {
+              "idx": 9,
+              "date": "Jul 28, 2024",
+              "user_id": 21086,
+              "label": "positive"
+            },
+            {
+              "idx": 10,
+              "date": "Nov 29, 2024",
+              "user_id": 76529,
+              "label": "positive"
+            },
+            {
+              "idx": 11,
+              "date": "Jul 31, 2024",
+              "user_id": 26037,
+              "label": "positive"
+            },
+            {
+              "idx": 12,
+              "date": "Sep 18, 2023",
+              "user_id": 37683,
+              "label": "positive"
+            },
+            {
+              "idx": 13,
+              "date": "Jan 27, 2023",
+              "user_id": 76529,
+              "label": "positive"
+            },
+            {
+              "idx": 14,
+              "date": "Aug 30, 2023",
+              "user_id": 26037,
+              "label": "positive"
+            },
+            {
+              "idx": 15,
+              "date": "Aug 25, 2022",
+              "user_id": 76529,
+              "label": "positive"
+            },
+            {
+              "idx": 16,
+              "date": "Apr 03, 2025",
+              "user_id": 14250,
+              "label": "positive"
+            },
+            {
+              "idx": 17,
+              "date": "Oct 16, 2023",
+              "user_id": 72773,
+              "label": "negative"
+            },
+            {
+              "idx": 18,
+              "date": "Aug 12, 2022",
+              "user_id": 63720,
+              "label": "negative"
+            },
+            {
+              "idx": 19,
+              "date": "Apr 04, 2024",
+              "user_id": 39473,
+              "label": "positive"
+            },
+            {
+              "idx": 20,
+              "date": "Sep 20, 2022",
+              "user_id": 63720,
+              "label": "negative"
+            },
+            {
+              "idx": 21,
+              "date": "Jul 02, 2022",
+              "user_id": 63720,
+              "label": "negative"
+            },
+            {
+              "idx": 22,
+              "date": "Mar 08, 2025",
+              "user_id": 37683,
+              "label": "negative"
+            },
+            {
+              "idx": 23,
+              "date": "Jun 20, 2022",
+              "user_id": 37683,
+              "label": "positive"
+            },
+            {
+              "idx": 24,
+              "date": "Aug 17, 2022",
+              "user_id": 39473,
+              "label": "positive"
+            },
+            {
+              "idx": 25,
+              "date": "Jul 17, 2023",
+              "user_id": 63720,
+              "label": "negative"
+            },
+            {
+              "idx": 26,
+              "date": "Mar 15, 2024",
+              "user_id": 93899,
+              "label": "negative"
+            },
+            {
+              "idx": 27,
+              "date": "Dec 26, 2024",
+              "user_id": 39473,
+              "label": "positive"
+            },
+            {
+              "idx": 28,
+              "date": "Jun 07, 2025",
+              "user_id": 76173,
+              "label": "positive"
+            },
+            {
+              "idx": 29,
+              "date": "Feb 12, 2025",
+              "user_id": 51111,
+              "label": "positive"
+            },
+            {
+              "idx": 30,
+              "date": "Mar 20, 2024",
+              "user_id": 76173,
+              "label": "negative"
+            },
+            {
+              "idx": 31,
+              "date": "Apr 24, 2024",
+              "user_id": 63720,
+              "label": "positive"
+            },
+            {
+              "idx": 32,
+              "date": "Jul 31, 2022",
+              "user_id": 26037,
+              "label": "positive"
+            },
+            {
+              "idx": 33,
+              "date": "Jan 11, 2025",
+              "user_id": 76173,
+              "label": "negative"
+            },
+            {
+              "idx": 34,
+              "date": "May 28, 2022",
+              "user_id": 76173,
+              "label": "negative"
+            },
+            {
+              "idx": 35,
+              "date": "May 17, 2025",
+              "user_id": 37683,
+              "label": "positive"
+            },
+            {
+              "idx": 36,
+              "date": "Mar 31, 2023",
+              "user_id": 51111,
+              "label": "negative"
+            },
+            {
+              "idx": 37,
+              "date": "Apr 22, 2022",
+              "user_id": 63720,
+              "label": "positive"
+            },
+            {
+              "idx": 38,
+              "date": "May 26, 2025",
+              "user_id": 63720,
+              "label": "negative"
+            },
+            {
+              "idx": 39,
+              "date": "Sep 16, 2022",
+              "user_id": 76529,
+              "label": "negative"
+            },
+            {
+              "idx": 40,
+              "date": "Jun 20, 2025",
+              "user_id": 37683,
+              "label": "negative"
+            },
+            {
+              "idx": 41,
+              "date": "Jul 11, 2023",
+              "user_id": 37683,
+              "label": "negative"
+            },
+            {
+              "idx": 42,
+              "date": "Feb 28, 2025",
+              "user_id": 67266,
+              "label": "positive"
+            },
+            {
+              "idx": 43,
+              "date": "Oct 02, 2023",
+              "user_id": 51111,
+              "label": "positive"
+            },
+            {
+              "idx": 44,
+              "date": "Feb 03, 2025",
+              "user_id": 76529,
+              "label": "negative"
+            },
+            {
+              "idx": 45,
+              "date": "Mar 22, 2025",
+              "user_id": 26037,
+              "label": "negative"
+            },
+            {
+              "idx": 46,
+              "date": "Oct 30, 2024",
+              "user_id": 51111,
+              "label": "positive"
+            },
+            {
+              "idx": 47,
+              "date": "May 16, 2022",
+              "user_id": 26037,
+              "label": "negative"
+            },
+            {
+              "idx": 48,
+              "date": "May 01, 2022",
+              "user_id": 37683,
+              "label": "negative"
+            },
+            {
+              "idx": 49,
+              "date": "Dec 20, 2024",
+              "user_id": 51111,
+              "label": "positive"
+            },
+            {
+              "idx": 50,
+              "date": "Jun 18, 2022",
+              "user_id": 51111,
+              "label": "positive"
+            },
+            {
+              "idx": 51,
+              "date": "Sep 26, 2024",
+              "user_id": 63720,
+              "label": "negative"
+            },
+            {
+              "idx": 52,
+              "date": "Jun 29, 2022",
+              "user_id": 39473,
+              "label": "negative"
+            },
+            {
+              "idx": 53,
+              "date": "Sep 28, 2022",
+              "user_id": 51111,
+              "label": "positive"
+            },
+            {
+              "idx": 54,
+              "date": "Dec 16, 2023",
+              "user_id": 37683,
+              "label": "positive"
+            },
+            {
+              "idx": 55,
+              "date": "Sep 27, 2023",
+              "user_id": 39473,
+              "label": "positive"
+            },
+            {
+              "idx": 56,
+              "date": "Feb 07, 2025",
+              "user_id": 76173,
+              "label": "positive"
+            },
+            {
+              "idx": 57,
+              "date": "Apr 07, 2023",
+              "user_id": 76529,
+              "label": "positive"
+            },
+            {
+              "idx": 58,
+              "date": "Feb 27, 2024",
+              "user_id": 99632,
+              "label": "positive"
+            },
+            {
+              "idx": 59,
+              "date": "Apr 02, 2022",
+              "user_id": 39473,
+              "label": "negative"
+            },
+            {
+              "idx": 60,
+              "date": "Aug 31, 2024",
+              "user_id": 51821,
+              "label": "negative"
+            },
+            {
+              "idx": 61,
+              "date": "Aug 30, 2022",
+              "user_id": 76173,
+              "label": "positive"
+            },
+            {
+              "idx": 62,
+              "date": "Jun 16, 2023",
+              "user_id": 51111,
+              "label": "positive"
+            },
+            {
+              "idx": 63,
+              "date": "Aug 24, 2022",
+              "user_id": 26724,
+              "label": "negative"
+            },
+            {
+              "idx": 64,
+              "date": "May 18, 2023",
+              "user_id": 51111,
+              "label": "positive"
+            },
+            {
+              "idx": 65,
+              "date": "Mar 25, 2022",
+              "user_id": 76173,
+              "label": "negative"
+            },
+            {
+              "idx": 66,
+              "date": "Dec 16, 2024",
+              "user_id": 39473,
+              "label": "negative"
+            },
+            {
+              "idx": 67,
+              "date": "May 16, 2022",
+              "user_id": 71393,
+              "label": "positive"
+            },
+            {
+              "idx": 68,
+              "date": "May 02, 2023",
+              "user_id": 26037,
+              "label": "negative"
+            },
+            {
+              "idx": 69,
+              "date": "Jul 28, 2024",
+              "user_id": 63720,
+              "label": "positive"
+            },
+            {
+              "idx": 70,
+              "date": "Jul 13, 2024",
+              "user_id": 37683,
+              "label": "negative"
+            }
+          ],
+          "matched_line_count": 71,
+          "label_set_used": [
+            "positive",
+            "negative"
+          ],
+          "batch_size": 25
+        },
+        "debug": {
+          "schema_error": null,
+          "regex_valid": true,
+          "regex_error": null,
+          "entry_line_count": 71,
+          "batch_errors": [],
+          "classify_splits": 0,
+          "classify_leaf_retries": 0,
+          "classify_chunk_retries": 0
+        }
+      }
+    },
+    {
+      "context_window_id": 90008,
+      "phase1": {
+        "dataset": "app_reviews",
+        "schema": {
+          "label_set": [
+            "positive",
+            "negative"
+          ],
+          "regular_expression": "^Date: (.+?) \\|\\| User: (\\d+) \\|\\| Instance: (.+)$"
+        },
+        "classification": {
+          "records": [
+            {
+              "idx": 0,
+              "date": "Feb 17, 2023",
+              "user_id": 15116,
+              "label": "positive"
+            },
+            {
+              "idx": 1,
+              "date": "Mar 12, 2023",
+              "user_id": 94404,
+              "label": "positive"
+            },
+            {
+              "idx": 2,
+              "date": "May 05, 2024",
+              "user_id": 94404,
+              "label": "positive"
+            },
+            {
+              "idx": 3,
+              "date": "Apr 20, 2025",
+              "user_id": 96751,
+              "label": "positive"
+            },
+            {
+              "idx": 4,
+              "date": "Sep 20, 2023",
+              "user_id": 96751,
+              "label": "positive"
+            },
+            {
+              "idx": 5,
+              "date": "May 17, 2022",
+              "user_id": 23406,
+              "label": "positive"
+            },
+            {
+              "idx": 6,
+              "date": "Nov 09, 2023",
+              "user_id": 23895,
+              "label": "positive"
+            },
+            {
+              "idx": 7,
+              "date": "Apr 18, 2024",
+              "user_id": 23406,
+              "label": "positive"
+            },
+            {
+              "idx": 8,
+              "date": "Oct 10, 2023",
+              "user_id": 38079,
+              "label": "positive"
+            },
+            {
+              "idx": 9,
+              "date": "Dec 10, 2024",
+              "user_id": 35334,
+              "label": "negative"
+            },
+            {
+              "idx": 10,
+              "date": "May 17, 2022",
+              "user_id": 41849,
+              "label": "positive"
+            },
+            {
+              "idx": 11,
+              "date": "Jun 30, 2022",
+              "user_id": 32632,
+              "label": "negative"
+            },
+            {
+              "idx": 12,
+              "date": "Apr 28, 2022",
+              "user_id": 41849,
+              "label": "positive"
+            },
+            {
+              "idx": 13,
+              "date": "Jun 26, 2022",
+              "user_id": 15116,
+              "label": "positive"
+            },
+            {
+              "idx": 14,
+              "date": "Apr 08, 2025",
+              "user_id": 35334,
+              "label": "negative"
+            },
+            {
+              "idx": 15,
+              "date": "Jan 04, 2024",
+              "user_id": 23406,
+              "label": "positive"
+            },
+            {
+              "idx": 16,
+              "date": "Jan 22, 2023",
+              "user_id": 35334,
+              "label": "positive"
+            },
+            {
+              "idx": 17,
+              "date": "Aug 10, 2024",
+              "user_id": 50634,
+              "label": "positive"
+            },
+            {
+              "idx": 18,
+              "date": "Oct 12, 2024",
+              "user_id": 50183,
+              "label": "positive"
+            },
+            {
+              "idx": 19,
+              "date": "Jun 12, 2025",
+              "user_id": 15116,
+              "label": "positive"
+            },
+            {
+              "idx": 20,
+              "date": "Nov 05, 2022",
+              "user_id": 35334,
+              "label": "positive"
+            },
+            {
+              "idx": 21,
+              "date": "May 15, 2025",
+              "user_id": 50183,
+              "label": "positive"
+            },
+            {
+              "idx": 22,
+              "date": "Nov 12, 2023",
+              "user_id": 38019,
+              "label": "positive"
+            },
+            {
+              "idx": 23,
+              "date": "Aug 18, 2024",
+              "user_id": 50183,
+              "label": "positive"
+            },
+            {
+              "idx": 24,
+              "date": "Jun 28, 2023",
+              "user_id": 15116,
+              "label": "negative"
+            },
+            {
+              "idx": 25,
+              "date": "Feb 12, 2024",
+              "user_id": 76671,
+              "label": "positive"
+            },
+            {
+              "idx": 26,
+              "date": "Dec 27, 2022",
+              "user_id": 94404,
+              "label": "positive"
+            },
+            {
+              "idx": 27,
+              "date": "Nov 12, 2024",
+              "user_id": 50183,
+              "label": "positive"
+            },
+            {
+              "idx": 28,
+              "date": "Dec 15, 2023",
+              "user_id": 75602,
+              "label": "positive"
+            },
+            {
+              "idx": 29,
+              "date": "Apr 28, 2025",
+              "user_id": 96751,
+              "label": "positive"
+            },
+            {
+              "idx": 30,
+              "date": "May 24, 2022",
+              "user_id": 96751,
+              "label": "positive"
+            },
+            {
+              "idx": 31,
+              "date": "Jul 04, 2022",
+              "user_id": 23406,
+              "label": "positive"
+            },
+            {
+              "idx": 32,
+              "date": "May 04, 2023",
+              "user_id": 11926,
+              "label": "positive"
+            },
+            {
+              "idx": 33,
+              "date": "Nov 18, 2023",
+              "user_id": 96986,
+              "label": "positive"
+            },
+            {
+              "idx": 34,
+              "date": "Mar 15, 2024",
+              "user_id": 15116,
+              "label": "negative"
+            },
+            {
+              "idx": 35,
+              "date": "Jul 01, 2024",
+              "user_id": 27341,
+              "label": "negative"
+            },
+            {
+              "idx": 36,
+              "date": "Apr 04, 2022",
+              "user_id": 35334,
+              "label": "negative"
+            },
+            {
+              "idx": 37,
+              "date": "Apr 09, 2023",
+              "user_id": 41849,
+              "label": "negative"
+            },
+            {
+              "idx": 38,
+              "date": "Feb 10, 2023",
+              "user_id": 41849,
+              "label": "positive"
+            },
+            {
+              "idx": 39,
+              "date": "Jun 29, 2022",
+              "user_id": 95983,
+              "label": "positive"
+            },
+            {
+              "idx": 40,
+              "date": "Jun 24, 2024",
+              "user_id": 41849,
+              "label": "negative"
+            },
+            {
+              "idx": 41,
+              "date": "Apr 03, 2024",
+              "user_id": 15116,
+              "label": "positive"
+            },
+            {
+              "idx": 42,
+              "date": "Jan 25, 2024",
+              "user_id": 35334,
+              "label": "positive"
+            },
+            {
+              "idx": 43,
+              "date": "Jan 04, 2025",
+              "user_id": 41849,
+              "label": "negative"
+            },
+            {
+              "idx": 44,
+              "date": "May 24, 2025",
+              "user_id": 30866,
+              "label": "positive"
+            },
+            {
+              "idx": 45,
+              "date": "Jul 30, 2022",
+              "user_id": 35334,
+              "label": "negative"
+            },
+            {
+              "idx": 46,
+              "date": "Jul 18, 2023",
+              "user_id": 35334,
+              "label": "negative"
+            },
+            {
+              "idx": 47,
+              "date": "Nov 20, 2023",
+              "user_id": 35334,
+              "label": "positive"
+            },
+            {
+              "idx": 48,
+              "date": "Apr 20, 2023",
+              "user_id": 23406,
+              "label": "positive"
+            },
+            {
+              "idx": 49,
+              "date": "Jan 26, 2024",
+              "user_id": 41849,
+              "label": "positive"
+            },
+            {
+              "idx": 50,
+              "date": "Jul 30, 2023",
+              "user_id": 15116,
+              "label": "positive"
+            },
+            {
+              "idx": 51,
+              "date": "Nov 18, 2023",
+              "user_id": 94404,
+              "label": "positive"
+            },
+            {
+              "idx": 52,
+              "date": "Apr 05, 2022",
+              "user_id": 50183,
+              "label": "positive"
+            },
+            {
+              "idx": 53,
+              "date": "Dec 24, 2022",
+              "user_id": 50183,
+              "label": "positive"
+            },
+            {
+              "idx": 54,
+              "date": "Mar 08, 2022",
+              "user_id": 41849,
+              "label": "positive"
+            },
+            {
+              "idx": 55,
+              "date": "Mar 30, 2025",
+              "user_id": 85344,
+              "label": "positive"
+            },
+            {
+              "idx": 56,
+              "date": "Nov 14, 2023",
+              "user_id": 50183,
+              "label": "positive"
+            },
+            {
+              "idx": 57,
+              "date": "May 18, 2022",
+              "user_id": 23406,
+              "label": "positive"
+            },
+            {
+              "idx": 58,
+              "date": "Dec 23, 2023",
+              "user_id": 94983,
+              "label": "positive"
+            },
+            {
+              "idx": 59,
+              "date": "Nov 28, 2024",
+              "user_id": 35334,
+              "label": "negative"
+            },
+            {
+              "idx": 60,
+              "date": "Jun 07, 2023",
+              "user_id": 35334,
+              "label": "positive"
+            },
+            {
+              "idx": 61,
+              "date": "Jun 13, 2023",
+              "user_id": 96751,
+              "label": "positive"
+            },
+            {
+              "idx": 62,
+              "date": "Feb 22, 2024",
+              "user_id": 96751,
+              "label": "negative"
+            },
+            {
+              "idx": 63,
+              "date": "Feb 20, 2025",
+              "user_id": 15116,
+              "label": "positive"
+            },
+            {
+              "idx": 64,
+              "date": "Mar 15, 2025",
+              "user_id": 96751,
+              "label": "positive"
+            },
+            {
+              "idx": 65,
+              "date": "Sep 29, 2022",
+              "user_id": 47445,
+              "label": "negative"
+            },
+            {
+              "idx": 66,
+              "date": "Feb 14, 2024",
+              "user_id": 67030,
+              "label": "positive"
+            },
+            {
+              "idx": 67,
+              "date": "Jan 20, 2024",
+              "user_id": 15116,
+              "label": "positive"
+            },
+            {
+              "idx": 68,
+              "date": "Aug 10, 2023",
+              "user_id": 23406,
+              "label": "positive"
+            },
+            {
+              "idx": 69,
+              "date": "May 04, 2024",
+              "user_id": 41849,
+              "label": "positive"
+            },
+            {
+              "idx": 70,
+              "date": "Apr 02, 2022",
+              "user_id": 35334,
+              "label": "positive"
+            }
+          ],
+          "matched_line_count": 71,
+          "label_set_used": [
+            "positive",
+            "negative"
+          ],
+          "batch_size": 25
+        },
+        "debug": {
+          "schema_error": null,
+          "regex_valid": true,
+          "regex_error": null,
+          "entry_line_count": 71,
+          "batch_errors": [],
+          "classify_splits": 0,
+          "classify_leaf_retries": 0,
+          "classify_chunk_retries": 3
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+llm:
+  model: together_ai/deepseek-ai/DeepSeek-V3
+  max_tokens: 8000
+cachier:
+  cache_dir: /Users/sam/Desktop/CMU files/CMU Semesters/Spring'26/Independent Study/Secret
+    Agent Project/_SecretAgent/secretagent/benchmarks/oolong/llm_cache/together_ai_deepseek-ai_DeepSeek-V3
+  enable_caching: false
+evaluate:
+  result_dir: /Users/sam/Desktop/CMU files/CMU Semesters/Spring'26/Independent Study/Secret
+    Agent Project/_SecretAgent/secretagent/benchmarks/oolong/results/2048
+  expt_name: test_pot_trace_inject_cached_par1
+  record_details: true
+echo:
+  model: false
+  llm_input: false
+  llm_output: false
+  code_eval_input: true
+  code_eval_output: false
+logfire:
+  enable: true
+  service_name: oolong-expt
+dataset:
+  split: test
+  shuffle_seed: 42
+  'n': null
+  context_len: 2048
+oolong:
+  max_workers: 1
+  write_classification_results_json: true
+  window_cache_dir: /Users/sam/Desktop/CMU files/CMU Semesters/Spring'26/Independent
+    Study/Secret Agent Project/_SecretAgent/secretagent/benchmarks/oolong/window_cache
+  enable_window_cache: true
+  scope_caches_to_model: true
+  token_budget_per_call: 1280
+  schema_infer_line_limit: 20
+  schema_retries: 4
+  schema_backoff: 1.7
+  classify_retries: 10
+  classify_backoff: 1.5
+  assumed_context_len_for_batching: 1024
+  answer_retries: 3
+  phase2_enable_llm_cache: false
+ptools:
+  answer_question:
+    method: direct
+  infer_context_schema:
+    method: simulate_pydantic
+  classify_entry_batch:
+    method: simulate_pydantic
+  answer_from_cached_records:
+    method: program_of_thought
+    inject_args: true
