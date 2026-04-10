@@ -202,42 +202,6 @@ def compute_calculation(calculator_name: str, values: dict) -> dict:
 
 
 # =============================================================================
-# Chain-of-thought reasoning fallback (reusable by any workflow)
-# =============================================================================
-
-def _reasoning_fallback(patient_note: str, question: str) -> float:
-    """Ask the LLM to reason step-by-step, then extract the numeric answer.
-
-    Uses the same formula-rich prompt as the L0 baseline.  Unlike
-    ``simulate`` (which predicts a bare number), this lets the LLM show
-    its work — critical for complex scoring systems where holistic
-    reasoning outperforms structured extraction.
-    """
-    from string import Template
-
-    model = config.require("llm.model")
-    prompt = Template(_BASELINE_TEMPLATE).safe_substitute(
-        patient_note=patient_note, question=question)
-    response, _ = llm(prompt, model)
-
-    # Extract number: try ANSWER: pattern first, then last number
-    match = re.search(r'(?:ANSWER|answer|Answer)[:\s]*([-\d.eE+]+)', response)
-    if match:
-        try:
-            return float(match.group(1))
-        except ValueError:
-            pass
-    numbers = re.findall(r'-?\d+\.?\d*', response)
-    if numbers:
-        try:
-            return float(numbers[-1])
-        except ValueError:
-            pass
-    # Final fallback to simulate
-    return simulate_medical_value(patient_note, question)
-
-
-# =============================================================================
 # Direct implementations
 # =============================================================================
 
@@ -292,7 +256,7 @@ def pot_workflow(patient_note: str, question: str) -> float:
     except Exception:
         pass
 
-    return _reasoning_fallback(patient_note, question)
+    return simulate_medical_value(patient_note, question)
 
 
 # =============================================================================
@@ -397,7 +361,7 @@ def pipeline_workflow(patient_note: str, question: str) -> float:
                         break
 
     if not calc_name:
-        return _reasoning_fallback(patient_note, question)
+        return simulate_medical_value(patient_note, question)
 
     # ---- Stage 2: Extract values (LLM with calculator-specific context) ----
     sig = signatures.get(calc_name, {})
@@ -424,7 +388,7 @@ def pipeline_workflow(patient_note: str, question: str) -> float:
             pass
 
     # Fallback: chain-of-thought reasoning
-    return _reasoning_fallback(patient_note, question)
+    return simulate_medical_value(patient_note, question)
 
 
 # =============================================================================

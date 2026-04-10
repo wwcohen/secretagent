@@ -27,7 +27,9 @@ ptools:
     method: direct
     fn: ptools.compute_calculation_impl
   simulate_medical_value:
-    method: simulate
+    method: prompt_llm
+    prompt_template_file: prompt_templates/baseline.txt
+    answer_pattern: "(?:ANSWER|answer|Answer)[:\\s]*([-\\d.eE+]+)"
   calculate_medical_value:
     method: direct
     fn: ptools.pipeline_workflow
