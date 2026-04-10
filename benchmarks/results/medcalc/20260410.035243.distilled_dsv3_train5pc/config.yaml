@@ -1,0 +1,21 @@
+llm:
+  model: together_ai/deepseek-ai/DeepSeek-V3.1
+  max_tokens: 16384
+cachier:
+  cache_dir: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/medcalc/llm_cache
+  enable_caching: false
+evaluate:
+  result_dir: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/medcalc/results
+  expt_name: distilled_dsv3_train5pc
+  entry_point: calculate_medical_value
+dataset:
+  split: train
+  stratified: true
+  'n': 275
+  shuffle_seed: 42
+ptools:
+  simulate_medical_value:
+    method: simulate
+  calculate_medical_value:
+    method: direct
+    fn: ptools.distilled_workflow

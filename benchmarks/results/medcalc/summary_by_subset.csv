@@ -1,0 +1,16 @@
+experiment,subset,n,tolerance_accuracy,exact_match,cost
+L0_baseline,equation,205,0.8049,0.4244,0.4159
+L0_baseline,rule,64,0.5625,0.5625,0.153
+L0_baseline,overall,275,0.7309,0.4473,0.5784
+L1_simulate,equation,205,0.7073,0.5707,0.3945
+L1_simulate,rule,64,0.5469,0.5469,0.1361
+L1_simulate,overall,275,0.6545,0.5527,0.5426
+L2_distilled,equation,205,0.8049,0.7268,0.1394
+L2_distilled,rule,64,0.3125,0.3125,0.0302
+L2_distilled,overall,275,0.6727,0.6145,0.1829
+L3_pot,equation,205,0.8585,0.7171,0.901
+L3_pot,rule,64,0.4688,0.4688,0.3569
+L3_pot,overall,275,0.7491,0.6436,1.2734
+L4_pipeline,equation,205,0.8634,0.8537,0.1121
+L4_pipeline,rule,64,0.625,0.625,0.0344
+L4_pipeline,overall,275,0.7891,0.7818,0.1499

@@ -1,0 +1,20 @@
+llm:
+  model: together_ai/deepseek-ai/DeepSeek-V3.1
+  max_tokens: 16384
+cachier:
+  cache_dir: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/medcalc/llm_cache
+  enable_caching: false
+evaluate:
+  result_dir: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/medcalc/results
+  expt_name: baseline_dsv3_train5pc
+  entry_point: calculate_medical_value
+dataset:
+  split: train
+  stratified: true
+  'n': 275
+  shuffle_seed: 42
+ptools:
+  calculate_medical_value:
+    method: prompt_llm
+    prompt_template_file: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/medcalc/prompt_templates/baseline.txt
+    answer_pattern: (?:ANSWER|answer|Answer)[:\s]*([-\d.eE+]+)

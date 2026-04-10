@@ -1,0 +1,276 @@
+case_name,predicted_output,predicted_numeric,expected_output,correct,exact_match,within_limits,absolute_error,calculator_name,category,output_type,input_tokens,output_tokens,latency,cost,expt_name
+train.8706,0.9473684210526315,0.9473684210526316,0.94737,1.0,1.0,1.0,1.5789473685190458e-06,Delta Ratio,lab test,decimal,4221.0,1236.0,43.31905102729797,0.0046338,pot_dsv3_train5pc
+train.8098,49.470868800000005,49.470868800000005,49.47087,1.0,1.0,1.0,1.1999999927070348e-06,Target weight,physical,decimal,2819.0,310.0,10.264561653137209,0.0022183999999999,pot_dsv3_train5pc
+train.7350,1.725,1.725,1.72525,1.0,1.0,1.0,0.0002499999999998,Body Surface Area Calculator,physical,decimal,3333.0,612.0,15.81386137008667,0.0030402,pot_dsv3_train5pc
+train.4314,4.21,4.21,4.20819,1.0,1.0,1.0,0.0018099999999998,Fibrosis-4 (FIB-4) Index for Liver Fibrosis,lab test,decimal,3062.0,878.0,24.999590396881104,0.0033298,pot_dsv3_train5pc
+train.7472,1.645,1.645,1.6452,1.0,1.0,1.0,0.0001999999999999,Body Surface Area Calculator,physical,decimal,4695.0,1184.0,36.95936822891235,0.0048297999999999,pot_dsv3_train5pc
+train.6901,167.0,167.0,167.42854,1.0,0.0,1.0,0.4285399999999981,QTc Framingham Calculator,physical,decimal,2825.0,962.0,26.580861806869507,0.0033304,pot_dsv3_train5pc
+train.6885,506.0,506.0,506.29551,1.0,0.0,1.0,0.2955099999999788,QTc Fridericia Calculator,physical,decimal,2824.0,468.0,9.489332675933838,0.00249,pot_dsv3_train5pc
+train.5968,-0.10671428571428573,-0.1067142857142857,-1.64571,0.0,0.0,0.0,1.5389957142857142,Free Water Deficit,lab test,decimal,5137.0,2575.0,66.44083738327026,0.0074597,pot_dsv3_train5pc
+train.7448,1.012,1.012,1.01242,1.0,1.0,1.0,0.00042,Body Surface Area Calculator,physical,decimal,4621.0,1133.0,28.157294750213623,0.0046987,pot_dsv3_train5pc
+train.3859,84.047337,84.047337,84.04734,1.0,1.0,1.0,3.000000006636583e-06,Ideal Body Weight,physical,decimal,3287.0,650.0,39.40932607650757,0.0030772,pot_dsv3_train5pc
+train.4678,101,101.0,101.0,1.0,1.0,1.0,0.0,Maintenance Fluids Calculations,physical,decimal,3377.0,589.0,62.61896514892578,0.0030275,pot_dsv3_train5pc
+train.6764,0,0.0,0.0,1.0,1.0,1.0,0.0,SIRS Criteria,diagnosis,integer,4496.0,1505.0,142.9741988182068,0.0052561,pot_dsv3_train5pc
+train.4160,4,4.0,3.0,0.0,0.0,0.0,1.0,HEART Score for Major Cardiac Events,risk,integer,3248.0,874.0,31.03681826591492,0.0034346,pot_dsv3_train5pc
+train.0610,33.655,33.655,33.65485,1.0,1.0,1.0,0.0001499999999978,CKD-EPI Equations for Glomerular Filtration Rate,lab test,decimal,3932.0,1170.0,59.749775886535645,0.0043482,pot_dsv3_train5pc
+train.8384,9,9.0,9.0,1.0,1.0,1.0,0.0,Delta Gap,lab test,decimal,4523.0,1100.0,56.71104884147644,0.0045838,pot_dsv3_train5pc
+train.4734,76,76.0,76.0,1.0,1.0,1.0,0.0,Maintenance Fluids Calculations,physical,decimal,4296.0,1182.0,59.420721769332886,0.004587,pot_dsv3_train5pc
+train.2610,14.36,14.36,-4.334,0.0,0.0,0.0,18.694,Calcium Correction for Hypoalbuminemia,lab test,decimal,3039.0,1591.0,78.31326794624329,0.0045281,pot_dsv3_train5pc
+train.7702,2.038,2.038,2.03756,1.0,1.0,1.0,0.0004399999999997,Body Surface Area Calculator,physical,decimal,4158.0,937.0,26.27989649772644,0.0040877,pot_dsv3_train5pc
+train.7002,624.0,624.0,623.49787,1.0,0.0,1.0,0.5021299999999655,QTc Hodges Calculator,physical,decimal,2821.0,323.0,4.392561197280884,0.0022416999999999,pot_dsv3_train5pc
+train.6199,6,6.0,6.0,1.0,1.0,1.0,0.0,Anion Gap,lab test,decimal,3148.0,480.0,12.641485691070557,0.0027048,pot_dsv3_train5pc
+train.8143,75.75905511811024,75.75905511811024,75.7591,1.0,1.0,1.0,4.48818897638148e-05,Adjusted Body Weight,physical,decimal,3175.0,737.0,17.945724725723267,0.0031579,pot_dsv3_train5pc
+train.2556,9.639999999999999,9.64,9.64,1.0,1.0,1.0,1.7763568394002505e-15,Calcium Correction for Hypoalbuminemia,lab test,decimal,3188.0,574.0,7.6809163093566895,0.0028886,pot_dsv3_train5pc
+train.3649,64.126,64.126,64.12607,1.0,1.0,1.0,6.999999999379725e-05,Ideal Body Weight,physical,decimal,4080.0,1135.0,35.420626163482666,0.0043774999999999,pot_dsv3_train5pc
+train.5204,132.0,132.0,132.0,1.0,1.0,1.0,0.0,Maintenance Fluids Calculations,physical,decimal,,,,,pot_dsv3_train5pc
+train.5161,12.0,12.0,46.8,0.0,0.0,0.0,34.8,Maintenance Fluids Calculations,physical,decimal,,,,,pot_dsv3_train5pc
+train.4728,128.0,128.0,128.3,1.0,0.0,1.0,0.3000000000000113,Maintenance Fluids Calculations,physical,decimal,3058.0,1127.0,40.51395773887634,0.0037507,pot_dsv3_train5pc
+train.6707,2,2.0,2.0,1.0,1.0,1.0,0.0,SIRS Criteria,diagnosis,integer,4674.0,1515.0,45.43078255653381,0.0053799,pot_dsv3_train5pc
+train.6114,0.14571428571428519,0.1457142857142851,0.14571,1.0,1.0,1.0,4.285714285179321e-06,Free Water Deficit,lab test,decimal,6437.0,2651.0,65.1960654258728,0.0083689,pot_dsv3_train5pc
+train.0373,35.5,35.5,35.45562,1.0,0.0,1.0,0.0443799999999967,CKD-EPI Equations for Glomerular Filtration Rate,lab test,decimal,3126.0,870.0,30.28719687461853,0.0033546,pot_dsv3_train5pc
+train.3072,0.0,0.0,0.0,1.0,1.0,1.0,0.0,Wells' Criteria for Pulmonary Embolism,risk,integer,4468.0,1495.0,44.7377245426178,0.0052223,pot_dsv3_train5pc
+train.2381,18.339100346020764,18.339100346020764,18.3391,1.0,1.0,1.0,3.460207658179115e-07,Body Mass Index (BMI),physical,decimal,4489.0,1278.0,28.886362075805664,0.004866,pot_dsv3_train5pc
+train.7824,2.286,2.286,2.28584,1.0,1.0,1.0,0.0001600000000001,Body Surface Area Calculator,physical,decimal,5053.0,1405.0,49.50941252708435,0.0054203,pot_dsv3_train5pc
+train.1720,58.0,58.0,57.66667,1.0,0.0,1.0,0.3333299999999966,Mean Arterial Pressure (MAP),physical,decimal,4645.0,1141.0,17.777251720428467,0.0047266999999999,pot_dsv3_train5pc
+train.2532,20.324,20.324,20.32383,1.0,1.0,1.0,0.0001700000000006,Body Mass Index (BMI),physical,decimal,3547.0,578.0,16.766011238098145,0.0031108,pot_dsv3_train5pc
+train.0383,9.123,9.123,9.12304,1.0,1.0,1.0,4.000000000026205e-05,CKD-EPI Equations for Glomerular Filtration Rate,lab test,decimal,4932.0,4349.0,84.4309754371643,0.0103525,pot_dsv3_train5pc
+train.3381,9.7,9.7,9.66345,1.0,0.0,1.0,0.03655,MDRD GFR Equation,lab test,decimal,3582.0,1020.0,17.580301761627197,0.0038832,pot_dsv3_train5pc
+train.7685,1.75,1.75,1.75,1.0,1.0,1.0,0.0,Body Surface Area Calculator,physical,decimal,3911.0,850.0,15.945305585861206,0.0037916,pot_dsv3_train5pc
+train.10096,13.0,13.0,13.0,1.0,1.0,1.0,0.0,Glasgow Coma Score (GCS),severity,integer,3589.0,1735.0,31.542832374572757,0.0051029,pot_dsv3_train5pc
+train.2867,0.0,0.0,1.5,0.0,0.0,0.0,1.5,Wells' Criteria for Pulmonary Embolism,risk,integer,3665.0,1320.0,17.96713638305664,0.004443,pot_dsv3_train5pc
+train.2039,22.694,22.694,22.69402,1.0,1.0,1.0,1.999999999924285e-05,Body Mass Index (BMI),physical,decimal,3647.0,716.0,14.055132865905762,0.0034054,pot_dsv3_train5pc
+train.5911,-1.1785714285714275,-1.1785714285714275,-1.41429,0.0,0.0,0.0,0.2357185714285725,Free Water Deficit,lab test,decimal,4204.0,1029.0,18.909138441085812,0.0042717,pot_dsv3_train5pc
+train.8577,-3.0999999999999943,-3.0999999999999943,-3.1,1.0,1.0,1.0,5.773159728050814e-15,Delta Gap,lab test,decimal,4187.0,1151.0,18.62989997863769,0.0044689,pot_dsv3_train5pc
+train.2118,24.888,24.888,24.8877,1.0,1.0,1.0,0.0003000000000028,Body Mass Index (BMI),physical,decimal,3503.0,751.0,13.220871686935425,0.0033785,pot_dsv3_train5pc
+train.6535,2,2.0,2.0,1.0,1.0,1.0,0.0,PERC Rule for Pulmonary Embolism,diagnosis,integer,3802.0,1501.0,26.5740818977356,0.0048329,pot_dsv3_train5pc
+train.6594,0,0.0,1.0,0.0,0.0,0.0,1.0,PERC Rule for Pulmonary Embolism,diagnosis,integer,4144.0,1345.0,24.59520125389099,0.0047729,pot_dsv3_train5pc
+train.10336,5,5.0,3.0,0.0,0.0,0.0,2.0,HAS-BLED Score for Major Bleeding Risk,risk,integer,5196.0,4562.0,70.69984912872314,0.010873,pot_dsv3_train5pc
+train.5789,306.7142857142857,306.7142857142857,306.71429,1.0,1.0,1.0,4.285714283014386e-06,Serum Osmolality,lab test,decimal,3387.0,740.0,13.12428092956543,0.0032902,pot_dsv3_train5pc
+train.7841,1.3,1.3,1.29957,1.0,1.0,1.0,0.0004300000000001,Body Surface Area Calculator,physical,decimal,4493.0,1058.0,17.9753258228302,0.0044944,pot_dsv3_train5pc
+train.10272,5,5.0,6.0,0.0,0.0,0.0,1.0,Charlson Comorbidity Index (CCI),risk,integer,5561.0,2193.0,36.67460322380066,0.0070647,pot_dsv3_train5pc
+train.6171,6.0,6.0,1230.0,0.0,0.0,0.0,1224.0,Anion Gap,lab test,decimal,5044.0,1359.0,28.29120898246765,0.0053367,pot_dsv3_train5pc
+train.8061,76.05575999999999,76.05575999999999,76.05576,1.0,1.0,1.0,1.4210854715202004e-14,Target weight,physical,decimal,2820.0,328.0,13.19845485687256,0.0022495999999999,pot_dsv3_train5pc
+train.2753,0.0,0.0,0.0,1.0,1.0,1.0,0.0,Wells' Criteria for Pulmonary Embolism,risk,integer,3885.0,1181.0,25.08722472190857,0.0043387,pot_dsv3_train5pc
+train.10358,0,0.0,3.0,0.0,0.0,0.0,3.0,HAS-BLED Score for Major Bleeding Risk,risk,integer,5187.0,2138.0,77.21229481697083,0.0067468,pot_dsv3_train5pc
+train.9481,7.0,7.0,7.0,1.0,1.0,1.0,0.0,Child-Pugh Score for Cirrhosis Mortality,severity,integer,5187.0,2063.0,48.72225475311279,0.0066193,pot_dsv3_train5pc
+train.9154,5.6103,5.6103,5.60768,1.0,1.0,1.0,0.0026199999999994,Steroid Conversion Calculator,dosage,integer,2356.0,848.0,19.02094411849976,0.0028552,pot_dsv3_train5pc
+train.10283,8,8.0,8.0,1.0,1.0,1.0,0.0,Charlson Comorbidity Index (CCI),risk,integer,5431.0,1931.0,40.50450229644776,0.0065413,pot_dsv3_train5pc
+train.5335,137.304,137.304,137.304,1.0,1.0,1.0,0.0,Sodium Correction for Hyperglycemia,lab test,decimal,5469.0,1801.0,43.34352111816406,0.0063431,pot_dsv3_train5pc
+train.8964,-1.0,-1.0,-1.0,1.0,1.0,1.0,0.0,Albumin Corrected Delta Gap,lab test,decimal,4560.0,1704.0,41.84695267677307,0.0056328,pot_dsv3_train5pc
+train.5108,95.0,95.0,95.0,1.0,1.0,1.0,0.0,Maintenance Fluids Calculations,physical,decimal,4348.0,1326.0,24.516697645187374,0.004863,pot_dsv3_train5pc
+train.8216,53.55590551181102,53.55590551181102,53.55596,1.0,1.0,1.0,5.448818897946239e-05,Adjusted Body Weight,physical,decimal,4347.0,1354.0,30.63614296913147,0.00491,pot_dsv3_train5pc
+train.7487,1.843,1.843,1.84278,1.0,1.0,1.0,0.0002199999999998,Body Surface Area Calculator,physical,decimal,5360.0,1723.0,39.53971219062805,0.0061451,pot_dsv3_train5pc
+train.7910,1.633,1.633,1.63299,1.0,1.0,1.0,1.0000000000065512e-05,Body Surface Area Calculator,physical,decimal,4205.0,1019.0,25.395970344543457,0.0042553,pot_dsv3_train5pc
+train.3675,56.45669291338582,56.45669291338582,56.45676,1.0,1.0,1.0,6.70866141803117e-05,Ideal Body Weight,physical,decimal,5482.0,1700.0,34.45812654495239,0.0061792,pot_dsv3_train5pc
+train.5381,130.76,130.76,130.76,1.0,1.0,1.0,0.0,Sodium Correction for Hyperglycemia,lab test,decimal,3407.0,793.0,22.284916162490845,0.0033923,pot_dsv3_train5pc
+train.5580,281.9,281.9,283.14767,1.0,0.0,1.0,1.2476700000000278,Serum Osmolality,lab test,decimal,4035.0,2216.0,59.616459608078,0.0061882,pot_dsv3_train5pc
+train.5451,137.624,137.624,137.624,1.0,1.0,1.0,0.0,Sodium Correction for Hyperglycemia,lab test,decimal,4425.0,1220.0,36.54014086723328,0.004729,pot_dsv3_train5pc
+train.6207,11.0,11.0,11.0,1.0,1.0,1.0,0.0,Anion Gap,lab test,decimal,3797.0,721.0,20.595556259155277,0.0035039,pot_dsv3_train5pc
+train.1800,95.3,95.3,95.33333,1.0,0.0,1.0,0.0333300000000065,Mean Arterial Pressure (MAP),physical,decimal,4664.0,1334.0,36.14180827140808,0.0050662,pot_dsv3_train5pc
+train.9643,3.0,3.0,2.0,0.0,0.0,0.0,1.0,Glasgow-Blatchford Bleeding Score (GBS),risk,integer,4450.0,1771.0,44.22262620925903,0.0056807,pot_dsv3_train5pc
+train.4294,0.002694438717061496,0.0026944387170614,2.69444,0.0,0.0,0.0,2.691745561282939,Fibrosis-4 (FIB-4) Index for Liver Fibrosis,lab test,decimal,4467.0,1209.0,31.312931299209595,0.0047355,pot_dsv3_train5pc
+train.0974,0.0,0.0,3.0,0.0,0.0,0.0,3.0,CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk,risk,integer,3908.0,1262.0,32.38406825065613,0.0044902,pot_dsv3_train5pc
+train.1617,96.66666666666667,96.66666666666669,96.66667,1.0,1.0,1.0,3.333333324917476e-06,Mean Arterial Pressure (MAP),physical,decimal,3230.0,528.0,12.700396299362184,0.0028355999999999,pot_dsv3_train5pc
+train.6419,3,3.0,3.0,1.0,1.0,1.0,0.0,CURB-65 Score for Pneumonia Severity,risk,integer,3734.0,949.0,46.500062704086304,0.0038537,pot_dsv3_train5pc
+train.0022,79.0,79.0,78.54331,1.0,0.0,1.0,0.4566899999999947,Creatinine Clearance (Cockcroft-Gault Equation),lab test,decimal,3633.0,1012.0,48.74181127548218,0.0039002,pot_dsv3_train5pc
+train.2797,1.5,1.5,1.5,1.0,1.0,1.0,0.0,Wells' Criteria for Pulmonary Embolism,risk,integer,3947.0,1255.0,28.03456211090088,0.0045017,pot_dsv3_train5pc
+train.3041,3.0,3.0,4.5,0.0,0.0,0.0,1.5,Wells' Criteria for Pulmonary Embolism,risk,integer,3710.0,1688.0,49.751184940338135,0.0050956,pot_dsv3_train5pc
+train.1244,113.0,113.0,113.33333,1.0,0.0,1.0,0.3333300000000037,Mean Arterial Pressure (MAP),physical,decimal,4492.0,1073.0,33.50117897987366,0.0045192999999999,pot_dsv3_train5pc
+train.9100,06/11/2002,2002.0,06/09/2002,0.0,0.0,0.0,1.0,Estimated Due Date,date,date,2870.0,1032.0,30.223191738128666,0.0034763999999999,pot_dsv3_train5pc
+train.9781,3.5,3.5,3.495,1.0,1.0,1.0,0.0049999999999998,Fractional Excretion of Sodium (FENa),lab test,decimal,5347.0,1550.0,48.03408932685852,0.0058432,pot_dsv3_train5pc
+train.2634,8.88,8.88,8.896,1.0,0.0,1.0,0.016,Calcium Correction for Hypoalbuminemia,lab test,decimal,4800.0,1576.0,48.132142543792725,0.0055592,pot_dsv3_train5pc
+train.5525,Missing required values: [],,129.688,0.0,0.0,0.0,inf,Sodium Correction for Hyperglycemia,lab test,decimal,5044.0,1610.0,46.06321358680725,0.0057634,pot_dsv3_train5pc
+train.6778,0,0.0,0.0,1.0,1.0,1.0,0.0,SIRS Criteria,diagnosis,integer,5329.0,2065.0,57.26593399047852,0.0067079,pot_dsv3_train5pc
+train.3839,73.181,73.181,73.18119,1.0,1.0,1.0,0.0001900000000034,Ideal Body Weight,physical,decimal,3584.0,742.0,22.284379959106445,0.0034117999999999,pot_dsv3_train5pc
+train.9313,09/10/2003,2003.0,09/10/2003,0.0,0.0,0.0,1.0,Estimated of Conception,date,date,2841.0,302.0,6.462331533432007,0.002218,pot_dsv3_train5pc
+train.0311,66.22,66.22,0.01667,0.0,0.0,0.0,66.20333,CKD-EPI Equations for Glomerular Filtration Rate,lab test,decimal,5196.0,2302.0,59.70450592041016,0.007031,pot_dsv3_train5pc
+train.0706,5,5.0,3.0,0.0,0.0,0.0,2.0,CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk,risk,integer,6414.0,2248.0,46.50810098648071,0.0076699999999999,pot_dsv3_train5pc
+train.4856,54.4,54.4,54.4,1.0,1.0,1.0,0.0,Maintenance Fluids Calculations,physical,decimal,3410.0,761.0,16.178843021392822,0.0033397,pot_dsv3_train5pc
+train.6581,3,3.0,4.0,0.0,0.0,0.0,1.0,PERC Rule for Pulmonary Embolism,diagnosis,integer,4279.0,1499.0,26.532726764678955,0.0051157,pot_dsv3_train5pc
+train.4108,1.0,1.0,3.0,0.0,0.0,0.0,2.0,HEART Score for Major Cardiac Events,risk,integer,3064.0,680.0,12.642757654190063,0.0029944,pot_dsv3_train5pc
+train.7159,1.962,1.962,1.96214,1.0,1.0,1.0,0.00014,Body Surface Area Calculator,physical,decimal,5453.0,1541.0,32.51860499382019,0.0058915,pot_dsv3_train5pc
+train.2032,106.66666666666667,106.66666666666669,106.66667,1.0,1.0,1.0,3.333333324917476e-06,Mean Arterial Pressure (MAP),physical,decimal,4054.0,927.0,24.269043684005737,0.0040082999999999,pot_dsv3_train5pc
+train.3350,2.93,2.93,3.21467,0.0,0.0,0.0,0.2846699999999997,MDRD GFR Equation,lab test,decimal,4595.0,1496.0,31.18182253837585,0.0053002,pot_dsv3_train5pc
+train.7297,1.862,1.862,1.8619,1.0,1.0,1.0,9.9999999999989e-05,Body Surface Area Calculator,physical,decimal,3727.0,745.0,13.000409126281738,0.0035027,pot_dsv3_train5pc
+train.8621,-5,-5.0,-5.0,1.0,1.0,1.0,0.0,Delta Gap,lab test,decimal,5030.0,1556.0,33.05051803588867,0.0056632,pot_dsv3_train5pc
+train.4603,77,77.0,77.0,1.0,1.0,1.0,0.0,Maintenance Fluids Calculations,physical,decimal,3261.0,955.0,22.333706617355347,0.0035800999999999,pot_dsv3_train5pc
+train.4139,2,2.0,1.0,0.0,0.0,0.0,1.0,HEART Score for Major Cardiac Events,risk,integer,3484.0,1139.0,27.971806287765503,0.0040266999999999,pot_dsv3_train5pc
+train.9660,5,5.0,4.0,0.0,0.0,0.0,1.0,Glasgow-Blatchford Bleeding Score (GBS),risk,integer,4903.0,1962.0,29.56640124320984,0.0062772,pot_dsv3_train5pc
+train.5562,290.8,290.8,290.78571,1.0,0.0,1.0,0.0142900000000167,Serum Osmolality,lab test,decimal,4029.0,1046.0,23.400115966796875,0.0041956,pot_dsv3_train5pc
+train.2687,11.16,11.16,11.18,1.0,0.0,1.0,0.0199999999999995,Calcium Correction for Hypoalbuminemia,lab test,decimal,5082.0,1800.0,25.31496524810791,0.0061091999999999,pot_dsv3_train5pc
+train.0387,98.877,98.877,91.65023,0.0,0.0,0.0,7.226770000000002,CKD-EPI Equations for Glomerular Filtration Rate,lab test,decimal,3928.0,1515.0,27.894835472106934,0.0049323,pot_dsv3_train5pc
+train.1215,94.0,94.0,94.0,1.0,1.0,1.0,0.0,Mean Arterial Pressure (MAP),physical,decimal,3090.0,443.0,9.646134853363035,0.0026071,pot_dsv3_train5pc
+train.0665,3,3.0,3.0,1.0,1.0,1.0,0.0,CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk,risk,integer,3716.0,1007.0,29.396509647369385,0.0039415,pot_dsv3_train5pc
+train.0470,46.459,46.459,43.40028,0.0,0.0,0.0,3.058720000000001,CKD-EPI Equations for Glomerular Filtration Rate,lab test,decimal,5110.0,1960.0,46.40357255935669,0.0063979999999999,pot_dsv3_train5pc
+train.3025,1.5,1.5,1.5,1.0,1.0,1.0,0.0,Wells' Criteria for Pulmonary Embolism,risk,integer,4190.0,1520.0,32.64298152923584,0.005098,pot_dsv3_train5pc
+train.5795,290.74603174603175,290.74603174603175,290.74603,1.0,1.0,1.0,1.7460317280892923e-06,Serum Osmolality,lab test,decimal,5994.0,2164.0,54.53112411499024,0.0072752,pot_dsv3_train5pc
+train.0661,4.0,4.0,4.0,1.0,1.0,1.0,0.0,CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk,risk,integer,4095.0,1300.0,32.911720752716064,0.0046669999999999,pot_dsv3_train5pc
+train.0842,2,2.0,2.0,1.0,1.0,1.0,0.0,CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk,risk,integer,3434.0,994.0,14.335079908370972,0.0037502,pot_dsv3_train5pc
+train.1440,76.66666666666667,76.66666666666667,76.66667,1.0,1.0,1.0,3.333333324917476e-06,Mean Arterial Pressure (MAP),physical,decimal,3274.0,1890.0,40.58634185791016,0.0051773999999999,pot_dsv3_train5pc
+train.7223,1.44,1.44,1.43614,1.0,1.0,1.0,0.0038599999999999,Body Surface Area Calculator,physical,decimal,3510.0,727.0,14.276584148406982,0.0033419,pot_dsv3_train5pc
+train.2526,28.222,28.222,28.22222,1.0,1.0,1.0,0.0002199999999987,Body Mass Index (BMI),physical,decimal,4415.0,1014.0,19.16002058982849,0.0043728,pot_dsv3_train5pc
+train.4789,106,106.0,106.0,1.0,1.0,1.0,0.0,Maintenance Fluids Calculations,physical,decimal,5313.0,1688.0,46.38559556007385,0.0060573999999999,pot_dsv3_train5pc
+train.2319,37.5,37.5,37.55839,1.0,0.0,1.0,0.0583900000000028,Body Mass Index (BMI),physical,decimal,3026.0,349.0,12.147998094558716,0.0024089,pot_dsv3_train5pc
+train.3891,47.85433070866142,47.85433070866142,47.85442,1.0,1.0,1.0,8.929133857549232e-05,Ideal Body Weight,physical,decimal,4994.0,1485.0,38.42347836494446,0.0055209,pot_dsv3_train5pc
+train.5545,411.09523809523813,411.0952380952381,411.09524,1.0,1.0,1.0,1.9047618593504008e-06,Serum Osmolality,lab test,decimal,5996.0,1924.0,37.91509008407593,0.0068683999999999,pot_dsv3_train5pc
+train.7576,1.902,1.902,1.90219,1.0,1.0,1.0,0.0001900000000001,Body Surface Area Calculator,physical,decimal,4422.0,1206.0,35.63565015792847,0.0047034,pot_dsv3_train5pc
+train.6011,2.06,2.06,-2.05714,0.0,0.0,0.0,4.11714,Free Water Deficit,lab test,decimal,4408.0,1330.0,30.52412509918213,0.0049058,pot_dsv3_train5pc
+train.7001,331.75,331.75,331.74905,1.0,1.0,1.0,0.0009499999999889,QTc Hodges Calculator,physical,decimal,2825.0,386.0,9.76283574104309,0.0023512,pot_dsv3_train5pc
+train.0400,8.524198171532204,8.524198171532204,8.5242,1.0,1.0,1.0,1.8284677967272955e-06,CKD-EPI Equations for Glomerular Filtration Rate,lab test,decimal,4602.0,1498.0,41.18615436553955,0.0053078,pot_dsv3_train5pc
+train.5261,20,20.0,20.0,1.0,1.0,1.0,0.0,Maintenance Fluids Calculations,physical,decimal,4170.0,2414.0,81.82973384857178,0.0066057999999999,pot_dsv3_train5pc
+train.2349,27.17266171444273,27.17266171444273,27.17266,1.0,1.0,1.0,1.7144427282289598e-06,Body Mass Index (BMI),physical,decimal,4085.0,955.0,26.819392919540405,0.0040745,pot_dsv3_train5pc
+train.9736,3.04,3.04,3.0381,1.0,1.0,1.0,0.0019,Fractional Excretion of Sodium (FENa),lab test,decimal,5137.0,1782.0,56.69764471054077,0.0061116,pot_dsv3_train5pc
+train.3549,73.18110236220471,73.18110236220471,73.18119,1.0,1.0,1.0,8.763779528919713e-05,Ideal Body Weight,physical,decimal,3680.0,756.0,26.51086115837097,0.0034932,pot_dsv3_train5pc
+train.3273,35.014,35.014,35.01417,1.0,1.0,1.0,0.0001699999999971,MDRD GFR Equation,lab test,decimal,3980.0,1060.0,52.49769353866577,0.00419,pot_dsv3_train5pc
+train.1346,88.33333333333333,88.33333333333333,88.33333,1.0,1.0,1.0,3.333333324917476e-06,Mean Arterial Pressure (MAP),physical,decimal,4160.0,982.0,26.833455324172974,0.0041654,pot_dsv3_train5pc
+train.6118,-0.171,-0.171,-0.17143,1.0,1.0,1.0,0.0004299999999999,Free Water Deficit,lab test,decimal,3016.0,977.0,28.95505976676941,0.0034705,pot_dsv3_train5pc
+train.10510,5.0,5.0,4.0,0.0,0.0,0.0,1.0,APACHE II Score,risk,integer,4863.0,1668.0,58.54141092300415,0.0057534,pot_dsv3_train5pc
+train.9949,70.0,70.0,120.0,0.0,0.0,0.0,50.0,PSI Score: Pneumonia Severity Index for CAP,severity,integer,3468.0,2091.0,69.72971630096436,0.0056355,pot_dsv3_train5pc
+train.1838,91.66666666666667,91.66666666666669,91.66667,1.0,1.0,1.0,3.333333324917476e-06,Mean Arterial Pressure (MAP),physical,decimal,3238.0,1101.0,21.102474212646484,0.0038145,pot_dsv3_train5pc
+train.5490,134.9,134.9,134.896,1.0,1.0,1.0,0.004000000000019,Sodium Correction for Hyperglycemia,lab test,decimal,3868.0,980.0,20.4614200592041,0.0039867999999999,pot_dsv3_train5pc
+train.9019,0.5833333333333242,0.5833333333333242,0.58333,1.0,1.0,1.0,3.33333332414032e-06,Albumin Corrected Delta Ratio,lab test,decimal,4317.0,1264.0,24.31991171836853,0.004739,pot_dsv3_train5pc
+train.0367,33.488,33.488,33.48762,1.0,1.0,1.0,0.0003799999999998,CKD-EPI Equations for Glomerular Filtration Rate,lab test,decimal,4046.0,1008.0,17.799935579299927,0.0041412,pot_dsv3_train5pc
+train.3527,69.55905511811024,69.55905511811024,69.55913,1.0,1.0,1.0,7.488188975912635e-05,Ideal Body Weight,physical,decimal,6307.0,2250.0,39.11694407463074,0.0076092,pot_dsv3_train5pc
+train.1160,83.33333333333333,83.33333333333333,83.33333,1.0,1.0,1.0,3.333333324917476e-06,Mean Arterial Pressure (MAP),physical,decimal,3014.0,481.0,9.334030628204346,0.0026260999999999,pot_dsv3_train5pc
+train.10421,1,1.0,2.0,0.0,0.0,0.0,1.0,Revised Cardiac Risk Index for Pre-Operative Risk,risk,integer,5534.0,2395.0,40.4434814453125,0.0073919,pot_dsv3_train5pc
+train.9959,14,14.0,16.0,0.0,0.0,0.0,2.0,Caprini Score for Venous Thromboembolism (2005),risk,integer,5202.0,1965.0,40.9053966999054,0.0064616999999999,pot_dsv3_train5pc
+train.4011,52.38188976377953,52.38188976377953,52.38197,1.0,1.0,1.0,8.023622046948731e-05,Ideal Body Weight,physical,decimal,3526.0,614.0,15.477973699569702,0.0031593999999999,pot_dsv3_train5pc
+train.5389,134.376,134.376,134.376,1.0,1.0,1.0,0.0,Sodium Correction for Hyperglycemia,lab test,decimal,3889.0,891.0,19.669359922409058,0.0038481,pot_dsv3_train5pc
+train.0779,4,4.0,4.0,1.0,1.0,1.0,0.0,CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk,risk,integer,3961.0,975.0,22.82723879814148,0.0040341,pot_dsv3_train5pc
+train.0290,48.854,48.854,48.85357,1.0,1.0,1.0,0.0004300000000014,CKD-EPI Equations for Glomerular Filtration Rate,lab test,decimal,3516.0,821.0,16.95712924003601,0.0035053,pot_dsv3_train5pc
+train.7050,269.0,269.0,255.71667,0.0,0.0,0.0,13.283330000000008,QTc Rautaharju Calculator,physical,decimal,2827.0,298.0,6.360286235809326,0.0022028,pot_dsv3_train5pc
+train.6074,2.4,2.4,-0.35714,0.0,0.0,0.0,2.75714,Free Water Deficit,lab test,decimal,4923.0,4242.0,132.1483678817749,0.0101652,pot_dsv3_train5pc
+train.5689,284.015873015873,284.015873015873,284.01587,1.0,1.0,1.0,3.015873005551839e-06,Serum Osmolality,lab test,decimal,4061.0,918.0,15.477022171020508,0.0039971999999999,pot_dsv3_train5pc
+train.10017,0.0,0.0,11.0,0.0,0.0,0.0,11.0,Caprini Score for Venous Thromboembolism (2005),risk,integer,5337.0,2179.0,56.080735206604,0.0069064999999999,pot_dsv3_train5pc
+train.2130,29.752,29.752,29.75207,1.0,1.0,1.0,7.000000000090267e-05,Body Mass Index (BMI),physical,decimal,3325.0,548.0,11.337138652801514,0.0029266,pot_dsv3_train5pc
+train.1218,112.66666666666667,112.66666666666669,112.66667,1.0,1.0,1.0,3.333333324917476e-06,Mean Arterial Pressure (MAP),physical,decimal,2523.0,415.0,9.355252981185911,0.0022192999999999,pot_dsv3_train5pc
+train.4437,3,3.0,3.0,1.0,1.0,1.0,0.0,Centor Score (Modified/McIsaac) for Strep Pharyngitis,severity,integer,3126.0,890.0,20.76693153381348,0.0033886,pot_dsv3_train5pc
+train.10432,2,2.0,2.0,1.0,1.0,1.0,0.0,Revised Cardiac Risk Index for Pre-Operative Risk,risk,integer,5567.0,1913.0,35.89033055305481,0.0065923,pot_dsv3_train5pc
+train.8904,19.5,19.5,19.5,1.0,1.0,1.0,0.0,Albumin Corrected Anion Gap,lab test,decimal,4728.0,1498.0,34.903257846832275,0.0053834,pot_dsv3_train5pc
+train.4679,142,142.0,142.0,1.0,1.0,1.0,0.0,Maintenance Fluids Calculations,physical,decimal,3940.0,885.0,15.26739263534546,0.0038685,pot_dsv3_train5pc
+train.0870,1,1.0,1.0,1.0,1.0,1.0,0.0,CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk,risk,integer,4912.0,1701.0,55.95488619804382,0.0058389,pot_dsv3_train5pc
+train.0979,1.0,1.0,3.0,0.0,0.0,0.0,2.0,CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk,risk,integer,3558.0,1026.0,24.768157482147217,0.003879,pot_dsv3_train5pc
+train.9030,06/17/2012,2012.0,06/16/2012,0.0,0.0,0.0,1.0,Estimated Due Date,date,date,2408.0,549.0,11.96730637550354,0.0023781,pot_dsv3_train5pc
+train.1734,130.0,130.0,130.0,1.0,1.0,1.0,0.0,Mean Arterial Pressure (MAP),physical,decimal,2459.0,370.0,7.594285488128662,0.0021044,pot_dsv3_train5pc
+train.5341,124.9,124.9,300.52512,0.0,0.0,0.0,175.62512,Sodium Correction for Hyperglycemia,lab test,decimal,4099.0,1167.0,24.66793465614319,0.0044433,pot_dsv3_train5pc
+train.9572,13,13.0,9.0,0.0,0.0,0.0,4.0,Sequential Organ Failure Assessment (SOFA) Score,risk,integer,4867.0,2667.0,58.81594443321228,0.0074540999999999,pot_dsv3_train5pc
+train.5149,116.8,116.8,116.8,1.0,1.0,1.0,0.0,Maintenance Fluids Calculations,physical,decimal,3804.0,891.0,16.713393688201904,0.0037970999999999,pot_dsv3_train5pc
+train.10184,**exception raised**: litellm.InternalServerError: InternalServerError: Together_aiException - Internal server error,,3.679,0.0,0.0,0.0,inf,Framingham Risk Score for Hard Coronary Heart Disease,lab test,decimal,4662.0,1475.0,24.79370379447937,0.0053047,pot_dsv3_train5pc
+train.8553,10,10.0,20.0,0.0,0.0,0.0,10.0,Delta Gap,lab test,decimal,3175.0,1407.0,26.63329792022705,0.0042969,pot_dsv3_train5pc
+train.9333,05/24/2001,2001.0,05/24/2001,0.0,0.0,0.0,1.0,Estimated of Conception,date,date,2390.0,1370.0,17.133623361587524,0.003763,pot_dsv3_train5pc
+train.8361,1,1.0,1.0,1.0,1.0,1.0,0.0,Delta Gap,lab test,decimal,3457.0,743.0,15.315295457839966,0.0033373,pot_dsv3_train5pc
+train.7996,1.641,1.641,1.64063,1.0,1.0,1.0,0.0003699999999999,Body Surface Area Calculator,physical,decimal,4037.0,830.0,20.03420877456665,0.0038332,pot_dsv3_train5pc
+train.7440,0.283,0.283,0.28284,1.0,1.0,1.0,0.0001599999999999,Body Surface Area Calculator,physical,decimal,4525.0,1238.0,26.94226336479187,0.0048196,pot_dsv3_train5pc
+train.2367,20.338,20.338,20.33833,1.0,1.0,1.0,0.0003299999999981,Body Mass Index (BMI),physical,decimal,3931.0,781.0,16.718098878860474,0.0036863,pot_dsv3_train5pc
+train.0599,26.71,26.71,26.7105,1.0,1.0,1.0,0.0004999999999988,CKD-EPI Equations for Glomerular Filtration Rate,lab test,decimal,2992.0,521.0,7.919972896575928,0.0026809,pot_dsv3_train5pc
+train.6621,3,3.0,3.0,1.0,1.0,1.0,0.0,SIRS Criteria,diagnosis,integer,4493.0,1554.0,28.07805275917053,0.0053376,pot_dsv3_train5pc
+train.1005,4,4.0,4.0,1.0,1.0,1.0,0.0,CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk,risk,integer,4490.0,1575.0,27.594387769699097,0.0053715,pot_dsv3_train5pc
+train.8637,-8,-8.0,-8.0,1.0,1.0,1.0,0.0,Delta Gap,lab test,decimal,4984.0,1511.0,46.4322247505188,0.0055591,pot_dsv3_train5pc
+train.1836,85.33333333333333,85.33333333333333,85.33333,1.0,1.0,1.0,3.333333324917476e-06,Mean Arterial Pressure (MAP),physical,decimal,2701.0,596.0,16.081167459487915,0.0026338,pot_dsv3_train5pc
+train.9439,8,8.0,12.0,0.0,0.0,0.0,4.0,Child-Pugh Score for Cirrhosis Mortality,severity,integer,4712.0,1412.0,30.28750681877136,0.0052276,pot_dsv3_train5pc
+train.7052,404.22935779816515,404.2293577981652,426.19444,0.0,0.0,0.0,21.965082201834832,QTc Rautaharju Calculator,physical,decimal,2827.0,476.0,12.885879278182983,0.0025054,pot_dsv3_train5pc
+train.8293,116.40236220472441,116.4023622047244,116.40241,1.0,1.0,1.0,4.77952755915112e-05,Adjusted Body Weight,physical,decimal,4455.0,1191.0,27.83989143371582,0.0046977,pot_dsv3_train5pc
+train.6089,-0.9257142857142872,-0.9257142857142872,-0.92571,1.0,1.0,1.0,4.285714287122211e-06,Free Water Deficit,lab test,decimal,4158.0,2127.0,36.76430678367615,0.0061106999999999,pot_dsv3_train5pc
+train.1653,54.666666666666664,54.66666666666666,123.33333,0.0,0.0,0.0,68.66666333333333,Mean Arterial Pressure (MAP),physical,decimal,3679.0,1585.0,32.72568154335022,0.0049019,pot_dsv3_train5pc
+train.7908,1.506,1.506,1.50591,1.0,1.0,1.0,8.999999999992347e-05,Body Surface Area Calculator,physical,decimal,3713.0,728.0,15.008975982666016,0.0034654,pot_dsv3_train5pc
+train.4077,302.1602775570167,302.1602775570167,302.16028,1.0,1.0,1.0,2.442983316086611e-06,QTc Bazett Calculator,physical,decimal,2825.0,269.0,6.000959396362305,0.0021523,pot_dsv3_train5pc
+train.1249,149.3,149.3,149.33333,1.0,0.0,1.0,0.0333299999999781,Mean Arterial Pressure (MAP),physical,decimal,3484.0,616.0,12.286946058273315,0.0031375999999999,pot_dsv3_train5pc
+train.5885,0,0.0,2.0,0.0,0.0,0.0,2.0,FeverPAIN Score for Strep Pharyngitis,diagnosis,integer,5810.0,2034.0,32.95562410354614,0.0069438,pot_dsv3_train5pc
+train.10156,28.0,28.0,29.0,1.0,0.0,1.0,1.0,MELD Na (UNOS/OPTN),lab test,decimal,5181.0,1550.0,36.9962854385376,0.0057436,pot_dsv3_train5pc
+train.2733,**exception raised**: litellm.InternalServerError: InternalServerError: Together_aiException - Internal server error,,7.0,0.0,0.0,0.0,inf,Wells' Criteria for Pulmonary Embolism,risk,integer,4510.0,3615.0,55.695451498031616,0.0088514999999999,pot_dsv3_train5pc
+train.6682,3,3.0,3.0,1.0,1.0,1.0,0.0,SIRS Criteria,diagnosis,integer,4454.0,1443.0,29.208489894866943,0.0051254999999999,pot_dsv3_train5pc
+train.3166,44.0,44.0,47.2675,0.0,0.0,0.0,3.2674999999999983,MDRD GFR Equation,lab test,decimal,5107.0,1760.0,37.93511843681336,0.0060562,pot_dsv3_train5pc
+train.9143,0.0,0.0,8.28648,0.0,0.0,0.0,8.28648,Steroid Conversion Calculator,dosage,integer,2809.0,585.0,12.346723794937134,0.0026799,pot_dsv3_train5pc
+train.6245,21.299999999999997,21.3,21.3,1.0,1.0,1.0,3.552713678800501e-15,Anion Gap,lab test,decimal,5037.0,1632.0,31.94813561439514,0.0057966,pot_dsv3_train5pc
+train.2766,0.0,0.0,0.0,1.0,1.0,1.0,0.0,Wells' Criteria for Pulmonary Embolism,risk,integer,3812.0,1036.0,19.534016370773315,0.0040484,pot_dsv3_train5pc
+train.0734,2.0,2.0,4.0,0.0,0.0,0.0,2.0,CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk,risk,integer,4007.0,1204.0,26.16851162910461,0.004451,pot_dsv3_train5pc
+train.0355,53.733,53.733,53.21799,1.0,0.0,1.0,0.5150099999999966,CKD-EPI Equations for Glomerular Filtration Rate,lab test,decimal,4720.0,1269.0,25.18660926818848,0.0049892999999999,pot_dsv3_train5pc
+train.8146,71.02047244094489,71.02047244094489,71.02052,1.0,1.0,1.0,4.755905511899528e-05,Adjusted Body Weight,physical,decimal,5596.0,1907.0,42.12418580055237,0.0065994999999999,pot_dsv3_train5pc
+train.4999,132,132.0,132.0,1.0,1.0,1.0,0.0,Maintenance Fluids Calculations,physical,decimal,4517.0,1212.0,23.039833068847656,0.0047706,pot_dsv3_train5pc
+train.7180,1.46,1.46,1.45968,1.0,1.0,1.0,0.0003199999999998,Body Surface Area Calculator,physical,decimal,4085.0,896.0,14.330995798110962,0.0039742,pot_dsv3_train5pc
+train.4828,103,103.0,103.0,1.0,1.0,1.0,0.0,Maintenance Fluids Calculations,physical,decimal,3766.0,836.0,12.461010694503784,0.0036807999999999,pot_dsv3_train5pc
+train.5697,276.0,276.0,275.90476,1.0,0.0,1.0,0.0952399999999897,Serum Osmolality,lab test,decimal,4275.0,1109.0,26.65654802322388,0.0044503,pot_dsv3_train5pc
+train.3369,8.445,8.445,8.44483,1.0,1.0,1.0,0.0001700000000006,MDRD GFR Equation,lab test,decimal,3570.0,792.0,13.827958106994627,0.0034884,pot_dsv3_train5pc
+train.10195,97.0,97.0,6.254,0.0,0.0,0.0,90.746,Framingham Risk Score for Hard Coronary Heart Disease,lab test,decimal,4863.0,1648.0,57.29008793830872,0.0057193999999999,pot_dsv3_train5pc
+train.2234,19.045,19.045,19.04507,1.0,1.0,1.0,6.999999999734996e-05,Body Mass Index (BMI),physical,decimal,4027.0,1085.0,20.338237285614014,0.0042607,pot_dsv3_train5pc
+train.7516,1.474,1.474,1.47422,1.0,1.0,1.0,0.0002200000000001,Body Surface Area Calculator,physical,decimal,4465.0,1174.0,25.741294860839844,0.0046748,pot_dsv3_train5pc
+train.3525,84.04724409448819,84.04724409448819,84.04734,1.0,1.0,1.0,9.590551181304364e-05,Ideal Body Weight,physical,decimal,4712.0,1199.0,24.49644637107849,0.0048655,pot_dsv3_train5pc
+train.9895,153.0,153.0,153.0,1.0,1.0,1.0,0.0,PSI Score: Pneumonia Severity Index for CAP,severity,integer,5151.0,2727.0,63.67207646369934,0.0077265,pot_dsv3_train5pc
+train.4407,1.0,1.0,2.0,0.0,0.0,0.0,1.0,Centor Score (Modified/McIsaac) for Strep Pharyngitis,severity,integer,6690.0,2676.0,54.500030517578125,0.0085632,pot_dsv3_train5pc
+train.2015,83.0,83.0,132.66667,0.0,0.0,0.0,49.66667000000001,Mean Arterial Pressure (MAP),physical,decimal,4151.0,897.0,15.730234146118164,0.0040155,pot_dsv3_train5pc
+train.0101,117.0,117.0,116.7284,1.0,0.0,1.0,0.2716000000000065,Creatinine Clearance (Cockcroft-Gault Equation),lab test,decimal,7662.0,2274.0,81.20787978172302,0.008463,pot_dsv3_train5pc
+train.7804,1.463,1.463,1.46325,1.0,1.0,1.0,0.0002499999999998,Body Surface Area Calculator,physical,decimal,3891.0,865.0,27.31303381919861,0.0038050999999999,pot_dsv3_train5pc
+train.2627,7.84,7.84,7.84,1.0,1.0,1.0,0.0,Calcium Correction for Hypoalbuminemia,lab test,decimal,4103.0,884.0,18.78199076652527,0.0039645999999999,pot_dsv3_train5pc
+train.4738,56,56.0,56.0,1.0,1.0,1.0,0.0,Maintenance Fluids Calculations,physical,decimal,4352.0,1073.0,29.47725224494934,0.0044353,pot_dsv3_train5pc
+train.6641,3,3.0,3.0,1.0,1.0,1.0,0.0,SIRS Criteria,diagnosis,integer,4694.0,1471.0,39.0982551574707,0.0053171,pot_dsv3_train5pc
+train.6896,509.0,509.0,509.29448,1.0,0.0,1.0,0.2944800000000214,QTc Framingham Calculator,physical,decimal,2821.0,1344.0,58.35376763343811,0.0039774,pot_dsv3_train5pc
+train.4831,92,92.0,92.0,1.0,1.0,1.0,0.0,Maintenance Fluids Calculations,physical,decimal,4659.0,1193.0,61.525148153305054,0.0048235,pot_dsv3_train5pc
+train.1195,86.66666666666667,86.66666666666667,86.66667,1.0,1.0,1.0,3.333333324917476e-06,Mean Arterial Pressure (MAP),physical,decimal,3726.0,774.0,18.7152898311615,0.0035514,pot_dsv3_train5pc
+train.5624,331.4,331.4,331.42063,1.0,0.0,1.0,0.0206300000000396,Serum Osmolality,lab test,decimal,3855.0,881.0,23.525992155075077,0.0038106999999999,pot_dsv3_train5pc
+train.8220,52.552598425196855,52.552598425196855,52.55265,1.0,1.0,1.0,5.157480314466056e-05,Adjusted Body Weight,physical,decimal,4771.0,1432.0,36.75952982902527,0.005297,pot_dsv3_train5pc
+train.5770,310.1031746031746,310.1031746031746,310.10317,1.0,1.0,1.0,4.603174602380022e-06,Serum Osmolality,lab test,decimal,4542.0,1294.0,54.93713998794556,0.004925,pot_dsv3_train5pc
+train.5880,0.73,0.73,1089.76,0.0,0.0,0.0,1089.03,HOMA-IR (Homeostatic Model Assessment for Insulin Resistance),lab test,decimal,6045.0,2047.0,42.41947793960571,0.0071069,pot_dsv3_train5pc
+train.8898,-1.125,-1.125,-1.125,1.0,1.0,1.0,0.0,Delta Ratio,lab test,decimal,3471.0,861.0,26.328854084014893,0.0035463,pot_dsv3_train5pc
+train.4845,44,44.0,44.0,1.0,1.0,1.0,0.0,Maintenance Fluids Calculations,physical,decimal,3619.0,679.0,15.335700511932371,0.0033257,pot_dsv3_train5pc
+train.6408,0.0,0.0,2.0,0.0,0.0,0.0,2.0,CURB-65 Score for Pneumonia Severity,risk,integer,5381.0,1688.0,26.810287952423096,0.0060982,pot_dsv3_train5pc
+train.6863,563.1847093030083,563.1847093030083,563.18471,1.0,1.0,1.0,6.969917194510344e-07,QTc Fridericia Calculator,physical,decimal,2823.0,390.0,7.726255893707275,0.0023568,pot_dsv3_train5pc
+train.7439,2.001,2.001,2.00125,1.0,1.0,1.0,0.0002500000000003,Body Surface Area Calculator,physical,decimal,3211.0,545.0,10.01712131500244,0.0028531,pot_dsv3_train5pc
+train.4121,8.0,8.0,6.0,0.0,0.0,0.0,2.0,HEART Score for Major Cardiac Events,risk,integer,3990.0,1178.0,21.63160276412964,0.0043966,pot_dsv3_train5pc
+train.2942,0,0.0,1.5,0.0,0.0,0.0,1.5,Wells' Criteria for Pulmonary Embolism,risk,integer,4830.0,1556.0,25.22453451156616,0.0055432,pot_dsv3_train5pc
+train.8659,0.33,0.33,0.33333,1.0,1.0,1.0,0.0033299999999999,Delta Ratio,lab test,decimal,4032.0,979.0,18.11830043792725,0.0040835,pot_dsv3_train5pc
+train.8594,-16.0,-16.0,-16.0,1.0,1.0,1.0,0.0,Delta Gap,lab test,decimal,4924.0,1517.0,27.875293731689453,0.0055333,pot_dsv3_train5pc
+train.9349,"(8, 1)",1.0,"('8 weeks', '1 days')",0.0,0.0,0.0,1.0,Estimated Gestational Age,date,date,2413.0,224.0,5.504342555999756,0.0018285999999999,pot_dsv3_train5pc
+train.8379,-4,-4.0,-4.0,1.0,1.0,1.0,0.0,Delta Gap,lab test,decimal,4342.0,1067.0,20.296668529510494,0.0044191,pot_dsv3_train5pc
+train.3801,52.4,52.4,52.38197,1.0,0.0,1.0,0.0180299999999959,Ideal Body Weight,physical,decimal,3321.0,575.0,10.96562361717224,0.0029701,pot_dsv3_train5pc
+train.9229,154.0,154.0,154.0,1.0,1.0,1.0,0.0,Morphine Milligram Equivalents (MME) Calculator,dosage,integer,2921.0,658.0,14.734960794448853,0.0028712,pot_dsv3_train5pc
+train.7311,0.465,0.465,0.46476,1.0,1.0,1.0,0.00024,Body Surface Area Calculator,physical,decimal,3954.0,1049.0,18.158041954040527,0.0041557,pot_dsv3_train5pc
+train.4877,24.0,24.0,24.0,1.0,1.0,1.0,0.0,Maintenance Fluids Calculations,physical,decimal,4405.0,2349.0,48.59324789047241,0.0066362999999999,pot_dsv3_train5pc
+train.4154,6,6.0,4.0,0.0,0.0,0.0,2.0,HEART Score for Major Cardiac Events,risk,integer,3443.0,1172.0,22.058607816696167,0.0040582,pot_dsv3_train5pc
+train.4552,10.8,10.8,10.8,1.0,1.0,1.0,0.0,Maintenance Fluids Calculations,physical,decimal,4037.0,1600.0,27.07225513458252,0.0051422,pot_dsv3_train5pc
+train.1239,110.0,110.0,110.0,1.0,1.0,1.0,0.0,Mean Arterial Pressure (MAP),physical,decimal,4946.0,1297.0,19.41921043395996,0.0051725,pot_dsv3_train5pc
+train.0826,2.0,2.0,2.0,1.0,1.0,1.0,0.0,CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk,risk,integer,5195.0,1812.0,41.2188766002655,0.0061974,pot_dsv3_train5pc
+train.1275,97.0,97.0,97.0,1.0,1.0,1.0,0.0,Mean Arterial Pressure (MAP),physical,decimal,3888.0,807.0,16.43488574028015,0.0037047,pot_dsv3_train5pc
+train.3467,65.937,65.937,65.93709,1.0,1.0,1.0,9.000000000014552e-05,Ideal Body Weight,physical,decimal,4584.0,1402.0,42.06023192405701,0.0051338,pot_dsv3_train5pc
+train.4041,221.3,221.3,221.2524,1.0,0.0,1.0,0.0476000000000169,QTc Bazett Calculator,physical,decimal,2821.0,268.0,8.040319442749023,0.0021482,pot_dsv3_train5pc
+train.8773,6.0,6.0,6.0,1.0,1.0,1.0,0.0,Delta Ratio,lab test,decimal,3951.0,854.0,22.441670894622803,0.0038224,pot_dsv3_train5pc
+train.8294,79.61454400000001,79.61454400000001,79.61454,1.0,1.0,1.0,4.0000000041118255e-06,Adjusted Body Weight,physical,decimal,4384.0,1186.0,34.10206079483032,0.0046466,pot_dsv3_train5pc
+train.3168,8.464,8.464,8.46447,1.0,1.0,1.0,0.0004699999999999,MDRD GFR Equation,lab test,decimal,2950.0,570.0,21.79639482498169,0.0027389999999999,pot_dsv3_train5pc
+train.1604,96.3,96.3,96.33333,1.0,0.0,1.0,0.0333300000000065,Mean Arterial Pressure (MAP),physical,decimal,4732.0,1247.0,39.62613081932068,0.0049590999999999,pot_dsv3_train5pc
+train.0097,23.33,23.33,30.51282,0.0,0.0,0.0,7.182820000000003,Creatinine Clearance (Cockcroft-Gault Equation),lab test,decimal,3377.0,927.0,26.560847282409668,0.0036020999999999,pot_dsv3_train5pc
+train.5123,150.01945525291828,150.01945525291828,105.0,0.0,0.0,0.0,45.01945525291828,Maintenance Fluids Calculations,physical,decimal,5166.0,2084.0,56.53172779083252,0.0066424,pot_dsv3_train5pc
+train.3795,60.503937007874015,60.503937007874015,60.50401,1.0,1.0,1.0,7.299212598610438e-05,Ideal Body Weight,physical,decimal,4548.0,1424.0,29.28963112831116,0.0051496,pot_dsv3_train5pc
+train.0235,23.784,23.784,23.78365,1.0,1.0,1.0,0.0003499999999974,CKD-EPI Equations for Glomerular Filtration Rate,lab test,decimal,3056.0,501.0,14.675937175750732,0.0026853,pot_dsv3_train5pc
+train.5126,103.5,103.5,103.5,1.0,1.0,1.0,0.0,Maintenance Fluids Calculations,physical,decimal,3702.0,1780.0,38.98568940162659,0.0052472,pot_dsv3_train5pc
+train.9615,0,0.0,0.0,1.0,1.0,1.0,0.0,Sequential Organ Failure Assessment (SOFA) Score,risk,integer,5266.0,3246.0,62.860143184661865,0.0086778,pot_dsv3_train5pc
+train.5176,79.5,79.5,79.5,1.0,1.0,1.0,0.0,Maintenance Fluids Calculations,physical,decimal,5275.0,1661.0,27.38552761077881,0.0059887,pot_dsv3_train5pc
+train.10135,37.0,37.0,29.0,0.0,0.0,0.0,8.0,MELD Na (UNOS/OPTN),lab test,decimal,5077.0,2014.0,41.96775531768799,0.00647,pot_dsv3_train5pc
+train.2932,1.5,1.5,1.5,1.0,1.0,1.0,0.0,Wells' Criteria for Pulmonary Embolism,risk,integer,5498.0,1856.0,43.8008131980896,0.006454,pot_dsv3_train5pc
+train.2451,16.194064379668188,16.194064379668188,16.19406,1.0,1.0,1.0,4.379668187226571e-06,Body Mass Index (BMI),physical,decimal,4043.0,923.0,18.67498898506165,0.0039948999999999,pot_dsv3_train5pc
+train.1883,100.0,100.0,100.0,1.0,1.0,1.0,0.0,Mean Arterial Pressure (MAP),physical,decimal,2541.0,401.0,8.750297784805298,0.0022063,pot_dsv3_train5pc
+train.2956,0,0.0,1.5,0.0,0.0,0.0,1.5,Wells' Criteria for Pulmonary Embolism,risk,integer,4444.0,1704.0,38.57347297668457,0.0055632,pot_dsv3_train5pc
+train.3947,63.22047244094488,63.22047244094488,63.22056,1.0,1.0,1.0,8.755905511748097e-05,Ideal Body Weight,physical,decimal,4132.0,981.0,22.13827610015869,0.0041469,pot_dsv3_train5pc
+train.9393,"(33, 5)",5.0,"('33 weeks', '5 days')",0.0,0.0,0.0,1.0,Estimated Gestational Age,date,date,2413.0,231.0,6.128698110580444,0.0018405,pot_dsv3_train5pc
+train.8715,1.0,1.0,1.0,1.0,1.0,1.0,0.0,Delta Ratio,lab test,decimal,5728.0,1960.0,53.94198822975159,0.0067688,pot_dsv3_train5pc
+train.0912,4,4.0,3.0,0.0,0.0,0.0,1.0,CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk,risk,integer,3890.0,1253.0,38.461145877838135,0.0044640999999999,pot_dsv3_train5pc
+train.1386,103.33333333333333,103.33333333333331,103.33333,1.0,1.0,1.0,3.333333324917476e-06,Mean Arterial Pressure (MAP),physical,decimal,3350.0,674.0,37.1167573928833,0.0031558,pot_dsv3_train5pc
+train.10039,8,8.0,8.0,1.0,1.0,1.0,0.0,Glasgow Coma Score (GCS),severity,integer,3112.0,1188.0,17.07259726524353,0.0038867999999999,pot_dsv3_train5pc
+train.0347,63.433,63.433,63.43251,1.0,1.0,1.0,0.0004899999999992,CKD-EPI Equations for Glomerular Filtration Rate,lab test,decimal,3188.0,630.0,10.174767971038818,0.0029837999999999,pot_dsv3_train5pc
+train.9510,3.0,3.0,3.0,1.0,1.0,1.0,0.0,Wells' Criteria for DVT,risk,decimal,5025.0,1915.0,39.292664527893066,0.0062705,pot_dsv3_train5pc
+train.0897,1.0,1.0,5.0,0.0,0.0,0.0,4.0,CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk,risk,integer,3336.0,929.0,35.058497190475464,0.0035808999999999,pot_dsv3_train5pc
+train.3800,74.08661417322833,74.08661417322833,74.0867,1.0,1.0,1.0,8.582677166657504e-05,Ideal Body Weight,physical,decimal,4130.0,1234.0,52.336562156677246,0.0045758,pot_dsv3_train5pc
+train.2272,27.055,27.055,27.05515,1.0,1.0,1.0,0.0001500000000014,Body Mass Index (BMI),physical,decimal,3693.0,679.0,36.62767815589905,0.0033701,pot_dsv3_train5pc
+train.3206,13.9,13.9,13.91447,1.0,0.0,1.0,0.0144699999999993,MDRD GFR Equation,lab test,decimal,3882.0,1090.0,22.44484853744507,0.0041822,pot_dsv3_train5pc
+train.1313,80.0,80.0,80.0,1.0,1.0,1.0,0.0,Mean Arterial Pressure (MAP),physical,decimal,3160.0,553.0,12.62526273727417,0.0028361,pot_dsv3_train5pc
+train.9860,5.79,5.79,208.59259,0.0,0.0,0.0,202.80259,HOMA-IR (Homeostatic Model Assessment for Insulin Resistance),lab test,decimal,5199.0,1805.0,43.322452545166016,0.0061879,pot_dsv3_train5pc
+train.8822,0.0,0.0,0.0,1.0,1.0,1.0,0.0,Delta Ratio,lab test,decimal,3920.0,993.0,41.86895775794983,0.0040401,pot_dsv3_train5pc
+train.6305,12,12.0,12.0,1.0,1.0,1.0,0.0,Anion Gap,lab test,decimal,3666.0,872.0,21.352800607681274,0.003682,pot_dsv3_train5pc
+train.2390,17.637,17.637,17.63668,1.0,1.0,1.0,0.000320000000002,Body Mass Index (BMI),physical,decimal,3931.0,773.0,15.630581617355348,0.0036727,pot_dsv3_train5pc
+train.9202,114.0,114.0,124.0,0.0,0.0,0.0,10.0,Morphine Milligram Equivalents (MME) Calculator,dosage,integer,2393.0,1745.0,31.474804639816284,0.0044023,pot_dsv3_train5pc
+train.3587,46.767716535433074,46.767716535433074,46.76778,1.0,1.0,1.0,6.34645669279621e-05,Ideal Body Weight,physical,decimal,5350.0,1545.0,31.36760687828064,0.0058365,pot_dsv3_train5pc
+train.7288,0.11135553670812941,0.1113555367081294,0.11136,1.0,1.0,1.0,4.463291870593356e-06,Body Surface Area Calculator,physical,decimal,4921.0,1494.0,34.240636587142944,0.0054924,pot_dsv3_train5pc
+train.1796,83.3,83.3,83.33333,1.0,0.0,1.0,0.0333300000000065,Mean Arterial Pressure (MAP),physical,decimal,4068.0,881.0,19.49121308326721,0.0039385,pot_dsv3_train5pc
+train.10534,3.0,3.0,7.0,0.0,0.0,0.0,4.0,APACHE II Score,risk,integer,5125.0,2240.0,39.4581458568573,0.006883,pot_dsv3_train5pc
+train.3468,46.0,46.0,46.04337,1.0,0.0,1.0,0.043370000000003,Ideal Body Weight,physical,decimal,4760.0,1339.0,32.26837658882141,0.0051323,pot_dsv3_train5pc
+train.7290,1.692,1.692,1.69222,1.0,1.0,1.0,0.0002200000000001,Body Surface Area Calculator,physical,decimal,6584.0,2590.0,41.094191551208496,0.0083534,pot_dsv3_train5pc
+train.7169,1.48,1.48,1.48492,1.0,1.0,1.0,0.00492,Body Surface Area Calculator,physical,decimal,3904.0,792.0,14.486778020858765,0.0036888,pot_dsv3_train5pc
+train.6357,248,248.0,247.8,1.0,0.0,1.0,0.1999999999999886,LDL Calculated,lab test,decimal,4781.0,1246.0,52.827298402786255,0.0049868,pot_dsv3_train5pc
