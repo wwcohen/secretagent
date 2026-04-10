@@ -21,6 +21,11 @@ dataset:
 ptools:
   identify_calculator:
     method: simulate
+  extract_clinical_values:
+    method: simulate
+  compute_calculation:
+    method: direct
+    fn: ptools.compute_calculation_impl
   simulate_medical_value:
     method: simulate
   calculate_medical_value:
