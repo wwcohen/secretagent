@@ -202,6 +202,42 @@ def compute_calculation(calculator_name: str, values: dict) -> dict:
 
 
 # =============================================================================
+# Chain-of-thought reasoning fallback (reusable by any workflow)
+# =============================================================================
+
+def _reasoning_fallback(patient_note: str, question: str) -> float:
+    """Ask the LLM to reason step-by-step, then extract the numeric answer.
+
+    Uses the same formula-rich prompt as the L0 baseline.  Unlike
+    ``simulate`` (which predicts a bare number), this lets the LLM show
+    its work — critical for complex scoring systems where holistic
+    reasoning outperforms structured extraction.
+    """
+    from string import Template
+
+    model = config.require("llm.model")
+    prompt = Template(_BASELINE_TEMPLATE).safe_substitute(
+        patient_note=patient_note, question=question)
+    response, _ = llm(prompt, model)
+
+    # Extract number: try ANSWER: pattern first, then last number
+    match = re.search(r'(?:ANSWER|answer|Answer)[:\s]*([-\d.eE+]+)', response)
+    if match:
+        try:
+            return float(match.group(1))
+        except ValueError:
+            pass
+    numbers = re.findall(r'-?\d+\.?\d*', response)
+    if numbers:
+        try:
+            return float(numbers[-1])
+        except ValueError:
+            pass
+    # Final fallback to simulate
+    return simulate_medical_value(patient_note, question)
+
+
+# =============================================================================
 # Direct implementations
 # =============================================================================
 
@@ -222,6 +258,41 @@ def compute_calculation_impl(calculator_name: str, values: dict) -> dict:
         "extracted_values": result.extracted_values,
         "formula_used": result.formula_used,
     }
+
+
+# =============================================================================
+# L3 helper: PoT sub-interface (bound to program_of_thought via config)
+# =============================================================================
+
+def pot_medical_value(patient_note: str, question: str) -> float:
+    ...
+
+pot_medical_value.__doc__ = _CALCULATE_DOCSTRING
+pot_medical_value = interface(pot_medical_value)
+pot_medical_value.src = _build_medical_value_src(
+    'pot_medical_value', _CALCULATE_DOCSTRING)
+
+
+# =============================================================================
+# L3 workflow: try PoT code generation, fallback to simulate
+# =============================================================================
+
+def pot_workflow(patient_note: str, question: str) -> float:
+    """L3 workflow: try Program of Thought, fallback to reasoning.
+
+    PoT generates Python code calling tool interfaces. If the code
+    execution fails or returns None/NaN, fall back to chain-of-thought.
+    """
+    import math
+
+    try:
+        result = pot_medical_value(patient_note, question)
+        if result is not None and not (isinstance(result, float) and math.isnan(result)):
+            return result
+    except Exception:
+        pass
+
+    return _reasoning_fallback(patient_note, question)
 
 
 # =============================================================================
@@ -252,35 +323,59 @@ def distilled_workflow(patient_note: str, question: str) -> float:
 # L4 workflow: Python-orchestrated pipeline with specialist LLM stages
 # =============================================================================
 
-def pipeline_workflow(patient_note: str, question: str) -> float:
-    """L4 pipeline: Python controls flow, LLMs handle understanding tasks.
+def _build_descriptive_fields(calc_name: str) -> list[str]:
+    """Build descriptive field names from calculator docstring.
 
-    Pipeline:
-    1. Identify calculator (LLM via identify_calculator interface)
-    2. Extract values (LLM via two-stage extraction with llm_util)
-    3. Validate values (Python)
-    4. Compute result (Python via official calculators)
-    5. Fallback to simulate if pipeline fails
+    Turns bare field names (e.g. 'ascites_grade') into descriptive
+    strings (e.g. 'ascites_grade: 0=none, 1=mild/controlled, 2=moderate-severe')
+    so that extract_clinical_values knows what to look for.
     """
     import calculator_simple
-    from calculators import compute_direct, identify_calculator as python_identify
-    from official_calculators import (
-        compute_official, convert_extracted_to_official,
-        get_official_source, get_expected_params,
-    )
+    doc = calculator_simple.get_calculator_docstring(calc_name) or ''
+    sigs = calculator_simple.get_calculator_signatures()
+    sig = sigs.get(calc_name, {})
+    all_fields = sig.get('required', []) + sig.get('optional', [])
+
+    # Parse "field_name: description" lines from docstring
+    field_desc = {}
+    for line in doc.split('\n'):
+        line = line.strip()
+        # Match lines like "    bilirubin: Total bilirubin in mg/dL (e.g., 2.5)"
+        match = re.match(r'(\w+):\s+(.+)', line)
+        if match and match.group(1) in all_fields:
+            field_desc[match.group(1)] = match.group(2).strip()
+
+    result = []
+    for f in all_fields:
+        if f in field_desc:
+            result.append(f'{f}: {field_desc[f]}')
+        else:
+            result.append(f)
+    return result
+
+
+def pipeline_workflow(patient_note: str, question: str) -> float:
+    """L4 pipeline: Python-orchestrated with ptools interfaces + LLM extraction.
+
+    Pipeline:
+    1. identify_calculator (ptools) — LLM identifies which calculator
+    2. _extract_values_two_stage   — LLM extraction with calculator-specific context
+    3. compute_calculation (ptools) — Python computes result deterministically
+    Fallback: chain-of-thought reasoning for scoring or failed extraction
+    """
+    import calculator_simple
+    from calculators import identify_calculator as python_identify
 
     signatures = calculator_simple.get_calculator_signatures()
     available = list(signatures.keys())
 
-    # ---- Stage 1: Identify calculator (LLM) ----
+    # ---- Stage 1: identify_calculator (ptools interface) ----
     calc_name = None
     try:
         result = identify_calculator(question, available)
         if isinstance(result, dict):
             calc_name = result.get("calculator_name")
-            # Validate it exists
             if calc_name and calc_name not in signatures:
-                # Try fuzzy match
                 calc_lower = calc_name.lower()
                 for sig_name in signatures:
                     if calc_lower in sig_name.lower() or sig_name.lower() in calc_lower:
@@ -302,10 +397,9 @@ def pipeline_workflow(patient_note: str, question: str) -> float:
                         break
 
     if not calc_name:
-        # Last resort: LLM simulate
-        return simulate_medical_value(patient_note, question)
+        return _reasoning_fallback(patient_note, question)
 
-    # ---- Stage 2: Extract values (LLM two-stage) ----
+    # ---- Stage 2: Extract values (LLM with calculator-specific context) ----
     sig = signatures.get(calc_name, {})
     required = sig.get("required", [])
     optional = sig.get("optional", [])
@@ -314,28 +408,23 @@ def pipeline_workflow(patient_note: str, question: str) -> float:
         patient_note, calc_name, required, optional
     )
 
-    # ---- Stage 3: Validate (Python) ----
+    # ---- Stage 3: Validate + compute_calculation (ptools interface) ----
     is_valid, missing, cleaned = _validate_extracted_values(extracted, calc_name)
 
-    # Repair if needed
     if missing and not is_valid:
         repaired = _repair_extraction(patient_note, calc_name, cleaned, missing)
         is_valid, missing, cleaned = _validate_extracted_values(repaired, calc_name)
 
-    # ---- Stage 4: Compute (Python) ----
-    # Try official calculator first
-    official_params = convert_extracted_to_official(cleaned, calc_name)
-    official_result = compute_official(calc_name, official_params)
-    if official_result is not None and "Answer" in official_result:
-        return official_result["Answer"]
+    if is_valid:
+        try:
+            result = compute_calculation(calc_name, cleaned)
+            if isinstance(result, dict) and result.get('result') is not None:
+                return result['result']
+        except Exception:
+            pass
 
-    # Try calculator_simple
-    direct_result = compute_direct(calc_name, cleaned)
-    if direct_result is not None:
-        return direct_result.result
-
-    # Fallback to LLM
-    return simulate_medical_value(patient_note, question)
+    # Fallback: chain-of-thought reasoning
+    return _reasoning_fallback(patient_note, question)
 
 
 # =============================================================================
@@ -395,6 +484,10 @@ MEDICAL ANALYSIS (from reasoning stage):
         except Exception:
             pass
 
+    # Build explicit field list so the LLM knows exactly what to return
+    all_fields = required_values + optional_values
+    field_list = ', '.join(f'"{f}"' for f in all_fields) if all_fields else '(see calculator description)'
+
     # Stage 2: Structured extraction
     extraction_prompt = f"""Extract values from the patient note for the {calculator_name} calculator.
 {reasoning_context}
@@ -404,14 +497,21 @@ CALCULATOR DESCRIPTION:
 PATIENT NOTE:
 {patient_note}
 
+You MUST return values for these exact parameter names: [{field_list}]
+
 INSTRUCTIONS:
+- Use the EXACT parameter names listed above as JSON keys
+- Read the calculator description carefully for what each parameter means
+- For score/grade parameters (e.g. "temperature_score", "ascites_grade"):
+  map clinical findings to the numeric score described in the calculator description
 - Extract numeric values with proper units (age in years, weight in kg, height in cm)
 - Convert units as needed (lbs→kg: ×0.453592, feet/inches→cm)
 - For sex: "man"/"male"/"he" → "male", "woman"/"female"/"she" → "female"
 - For boolean conditions: True if present, False if absent
+- If a condition is not mentioned, assume it is absent (False or 0)
 
 Return ONLY valid JSON:
-{{"extracted": {{"param_name": value, ...}}, "missing": ["required values not found"]}}
+{{"extracted": {{"param_name": value, ...}}, "missing": ["values truly not determinable from note"]}}
 """
     try:
         response, _ = llm(extraction_prompt, model)
@@ -460,8 +560,19 @@ def _validate_extracted_values(
     signatures = calculator_simple.get_calculator_signatures()
     sig = signatures.get(calculator_name, {})
     required = sig.get("required", [])
+    optional = sig.get("optional", [])
 
     missing = [v for v in required if v not in cleaned or cleaned[v] is None]
+
+    # Route scoring calculators to reasoning fallback when extraction is
+    # unreliable: (a) >=4 optional boolean criteria where extraction
+    # frequently gets conditions wrong, or (b) optional fields exist but
+    # none were extracted (calculator runs entirely on defaults).
+    if not missing and optional:
+        extracted_optional = sum(1 for v in optional if v in cleaned)
+        if len(optional) >= 4 or extracted_optional == 0:
+            missing = [v for v in optional if v not in cleaned]
+
     return len(missing) == 0, missing, cleaned
 
 
