@@ -24,8 +24,13 @@ ptools:
   compute_calculation:
     method: direct
     fn: ptools.compute_calculation_impl
-  calculate_medical_value:
+  simulate_medical_value:
+    method: simulate
+  pot_medical_value:
     method: program_of_thought
     tools:
       - ptools.extract_clinical_values
       - ptools.compute_calculation
+  calculate_medical_value:
+    method: direct
+    fn: ptools.pot_workflow
