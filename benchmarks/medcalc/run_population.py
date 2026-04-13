@@ -138,7 +138,9 @@ def run(
     if transform_names:
         transforms = [get_transform(n) for n in transform_names]
     else:
-        available = ['swap_strategy', 'upgrade', 'downgrade', 'repair', 'evolve']
+        # Code/prompt transforms only — no model swaps (model is fixed via config)
+        available = ['swap_strategy', 'repair', 'evolve', 'route',
+                     'induce', 'expand', 'restructure']
         transforms = []
         for name in available:
             try:
