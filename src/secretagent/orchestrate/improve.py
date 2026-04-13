@@ -373,85 +373,22 @@ def _improve_population(
                 )
                 proposals_for_iter.append(mp.model_dump())
 
-                # MUTATE: Apply proposed transform
-                if mp.operator not in transform_map:
-                    log.warning('unknown operator: %s', mp.operator)
-                    continue
-                if mp.candidate_index >= len(population.candidates):
-                    log.warning('candidate index out of range: %d', mp.candidate_index)
-                    continue
-
-                t = transform_map[mp.operator]
-                candidate = population.candidates[mp.candidate_index]
-                profile = candidate.profile or before
-
-                try:
-                    if not t.should_apply(profile):
-                        log.debug('transform %s: skipped (should_apply=False)', t.name)
-                        continue
-                    proposal = t.propose(profile, catalog)
-                    result = t.apply(proposal, candidate.pipeline, catalog)
-                    results_for_iter.append(result.model_dump())
-
-                    if result.success:
-                        print(f'[population] {t.name}: {result.message}')
-                        # Create new candidate from mutation
-                        new_pipeline = candidate.pipeline
-                        if result.new_pipeline_code:
-                            new_pipeline = Pipeline(
-                                result.new_pipeline_code,
-                                candidate.pipeline.entry_signature,
-                                candidate.pipeline._fn.__globals__,
-                            )
-                        new_candidate = PipelineCandidate(
-                            pipeline=new_pipeline,
-                            config=dict(candidate.config),
-                            generation=population.generation,
-                            parent_index=mp.candidate_index,
-                            mutation_history=list(candidate.mutation_history) + [t.name],
-                        )
-                        if result.new_config:
-                            new_candidate.config.update(result.new_config)
-                        population.add(new_candidate)
-                except (NotImplementedError, Exception) as e:
-                    log.warning('transform %s failed: %s', mp.operator, e)
-                    continue
+                new_cand = _apply_mutation(
+                    mp.operator, mp.candidate_index, population,
+                    transform_map, catalog, before, front,
+                )
+                if new_cand:
+                    results_for_iter.append({'success': True, 'operator': mp.operator})
         else:
             # Heuristic mode: try all transforms on Pareto front candidates
             for idx in front:
-                candidate = population.candidates[idx]
-                profile = candidate.profile or before
                 for t in transforms:
-                    try:
-                        if not t.should_apply(profile):
-                            continue
-                        proposal = t.propose(profile, catalog)
-                        proposals_for_iter.append(proposal.model_dump())
-                        result = t.apply(proposal, candidate.pipeline, catalog)
-                        results_for_iter.append(result.model_dump())
-
-                        if result.success:
-                            print(f'[population] {t.name} on #{idx}: {result.message}')
-                            new_pipeline = candidate.pipeline
-                            if result.new_pipeline_code:
-                                new_pipeline = Pipeline(
-                                    result.new_pipeline_code,
-                                    candidate.pipeline.entry_signature,
-                                    candidate.pipeline._fn.__globals__,
-                                )
-                            new_candidate = PipelineCandidate(
-                                pipeline=new_pipeline,
-                                config=dict(candidate.config),
-                                generation=population.generation,
-                                parent_index=idx,
-                                mutation_history=list(candidate.mutation_history) + [t.name],
-                            )
-                            if result.new_config:
-                                new_candidate.config.update(result.new_config)
-                            population.add(new_candidate)
-                    except (NotImplementedError, Exception) as e:
-                        log.debug('transform %s failed on #%d: %s', t.name, idx, e)
-                        continue
+                    new_cand = _apply_mutation(
+                        t.name, idx, population,
+                        transform_map, catalog, before, front,
+                    )
+                    if new_cand:
+                        results_for_iter.append({'success': True, 'operator': t.name})
 
         iterations.append({
             'generation': population.generation,
@@ -466,15 +403,18 @@ def _improve_population(
             print('[population] re-evaluating after mutations...')
             try:
                 new_dirs = run_eval_fn()
-                new_profile = profile_from_results(
-                    new_dirs, pipeline_source=pipeline.source,
-                )
-                # Update the best candidate's profile
+                # Profile the latest evaluation and assign to candidates
+                # that don't yet have profiles (newly created this generation)
+                for c in population.candidates:
+                    if c.profile is None and c.generation == population.generation:
+                        c.profile = profile_from_results(
+                            new_dirs,
+                            pipeline_source=c.pipeline.source,
+                        )
+                # Update best accuracy
                 best_cand = population.best()
-                if best_cand:
-                    best_cand.profile = new_profile
-                    if new_profile.accuracy > best_accuracy:
-                        best_accuracy = new_profile.accuracy
+                if best_cand and best_cand.accuracy > best_accuracy:
+                    best_accuracy = best_cand.accuracy
                 print(f'[population] best accuracy: {best_accuracy:.1%}')
             except Exception as e:
                 log.warning('re-evaluation failed: %s', e)
@@ -509,6 +449,71 @@ def _improve_population(
         improved=best_accuracy > before.accuracy,
         best_accuracy=best_accuracy,
     )
+
+
+def _apply_mutation(
+    operator_name: str,
+    candidate_index: int,
+    population: Any,
+    transform_map: dict[str, Any],
+    catalog: PtoolCatalog,
+    fallback_profile: PipelineProfile,
+    pareto_front: list[int],
+) -> Any | None:
+    """Apply a single mutation to a candidate, return new PipelineCandidate or None."""
+    from secretagent.orchestrate.population import PipelineCandidate
+    from secretagent.orchestrate.transforms.crossover import CrossoverTransform
+
+    if operator_name not in transform_map:
+        log.warning('unknown operator: %s', operator_name)
+        return None
+    if candidate_index >= len(population.candidates):
+        log.warning('candidate index out of range: %d', candidate_index)
+        return None
+
+    t = transform_map[operator_name]
+    candidate = population.candidates[candidate_index]
+    profile = candidate.profile or fallback_profile
+
+    # Wire crossover: set the other parent from a different Pareto-front candidate
+    if isinstance(t, CrossoverTransform) and len(pareto_front) >= 2:
+        other_idx = [idx for idx in pareto_front if idx != candidate_index]
+        if other_idx:
+            other = population.candidates[other_idx[0]]
+            t.set_other(other.pipeline, other.profile)
+
+    try:
+        if not t.should_apply(profile):
+            log.debug('transform %s: skipped (should_apply=False)', t.name)
+            return None
+        proposal = t.propose(profile, catalog)
+        result = t.apply(proposal, candidate.pipeline, catalog)
+
+        if result.success:
+            print(f'[population] {t.name} on #{candidate_index}: {result.message}')
+            new_pipeline = candidate.pipeline
+            if result.new_pipeline_code:
+                new_pipeline = Pipeline(
+                    result.new_pipeline_code,
+                    candidate.pipeline.entry_signature,
+                    candidate.pipeline._fn.__globals__,
+                )
+            new_candidate = PipelineCandidate(
+                pipeline=new_pipeline,
+                config=dict(candidate.config),
+                generation=population.generation,
+                parent_index=candidate_index,
+                mutation_history=list(candidate.mutation_history) + [t.name],
+            )
+            if result.new_config:
+                new_candidate.config.update(result.new_config)
+            population.add(new_candidate)
+            return new_candidate
+    except NotImplementedError:
+        log.debug('transform %s: not implemented', operator_name)
+    except Exception as e:
+        log.warning('transform %s failed on #%d: %s', operator_name, candidate_index, e)
+    return None
 
 
 def _seed_via_mutation(
