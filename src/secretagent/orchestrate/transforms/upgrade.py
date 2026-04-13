@@ -67,6 +67,7 @@ class UpgradeTransform(PipelineTransform):
         for name, pp in profile.ptool_profiles.items():
             error_count = sum(e.frequency for e in pp.error_patterns)
             error_rate = error_count / pp.n_calls if pp.n_calls else 0.0
+            # Target ptools with high error rates
             if error_rate > 0.3 and pp.cost_fraction < 0.3:
                 targets.append({
                     'ptool': name,
@@ -74,21 +75,28 @@ class UpgradeTransform(PipelineTransform):
                     'cost_fraction': pp.cost_fraction,
                 })
 
-        targets.sort(key=lambda t: t['error_rate'], reverse=True)
+        # When accuracy is low but no ptools have high error rates,
+        # upgrade the highest-cost ptool (it's doing the most work)
+        if not targets and profile.accuracy < 0.95:
+            by_cost = sorted(
+                profile.ptool_profiles.items(),
+                key=lambda kv: kv[1].cost_fraction,
+                reverse=True,
+            )
+            for name, pp in by_cost[:2]:
+                if pp.cost_fraction > 0.1:
+                    targets.append({
+                        'ptool': name,
+                        'error_rate': 0.0,
+                        'cost_fraction': pp.cost_fraction,
+                    })
+
+        targets.sort(key=lambda t: t['cost_fraction'], reverse=True)
 
         rationale = (
-            f'Upgrading ptools with high error rates and low cost: '
-            f'{", ".join(t["ptool"] for t in targets)}'
+            f'Accuracy={profile.accuracy:.1%}. '
+            f'Upgrading: {", ".join(t["ptool"] for t in targets)}'
         )
-        try:
-            from secretagent import config
-            from secretagent.orchestrate.model_info import lookup_model, format_model_summary
-            current = config.get('llm.model', '')
-            info = lookup_model(current)
-            if info:
-                rationale += f'\nCurrent model: {format_model_summary(info)}'
-        except Exception:
-            pass
 
         return TransformProposal(
             transform_name='upgrade',
@@ -117,11 +125,8 @@ class UpgradeTransform(PipelineTransform):
             # Unknown model — upgrade to strongest available
             stronger = _STRONG_MODELS[-1]
         else:
-            # Pick the next stronger model
-            stronger = None
-            for m in _STRONG_MODELS[current_idx + 1:]:
-                stronger = m
-                break
+            # Jump to strongest available (not incremental)
+            stronger = _STRONG_MODELS[-1] if current_idx < len(_STRONG_MODELS) - 1 else None
 
         if stronger is None:
             return TransformResult(
@@ -129,7 +134,7 @@ class UpgradeTransform(PipelineTransform):
                 message=f'Already using strongest available model ({current_model}).',
             )
 
-        new_config: dict = {}
+        new_config: dict = {'llm.model': stronger}
         upgraded = []
         for change in proposal.changes:
             ptool_name = change['ptool']
