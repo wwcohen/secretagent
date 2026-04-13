@@ -398,27 +398,32 @@ def _improve_population(
             'pareto_front': front,
         })
 
-        # ACCEPT: Re-evaluate if callback provided
+        # ACCEPT: Evaluate each new candidate with its config applied
         if run_eval_fn and any(r.get('success') for r in results_for_iter):
-            print('[population] re-evaluating after mutations...')
-            try:
-                new_dirs = run_eval_fn()
-                # Profile the latest evaluation and assign to candidates
-                # that don't yet have profiles (newly created this generation)
-                for c in population.candidates:
-                    if c.profile is None and c.generation == population.generation:
-                        c.profile = profile_from_results(
-                            new_dirs,
-                            pipeline_source=c.pipeline.source,
-                        )
-                # Update best accuracy
-                best_cand = population.best()
-                if best_cand and best_cand.accuracy > best_accuracy:
-                    best_accuracy = best_cand.accuracy
-                print(f'[population] best accuracy: {best_accuracy:.1%}')
-            except Exception as e:
-                log.warning('re-evaluation failed: %s', e)
-                print(f'[population] re-evaluation failed: {e}')
+            print('[population] evaluating new candidates...')
+            for c in population.candidates:
+                if c.profile is not None or c.generation != population.generation:
+                    continue
+                # Apply this candidate's config overrides to global config
+                if c.config:
+                    dotlist = [f'{k}={v}' for k, v in c.config.items()]
+                    config.configure(dotlist=dotlist)
+                    log.info('applied candidate config: %s', dotlist)
+                    print(f'[population] evaluating candidate with config: {c.config}')
+                try:
+                    new_dirs = run_eval_fn()
+                    c.profile = profile_from_results(
+                        new_dirs, pipeline_source=c.pipeline.source,
+                    )
+                    print(f'[population] candidate accuracy: {c.accuracy:.1%}')
+                except Exception as e:
+                    log.warning('candidate evaluation failed: %s', e)
+                    print(f'[population] candidate eval failed: {e}')
+            # Update best accuracy
+            best_cand = population.best()
+            if best_cand and best_cand.accuracy > best_accuracy:
+                best_accuracy = best_cand.accuracy
+            print(f'[population] best accuracy: {best_accuracy:.1%}')
 
         # BUDGET CHECK
         print(f'[population] {budget_tracker.format_summary()}')
