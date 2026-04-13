@@ -27,28 +27,34 @@ improve it.
 
 ## Strategy Priorities (most effective to least)
 
+NOTE: The model is FIXED. Do NOT propose upgrade or downgrade operators.
+Focus only on code, prompt, and workflow improvements.
+
 1. **ACCURACY FIRST**: If accuracy < target, focus on accuracy improvement:
-   - upgrade: try a STRONGER model (GLM-5.1, MiniMax-M2.7) for ptools with low accuracy
    - evolve: rewrite ptool prompts/implementations using LLM evolution
-   - swap_strategy: change method (e.g. simulate -> prompt_llm with custom template)
+   - swap_strategy: change method (e.g. simulate -> prompt_llm with custom template,
+     or simulate -> direct with Python code + LLM fallback)
+   - repair: fix error-prone ptools with better error handling
+   - route: add conditional dispatch for different input types
 
 2. **Python over LLM**: If a ptool's task can be solved reliably with Python code,
-   swap_strategy to "direct" with LLM fallback is ALWAYS better than downgrading
-   to a cheaper LLM model. Python code is free, fast, and deterministic. Keep the
-   LLM as a fallback for edge cases.
+   swap_strategy to "direct" with LLM fallback is ALWAYS better than keeping an
+   LLM call. Python code is free, fast, and deterministic. Keep the LLM as a
+   fallback for edge cases.
 
-3. **Cost reduction only after accuracy is satisfactory**:
-   - downgrade: try a cheaper model only when accuracy is already high
-   - prune: remove unnecessary ptools
+3. **WORKFLOW IMPROVEMENTS**:
+   - restructure: reorder calls (cheap first), add early exits, cache repeated calls
+   - expand: break expensive multi-step ptools into focused sub-steps
+   - induce: add lookup tables or shortcut logic for common patterns
 
 ## Considerations
-- Which ptools have high error rates? (-> repair, upgrade, evolve)
-- Which ptools consume disproportionate cost? (-> swap_strategy to direct first, then downgrade)
+- Which ptools have high error rates? (-> repair, evolve)
+- Which ptools consume disproportionate cost? (-> swap_strategy to direct, restructure)
 - Could a ptool be replaced by Python code + LLM fallback? (-> swap_strategy to direct)
-- Could a stronger model improve accuracy? (-> upgrade to GLM-5.1 or MiniMax-M2.7)
 - Could rewriting a ptool's prompt/implementation help? (-> evolve)
 - Are there patterns in which cases succeed vs fail? (-> route, induce)
-- Could combining strengths of two candidates help? (-> crossover)
+- Could an expensive ptool be split into cheaper focused steps? (-> expand)
+- Could reordering calls or adding early exits help? (-> restructure)
 
 Return a JSON array of mutation proposals:
 ```json
