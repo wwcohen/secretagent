@@ -337,9 +337,33 @@ def _improve_population(
     print(f'[population] seeded {len(population.candidates)} candidates')
 
     # --- STEP 2: Initial EVALUATE ---
-    # The seed pipeline already has a profile from result_dirs.
-    # Other candidates don't yet — they'll be evaluated in the loop.
+    # Evaluate all seeded candidates that lack a profile (seed #0 already has one)
+    if run_eval_fn:
+        for c in population.candidates:
+            if c.profile is not None:
+                continue
+            if c.config:
+                dotlist = [f'{k}={v}' for k, v in c.config.items()]
+                override_cfg = OmegaConf.from_dotlist(dotlist)
+            else:
+                override_cfg = OmegaConf.create()
+            with config.configuration(cfg=override_cfg):
+                print(f'[population] evaluating seeded candidate: {c.mutation_history}')
+                try:
+                    new_dirs = run_eval_fn()
+                    c.profile = profile_from_results(
+                        new_dirs, pipeline_source=c.pipeline.source,
+                    )
+                    _populate_instance_scores(c, new_dirs)
+                    print(f'[population] seeded candidate accuracy: {c.accuracy:.1%}')
+                except Exception as e:
+                    log.warning('seeded candidate evaluation failed: %s', e)
+                    print(f'[population] seeded candidate eval failed: {e}')
+
     best_accuracy = before.accuracy
+    for c in population.candidates:
+        if c.accuracy > best_accuracy:
+            best_accuracy = c.accuracy
     iterations: list[dict] = []
 
     # --- STEP 3-7: Main loop ---
