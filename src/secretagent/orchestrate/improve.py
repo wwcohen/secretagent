@@ -562,10 +562,21 @@ def _seed_via_mutation(
     transforms: list[PipelineTransform],
     target_count: int,
 ) -> None:
-    """Seed population by applying transforms to the base pipeline."""
+    """Seed population by applying transforms to the base pipeline.
+
+    Skips transforms that run expensive internal evaluation loops (e.g.
+    evolve) since seeding only needs quick variations.
+    """
+    # Skip transforms with internal eval loops — they're too expensive
+    # for seeding and should only run when the meta-optimizer requests them
+    _SKIP_FOR_SEEDING = {'evolve'}
+
     for t in transforms:
         if len(population.candidates) >= target_count:
             break
+        if t.name in _SKIP_FOR_SEEDING:
+            log.debug('seed: skipping %s (expensive internal loop)', t.name)
+            continue
         try:
             if not t.should_apply(profile):
                 continue
