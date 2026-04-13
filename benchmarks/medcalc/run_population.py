@@ -155,7 +155,7 @@ def run(
                 # Wire evolve transform with workflow interface and train cases
                 if name == 'evolve' and hasattr(t, 'workflow_interface'):
                     t.workflow_interface = workflow_interface
-                    t.train_cases = eval_dataset.cases[:20]
+                    t.train_cases = list(eval_cases)
                 transforms.append(t)
             except KeyError:
                 pass
