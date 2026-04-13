@@ -55,7 +55,9 @@ class CrossoverTransform(PipelineTransform):
             ),
             changes=[{
                 'parent_a_accuracy': profile.accuracy,
+                'parent_a_cost': profile.avg_cost,
                 'parent_b_accuracy': other_acc,
+                'parent_b_cost': self._other_profile.avg_cost if self._other_profile else 0.0,
             }],
         )
 
@@ -85,7 +87,7 @@ class CrossoverTransform(PipelineTransform):
         prompt = template.substitute(
             parent_a_index=0,
             parent_a_accuracy=f'{proposal.changes[0].get("parent_a_accuracy", 0):.1%}',
-            parent_a_cost=f'${pipeline.avg_cost if hasattr(pipeline, "avg_cost") else 0:.4f}',
+            parent_a_cost=f'${proposal.changes[0].get("parent_a_cost", 0):.4f}',
             parent_a_code=pipeline.source,
             parent_b_index=1,
             parent_b_accuracy=f'{other_acc:.1%}',
