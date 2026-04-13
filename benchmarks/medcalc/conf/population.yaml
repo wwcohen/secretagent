@@ -51,7 +51,13 @@ improve:
   population_size: 3
   seed_strategy: compose_then_mutate
   meta_model: together_ai/deepseek-ai/DeepSeek-V3.1
-  max_iterations: 5
+  max_iterations: 15
   budget: 25.0
   budget_mode: soft_stop
   minibatch_size: 30
+
+# Transform selection (override in CLI or config):
+#   orchestrate.improve.transforms for explicit list, or leave unset for defaults
+# Default (model fixed): swap_strategy, repair, evolve, route, induce, expand, restructure
+# All (with model changes): swap_strategy, upgrade, downgrade, repair, evolve, route,
+#                            crossover, induce, expand, restructure
