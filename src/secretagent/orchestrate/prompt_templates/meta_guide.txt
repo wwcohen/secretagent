@@ -48,6 +48,11 @@ Focus only on code, prompt, and workflow improvements.
    - induce: add lookup tables or shortcut logic for common patterns
 
 ## Considerations
+
+IMPORTANT: "errors" in profiling data means EXCEPTIONS (crashes), not wrong answers.
+A ptool can have 0 errors but still produce wrong answers (low accuracy).
+Focus on accuracy improvement even when error counts are zero.
+
 - Which ptools have high error rates? (-> repair, evolve)
 - Which ptools consume disproportionate cost? (-> swap_strategy to direct, restructure)
 - Could a ptool be replaced by Python code + LLM fallback? (-> swap_strategy to direct)
