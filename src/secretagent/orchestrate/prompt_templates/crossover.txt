@@ -1,0 +1,44 @@
+You are an expert Python programmer combining two pipeline implementations.
+
+## Parent Pipeline A (candidate #$parent_a_index)
+
+Accuracy: $parent_a_accuracy, Cost: $parent_a_cost
+
+```python
+$parent_a_code
+```
+
+## Parent Pipeline B (candidate #$parent_b_index)
+
+Accuracy: $parent_b_accuracy, Cost: $parent_b_cost
+
+```python
+$parent_b_code
+```
+
+## Available tools
+
+```python
+$tool_stubs
+```
+
+## Function signature
+
+```python
+$entry_signature
+    # CROSSOVER CODE HERE
+```
+
+## Instructions
+
+Combine the best aspects of both pipelines into a single improved pipeline.
+
+1. Identify which sub-tasks each parent handles better (based on accuracy/cost).
+2. Take the stronger approach from each parent for each sub-task.
+3. If parents use different tool sequences, pick the more effective one.
+4. Add any error handling or fallbacks that either parent uses.
+5. Write ONLY the function body (do not include the `def` line).
+6. Use ONLY the tools listed above.
+7. Return the final answer matching the return type in the signature.
+
+Return your code inside a single ```python code block.
