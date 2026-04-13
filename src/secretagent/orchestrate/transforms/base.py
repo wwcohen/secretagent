@@ -24,13 +24,28 @@ def format_profiling_summary(profile: PipelineProfile) -> str:
     for name, pp in profile.ptool_profiles.items():
         lift_str = f'{pp.lift:.3f}' if pp.lift is not None else 'N/A'
         err_count = sum(e.frequency for e in pp.error_patterns)
-        lines.append(
-            f'  {name}: cost_frac={pp.cost_fraction:.1%}, '
-            f'calls/case={pp.calls_per_case:.1f}, '
-            f'avg_cost=${pp.avg_cost:.4f}, '
-            f'lift={lift_str}, '
-            f'errors={err_count}'
-        )
+        # Core metrics
+        parts = [
+            f'  {name}: cost_frac={pp.cost_fraction:.1%}',
+            f'calls/case={pp.calls_per_case:.1f}',
+            f'avg_cost=${pp.avg_cost:.4f}',
+            f'lift={lift_str}',
+            f'errors={err_count}',
+        ]
+        # Accuracy correlation: shows whether this ptool appears more in
+        # correct vs incorrect cases (helps identify weak ptools)
+        if pp.accuracy_when_correct > 0 or pp.accuracy_when_incorrect > 0:
+            parts.append(
+                f'in_correct={pp.accuracy_when_correct:.0%}'
+                f'/in_wrong={pp.accuracy_when_incorrect:.0%}'
+            )
+        # Token saturation: values near 1.0 mean output is being truncated
+        if pp.output_token_saturation > 0.5:
+            parts.append(f'TOKEN_SATURATED={pp.output_token_saturation:.0%}')
+        lines.append(', '.join(parts))
+        # Show top error patterns if any
+        for ep in pp.error_patterns[:2]:
+            lines.append(f'    ^ error ({ep.frequency}x): {ep.pattern}')
     return '\n'.join(lines)
 
 
