@@ -23,11 +23,17 @@ dataset:
   n: null
   shuffle_seed: 42
 
-# L4 pipeline bindings — the optimizer will modify these via transforms
+# L4 pipeline bindings — all LLM calls go through interfaces for profiling
 ptools:
   identify_calculator:
     method: simulate
   extract_clinical_values:
+    method: simulate
+  reason_about_scoring:
+    method: simulate
+  extract_values_with_context:
+    method: simulate
+  repair_missing_values:
     method: simulate
   compute_calculation:
     method: direct
