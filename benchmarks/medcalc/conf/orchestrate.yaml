@@ -1,0 +1,65 @@
+# Orchestrate config: LLM generates pipeline code from ptools, optimizer improves it
+# The key difference from pipeline.yaml: calculate_medical_value uses method: orchestrate
+# This gives the optimizer REAL pipeline code to modify with transforms
+llm:
+  model: together_ai/deepseek-ai/DeepSeek-V3.1
+  max_tokens: 16384
+
+orchestrate:
+  model: together_ai/deepseek-ai/DeepSeek-V3.1
+  max_retries: 3
+
+cachier:
+  cache_dir: llm_cache
+  enable_caching: true
+
+evaluate:
+  result_dir: results
+  expt_name: orchestrate_opt
+  entry_point: calculate_medical_value
+  record_details: true
+
+dataset:
+  split: train
+  stratified: true
+  n: null
+  shuffle_seed: 42
+
+# Sub-ptools for the orchestrated pipeline to call
+ptools:
+  identify_calculator:
+    method: simulate
+  extract_clinical_values:
+    method: simulate
+  reason_about_scoring:
+    method: simulate
+  extract_values_with_context:
+    method: simulate
+  repair_missing_values:
+    method: simulate
+  compute_calculation:
+    method: direct
+    fn: ptools.compute_calculation_impl
+  simulate_medical_value:
+    method: prompt_llm
+    prompt_template_file: prompt_templates/baseline.txt
+    answer_pattern: "(?:ANSWER|answer|Answer)[:\\s]*([-\\d.eE+]+)"
+  # The entry point is now ORCHESTRATED — LLM generates the pipeline code
+  calculate_medical_value:
+    method: orchestrate
+    task_description: >
+      Calculate a medical value from a patient note and question.
+      Use identify_calculator to determine which calculator applies,
+      then extract_values_with_context to get clinical values from the note,
+      then compute_calculation for the deterministic computation.
+      For scoring calculators, use reason_about_scoring first.
+      Fall back to simulate_medical_value if extraction or computation fails.
+
+# Population optimizer settings
+improve:
+  population_size: 3
+  seed_strategy: compose_then_mutate
+  meta_model: together_ai/deepseek-ai/DeepSeek-V3.1
+  max_iterations: 15
+  budget: 25.0
+  budget_mode: soft_stop

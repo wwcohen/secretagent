@@ -117,12 +117,19 @@ def run(
     ]
     catalog = PtoolCatalog.from_interfaces(tool_interfaces)
 
-    # Create delegate pipeline
-    ns = {workflow_interface.name: workflow_interface}
-    ns.update({iface.name: iface for iface in tool_interfaces})
-    params = [p for p in workflow_interface.annotations if p != 'return']
-    delegate_body = f'    return {workflow_interface.name}({", ".join(params)})'
-    pipeline = Pipeline(delegate_body, entry_sig, ns)
+    # Get pipeline: if orchestrated, extract the real Pipeline; otherwise delegate
+    impl = workflow_interface.implementation
+    factory_method = impl.factory_method if impl else ''
+    if factory_method == 'orchestrate' and hasattr(impl.implementing_fn, 'pipeline'):
+        pipeline = impl.implementing_fn.pipeline
+        print(f'[pipeline] using orchestrated pipeline ({len(pipeline.source)} chars)')
+    else:
+        ns = {workflow_interface.name: workflow_interface}
+        ns.update({iface.name: iface for iface in tool_interfaces})
+        params = [p for p in workflow_interface.annotations if p != 'return']
+        delegate_body = f'    return {workflow_interface.name}({", ".join(params)})'
+        pipeline = Pipeline(delegate_body, entry_sig, ns)
+        print(f'[pipeline] using delegate pipeline (direct method)')
 
     # Build re-evaluation callback
     import ptools as ptools_mod
