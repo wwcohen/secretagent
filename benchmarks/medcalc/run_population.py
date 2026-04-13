@@ -76,9 +76,6 @@ def run(
     # Setup config + dataset + interfaces
     eval_dataset, workflow_interface = setup(ctx, cfg_path)
 
-    if max_iterations is not None:
-        config.configure(cfg={'improve': {'max_iterations': max_iterations}})
-
     # Get full train set for drawing samples
     full_train = load_dataset('train')
     all_cases = full_train.cases
@@ -163,11 +160,13 @@ def run(
             except KeyError:
                 pass
 
+    iters = max_iterations if max_iterations is not None else config.get('improve.max_iterations', 5)
     report = improve_pipeline(
         pipeline=pipeline,
         result_dirs=[baseline_dir],
         catalog=catalog,
         transforms=transforms,
+        max_iterations=iters,
         run_eval_fn=run_eval_fn,
         target_accuracy=target_accuracy,
         population_size=config.get('improve.population_size', 3),
