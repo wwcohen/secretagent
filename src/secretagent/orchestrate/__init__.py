@@ -35,6 +35,11 @@ from secretagent.orchestrate.profiler import (  # noqa: E402
 from secretagent.orchestrate.improve import (  # noqa: E402
     improve_pipeline, ImprovementReport,
 )
+from secretagent.orchestrate.budget import BudgetTracker  # noqa: E402
+from secretagent.orchestrate.population import (  # noqa: E402
+    PipelineCandidate, Population,
+)
+from secretagent.orchestrate.meta_optimizer import MetaOptimizer  # noqa: E402
 
 __all__ = [
     'PtoolCatalog', 'PtoolInfo',
@@ -43,6 +48,7 @@ __all__ = [
     'OrchestrateFactory',
     'PipelineProfile', 'PtoolProfile', 'profile_from_results',
     'improve_pipeline', 'ImprovementReport',
+    'BudgetTracker', 'PipelineCandidate', 'Population', 'MetaOptimizer',
 ]
 
 
