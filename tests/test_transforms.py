@@ -100,13 +100,13 @@ class TestValidateCode:
 class TestStubsRaiseNotImplemented:
     """Transforms not yet implemented should raise NotImplementedError."""
 
-    @pytest.mark.parametrize('name', ['induce', 'expand', 'restructure'])
+    @pytest.mark.parametrize('name', ['restructure'])
     def test_propose_raises(self, name, simple_profile, empty_catalog):
         t = get_transform(name)
         with pytest.raises(NotImplementedError):
             t.propose(simple_profile, empty_catalog)
 
-    @pytest.mark.parametrize('name', ['induce', 'expand', 'restructure'])
+    @pytest.mark.parametrize('name', ['restructure'])
     def test_apply_raises(self, name, empty_catalog):
         t = get_transform(name)
         proposal = TransformProposal(transform_name=name, rationale='test')
@@ -235,6 +235,97 @@ class TestRepairTransform:
         assert 'buggy' in result.message
 
 
+class TestExpandTransform:
+    def test_propose_identifies_expensive_underperforming_ptools(self):
+        t = get_transform('expand')
+        profile = PipelineProfile(
+            accuracy=0.8,
+            ptool_profiles={
+                'expensive_bad': PtoolProfile(
+                    name='expensive_bad', cost_fraction=0.6,
+                    accuracy_when_correct=0.5, avg_cost=0.05,
+                    avg_tokens_in=1000.0, avg_tokens_out=500.0,
+                    calls_per_case=1.0,
+                ),
+                'cheap_good': PtoolProfile(
+                    name='cheap_good', cost_fraction=0.1,
+                    accuracy_when_correct=0.9,
+                ),
+            },
+        )
+        proposal = t.propose(profile, PtoolCatalog([]))
+        assert proposal.transform_name == 'expand'
+        assert len(proposal.changes) == 1
+        assert proposal.changes[0]['ptool'] == 'expensive_bad'
+        assert proposal.changes[0]['cost_fraction'] == 0.6
+        assert 'Decomposing' in proposal.rationale
+
+    def test_propose_skips_accurate_expensive_ptool(self):
+        t = get_transform('expand')
+        profile = PipelineProfile(
+            accuracy=0.8,
+            ptool_profiles={
+                'expensive_good': PtoolProfile(
+                    name='expensive_good', cost_fraction=0.6,
+                    accuracy_when_correct=0.9,
+                ),
+            },
+        )
+        proposal = t.propose(profile, PtoolCatalog([]))
+        assert len(proposal.changes) == 0
+
+    @patch('secretagent.llm_util.llm')
+    @patch('secretagent.orchestrate.composer._extract_code')
+    @patch('secretagent.orchestrate.composer._ruff_fix')
+    def test_apply_generates_expanded_pipeline(self, mock_ruff, mock_extract, mock_llm):
+        expanded = 'step1 = reason(x)\nreturn extract(step1)'
+        mock_llm.return_value = (f'```python\n{expanded}\n```', {})
+        mock_extract.return_value = expanded
+        mock_ruff.return_value = expanded
+
+        t = get_transform('expand')
+        proposal = TransformProposal(
+            transform_name='expand',
+            rationale='test',
+            changes=[{
+                'ptool': 'do_everything', 'cost_fraction': 0.6,
+                'accuracy_when_correct': 0.5, 'avg_cost': 0.05,
+                'avg_tokens_in': 1000.0, 'avg_tokens_out': 500.0,
+                'calls_per_case': 1.0,
+            }],
+        )
+        pipeline = Pipeline(
+            'return do_everything(x)', 'def f(x: str) -> str:',
+            {'do_everything': lambda x: 'ok', 'reason': lambda x: 'r', 'extract': lambda x: 'e'},
+        )
+        result = t.apply(proposal, pipeline, PtoolCatalog([]))
+        assert result.success is True
+        assert result.new_pipeline_code == expanded
+        assert 'do_everything' in result.message
+
+    @patch('secretagent.llm_util.llm')
+    @patch('secretagent.orchestrate.composer._extract_code')
+    def test_apply_returns_failure_on_bad_code(self, mock_extract, mock_llm):
+        mock_llm.return_value = ('```python\n!!!invalid\n```', {})
+        mock_extract.return_value = '!!!invalid'
+
+        t = get_transform('expand')
+        proposal = TransformProposal(
+            transform_name='expand',
+            rationale='test',
+            changes=[{
+                'ptool': 'expensive', 'cost_fraction': 0.6,
+                'accuracy_when_correct': 0.5, 'avg_cost': 0.05,
+                'avg_tokens_in': 1000.0, 'avg_tokens_out': 500.0,
+                'calls_per_case': 1.0,
+            }],
+        )
+        pipeline = Pipeline('return 1', 'def f() -> int:', {})
+        result = t.apply(proposal, pipeline, PtoolCatalog([]))
+        assert result.success is False
+        assert 'Expand failed' in result.message
+
+
 # ── should_apply logic tests ────────────────────────────────────────
 
 class TestShouldApplyLogic:
@@ -273,9 +364,19 @@ class TestShouldApplyLogic:
         })
         assert t.should_apply(profile) is False
 
-    def test_induce_always_applies(self):
+    def test_induce_applies_with_expensive_ptool(self):
         t = get_transform('induce')
-        assert t.should_apply(PipelineProfile()) is True
+        profile = PipelineProfile(ptool_profiles={
+            'a': PtoolProfile(name='a', cost_fraction=0.4),
+        })
+        assert t.should_apply(profile) is True
+
+    def test_induce_skips_when_all_cheap(self):
+        t = get_transform('induce')
+        profile = PipelineProfile(ptool_profiles={
+            'a': PtoolProfile(name='a', cost_fraction=0.10),
+        })
+        assert t.should_apply(profile) is False
 
     def test_expand_triggers_on_expensive_inaccurate(self):
         t = get_transform('expand')
