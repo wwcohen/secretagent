@@ -141,7 +141,7 @@ def run(
 
     # Initialize population
     from secretagent.orchestrate.pipeline import Pipeline
-    dummy_pipeline = Pipeline('    pass', 'def f(): ...', {})
+    dummy_pipeline = Pipeline('pass', 'def f():', {})
     population = Population(population_size=len(_MODELS) * 2)
 
     seed = PipelineCandidate(
