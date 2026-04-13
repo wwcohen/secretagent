@@ -169,7 +169,7 @@ def ideal_body_weight(sex: str, height_cm: float) -> float:
 
     Example:
         >>> ideal_body_weight(sex="male", height_cm=175.0)
-        70.455
+        70.465
     """
     height_in = height_cm / 2.54
     if sex.lower() == 'male':
@@ -199,7 +199,7 @@ def adjusted_body_weight(weight_kg: float, sex: str, height_cm: float) -> float:
 
     Example:
         >>> adjusted_body_weight(weight_kg=100.0, sex="male", height_cm=175.0)
-        82.182
+        82.279
     """
     ibw = ideal_body_weight(sex, height_cm)
     return round(ibw + 0.4 * (weight_kg - ibw), 3)
@@ -327,7 +327,7 @@ def creatinine_clearance(
 
     Example:
         >>> creatinine_clearance(age=70, sex="male", weight_kg=80, creatinine_mg_dl=1.5)
-        64.815
+        51.852
     """
     weight_to_use = weight_kg
 
@@ -383,7 +383,7 @@ def ckd_epi_gfr(age: float, sex: str, creatinine_mg_dl: float) -> float:
 
     Example:
         >>> ckd_epi_gfr(age=65, sex="male", creatinine_mg_dl=1.2)
-        62.847
+        67.111
     """
     if sex.lower() == 'female':
         kappa = 0.7
@@ -739,7 +739,7 @@ def qtc_bazett(qt_msec: float, heart_rate: float) -> float:
 
     Example:
         >>> qtc_bazett(qt_msec=400, heart_rate=75)
-        436.719
+        447.214
     """
     rr = 60 / heart_rate
     return round(qt_msec / math.sqrt(rr), 3)
@@ -763,7 +763,7 @@ def qtc_fridericia(qt_msec: float, heart_rate: float) -> float:
 
     Example:
         >>> qtc_fridericia(qt_msec=400, heart_rate=75)
-        423.228
+        430.887
     """
     rr = 60 / heart_rate
     return round(qt_msec / (rr ** (1/3)), 3)
@@ -1126,7 +1126,7 @@ def fib4(age: float = 0, ast: float = 0, alt: float = 0, platelets: float = 0, *
 
     Example:
         >>> fib4(age=55, ast=45, alt=50, platelets=150)
-        1.852
+        2.333
     """
     # Handle uppercase aliases from LLM
     if ast == 0:
@@ -1167,7 +1167,7 @@ def meld_na(bilirubin: float, inr: float, creatinine: float, sodium: float) -> f
 
     Example:
         >>> meld_na(bilirubin=2.5, inr=1.5, creatinine=1.5, sodium=135)
-        15.0
+        19
     """
     # Apply minimum/maximum bounds
     bili = max(1.0, bilirubin)
@@ -1216,7 +1216,7 @@ def child_pugh(
 
     Example:
         >>> child_pugh(bilirubin=2.5, albumin=3.0, inr=1.5, ascites_grade=1, encephalopathy_grade=0)
-        7.0
+        8.0
     """
     # Helper to convert string descriptions to integer grades (0, 1, 2)
     def _parse_grade(val, grade_type="ascites"):
