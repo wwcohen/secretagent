@@ -133,16 +133,21 @@ def run(
         _, _, result_dir = _eval_round(eval_cases, workflow_interface, tag='re-eval')
         return [result_dir]
 
-    # Use all transforms
+    # Use all available transforms including evolve
     transform_names = config.get('orchestrate.improve.transforms', None)
     if transform_names:
         transforms = [get_transform(n) for n in transform_names]
     else:
-        available = ['swap_strategy', 'upgrade', 'downgrade', 'repair']
+        available = ['swap_strategy', 'upgrade', 'downgrade', 'repair', 'evolve']
         transforms = []
         for name in available:
             try:
-                transforms.append(get_transform(name))
+                t = get_transform(name)
+                # Wire evolve transform with workflow interface and train cases
+                if name == 'evolve' and hasattr(t, 'workflow_interface'):
+                    t.workflow_interface = workflow_interface
+                    t.train_cases = eval_dataset.cases[:20]
+                transforms.append(t)
             except KeyError:
                 pass
 

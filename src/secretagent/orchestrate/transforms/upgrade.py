@@ -50,6 +50,9 @@ class UpgradeTransform(PipelineTransform):
     requires_llm = False
 
     def should_apply(self, profile: PipelineProfile) -> bool:
+        # Trigger on high error rates OR when overall accuracy has room to improve
+        if profile.accuracy < 0.95:
+            return True
         for pp in profile.ptool_profiles.values():
             error_count = sum(e.frequency for e in pp.error_patterns)
             error_rate = error_count / pp.n_calls if pp.n_calls else 0.0
