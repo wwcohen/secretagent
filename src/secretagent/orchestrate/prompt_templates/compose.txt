@@ -1,11 +1,24 @@
-You are an expert Python programmer. Your task is to write the body of a
-workflow function that solves a task by composing calls to available tools.
+You are an expert Python programmer designing a workflow that solves a
+task by composing calls to typed tool functions ("ptools").
+
+Each ptool is a Python function with a typed signature and docstring.
+Ptools are already implemented -- you compose them into a workflow.
+Your workflow will be evaluated on correctness AND cost efficiency.
+
+## Design Principles
+
+1. DECOMPOSE the task into clear sub-steps, each handled by a ptool call
+2. VALIDATE intermediate results -- check for None, empty dicts, errors
+3. ADD FALLBACKS -- if a tool returns an error, try an alternative approach
+4. HANDLE EDGE CASES -- different input types may need different tool sequences
+5. USE THE RETURN TYPES -- read each tool's return type and docstring carefully.
+   If a tool returns a dict, access specific keys. If it returns a float,
+   use it directly.
+6. MINIMIZE COST -- avoid redundant tool calls. Cache intermediate results
+   in variables. Prefer deterministic tools over LLM-backed tools when both
+   can solve the sub-step.
 
 ## Available tools
-
-The following Python function stubs describe the tools you can call.
-Each tool is already implemented — you just need to call it with the
-correct arguments.
 
 ```python
 $tool_stubs
@@ -32,12 +45,13 @@ $entry_signature
 2. Call the available tools to solve the task step by step.
 3. Store intermediate results in variables with descriptive names.
 4. Return the final answer matching the return type in the signature.
-5. Use ONLY the tools listed above — do not call any other functions or
+5. Use ONLY the tools listed above -- do not call any other functions or
    import any modules.
-6. Keep it simple: prefer a linear pipeline of tool calls with minimal
-   control flow. Only add conditionals or loops if the task requires them.
+6. Keep it simple but effective: use conditionals, loops, or try/except
+   when they add value. If independent tool calls could run in parallel,
+   structure the code so they could be parallelised later.
 7. Every tool call must pass the correct argument types as shown in the stubs.
-8. Read each tool's docstring carefully — it describes what the tool does
+8. Read each tool's docstring carefully -- it describes what the tool does
    and what it returns.
 
 Return your code inside a single ```python code block.
