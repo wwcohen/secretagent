@@ -362,10 +362,16 @@ def _improve_population(
             for idx in front:
                 c = population.candidates[idx]
                 if c.profile:
-                    profiling_parts.append(
-                        f'--- Candidate #{idx} ---\n'
-                        + format_profiling_summary(c.profile)
-                    )
+                    part = f'--- Candidate #{idx} ---\n'
+                    part += format_profiling_summary(c.profile)
+                    # Include pipeline source so meta-optimizer can reason
+                    # about which code transforms would be effective
+                    if c.pipeline and c.pipeline.source:
+                        src = c.pipeline.source
+                        if len(src) > 2000:
+                            src = src[:2000] + '\n... (truncated)'
+                        part += f'\n\nPipeline code:\n```python\n{src}\n```'
+                    profiling_parts.append(part)
 
             # Build operator descriptions
             op_lines = []
