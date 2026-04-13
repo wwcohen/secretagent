@@ -43,13 +43,24 @@ class DowngradeTransform(PipelineTransform):
                     'avg_cost': pp.avg_cost,
                 })
 
+        rationale = (
+            f'Ptool(s) consuming >40% of pipeline cost: '
+            f'{", ".join(t["ptool"] for t in targets)}. '
+            f'Proposing cheaper model to reduce cost.'
+        )
+        try:
+            from secretagent import config
+            from secretagent.orchestrate.model_info import lookup_model, format_model_summary
+            current = config.get('llm.model', '')
+            info = lookup_model(current)
+            if info:
+                rationale += f'\nCurrent model: {format_model_summary(info)}'
+        except Exception:
+            pass
+
         return TransformProposal(
             transform_name='downgrade',
-            rationale=(
-                f'Ptool(s) consuming >40% of pipeline cost: '
-                f'{", ".join(t["ptool"] for t in targets)}. '
-                f'Proposing cheaper model to reduce cost.'
-            ),
+            rationale=rationale,
             changes=targets,
         )
 
@@ -88,11 +99,24 @@ class DowngradeTransform(PipelineTransform):
             new_config[f'ptools.{ptool_name}.model'] = cheaper
             downgraded.append(ptool_name)
 
+        message = (
+            f'Downgraded {", ".join(downgraded)} from '
+            f'{current_model} to {cheaper}.'
+        )
+        try:
+            from secretagent.orchestrate.model_info import lookup_model, format_model_summary
+            old_info = lookup_model(current_model)
+            new_info = lookup_model(cheaper)
+            if old_info and new_info:
+                message += (
+                    f'\n  was: {format_model_summary(old_info)}'
+                    f'\n  now: {format_model_summary(new_info)}'
+                )
+        except Exception:
+            pass
+
         return TransformResult(
             success=True,
             new_config=new_config,
-            message=(
-                f'Downgraded {", ".join(downgraded)} from '
-                f'{current_model} to {cheaper}.'
-            ),
+            message=message,
         )
