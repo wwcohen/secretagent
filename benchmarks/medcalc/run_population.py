@@ -11,8 +11,10 @@ Usage:
         --final-n 4
 """
 
+import inspect
 import os
 import sys
+import textwrap
 from pathlib import Path
 
 os.environ['PYTHONUNBUFFERED'] = '1'
@@ -124,12 +126,23 @@ def run(
         pipeline = impl.implementing_fn.pipeline
         print(f'[pipeline] using orchestrated pipeline ({len(pipeline.source)} chars)')
     else:
+        # Extract the REAL pipeline_workflow source so transforms have
+        # meaningful code to modify (not just a thin delegate wrapper)
+        src = inspect.getsource(ptools_mod.pipeline_workflow)
+        src_lines = src.splitlines()
+        # Strip the def line, dedent the body
+        body_lines = src_lines[1:]
+        body = textwrap.dedent('\n'.join(body_lines))
+
+        # Build namespace: all interfaces + helper functions used by the body
         ns = {workflow_interface.name: workflow_interface}
         ns.update({iface.name: iface for iface in tool_interfaces})
-        params = [p for p in workflow_interface.annotations if p != 'return']
-        delegate_body = f'    return {workflow_interface.name}({", ".join(params)})'
-        pipeline = Pipeline(delegate_body, entry_sig, ns)
-        print(f'[pipeline] using delegate pipeline (direct method)')
+        for helper_name in ('_extract_values_two_stage', '_validate_extracted_values',
+                            '_repair_extraction', '_build_descriptive_fields'):
+            if hasattr(ptools_mod, helper_name):
+                ns[helper_name] = getattr(ptools_mod, helper_name)
+        pipeline = Pipeline(body, entry_sig, ns)
+        print(f'[pipeline] using real pipeline_workflow source ({len(body)} chars)')
 
     # Build re-evaluation callback
     import ptools as ptools_mod
