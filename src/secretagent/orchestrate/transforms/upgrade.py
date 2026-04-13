@@ -79,18 +79,22 @@ class UpgradeTransform(PipelineTransform):
 
         current_model = config.get('llm.model', '')
 
-        # Find current model's position
-        current_idx = -1
+        # Find current model's position in ranked model list
+        current_idx = None
         for i, m in enumerate(_STRONG_MODELS):
             if m == current_model or current_model.endswith(m.split('/')[-1]):
                 current_idx = i
                 break
 
-        # Pick the next stronger model
-        stronger = None
-        for m in _STRONG_MODELS[current_idx + 1:]:
-            stronger = m
-            break  # take the next one up
+        if current_idx is None:
+            # Unknown model — upgrade to strongest available
+            stronger = _STRONG_MODELS[-1]
+        else:
+            # Pick the next stronger model
+            stronger = None
+            for m in _STRONG_MODELS[current_idx + 1:]:
+                stronger = m
+                break
 
         if stronger is None:
             return TransformResult(
