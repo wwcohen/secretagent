@@ -8,6 +8,7 @@ Supports two modes:
 from __future__ import annotations
 
 import copy
+import json
 import logging
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, Callable, Sequence
@@ -138,6 +139,24 @@ def improve_pipeline(
         run_eval_fn=run_eval_fn,
         target_accuracy=target_accuracy,
     )
+
+
+# ---------------------------------------------------------------------------
+# Helpers
+# ---------------------------------------------------------------------------
+
+def _populate_instance_scores(candidate: Any, result_dirs: Sequence[str | Path]) -> None:
+    """Read results.jsonl and populate candidate.instance_scores."""
+    for d in result_dirs:
+        jsonl_path = Path(d) / 'results.jsonl'
+        if not jsonl_path.exists():
+            continue
+        with open(jsonl_path) as f:
+            for line in f:
+                rec = json.loads(line)
+                case_name = rec.get('case_name', '')
+                if case_name:
+                    candidate.instance_scores[case_name] = float(rec.get('correct', 0))
 
 
 # ---------------------------------------------------------------------------
@@ -298,6 +317,7 @@ def _improve_population(
         profile=before,
         generation=0,
     )
+    _populate_instance_scores(seed_candidate, result_dirs)
     population.add(seed_candidate)
 
     if seed_strategy == 'compose_then_mutate':
@@ -415,6 +435,7 @@ def _improve_population(
                     c.profile = profile_from_results(
                         new_dirs, pipeline_source=c.pipeline.source,
                     )
+                    _populate_instance_scores(c, new_dirs)
                     print(f'[population] candidate accuracy: {c.accuracy:.1%}')
                 except Exception as e:
                     log.warning('candidate evaluation failed: %s', e)
