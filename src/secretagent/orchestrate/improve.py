@@ -397,6 +397,7 @@ def _improve_population(
                 new_cand = _apply_mutation(
                     mp.operator, mp.candidate_index, population,
                     transform_map, catalog, before, front,
+                    skip_should_apply=True,
                 )
                 if new_cand:
                     results_for_iter.append({'success': True, 'operator': mp.operator})
@@ -489,6 +490,7 @@ def _apply_mutation(
     catalog: PtoolCatalog,
     fallback_profile: PipelineProfile,
     pareto_front: list[int],
+    skip_should_apply: bool = False,
 ) -> Any | None:
     """Apply a single mutation to a candidate, return new PipelineCandidate or None."""
     from secretagent.orchestrate.population import PipelineCandidate
@@ -513,7 +515,7 @@ def _apply_mutation(
             t.set_other(other.pipeline, other.profile)
 
     try:
-        if not t.should_apply(profile):
+        if not skip_should_apply and not t.should_apply(profile):
             log.debug('transform %s: skipped (should_apply=False)', t.name)
             return None
         proposal = t.propose(profile, catalog)
