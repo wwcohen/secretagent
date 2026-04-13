@@ -16,7 +16,7 @@ $profiling_details
 
 ## Optimization Budget
 
-Spent so far: $$spent / $$budget ($pct_spent%)
+Spent so far: $spent_display / $budget_display ($pct_spent%)
 Budget mode: $budget_mode
 
 ## Your Task
