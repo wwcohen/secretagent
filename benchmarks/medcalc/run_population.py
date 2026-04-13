@@ -110,6 +110,7 @@ def run(
     from secretagent.orchestrate.pipeline import Pipeline, _entry_signature_from_interface
     from secretagent.orchestrate.catalog import PtoolCatalog
     from secretagent.core import all_interfaces
+    import ptools as ptools_mod
 
     entry_sig = _entry_signature_from_interface(workflow_interface)
     exclude = {workflow_interface.name}
@@ -145,8 +146,6 @@ def run(
         print(f'[pipeline] using real pipeline_workflow source ({len(body)} chars)')
 
     # Build re-evaluation callback
-    import ptools as ptools_mod
-
     def run_eval_fn():
         """Re-bind ptools from current config and re-evaluate."""
         implement_via_config(ptools_mod, config.require('ptools'))
