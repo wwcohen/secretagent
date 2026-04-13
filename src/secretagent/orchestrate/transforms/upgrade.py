@@ -75,12 +75,24 @@ class UpgradeTransform(PipelineTransform):
                 })
 
         targets.sort(key=lambda t: t['error_rate'], reverse=True)
+
+        rationale = (
+            f'Upgrading ptools with high error rates and low cost: '
+            f'{", ".join(t["ptool"] for t in targets)}'
+        )
+        try:
+            from secretagent import config
+            from secretagent.orchestrate.model_info import lookup_model, format_model_summary
+            current = config.get('llm.model', '')
+            info = lookup_model(current)
+            if info:
+                rationale += f'\nCurrent model: {format_model_summary(info)}'
+        except Exception:
+            pass
+
         return TransformProposal(
             transform_name='upgrade',
-            rationale=(
-                f'Upgrading ptools with high error rates and low cost: '
-                f'{", ".join(t["ptool"] for t in targets)}'
-            ),
+            rationale=rationale,
             changes=targets,
         )
 
@@ -124,8 +136,21 @@ class UpgradeTransform(PipelineTransform):
             new_config[f'ptools.{ptool_name}.model'] = stronger
             upgraded.append(ptool_name)
 
+        message = f'Upgraded {", ".join(upgraded)} from {current_model} to {stronger}.'
+        try:
+            from secretagent.orchestrate.model_info import lookup_model, format_model_summary
+            old_info = lookup_model(current_model)
+            new_info = lookup_model(stronger)
+            if old_info and new_info:
+                message += (
+                    f'\n  was: {format_model_summary(old_info)}'
+                    f'\n  now: {format_model_summary(new_info)}'
+                )
+        except Exception:
+            pass
+
         return TransformResult(
             success=True,
             new_config=new_config,
-            message=f'Upgraded {", ".join(upgraded)} from {current_model} to {stronger}.',
+            message=message,
         )
