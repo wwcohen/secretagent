@@ -132,32 +132,16 @@ def run(
     ]
     catalog = PtoolCatalog.from_interfaces(tool_interfaces)
 
-    # For the L4 pipeline, we create a Pipeline from the workflow function's source
-    import inspect
-    import textwrap
-    fn = workflow_interface.implementation.implementing_fn
-    src = inspect.getsource(fn)
-    # Extract function body (skip def line)
-    lines = src.split('\n')
-    body_lines = lines[1:]  # skip def line
-    body = textwrap.dedent('\n'.join(body_lines))
-
-    try:
-        pipeline = Pipeline(body, entry_sig, {
-            iface.name: iface for iface in tool_interfaces
-        })
-    except Exception as e:
-        print(f'Warning: could not wrap workflow as Pipeline: {e}')
-        print('Falling back to profile-only optimization (config transforms only)')
-        pipeline = None
-
-    if pipeline is None:
-        # Fallback: create a trivial pipeline that delegates to the workflow
-        fallback_body = f'    return {workflow_interface.name}(*args, **kwargs)'
-        pipeline = Pipeline(fallback_body, entry_sig, {
-            workflow_interface.name: workflow_interface,
-            **{iface.name: iface for iface in tool_interfaces},
-        })
+    # Create a delegate Pipeline that calls the workflow interface.
+    # For config-only transforms (swap_strategy, upgrade, downgrade),
+    # Pipeline code doesn't matter — only the profiling data drives decisions.
+    ns = {workflow_interface.name: workflow_interface}
+    ns.update({iface.name: iface for iface in tool_interfaces})
+    delegate_body = (
+        f'    return {workflow_interface.name}'
+        f'({", ".join(p for p in workflow_interface.annotations if p != "return")})'
+    )
+    pipeline = Pipeline(delegate_body, entry_sig, ns)
 
     # Build run_eval_fn callback
     def run_eval_fn():
