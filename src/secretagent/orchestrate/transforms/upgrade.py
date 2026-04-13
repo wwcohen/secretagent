@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import pathlib
+
 from secretagent.orchestrate.catalog import PtoolCatalog
 from secretagent.orchestrate.profiler import PipelineProfile
 from secretagent.orchestrate.transforms.base import (
@@ -9,21 +11,31 @@ from secretagent.orchestrate.transforms.base import (
 )
 from secretagent.orchestrate.pipeline import Pipeline
 
-# Ordered from cheapest/weakest to most expensive/strongest
-_STRONG_MODELS = [
-    'together_ai/google/gemma-3n-E4B-it',
-    'together_ai/LiquidAI/LFM2-24B-A2B',
-    'together_ai/openai/gpt-oss-20b',
-    'together_ai/Qwen/Qwen3.5-9B',
-    'together_ai/openai/gpt-oss-120b',
-    'together_ai/essentialai/rnj-1-instruct',
-    'together_ai/Qwen/Qwen3-235B-A22B-Instruct-2507-tput',
-    'together_ai/MiniMaxAI/MiniMax-M2.5',
-    'together_ai/moonshotai/Kimi-K2.5',
-    'together_ai/Qwen/Qwen3-Coder-Next-FP8',
-    'together_ai/deepseek-ai/DeepSeek-V3.1',
-    'together_ai/Qwen/Qwen3.5-397B-A17B',
-]
+
+def _load_model_list() -> list[str]:
+    """Load model list from models.yaml, ordered weakest to strongest."""
+    models_file = pathlib.Path(__file__).resolve().parent.parent / 'models.yaml'
+    if models_file.exists():
+        from secretagent.config import load_yaml_cfg
+        cfg = load_yaml_cfg(models_file)
+        # models.yaml is ordered strongest-first; reverse for upgrade ordering
+        return [m['api_string'] for m in reversed(cfg.get('models', []))
+                if m.get('tier') != 'reasoning']
+    # Fallback if file missing
+    return [
+        'together_ai/openai/gpt-oss-20b',
+        'together_ai/Qwen/Qwen3.5-9B',
+        'together_ai/openai/gpt-oss-120b',
+        'together_ai/Qwen/Qwen3-235B-A22B-Instruct-2507-tput',
+        'together_ai/MiniMaxAI/MiniMax-M2.5',
+        'together_ai/deepseek-ai/DeepSeek-V3.1',
+        'together_ai/Qwen/Qwen3.5-397B-A17B',
+        'together_ai/MiniMaxAI/MiniMax-M2.7',
+        'together_ai/zai-org/GLM-5.1',
+    ]
+
+
+_STRONG_MODELS = _load_model_list()
 
 
 class UpgradeTransform(PipelineTransform):

@@ -1,0 +1,100 @@
+# Together AI model catalog — ranked by capability (most capable first)
+# Used by transforms (upgrade, downgrade) and meta-optimizer
+# Update this file when new models become available
+
+models:
+  # Tier 1: Most capable
+  - api_string: together_ai/zai-org/GLM-5.1
+    name: GLM-5.1
+    input_price: 1.40
+    output_price: 4.40
+    context: 202752
+    tier: 1
+
+  - api_string: together_ai/MiniMaxAI/MiniMax-M2.7
+    name: MiniMax M2.7
+    input_price: 0.30
+    output_price: 1.20
+    context: 202752
+    tier: 1
+
+  # Tier 2: Strong
+  - api_string: together_ai/Qwen/Qwen3.5-397B-A17B
+    name: Qwen3.5 397B
+    input_price: 0.60
+    output_price: 3.60
+    context: 262144
+    tier: 2
+
+  - api_string: together_ai/deepseek-ai/DeepSeek-V3.1
+    name: DeepSeek-V3.1
+    input_price: 0.60
+    output_price: 1.70
+    context: 128000
+    tier: 2
+
+  - api_string: together_ai/moonshotai/Kimi-K2.5
+    name: Kimi K2.5
+    input_price: 0.50
+    output_price: 2.80
+    context: 262144
+    tier: 2
+
+  - api_string: together_ai/zai-org/GLM-5
+    name: GLM-5
+    input_price: 1.00
+    output_price: 3.20
+    context: 202752
+    tier: 2
+
+  # Tier 3: Efficient
+  - api_string: together_ai/Qwen/Qwen3-Coder-Next-FP8
+    name: Qwen3 Coder Next
+    input_price: 0.50
+    output_price: 1.20
+    context: 262144
+    tier: 3
+
+  - api_string: together_ai/MiniMaxAI/MiniMax-M2.5
+    name: MiniMax M2.5
+    input_price: 0.30
+    output_price: 1.20
+    context: 228700
+    tier: 3
+
+  - api_string: together_ai/Qwen/Qwen3-235B-A22B-Instruct-2507-tput
+    name: Qwen3 235B
+    input_price: 0.20
+    output_price: 0.60
+    context: 262144
+    tier: 3
+
+  # Tier 4: Budget
+  - api_string: together_ai/openai/gpt-oss-120b
+    name: GPT-OSS 120B
+    input_price: 0.15
+    output_price: 0.60
+    context: 128000
+    tier: 4
+
+  - api_string: together_ai/Qwen/Qwen3.5-9B
+    name: Qwen3.5 9B
+    input_price: 0.10
+    output_price: 0.15
+    context: 262144
+    tier: 4
+
+  - api_string: together_ai/openai/gpt-oss-20b
+    name: GPT-OSS 20B
+    input_price: 0.05
+    output_price: 0.20
+    context: 128000
+    tier: 4
+
+  # Reasoning (specialized)
+  - api_string: together_ai/deepseek-ai/DeepSeek-R1
+    name: DeepSeek-R1
+    input_price: 3.00
+    output_price: 7.00
+    context: 163839
+    tier: reasoning

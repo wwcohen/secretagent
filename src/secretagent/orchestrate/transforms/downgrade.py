@@ -8,22 +8,10 @@ from secretagent.orchestrate.transforms.base import (
     PipelineTransform, TransformProposal, TransformResult,
 )
 from secretagent.orchestrate.pipeline import Pipeline
+from secretagent.orchestrate.transforms.upgrade import _load_model_list
 
-# Ordered from cheapest to most expensive (together_ai pricing, input/output per 1M tokens)
-_CHEAP_MODELS = [
-    'together_ai/google/gemma-3n-E4B-it',              # $0.02/$0.04
-    'together_ai/LiquidAI/LFM2-24B-A2B',              # $0.03/$0.12
-    'together_ai/openai/gpt-oss-20b',                  # $0.05/$0.20
-    'together_ai/Qwen/Qwen3.5-9B',                    # $0.10/$0.15
-    'together_ai/openai/gpt-oss-120b',                 # $0.15/$0.60
-    'together_ai/essentialai/rnj-1-instruct',          # $0.15/$0.15
-    'together_ai/Qwen/Qwen3-235B-A22B-Instruct-2507-tput',  # $0.20/$0.60
-    'together_ai/MiniMaxAI/MiniMax-M2.5',              # $0.30/$1.20
-    'together_ai/moonshotai/Kimi-K2.5',                # $0.50/$2.80
-    'together_ai/Qwen/Qwen3-Coder-Next-FP8',          # $0.50/$1.20
-    'together_ai/deepseek-ai/DeepSeek-V3.1',           # $0.60/$1.70
-    'together_ai/Qwen/Qwen3.5-397B-A17B',             # $0.60/$3.60
-]
+# Cheap-to-expensive ordering (same as upgrade but used for downgrade decisions)
+_CHEAP_MODELS = _load_model_list()
 
 
 class DowngradeTransform(PipelineTransform):
