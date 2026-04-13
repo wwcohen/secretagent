@@ -52,15 +52,19 @@ class BudgetTracker:
         """True if total_spent >= budget_limit."""
         return self.total_spent >= self.budget_limit
 
-    def should_stop(self) -> bool:
-        """Apply mode logic to decide whether to stop."""
+    def should_stop(self, mid_iteration: bool = False) -> bool:
+        """Apply mode logic to decide whether to stop.
+
+        Args:
+            mid_iteration: True when called within an iteration (between mutations).
+                hard_stop checks mid-iteration, soft_stop only between iterations.
+        """
         if self.mode == 'hard_stop':
             return self.is_exhausted()
         elif self.mode == 'soft_stop':
-            # In soft_stop, the caller checks this between iterations
-            return self.is_exhausted()
+            # soft_stop only triggers between iterations, not mid-iteration
+            return self.is_exhausted() and not mid_iteration
         elif self.mode == 'pareto':
-            # In pareto mode, budget is advisory — caller decides based on Pareto convergence
             return False
         return False
 
@@ -79,7 +83,6 @@ class BudgetTracker:
     def format_summary(self) -> str:
         """Human-readable summary string."""
         s = self.summary()
-        return (
-            f"Budget: ${s['total_spent']:.2f} / ${s['budget_limit']:.2f} "
-            f"({s['pct_spent']:.0f}%) [{s['mode']}]"
-        )
+        limit_str = f"${s['budget_limit']:.2f}" if s['budget_limit'] < float('inf') else 'unlimited'
+        pct_str = f" ({s['pct_spent']:.0f}%)" if s['budget_limit'] < float('inf') else ''
+        return f"Budget: ${s['total_spent']:.2f} / {limit_str}{pct_str} [{s['mode']}]"
