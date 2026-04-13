@@ -3016,30 +3016,43 @@ def framingham_risk(
 
     Example:
         >>> framingham_risk(age=55, sex="male", total_cholesterol=220, hdl=45, systolic=140, smoker=True)
-        18.2
+        17.463
     """
-    if sex.lower() == 'male':
-        ln_age = math.log(age) * 52.00961
-        ln_chol = math.log(total_cholesterol) * 20.014077
-        ln_hdl = math.log(hdl) * -0.905964
-        ln_sbp = math.log(systolic) * (1.916 if treated_bp else 1.809)
-        smoking_pts = 7.837 if smoker else 0
-        base = -172.300168
+    smoker_val = 1 if smoker else 0
+    bp_med_val = 1 if treated_bp else 0
+    age_smoke = min(age, 70 if sex.lower() == 'male' else 78)
 
-        s = ln_age + ln_chol + ln_hdl + ln_sbp + smoking_pts + base
+    ln_a = math.log(age)
+    ln_c = math.log(total_cholesterol)
+    ln_h = math.log(hdl)
+    ln_bp = math.log(systolic)
+    ln_as = math.log(age_smoke)
+
+    if sex.lower() == 'male':
+        s = (52.00961 * ln_a
+             + 20.014077 * ln_c
+             + -0.905964 * ln_h
+             + 1.305784 * ln_bp
+             + 0.241549 * bp_med_val
+             + 12.096316 * smoker_val
+             + -4.605038 * ln_a * ln_c
+             + -2.84367 * ln_as * smoker_val
+             + -2.93323 * ln_a * ln_a
+             + -172.300168)
         risk = 1 - 0.9402 ** math.exp(s)
     else:
-        ln_age = math.log(age) * 31.764001
-        ln_chol = math.log(total_cholesterol) * 22.465206
-        ln_hdl = math.log(hdl) * -1.187731
-        ln_sbp = math.log(systolic) * (2.019 if treated_bp else 1.957)
-        smoking_pts = 7.574 if smoker else 0
-        base = -146.5933061
-
-        s = ln_age + ln_chol + ln_hdl + ln_sbp + smoking_pts + base
+        s = (31.764001 * ln_a
+             + 22.465206 * ln_c
+             + -1.187731 * ln_h
+             + 2.552905 * ln_bp
+             + 0.420251 * bp_med_val
+             + 13.07543 * smoker_val
+             + -5.060998 * ln_a * ln_c
+             + -2.996945 * ln_as * smoker_val
+             + -146.5933061)
         risk = 1 - 0.98767 ** math.exp(s)
 
-    return round(risk * 100, 1)
+    return round(risk * 100, 3)
 
 
 # =============================================================================
