@@ -35,12 +35,12 @@ from expt import MedCalcEvaluator, load_dataset, stratified_sample
 
 app = typer.Typer()
 
-# Models to explore, ordered by estimated strength
+# Models to explore, ordered by estimated capability
 _MODELS = [
     'together_ai/deepseek-ai/DeepSeek-V3.1',           # $0.60/$1.70 — strong reasoning
+    'together_ai/MiniMaxAI/MiniMax-M2.7',              # most capable on together_ai
     'together_ai/Qwen/Qwen3.5-397B-A17B',              # $0.60/$3.60 — large MoE
     'together_ai/moonshotai/Kimi-K2.5',                 # $0.50/$2.80 — good all-round
-    'together_ai/Qwen/Qwen3-235B-A22B-Instruct-2507-tput',  # $0.20/$0.60 — efficient
 ]
 
 # Method variants to try for the identify_calculator ptool
