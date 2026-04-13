@@ -95,26 +95,6 @@ class TestValidateCode:
             t._validate_code('def !!!invalid', 'def f():', {})
 
 
-# ── Stub tests ───────────────────────────────────────────────────────
-
-class TestStubsRaiseNotImplemented:
-    """Transforms not yet implemented should raise NotImplementedError."""
-
-    @pytest.mark.parametrize('name', ['restructure'])
-    def test_propose_raises(self, name, simple_profile, empty_catalog):
-        t = get_transform(name)
-        with pytest.raises(NotImplementedError):
-            t.propose(simple_profile, empty_catalog)
-
-    @pytest.mark.parametrize('name', ['restructure'])
-    def test_apply_raises(self, name, empty_catalog):
-        t = get_transform(name)
-        proposal = TransformProposal(transform_name=name, rationale='test')
-        pipeline = Pipeline('return 1', 'def f() -> int:', {})
-        with pytest.raises(NotImplementedError):
-            t.apply(proposal, pipeline, empty_catalog)
-
-
 # ── Implemented transform tests ─────────────────────────────────────
 
 class TestDowngradeTransform:
@@ -153,7 +133,7 @@ class TestDowngradeTransform:
             changes=[{'ptool': 'x', 'cost_fraction': 0.6, 'avg_cost': 0.01}],
         )
         pipeline = Pipeline('return 1', 'def f() -> int:', {})
-        with config.configuration(llm={'model': 'together_ai/google/gemma-3n-E4B-it'}):
+        with config.configuration(llm={'model': 'together_ai/openai/gpt-oss-20b'}):
             result = t.apply(proposal, pipeline, PtoolCatalog([]))
         assert result.success is False
         assert 'cheapest' in result.message
