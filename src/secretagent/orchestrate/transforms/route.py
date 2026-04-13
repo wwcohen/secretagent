@@ -28,7 +28,11 @@ class RouteTransform(PipelineTransform):
     name = 'route'
     requires_llm = True
 
+    def __init__(self):
+        self._profile: PipelineProfile | None = None
+
     def should_apply(self, profile: PipelineProfile) -> bool:
+        self._profile = profile  # stash for apply()
         # Check if there's meaningful variance suggesting routing would help.
         # Heuristic: if we have errors in some ptools but not others,
         # or accuracy is moderate (not very high or very low).
@@ -98,11 +102,10 @@ class RouteTransform(PipelineTransform):
             f'Profiling shows accuracy of {proposal.rationale}'
         )
 
+        real_profile = self._profile or PipelineProfile(accuracy=0.0, ptool_profiles={})
         prompt = template.substitute(
             pipeline_code=pipeline.source,
-            profiling_summary=format_profiling_summary(
-                PipelineProfile(accuracy=0.0, ptool_profiles={}),
-            ),
+            profiling_summary=format_profiling_summary(real_profile),
             tool_stubs=catalog.render(),
             entry_signature=pipeline.entry_signature,
             transform_instruction=instruction,
