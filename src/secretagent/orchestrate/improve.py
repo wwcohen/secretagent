@@ -13,6 +13,7 @@ import logging
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, Callable, Sequence
 
+from omegaconf import OmegaConf
 from pydantic import BaseModel
 
 from secretagent import config
@@ -418,28 +419,31 @@ def _improve_population(
             'pareto_front': front,
         })
 
-        # ACCEPT: Evaluate each new candidate with its config applied
+        # ACCEPT: Evaluate each new candidate with its own config (isolated)
         if run_eval_fn and any(r.get('success') for r in results_for_iter):
             print('[population] evaluating new candidates...')
             for c in population.candidates:
                 if c.profile is not None or c.generation != population.generation:
                     continue
-                # Apply this candidate's config overrides to global config
+                # Build override config from candidate's flat config dict
                 if c.config:
                     dotlist = [f'{k}={v}' for k, v in c.config.items()]
-                    config.configure(dotlist=dotlist)
-                    log.info('applied candidate config: %s', dotlist)
+                    override_cfg = OmegaConf.from_dotlist(dotlist)
+                else:
+                    override_cfg = OmegaConf.create()
+                # Evaluate inside context manager so config is restored after
+                with config.configuration(cfg=override_cfg):
                     print(f'[population] evaluating candidate with config: {c.config}')
-                try:
-                    new_dirs = run_eval_fn()
-                    c.profile = profile_from_results(
-                        new_dirs, pipeline_source=c.pipeline.source,
-                    )
-                    _populate_instance_scores(c, new_dirs)
-                    print(f'[population] candidate accuracy: {c.accuracy:.1%}')
-                except Exception as e:
-                    log.warning('candidate evaluation failed: %s', e)
-                    print(f'[population] candidate eval failed: {e}')
+                    try:
+                        new_dirs = run_eval_fn()
+                        c.profile = profile_from_results(
+                            new_dirs, pipeline_source=c.pipeline.source,
+                        )
+                        _populate_instance_scores(c, new_dirs)
+                        print(f'[population] candidate accuracy: {c.accuracy:.1%}')
+                    except Exception as e:
+                        log.warning('candidate evaluation failed: %s', e)
+                        print(f'[population] candidate eval failed: {e}')
             # Update best accuracy
             best_cand = population.best()
             if best_cand and best_cand.accuracy > best_accuracy:
