@@ -47,19 +47,34 @@ Focus only on code, prompt, and workflow improvements.
    - expand: break expensive multi-step ptools into focused sub-steps
    - induce: add lookup tables or shortcut logic for common patterns
 
-## Considerations
+## How to Read Profiling Data
 
 IMPORTANT: "errors" in profiling data means EXCEPTIONS (crashes), not wrong answers.
 A ptool can have 0 errors but still produce wrong answers (low accuracy).
 Focus on accuracy improvement even when error counts are zero.
 
-- Which ptools have high error rates? (-> repair, evolve)
+- **in_correct/in_wrong**: Shows what fraction of correct vs incorrect cases used
+  this ptool. If in_wrong >> in_correct, this ptool may be CAUSING failures.
+  If in_correct >> in_wrong, the ptool is doing well. If both are ~100%, the
+  ptool is called universally and isn't a differentiator.
+- **TOKEN_SATURATED**: If shown, output is hitting the token limit and may be
+  truncated. This means the LLM is generating garbage after the limit — consider
+  evolve to make the prompt request shorter output, or expand to split the task.
+- **cost_frac**: What % of total pipeline cost this ptool uses. High cost_frac
+  ptools are candidates for swap_strategy to direct (Python) with LLM fallback.
+- **Pipeline code**: When shown, this is the actual Python code being executed.
+  Use it to reason about what specific code changes would improve accuracy.
+
+## Considerations
+
+- Which ptools correlate with wrong answers? (in_wrong is high -> evolve, repair)
 - Which ptools consume disproportionate cost? (-> swap_strategy to direct, restructure)
 - Could a ptool be replaced by Python code + LLM fallback? (-> swap_strategy to direct)
 - Could rewriting a ptool's prompt/implementation help? (-> evolve)
 - Are there patterns in which cases succeed vs fail? (-> route, induce)
 - Could an expensive ptool be split into cheaper focused steps? (-> expand)
 - Could reordering calls or adding early exits help? (-> restructure)
+- Is token saturation causing truncated/garbage output? (-> evolve, expand)
 
 Return a JSON array of mutation proposals:
 ```json
