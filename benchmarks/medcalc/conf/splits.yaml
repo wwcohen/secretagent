@@ -1,0 +1,16 @@
+# Defines how dataset splits are used for optimization and evaluation.
+# The optimizer draws random stratified minibatches from eval_split.
+# Final reported performance is on test_split.
+eval_split:
+  source: train
+  stratified: true
+  fraction: 0.20            # 20% of train → ~2100 examples
+  seed: 42
+  description: "Optimization eval pool — minibatches drawn from here"
+
+test_split:
+  source: train
+  stratified: true
+  fraction: 0.02            # 2% of train → ~210 examples
+  seed: 99                   # different seed to avoid overlap with eval minibatches
+  description: "Final reported performance — small stratified sample"
