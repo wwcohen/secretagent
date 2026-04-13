@@ -1,16 +1,15 @@
-"""Population-based pipeline optimizer for MedCalc.
+"""Population-based config optimizer for MedCalc.
 
-Runs the population optimizer to find the best config for the L4 pipeline.
-Uses profiling data to guide transforms (upgrade, swap_strategy, etc.).
+Evaluates different model/method configurations for the L4 pipeline ptools,
+tracking results in a Population with BudgetTracker. The extraction pipeline
+uses llm.model directly (via llm_util.llm), so model upgrades affect all
+LLM-backed stages including inline extraction.
 
 Usage:
     uv run python benchmarks/medcalc/run_population.py \
         --config-file conf/population.yaml \
         --eval-n 2 \
         --final-n 4
-
-    eval-n: questions per calculator for optimization eval rounds (default: 2)
-    final-n: questions per calculator for final reporting (default: 4)
 """
 
 import os
@@ -28,31 +27,72 @@ sys.path.insert(0, str(_PROJECT_ROOT / 'src'))
 sys.path.insert(0, str(_BENCHMARK_DIR))
 
 from secretagent import config
-from secretagent.orchestrate.improve import improve_pipeline, get_transform
-from secretagent.orchestrate.profiler import profile_from_results
-from secretagent.orchestrate.transforms.base import format_profiling_summary
+from secretagent.core import implement_via_config
+from secretagent.orchestrate.budget import BudgetTracker
+from secretagent.orchestrate.population import PipelineCandidate, Population
 
-from expt import MedCalcEvaluator, setup, load_dataset, stratified_sample
+from expt import MedCalcEvaluator, load_dataset, stratified_sample
 
 app = typer.Typer()
 
+# Models to explore, ordered by estimated strength
+_MODELS = [
+    'together_ai/deepseek-ai/DeepSeek-V3.1',           # $0.60/$1.70 — strong reasoning
+    'together_ai/Qwen/Qwen3.5-397B-A17B',              # $0.60/$3.60 — large MoE
+    'together_ai/moonshotai/Kimi-K2.5',                 # $0.50/$2.80 — good all-round
+    'together_ai/Qwen/Qwen3-235B-A22B-Instruct-2507-tput',  # $0.20/$0.60 — efficient
+]
 
-def _eval_round(eval_cases, workflow_interface, tag='eval'):
-    """Run a single evaluation round, return (accuracy, cost, result_dir)."""
+# Method variants to try for the identify_calculator ptool
+_IDENTIFY_METHODS = ['simulate', 'prompt_llm']
+
+
+def _setup_base(cfg_path, dotlist_args):
+    """Load config without binding ptools (we re-bind per candidate)."""
+    config.configure(yaml_file=cfg_path, dotlist=dotlist_args)
+    config.set_root(_BENCHMARK_DIR)
+
+
+def _bind_and_eval(eval_cases, cfg_overrides, tag='eval'):
+    """Apply config overrides, re-bind ptools, evaluate, return metrics."""
+    import ptools as ptools_mod
+
+    # Apply config overrides
+    if cfg_overrides:
+        dotlist = [f'{k}={v}' for k, v in cfg_overrides.items()]
+        config.configure(dotlist=dotlist)
+
+    # Re-bind interfaces from config
+    implement_via_config(ptools_mod, config.require('ptools'))
+
+    entry_point_name = config.get('evaluate.entry_point', 'calculate_medical_value')
+    workflow_interface = getattr(ptools_mod, entry_point_name)
+
     from secretagent.dataset import Dataset
-    eval_dataset = Dataset(
-        name='medcalc', split='train',
-        cases=list(eval_cases),
-    )
+    eval_dataset = Dataset(name='medcalc', split='train', cases=list(eval_cases))
     evaluator = MedCalcEvaluator()
     csv_path = evaluator.evaluate(eval_dataset, workflow_interface)
     df = pd.read_csv(csv_path)
+
     accuracy = df['correct'].mean()
+    exact_match = df['exact_match'].mean() if 'exact_match' in df.columns else accuracy
     total_cost = df['cost'].sum() if 'cost' in df.columns else 0.0
-    result_dir = csv_path.parent
     n_correct = int(df['correct'].sum())
-    print(f'  [{tag}] accuracy={accuracy:.1%} ({n_correct}/{len(df)}), cost=${total_cost:.4f}')
-    return accuracy, total_cost, result_dir
+
+    # Per-case scores for Pareto front
+    instance_scores = {}
+    for _, row in df.iterrows():
+        case_name = row.get('case_name', str(row.name))
+        instance_scores[case_name] = float(row['correct'])
+
+    print(f'  [{tag}] accuracy={accuracy:.1%} ({n_correct}/{len(df)}), '
+          f'exact={exact_match:.1%}, cost=${total_cost:.4f}')
+
+    return {
+        'accuracy': accuracy, 'exact_match': exact_match,
+        'cost': total_cost, 'instance_scores': instance_scores,
+        'result_dir': csv_path.parent,
+    }
 
 
 @app.command(context_settings={
@@ -62,21 +102,22 @@ def _eval_round(eval_cases, workflow_interface, tag='eval'):
 def run(
     ctx: typer.Context,
     config_file: str = typer.Option(..., help='Config YAML file'),
-    eval_n: int = typer.Option(2, help='Questions per calculator for eval rounds'),
-    final_n: int = typer.Option(4, help='Questions per calculator for final report'),
-    target_accuracy: float = typer.Option(1.0, help='Target accuracy (1.0 = perpetual)'),
-    max_iterations: int = typer.Option(None, help='Override improve.max_iterations'),
+    eval_n: int = typer.Option(2, help='Questions per calc for eval'),
+    final_n: int = typer.Option(4, help='Questions per calc for final report'),
 ):
-    """Run population-based optimization on MedCalc pipeline."""
+    """Run population-based config optimization on MedCalc pipeline."""
 
     cfg_path = Path(config_file)
     if not cfg_path.is_absolute():
         cfg_path = _BENCHMARK_DIR / cfg_path
 
-    # Setup config + dataset + interfaces
-    eval_dataset, workflow_interface = setup(ctx, cfg_path)
+    _setup_base(cfg_path, ctx.args)
+    budget = BudgetTracker(
+        budget_limit=config.get('improve.budget', 25.0),
+        mode=config.get('improve.budget_mode', 'soft_stop'),
+    )
 
-    # Get full train set for drawing samples
+    # Load full train set
     full_train = load_dataset('train')
     all_cases = full_train.cases
     num_calcs = len(set(
@@ -84,136 +125,158 @@ def run(
     ))
     print(f'Full train set: {len(all_cases)} cases, {num_calcs} calculators')
 
-    # Create eval sample (eval_n per calculator)
-    eval_target = num_calcs * eval_n
-    eval_cases = stratified_sample(all_cases, eval_target, seed=42)
+    # Create eval sample (eval_n per calc)
+    eval_cases = stratified_sample(all_cases, num_calcs * eval_n, seed=42)
     print(f'Eval sample: {len(eval_cases)} cases ({eval_n}/calc)')
 
-    # Create final reporting sample (final_n per calculator, different seed)
-    final_target = num_calcs * final_n
-    final_cases = stratified_sample(all_cases, final_target, seed=99)
+    # Create final sample (final_n per calc, different seed)
+    final_cases = stratified_sample(all_cases, num_calcs * final_n, seed=99)
     print(f'Final sample: {len(final_cases)} cases ({final_n}/calc)')
 
     # === BASELINE ===
     print(f'\n{"=" * 60}')
-    print(f'=== BASELINE EVALUATION (eval set, {len(eval_cases)} cases) ===')
-    baseline_acc, baseline_cost, baseline_dir = _eval_round(
-        eval_cases, workflow_interface, tag='baseline',
+    print(f'=== BASELINE ({config.get("llm.model")}) ===')
+    baseline = _bind_and_eval(eval_cases, {}, tag='baseline')
+    budget.record(baseline['cost'], 'baseline eval')
+
+    # Initialize population
+    from secretagent.orchestrate.pipeline import Pipeline
+    dummy_pipeline = Pipeline('    pass', 'def f(): ...', {})
+    population = Population(population_size=len(_MODELS) * 2)
+
+    seed = PipelineCandidate(
+        pipeline=dummy_pipeline,
+        config={'llm.model': config.get('llm.model')},
+        instance_scores=baseline['instance_scores'],
+        generation=0,
+        mutation_history=['baseline'],
     )
+    population.add(seed)
 
-    # Profile baseline
-    profile = profile_from_results([baseline_dir])
-    print(f'\n=== Baseline Profile ===')
-    print(format_profiling_summary(profile))
+    best_accuracy = baseline['accuracy']
+    best_config = {}
+    results_log = [{'tag': 'baseline', 'config': {}, **baseline}]
 
-    # === POPULATION OPTIMIZATION ===
+    # === EXPLORATION: Try different models ===
     print(f'\n{"=" * 60}')
-    print(f'=== POPULATION OPTIMIZATION ===')
-    print(f'population_size={config.get("improve.population_size", 3)}')
-    print(f'max_iterations={config.get("improve.max_iterations", 5)}')
-    print(f'meta_model={config.get("improve.meta_model", "heuristic")}')
-    print(f'budget=${config.get("improve.budget", "unlimited")}')
+    print(f'=== MODEL EXPLORATION ===')
 
-    # Build a minimal Pipeline wrapper for the workflow
-    # The L4 pipeline uses direct Python, so we wrap it for profiling
-    from secretagent.orchestrate.pipeline import Pipeline, _entry_signature_from_interface
-    from secretagent.orchestrate.catalog import PtoolCatalog
-    from secretagent.core import all_interfaces
+    for model in _MODELS:
+        if model == config.get('llm.model'):
+            continue  # skip baseline model
+        if budget.should_stop():
+            print(f'  budget exhausted, stopping exploration')
+            break
 
-    entry_sig = _entry_signature_from_interface(workflow_interface)
-    # Build catalog of available ptools (excluding entry point)
-    exclude = {workflow_interface.name}
-    tool_interfaces = [
-        iface for iface in all_interfaces()
-        if iface.name not in exclude and iface.implementation is not None
-    ]
-    catalog = PtoolCatalog.from_interfaces(tool_interfaces)
+        tag = model.split('/')[-1]
+        print(f'\n--- Trying llm.model={tag} ---')
+        overrides = {'llm.model': model}
+        result = _bind_and_eval(eval_cases, overrides, tag=tag)
+        budget.record(result['cost'], f'model={tag}')
 
-    # Create a delegate Pipeline that calls the workflow interface.
-    # For config-only transforms (swap_strategy, upgrade, downgrade),
-    # Pipeline code doesn't matter — only the profiling data drives decisions.
-    ns = {workflow_interface.name: workflow_interface}
-    ns.update({iface.name: iface for iface in tool_interfaces})
-    delegate_body = (
-        f'    return {workflow_interface.name}'
-        f'({", ".join(p for p in workflow_interface.annotations if p != "return")})'
-    )
-    pipeline = Pipeline(delegate_body, entry_sig, ns)
+        cand = PipelineCandidate(
+            pipeline=dummy_pipeline,
+            config=overrides,
+            instance_scores=result['instance_scores'],
+            generation=1,
+            parent_index=0,
+            mutation_history=[f'model→{tag}'],
+        )
+        population.add(cand)
+        results_log.append({'tag': tag, 'config': overrides, **result})
 
-    # Build run_eval_fn callback
-    def run_eval_fn():
-        """Re-evaluate current config on eval sample."""
-        _, _, result_dir = _eval_round(eval_cases, workflow_interface, tag='re-eval')
-        return [result_dir]
+        if result['accuracy'] > best_accuracy:
+            best_accuracy = result['accuracy']
+            best_config = overrides
+            print(f'  *** NEW BEST: {best_accuracy:.1%} ***')
 
-    # Get transforms (config-only transforms are most useful here)
-    transform_names = config.get('orchestrate.improve.transforms', None)
-    if transform_names:
-        transforms = [get_transform(n) for n in transform_names]
-    else:
-        # Use only the transforms that make sense for a direct pipeline
-        config_transforms = ['swap_strategy', 'upgrade', 'downgrade', 'repair']
-        transforms = []
-        for name in config_transforms:
-            try:
-                transforms.append(get_transform(name))
-            except KeyError:
-                pass
+        print(f'  {budget.format_summary()}')
 
-    iters = max_iterations if max_iterations is not None else config.get('improve.max_iterations', 5)
-    report = improve_pipeline(
-        pipeline=pipeline,
-        result_dirs=[baseline_dir],
-        catalog=catalog,
-        transforms=transforms,
-        max_iterations=iters,
-        run_eval_fn=run_eval_fn,
-        target_accuracy=target_accuracy,
-        population_size=config.get('improve.population_size', 3),
-        seed_strategy=config.get('improve.seed_strategy', 'compose_then_mutate'),
-        meta_model=config.get('improve.meta_model'),
-        budget=config.get('improve.budget'),
-        budget_mode=config.get('improve.budget_mode', 'soft_stop'),
-        minibatch_size=config.get('improve.minibatch_size', 30),
-    )
-
-    # === RESULTS ===
+    # === EXPLORATION: Try method variants for identify_calculator ===
     print(f'\n{"=" * 60}')
-    print(f'=== OPTIMIZATION RESULTS ===')
-    print(f'Improved: {report.improved}')
-    print(f'Best accuracy: {report.best_accuracy:.1%} (baseline: {baseline_acc:.1%})')
-    if report.after_profile:
-        print(format_profiling_summary(report.after_profile))
+    print(f'=== METHOD EXPLORATION (identify_calculator) ===')
+
+    # Use the best model found so far
+    base_model = best_config.get('llm.model', config.get('llm.model'))
+
+    for method in _IDENTIFY_METHODS:
+        current_method = config.get('ptools.identify_calculator.method', 'simulate')
+        if method == current_method:
+            continue
+        if budget.should_stop():
+            break
+
+        tag = f'{base_model.split("/")[-1]}+id_{method}'
+        print(f'\n--- Trying identify_calculator.method={method} ---')
+        overrides = {
+            'llm.model': base_model,
+            'ptools.identify_calculator.method': method,
+        }
+        result = _bind_and_eval(eval_cases, overrides, tag=tag)
+        budget.record(result['cost'], f'method={tag}')
+
+        cand = PipelineCandidate(
+            pipeline=dummy_pipeline,
+            config=overrides,
+            instance_scores=result['instance_scores'],
+            generation=2,
+            parent_index=0,
+            mutation_history=[f'model→{base_model.split("/")[-1]}', f'id→{method}'],
+        )
+        population.add(cand)
+        results_log.append({'tag': tag, 'config': overrides, **result})
+
+        if result['accuracy'] > best_accuracy:
+            best_accuracy = result['accuracy']
+            best_config = overrides
+            print(f'  *** NEW BEST: {best_accuracy:.1%} ***')
+
+    # === POPULATION SUMMARY ===
+    print(f'\n{"=" * 60}')
+    print(f'=== POPULATION SUMMARY ===')
+    print(population.summary())
+    front = population.pareto_front()
+    print(f'Pareto front indices: {front}')
+
+    # === APPLY BEST CONFIG ===
+    print(f'\n{"=" * 60}')
+    print(f'=== BEST CONFIG ===')
+    print(f'Best accuracy: {best_accuracy:.1%}')
+    for k, v in best_config.items():
+        print(f'  {k}: {v}')
 
     # === FINAL EVALUATION ===
     print(f'\n{"=" * 60}')
     print(f'=== FINAL EVALUATION ({len(final_cases)} cases, {final_n}/calc) ===')
-    final_acc, final_cost, final_dir = _eval_round(
-        final_cases, workflow_interface, tag='FINAL',
-    )
+    final = _bind_and_eval(final_cases, best_config, tag='FINAL')
+    budget.record(final['cost'], 'final eval')
 
     # Detailed breakdown
-    from secretagent.dataset import Dataset
-    final_dataset = Dataset(name='medcalc', split='train', cases=list(final_cases))
-    evaluator = MedCalcEvaluator()
-    final_csv = Path(final_dir) / 'results.csv'
+    final_csv = Path(final['result_dir']) / 'results.csv'
     if final_csv.exists():
         df = pd.read_csv(final_csv)
-        # By category
-        print('\nBy category:')
+        print(f'\nBy category:')
         for cat in sorted(df['category'].unique()):
             cat_df = df[df['category'] == cat]
-            print(f'  {cat}: {cat_df["correct"].mean():.1%} ({int(cat_df["correct"].sum())}/{len(cat_df)})')
-        # By calculator (top 10 worst)
+            print(f'  {cat}: {cat_df["correct"].mean():.1%} '
+                  f'({int(cat_df["correct"].sum())}/{len(cat_df)})')
         calc_acc = df.groupby('calculator_name')['correct'].mean().sort_values()
         print(f'\nWorst calculators:')
         for calc, acc in calc_acc.head(10).items():
             n = len(df[df['calculator_name'] == calc])
             print(f'  {calc}: {acc:.0%} ({n} cases)')
 
+    # === SUMMARY ===
     print(f'\n{"=" * 60}')
-    print(f'BASELINE: {baseline_acc:.1%} -> OPTIMIZED: {report.best_accuracy:.1%} -> FINAL: {final_acc:.1%}')
-    print(f'Total optimization cost: ~${final_cost:.2f} (final eval)')
+    print(f'BASELINE: {baseline["accuracy"]:.1%} -> BEST EVAL: {best_accuracy:.1%} -> FINAL: {final["accuracy"]:.1%}')
+    print(budget.format_summary())
+
+    # Results table
+    print(f'\nAll configurations tested:')
+    print(f'{"Tag":<40} {"Accuracy":>10} {"Exact":>10} {"Cost":>10}')
+    print('-' * 72)
+    for r in sorted(results_log, key=lambda x: x['accuracy'], reverse=True):
+        print(f'{r["tag"]:<40} {r["accuracy"]:>10.1%} {r["exact_match"]:>10.1%} ${r["cost"]:>9.4f}')
 
 
 if __name__ == '__main__':
