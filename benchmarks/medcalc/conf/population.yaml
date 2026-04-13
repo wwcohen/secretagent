@@ -1,0 +1,51 @@
+# Population-based optimization config for MedCalc pipeline
+# Uses DeepSeek-V3.1 as actor model, same for meta-optimizer
+llm:
+  model: together_ai/deepseek-ai/DeepSeek-V3.1
+  max_tokens: 16384
+
+orchestrate:
+  model: together_ai/deepseek-ai/DeepSeek-V3.1
+
+cachier:
+  cache_dir: llm_cache
+  enable_caching: true
+
+evaluate:
+  result_dir: results
+  expt_name: population_opt
+  entry_point: calculate_medical_value
+  record_details: true
+
+dataset:
+  split: train
+  stratified: true
+  n: null
+  shuffle_seed: 42
+
+# L4 pipeline bindings — the optimizer will modify these via transforms
+ptools:
+  identify_calculator:
+    method: simulate
+  extract_clinical_values:
+    method: simulate
+  compute_calculation:
+    method: direct
+    fn: ptools.compute_calculation_impl
+  simulate_medical_value:
+    method: prompt_llm
+    prompt_template_file: prompt_templates/baseline.txt
+    answer_pattern: "(?:ANSWER|answer|Answer)[:\\s]*([-\\d.eE+]+)"
+  calculate_medical_value:
+    method: direct
+    fn: ptools.pipeline_workflow
+
+# Population optimizer settings
+improve:
+  population_size: 3
+  seed_strategy: compose_then_mutate
+  meta_model: together_ai/deepseek-ai/DeepSeek-V3.1
+  max_iterations: 5
+  budget: 25.0
+  budget_mode: soft_stop
+  minibatch_size: 30
