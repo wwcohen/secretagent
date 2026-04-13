@@ -5,7 +5,6 @@ from __future__ import annotations
 import json
 import logging
 import pathlib
-import re
 from string import Template
 from typing import Any
 
@@ -17,6 +16,36 @@ from secretagent.llm_util import llm
 log = logging.getLogger(__name__)
 
 _PROMPT_DIR = pathlib.Path(__file__).resolve().parent / 'prompt_templates'
+
+
+def _extract_json_array(text: str) -> str | None:
+    """Extract a JSON array from text using bracket-balancing."""
+    start = text.find('[')
+    if start == -1:
+        return None
+    depth = 0
+    in_string = False
+    escape = False
+    for i in range(start, len(text)):
+        ch = text[i]
+        if escape:
+            escape = False
+            continue
+        if ch == '\\':
+            escape = True
+            continue
+        if ch == '"' and not escape:
+            in_string = not in_string
+            continue
+        if in_string:
+            continue
+        if ch == '[':
+            depth += 1
+        elif ch == ']':
+            depth -= 1
+            if depth == 0:
+                return text[start:i + 1]
+    return None
 
 
 class MutationProposal(BaseModel):
@@ -63,14 +92,16 @@ class MetaOptimizer:
             return [], 0.0
 
         template = Template(template_path.read_text())
+        total_spent = budget_summary.get('total_spent', 0)
+        budget_limit = budget_summary.get('budget_limit', 0)
         prompt = template.substitute(
             n_candidates=budget_summary.get('n_candidates', '?'),
             generation=budget_summary.get('generation', '?'),
             population_summary=population_summary,
             operator_descriptions=operator_descriptions,
             profiling_details=profiling_details,
-            spent=f"{budget_summary.get('total_spent', 0):.2f}",
-            budget=f"{budget_summary.get('budget_limit', 0):.2f}",
+            spent_display=f"${total_spent:.2f}",
+            budget_display=f"${budget_limit:.2f}" if budget_limit < float('inf') else "unlimited",
             pct_spent=f"{budget_summary.get('pct_spent', 0):.0f}",
             budget_mode=budget_summary.get('mode', 'soft_stop'),
         )
@@ -84,15 +115,13 @@ class MetaOptimizer:
 
     def _parse_proposals(self, text: str) -> list[MutationProposal]:
         """Extract JSON array of mutation proposals from LLM output."""
-        # Try to find JSON array in the response
-        # Look for [...] pattern
-        match = re.search(r'\[[\s\S]*?\]', text)
-        if not match:
+        json_str = _extract_json_array(text)
+        if not json_str:
             log.warning('meta-optimizer: no JSON array found in response')
             return []
 
         try:
-            raw = json.loads(match.group())
+            raw = json.loads(json_str)
         except json.JSONDecodeError:
             log.warning('meta-optimizer: failed to parse JSON from response')
             return []
