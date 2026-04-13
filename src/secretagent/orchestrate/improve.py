@@ -565,13 +565,20 @@ def _seed_via_mutation(
                 continue
             proposal = t.propose(profile, catalog)
             result = t.apply(proposal, pipeline, catalog)
-            if result.success and result.new_pipeline_code:
+            if result.success:
                 from secretagent.orchestrate.population import PipelineCandidate
-                new_pipeline = Pipeline(
-                    result.new_pipeline_code,
-                    pipeline.entry_signature,
-                    pipeline._fn.__globals__,
-                )
+                if result.new_pipeline_code:
+                    try:
+                        new_pipeline = Pipeline(
+                            result.new_pipeline_code,
+                            pipeline.entry_signature,
+                            pipeline._fn.__globals__,
+                        )
+                    except Exception as e:
+                        log.warning('seed pipeline compile failed for %s: %s', t.name, e)
+                        continue
+                else:
+                    new_pipeline = pipeline
                 candidate = PipelineCandidate(
                     pipeline=new_pipeline,
                     generation=0,
