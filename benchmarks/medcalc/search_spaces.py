@@ -23,7 +23,7 @@ LEVELS = {
     "L1": "conf/simulate.yaml",
     "L2": "conf/distilled.yaml",
     "L3": "conf/pot.yaml",
-    "L4": "conf/pipeline.yaml",
+    "L4": "conf/workflow.yaml",
 }
 
 

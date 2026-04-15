@@ -1,4 +1,4 @@
-# Self-improvement config for MedCalc pipeline
+# Self-improvement config for MedCalc workflow
 llm:
   model: together_ai/deepseek-ai/DeepSeek-V3.1
   max_tokens: 16384
@@ -32,4 +32,4 @@ ptools:
     method: simulate
   calculate_medical_value:
     method: direct
-    fn: ptools.pipeline_workflow
+    fn: ptools.workflow

@@ -1,5 +1,4 @@
-# L4: Workflow (formerly "pipeline") — Python-orchestrated multi-stage with specialist LLM agents
-# Prefer conf/workflow.yaml for new experiments.
+# L4: Workflow — Python-orchestrated multi-stage with specialist LLM agents
 llm:
   model: together_ai/Qwen/Qwen3.5-9B
   max_tokens: 16384
@@ -10,7 +9,7 @@ cachier:
 
 evaluate:
   result_dir: results
-  expt_name: pipeline
+  expt_name: workflow
   entry_point: calculate_medical_value
 
 dataset:

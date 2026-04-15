@@ -354,8 +354,8 @@ def _build_descriptive_fields(calc_name: str) -> list[str]:
     return result
 
 
-def pipeline_workflow(patient_note: str, question: str) -> float:
-    """L4 pipeline: Python-orchestrated with ptools interfaces + LLM extraction.
+def workflow(patient_note: str, question: str) -> float:
+    """L4 workflow: Python-orchestrated with ptools interfaces + LLM extraction.
 
     Pipeline:
     1. identify_calculator (ptools) — LLM identifies which calculator
@@ -425,6 +425,9 @@ def pipeline_workflow(patient_note: str, question: str) -> float:
 
     # Fallback: chain-of-thought reasoning
     return _reasoning_fallback(patient_note, question)
+
+# backward compat alias
+pipeline_workflow = workflow
 
 
 # =============================================================================

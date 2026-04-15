@@ -27,11 +27,13 @@ pot:
 	uv run python expt.py run --config-file conf/pot.yaml \
 	  llm.model=$(MODEL) dataset.n=$(N)
 
-pipeline:
-	uv run python expt.py run --config-file conf/pipeline.yaml \
+workflow:
+	uv run python expt.py run --config-file conf/workflow.yaml \
 	  llm.model=$(MODEL) dataset.n=$(N)
 
-all: baseline simulate distilled pot pipeline
+pipeline: workflow  # backward compat alias
+
+all: baseline simulate distilled pot workflow
 
 #
 # View results of past experiments
