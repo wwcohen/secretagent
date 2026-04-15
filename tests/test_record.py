@@ -71,3 +71,30 @@ def test_record_preserves_arbitrary_kwargs():
 def test_yielded_list_is_same_object_as_global():
     with record.recorder() as rec:
         assert rec is record.RECORD
+
+
+# --- thread safety ---
+
+def test_concurrent_recording():
+    """Two threads record independently without interference."""
+    import threading
+
+    results = {}
+
+    def worker(name, entries):
+        with record.recorder() as rec:
+            for e in entries:
+                record.record(func=name, val=e)
+            results[name] = list(rec)
+
+    t1 = threading.Thread(target=worker, args=('t1', [1, 2, 3]))
+    t2 = threading.Thread(target=worker, args=('t2', [10, 20]))
+    t1.start()
+    t2.start()
+    t1.join()
+    t2.join()
+
+    assert len(results['t1']) == 3
+    assert all(r['func'] == 't1' for r in results['t1'])
+    assert len(results['t2']) == 2
+    assert all(r['func'] == 't2' for r in results['t2'])
