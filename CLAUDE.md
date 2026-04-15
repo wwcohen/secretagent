@@ -146,7 +146,11 @@ This project is heavily configuration-driven, like most ML systems.
    * `together_ai/openai/gpt-oss-20b` - very cheap ($0.05/$0.20 per 1M tokens)
    * `together_ai/openai/gpt-oss-120b` - good value, larger ($0.15/$0.60 per 1M tokens)
    * `together_ai/Qwen/Qwen3-Next-80B-A3B-Instruct` - good value, MoE ($0.15/$1.50 per 1M tokens)
+   * `gemini/gemini-2.5-flash` - thinking model ($0.30/$2.50 per 1M tokens, 65K output)
+   * `gemini/gemini-2.5-flash-lite` - cheap Gemini ($0.10/$0.40 per 1M tokens, 65K output)
+   * `gemini/gemini-3.1-flash-lite-preview` - ultra-cheap Gemini preview ($0.25/$1.50 per 1M tokens, 65K output)
  * `llm.thinking` — if truthy, include `<thought>` scaffolding in simulate prompts
+ * `llm.reasoning_effort` — for Gemini thinking models: low/medium/high
  * `echo.model` — print which model is being called
  * `echo.llm_input` — print the prompt sent to the LLM in a box
  * `echo.llm_output` — print the LLM response in a box
@@ -156,6 +160,7 @@ This project is heavily configuration-driven, like most ML systems.
  * `evaluate.expt_name` — name tag for the experiment (used in result filenames and dataframes)
  * `evaluate.result_dir` — directory to save results CSV and config YAML snapshot
  * `evaluate.record_details` — if `True`, include full rollout recordings in JSONL output (default `False`)
+ * `evaluate.max_workers` — number of parallel evaluation threads (default 1)
  * `cachier.enable_caching` — if `False`, bypass cachier entirely (default `True`)
  * `cachier.cache_dir` — directory for cachier's on-disk cache
  * Other `cachier.*` keys are passed through to `@cachier()` (e.g. `stale_after`, `allow_none`)

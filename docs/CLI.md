@@ -2,6 +2,41 @@
 
 All CLI tools live in `src/secretagent/cli/` and are run with `uv run -m`.
 
+## secretagent.cli.bench
+
+Universal benchmark runner. Dispatches to per-benchmark runners as subprocesses.
+
+### list
+
+Show all registered benchmarks with eval pool and minibatch sizes.
+
+```
+uv run -m secretagent.cli.bench list
+```
+
+### run
+
+Run a single benchmark evaluation.
+
+```
+uv run -m secretagent.cli.bench run BENCHMARK [--minibatch] [DOTLIST_OVERRIDES...]
+```
+
+| Option | Description |
+|---|---|
+| `BENCHMARK` | Benchmark name from registry (e.g. `sports_understanding`, `medcalc`) |
+| `--minibatch` | Use the default minibatch size for quick evaluation |
+
+Extra positional args are passed as dotlist config overrides to the benchmark runner.
+
+### run-all
+
+Run all registered benchmarks sequentially.
+
+```
+uv run -m secretagent.cli.bench run-all [--minibatch] [DOTLIST_OVERRIDES...]
+```
+
 ## secretagent.cli.costs
 
 Summarize LLM costs from cachier cache files.
