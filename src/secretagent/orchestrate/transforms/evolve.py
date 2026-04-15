@@ -69,8 +69,8 @@ class EvolveTransform(PipelineTransform):
             targets.append({
                 'ptool': name,
                 'weakness': score,
-                'accuracy_when_correct': pp.accuracy_when_correct,
-                'accuracy_when_incorrect': pp.accuracy_when_incorrect,
+                'presence_in_correct': pp.presence_in_correct,
+                'presence_in_incorrect': pp.presence_in_incorrect,
                 'cost_fraction': pp.cost_fraction,
                 'error_count': error_count,
             })

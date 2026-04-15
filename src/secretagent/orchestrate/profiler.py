@@ -30,8 +30,10 @@ class PtoolProfile(BaseModel):
     max_tokens_out: int = 0
     output_token_saturation: float = 0.0  # max_tokens_out / configured limit
     cost_fraction: float = 0.0
-    accuracy_when_correct: float = 0.0
-    accuracy_when_incorrect: float = 0.0
+    presence_in_correct: float = 0.0
+    presence_in_incorrect: float = 0.0
+    exception_rate: float = 0.0
+    n_exceptions: int = 0
     lift: float | None = None
     error_patterns: list[ErrorPattern] = []
 
@@ -86,6 +88,7 @@ def profile_from_results(
     ptool_correct_cases: dict[str, int] = defaultdict(int)
     ptool_incorrect_cases: dict[str, int] = defaultdict(int)
     ptool_max_tokens_out: dict[str, int] = defaultdict(int)
+    ptool_n_exceptions: dict[str, int] = defaultdict(int)
     ptool_errors: dict[str, list[dict[str, Any]]] = defaultdict(list)
     cases_correct_total = 0
     cases_incorrect_total = 0
@@ -132,6 +135,7 @@ def profile_from_results(
                     # Detect errors
                     output = step.get('output')
                     if isinstance(output, str) and output.startswith('**exception'):
+                        ptool_n_exceptions[func] += 1
                         ptool_errors[func].append({
                             'output': output,
                             'args': step.get('args'),
@@ -164,14 +168,16 @@ def profile_from_results(
                 if max_output_tokens else 0.0
             ),
             cost_fraction=ptool_total_cost[name] / pipeline_total_cost,
-            accuracy_when_correct=(
+            presence_in_correct=(
                 ptool_correct_cases[name] / cases_correct_total
                 if cases_correct_total else 0.0
             ),
-            accuracy_when_incorrect=(
+            presence_in_incorrect=(
                 ptool_incorrect_cases[name] / cases_incorrect_total
                 if cases_incorrect_total else 0.0
             ),
+            exception_rate=ptool_n_exceptions[name] / nc if nc else 0.0,
+            n_exceptions=ptool_n_exceptions[name],
             error_patterns=_detect_error_patterns(ptool_errors.get(name, [])),
         )
 

@@ -202,8 +202,9 @@ def run(
             error_count = sum(e.frequency for e in pp.error_patterns)
             print(f'  cost_fraction: {pp.cost_fraction:.1%}')
             print(f'  errors: {error_count}')
-            print(f'  correct_rate: {pp.accuracy_when_correct:.2f}')
-            print(f'  incorrect_rate: {pp.accuracy_when_incorrect:.2f}')
+            print(f'  presence_correct: {pp.presence_in_correct:.2f}')
+            print(f'  presence_incorrect: {pp.presence_in_incorrect:.2f}')
+            print(f'  exception_rate: {pp.exception_rate:.2f}')
 
         # Evolve it
         print(f'\nEvolving {target_ptool}...')

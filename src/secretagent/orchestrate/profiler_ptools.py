@@ -75,7 +75,8 @@ def identify_weakest_ptool(result_dirs: list) -> str:
             f'{name}: weakness={weakness:.3f}, '
             f'cost_frac={pp.cost_fraction:.1%}, '
             f'errors={error_count}, '
-            f'correct_rate={pp.accuracy_when_correct:.2f}, '
-            f'incorrect_rate={pp.accuracy_when_incorrect:.2f}'
+            f'presence_correct={pp.presence_in_correct:.2f}, '
+            f'presence_incorrect={pp.presence_in_incorrect:.2f}, '
+            f'exception_rate={pp.exception_rate:.2f}'
         )
     return '\n'.join(lines)

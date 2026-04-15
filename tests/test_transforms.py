@@ -32,12 +32,12 @@ def simple_profile():
         ptool_profiles={
             'a': PtoolProfile(
                 name='a', n_calls=10, cost_fraction=0.6,
-                accuracy_when_correct=0.9, accuracy_when_incorrect=0.5,
+                presence_in_correct=0.9, presence_in_incorrect=0.5,
                 lift=0.01,
             ),
             'b': PtoolProfile(
                 name='b', n_calls=10, cost_fraction=0.4,
-                accuracy_when_correct=0.8, accuracy_when_incorrect=0.3,
+                presence_in_correct=0.8, presence_in_incorrect=0.3,
             ),
         },
     )
@@ -282,7 +282,7 @@ class TestShouldApplyLogic:
         profile = PipelineProfile(
             accuracy=0.8,
             ptool_profiles={
-                'a': PtoolProfile(name='a', cost_fraction=0.5, accuracy_when_correct=0.5),
+                'a': PtoolProfile(name='a', cost_fraction=0.5, presence_in_correct=0.5),
             },
         )
         assert t.should_apply(profile) is True
@@ -292,7 +292,7 @@ class TestShouldApplyLogic:
         profile = PipelineProfile(
             accuracy=0.8,
             ptool_profiles={
-                'a': PtoolProfile(name='a', cost_fraction=0.5, accuracy_when_correct=0.9),
+                'a': PtoolProfile(name='a', cost_fraction=0.5, presence_in_correct=0.9),
             },
         )
         assert t.should_apply(profile) is False

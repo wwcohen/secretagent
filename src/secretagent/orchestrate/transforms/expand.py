@@ -24,7 +24,7 @@ class ExpandTransform(PipelineTransform):
 
     def should_apply(self, profile: PipelineProfile) -> bool:
         return any(
-            pp.cost_fraction > 0.3 and pp.accuracy_when_correct < profile.accuracy * 0.8
+            pp.cost_fraction > 0.3 and pp.presence_in_correct < profile.accuracy * 0.8
             for pp in profile.ptool_profiles.values()
         )
 

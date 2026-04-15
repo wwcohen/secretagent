@@ -133,7 +133,7 @@ class TestProfileCostFractions:
 
 
 class TestProfileAccuracyCorrelation:
-    def test_accuracy_when_correct_incorrect(self, tmp_path):
+    def test_presence_in_correct_incorrect(self, tmp_path):
         records = [
             # Correct case: both a and b called
             _record(True, 0.02, 1.0, [_step('a'), _step('b')]),
@@ -144,12 +144,12 @@ class TestProfileAccuracyCorrelation:
         profile = profile_from_results([d])
 
         pp_a = profile.ptool_profiles['a']
-        assert pp_a.accuracy_when_correct == pytest.approx(1.0)  # in 1/1 correct cases
-        assert pp_a.accuracy_when_incorrect == pytest.approx(0.0)  # in 0/1 incorrect cases
+        assert pp_a.presence_in_correct == pytest.approx(1.0)  # in 1/1 correct cases
+        assert pp_a.presence_in_incorrect == pytest.approx(0.0)  # in 0/1 incorrect cases
 
         pp_b = profile.ptool_profiles['b']
-        assert pp_b.accuracy_when_correct == pytest.approx(1.0)
-        assert pp_b.accuracy_when_incorrect == pytest.approx(1.0)
+        assert pp_b.presence_in_correct == pytest.approx(1.0)
+        assert pp_b.presence_in_incorrect == pytest.approx(1.0)
 
 
 class TestProfileWithoutRollout:
