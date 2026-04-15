@@ -18,6 +18,14 @@ def echo_boxed(text: str, tag:str = ''):
         print('│ ' + line.ljust(width) + ' │')
     print('└' + '─' * (width + 2) + '┘')
 
+def _default_max_tokens(model: str) -> int | None:
+  """Return a sensible max_tokens default for models that require one."""
+  if 'gemini-2.5' in model or 'gemini-3' in model:
+    return 65536
+  if 'gemini-2.0' in model:
+    return 8192
+  return None
+
 def _llm_impl(prompt: str, model: str) -> tuple[str, dict[str, Any]]:
   """Use an LLM model.
 
@@ -34,13 +42,16 @@ def _llm_impl(prompt: str, model: str) -> tuple[str, dict[str, Any]]:
 
   messages = [dict(role='user', content=prompt)]
   stream = config.get('llm.stream', False)
-  max_tokens = config.get('llm.max_tokens', None)
+  max_tokens = config.get('llm.max_tokens', None) or _default_max_tokens(model)
   temperature = config.get('llm.temperature', None)
+  reasoning_effort = config.get('llm.reasoning_effort', None)
   extra_kw = {}
   if max_tokens:
     extra_kw['max_tokens'] = int(max_tokens)
   if temperature is not None:
     extra_kw['temperature'] = float(temperature)
+  if reasoning_effort is not None:
+    extra_kw['reasoning_effort'] = reasoning_effort
   start_time = time.time()
 
   if stream:
@@ -80,6 +91,11 @@ def _llm_impl(prompt: str, model: str) -> tuple[str, dict[str, Any]]:
       latency=latency,
       cost=cost,
     )
+    if config.get('evaluate.record_details'):
+      stats['trace'] = dict(
+          prompt=prompt, raw_response=model_output,
+          reasoning_content=None, model=model,
+      )
   else:
     response = completion(model=model, messages=messages, **extra_kw)
     latency = time.time() - start_time
@@ -110,6 +126,12 @@ def _llm_impl(prompt: str, model: str) -> tuple[str, dict[str, Any]]:
       latency=latency,
       cost=completion_cost(completion_response=response),
     )
+    if config.get('evaluate.record_details'):
+      stats['trace'] = dict(
+          prompt=prompt, raw_response=content,
+          reasoning_content=reasoning if reasoning else None,
+          model=model,
+      )
 
   if config.get('echo.llm_output'):
     echo_boxed(model_output, 'llm_output')
