@@ -74,10 +74,22 @@ class Evaluator(ABC):
         return result
 
     def measurements(self, dataset: Dataset, interface: Interface) -> Iterator[dict[str, Any]]:
-        for example in tqdm(dataset.cases):
-            row = self.measure(example, interface)
-            row['case_name'] = example.name
-            yield row
+        max_workers = int(config.get('evaluate.max_workers', 1))
+        if max_workers <= 1:
+            for example in tqdm(dataset.cases):
+                row = self.measure(example, interface)
+                row['case_name'] = example.name
+                yield row
+        else:
+            from concurrent.futures import ThreadPoolExecutor, as_completed
+            def _run(ex):
+                row = self.measure(ex, interface)
+                row['case_name'] = ex.name
+                return row
+            with ThreadPoolExecutor(max_workers=max_workers) as pool:
+                futures = {pool.submit(_run, ex): ex for ex in dataset.cases}
+                for fut in tqdm(as_completed(futures), total=len(futures)):
+                    yield fut.result()
             
 
     def evaluate(self, dataset: Dataset, interface: Interface) -> Path:
