@@ -30,6 +30,7 @@ BENCHMARKS = {
         'strat_key': None,
         'eval_pool_size': 75,
         'default_minibatch': 20,
+        'default_overrides': ['ptools.are_sports_in_sentence_consistent.method=simulate'],
     },
     'geometric_shapes': {
         'directory': 'bbh/geometric_shapes',
@@ -38,6 +39,7 @@ BENCHMARKS = {
         'strat_key': None,
         'eval_pool_size': 75,
         'default_minibatch': 20,
+        'default_overrides': ['ptools.identify_shape.method=simulate'],
     },
     'penguins_in_a_table': {
         'directory': 'bbh/penguins_in_a_table',
@@ -46,6 +48,7 @@ BENCHMARKS = {
         'strat_key': None,
         'eval_pool_size': 43,
         'default_minibatch': 20,
+        'default_overrides': ['ptools.answer_penguin_question.method=simulate'],
     },
     'medcalc': {
         'directory': 'medcalc',
@@ -54,6 +57,7 @@ BENCHMARKS = {
         'strat_key': 'calculator_name',
         'eval_pool_size': 220,
         'default_minibatch': 110,
+        'default_overrides': [],
     },
     'musr_murder': {
         'directory': 'musr',
@@ -62,6 +66,7 @@ BENCHMARKS = {
         'strat_key': None,
         'eval_pool_size': 75,
         'default_minibatch': 10,
+        'default_overrides': [],
     },
     'musr_object': {
         'directory': 'musr',
@@ -70,6 +75,7 @@ BENCHMARKS = {
         'strat_key': None,
         'eval_pool_size': 75,
         'default_minibatch': 10,
+        'default_overrides': ['ptools.extract_movements.method=simulate'],
     },
     'musr_team': {
         'directory': 'musr',
@@ -78,6 +84,7 @@ BENCHMARKS = {
         'strat_key': None,
         'eval_pool_size': 75,
         'default_minibatch': 10,
+        'default_overrides': [],
     },
     'natural_plan_calendar': {
         'directory': 'natural_plan',
@@ -86,6 +93,7 @@ BENCHMARKS = {
         'strat_key': None,
         'eval_pool_size': 50,
         'default_minibatch': 10,
+        'default_overrides': ['ptools.calendar_scheduling.method=simulate'],
     },
     'natural_plan_meeting': {
         'directory': 'natural_plan',
@@ -94,6 +102,7 @@ BENCHMARKS = {
         'strat_key': None,
         'eval_pool_size': 50,
         'default_minibatch': 10,
+        'default_overrides': ['ptools.meeting_planning.method=simulate'],
     },
     'natural_plan_trip': {
         'directory': 'natural_plan',
@@ -102,6 +111,7 @@ BENCHMARKS = {
         'strat_key': None,
         'eval_pool_size': 48,
         'default_minibatch': 10,
+        'default_overrides': ['ptools.trip_planning.method=simulate'],
     },
     'rulearena_airline': {
         'directory': 'rulearena',
@@ -110,6 +120,7 @@ BENCHMARKS = {
         'strat_key': None,
         'eval_pool_size': 60,
         'default_minibatch': 10,
+        'default_overrides': ['ptools.compute_rulearena_answer.method=simulate'],
     },
     'rulearena_nba': {
         'directory': 'rulearena',
@@ -118,6 +129,7 @@ BENCHMARKS = {
         'strat_key': None,
         'eval_pool_size': 42,
         'default_minibatch': 10,
+        'default_overrides': ['ptools.compute_rulearena_answer.method=simulate'],
     },
     'rulearena_tax': {
         'directory': 'rulearena',
@@ -126,6 +138,7 @@ BENCHMARKS = {
         'strat_key': None,
         'eval_pool_size': 60,
         'default_minibatch': 10,
+        'default_overrides': ['ptools.compute_rulearena_answer.method=simulate'],
     },
     'tabmwp': {
         'directory': 'tabmwp',
@@ -134,15 +147,21 @@ BENCHMARKS = {
         'strat_key': 'ques_type',
         'eval_pool_size': 1000,
         'default_minibatch': 50,
+        'default_overrides': ['ptools.tabmwp_solve.method=simulate'],
     },
 }
 
 
 def _build_command(bench: dict, minibatch: bool, extra_args: list[str]) -> list[str]:
-    """Build the subprocess command list for a benchmark run."""
+    """Build the subprocess command list for a benchmark run.
+
+    Order: command + eval_split + default_overrides + minibatch + user args.
+    User args come last so they win over defaults.
+    """
     parts = bench['command'].split()
     if bench['eval_split']:
         parts.extend(bench['eval_split'].split())
+    parts.extend(bench.get('default_overrides', []))
     if minibatch:
         parts.append(f'dataset.n={bench["default_minibatch"]}')
     parts.extend(extra_args)
