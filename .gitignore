@@ -225,3 +225,5 @@ __marimo__/
 .claude/
 .cursor/
 .codex/benchmarks/natural_plan/llm_cache/
+
+strategy_comparison.png

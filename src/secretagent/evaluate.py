@@ -70,7 +70,8 @@ class Evaluator(ABC):
         result: dict[str, float] = {}
         for rec in records:
             for key, value in rec['stats'].items():
-                result[key] = result.get(key, 0.0) + value
+                if isinstance(value, (int, float)):
+                    result[key] = result.get(key, 0.0) + value
         return result
 
     def measurements(self, dataset: Dataset, interface: Interface) -> Iterator[dict[str, Any]]:

@@ -142,7 +142,7 @@ BENCHMARKS = {
     },
     'tabmwp': {
         'directory': 'tabmwp',
-        'command': 'uv run python expt.py run',
+        'command': 'uv run python expt.py run --config-file conf/conf.yaml',
         'eval_split': 'dataset.split=dev1k',
         'strat_key': 'ques_type',
         'eval_pool_size': 1000,
