@@ -2,9 +2,12 @@
 
 orchestrate_cache/
 results_plot.png
+benchmarks/**/results/
+benchmarks/**/llm_cache/
 benchmarks/**/training/
 docs/orchestrator_demo.html
 docs/presentation.md
+docs/handoff_population_optimizer.md
 
 # emacs
 

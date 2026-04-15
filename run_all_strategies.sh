@@ -8,7 +8,7 @@ cd /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent
 source .env
 
 MODEL="gemini/gemini-3.1-flash-lite-preview"
-COMMON="llm.model=$MODEL evaluate.max_workers=1 cachier.enable_caching=false"
+COMMON="llm.model=$MODEL evaluate.max_workers=1"
 
 run_bbh() {
     local dir=$1 iface=$2 workflow_fn=$3 unstructured_fn=$4 n=$5
@@ -141,22 +141,28 @@ echo "########################################"
 echo "# MEDCALC"
 echo "########################################"
 
-echo "===== medcalc: simulate (n=20, stratified) ====="
+echo "===== medcalc: baseline (n=110, stratified 2/calc) ====="
+(cd benchmarks/medcalc && uv run python expt.py run \
+    --config-file conf/baseline.yaml \
+    dataset.n=110 evaluate.expt_name=baseline $COMMON) 2>&1 | tail -5
+echo ""
+
+echo "===== medcalc: simulate (n=110, stratified 2/calc) ====="
 (cd benchmarks/medcalc && uv run python expt.py run \
     --config-file conf/simulate.yaml \
-    dataset.n=20 evaluate.expt_name=simulate $COMMON) 2>&1 | tail -5
+    dataset.n=110 evaluate.expt_name=simulate $COMMON) 2>&1 | tail -5
 echo ""
 
-echo "===== medcalc: pot (n=20, stratified) ====="
+echo "===== medcalc: pot (n=110, stratified 2/calc) ====="
 (cd benchmarks/medcalc && uv run python expt.py run \
     --config-file conf/pot.yaml \
-    dataset.n=20 evaluate.expt_name=pot $COMMON) 2>&1 | tail -5
+    dataset.n=110 evaluate.expt_name=pot $COMMON) 2>&1 | tail -5
 echo ""
 
-echo "===== medcalc: workflow (n=20, stratified) ====="
+echo "===== medcalc: workflow (n=110, stratified 2/calc) ====="
 (cd benchmarks/medcalc && uv run python expt.py run \
     --config-file conf/workflow.yaml \
-    dataset.n=20 evaluate.expt_name=workflow $COMMON) 2>&1 | tail -5
+    dataset.n=110 evaluate.expt_name=workflow $COMMON) 2>&1 | tail -5
 echo ""
 
 echo "########################################"
