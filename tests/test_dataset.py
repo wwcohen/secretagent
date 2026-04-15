@@ -82,3 +82,54 @@ def test_dataset_chaining():
     ds = _make_dataset(10)
     ds.shuffle(seed=42).head(3)
     assert len(ds.cases) == 3
+
+
+# --- stratified_sample ---
+
+def _make_grouped_dataset():
+    """3 groups: A(6), B(3), C(1) = 10 cases."""
+    cases = []
+    for i in range(6):
+        cases.append(Case(name=f'A_{i}', metadata={'group': 'A'}, input_args=[i]))
+    for i in range(3):
+        cases.append(Case(name=f'B_{i}', metadata={'group': 'B'}, input_args=[i]))
+    cases.append(Case(name='C_0', metadata={'group': 'C'}, input_args=[0]))
+    return Dataset(name='grouped', cases=cases)
+
+
+def test_stratified_sample_total_count():
+    ds = _make_grouped_dataset()
+    sampled = ds.stratified_sample(5, key=lambda c: c.metadata['group'])
+    assert len(sampled.cases) == 5
+
+
+def test_stratified_sample_all_groups_represented():
+    ds = _make_grouped_dataset()
+    sampled = ds.stratified_sample(5, key=lambda c: c.metadata['group'])
+    groups = {c.metadata['group'] for c in sampled.cases}
+    assert groups == {'A', 'B', 'C'}
+
+
+def test_stratified_sample_proportional():
+    ds = _make_grouped_dataset()  # A=6, B=3, C=1
+    sampled = ds.stratified_sample(5, key=lambda c: c.metadata['group'])
+    counts = {}
+    for c in sampled.cases:
+        g = c.metadata['group']
+        counts[g] = counts.get(g, 0) + 1
+    # A should get the most, C at least 1
+    assert counts['A'] >= counts['B'] >= counts['C']
+    assert counts['C'] >= 1
+
+
+def test_stratified_sample_n_larger_than_dataset():
+    ds = _make_grouped_dataset()
+    sampled = ds.stratified_sample(100, key=lambda c: c.metadata['group'])
+    assert len(sampled.cases) == 10
+
+
+def test_stratified_sample_deterministic():
+    ds = _make_grouped_dataset()
+    s1 = ds.stratified_sample(5, key=lambda c: c.metadata['group'], seed=42)
+    s2 = ds.stratified_sample(5, key=lambda c: c.metadata['group'], seed=42)
+    assert [c.name for c in s1.cases] == [c.name for c in s2.cases]
