@@ -4,18 +4,26 @@ cachier:
   cache_dir: /Users/lexl/Research_group/secretagent/benchmarks/musr/llm_cache
   enable_caching: false
 evaluate:
-  expt_name: team_pot
+  expt_name: murder_pot_test
   result_dir: /Users/lexl/Research_group/secretagent/benchmarks/musr/results
   entry_point: answer_question
 dataset:
-  split: team_allocation
+  split: murder_mysteries_test
   shuffle_seed: 42
-  'n': 75
+  'n': null
 ptools:
   raw_answer:
     method: simulate
   extract_index:
     method: simulate
+  extract_suspects_and_evidence:
+    method: simulate
+  verify_alibis:
+    method: simulate
+  deduce_murderer:
+    method: simulate
   answer_question:
     method: program_of_thought
     tools: __all__
+  answer_question_workflow:
+    method: direct

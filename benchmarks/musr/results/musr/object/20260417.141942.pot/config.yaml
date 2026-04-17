@@ -4,13 +4,13 @@ cachier:
   cache_dir: /Users/lexl/Research_group/secretagent/benchmarks/musr/llm_cache
   enable_caching: false
 evaluate:
-  expt_name: object_pot
+  expt_name: object_pot_test
   result_dir: /Users/lexl/Research_group/secretagent/benchmarks/musr/results
   entry_point: answer_question
 dataset:
-  split: object_placements
+  split: object_placements_test
   shuffle_seed: 42
-  'n': 75
+  'n': null
 ptools:
   raw_answer:
     method: simulate
