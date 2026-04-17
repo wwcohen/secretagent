@@ -4,13 +4,13 @@ cachier:
   cache_dir: /Users/lexl/Research_group/secretagent/benchmarks/musr/llm_cache
   enable_caching: false
 evaluate:
-  expt_name: murder_unstructured_baseline
+  expt_name: murder_unstructured_baseline_test
   result_dir: /Users/lexl/Research_group/secretagent/benchmarks/musr/results
   entry_point: answer_question
 dataset:
-  split: murder_mysteries
+  split: murder_mysteries_test
   shuffle_seed: 42
-  'n': 75
+  'n': null
 ptools:
   raw_answer:
     method: simulate
