@@ -104,6 +104,7 @@ def run(
 def quick_test(
     ctx: typer.Context,
     interface: str = typer.Option(..., help="Top-level interface as 'module.name'"),
+    case: str = typer.Option(None, help="Case name to test, e.g. 'valid.027'"),
 ):
     """Do a quick test of a configuration.
 
@@ -116,7 +117,15 @@ def quick_test(
     top_level = resolve_dotted(interface)
     pprint.pprint(config.GLOBAL_CONFIG)
 
-    input_args = dataset.cases[0].input_args
+    if case:
+        matching = [c for c in dataset.cases if c.name == case]
+        if not matching:
+            print(f'No case named {case!r} found in dataset')
+            raise typer.Exit(1)
+        test_case = matching[0]
+    else:
+        test_case = dataset.cases[0]
+    input_args = test_case.input_args
     print('input_args', input_args)
     with config.configuration(
             cachier={'enable_caching': False},
