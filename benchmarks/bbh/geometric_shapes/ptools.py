@@ -142,7 +142,15 @@ def extract_path_and_options(input: str) -> Tuple[str, List[Tuple[str, str]]]:
     """Extract the SVG path string and answer options from the prompt.
 
     Returns (path, options) where path is the raw SVG path d="..." string
-    and options is a list of (letter, shape_name) pairs, e.g. [('A', 'circle'), ('B', 'heptagon')].
+    and options is a list of (letter, shape_name) pairs.
+
+    The output must be a Python-parseable tuple literal: the path string
+    goes in quotes, and the options list contains quoted (letter, name)
+    tuples.
+
+    Examples:
+    >>> extract_path_and_options('This SVG path element <path d="M 74.15,65.82 L 62.73,69.82 M 62.73,69.82 L 70.21,58.22"/> draws a\\nOptions:\\n(A) circle\\n(B) kite\\n(C) triangle')
+    ('M 74.15,65.82 L 62.73,69.82 M 62.73,69.82 L 70.21,58.22', [('A', 'circle'), ('B', 'kite'), ('C', 'triangle')])
     """
     ...
 
