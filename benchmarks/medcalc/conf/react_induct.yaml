@@ -1,0 +1,39 @@
+# Stateless ReAct, induction-train split (110 cases, seed=42).
+# DeepSeek-V3.1 instead of gemini-flash-lite: gemini doesn't emit
+# reasoning text alongside tool calls in pydantic-ai's agent loop, so
+# step_info[].thought is empty and the inducer crashes with "no
+# thoughts collected".
+llm:
+  model: together_ai/deepseek-ai/DeepSeek-V3.1
+  max_tokens: 65536
+
+cachier:
+  cache_dir: llm_cache
+  enable_caching: true
+
+evaluate:
+  result_dir: results
+  expt_name: react_train
+  entry_point: calculate_medical_value
+  record_details: true
+
+dataset:
+  split: train
+  stratified: true
+  n: 110
+  shuffle_seed: 42
+
+ptools:
+  identify_calculator:
+    method: simulate
+  extract_clinical_values:
+    method: simulate
+  compute_calculation:
+    method: direct
+    fn: ptools.compute_calculation_impl
+  calculate_medical_value:
+    method: simulate_pydantic
+    tools:
+      - ptools.identify_calculator
+      - ptools.extract_clinical_values
+      - ptools.compute_calculation

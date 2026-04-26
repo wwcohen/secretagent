@@ -1,0 +1,40 @@
+# State-aware ReAct, induction-train split (110 cases, seed=42).
+# calculate_medical_value -> direct wrapper that resets _REACT_STATE
+# then delegates to react_calculate (bound to simulate_pydantic).
+llm:
+  model: together_ai/deepseek-ai/DeepSeek-V3.1
+  max_tokens: 65536
+
+cachier:
+  cache_dir: llm_cache
+  enable_caching: true
+
+evaluate:
+  result_dir: results
+  expt_name: react_state_train
+  entry_point: calculate_medical_value
+  record_details: true
+
+dataset:
+  split: train
+  stratified: true
+  n: 110
+  shuffle_seed: 42
+
+ptools:
+  identify_calculator:
+    method: simulate
+  extract_clinical_values:
+    method: simulate
+  compute_calculation:
+    method: direct
+    fn: ptools.compute_calculation_impl
+  calculate_medical_value:
+    method: direct
+    fn: ptools.react_calculate_impl
+  react_calculate:
+    method: simulate_pydantic
+    tools:
+      - ptools.identify_calculator
+      - ptools.extract_clinical_values
+      - ptools.compute_calculation
