@@ -2,8 +2,13 @@
 # calculate_medical_value -> direct wrapper that resets _REACT_STATE
 # then delegates to react_calculate (bound to simulate_pydantic).
 llm:
-  model: together_ai/deepseek-ai/DeepSeek-V3.1
+  model: gemini/gemini-3.1-flash-lite-preview
   max_tokens: 65536
+  thinking: true
+  reasoning_effort: high
+
+simulate_pydantic:
+  template: simulate_pydantic_thinking.txt
 
 cachier:
   cache_dir: llm_cache

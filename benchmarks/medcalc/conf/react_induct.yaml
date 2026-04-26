@@ -1,11 +1,17 @@
 # Stateless ReAct, induction-train split (110 cases, seed=42).
-# DeepSeek-V3.1 instead of gemini-flash-lite: gemini doesn't emit
-# reasoning text alongside tool calls in pydantic-ai's agent loop, so
-# step_info[].thought is empty and the inducer crashes with "no
-# thoughts collected".
+# gemini-3.1-flash-lite-preview with thinking=high and the
+# simulate_pydantic_thinking template, which instructs the agent to emit
+# a short reasoning paragraph before each tool call. Without this
+# scaffolding gemini stays silent in tool-calling mode and the inducer
+# would see zero step_info[].thought entries.
 llm:
-  model: together_ai/deepseek-ai/DeepSeek-V3.1
+  model: gemini/gemini-3.1-flash-lite-preview
   max_tokens: 65536
+  thinking: true
+  reasoning_effort: high
+
+simulate_pydantic:
+  template: simulate_pydantic_thinking.txt
 
 cachier:
   cache_dir: llm_cache
