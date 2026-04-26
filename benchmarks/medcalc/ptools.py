@@ -126,6 +126,78 @@ calculate_medical_value.src = _build_medical_value_src(
 
 
 # =============================================================================
+# State-aware ReAct entry point (mirrors MUSR's _REACT_STATE pattern)
+#
+# Induced ptools default to `def f(focus: str) -> str` and so cannot see
+# the patient note. We stash patient_note/question in a module-level dict
+# and let induced helpers reach it via _REACT_STATE["patient_note"].
+# react_calculate is a NEW interface (not a rebind of calculate_medical_value)
+# to avoid the direct wrapper recursing into itself.
+# =============================================================================
+
+_REACT_STATE: dict = {'patient_note': '', 'question': ''}
+
+
+def _reset_react_state(patient_note: str, question: str) -> None:
+    _REACT_STATE['patient_note'] = patient_note
+    _REACT_STATE['question'] = question
+
+
+def react_calculate(patient_note: str, question: str) -> float:
+    ...
+
+react_calculate.__doc__ = _CALCULATE_DOCSTRING
+react_calculate = interface(react_calculate)
+react_calculate.src = _build_medical_value_src(
+    'react_calculate', _CALCULATE_DOCSTRING)
+
+
+def _extract_number_local(value) -> Optional[float]:
+    """Local copy of expt._extract_number to avoid circular import."""
+    if value is None:
+        return None
+    if isinstance(value, (int, float)):
+        return float(value)
+    s = str(value)
+    if s.startswith('**exception'):
+        return None
+    try:
+        return float(s)
+    except ValueError:
+        pass
+    m = re.search(r'<answer>\s*([\d.eE+-]+)\s*</answer>', s)
+    if m:
+        try:
+            return float(m.group(1))
+        except ValueError:
+            pass
+    m = re.search(r'ANSWER:\s*([\d.eE+-]+)', s)
+    if m:
+        try:
+            return float(m.group(1))
+        except ValueError:
+            pass
+    nums = re.findall(r'-?\d+\.?\d*', s)
+    if nums:
+        try:
+            return float(nums[-1])
+        except ValueError:
+            pass
+    return None
+
+
+def react_calculate_impl(patient_note: str, question: str) -> float:
+    """Direct entry that resets state then runs the bound react_calculate."""
+    _reset_react_state(patient_note, question)
+    try:
+        raw = react_calculate(patient_note, question)
+    except Exception as ex:
+        return float('nan')
+    n = _extract_number_local(raw)
+    return float('nan') if n is None else n
+
+
+# =============================================================================
 # L2 helper: simulate fallback for distilled workflow
 # =============================================================================
 
