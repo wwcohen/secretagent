@@ -24,13 +24,20 @@ def _run_agent_hashkey(_, kwds):
     """Create a hashkey for the arguments of _run_agent.
     """
     retries = config.get('pydantic.retries', 1)
+    reasoning_effort = config.get('llm.reasoning_effort', None)
     hashable = (
         (kwds['interface'].name,  # use the interface name
          kwds['model_name'],  # a string
          str(kwds['return_type']), # convert type to str
          kwds['prompt'], # a string
          tuple(tool.__name__ for tool in kwds['tools']),  # use function names
-         ) + (() if retries == 1 else (retries,)))
+         )
+        + (() if retries == 1 else (retries,))
+        # only mix reasoning_effort into the key when it's set, so
+        # existing cached entries (which were keyed without it) still hit
+        # when reasoning_effort is absent.
+        + (() if reasoning_effort is None else (('reasoning_effort', reasoning_effort),))
+    )
     # convert the tuple to a string and encode it to hash
     return hashlib.sha256(str(hashable).encode('utf-8')).hexdigest()
 
@@ -49,6 +56,19 @@ def _run_agent_impl(interface, model_name, return_type, prompt, tools):
     retries = config.get('pydantic.retries', 1)
     agent = Agent(model, output_type=return_type, tools=tools, retries=retries)
 
+    # Optionally forward llm.reasoning_effort to the model via pydantic-ai's
+    # ModelSettings.thinking field, which abstracts the provider-specific
+    # parameter (Gemini's thinking_level, Anthropic's thinking budget,
+    # OpenAI's reasoning_effort). Accepts the same effort strings as
+    # OpenAI's reasoning_effort and pydantic-ai's ThinkingLevel:
+    # 'minimal'/'low'/'medium'/'high'/'xhigh', or True for default-on.
+    # Defaults to None → no model_settings, preserving the existing call
+    # shape and cache keys.
+    reasoning_effort = config.get('llm.reasoning_effort', None)
+    run_kwargs: dict = {}
+    if reasoning_effort is not None:
+        run_kwargs['model_settings'] = {'thinking': reasoning_effort}
+
     # run the agent and time that. Wrap in a thread-pool so an optional
     # llm.timeout (in seconds) can bound the total agent wall-clock time.
     # together_ai occasionally stalls on specific prompts; without a
@@ -58,7 +78,7 @@ def _run_agent_impl(interface, model_name, return_type, prompt, tools):
     if timeout is not None:
         import concurrent.futures
         with concurrent.futures.ThreadPoolExecutor(max_workers=1) as executor:
-            future = executor.submit(agent.run_sync, prompt)
+            future = executor.submit(agent.run_sync, prompt, **run_kwargs)
             try:
                 result = future.result(timeout=float(timeout))
             except concurrent.futures.TimeoutError as ex:
@@ -66,7 +86,7 @@ def _run_agent_impl(interface, model_name, return_type, prompt, tools):
                     f'pydantic-ai agent exceeded llm.timeout={timeout}s'
                 ) from ex
     else:
-        result = agent.run_sync(prompt)
+        result = agent.run_sync(prompt, **run_kwargs)
     latency = time.time() - start_time
 
     # get the answer and maybe echo it
@@ -163,12 +183,23 @@ class SimulatePydanticFactory(SimulateFactory, ToolUsingFactory):
     def create_prompt(self, interface, *args, **kw):
         """Construct a prompt that calls an LLM to predict the output of the function.
         """
-        template = load_template('simulate_pydantic.txt')
+        # The default template (simulate_pydantic.txt) has no $thoughts
+        # placeholder; opt into 'simulate_pydantic_thinking.txt' (which does)
+        # via config to encourage models to emit reasoning text alongside
+        # tool calls. Backwards-compatible: defaults to original behaviour.
+        # NB: config key intentionally avoids the *_file/*_dir suffix that
+        # config.set_root() would auto-resolve against the benchmark root.
+        template_name = config.get(
+            'simulate_pydantic.template', 'simulate_pydantic.txt')
+        template = load_template(template_name)
         input_args = interface.format_args(*args, **kw)
         if config.get('llm.thinking'):
             thoughts = "<thought>\nANY THOUGHTS\n</thought>\n"
         else:
             thoughts = ""
+        # Template.substitute accepts extra keys (silently ignored when the
+        # template has no matching placeholder), so this works for both
+        # the original template and the *_thinking variant.
         prompt = template.substitute(
             dict(stub_src=interface.src,
                  args=input_args,
@@ -179,7 +210,11 @@ def _summarize_messages(messages):
     """Summarize pydantic-ai messages into a simple list of steps.
 
     Extracts model thoughts (text), tool calls (name + args),
-    and tool returns (name + output).
+    and tool returns (name + output). Also captures provider-side
+    reasoning content (Gemini thinking, Anthropic extended thinking,
+    o-series reasoning) when pydantic-ai surfaces it as a 'thinking'
+    part — these are recorded as 'thought' too so downstream
+    consumers (e.g. PtoolInducer) see a uniform shape.
     """
     steps = []
     for msg in messages:
@@ -188,6 +223,10 @@ def _summarize_messages(messages):
                 case 'text':
                     if part.content.strip():
                         steps.append({'thought': part.content})
+                case 'thinking':
+                    content = getattr(part, 'content', '') or ''
+                    if content.strip():
+                        steps.append({'thought': content})
                 case 'tool-call':
                     steps.append({'tool_call': part.tool_name, 'args': part.args})
                 case 'tool-return':
