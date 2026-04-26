@@ -66,3 +66,48 @@ TIMEOUT_PARETO ?= 600
 
 pareto:
 	uv run python run_pareto.py --dataset-n $(N_PARETO) --timeout $(TIMEOUT_PARETO)
+
+#
+# Ptool induction pipeline (DeepSeek for traces, gemini-flash-lite for inducer/eval)
+#
+
+INDUCER_MODEL ?= gemini/gemini-3.1-flash-lite-preview
+TASK_DESC ?= Solve a medical-calculator question by extracting clinical values from a patient note and applying the right formula or score.
+
+# Step 3: generate train/eval traces (4 configs, sequential)
+traces: traces-react-train traces-react-eval traces-react-state-train traces-react-state-eval
+
+traces-react-train:
+	uv run python expt.py run --config-file conf/react_induct.yaml
+
+traces-react-eval:
+	uv run python expt.py run --config-file conf/react_eval.yaml
+
+traces-react-state-train:
+	uv run python expt.py run --config-file conf/react_state_induct.yaml
+
+traces-react-state-eval:
+	uv run python expt.py run --config-file conf/react_state_eval.yaml
+
+# Step 4: induction matrix
+# Variants: state {stateless, state} x only-correct {0, 1} x max-ptools {3, 5, 8} = 12 runs
+induce-matrix:
+	@for STATE in stateless state ; do \
+	  for OC in 0 1 ; do \
+	    for MP in 3 5 8 ; do \
+	      EXTRA="" ; \
+	      SRC="results/*.react_train" ; \
+	      [ "$$STATE" = "state" ] && EXTRA="--state-module ptools --state-expr _REACT_STATE[\"patient_note\"]" && SRC="results/*.react_state_train" ; \
+	      [ "$$OC" = "1" ] && EXTRA="$$EXTRA --only-correct" ; \
+	      echo "===== STATE=$$STATE OC=$$OC MAX=$$MP =====" ; \
+	      uv run python run_inducer.py \
+	        --interface calculate_medical_value \
+	        --task-desc "$(TASK_DESC)" \
+	        --trace-mode react \
+	        --max-ptools $$MP --min-count 3 \
+	        --model $(INDUCER_MODEL) \
+	        --learned-dir learned/$$STATE-oc$$OC-mp$$MP \
+	        $$EXTRA \
+	        $$SRC ; \
+	    done ; \
+	  done
