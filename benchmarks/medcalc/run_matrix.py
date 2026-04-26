@@ -105,6 +105,7 @@ def evaluate_matrix(dry_run: bool = typer.Option(False, '--dry-run')):
             f'ptools.{agent_iface}.learner=ptool_inducer',
             f'ptools.{agent_iface}.tools=__all__',
             f'evaluate.expt_name=induced_{tag}_eval',
+            'evaluate.max_workers=4',
         ]
         print(f'\n===== EVAL {tag} =====', flush=True)
         rc = _run(cmd, dry_run=dry_run)
