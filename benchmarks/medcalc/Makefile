@@ -89,25 +89,10 @@ traces-react-state-train:
 traces-react-state-eval:
 	uv run python expt.py run --config-file conf/react_state_eval.yaml
 
-# Step 4: induction matrix
-# Variants: state {stateless, state} x only-correct {0, 1} x max-ptools {3, 5, 8} = 12 runs
+# Step 4: induction matrix (12 runs via run_matrix.py)
 induce-matrix:
-	@for STATE in stateless state ; do \
-	  for OC in 0 1 ; do \
-	    for MP in 3 5 8 ; do \
-	      EXTRA="" ; \
-	      SRC="results/*.react_train" ; \
-	      [ "$$STATE" = "state" ] && EXTRA="--state-module ptools --state-expr _REACT_STATE[\"patient_note\"]" && SRC="results/*.react_state_train" ; \
-	      [ "$$OC" = "1" ] && EXTRA="$$EXTRA --only-correct" ; \
-	      echo "===== STATE=$$STATE OC=$$OC MAX=$$MP =====" ; \
-	      uv run python run_inducer.py \
-	        --interface calculate_medical_value \
-	        --task-desc "$(TASK_DESC)" \
-	        --trace-mode react \
-	        --max-ptools $$MP --min-count 3 \
-	        --model $(INDUCER_MODEL) \
-	        --learned-dir learned/$$STATE-oc$$OC-mp$$MP \
-	        $$EXTRA \
-	        $$SRC ; \
-	    done ; \
-	  done
+	uv run python run_matrix.py induce
+
+# Step 5: held-out eval per induced variant
+eval-matrix:
+	uv run python run_matrix.py evaluate-matrix
