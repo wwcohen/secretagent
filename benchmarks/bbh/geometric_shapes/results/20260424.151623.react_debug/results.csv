@@ -1,0 +1,99 @@
+case_name,predicted_output,expected_output,correct,input_tokens,output_tokens,latency,cost,expt_name
+valid.043,(J),(J),1.0,5627.0,427.0,20.07712483406067,0.0041021,react_debug
+valid.002,(J),(E),0.0,6787.0,366.0,14.93509316444397,0.0046944,react_debug
+valid.013,B,(B),0.0,44095.0,1830.0,64.58912634849548,0.029567999999999997,react_debug
+valid.006,"**exception raised**: invalid syntax. Perhaps you forgot a comma? (<unknown>, line 1)",(D),0.0,,,,,react_debug
+valid.048,E,(E),0.0,13456.0,609.0,19.199334144592285,0.0091089,react_debug
+valid.035,J,(F),0.0,6369.0,482.0,14.236843585968018,0.0046408,react_debug
+valid.036,(J),(J),1.0,9066.0,472.0,23.218503952026367,0.006241999999999999,react_debug
+valid.072,E,(E),0.0,14385.0,737.0,33.349785566329956,0.009883900000000001,react_debug
+valid.058,(J),(I),0.0,21521.0,1152.0,41.272358655929565,0.014870999999999999,react_debug
+valid.046,E,(E),0.0,9899.0,550.0,15.792090892791748,0.006874399999999999,react_debug
+valid.037,(H),(K),0.0,24993.0,1033.0,56.25224471092224,0.0167519,react_debug
+valid.005,J,(I),0.0,23503.0,1143.0,52.01484775543213,0.016044899999999997,react_debug
+valid.069,J,(D),0.0,27806.0,1207.0,38.43497085571289,0.0187355,react_debug
+valid.014,(J),(J),1.0,28909.0,1206.0,44.63937592506409,0.0193956,react_debug
+valid.045,(J),(D),0.0,5850.0,400.0,11.936923027038574,0.00419,react_debug
+valid.038,J,(J),0.0,19828.0,984.0,40.089826822280884,0.0135696,react_debug
+valid.016,(D),(D),1.0,24774.0,1040.0,38.03510618209839,0.0166324,react_debug
+valid.063,(J),(F),0.0,32323.0,977.0,51.057801485061646,0.021054700000000003,react_debug
+valid.003,,(B),0.0,4516.0,503.0,13.96251130104065,0.0035647,react_debug
+valid.064,,(G),0.0,5876.0,496.0,16.548845052719116,0.004368799999999999,react_debug
+valid.055,A,(K),0.0,13873.0,1088.0,41.22882795333862,0.0101734,react_debug
+valid.047,(J),(F),0.0,22076.0,712.0,21.54840850830078,0.014455999999999998,react_debug
+valid.028,(J),(K),0.0,11472.0,682.0,41.60019135475159,0.0080426,react_debug
+valid.034,J,(K),0.0,11445.0,683.0,24.390724182128906,0.0080281,react_debug
+valid.026,E,(E),0.0,11976.0,606.0,25.360513925552368,0.008215799999999999,react_debug
+valid.057,(J),(F),0.0,6076.0,341.0,11.92078685760498,0.0042253,react_debug
+valid.018,J,(I),0.0,19489.0,1099.0,34.668264627456665,0.0135617,react_debug
+valid.017,,(B),0.0,10592.0,1305.0,62.32221841812134,0.0085737,react_debug
+valid.010,,(B),0.0,4404.0,559.0,32.75507688522339,0.0035927,react_debug
+valid.019,"**exception raised**: invalid syntax. Perhaps you forgot a comma? (<unknown>, line 1)",(D),0.0,,,,,react_debug
+valid.065,,(C),0.0,8609.0,1617.0,53.61011290550232,0.0079143,react_debug
+valid.012,(D),(D),1.0,17935.0,722.0,37.86700224876404,0.0119884,react_debug
+valid.007,"**exception raised**: invalid syntax. Perhaps you forgot a comma? (<unknown>, line 1)",(G),0.0,,,,,react_debug
+valid.032,J,(K),0.0,38191.0,1222.0,111.27027773857117,0.024992,react_debug
+valid.049,"</answer>
+
+Wait, that might be confusing. Actually, it should be nothing between the tags? But the tags are there.
+
+Alternatively, perhaps the function is expected to always find one? But in this case, it doesn't.
+
+Another idea: maybe the ""L"" in the command is misinterpreted? But ""L"" is not in parentheses.
+
+Given the instructions, I think returning an empty string is plausible.
+
+So, the output should be an empty string, which in Python print would be nothing.
+
+Therefore, the answer should be:
+
+<answer>
+</answer>
+
+But to be precise, it's a string with length 0.
+
+So, when printed, it shows nothing.
+
+Thus, the final answer is nothing between the tags.
+<answer>",(E),0.0,5255.0,868.0,18.051748752593994,0.0046286,react_debug
+valid.004,C,(C),0.0,46621.0,1548.0,79.06235074996948,0.0306042,react_debug
+valid.054,I,(K),0.0,18279.0,1096.0,27.454543113708496,0.0128306,react_debug
+valid.025,I,(I),0.0,21528.0,1157.0,46.72847318649292,0.014883699999999998,react_debug
+valid.061,(G),(C),0.0,39873.0,1345.0,138.9972321987152,0.026210300000000002,react_debug
+valid.040,(J),(C),0.0,31308.0,794.0,84.29319453239441,0.020134599999999996,react_debug
+valid.020,(B),(C),0.0,35749.0,1304.0,139.45685458183289,0.023666199999999995,react_debug
+valid.070,(J),(K),0.0,29314.0,1138.0,46.325570583343506,0.019523,react_debug
+valid.031,(J),(J),1.0,8903.0,434.0,18.214803457260132,0.006079599999999999,react_debug
+valid.015,(C),(G),0.0,22498.0,922.0,31.16170835494995,0.0150662,react_debug
+valid.022,(J),(E),0.0,6754.0,378.0,17.947163105010986,0.0046949999999999995,react_debug
+valid.011,J,(J),0.0,12078.0,510.0,21.743720531463623,0.0081138,react_debug
+valid.073,(E),(E),1.0,9972.0,592.0,17.06898784637451,0.0069895999999999995,react_debug
+valid.059,(G),(C),0.0,38257.0,1320.0,55.447452545166016,0.0251982,react_debug
+valid.074,,(J),0.0,7362.0,495.0,13.503931999206543,0.0052587,react_debug
+valid.067,,(D),0.0,9245.0,527.0,21.233354806900024,0.0064429,react_debug
+valid.042,H,(B),0.0,41715.0,1476.0,77.16688847541809,0.0275382,react_debug
+valid.066,"**exception raised**: invalid syntax. Perhaps you forgot a comma? (<unknown>, line 1)",(I),0.0,,,,,react_debug
+valid.039,(E),(E),1.0,10040.0,617.0,20.500202417373657,0.007072899999999999,react_debug
+valid.000,(C),(F),0.0,40759.0,1446.0,51.71796774864197,0.0269136,react_debug
+valid.021,A,(K),0.0,16024.0,989.0,47.35277605056763,0.011295699999999999,react_debug
+valid.056,E,(E),0.0,9986.0,569.0,19.248321294784546,0.0069589,react_debug
+valid.060,J,(C),0.0,5867.0,338.0,16.796273708343506,0.0040948,react_debug
+valid.027,"FINAL ANSWER
+F",(F),0.0,62563.0,2093.0,170.83637285232544,0.0410959,react_debug
+valid.008,"**exception raised**: invalid syntax (<unknown>, line 2)",(D),0.0,,,,,react_debug
+valid.030,F,(K),0.0,22045.0,1330.0,39.80668115615845,0.015487999999999998,react_debug
+valid.033,(J),(G),0.0,9983.0,665.0,15.997554779052734,0.0071203,react_debug
+valid.068,(D),(B),0.0,58438.0,1754.0,39.498154401779175,0.0380446,react_debug
+valid.053,(A),(K),0.0,15999.0,949.0,21.16930317878723,0.011212699999999999,react_debug
+valid.050,(C),(C),1.0,35636.0,1311.0,91.08788299560547,0.0236103,react_debug
+valid.071,(D),(K),0.0,29306.0,1138.0,43.647788524627686,0.019518199999999996,react_debug
+valid.051,E,(E),0.0,11282.0,476.0,30.62486243247986,0.0075784,react_debug
+valid.001,G,(C),0.0,35767.0,1385.0,71.41220498085022,0.023814699999999998,react_debug
+valid.044,,(D),0.0,26732.0,1524.0,210.86145496368408,0.01863,react_debug
+valid.062,E,(E),0.0,10032.0,646.0,47.32316279411316,0.0071174,react_debug
+valid.029,(C),(F),0.0,56027.0,1714.0,159.55751061439514,0.03652999999999999,react_debug
+valid.024,,(J),0.0,5515.0,487.0,30.949846982955933,0.0041369,react_debug
+valid.041,,(J),0.0,11439.0,1888.0,133.84810948371887,0.010073,react_debug
+valid.052,,(C),0.0,30623.0,981.0,50.09276270866394,0.0200415,react_debug
+valid.023,"**exception raised**: invalid syntax. Perhaps you forgot a comma? (<unknown>, line 1)",(K),0.0,,,,,react_debug
+valid.009,D,(G),0.0,29884.0,1196.0,65.11969542503357,0.019963599999999998,react_debug

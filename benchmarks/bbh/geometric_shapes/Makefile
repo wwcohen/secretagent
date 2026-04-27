@@ -46,7 +46,7 @@ quick-test-react:
 	  ptools.identify_shape.method=direct \
 	  ptools.identify_shape.fn=ptools.geometric_shapes_react_workflow \
 	  ptools.react_identify_shape.method=simulate_pydantic \
-	  ptools.react_identify_shape.tools=[ptools.extract_path_and_options,ptools.decompose_path,ptools.describe_command,ptools.compute_angle,ptools.describe_shape,ptools.select_option]
+	  ptools.react_identify_shape.tools=[ptools.extract_path_and_options,ptools.decompose_path,ptools.describe_command,ptools.compute_angle,ptools.describe_shape,ptools.select_option] --example valid.006
 
 # quick test on a single example
 quick-test:
