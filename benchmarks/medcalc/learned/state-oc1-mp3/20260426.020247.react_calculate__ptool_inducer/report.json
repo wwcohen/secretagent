@@ -1,0 +1,53 @@
+{
+  "interface": "calculate_medical_value",
+  "trace_mode": "react",
+  "only_correct": true,
+  "model": "gemini/gemini-3.1-flash-lite-preview",
+  "n_thoughts": 66,
+  "n_labeled": 66,
+  "n_unique_categories": 4,
+  "ptools": [
+    {
+      "func_name": "apply_clinical_calculation",
+      "display_name": "ApplyClinicalCalculation",
+      "short_desc": "Extracts clinical variables and applies a specific medical formula to derive a calculated result.",
+      "docstring": "Extracts necessary patient parameters (e.g., weight, height, lab values) from the clinical context and applies a requested medical formula to compute a score or value.\n\nThe tool identifies the relevant variables mentioned in the 'focus' area and computes the final result based on standard medical equations.\n\nReturns:\n    A structured string containing: \n    1. The identification of variables.\n    2. The formula used.\n    3. The step-by-step calculation.\n    4. The final result in the format 'final_result(value)'.\n\nExample Output:\n    'Variables: Na=132, Cl=79, HCO3=32. Formula: AG = Na - (Cl + HCO3). Calculation: 132 - (79 + 32) = 21. final_result(21)'",
+      "source_category": "APPLY MATHEMATICAL FORMULA FOR COMPUTATION",
+      "count": 27
+    },
+    {
+      "func_name": "extract_and_prepare_clinical_data",
+      "display_name": "ExtractAndPrepareClinicalData",
+      "short_desc": "Extracts clinical variables from a patient note and formats them for mathematical calculation.",
+      "docstring": "This tool identifies the specific clinical values required for a medical calculation based on the provided patient context.\n\nIt performs the following steps:\n1. Scans the 'context' for values relevant to the 'focus' (e.g., electrolytes, vitals, labs).\n2. Normalizes units if necessary.\n3. Lists the extracted variables clearly.\n\nReturns:\nStructured string containing:\n- Extracted Variables: [List of key-value pairs with units]\n- Constants: [Applicable normal values or reference constants]\n- Calculation Path: [Proposed formula steps]\n\nExample Output:\n\"Extracted Variables: Na=140 mmol/L, Cl=103 mmol/L, HCO3=29 mmol/L\\nConstants: Normal AG=12\\nCalculation Path: AG = Na - (Cl + HCO3)\"",
+      "source_category": "EXTRACT AND PREPARE CLINICAL DATA",
+      "count": 20
+    },
+    {
+      "func_name": "evaluate_clinical_score",
+      "display_name": "EvaluateClinicalScore",
+      "short_desc": "Systematically evaluates clinical scoring criteria by mapping patient data to medical formulas and calculating final scores.",
+      "docstring": "Extracts relevant clinical parameters from the patient note and evaluates them against specific scoring criteria (e.g., HAS-BLED, SIRS, Wells' criteria).\n\nThis function should be used when the agent needs to perform a systematic medical calculation. The agent must provide:\n1. The criteria requirements (e.g., standard thresholds).\n2. The extracted patient values.\n3. The point-by-point evaluation/mapping.\n4. The final summation or result.\n\nReturns:\nA structured string report:\n[CRITERIA EVALUATION]\n1. Criterion A: [Met/Not Met] ([Value]/[Threshold]) -> [Points]\n2. Criterion B: [Met/Not Met] ([Value]/[Threshold]) -> [Points]\n...\n[FINAL CALCULATION]\nTotal Score: [Sum]",
+      "source_category": "EVALUATE CLINICAL SCORING CRITERIA",
+      "count": 14
+    }
+  ],
+  "categories": [
+    {
+      "category": "APPLY MATHEMATICAL FORMULA FOR COMPUTATION",
+      "count": 27
+    },
+    {
+      "category": "EXTRACT AND PREPARE CLINICAL DATA",
+      "count": 20
+    },
+    {
+      "category": "EVALUATE CLINICAL SCORING CRITERIA",
+      "count": 14
+    },
+    {
+      "category": "PERFORM MANUAL COMPUTATION AFTER FAILURE",
+      "count": 5
+    }
+  ]
+}
