@@ -60,16 +60,27 @@ class MedCalcEvaluator(Evaluator):
 
         llm_usage_stats = self.aggregate_usage_stats(records)
 
-        # Extract numeric prediction
+        # Extract numeric prediction for numeric calculators. Date and
+        # weeks/days outputs must be scored from the raw model output,
+        # otherwise "08/31/2023" collapses to 2023 before accuracy sees it.
         predicted = _extract_number(predicted_output)
+        output_type = meta.get('output_type', 'numeric')
+        output_type_lower = str(output_type).lower()
+        predicted_for_accuracy = (
+            predicted_output
+            if output_type_lower == 'date'
+            or 'week' in output_type_lower
+            or 'day' in output_type_lower
+            else predicted
+        )
 
         # Run MedCalc accuracy evaluation
         acc = calculate_accuracy(
-            predicted=predicted,
+            predicted=predicted_for_accuracy,
             ground_truth=example.expected_output,
             lower_limit=meta.get('lower_limit'),
             upper_limit=meta.get('upper_limit'),
-            output_type=meta.get('output_type', 'numeric'),
+            output_type=output_type,
             category=meta.get('category', 'equation-based'),
         )
 
