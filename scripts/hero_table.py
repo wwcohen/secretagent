@@ -32,7 +32,7 @@ import pandas as pd
 REPO_ROOT = Path(__file__).resolve().parent.parent
 
 sys.path.insert(0, str(REPO_ROOT / "scripts"))
-from benchmark_status import TASKS, STRATEGIES, RESULT_DIR_RE
+from benchmark_status import TASKS, STRATEGIES, RESULT_DIR_RE, TASK_TO_LATEX
 
 RESULTS_DIR = REPO_ROOT / "benchmarks" / "results"
 
@@ -184,13 +184,61 @@ def _plot_comparison(df: pd.DataFrame, metric: str, x_strategy: str = "react",
     print(f"Plot saved to {output}")
 
 
+_LATEX_HEADERS = {
+    "workflow": r"\makecell{Static\\Workflow}",
+    "react": r"\makecell{Dynamic\\Workflow\\(ReAct)}",
+    "pot": r"\makecell{Dynamic\\Workflow\\(PoT)}",
+    "structured_baseline": r"\makecell{Zero-shot\\(Default\\Imp.)}",
+    "unstructured_baseline": r"\makecell{Zero-shot\\(Custom\\Prompt)}",
+}
+
+
+def _print_latex(df: pd.DataFrame, caption: str):
+    """Print a LaTeX table from a \"mean +/- sem\" DataFrame."""
+    cols = df.columns.tolist()
+    header_cols = " & ".join(_LATEX_HEADERS.get(c, c.replace("_", r"\_")) for c in cols)
+    print(r"\begin{table*}[ht]")
+    print(r"\centering")
+    print(r"\begin{tabular}{l" + "c" * len(cols) + "}")
+    print(r"\toprule")
+    print(r"Task & " + header_cols + r" \\")
+    print(r"\midrule")
+    for task in df.index:
+        parsed_row = {col: _parse_cell(df.loc[task, col]) for col in cols}
+        means = [p[0] for p in parsed_row.values() if p is not None]
+        best = max(means) if means else None
+        cells = []
+        for col in cols:
+            p = parsed_row[col]
+            if p is None:
+                cells.append("--")
+            else:
+                mean, sem = p
+                if mean == best:
+                    cell = f"$\\mathbf{{{mean:.2f}}}$"
+                else:
+                    cell = f"${mean:.2f}$"
+                cells.append(cell)
+        task_label = task.replace("_", r"\_")
+        if task == "AVERAGE":
+            print(r"\midrule")
+            task_label = r"\textrm{Average}"
+        else:
+            task_label = TASK_TO_LATEX.get(task, task.replace("_", r"\_"))
+        print(task_label + " & " + " & ".join(cells) + r" \\")
+    print(r"\bottomrule")
+    print(r"\end{tabular}")
+    print(r"\caption{" + caption + "}")
+    print(r"\end{table*}")
+
+
 def main():
     import argparse
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--min-cols", type=int, default=0,
                         help="Suppress rows with fewer than K populated columns")
-    parser.add_argument("--format", choices=["table", "plot-correct", "plot-cost"], default="table",
-                        help="Output format: table (default), plot-correct, or plot-cost")
+    parser.add_argument("--format", choices=["table", "plot-correct", "plot-cost", "latex-correct"], default="table",
+                        help="Output format: table (default), plot-correct, plot-cost, or latex-correct")
     parser.add_argument("--output", default="hero_plot.png",
                         help="Output PNG file path (for plot-correct)")
     parser.add_argument("--x", default="react",
@@ -206,6 +254,11 @@ def main():
     if args.min_cols > 0:
         cost_df = _filter_min_cols(cost_df, args.min_cols)
         correct_df = _filter_min_cols(correct_df, args.min_cols)
+
+    if args.format == "latex-correct":
+        correct_df = pd.concat([correct_df, _avg_row(correct_df, "AVERAGE")])
+        _print_latex(correct_df, "Correctness")
+        return
 
     if args.format == "plot-correct":
         _plot_comparison(correct_df, "correctness", x_strategy=args.x, y_strategy=args.y, output=args.output)

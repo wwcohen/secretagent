@@ -4,6 +4,9 @@ status:
 hero_table:
 	uv run hero_table.py --min-cols 3
 
+latex_correct:
+	uv run hero_table.py --min-cols 3 --format latex-correct > hero.tex
+
 summarize:
 	uv run hero_table.py --min-cols 3 --format plot-correct --x react --output summary/correct_react.png; open summary/correct_react.png
 	uv run hero_table.py --min-cols 3 --format plot-correct --x pot --output summary/correct_pot.png; open summary/correct_pot.png
