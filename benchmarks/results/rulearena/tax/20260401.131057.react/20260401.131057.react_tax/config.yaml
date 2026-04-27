@@ -1,0 +1,32 @@
+llm:
+  model: together_ai/deepseek-ai/DeepSeek-V3
+  max_tokens: 8192
+cachier:
+  cache_dir: C:\Users\STUDENT\OneDrive\Documents\Projects\AI Research\secretagent\benchmarks\rulearena\llm_cache
+evaluate:
+  result_dir: C:\Users\STUDENT\OneDrive\Documents\Projects\AI Research\secretagent\benchmarks\rulearena\results
+  expt_name: react_tax
+dataset:
+  domain: tax
+  split: valid
+  complexity: all
+  shuffle_seed: 137
+  'n': 300
+ptools:
+  extract_airline_params:
+    method: simulate
+  extract_tax_params:
+    method: simulate
+  extract_nba_params:
+    method: simulate
+  compute_airline_calculator:
+    method: direct
+    fn: ptools._airline_calc_fn
+  compute_tax_calculator:
+    method: direct
+    fn: ptools._tax_calc_fn
+  compute_rulearena_answer:
+    method: simulate_pydantic
+    tools:
+    - ptools.extract_tax_params
+    - ptools.compute_tax_calculator
