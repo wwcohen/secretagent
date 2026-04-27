@@ -1,0 +1,5 @@
+{
+  "train_result_dir": "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/musr/results/orchestration_learner/20260426.081804.rc_iter1",
+  "eval_result_dir": "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/musr/results/orchestration_learner/20260426.082230.rc_iter1_eval",
+  "kept": false
+}

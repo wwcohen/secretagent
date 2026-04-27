@@ -1,0 +1,11 @@
+An analysis of the failure cases indicates that the pipeline currently skips actual reasoning in the final `deduce_murderer` step. In the execution traces, we can see that `deduce_murderer` is outputting **just the name** of the suspect (e.g. `-> Jerome [$0.0005]`), meaning it is zero-shotting the complex final deduction without any Chain of Thought (CoT).
+
+Because the LLM is forced to guess immediately, it frequently trips over environmental context clues. For example, in **Case ex086**, the murder takes place in an indoor fitness center, but suspect Grace is wearing muddy, rain-soaked clothes. The zero-shot model sees "muddy clothes = evidence!" and flags her, completely missing the logical contradiction that an indoor murder wouldn't make her clothes muddy (which actually supports her alibi of being out hunting).
+
+### What is the MINIMAL change that fixes this pattern?
+1. **Force Chain of Thought in `deduce_murderer`:** We require the model to explicitly output a `REASONING:` block followed by a `FINAL ANSWER:` block. 
+2. **Add an Environmental Consistency instruction:** We prompt the model to explicitly cross-reference physical states against the crime scene environment.
+3. **Parse the `FINAL ANSWER` safely:** We modify `answer_question_workflow` to strip out the reasoning text before passing it to `extract_index`. This prevents the index extractor from getting confused if both suspect names are mentioned in the reasoning.
+
+### Why will this change NOT break currently working cases?
+This change preserves all the existing heuristics that already work in ~73% of cases (e.g., weighting physical evidence heavily). It simply provides the LLM with the reasoning space needed to properly apply those instructions to the extracted facts.

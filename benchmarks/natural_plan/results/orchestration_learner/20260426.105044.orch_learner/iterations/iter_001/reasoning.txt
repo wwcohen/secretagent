@@ -1,0 +1,9 @@
+An analysis of the failures reveals two major issues dragging down the pipeline's accuracy:
+
+1. **Hallucination in Intersection Computation:** The `find_available_slots` tool was using an LLM to compute the intersection of schedules. This is a deterministic math/logic problem, and the LLM frequently hallucinates overlaps or misses valid 30-minute gaps (e.g., in Case 418 it selected `11:00-11:30` even though Peter had a meeting starting at `10:30`).
+2. **Missing Negative Constraints:** The `parse_schedules` LLM prompt did not clearly explain how to handle negative constraints like `"would rather not meet on Monday"` or `"avoid more meetings... after 14:30"`. As a result, these constraints were often ignored entirely or misclassified as a "preference".
+
+### Strategy
+1. **Convert `find_available_slots` and `select_and_format` to Pure Python:** We can add `method="direct"` to their `@interface` decorators. This forces the agent's tool call to run our exact Python logic instead of spinning up another error-prone LLM call. The Python logic deterministically checks 30-minute intervals against all extracted busy blocks.
+2. **Improve the `parse_schedules` Docstring:** Add explicit instructions instructing the LLM to translate negative constraints directly into full `[start, end]` busy blocks on the given days.
+3. **Fix `calendar_workflow` Preference Bug:** The original code hardcoded `"earliest"` when calling `select_and_format`. We update it to read the `preference` key from the extracted JSON with a fallback.

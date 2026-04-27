@@ -1,0 +1,12 @@
+Determine plausibility of a sports-related sentence.
+
+Specifically, determine if the sports associated with the player,
+action and event in a sentence are all consistent with each other.
+
+Your answer should be either 'True' or 'False'.  Use the following format:
+
+<answer>
+YOUR ANSWER
+</answer>
+
+The sentence is: $sentence

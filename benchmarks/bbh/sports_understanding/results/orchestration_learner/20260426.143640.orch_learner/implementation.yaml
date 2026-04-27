@@ -1,0 +1,4 @@
+are_sports_in_sentence_consistent:
+  method: direct
+  fn: __learned__.sports_understanding_workflow
+  learner: orch_learner

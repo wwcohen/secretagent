@@ -1,0 +1,17 @@
+An analysis of the execution traces reveals that a major source of failures is the hand-off between the LLM's generated reasoning plan and the Python `compute` tool. 
+
+When the LLM outputs a plan, it often includes mathematical formulas that are perfectly correct but cause `SyntaxError`s when evaluated in Python. The two most common causes are:
+1. **Trailing Evaluations**: Writing `Formula: 100 / 5 = 20` (which causes `SyntaxError` because of `=`).
+2. **Trailing Percentages**: Writing `Formula: (100 - 50) / 50 * 100%` (which Python treats as an incomplete modulo operator).
+
+When `compute` fails to execute these valid formulas, the workflow is forced to fall back to extracting the answer using the LLM (`extract_final_number`). However, because the original `extract_reasoning_plan` prompt *never instructed the LLM to explicitly output the final answer*, the fallback LLM call struggles to find the correct number in the plan, often extracting the last component of the formula instead of the actual result.
+
+### Targeted Improvements:
+1. **Fixing Python Evaluation (`_extract_formula`)**: 
+   - We safely strip leading variable assignments (e.g. `target = `).
+   - We strictly discard anything after the first `=` in the extracted formula line to drop trailing `= result` texts.
+   - We strip trailing `%` characters to prevent modulo syntax errors. 
+   - This ensures `compute` can evaluate precise floats (like `0.063617`) instead of relying on hallucinated LLM arithmetic.
+2. **Bulletproofing the Fallback (`extract_reasoning_plan`)**: 
+   - We add an explicit instruction (`4. Answer: the final computed numeric result.`) to the end of the reasoning prompt.
+   - Now, if `compute` still legitimately fails (e.g. due to textual descriptors like `"in millions"` mixed into the formula), the generated plan is guaranteed to contain the explicitly declared answer, making the `extract_final_number` fallback perfectly reliable.

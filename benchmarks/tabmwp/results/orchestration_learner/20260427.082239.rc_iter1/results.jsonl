@@ -1,0 +1,70 @@
+{"predicted_output": "**exception raised**: '14809'", "expected_output": "11", "correct": false, "rollout": [], "case_name": "14809", "expt_name": "rc_iter1"}
+{"predicted_output": "**exception raised**: '4211'", "expected_output": "Death Valley", "correct": false, "rollout": [], "case_name": "4211", "expt_name": "rc_iter1"}
+{"predicted_output": "**exception raised**: '2819'", "expected_output": "6", "correct": false, "rollout": [], "case_name": "2819", "expt_name": "rc_iter1"}
+{"predicted_output": "**exception raised**: '28014'", "expected_output": "1.60", "correct": false, "rollout": [], "case_name": "28014", "expt_name": "rc_iter1"}
+{"predicted_output": "**exception raised**: '19617'", "expected_output": "39", "correct": false, "rollout": [], "case_name": "19617", "expt_name": "rc_iter1"}
+{"predicted_output": "**exception raised**: '17619'", "expected_output": "December", "correct": false, "rollout": [], "case_name": "17619", "expt_name": "rc_iter1"}
+{"predicted_output": "**exception raised**: '29601'", "expected_output": "Thursday", "correct": false, "rollout": [], "case_name": "29601", "expt_name": "rc_iter1"}
+{"predicted_output": "**exception raised**: '7946'", "expected_output": "14.40", "correct": false, "rollout": [], "case_name": "7946", "expt_name": "rc_iter1"}
+{"predicted_output": "**exception raised**: '10536'", "expected_output": "no", "correct": false, "rollout": [], "case_name": "10536", "expt_name": "rc_iter1"}
+{"predicted_output": "**exception raised**: '16757'", "expected_output": "5", "correct": false, "rollout": [], "case_name": "16757", "expt_name": "rc_iter1"}
+{"predicted_output": "**exception raised**: '12801'", "expected_output": "Thursday", "correct": false, "rollout": [], "case_name": "12801", "expt_name": "rc_iter1"}
+{"predicted_output": "**exception raised**: '36693'", "expected_output": "no", "correct": false, "rollout": [], "case_name": "36693", "expt_name": "rc_iter1"}
+{"predicted_output": "**exception raised**: '23044'", "expected_output": "1,855", "correct": false, "rollout": [], "case_name": "23044", "expt_name": "rc_iter1"}
+{"predicted_output": "**exception raised**: '22631'", "expected_output": "90", "correct": false, "rollout": [], "case_name": "22631", "expt_name": "rc_iter1"}
+{"predicted_output": "**exception raised**: '5326'", "expected_output": "20", "correct": false, "rollout": [], "case_name": "5326", "expt_name": "rc_iter1"}
+{"predicted_output": "**exception raised**: '26152'", "expected_output": "0.14", "correct": false, "rollout": [], "case_name": "26152", "expt_name": "rc_iter1"}
+{"predicted_output": "**exception raised**: '22167'", "expected_output": "1.20", "correct": false, "rollout": [], "case_name": "22167", "expt_name": "rc_iter1"}
+{"predicted_output": "**exception raised**: '4140'", "expected_output": "no", "correct": false, "rollout": [], "case_name": "4140", "expt_name": "rc_iter1"}
+{"predicted_output": "**exception raised**: '9055'", "expected_output": "surplus", "correct": false, "rollout": [], "case_name": "9055", "expt_name": "rc_iter1"}
+{"predicted_output": "**exception raised**: '16626'", "expected_output": "4", "correct": false, "rollout": [], "case_name": "16626", "expt_name": "rc_iter1"}
+{"predicted_output": "**exception raised**: '13434'", "expected_output": "18", "correct": false, "rollout": [], "case_name": "13434", "expt_name": "rc_iter1"}
+{"predicted_output": "**exception raised**: '34154'", "expected_output": "Thursday", "correct": false, "rollout": [], "case_name": "34154", "expt_name": "rc_iter1"}
+{"predicted_output": "**exception raised**: '35832'", "expected_output": "Tuesday", "correct": false, "rollout": [], "case_name": "35832", "expt_name": "rc_iter1"}
+{"predicted_output": "**exception raised**: '27615'", "expected_output": "1.92", "correct": false, "rollout": [], "case_name": "27615", "expt_name": "rc_iter1"}
+{"predicted_output": "**exception raised**: '32632'", "expected_output": "4", "correct": false, "rollout": [], "case_name": "32632", "expt_name": "rc_iter1"}
+{"predicted_output": "**exception raised**: '30575'", "expected_output": "no", "correct": false, "rollout": [], "case_name": "30575", "expt_name": "rc_iter1"}
+{"predicted_output": "**exception raised**: '21189'", "expected_output": "5/16", "correct": false, "rollout": [], "case_name": "21189", "expt_name": "rc_iter1"}
+{"predicted_output": "**exception raised**: '10557'", "expected_output": "1", "correct": false, "rollout": [], "case_name": "10557", "expt_name": "rc_iter1"}
+{"predicted_output": "**exception raised**: '30959'", "expected_output": "13", "correct": false, "rollout": [], "case_name": "30959", "expt_name": "rc_iter1"}
+{"predicted_output": "**exception raised**: '35748'", "expected_output": "8,830", "correct": false, "rollout": [], "case_name": "35748", "expt_name": "rc_iter1"}
+{"predicted_output": "**exception raised**: '7023'", "expected_output": "8", "correct": false, "rollout": [], "case_name": "7023", "expt_name": "rc_iter1"}
+{"predicted_output": "**exception raised**: '31849'", "expected_output": "1:00 P.M.", "correct": false, "rollout": [], "case_name": "31849", "expt_name": "rc_iter1"}
+{"predicted_output": "**exception raised**: '6695'", "expected_output": "Heather", "correct": false, "rollout": [], "case_name": "6695", "expt_name": "rc_iter1"}
+{"predicted_output": "**exception raised**: '15832'", "expected_output": "15", "correct": false, "rollout": [], "case_name": "15832", "expt_name": "rc_iter1"}
+{"predicted_output": "**exception raised**: '23279'", "expected_output": "7", "correct": false, "rollout": [], "case_name": "23279", "expt_name": "rc_iter1"}
+{"predicted_output": "**exception raised**: '27416'", "expected_output": "7", "correct": false, "rollout": [], "case_name": "27416", "expt_name": "rc_iter1"}
+{"predicted_output": "**exception raised**: '21740'", "expected_output": "75", "correct": false, "rollout": [], "case_name": "21740", "expt_name": "rc_iter1"}
+{"predicted_output": "**exception raised**: '28349'", "expected_output": "bear lecture", "correct": false, "rollout": [], "case_name": "28349", "expt_name": "rc_iter1"}
+{"predicted_output": "**exception raised**: '6915'", "expected_output": "5,025", "correct": false, "rollout": [], "case_name": "6915", "expt_name": "rc_iter1"}
+{"predicted_output": "**exception raised**: '19858'", "expected_output": "5", "correct": false, "rollout": [], "case_name": "19858", "expt_name": "rc_iter1"}
+{"predicted_output": "**exception raised**: '26286'", "expected_output": "0", "correct": false, "rollout": [], "case_name": "26286", "expt_name": "rc_iter1"}
+{"predicted_output": "**exception raised**: '14154'", "expected_output": "2", "correct": false, "rollout": [], "case_name": "14154", "expt_name": "rc_iter1"}
+{"predicted_output": "**exception raised**: '9580'", "expected_output": "3,980", "correct": false, "rollout": [], "case_name": "9580", "expt_name": "rc_iter1"}
+{"predicted_output": "**exception raised**: '18316'", "expected_output": "Wednesday", "correct": false, "rollout": [], "case_name": "18316", "expt_name": "rc_iter1"}
+{"predicted_output": "**exception raised**: '7500'", "expected_output": "5", "correct": false, "rollout": [], "case_name": "7500", "expt_name": "rc_iter1"}
+{"predicted_output": "**exception raised**: '37384'", "expected_output": "Nature's Nectar", "correct": false, "rollout": [], "case_name": "37384", "expt_name": "rc_iter1"}
+{"predicted_output": "**exception raised**: '25910'", "expected_output": "8:05 A.M.", "correct": false, "rollout": [], "case_name": "25910", "expt_name": "rc_iter1"}
+{"predicted_output": "**exception raised**: '28976'", "expected_output": "10.50", "correct": false, "rollout": [], "case_name": "28976", "expt_name": "rc_iter1"}
+{"predicted_output": "**exception raised**: '18050'", "expected_output": "6", "correct": false, "rollout": [], "case_name": "18050", "expt_name": "rc_iter1"}
+{"predicted_output": "**exception raised**: '1086'", "expected_output": "2:10 P.M.", "correct": false, "rollout": [], "case_name": "1086", "expt_name": "rc_iter1"}
+{"predicted_output": "**exception raised**: '22132'", "expected_output": "11", "correct": false, "rollout": [], "case_name": "22132", "expt_name": "rc_iter1"}
+{"predicted_output": "**exception raised**: '23843'", "expected_output": "surplus", "correct": false, "rollout": [], "case_name": "23843", "expt_name": "rc_iter1"}
+{"predicted_output": "**exception raised**: '28474'", "expected_output": "-5", "correct": false, "rollout": [], "case_name": "28474", "expt_name": "rc_iter1"}
+{"predicted_output": "**exception raised**: '14912'", "expected_output": "6", "correct": false, "rollout": [], "case_name": "14912", "expt_name": "rc_iter1"}
+{"predicted_output": "**exception raised**: '17838'", "expected_output": "no", "correct": false, "rollout": [], "case_name": "17838", "expt_name": "rc_iter1"}
+{"predicted_output": "**exception raised**: '33991'", "expected_output": "41", "correct": false, "rollout": [], "case_name": "33991", "expt_name": "rc_iter1"}
+{"predicted_output": "**exception raised**: '6282'", "expected_output": "yes", "correct": false, "rollout": [], "case_name": "6282", "expt_name": "rc_iter1"}
+{"predicted_output": "**exception raised**: '4787'", "expected_output": "27.88", "correct": false, "rollout": [], "case_name": "4787", "expt_name": "rc_iter1"}
+{"predicted_output": "**exception raised**: '18559'", "expected_output": "15", "correct": false, "rollout": [], "case_name": "18559", "expt_name": "rc_iter1"}
+{"predicted_output": "**exception raised**: '24993'", "expected_output": "10", "correct": false, "rollout": [], "case_name": "24993", "expt_name": "rc_iter1"}
+{"predicted_output": "**exception raised**: '325'", "expected_output": "511", "correct": false, "rollout": [], "case_name": "325", "expt_name": "rc_iter1"}
+{"predicted_output": "**exception raised**: '21148'", "expected_output": "Tina's Bagels", "correct": false, "rollout": [], "case_name": "21148", "expt_name": "rc_iter1"}
+{"predicted_output": "**exception raised**: '32515'", "expected_output": "2", "correct": false, "rollout": [], "case_name": "32515", "expt_name": "rc_iter1"}
+{"predicted_output": "**exception raised**: '15318'", "expected_output": "19", "correct": false, "rollout": [], "case_name": "15318", "expt_name": "rc_iter1"}
+{"predicted_output": "**exception raised**: '19338'", "expected_output": "3", "correct": false, "rollout": [], "case_name": "19338", "expt_name": "rc_iter1"}
+{"predicted_output": "**exception raised**: '12960'", "expected_output": "20", "correct": false, "rollout": [], "case_name": "12960", "expt_name": "rc_iter1"}
+{"predicted_output": "**exception raised**: '35098'", "expected_output": "2:00 P.M.", "correct": false, "rollout": [], "case_name": "35098", "expt_name": "rc_iter1"}
+{"predicted_output": "**exception raised**: '29461'", "expected_output": "20.56", "correct": false, "rollout": [], "case_name": "29461", "expt_name": "rc_iter1"}
+{"predicted_output": "**exception raised**: '5422'", "expected_output": "60", "correct": false, "rollout": [], "case_name": "5422", "expt_name": "rc_iter1"}
+{"predicted_output": "**exception raised**: '20103'", "expected_output": "6", "correct": false, "rollout": [], "case_name": "20103", "expt_name": "rc_iter1"}

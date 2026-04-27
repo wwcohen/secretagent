@@ -1,0 +1,192 @@
+An analysis of the failures reveals two major issues with the pipeline's current logic:
+
+1. **Hallucination in Intersection Computation:** The `find_available_slots` tool was using an LLM to compute the mathematical intersection of busy schedules. This is a deterministic math problem, and the LLM frequently missed valid 30-minute gaps or hallucinated overlaps (e.g., failing to find a slot in Case 496 when there was a valid one at `14:30-15:00`).
+2. **Loss of Negative Constraints / "Earliest" Bias:** The pipeline evaluated negative constraints incorrectly. `parse_schedules` would often drop constraints like *"avoid more meetings on Monday after 14:30"*. Even worse, `calendar_workflow` and the agent were hardcoding `"earliest"` when calling `select_and_format`. An analysis of the dataset's golden rules reveals complex hidden tie-breaking logic (e.g., if asked to "avoid after X", the model is expected to pick the **latest valid slot before X**). Since `select_and_format` didn't have access to the original problem text, it blindly picked the first option every time.
+
+### Strategy
+
+1. **Convert `find_available_slots` to Pure Python (`method="direct"`)**: This forces the pipeline to run a 100% deterministic Python function to calculate all geometrically valid overlapping blocks jumping by 30-minutes, completely eliminating any math errors.
+2. **Redesign `select_and_format`'s Signature and Prompt**: We update the signature to `select_and_format(problem_text: str, slots_json: str)`. This ensures the final formatting LLM call sees the full context text and constraints.
+3. **Inject Explicit Tie-Breaking Rules**: Inside `select_and_format`'s docstring, we add explicit instructions describing exactly how to apply semantic negative constraints and the hidden dataset tie-breaking logic (e.g., picking the latest valid slot when given an "avoid after X" directive). 
+
+These steps remove error-prone steps while keeping the LLM focused on evaluating text constraints—what it does best.
+
+```python
+"""Task-specific interfaces for NaturalPlan calendar scheduling.
+
+Decomposition derived from LLM reasoning traces:
+1. parse_schedules — extract participants, busy slots, duration, preference
+2. find_available_slots — compute free slot intersections
+3. select_and_format — pick best slot, format answer
+"""
+
+import json
+from secretagent.core import interface
+
+def time_to_mins(t_str):
+    if not t_str: return 0
+    t_str = str(t_str).strip()
+    if len(t_str.split(':')) != 2:
+        return 0
+    h, m = map(int, t_str.split(':'))
+    return h * 60 + m
+
+def mins_to_time(mins):
+    h = mins // 60
+    m = mins % 60
+    return f"{h}:{m:02d}"
+
+@interface
+def parse_schedules(problem_text: str) -> str:
+    """Parse a calendar scheduling problem into structured JSON.
+
+    Args:
+        problem_text: The ENTIRE scheduling problem description as a single
+            string. Pass the whole problem text (participants, their busy
+            times, duration, preferences, working hours, etc.) as one
+            argument — do NOT split it into multiple arguments.
+
+    Returns:
+        A JSON string encoding a dict with these keys:
+        - participants: list of participant names
+        - duration_minutes: meeting duration (30 or 60)
+        - working_hours: [start_str, end_str] e.g. ["9:00", "17:00"]
+        - days: list of day names e.g. ["Monday", "Tuesday"]
+        - preference: "earliest" or "latest" or null
+        - schedules: dict mapping participant name to dict mapping day to
+          list of busy intervals e.g. {"Alice": {"Monday": [["9:00","10:00"]]}}
+
+        Use 24-hour format. For participants with wide-open calendars, use empty lists.
+
+    Example:
+        >>> parse_schedules("You need to schedule a meeting for Alice and Bob for half an hour on Monday between 9:00 and 17:00. Alice is busy 9:00-10:00. Bob has no meetings.")
+        '{"participants": ["Alice", "Bob"], "duration_minutes": 30, "working_hours": ["9:00", "17:00"], "days": ["Monday"], "preference": "earliest", "schedules": {"Alice": {"Monday": [["9:00", "10:00"]]}, "Bob": {"Monday": []}}}'
+    """
+
+
+@interface(method="direct")
+def find_available_slots(problem_text: str, schedules_json: str) -> str:
+    """Find valid meeting slots that mathematically work for all participants.
+
+    Args:
+        problem_text: The original problem text (ignored in direct math computation).
+        schedules_json: The JSON STRING output returned by parse_schedules.
+            Pass the raw JSON string as-is — do NOT parse it into a dict first.
+
+    Returns:
+        A JSON string encoding a list of mathematically valid slot dicts, sorted by day order
+        then start time:
+        [{"day": str, "start": str, "end": str}, ...]
+    """
+    schedules_json = schedules_json.strip()
+    if schedules_json.startswith("```json"):
+        schedules_json = schedules_json[7:]
+    if schedules_json.startswith("```"):
+        schedules_json = schedules_json[3:]
+    if schedules_json.endswith("```"):
+        schedules_json = schedules_json[:-3]
+    schedules_json = schedules_json.strip()
+    
+    try:
+        data = json.loads(schedules_json)
+    except Exception:
+        return "[]"
+        
+    days = data.get("days", [])
+    duration = data.get("duration_minutes", 30)
+    working_hours = data.get("working_hours", ["9:00", "17:00"])
+    
+    try:
+        start_work = time_to_mins(working_hours[0])
+        end_work = time_to_mins(working_hours[1])
+    except Exception:
+        start_work = 540
+        end_work = 1020
+
+    schedules = data.get("schedules", {})
+    valid_slots = []
+    
+    for day in days:
+        people_busy = []
+        for person, sched in schedules.items():
+            day_busy = sched.get(day, [])
+            busy_mins = []
+            for b in day_busy:
+                if isinstance(b, list) and len(b) >= 2:
+                    busy_mins.append((time_to_mins(b[0]), time_to_mins(b[1])))
+            people_busy.append(busy_mins)
+            
+        for slot_start in range(start_work, end_work - duration + 1, 30):
+            slot_end = slot_start + duration
+            conflict = False
+            for busy_mins in people_busy:
+                for b_start, b_end in busy_mins:
+                    if max(slot_start, b_start) < min(slot_end, b_end):
+                        conflict = True
+                        break
+                if conflict:
+                    break
+            if not conflict:
+                valid_slots.append({
+                    "day": day,
+                    "start": mins_to_time(slot_start),
+                    "end": mins_to_time(slot_end)
+                })
+                
+    return json.dumps(valid_slots)
+
+
+@interface
+def select_and_format(problem_text: str, slots_json: str) -> str:
+    """Pick the best slot based on constraints/preferences and format the final answer.
+
+    Args:
+        problem_text: The original scheduling problem text.
+        slots_json: The JSON string output from find_available_slots. Pass the raw JSON string.
+
+    Returns:
+        A string with exactly this format:
+        'Here is the proposed time: {Day}, {H:MM} - {H:MM}'
+
+    IMPORTANT INSTRUCTIONS:
+    1. Read `problem_text` carefully to find any negative constraints (e.g., "avoid more meetings on Monday after 14:30", "can not meet on Tuesday").
+    2. Filter the slots provided in `slots_json`: discard any slots that fall on a blocked day or violate a time constraint.
+    3. From the remaining valid slots, pick the final slot.
+    4. TIE-BREAKING RULES (if multiple valid slots remain):
+       - If the prompt specifically asks for "earliest availability", pick the earliest slot overall.
+       - If someone wants to "avoid after [Time]", pick the LATEST valid slot that ends before or at [Time].
+       - If someone wants to "avoid before [Time]", pick the EARLIEST valid slot that starts at or after [Time].
+       - Otherwise, just pick the EARLIEST valid slot.
+
+    Example:
+        >>> select_and_format(
+        ...     "Schedule Alice and Bob for 30 min. Alice avoids after 14:00.",
+        ...     '[{"day": "Monday", "start": "10:00", "end": "10:30"}, {"day": "Monday", "start": "13:00", "end": "13:30"}]'
+        ... )
+        'Here is the proposed time: Monday, 13:00 - 13:30'
+    """
+
+
+@interface
+def calendar_scheduling(prompt: str) -> str:
+    """Solve a calendar scheduling problem.
+
+    Given a scheduling problem describing participants, their busy times,
+    meeting duration, and any preferences, return a single proposed meeting
+    time that satisfies all constraints.
+
+    Args:
+        prompt: The full scheduling problem as one string.
+
+    Returns:
+        A string with exactly this format:
+        'Here is the proposed time: {Day}, {H:MM} - {H:MM}'
+    """
+    ...
+
+
+def calendar_workflow(prompt: str) -> str:
+    schedules = parse_schedules(prompt)
+    slots = find_available_slots(prompt, schedules)
+    return select_and_format(prompt, slots)
+```

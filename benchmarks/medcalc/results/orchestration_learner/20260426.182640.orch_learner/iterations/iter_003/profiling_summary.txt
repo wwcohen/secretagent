@@ -1,0 +1,13 @@
+Pipeline accuracy: 73.6%, avg cost: $0.0003/case, 193 cases
+
+Per-ptool breakdown:
+  analyze_scoring_conditions: cost_frac=13.0%, calls/case=0.2, avg_cost=$0.0006, lift=N/A, errors=0
+  extract_calculator_values: cost_frac=44.3%, calls/case=0.8, avg_cost=$0.0004, lift=N/A, errors=0
+  identify_calculator: cost_frac=34.2%, calls/case=1.0, avg_cost=$0.0003, lift=N/A, errors=0
+  repair_missing_values: cost_frac=4.9%, calls/case=0.1, avg_cost=$0.0003, lift=N/A, errors=0
+  simulate_medical_value: cost_frac=3.6%, calls/case=0.0, avg_cost=$0.0017, lift=N/A, errors=0
+
+Ptools called via LLM: ['analyze_scoring_conditions', 'extract_calculator_values', 'identify_calculator', 'repair_missing_values', 'simulate_medical_value']
+
+Held-out eval accuracy: 58.5% (train: 73.6%)
+A large train-eval gap means your changes are OVERFITTING. Prefer changes that generalize to unseen cases.

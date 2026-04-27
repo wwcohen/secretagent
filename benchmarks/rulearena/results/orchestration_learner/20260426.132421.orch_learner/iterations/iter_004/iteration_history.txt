@@ -1,0 +1,7 @@
+Iter 0: train=28.6%, eval=16.7% — KEPT
+Iter 1: train=28.6% — ROLLED BACK
+  ⚠ This change HURT accuracy. Do NOT retry this approach.
+Iter 2: train=28.6% — ROLLED BACK
+  ⚠ This change HURT accuracy. Do NOT retry this approach.
+Iter 3: train=28.6% — ROLLED BACK
+  ⚠ This change HURT accuracy. Do NOT retry this approach.

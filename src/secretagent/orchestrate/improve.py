@@ -426,8 +426,10 @@ def improve_with_supervisor(
     evolved_path = Path(ptools_module.__file__)
     benchmark_dir = evolved_path.parent
 
-    # If loaded from base (not evolved), create evolved copy
-    if '_evolved' not in evolved_path.stem:
+    # If loaded from base (not evolved), create evolved copy. Timestamped
+    # scratch modules are already isolated from the benchmark source tree and
+    # should be edited in place.
+    if '_evolved' not in evolved_path.stem and not evolved_path.stem.endswith('_scratch'):
         base_path = evolved_path
         evolved_path = benchmark_dir / f'{evolved_path.stem}_evolved.py'
         if not evolved_path.exists():
@@ -587,15 +589,48 @@ def improve_with_supervisor(
 
         # 2. Call supervisor with FULL ptools source
         print('[supervisor] calling supervisor LLM...')
-        new_source, reasoning, cfg_overrides, sup_stats = recompose(
-            ptools_source=current_source,
-            profiling_summary=prof_summary,
-            failure_traces=failure_traces,
-            iteration_history=history_text,
-            custom_instructions=custom_instructions,
-            model_choices=model_choices,
-            model=supervisor_model,
-        )
+        try:
+            new_source, reasoning, cfg_overrides, sup_stats = recompose(
+                ptools_source=current_source,
+                profiling_summary=prof_summary,
+                failure_traces=failure_traces,
+                iteration_history=history_text,
+                custom_instructions=custom_instructions,
+                model_choices=model_choices,
+                model=supervisor_model,
+            )
+        except Exception as e:
+            import traceback
+            err = f'{type(e).__name__}: {e}'
+            print(f'[supervisor] supervisor LLM failed: {err}')
+            iterations.append(IterationRecord(
+                iteration=i,
+                train_accuracy=profile.accuracy,
+                train_cost=profile.avg_cost,
+                supervisor_cost=0.0,
+                reasoning=f'Supervisor call failed: {err}',
+                kept=False,
+            ))
+            no_improve_count += 1
+            if output_dir:
+                iter_dir = output_dir / 'iterations' / f'iter_{i:03d}'
+                iter_dir.mkdir(exist_ok=True)
+                (iter_dir / 'supervisor_error.txt').write_text(
+                    traceback.format_exc()
+                )
+                (iter_dir / 'profiling_summary.txt').write_text(prof_summary)
+                (iter_dir / 'failure_traces.txt').write_text(failure_traces)
+                (iter_dir / 'iteration_history.txt').write_text(
+                    history_text or 'No previous iterations.')
+                _save_running_report(output_dir, iterations, best_accuracy,
+                                     best_source, best_config_overrides,
+                                     total_supervisor_cost)
+                if on_iteration_complete:
+                    on_iteration_complete(output_dir)
+            if no_improve_count >= 5:
+                print('[supervisor] 5 consecutive supervisor failures/no-changes, stopping')
+                break
+            continue
         sup_cost = sup_stats.get('cost', 0.0)
         total_supervisor_cost += sup_cost
         print(f'[supervisor] supervisor cost: ${sup_cost:.4f}')
@@ -652,7 +687,7 @@ def improve_with_supervisor(
 
         # 5. Write evolved file and reload module
         saved_source = current_source
-        saved_config = dict(config.GLOBAL_CONFIG) if cfg_overrides else None
+        saved_config = config.GLOBAL_CONFIG.copy() if cfg_overrides else None
 
         evolved_path.write_text(new_source)
 
@@ -674,11 +709,11 @@ def improve_with_supervisor(
             print(f'[supervisor] reload failed: {e}')
             # Rollback: restore old source
             evolved_path.write_text(saved_source)
+            if saved_config is not None:
+                config.GLOBAL_CONFIG = saved_config
             _reload_evolved_module()
             implement_via_config(ptools_module, config.require('ptools'))
             entry_interface = getattr(ptools_module, entry_point_name)
-            if saved_config is not None:
-                config.GLOBAL_CONFIG = saved_config
             iterations.append(IterationRecord(
                 iteration=i, train_accuracy=profile.accuracy,
                 train_cost=profile.avg_cost, supervisor_cost=sup_cost,
@@ -697,11 +732,11 @@ def improve_with_supervisor(
                 print(f'[supervisor] evaluation failed: {e}')
                 # Rollback
                 evolved_path.write_text(saved_source)
+                if saved_config is not None:
+                    config.GLOBAL_CONFIG = saved_config
                 _reload_evolved_module()
                 implement_via_config(ptools_module, config.require('ptools'))
                 entry_interface = getattr(ptools_module, entry_point_name)
-                if saved_config is not None:
-                    config.GLOBAL_CONFIG = saved_config
                 iterations.append(IterationRecord(
                     iteration=i, train_accuracy=profile.accuracy,
                     train_cost=profile.avg_cost, supervisor_cost=sup_cost,
@@ -778,11 +813,11 @@ def improve_with_supervisor(
         else:
             no_improve_count += 1
             evolved_path.write_text(current_source)
+            if saved_config is not None:
+                config.GLOBAL_CONFIG = saved_config
             _reload_evolved_module()
             implement_via_config(ptools_module, config.require('ptools'))
             entry_interface = getattr(ptools_module, entry_point_name)
-            if saved_config is not None:
-                config.GLOBAL_CONFIG = saved_config
             print('[supervisor] ROLLED BACK (accuracy dropped)')
 
         iter_eval_fail, iter_eval_to = (None, None)
@@ -849,6 +884,14 @@ def improve_with_supervisor(
         key=lambda r: r.train_accuracy,
         default=iterations[0],
     )
+
+    # Leave the live module bound to the selected best source. The learner
+    # runs final eval after this function returns, so it must not see the last
+    # tried candidate after a metric rollback.
+    evolved_path.write_text(best_source)
+    _reload_evolved_module()
+    implement_via_config(ptools_module, config.require('ptools'))
+    getattr(ptools_module, entry_point_name)
 
     report = SupervisorReport(
         iterations=iterations,

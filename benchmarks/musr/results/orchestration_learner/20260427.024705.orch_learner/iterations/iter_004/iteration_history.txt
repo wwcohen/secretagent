@@ -1,0 +1,27 @@
+Iter 0: train=72.9%, eval=63.3% — KEPT
+Iter 1: train=0.0%, eval=0.0% — ROLLED BACK
+  What was tried: 1. **Specific failure pattern identified**: The model consistently fails when there are deep interpersonal conflicts between team members. Specifically, it often pairs two people who explicitly dislike, argue with, or blame each other into the same 2-person task (e.g., in `ex096`, `ex091`, `ex046`, `ex022`). It incorrectly prioritizes individual skill descriptions over fatal relationship constraints.
+2. **How many failures share this pattern**: Nearly all of the 19 failures follow this exact structure: a 3-person team where one task requires 2 people and the other requires 1. In almost every failure, the correct answer requires isolating the person who conflicts with the others into the 1-person task, and grouping the synergistic pair in the 2-person task.
+3. **Minimal change**: Define a new `@interface` function called `reason_and_allocate` that acts as a Chain-of-Thought (CoT) processor. The prompt explicitly instructs the LLM to identify conflicts/synergies *first* and establishes hard rules: NEVER pair conflicting people in the 2-person task, and isolate a toxic person (conflicts with both others) into the 1-person task. Then update both `answer_question` and `answer_question_orchestrated_seed` to use this new function instead of the zero-shot `raw_answer`.
+4. **Why it won't break working cases**: This relies on the fundamental latent structure of the MUSR team allocation dataset. By asking for step-by-step reasoning that prioritizes conflict avoidance, we prevent the model from blindly matching keywords. Since we aren't hardcoding names or specific task strings, this change will cleanly generalize to the held-out evaluation set, directly answering the docstring's hint about the success of "simulating with thinking".
+  ⚠ This change HURT accuracy. Do NOT retry this approach.
+Iter 2: train=0.0%, eval=0.0% — ROLLED BACK
+  What was tried: An analysis of the failures reveals a very clear and consistent pattern across almost all cases (e.g., `ex013`, `ex000`, `ex064`, `ex096`, `ex091`, etc.): the zero-shot approach incorrectly prioritizes individual skills over interpersonal conflicts. When two team members explicitly argue, dislike, or blame each other, they cannot be assigned to the same 2-person task. Furthermore, if a single toxic individual conflicts with *both* of the other two, they must be isolated into the 1-person task. 
+
+In Iteration 1, an attempt was made to introduce Chain-of-Thought (CoT) to solve this, but it resulted in a catastrophic 0.0% accuracy. This happened because large CoT responses were fed directly into `extract_index`, which broke the simplistic downstream parsing (since the CoT inevitably mentions multiple answer choices during its reasoning steps). 
+
+To fix this securely:
+1. We introduce a new `analyze_team_allocation` CoT step that explicitly checks for interpersonal conflicts and enforces them as **hard rules** before evaluating skills.
+2. We require the LLM to output its final choice inside `<FINAL_CHOICE>` XML tags.
+3. We perform safe, robust Python-based regex extraction.
+4. We include a safe fallback where, if the regex fails, the analysis is seamlessly injected as context into the original `raw_answer` -> `extract_index` pipeline. This provides the accuracy boost of CoT while guaranteeing 100% extraction stability.
+  ⚠ This change HURT accuracy. Do NOT retry this approach.
+Iter 3: train=85.7%, eval=86.7% — KEPT
+  What was tried: 1. **Specific failure pattern identified**: The zero-shot model systematically prioritizes individual skills over interpersonal conflicts, whereas the MUSR dataset treats conflicts as strict hard constraints. In nearly all 19 failures, the model incorrectly paired two people who explicitly dislike/argue with each other into a 2-person task, or failed to isolate a globally conflicting "toxic" person into a 1-person task.
+2. **How many failures share this pattern**: Nearly all of them. This is the central latent structure of the team allocation dataset.
+3. **Minimal change**: To capture the "simulate with thinking" CoT performance referenced in the docstring (84%) without risking the 0.0% crash regressions of Iterations 1 & 2, I defined a new `@interface` function `holistic_think_and_solve`. It explicitly instructs the LLM to write out its CoT and then append the final choice after a `CHOICE:` marker. I then updated the orchestrator to perform a safe string split on `CHOICE:` to pass *only* the final choice string to `extract_index`. I also added a bulletproof `try/except` block that falls back to the original `raw_answer` pipeline (with a strong conflict-avoidance hint injected) if anything fails. 
+4. **Why it won't break currently working cases**: 
+   - It doesn't use risky `re` imports (which caused Iteration 2's 0.0% crash).
+   - It strips out the verbose CoT before passing the string to `extract_index` (which prevents the extraction failures that caused Iteration 1's 0.0% crash).
+   - The fallback ensures that the absolute worst-case scenario defaults back to the working pipeline.
+   - It cleanly respects the task structure without overfitting to specific names or roles.

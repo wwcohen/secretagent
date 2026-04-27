@@ -1,0 +1,12 @@
+Iter 0: train=79.3%, eval=65.9% — KEPT
+Iter 1: train=77.7%, eval=70.7% — ROLLED BACK
+  What was tried: An analysis of the failure cases reveals two major themes driving the train-eval gap and specific errors:
+
+1. **Date & Lab Value Extraction Failures:** Non-scoring calculators (e.g., Estimated Due Date, Date of Conception, Free Water Deficit, Calcium Correction) fail because the LLM struggles with date arithmetic, specific unit mapping, and isolating exactly which number to extract when multiple are present. The purely deterministic Python extraction engine (`calculators.calculate`) handles these structured strings and formulas perfectly, but we were ignoring it in favor of the LLM pipeline.
+2. **Over-Inferring Scoring Conditions:** For scoring systems (CHA2DS2-VASc, Wells, PERC), the LLM is aggressively hallucinating conditions based on the prompt instructing it to find conditions "IMPLIED by clinical findings" (e.g. extracting Heart Failure just because an EF% was mentioned somewhere, or mapping a past resolved event to the current presentation).
+
+### The Fix
+1. **Hybrid Fast-Path:** Added a "Stage 0" in `workflow` that attempts pure Python extraction & calculation first. If it succeeds, and the calculator is NOT a complex scoring system (which relies on fuzzy medical reasoning), we trust the regex and return it immediately. This completely solves date math and lab unit issues.
+2. **Deterministic Identification:** Reordered Stage 1 to use Python's pattern matcher to identify the calculator *before* falling back to the LLM. The LLM was frequently guessing slight variations of names (like "Date of Conception" instead of "Estimated Due Date").
+3. **Calibrated Reasoning Prompts:** Toned down the prompt in `analyze_scoring_conditions` to explicitly forbid over-inferring conditions that are not definitively diagnosed or supported by objective data, and reinforced that it must evaluate the patient state at *initial presentation* only.
+  ⚠ This change HURT accuracy. Do NOT retry this approach.

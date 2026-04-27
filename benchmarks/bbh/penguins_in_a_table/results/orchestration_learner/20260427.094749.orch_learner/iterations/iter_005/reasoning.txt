@@ -1,0 +1,16 @@
+1. **What SPECIFIC failure pattern did you identify?**
+   - Case `valid.023` introduces a table of penguins, applies an action, and then introduces a *second* table of giraffes immediately before the question ("What is the name of the last animal?").
+   - `analyze_input` extracts the *first* table (penguins) and completely ignores the second table, leading to an incorrect entity selection (James instead of Donna).
+   - Additionally, Python orchestration code is vulnerable to an edge-case crash if `choose_response` happens to return `None`, defaulting blindly to `options[0]` without trying to parse the text itself.
+
+2. **How many of the shown failures share this pattern?**
+   - The single remaining failure in the training set (`valid.023`) perfectly matches this multiple-table sequence issue. 
+
+3. **What is the MINIMAL change that fixes this pattern?**
+   - Update the `analyze_input` docstring to explicitly emphasize reading the *entire* input, noting that a second table (e.g., giraffes) is often introduced near the end. Clarify that if the question is ambiguous (like "the last animal"), it MUST extract the *latest* table immediately preceding the question rather than defaulting to the first one seen.
+   - Enhance the fallback mechanism in `penguins_workflow` and `answer_penguin_question_orchestrated_seed` to perform a basic text inclusion check against the options if the LLM-based `choose_response` tool unexpectedly returns `None`.
+
+4. **Why will this change NOT break currently working cases?**
+   - The prompt modification is specifically scoped to inputs with *multiple* tables. Single-table inputs will be unaffected because there is no "latest table" conflict. 
+   - The "plural exception" for merging tables (which correctly handles "all entities") is preserved so we do not cause regressions on cases asking for counts across multiple tables.
+   - The python-level exact-match fallback is pure defensive programming and only executes if the standard ReAct/Agent selection logic fails.

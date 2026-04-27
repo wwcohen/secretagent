@@ -1,0 +1,194 @@
+case_name,predicted_output,predicted_numeric,expected_output,correct,exact_match,within_limits,absolute_error,calculator_name,category,output_type,input_tokens,output_tokens,latency,cost,expt_name
+train.10017,"**exception raised**: invalid character '²' (U+00B2) (<unknown>, line 4)",,11.0,0.0,0.0,0.0,inf,Caprini Score for Venous Thromboembolism (2005),risk,integer,3854.0,301.0,1.7340037822723389,0.001415,rc_iter1
+train.6419,3,3.0,3.0,1.0,1.0,1.0,0.0,CURB-65 Score for Pneumonia Severity,risk,integer,3133.0,299.0,2.2289090156555176,0.00123175,rc_iter1
+train.9229,"**exception raised**: invalid syntax (<unknown>, line 1)",,154.0,0.0,0.0,0.0,inf,Morphine Milligram Equivalents (MME) Calculator,dosage,integer,2643.0,209.0,3.123664379119873,0.0009742500000000001,rc_iter1
+train.5580,283.139,283.139,283.14767,1.0,1.0,1.0,0.00866999999999507,Serum Osmolality,lab test,decimal,3255.0,465.0,1.994584560394287,0.00151125,rc_iter1
+train.4139,"**exception raised**: invalid syntax (<unknown>, line 1)",,1.0,0.0,0.0,0.0,inf,HEART Score for Major Cardiac Events,risk,integer,2936.0,247.0,1.5249006748199463,0.0011045,rc_iter1
+train.8098,"**exception raised**: invalid syntax (<unknown>, line 1)",,49.47087,0.0,0.0,0.0,inf,Target weight,physical,decimal,2612.0,145.0,1.8980920314788818,0.0008705,rc_iter1
+train.7297,"**exception raised**: invalid character '≈' (U+2248) (<unknown>, line 9)",,1.8619,0.0,0.0,0.0,inf,Body Surface Area Calculator,physical,decimal,3085.0,176.0,1.044740915298462,0.0010352500000000001,rc_iter1
+train.5525,129.928,129.928,129.688,1.0,0.0,1.0,0.2400000000000091,Sodium Correction for Hyperglycemia,lab test,decimal,3771.0,15.0,0.8274617195129395,0.0009652499999999999,rc_iter1
+train.9313,"**exception raised**: leading zeros in decimal integer literals are not permitted; use an 0o prefix for octal integers (<unknown>, line 1)",,09/10/2003,0.0,0.0,0.0,inf,Estimated of Conception,date,date,2656.0,18.0,44.57643103599548,0.000691,rc_iter1
+train.4831,92,92.0,92.0,1.0,1.0,1.0,0.0,Maintenance Fluids Calculations,physical,decimal,3646.0,219.0,0.9671502113342285,0.00124,rc_iter1
+train.5624,308.9707,308.9707,331.42063,0.0,0.0,0.0,22.449929999999995,Serum Osmolality,lab test,decimal,3183.0,425.0,1.8376240730285645,0.00143325,rc_iter1
+train.10156,"**exception raised**: invalid character '≈' (U+2248) (<unknown>, line 9)",,29.0,0.0,0.0,0.0,inf,MELD Na (UNOS/OPTN),lab test,decimal,3838.0,526.0,1.8625247478485107,0.0017485,rc_iter1
+train.3675,55.44,55.44,56.45676,1.0,0.0,1.0,1.016760000000005,Ideal Body Weight,physical,decimal,4014.0,13.0,0.8316035270690918,0.001023,rc_iter1
+train.3350,"**exception raised**: invalid character '≈' (U+2248) (<unknown>, line 11)",,3.21467,0.0,0.0,0.0,inf,MDRD GFR Equation,lab test,decimal,3558.0,362.0,1.6791837215423584,0.0014325,rc_iter1
+train.6621,"**exception raised**: invalid character '°' (U+00B0) (<unknown>, line 2)",,3.0,0.0,0.0,0.0,inf,SIRS Criteria,diagnosis,integer,3496.0,282.0,1.6650254726409912,0.001297,rc_iter1
+train.4603,77,77.0,77.0,1.0,1.0,1.0,0.0,Maintenance Fluids Calculations,physical,decimal,2853.0,470.0,2.5828981399536133,0.00141825,rc_iter1
+train.8904,19.5,19.5,19.5,1.0,1.0,1.0,0.0,Albumin Corrected Anion Gap,lab test,decimal,3588.0,349.0,1.7773644924163818,0.0014204999999999999,rc_iter1
+train.7290,"**exception raised**: invalid character '≈' (U+2248) (<unknown>, line 12)",,1.69222,0.0,0.0,0.0,inf,Body Surface Area Calculator,physical,decimal,4562.0,177.0,1.1361639499664307,0.0014060000000000001,rc_iter1
+train.4407,1,1.0,2.0,0.0,0.0,0.0,1.0,Centor Score (Modified/McIsaac) for Strep Pharyngitis,severity,integer,4578.0,341.0,1.6693670749664307,0.001656,rc_iter1
+train.5968,-0.08537142857142857,-0.08537142857142857,-1.64571,0.0,0.0,0.0,1.5603385714285714,Free Water Deficit,lab test,decimal,3815.0,597.0,2.6785686016082764,0.00184925,rc_iter1
+train.9510,2.0,2.0,3.0,0.0,0.0,0.0,1.0,Wells' Criteria for DVT,risk,decimal,3702.0,11.0,0.8458888530731201,0.000942,rc_iter1
+train.0311,"**exception raised**: invalid syntax (<unknown>, line 1)",,0.01667,0.0,0.0,0.0,inf,CKD-EPI Equations for Glomerular Filtration Rate,lab test,decimal,3814.0,415.0,1.8002793788909912,0.001576,rc_iter1
+train.1005,"**exception raised**: unterminated string literal (detected at line 1) (<unknown>, line 1)",,4.0,0.0,0.0,0.0,inf,CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk,risk,integer,3454.0,336.0,1.7384746074676514,0.0013675,rc_iter1
+train.7002,409.5,409.5,623.49787,0.0,0.0,0.0,213.99787000000003,QTc Hodges Calculator,physical,decimal,2613.0,13.0,0.6332924365997314,0.00067275,rc_iter1
+train.3947,"**exception raised**: unterminated string literal (detected at line 1) (<unknown>, line 1)",,63.22056,0.0,0.0,0.0,inf,Ideal Body Weight,physical,decimal,3295.0,233.0,1.3764684200286865,0.0011732499999999998,rc_iter1
+train.8822,"**exception raised**: invalid syntax (<unknown>, line 1)",,0.0,0.0,0.0,0.0,inf,Delta Ratio,lab test,decimal,3210.0,251.0,1.3222310543060303,0.001179,rc_iter1
+train.5697,275.9047,275.9047,275.90476,1.0,1.0,1.0,6.000000001904482e-05,Serum Osmolality,lab test,decimal,3404.0,267.0,1.6940970420837402,0.0012515,rc_iter1
+train.2390,"**exception raised**: invalid syntax (<unknown>, line 1)",,17.63668,0.0,0.0,0.0,inf,Body Mass Index (BMI),physical,decimal,3166.0,183.0,1.213801622390747,0.001066,rc_iter1
+train.9019,"**exception raised**: invalid syntax (<unknown>, line 1)",,0.58333,0.0,0.0,0.0,inf,Albumin Corrected Delta Ratio,lab test,decimal,3416.0,363.0,1.54237961769104,0.0013985,rc_iter1
+train.4845,48,48.0,44.0,0.0,0.0,0.0,4.0,Maintenance Fluids Calculations,physical,decimal,3024.0,10.0,1.2762298583984375,0.000771,rc_iter1
+train.1604,96.33333333333333,96.33333333333333,96.33333,1.0,1.0,1.0,3.3333333249174757e-06,Mean Arterial Pressure (MAP),physical,decimal,3628.0,265.0,1.2438328266143799,0.0013044999999999999,rc_iter1
+train.5885,2,2.0,2.0,1.0,1.0,1.0,0.0,FeverPAIN Score for Strep Pharyngitis,diagnosis,integer,4170.0,287.0,1.5684471130371094,0.001473,rc_iter1
+train.3587,50.311,50.311,46.76778,0.0,0.0,0.0,3.543219999999998,Ideal Body Weight,physical,decimal,3976.0,14.0,0.7470958232879639,0.0010149999999999998,rc_iter1
+train.5204,130,130.0,132.0,1.0,0.0,1.0,2.0,Maintenance Fluids Calculations,physical,decimal,3780.0,11.0,0.7050380706787109,0.0009615,rc_iter1
+train.2733,"**exception raised**: unterminated string literal (detected at line 1) (<unknown>, line 1)",,7.0,0.0,0.0,0.0,inf,Wells' Criteria for Pulmonary Embolism,risk,integer,3493.0,388.0,1.7177982330322266,0.00145525,rc_iter1
+train.10184,"**exception raised**: invalid syntax (<unknown>, line 1)",,3.679,0.0,0.0,0.0,inf,Framingham Risk Score for Hard Coronary Heart Disease,lab test,decimal,3563.0,306.0,32.96919083595276,0.0013497499999999998,rc_iter1
+train.4828,103,103.0,103.0,1.0,1.0,1.0,0.0,Maintenance Fluids Calculations,physical,decimal,3118.0,206.0,1.2199928760528564,0.0010885,rc_iter1
+train.5261,110,110.0,20.0,0.0,0.0,0.0,90.0,Maintenance Fluids Calculations,physical,decimal,3287.0,520.0,2.8731977939605713,0.0016017499999999999,rc_iter1
+train.6199,"**exception raised**: invalid syntax (<unknown>, line 1)",,6.0,0.0,0.0,0.0,inf,Anion Gap,lab test,decimal,2809.0,161.0,1.3820478916168213,0.0009437499999999999,rc_iter1
+train.8061,"**exception raised**: invalid syntax (<unknown>, line 1)",,76.05576,0.0,0.0,0.0,inf,Target weight,physical,decimal,2613.0,145.0,0.8917443752288818,0.00087075,rc_iter1
+train.0400,9.32,9.32,8.5242,0.0,0.0,0.0,0.7957999999999998,CKD-EPI Equations for Glomerular Filtration Rate,lab test,decimal,3573.0,401.0,2.1548449993133545,0.00149475,rc_iter1
+train.3273,"**exception raised**: unterminated string literal (detected at line 1) (<unknown>, line 1)",,35.01417,0.0,0.0,0.0,inf,MDRD GFR Equation,lab test,decimal,3238.0,377.0,1.400383710861206,0.001375,rc_iter1
+train.6581,4,4.0,4.0,1.0,1.0,1.0,0.0,PERC Rule for Pulmonary Embolism,diagnosis,integer,3363.0,596.0,2.6465258598327637,0.00173475,rc_iter1
+train.6408,0,0.0,2.0,0.0,0.0,0.0,2.0,CURB-65 Score for Pneumonia Severity,risk,integer,4050.0,355.0,1.77463698387146,0.001545,rc_iter1
+train.2634,"**exception raised**: invalid syntax (<unknown>, line 1)",,8.896,0.0,0.0,0.0,inf,Calcium Correction for Hypoalbuminemia,lab test,decimal,3659.0,257.0,1.2663147449493408,0.00130025,rc_iter1
+train.5126,103.5,103.5,103.5,1.0,1.0,1.0,0.0,Maintenance Fluids Calculations,physical,decimal,4015.0,229.0,1.0940468311309814,0.00134725,rc_iter1
+train.7001,"**exception raised**: invalid syntax (<unknown>, line 1)",,331.74905,0.0,0.0,0.0,inf,QTc Hodges Calculator,physical,decimal,2613.0,179.0,1.1603751182556152,0.00092175,rc_iter1
+train.1800,"**exception raised**: invalid syntax (<unknown>, line 1)",,95.33333,0.0,0.0,0.0,inf,Mean Arterial Pressure (MAP),physical,decimal,3571.0,183.0,1.1102774143218994,0.0011672499999999999,rc_iter1
+train.1239,110.0,110.0,110.0,1.0,1.0,1.0,0.0,Mean Arterial Pressure (MAP),physical,decimal,3729.0,13.0,0.7256839275360107,0.0009517499999999999,rc_iter1
+train.2867,0,0.0,1.5,0.0,0.0,0.0,1.5,Wells' Criteria for Pulmonary Embolism,risk,integer,3038.0,342.0,1.6987693309783936,0.0012725,rc_iter1
+train.4154,"**exception raised**: invalid syntax (<unknown>, line 1)",,4.0,0.0,0.0,0.0,inf,HEART Score for Major Cardiac Events,risk,integer,2947.0,300.0,1.5391209125518799,0.0011867499999999999,rc_iter1
+train.7180,1.46,1.46,1.45968,1.0,1.0,1.0,0.00031999999999987594,Body Surface Area Calculator,physical,decimal,3273.0,231.0,1.2223014831542969,0.00116475,rc_iter1
+train.8384,9,9.0,9.0,1.0,1.0,1.0,0.0,Delta Gap,lab test,decimal,3510.0,9.0,0.8031816482543945,0.0008909999999999999,rc_iter1
+train.6901,"**exception raised**: invalid character '≈' (U+2248) (<unknown>, line 10)",,167.42854,0.0,0.0,0.0,inf,QTc Framingham Calculator,physical,decimal,2613.0,300.0,1.3703608512878418,0.00110325,rc_iter1
+train.0373,35.032,35.032,35.45562,1.0,0.0,1.0,0.42362000000000677,CKD-EPI Equations for Glomerular Filtration Rate,lab test,decimal,3412.0,486.0,2.2032370567321777,0.001582,rc_iter1
+train.0101,116.728,116.728,116.7284,1.0,1.0,1.0,0.00039999999999906777,Creatinine Clearance (Cockcroft-Gault Equation),lab test,decimal,4190.0,575.0,2.469508409500122,0.00191,rc_iter1
+train.1720,"**exception raised**: invalid syntax (<unknown>, line 1)",,57.66667,0.0,0.0,0.0,inf,Mean Arterial Pressure (MAP),physical,decimal,3592.0,194.0,1.0550708770751953,0.001189,rc_iter1
+train.7824,2.235,2.235,2.28584,1.0,0.0,1.0,0.050839999999999996,Body Surface Area Calculator,physical,decimal,3770.0,13.0,1.0285046100616455,0.000962,rc_iter1
+train.1346,88.33333333333333,88.33333333333333,88.33333,1.0,1.0,1.0,3.3333333249174757e-06,Mean Arterial Pressure (MAP),physical,decimal,3316.0,25.0,0.9166386127471924,0.0008665,rc_iter1
+train.3839,"**exception raised**: invalid syntax (<unknown>, line 1)",,73.18119,0.0,0.0,0.0,inf,Ideal Body Weight,physical,decimal,3007.0,184.0,1.214547872543335,0.00102775,rc_iter1
+train.9781,"**exception raised**: invalid syntax (<unknown>, line 1)",,3.495,0.0,0.0,0.0,inf,Fractional Excretion of Sodium (FENa),lab test,decimal,3909.0,240.0,1.2597837448120117,0.0013372500000000001,rc_iter1
+train.0599,"**exception raised**: invalid character '≈' (U+2248) (<unknown>, line 5)",,26.7105,0.0,0.0,0.0,inf,CKD-EPI Equations for Glomerular Filtration Rate,lab test,decimal,2727.0,339.0,1.3575108051300049,0.00119025,rc_iter1
+train.7288,"**exception raised**: invalid character '≈' (U+2248) (<unknown>, line 7)",,0.11136,0.0,0.0,0.0,inf,Body Surface Area Calculator,physical,decimal,3687.0,170.0,28.323309183120728,0.0011767499999999998,rc_iter1
+train.4011,"**exception raised**: invalid syntax (<unknown>, line 1)",,52.38197,0.0,0.0,0.0,inf,Ideal Body Weight,physical,decimal,3006.0,219.0,1.2419250011444092,0.00108,rc_iter1
+train.2118,24.893,24.893,24.8877,1.0,1.0,1.0,0.005300000000001859,Body Mass Index (BMI),physical,decimal,2987.0,14.0,0.6717302799224854,0.00076775,rc_iter1
+train.6863,"**exception raised**: invalid syntax (<unknown>, line 1)",,563.18471,0.0,0.0,0.0,inf,QTc Fridericia Calculator,physical,decimal,2615.0,141.0,0.9784119129180908,0.0008652499999999999,rc_iter1
+train.0779,"**exception raised**: invalid syntax (<unknown>, line 1)",,4.0,0.0,0.0,0.0,inf,CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk,risk,integer,3200.0,227.0,1.2439005374908447,0.0011405,rc_iter1
+train.0355,53.79,53.79,53.21799,1.0,0.0,1.0,0.5720099999999988,CKD-EPI Equations for Glomerular Filtration Rate,lab test,decimal,3641.0,596.0,2.146210193634033,0.0018042499999999999,rc_iter1
+train.8621,-5,-5.0,-5.0,1.0,1.0,1.0,0.0,Delta Gap,lab test,decimal,3791.0,259.0,1.3638815879821777,0.00133625,rc_iter1
+train.0842,2,2.0,2.0,1.0,1.0,1.0,0.0,CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk,risk,integer,2958.0,270.0,1.738950490951538,0.0011445,rc_iter1
+train.7052,"**exception raised**: invalid character '≈' (U+2248) (<unknown>, line 9)",,426.19444,0.0,0.0,0.0,inf,QTc Rautaharju Calculator,physical,decimal,2615.0,244.0,1.252734661102295,0.0010197499999999998,rc_iter1
+train.3800,73.34,73.34,74.0867,1.0,0.0,1.0,0.7466999999999899,Ideal Body Weight,physical,decimal,3279.0,13.0,0.8692178726196289,0.0008392499999999999,rc_iter1
+train.9481,7,7.0,7.0,1.0,1.0,1.0,0.0,Child-Pugh Score for Cirrhosis Mortality,severity,integer,3829.0,460.0,1.9336442947387695,0.0016472499999999998,rc_iter1
+train.6357,247.8,247.8,247.8,1.0,1.0,1.0,0.0,LDL Calculated,lab test,decimal,3681.0,265.0,1.3408970832824707,0.00131775,rc_iter1
+train.2272,27.055,27.055,27.05515,1.0,1.0,1.0,0.00015000000000142677,Body Mass Index (BMI),physical,decimal,3069.0,178.0,7.08503794670105,0.00103425,rc_iter1
+train.3549,"**exception raised**: invalid syntax (<unknown>, line 1)",,73.18119,0.0,0.0,0.0,inf,Ideal Body Weight,physical,decimal,3076.0,204.0,1.2282805442810059,0.001075,rc_iter1
+train.7908,"**exception raised**: invalid syntax (<unknown>, line 1)",,1.50591,0.0,0.0,0.0,inf,Body Surface Area Calculator,physical,decimal,3083.0,225.0,1.1936719417572021,0.0011082499999999999,rc_iter1
+train.1838,"**exception raised**: invalid syntax (<unknown>, line 1)",,91.66667,0.0,0.0,0.0,inf,Mean Arterial Pressure (MAP),physical,decimal,3545.0,170.0,1.7404851913452148,0.00114125,rc_iter1
+train.1244,113.33333333333333,113.33333333333333,113.33333,1.0,1.0,1.0,3.3333333249174757e-06,Mean Arterial Pressure (MAP),physical,decimal,3489.0,26.0,0.7680854797363281,0.00091125,rc_iter1
+train.5689,284.0158,284.0158,284.01587,1.0,1.0,1.0,6.999999999379725e-05,Serum Osmolality,lab test,decimal,3261.0,274.0,1.5832679271697998,0.00122625,rc_iter1
+train.5911,-1.414,-1.414,-1.41429,1.0,1.0,1.0,0.0002900000000001235,Free Water Deficit,lab test,decimal,3348.0,374.0,1.5295424461364746,0.001398,rc_iter1
+train.0912,"**exception raised**: invalid syntax (<unknown>, line 1)",,3.0,0.0,0.0,0.0,inf,CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk,risk,integer,3149.0,253.0,2.2849550247192383,0.00116675,rc_iter1
+train.6118,-0.17142857142857143,-0.17142857142857143,-0.17143,1.0,1.0,1.0,1.4285714285688922e-06,Free Water Deficit,lab test,decimal,3316.0,317.0,1.4641962051391602,0.0013045,rc_iter1
+train.9030,"**exception raised**: leading zeros in decimal integer literals are not permitted; use an 0o prefix for octal integers (<unknown>, line 1)",,06/16/2012,0.0,0.0,0.0,inf,Estimated Due Date,date,date,2675.0,18.0,0.8744986057281494,0.00069575,rc_iter1
+train.9393,"**exception raised**: unterminated string literal (detected at line 3) (<unknown>, line 3)",,"('33 weeks', '5 days')",0.0,0.0,0.0,inf,Estimated Gestational Age,date,date,2675.0,346.0,1.5600008964538574,0.00118775,rc_iter1
+train.3072,"**exception raised**: invalid syntax (<unknown>, line 1)",,0.0,0.0,0.0,0.0,inf,Wells' Criteria for Pulmonary Embolism,risk,integer,3464.0,319.0,1.4421329498291016,0.0013445,rc_iter1
+train.9660,8,8.0,4.0,0.0,0.0,0.0,4.0,Glasgow-Blatchford Bleeding Score (GBS),risk,integer,3669.0,561.0,2.137267589569092,0.00175875,rc_iter1
+train.3025,1.5,1.5,1.5,1.0,1.0,1.0,0.0,Wells' Criteria for Pulmonary Embolism,risk,integer,3332.0,317.0,1.3737785816192627,0.0013085,rc_iter1
+train.6896,"**exception raised**: invalid character '≈' (U+2248) (<unknown>, line 3)",,509.29448,0.0,0.0,0.0,inf,QTc Framingham Calculator,physical,decimal,2613.0,213.0,1.3216242790222168,0.00097275,rc_iter1
+train.5161,12.0,12.0,46.8,0.0,0.0,0.0,34.8,Maintenance Fluids Calculations,physical,decimal,3747.0,170.0,1.130509614944458,0.00119175,rc_iter1
+train.6011,5.76,5.76,-2.05714,0.0,0.0,0.0,7.81714,Free Water Deficit,lab test,decimal,3443.0,12.0,0.702948808670044,0.00087875,rc_iter1
+train.2753,0.0,0.0,0.0,1.0,1.0,1.0,0.0,Wells' Criteria for Pulmonary Embolism,risk,integer,3164.0,277.0,1.671358346939087,0.0012064999999999999,rc_iter1
+train.1734,"**exception raised**: invalid syntax (<unknown>, line 1)",,130.0,0.0,0.0,0.0,inf,Mean Arterial Pressure (MAP),physical,decimal,2715.0,179.0,1.711233377456665,0.00094725,rc_iter1
+train.4314,4.208,4.208,4.20819,1.0,1.0,1.0,0.00018999999999991246,Fibrosis-4 (FIB-4) Index for Liver Fibrosis,lab test,decimal,3373.0,291.0,1.6510412693023682,0.0012797499999999999,rc_iter1
+train.10336,3,3.0,3.0,1.0,1.0,1.0,0.0,HAS-BLED Score for Major Bleeding Risk,risk,integer,3796.0,403.0,1.9617512226104736,0.0015535,rc_iter1
+train.2532,20.324,20.324,20.32383,1.0,1.0,1.0,0.00017000000000066962,Body Mass Index (BMI),physical,decimal,3021.0,257.0,1.4619319438934326,0.0011407499999999998,rc_iter1
+train.8898,-1.125,-1.125,-1.125,1.0,1.0,1.0,0.0,Delta Ratio,lab test,decimal,2967.0,265.0,1.6169867515563965,0.00113925,rc_iter1
+train.4789,"**exception raised**: invalid syntax (<unknown>, line 1)",,106.0,0.0,0.0,0.0,inf,Maintenance Fluids Calculations,physical,decimal,3878.0,161.0,1.2703795433044434,0.001211,rc_iter1
+train.2526,28.222,28.222,28.22222,1.0,1.0,1.0,0.00021999999999877673,Body Mass Index (BMI),physical,decimal,3444.0,14.0,0.732684850692749,0.000882,rc_iter1
+train.7223,1.436,1.436,1.43614,1.0,1.0,1.0,0.000140000000000029,Body Surface Area Calculator,physical,decimal,2975.0,206.0,1.2186510562896729,0.0010527499999999999,rc_iter1
+train.4738,56.0,56.0,56.0,1.0,1.0,1.0,0.0,Maintenance Fluids Calculations,physical,decimal,3409.0,190.0,1.0511541366577148,0.0011372499999999998,rc_iter1
+train.1653,58.0,58.0,123.33333,0.0,0.0,0.0,65.33333,Mean Arterial Pressure (MAP),physical,decimal,3938.0,12.0,0.87833571434021,0.0010025,rc_iter1
+train.0897,4,4.0,5.0,0.0,0.0,0.0,1.0,CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk,risk,integer,2865.0,306.0,2.013747453689575,0.00117525,rc_iter1
+train.7841,"**exception raised**: invalid character '≈' (U+2248) (<unknown>, line 9)",,1.29957,0.0,0.0,0.0,inf,Body Surface Area Calculator,physical,decimal,3486.0,207.0,1.4727134704589844,0.0011819999999999999,rc_iter1
+train.0290,46.68,46.68,48.85357,1.0,0.0,1.0,2.173569999999998,CKD-EPI Equations for Glomerular Filtration Rate,lab test,decimal,2992.0,13.0,0.8343613147735596,0.0007675,rc_iter1
+train.4041,"**exception raised**: invalid character '≈' (U+2248) (<unknown>, line 3)",,221.2524,0.0,0.0,0.0,inf,QTc Bazett Calculator,physical,decimal,2613.0,204.0,1.3167691230773926,0.00095925,rc_iter1
+train.8216,"**exception raised**: invalid syntax (<unknown>, line 1)",,53.55596,0.0,0.0,0.0,inf,Adjusted Body Weight,physical,decimal,3399.0,366.0,1.5576200485229492,0.0013987499999999998,rc_iter1
+train.6764,0,0.0,0.0,1.0,1.0,1.0,0.0,SIRS Criteria,diagnosis,integer,3459.0,364.0,1.3847508430480957,0.0014107500000000001,rc_iter1
+train.3859,"**exception raised**: invalid syntax (<unknown>, line 1)",,84.04734,0.0,0.0,0.0,inf,Ideal Body Weight,physical,decimal,2867.0,173.0,0.9220004081726074,0.0009762499999999999,rc_iter1
+train.8379,8,8.0,-4.0,0.0,0.0,0.0,12.0,Delta Gap,lab test,decimal,3414.0,9.0,0.8937263488769531,0.0008669999999999999,rc_iter1
+train.2039,"**exception raised**: invalid character '≈' (U+2248) (<unknown>, line 16)",,22.69402,0.0,0.0,0.0,inf,Body Mass Index (BMI),physical,decimal,3049.0,197.0,1.4537458419799805,0.00105775,rc_iter1
+train.3795,60.50387,60.50387,60.50401,1.0,1.0,1.0,0.00014000000000180535,Ideal Body Weight,physical,decimal,3510.0,267.0,1.5976529121398926,0.001278,rc_iter1
+train.1275,97.0,97.0,97.0,1.0,1.0,1.0,0.0,Mean Arterial Pressure (MAP),physical,decimal,3183.0,12.0,0.7530343532562256,0.00081375,rc_iter1
+train.5770,310.103,310.103,310.10317,1.0,1.0,1.0,0.0001699999999686952,Serum Osmolality,lab test,decimal,3537.0,276.0,1.6172127723693848,0.00129825,rc_iter1
+train.9154,5.6103,5.6103,5.60768,1.0,1.0,1.0,0.0026199999999994006,Steroid Conversion Calculator,dosage,integer,2613.0,14.0,0.7050290107727051,0.0006742499999999999,rc_iter1
+train.6885,"**exception raised**: invalid character '≈' (U+2248) (<unknown>, line 6)",,506.29551,0.0,0.0,0.0,inf,QTc Fridericia Calculator,physical,decimal,2614.0,197.0,2.710728168487549,0.000949,rc_iter1
+train.9333,"**exception raised**: unterminated string literal (detected at line 1) (<unknown>, line 1)",,05/24/2001,0.0,0.0,0.0,inf,Estimated of Conception,date,date,2656.0,106.0,1.1179029941558838,0.000823,rc_iter1
+train.8773,"**exception raised**: invalid syntax (<unknown>, line 1)",,6.0,0.0,0.0,0.0,inf,Delta Ratio,lab test,decimal,3203.0,239.0,1.1212854385375977,0.00115925,rc_iter1
+train.3381,"**exception raised**: invalid character '≈' (U+2248) (<unknown>, line 14)",,9.66345,0.0,0.0,0.0,inf,MDRD GFR Equation,lab test,decimal,3019.0,495.0,2.135023593902588,0.0014972499999999999,rc_iter1
+train.0734,"**exception raised**: invalid syntax (<unknown>, line 1)",,4.0,0.0,0.0,0.0,inf,CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk,risk,integer,3205.0,277.0,1.5439846515655518,0.00121675,rc_iter1
+train.0022,"**exception raised**: invalid character '²' (U+00B2) (<unknown>, line 9)",,78.54331,0.0,0.0,0.0,inf,Creatinine Clearance (Cockcroft-Gault Equation),lab test,decimal,3127.0,564.0,2.291766405105591,0.00162775,rc_iter1
+train.2032,"**exception raised**: invalid syntax (<unknown>, line 1)",,106.66667,0.0,0.0,0.0,inf,Mean Arterial Pressure (MAP),physical,decimal,3239.0,262.0,1.424161434173584,0.0012027499999999998,rc_iter1
+train.1249,149.33333333333334,149.33333333333334,149.33333,1.0,1.0,1.0,3.333333353339185e-06,Mean Arterial Pressure (MAP),physical,decimal,2953.0,26.0,0.6785769462585449,0.00077725,rc_iter1
+train.3168,"**exception raised**: invalid character '≈' (U+2248) (<unknown>, line 12)",,8.46447,0.0,0.0,0.0,inf,MDRD GFR Equation,lab test,decimal,2703.0,343.0,1.6192371845245361,0.00119025,rc_iter1
+train.4877,"**exception raised**: invalid syntax (<unknown>, line 1)",,24.0,0.0,0.0,0.0,inf,Maintenance Fluids Calculations,physical,decimal,4683.0,100.0,1.0036883354187012,0.0013207499999999999,rc_iter1
+train.5149,116.8,116.8,116.8,1.0,1.0,1.0,0.0,Maintenance Fluids Calculations,physical,decimal,3138.0,13.0,0.9607803821563721,0.0008039999999999999,rc_iter1
+train.3891,50.35,50.35,47.85442,0.0,0.0,0.0,2.495580000000004,Ideal Body Weight,physical,decimal,3694.0,13.0,0.6826059818267822,0.0009429999999999999,rc_iter1
+train.2766,"**exception raised**: unterminated string literal (detected at line 1) (<unknown>, line 1)",,0.0,0.0,0.0,0.0,inf,Wells' Criteria for Pulmonary Embolism,risk,integer,3140.0,296.0,1.7528657913208008,0.001229,rc_iter1
+train.7910,1.633,1.633,1.63299,1.0,1.0,1.0,1.0000000000065512e-05,Body Surface Area Calculator,physical,decimal,3316.0,254.0,1.3271691799163818,0.00121,rc_iter1
+train.7448,1.012,1.012,1.01242,1.0,1.0,1.0,0.00042000000000008697,Body Surface Area Calculator,physical,decimal,3584.0,204.0,1.1493117809295654,0.001202,rc_iter1
+train.9439,13,13.0,12.0,0.0,0.0,0.0,1.0,Child-Pugh Score for Cirrhosis Mortality,severity,integer,3588.0,449.0,2.0511579513549805,0.0015705,rc_iter1
+train.6089,"**exception raised**: invalid syntax (<unknown>, line 1)",,-0.92571,0.0,0.0,0.0,inf,Free Water Deficit,lab test,decimal,3328.0,256.0,1.4882776737213135,0.001216,rc_iter1
+train.4294,2.6943,2.6943,2.69444,1.0,1.0,1.0,0.000140000000000029,Fibrosis-4 (FIB-4) Index for Liver Fibrosis,lab test,decimal,3487.0,447.0,2.113725423812866,0.0015422499999999998,rc_iter1
+train.7311,0.34,0.34,0.46476,0.0,0.0,0.0,0.12475999999999998,Body Surface Area Calculator,physical,decimal,3197.0,205.0,1.1788966655731201,0.0011067499999999999,rc_iter1
+train.8964,-1,-1.0,-1.0,1.0,1.0,1.0,0.0,Albumin Corrected Delta Gap,lab test,decimal,3592.0,405.0,2.2769792079925537,0.0015055,rc_iter1
+train.8143,"**exception raised**: invalid syntax (<unknown>, line 1)",,75.7591,0.0,0.0,0.0,inf,Adjusted Body Weight,physical,decimal,2813.0,315.0,1.5070412158966064,0.00117575,rc_iter1
+train.5341,124.52,124.52,300.52512,0.0,0.0,0.0,176.00512000000003,Sodium Correction for Hyperglycemia,lab test,decimal,3287.0,14.0,0.8843019008636475,0.00084275,rc_iter1
+train.8146,"**exception raised**: invalid syntax (<unknown>, line 1)",,71.02052,0.0,0.0,0.0,inf,Adjusted Body Weight,physical,decimal,4062.0,445.0,1.7913687229156494,0.001683,rc_iter1
+train.6641,1,1.0,3.0,0.0,0.0,0.0,2.0,SIRS Criteria,diagnosis,integer,3607.0,409.0,2.076653242111206,0.00151525,rc_iter1
+train.5880,"**exception raised**: unterminated string literal (detected at line 1) (<unknown>, line 1)",,1089.76,0.0,0.0,0.0,inf,HOMA-IR (Homeostatic Model Assessment for Insulin Resistance),lab test,decimal,4290.0,396.0,2.109980821609497,0.0016665,rc_iter1
+train.7350,1.725,1.725,1.72525,1.0,1.0,1.0,0.00024999999999986144,Body Surface Area Calculator,physical,decimal,2891.0,208.0,1.240095615386963,0.00103475,rc_iter1
+train.1218,112.66666666666667,112.66666666666667,112.66667,1.0,1.0,1.0,3.3333333249174757e-06,Mean Arterial Pressure (MAP),physical,decimal,2780.0,26.0,0.7509860992431641,0.000734,rc_iter1
+train.1215,"**exception raised**: invalid syntax (<unknown>, line 1)",,94.0,0.0,0.0,0.0,inf,Mean Arterial Pressure (MAP),physical,decimal,2760.0,155.0,1.123178482055664,0.0009224999999999999,rc_iter1
+train.2319,"**exception raised**: invalid syntax (<unknown>, line 1)",,37.55839,0.0,0.0,0.0,inf,Body Mass Index (BMI),physical,decimal,2729.0,133.0,1.1590988636016846,0.00088175,rc_iter1
+train.9736,3.038,3.038,3.0381,1.0,1.0,1.0,0.00010000000000021103,Fractional Excretion of Sodium (FENa),lab test,decimal,3813.0,267.0,1.8803105354309082,0.00135375,rc_iter1
+train.5789,"**exception raised**: unterminated string literal (detected at line 1) (<unknown>, line 1)",,306.71429,0.0,0.0,0.0,inf,Serum Osmolality,lab test,decimal,2946.0,267.0,1.417264461517334,0.001137,rc_iter1
+train.4999,132,132.0,132.0,1.0,1.0,1.0,0.0,Maintenance Fluids Calculations,physical,decimal,3498.0,11.0,1.0595901012420654,0.000891,rc_iter1
+train.9100,"**exception raised**: leading zeros in decimal integer literals are not permitted; use an 0o prefix for octal integers (<unknown>, line 1)",,06/09/2002,0.0,0.0,0.0,inf,Estimated Due Date,date,date,2675.0,18.0,0.8628511428833008,0.00069575,rc_iter1
+train.0610,"**exception raised**: invalid character '≈' (U+2248) (<unknown>, line 15)",,33.65485,0.0,0.0,0.0,inf,CKD-EPI Equations for Glomerular Filtration Rate,lab test,decimal,3195.0,406.0,1.7841744422912598,0.0014077500000000001,rc_iter1
+train.7050,"**exception raised**: invalid syntax (<unknown>, line 1)",,255.71667,0.0,0.0,0.0,inf,QTc Rautaharju Calculator,physical,decimal,2614.0,264.0,1.4304254055023193,0.0010495,rc_iter1
+train.4679,132,132.0,142.0,0.0,0.0,0.0,10.0,Maintenance Fluids Calculations,physical,decimal,3192.0,11.0,0.5929458141326904,0.0008145,rc_iter1
+train.0979,3,3.0,3.0,1.0,1.0,1.0,0.0,CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk,risk,integer,2989.0,383.0,1.8674447536468506,0.00132175,rc_iter1
+train.6207,11,11.0,11.0,1.0,1.0,1.0,0.0,Anion Gap,lab test,decimal,3176.0,175.0,1.2895007133483887,0.0010565,rc_iter1
+train.8553,10,10.0,20.0,0.0,0.0,0.0,10.0,Delta Gap,lab test,decimal,3445.0,292.0,2.1660399436950684,0.00129925,rc_iter1
+train.7702,"**exception raised**: invalid character '≈' (U+2248) (<unknown>, line 7)",,2.03756,0.0,0.0,0.0,inf,Body Surface Area Calculator,physical,decimal,3310.0,192.0,1.8121814727783203,0.0011155,rc_iter1
+train.4077,"**exception raised**: invalid character '≈' (U+2248) (<unknown>, line 5)",,302.16028,0.0,0.0,0.0,inf,QTc Bazett Calculator,physical,decimal,2613.0,167.0,1.6975171566009521,0.00090375,rc_iter1
+train.3369,"**exception raised**: invalid character '≈' (U+2248) (<unknown>, line 7)",,8.44483,0.0,0.0,0.0,inf,MDRD GFR Equation,lab test,decimal,3036.0,376.0,1.7701072692871094,0.001323,rc_iter1
+train.9895,153,153.0,153.0,1.0,1.0,1.0,0.0,PSI Score: Pneumonia Severity Index for CAP,severity,integer,3762.0,583.0,2.0661189556121826,0.001815,rc_iter1
+train.3801,52.4,52.4,52.38197,1.0,0.0,1.0,0.018029999999995994,Ideal Body Weight,physical,decimal,2895.0,194.0,1.237863540649414,0.00101475,rc_iter1
+train.9572,10,10.0,9.0,0.0,0.0,0.0,1.0,Sequential Organ Failure Assessment (SOFA) Score,risk,integer,3639.0,493.0,1.9760258197784424,0.00164925,rc_iter1
+train.0665,3,3.0,3.0,1.0,1.0,1.0,0.0,CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk,risk,integer,3058.0,283.0,1.694916009902954,0.001189,rc_iter1
+train.2956,"**exception raised**: unterminated string literal (detected at line 5) (<unknown>, line 5)",,1.5,0.0,0.0,0.0,inf,Wells' Criteria for Pulmonary Embolism,risk,integer,3445.0,281.0,1.5223734378814697,0.00128275,rc_iter1
+train.2610,16.52,16.52,-4.334,0.0,0.0,0.0,20.854,Calcium Correction for Hypoalbuminemia,lab test,decimal,3316.0,13.0,0.7017698287963867,0.0008485,rc_iter1
+train.0383,80.85,80.85,9.12304,0.0,0.0,0.0,71.72695999999999,CKD-EPI Equations for Glomerular Filtration Rate,lab test,decimal,3780.0,549.0,2.2678303718566895,0.0017685,rc_iter1
+train.6707,"**exception raised**: unterminated string literal (detected at line 1) (<unknown>, line 1)",,2.0,0.0,0.0,0.0,inf,SIRS Criteria,diagnosis,integer,3553.0,405.0,2.103654623031616,0.00149575,rc_iter1
+train.10272,"**exception raised**: invalid decimal literal (<unknown>, line 8)",,6.0,0.0,0.0,0.0,inf,Charlson Comorbidity Index (CCI),risk,integer,4037.0,270.0,1.435131549835205,0.00141425,rc_iter1
+train.0367,32.53,32.53,33.48762,1.0,0.0,1.0,0.9576199999999986,CKD-EPI Equations for Glomerular Filtration Rate,lab test,decimal,3272.0,659.0,2.2289958000183105,0.0018065,rc_iter1
+train.2367,20.338,20.338,20.33833,1.0,1.0,1.0,0.0003299999999981651,Body Mass Index (BMI),physical,decimal,3182.0,173.0,1.0345919132232666,0.001055,rc_iter1
+train.7472,1.645195024214619,1.645195024214619,1.6452,1.0,1.0,1.0,4.9757853810561414e-06,Body Surface Area Calculator,physical,decimal,3601.0,299.0,2.2670249938964844,0.0013487500000000001,rc_iter1
+train.1440,76.667,76.667,76.66667,1.0,1.0,1.0,0.0003300000000052705,Mean Arterial Pressure (MAP),physical,decimal,2874.0,174.0,1.1973991394042969,0.0009795,rc_iter1
+train.2451,16.194,16.194,16.19406,1.0,1.0,1.0,6.000000000128125e-05,Body Mass Index (BMI),physical,decimal,3261.0,231.0,4.499524354934692,0.00116175,rc_iter1
+train.1796,"**exception raised**: invalid syntax (<unknown>, line 1)",,83.33333,0.0,0.0,0.0,inf,Mean Arterial Pressure (MAP),physical,decimal,3229.0,215.0,1.1258659362792969,0.00112975,rc_iter1
+train.4160,"**exception raised**: invalid syntax (<unknown>, line 1)",,3.0,0.0,0.0,0.0,inf,HEART Score for Major Cardiac Events,risk,integer,2826.0,234.0,1.5239529609680176,0.0010575,rc_iter1
+train.8706,0.947,0.947,0.94737,1.0,1.0,1.0,0.0003700000000000925,Delta Ratio,lab test,decimal,3326.0,293.0,1.321911334991455,0.001271,rc_iter1
+train.6245,"**exception raised**: invalid syntax (<unknown>, line 1)",,21.3,0.0,0.0,0.0,inf,Anion Gap,lab test,decimal,3834.0,207.0,1.0383431911468506,0.001269,rc_iter1
+train.10432,2,2.0,2.0,1.0,1.0,1.0,0.0,Revised Cardiac Risk Index for Pre-Operative Risk,risk,integer,4020.0,339.0,1.8540363311767578,0.0015135,rc_iter1
+train.10534,9,9.0,7.0,0.0,0.0,0.0,2.0,APACHE II Score,risk,integer,3779.0,592.0,2.2697184085845947,0.00183275,rc_iter1
+train.2015,"**exception raised**: invalid syntax (<unknown>, line 1)",,132.66667,0.0,0.0,0.0,inf,Mean Arterial Pressure (MAP),physical,decimal,3323.0,177.0,1.199965000152588,0.00109625,rc_iter1
+train.6594,1,1.0,1.0,1.0,1.0,1.0,0.0,PERC Rule for Pulmonary Embolism,diagnosis,integer,3294.0,506.0,2.1629254817962646,0.0015825000000000001,rc_iter1
+train.2687,11.1796,11.1796,11.18,1.0,1.0,1.0,0.00039999999999906777,Calcium Correction for Hypoalbuminemia,lab test,decimal,3854.0,313.0,1.28782320022583,0.001433,rc_iter1
+train.5451,137.624,137.624,137.624,1.0,1.0,1.0,0.0,Sodium Correction for Hyperglycemia,lab test,decimal,3469.0,15.0,0.6629102230072021,0.0008897499999999999,rc_iter1
+train.7576,1.9021917183633699,1.9021917183633699,1.90219,1.0,1.0,1.0,1.718363369818121e-06,Body Surface Area Calculator,physical,decimal,3464.0,236.0,1.4786005020141602,0.00122,rc_iter1
+train.0661,"**exception raised**: unterminated string literal (detected at line 1) (<unknown>, line 1)",,4.0,0.0,0.0,0.0,inf,CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk,risk,integer,3238.0,320.0,1.5635521411895752,0.0012895,rc_iter1
+train.10039,9,9.0,8.0,0.0,0.0,0.0,1.0,Glasgow Coma Score (GCS),severity,integer,3371.0,261.0,1.3406834602355957,0.00123425,rc_iter1
+train.2932,"**exception raised**: unterminated string literal (detected at line 1) (<unknown>, line 1)",,1.5,0.0,0.0,0.0,inf,Wells' Criteria for Pulmonary Embolism,risk,integer,4009.0,298.0,1.8990068435668945,0.00144925,rc_iter1
+train.5389,"**exception raised**: invalid syntax (<unknown>, line 1)",,134.376,0.0,0.0,0.0,inf,Sodium Correction for Hyperglycemia,lab test,decimal,3209.0,187.0,1.504767894744873,0.00108275,rc_iter1
+train.5381,130.76,130.76,130.76,1.0,1.0,1.0,0.0,Sodium Correction for Hyperglycemia,lab test,decimal,2962.0,261.0,1.3419082164764404,0.001132,rc_iter1
+train.7996,1.64063,1.64063,1.64063,1.0,1.0,1.0,0.0,Body Surface Area Calculator,physical,decimal,3231.0,229.0,1.4530978202819824,0.00115125,rc_iter1
+train.8220,"**exception raised**: invalid syntax (<unknown>, line 1)",,52.55265,0.0,0.0,0.0,inf,Adjusted Body Weight,physical,decimal,3652.0,390.0,1.9421532154083252,0.001498,rc_iter1
+train.8293,117.88,117.88,116.40241,1.0,0.0,1.0,1.4775899999999922,Adjusted Body Weight,physical,decimal,3481.0,14.0,1.0898468494415283,0.0008912499999999999,rc_iter1
+train.8637,-8,-8.0,-8.0,1.0,1.0,1.0,0.0,Delta Gap,lab test,decimal,3825.0,222.0,1.774982213973999,0.00128925,rc_iter1
+train.7169,"**exception raised**: invalid character '≈' (U+2248) (<unknown>, line 10)",,1.48492,0.0,0.0,0.0,inf,Body Surface Area Calculator,physical,decimal,3191.0,170.0,1.1545679569244385,0.0010527499999999999,rc_iter1
+train.4734,72,72.0,76.0,0.0,0.0,0.0,4.0,Maintenance Fluids Calculations,physical,decimal,3380.0,10.0,0.6713283061981201,0.00086,rc_iter1

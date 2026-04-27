@@ -1,0 +1,13 @@
+1. **Specific failure pattern identified**: When a new, unrelated table (e.g. giraffes) is introduced in the text, the `analyze_input` extraction step diligently creates an action to "replace the current table". This destructively overwrites the original penguins table. If the multiple-choice question subsequently asks about the original penguins, `answer_question` receives the giraffe table, fails to find the answer, and passes an incorrect or `None` value to `choose_response`. Then, `choose_response` either randomly guesses an option (hallucination) or returns an un-packable string, causing the pipeline to fail. 
+
+2. **How many failures share this**: Both of the explicitly shown failures (`valid.011` and `valid.034`) perfectly match this destructive replacement pattern.
+
+3. **Minimal changes that fix this**: 
+   - **Table History Fallback**: Modify `penguins_workflow` to maintain a history of all table states (the original and after each action). We then iterate backwards from the most recent state. If a state yields an answer that doesn't match any of the multiple-choice options, we ignore it and gracefully fall back to the previous table state. This elegantly "undoes" destructive distractor actions.
+   - **Strict Option Matching**: Update the `choose_response` prompt to explicitly return `('None', 'None')` when an answer doesn't match any option, preventing it from randomly hallucinating a match for invalid answers.
+   - **Direct Match Optimization**: To save LLM calls and bypass hallucination entirely, `penguins_workflow` will natively check for an exact text match between the answer and the options before invoking `choose_response`.
+
+4. **Why it won't break working cases**: 
+   - We avoid changing the delicate `analyze_input` prompt, keeping the 93.3% extraction accuracy intact. 
+   - For standard cases without distractor tables, the loop simply checks the final table state, correctly maps the answer, and returns immediately.
+   - The fallback strictly only occurs when a table state produces an answer that is *provably absent* from the possible choices, meaning it can only rescue failing cases.

@@ -1,0 +1,17 @@
+Iter 0: train=90.6%, eval=100.0% — KEPT
+Iter 1: train=98.1%, eval=100.0% — KEPT
+  What was tried: 1. **Specific failure pattern**: The failures fall into two categories:
+   - `analyze_sentence` occasionally returns `None` or a badly formatted response that raises a TypeError during unpacking (e.g., `valid.013`).
+   - Generic actions/events like "gained five yards", "scored", "on the defender", and "ran out of bounds" are either assigned to arbitrary subsets of sports (e.g., "basketball, soccer, and American football") or specific sports arbitrarily. When this is compared to the player's true sport, `consistent_sports` evaluates to `False`.
+
+2. **How many share this pattern**: 1 failure is an unpacking error (`valid.013`). The other 4 failures (`valid.073`, `valid.071`, `valid.010`, `valid.040`) are all due to generic actions/events causing false negative consistency checks.
+
+3. **Minimal change**: 
+   - Add a `try...except` block around the tuple unpacking of `analyze_sentence` in `sports_understanding_workflow`, returning `False` if the model fails to return a valid 3-tuple.
+   - Update the docstring of `sport_for` to instruct the LLM to return `'any sport'` for generic actions/events, providing the exact failure examples.
+   - Update the docstring of `consistent_sports` to clearly define that `'any sport'` is consistent with everything, and that a list of sports containing the target sport is also consistent.
+   - Fix a small typo in `analyze_sentence`'s docstring where it mistakenly referenced `sports_understanding(...)` instead of its own name in the examples.
+
+4. **Why this won't break working cases**: 
+   - The fallback for `analyze_sentence` prevents the pipeline from crashing.
+   - Explicitly handling "any sport" in both `sport_for` and `consistent_sports` improves the handling of ambiguous components without affecting components that definitively belong to a specific sport (like "threw a touchdown").

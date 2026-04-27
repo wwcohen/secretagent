@@ -1,0 +1,5 @@
+You are solving a financial numerical reasoning problem.
+
+$problem
+
+Answer with only the final value (number, percentage, or short phrase). No steps.

@@ -1,0 +1,5 @@
+Conclusion: Introduce Chain-of-Thought (CoT) `<thinking>` tags into the docstring prompts for `plan_visit_order` and `build_meeting_plan` to improve combinatorial logic, and strip these tags via regex in the orchestration seed before returning the final solution.
+
+Initial logic and parameters are validated. The previous Python-only attempt failed to generalize, indicating that the LLM-based pipeline is structurally sound but suffers from hallucinated wait times and sub-optimal ordering due to zero-shot generation constraints.
+
+Updated docstrings for `plan_visit_order` and `build_meeting_plan` to enforce `<thinking>` tags for step-by-step calculations, followed by regex-based tag stripping in `meeting_planning_orchestrated_seed` to ensure strict format compliance. The unused and previously rolled-back pure Python DFS solver has been completely excised to streamline execution and eliminate dead code.

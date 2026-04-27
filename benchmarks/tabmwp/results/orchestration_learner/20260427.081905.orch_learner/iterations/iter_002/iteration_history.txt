@@ -1,0 +1,16 @@
+Iter 0: train=55.7%, eval=50.0% — KEPT
+Iter 1: train=0.0%, eval=0.0% — ROLLED BACK
+  What was tried: An analysis of the failure cases reveals a consistent structural flaw in the orchestrated workflow: **`compute_answer` is blind to the original question and table.** 
+
+Because it only receives `operation` (e.g., "sum", "max", "comparison") and the extracted `values` (e.g., `['$0.55', '$0.70']`), it has no way to know:
+1. That it needs to multiply those prices by quantities specified in the question (e.g. "buy 6 items").
+2. That a "max" operation was asking for the *name* of the person/day (argmax), not the maximum numeric value.
+3. What the values represent for comparisons (e.g. comparing demand vs supply to output "surplus" instead of just evaluating raw numbers).
+4. That it's a stem-and-leaf plot requiring stem/leaf concatenation.
+
+To fix this systematically without blowing up the workflow control flow, we can make a **targeted surgical change**:
+1. Update `compute_answer`'s signature to take `question` and `table` for full context, and instruct it on how to handle ambiguities (argmax, purchasing multiples, budgets).
+2. Update `identify_operation` to include missing operations (`median`, `argmax`, `multiply`) in its hint list.
+3. Update `extract_relevant_values` to encourage extracting quantities from the question itself.
+4. Update the three workflows that call `compute_answer` to pass the newly required `question` and `table` arguments.
+  ⚠ This change HURT accuracy. Do NOT retry this approach.

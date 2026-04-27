@@ -43,7 +43,10 @@ class Pipeline:
             else:
                 second_indent = 0
             first_indent = len(lines[0]) - len(lines[0].lstrip())
-            if second_indent > first_indent:
+            # Do not "repair" a legitimate top-level compound statement
+            # body, e.g. `if ...:\n    ...`; dedenting after that would
+            # flatten the block and make valid code invalid.
+            if second_indent > first_indent and not lines[0].strip().endswith(':'):
                 lines[0] = ' ' * second_indent + lines[0].lstrip()
                 code = '\n'.join(lines)
         return textwrap.indent(textwrap.dedent(code), '    ')

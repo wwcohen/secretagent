@@ -9,6 +9,8 @@ benchmarks/**/tmp*.py
 docs/orchestrator_demo.html
 docs/presentation.md
 docs/handoff_population_optimizer.md
+docs/orchestration_learner_sweep_results.md
+docs/orchestration_learner_sweep_curves.html
 
 # emacs
 

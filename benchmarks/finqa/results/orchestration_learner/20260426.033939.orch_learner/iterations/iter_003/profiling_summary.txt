@@ -1,0 +1,9 @@
+Pipeline accuracy: 66.2%, avg cost: $0.0004/case, 210 cases
+
+Per-ptool breakdown:
+  answer_finqa: cost_frac=100.0%, calls/case=1.0, avg_cost=$0.0004, lift=N/A, errors=0
+
+Ptools called via LLM: ['answer_finqa']
+
+Held-out eval accuracy: 58.9% (train: 66.2%)
+A large train-eval gap means your changes are OVERFITTING. Prefer changes that generalize to unseen cases.

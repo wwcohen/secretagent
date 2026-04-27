@@ -498,12 +498,22 @@ def _canonical_task_name(benchmark_dir: Path, split: str) -> str:
     return split
 
 
-def _copy_seed_resources(benchmark_dir: Path, scratch_dir: Path) -> None:
+def _copy_scratch_resources(benchmark_dir: Path, scratch_dir: Path) -> None:
     for dirname in ('prompt_templates',):
         src = benchmark_dir / dirname
         dst = scratch_dir / dirname
         if src.exists() and not dst.exists():
             shutil.copytree(src, dst)
+
+    # RuleArena ptools resolves the tax prompt relative to __file__.
+    # Scratch ptools live under .orchestration_learner, so copy only the
+    # needed small prompt module instead of the full benchmark data directory.
+    tax_prompt = benchmark_dir / 'data' / 'tax' / 'prompt.py'
+    if tax_prompt.exists():
+        dst = scratch_dir / 'data' / 'tax' / 'prompt.py'
+        dst.parent.mkdir(parents=True, exist_ok=True)
+        if not dst.exists():
+            shutil.copy2(tax_prompt, dst)
 
 
 def _copy_benchmark_resources(benchmark_dir: Path, run_dir: Path) -> None:
@@ -660,7 +670,7 @@ def _seed_orchestrated_workflow(
 ) -> str:
     from secretagent.core import implement_via_config
     from secretagent.orchestrate.catalog import PtoolCatalog
-    from secretagent.orchestrate.composer import compose
+    from secretagent.orchestrate.composer import compose_with_retry
     from secretagent.orchestrate.pipeline import (
         Pipeline, _entry_signature_from_interface,
     )
@@ -690,10 +700,20 @@ def _seed_orchestrated_workflow(
 
     print(f'[seed] composing initial workflow for {entry_point_name} '
           f'from {len(catalog)} tools with {model}')
-    code = compose(task_description, catalog, entry_signature, model=model)
-
     namespace = {iface.name: iface for iface in tool_interfaces}
-    Pipeline(code, entry_signature, namespace)
+
+    def _validate_seed_code(seed_code: str) -> None:
+        Pipeline(seed_code, entry_signature, namespace)
+
+    code, attempt = compose_with_retry(
+        task_description,
+        catalog,
+        entry_signature,
+        test_fn=_validate_seed_code,
+        model=model,
+    )
+    if attempt > 1:
+        print(f'[seed] accepted generated workflow on attempt {attempt}')
 
     seed_fn_name = f'{entry_point_name}_orchestrated_seed'
     seed_signature = _rename_def_signature(entry_signature, seed_fn_name)
@@ -735,6 +755,46 @@ def _find_evaluator_cls(evaluator_module, benchmark_dir: Path):
                 return obj
     from secretagent.evaluate import ExactMatchEvaluator
     return ExactMatchEvaluator
+
+
+def _dotlist_value(dotlist: list[str], key: str):
+    prefix = f'{key}='
+    for arg in reversed(dotlist):
+        if arg.startswith(prefix):
+            raw = arg[len(prefix):]
+            try:
+                return yaml.safe_load(raw)
+            except yaml.YAMLError:
+                return raw
+    return None
+
+
+def _normalize_ptools_config(tools_cfg, ptools_module_name: str) -> dict[str, Any]:
+    """Resolve benchmark sentinel methods into concrete implementations."""
+    default_workflows = {
+        'calendar_scheduling': 'calendar_workflow',
+        'meeting_planning': 'meeting_workflow',
+        'trip_planning': 'trip_workflow',
+        'compute_rulearena_answer': 'l1_extract_workflow',
+        'tabmwp_solve': 'tools_workflow',
+        'are_sports_in_sentence_consistent': 'sports_understanding_workflow',
+        'identify_shape': 'geometric_shapes_workflow',
+        'answer_penguin_question': 'penguins_workflow',
+    }
+    normalized = {}
+    for name, cfg in tools_cfg.items():
+        cfg_dict = dict(cfg)
+        if cfg_dict.get('method') == 'DEFAULT':
+            workflow = default_workflows.get(name)
+            if workflow is None:
+                raise ValueError(
+                    f'No DEFAULT ptools workflow mapping for {name!r}')
+            cfg_dict = {
+                'method': 'direct',
+                'fn': f'{ptools_module_name}.{workflow}',
+            }
+        normalized[name] = cfg_dict
+    return normalized
 
 
 # ---------------------------------------------------------------------------
@@ -783,6 +843,7 @@ class OrchestrationLearner(Learner):
         eval_split: str = '',
         ptools_module: str = '',
         seed_orchestrate: bool = False,
+        scratch_evolved: bool = False,
         orchestrate_task_description: str = '',
         debug: bool = False,
         resume: Optional[Path] = None,
@@ -807,6 +868,7 @@ class OrchestrationLearner(Learner):
         self.eval_split = eval_split
         self.ptools_module = ptools_module
         self.seed_orchestrate = seed_orchestrate
+        self.scratch_evolved = scratch_evolved
         self.orchestrate_task_description = orchestrate_task_description
         self.debug = debug
         self.resume = Path(resume) if resume else None
@@ -876,8 +938,6 @@ class OrchestrationLearner(Learner):
                 self.config_file = str(adapter.config_file)
             if not self.ptools_module:
                 self.ptools_module = adapter.spec['ptools_module']
-            adapter_train_split = adapter.spec.get('train', {}).get('split')
-            adapter_eval_split = adapter.spec.get('eval', {}).get('split')
 
         if not self.config_file:
             raise ValueError(
@@ -908,6 +968,19 @@ class OrchestrationLearner(Learner):
             if adapter_overrides:
                 config.configure(dotlist=adapter_overrides)
 
+            if self.train_split:
+                adapter.spec.setdefault('train', {})['split'] = self.train_split
+            if self.eval_split:
+                adapter.spec.setdefault('eval', {})['split'] = self.eval_split
+
+            explicit_shuffle_seed = _dotlist_value(
+                self.dotlist_overrides, 'dataset.shuffle_seed')
+            if explicit_shuffle_seed is not None:
+                adapter.spec['shuffle_seed'] = int(explicit_shuffle_seed)
+
+            adapter_train_split = adapter.spec.get('train', {}).get('split')
+            adapter_eval_split = adapter.spec.get('eval', {}).get('split')
+
         if config.get('cachier.enable_caching') is None:
             config.configure(cachier=dict(enable_caching=True))
 
@@ -922,6 +995,9 @@ class OrchestrationLearner(Learner):
 
         ptools_module_name = infer_ptools_module_name(
             benchmark_dir, train_split, self.ptools_module)
+        ptools_cfg = _normalize_ptools_config(
+            config.require('ptools'), ptools_module_name)
+        config.configure(ptools=ptools_cfg)
 
         # --- Create/load evolved ptools module ---
         base_path = benchmark_dir / f'{ptools_module_name}.py'
@@ -929,10 +1005,18 @@ class OrchestrationLearner(Learner):
             raise FileNotFoundError(
                 f'base ptools module not found: {base_path}')
 
-        if self.seed_orchestrate and not self.resume:
+        if self.scratch_evolved:
             scratch_dir = benchmark_dir / '.orchestration_learner'
             scratch_dir.mkdir(exist_ok=True)
-            _copy_seed_resources(benchmark_dir, scratch_dir)
+            _copy_scratch_resources(benchmark_dir, scratch_dir)
+            evolved_path = scratch_dir / f'{ptools_module_name}_{timestamp}_scratch.py'
+            shutil.copy2(base_path, evolved_path)
+            print(f'Created scratch module {evolved_path.relative_to(benchmark_dir)} '
+                  f'from {base_path.name}')
+        elif self.seed_orchestrate and not self.resume:
+            scratch_dir = benchmark_dir / '.orchestration_learner'
+            scratch_dir.mkdir(exist_ok=True)
+            _copy_scratch_resources(benchmark_dir, scratch_dir)
             evolved_path = scratch_dir / f'{ptools_module_name}_{timestamp}_seed.py'
             shutil.copy2(base_path, evolved_path)
             print(f'Created seed module {evolved_path.relative_to(benchmark_dir)} '
@@ -1079,6 +1163,8 @@ class OrchestrationLearner(Learner):
             'entry_point': entry_point_name,
             'ptools_module': ptools_module_name,
             'seed_orchestrate': self.seed_orchestrate,
+            'scratch_evolved': self.scratch_evolved,
+            'evolved_path': str(evolved_path),
             'results_base': str(results_base),
             'resume_from': str(self.resume) if self.resume else None,
             'train_split': train_split,
@@ -1098,6 +1184,8 @@ class OrchestrationLearner(Learner):
         print(f'Benchmark: {benchmark_dir.name}')
         print(f'Config: {cfg_path.name}')
         print(f'Ptools module: {ptools_module_name} ({evolved_path.name})')
+        if self.scratch_evolved:
+            print(f'Scratch evolved: {evolved_path}')
         print(f'Entry point: {entry_point_name}')
         print(f'Supervisor: {self.supervisor_model}')
         print(f'Train: {len(train_dataset.cases)} cases, '

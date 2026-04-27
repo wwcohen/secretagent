@@ -1,0 +1,39 @@
+Iter 0: train=90.6%, eval=100.0% — KEPT
+Iter 1: train=98.1%, eval=100.0% — KEPT
+  What was tried: 1. **Specific failure pattern**: The failures fall into two categories:
+   - `analyze_sentence` occasionally returns `None` or a badly formatted response that raises a TypeError during unpacking (e.g., `valid.013`).
+   - Generic actions/events like "gained five yards", "scored", "on the defender", and "ran out of bounds" are either assigned to arbitrary subsets of sports (e.g., "basketball, soccer, and American football") or specific sports arbitrarily. When this is compared to the player's true sport, `consistent_sports` evaluates to `False`.
+
+2. **How many share this pattern**: 1 failure is an unpacking error (`valid.013`). The other 4 failures (`valid.073`, `valid.071`, `valid.010`, `valid.040`) are all due to generic actions/events causing false negative consistency checks.
+
+3. **Minimal change**: 
+   - Add a `try...except` block around the tuple unpacking of `analyze_sentence` in `sports_understanding_workflow`, returning `False` if the model fails to return a valid 3-tuple.
+   - Update the docstring of `sport_for` to instruct the LLM to return `'any sport'` for generic actions/events, providing the exact failure examples.
+   - Update the docstring of `consistent_sports` to clearly define that `'any sport'` is consistent with everything, and that a list of sports containing the target sport is also consistent.
+   - Fix a small typo in `analyze_sentence`'s docstring where it mistakenly referenced `sports_understanding(...)` instead of its own name in the examples.
+
+4. **Why this won't break working cases**: 
+   - The fallback for `analyze_sentence` prevents the pipeline from crashing.
+   - Explicitly handling "any sport" in both `sport_for` and `consistent_sports` improves the handling of ambiguous components without affecting components that definitively belong to a specific sport (like "threw a touchdown").
+Iter 2: train=100.0%, eval=100.0% — KEPT
+  What was tried: 1. **Specific failure pattern**: The remaining failure (`valid.074`) occurs because the action "was flagged" is evaluated as "any sport". This causes `consistent_sports` to return `True` when comparing a soccer player to an American football action, leading to a false positive (predicted=True, expected=False).
+2. **How many share this pattern**: This is the only failure out of 53 training cases, resulting directly from an overgeneralization in the previous iteration where sport-specific phrases ("gained five yards", "in the third period") were mistakenly grouped as generic.
+3. **Minimal change**: Update the `sport_for` docstring. I will clarify the distinction between *truly* generic actions (like "scored", "on the defender") and actions that use terminology specific to one or a few sports (like "was flagged", "gained five yards", "in the third period"). I will also add "was flagged" to the examples.
+4. **Why this won't break currently working cases**: This narrows the definition of "any sport", ensuring that sport-specific events map cleanly to their sports rather than defaulting to generic matches. Truly generic terms are still successfully classified as "any sport", meaning previously working correctly-aligned sentences will not regress.
+Iter 3: train=100.0%, eval=100.0% — ROLLED BACK
+  What was tried: 1. **Specific failure pattern**: The pipeline currently achieves 100.0% accuracy on both the training and evaluation sets, meaning there are no correctness failures. However, there is a minor efficiency issue and potential for unhandled exceptions: `sport_for(event)` is called even if `consistent_sports(player_sport, action_sport)` has already evaluated to `False`. Additionally, if an LLM call in the second half of the workflow raises an exception, it is not caught.
+2. **How many share this pattern**: All negative cases where the player and action mismatch currently make a redundant LLM call to classify the event's sport.
+3. **Minimal change**: Introduce short-circuit evaluation by changing `if event:` to `if event and result:` so that we skip the `event_sport` computation when the sentence is already known to be inconsistent. I'll also add a broader `try...except` block around the rest of the workflow to safely catch any unexpected errors from the LLM outputs.
+4. **Why this won't break currently working cases**: The logical outcome is identical. If `result` is `False`, the `and` condition in the original code would guarantee the final output is `False` anyway. By short-circuiting, we just avoid unnecessary LLM calls. The `try...except` only fires on unexpected crashes, safely returning `False` instead of terminating the run.
+  ⚠ This change HURT accuracy. Do NOT retry this approach.
+Iter 4: train=100.0%, eval=100.0% — ROLLED BACK
+  What was tried: 1. **Specific failure pattern identified**: The pipeline currently has 100% accuracy, meaning correctness is fully solved. However, there are inefficiencies and minor robustness flaws: 
+   - `consistent_sports` requires an LLM call even for mathematically straightforward cases defined in its prompt (like exact string matches or checking for 'any sport').
+   - `analyze_sentence` occasionally returns strings that are completely empty or just whitespace for the `event`. The workflow blindly queries `sport_for(event)` on these whitespace strings, generating redundant LLM calls.
+2. **How many share this pattern**: This affects every case processed. `consistent_sports` accounts for ~21% of total cost, and preventing redundant checks guarantees determinism while lowering cost.
+3. **Minimal change**: 
+   - Define a pure-Python `check_consistency` helper inside the workflow that exactly mirrors the explicit rules in the `consistent_sports` prompt (returning `True` for exact matches and "any sport"). It falls back to the LLM `consistent_sports` for complex matching.
+   - Update the `if event:` check to safely bypass events that are entirely whitespace.
+   - Fix a small grammatical typo in the `analyze_sentence` docstring.
+4. **Why this won't break working cases**: The Python matching precisely follows the LLM instructions for `consistent_sports`, ensuring mathematical equivalence while bypassing possible hallucinations. Skipping whitespace events prevents meaningless LLM queries without changing flow. Since I did NOT short-circuit `sport_for(event)` based on `result` (the change that caused Iter 3's regression), this entirely preserves the original successful logic.
+  ⚠ This change HURT accuracy. Do NOT retry this approach.

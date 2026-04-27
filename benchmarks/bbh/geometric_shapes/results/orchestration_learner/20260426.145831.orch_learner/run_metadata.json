@@ -1,0 +1,19 @@
+{
+  "benchmark": "geometric_shapes",
+  "benchmark_dir": "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/bbh/geometric_shapes",
+  "config_file": "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/bbh/geometric_shapes/conf/conf.yaml",
+  "entry_point": "identify_shape",
+  "ptools_module": "ptools",
+  "seed_orchestrate": false,
+  "scratch_evolved": true,
+  "evolved_path": "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/bbh/geometric_shapes/.orchestration_learner/ptools_20260426.145831_scratch.py",
+  "results_base": "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/bbh/geometric_shapes/results/orchestration_learner",
+  "resume_from": null,
+  "train_split": "valid",
+  "eval_split": "valid",
+  "n_train": 53,
+  "n_eval": 22,
+  "max_iterations": 5,
+  "target_accuracy": null,
+  "supervisor_model": "gemini/gemini-3.1-pro-preview"
+}

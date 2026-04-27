@@ -1,0 +1,97 @@
+"""Interfaces for MUSR murder mystery reasoning.
+
+Migrated from AgentProject v2 ptools. Design principle: ptools ANNOTATE
+and ENHANCE reasoning on the raw narrative, rather than abstracting it
+away into lossy structured data.
+"""
+
+from secretagent.core import interface
+from ptools_common import (  # noqa: F401  (re-export so the loaded ptools module exposes them)
+    raw_answer,
+    extract_index,
+    react_solve,
+)
+
+
+@interface
+def extract_suspects_and_evidence(narrative: str) -> str:
+    """Extract the victim, crime details, and ALL suspects with their evidence.
+
+    Read the narrative carefully and extract:
+
+    Top level:
+    - victim: name of the murdered person
+    - crime_details: how/where they were killed, when body was found
+    - suspects: for each suspect, extract the following
+
+    For each suspect, extract:
+    - motive: why they might have killed the victim
+    - means: access to weapon, relevant skills/knowledge
+    - opportunity: were they near the crime scene, timeline gaps
+    - statement_or_alibi: what they claim they were doing, including any specific observations or details they mentioned.
+    - alibi_witnesses: people/evidence that could verify their alibi
+    - suspicious_behavior: nervousness, contradictions, cleanup, lies
+    - physical_evidence: weapon found at their place, forensics, DNA, fingerprints
+
+    Be thorough — include EVERY suspect mentioned. Do NOT omit anyone.
+    Include the victim's name so downstream analysis knows who was killed.
+    """
+
+
+@interface
+def verify_alibis(narrative: str, suspect_evidence: str) -> str:
+    """Re-read the narrative to verify or challenge each suspect's alibi.
+
+    You receive the original narrative AND structured evidence extracted
+    for each suspect. Cross-reference alibis against the narrative to
+    find weaknesses and logically impossible claims.
+
+    For each suspect, determine:
+    - alibi_holds: can the alibi actually be confirmed?
+    - alibi_gaps: any unexplained time periods
+    - contradictions: inconsistencies in their story vs narrative facts
+    - logical_impossibilities: does their claim violate a physical fact established in the narrative (e.g., claiming to see something in pitch darkness, staying dry in the rain, interacting with a closed/broken object)?
+    - corroborating_evidence: evidence that supports or refutes involvement
+
+    Pay special attention to:
+    - Suspects whose statements conflict with background facts (weather, lighting, timings).
+    - Time gaps between when alibis end and the crime window.
+    - Statements that are physically impossible given the environment.
+    """
+
+
+@interface
+def deduce_murderer(narrative: str, verified_analysis: str, question: str, choices: list) -> str:
+    """Given the original narrative, verified alibi analysis, and answer choices,
+    deduce who committed the murder.
+
+    You have access to:
+    1. The FULL original narrative — re-read it for details the analysis may have missed
+    2. Verified analysis for each suspect (alibi status, gaps, contradictions, evidence)
+    3. The multiple-choice options
+
+    Your task:
+    - Synthesize all evidence to find the true murderer.
+    - Focus heavily on finding a LOGICAL CONTRADICTION. The true murderer's statement or alibi will often clash with a subtle background fact (e.g., weather, lighting, timing).
+    - Treat weapon possession neutrally: both suspects often have access to similar weapons or the means to commit the crime, so it is not a reliable indicator on its own.
+    - Weight factual and physical impossibilities in a suspect's story as the definitive proof of guilt.
+    - Consider motive and opportunity as supporting evidence.
+    """
+
+
+@interface
+def answer_question(narrative: str, question: str, choices: list) -> int:
+    """Read the murder mystery narrative and answer the question.
+    Return the 0-based index of the correct choice.
+    """
+    text = raw_answer(narrative, question, choices)
+    return extract_index(text, choices)
+
+
+@interface
+def answer_question_workflow(narrative: str, question: str, choices: list) -> int:
+    """Solve by extracting evidence, verifying alibis, deducing, then matching."""
+    evidence = extract_suspects_and_evidence(narrative)
+    verified = verify_alibis(narrative, evidence)
+    text = deduce_murderer(narrative, verified, question, choices)
+    return extract_index(text, choices)

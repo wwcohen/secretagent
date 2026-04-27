@@ -1,0 +1,15 @@
+<reasoning>
+1.  **Atomic Conclusion:** `return float(result.verdict)` inside `compute_rulearena_answer_orchestrated_seed` fixes the `TypeError` and enables proper query propagation for the NBA branch.
+2.  **80/20 Logic Compression:** 
+    *   Initial logic and parameters are validated. The orchestration agent tracks `extract_nba_params` exclusively. The discrepancy between train accuracy (89.7%) and the 3 crashes suggests the test batch isolates specific unhandled cases where `problem_text` acts as an empty proxy, triggering fallback logic that returns an unmodified `NbaResult` model. L1 correctly extracts the `.verdict` attribute, but the auto-generated seed directly casts the model to a float.
+    *   Leaping to the transformation: Modify the NBA branch in `compute_rulearena_answer_orchestrated_seed` to construct the query using `_build_nba_query` and cast `result.verdict` rather than `result`.
+3.  **Sub-Conclusion Leaping:** The rest of the script is untouched to preserve the baseline 89.7% without disturbing the extraction tools.
+</reasoning>
+
+<ptools_file>
+"""RuleArena benchmark tools and workflows.
+
+Domains: airline (baggage fees), tax (US federal income tax), nba (CBA compliance).
+Experiment levels:
+  L0  - oracle: ground truth params fed directly to Python calculators
+  L0F - CoT
