@@ -1,0 +1,19 @@
+{
+  "benchmark": "medcalc",
+  "benchmark_dir": "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/medcalc",
+  "config_file": "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/medcalc/conf/induced_orch.yaml",
+  "entry_point": "calculate_medical_value",
+  "ptools_module": "ptools_induced",
+  "seed_orchestrate": false,
+  "scratch_evolved": false,
+  "evolved_path": "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/medcalc/ptools_induced_evolved.py",
+  "results_base": "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/medcalc/results/orchestration_learner",
+  "resume_from": null,
+  "train_split": "train",
+  "eval_split": "test",
+  "n_train": 110,
+  "n_eval": 110,
+  "max_iterations": 6,
+  "target_accuracy": null,
+  "supervisor_model": "gemini/gemini-3.1-pro-preview"
+}

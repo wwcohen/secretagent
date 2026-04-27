@@ -1,5 +1,8 @@
 # project-specific stuff
 
+docs/medcalc_induction_report.md
+docs/medcalc_orchestrator_handoff.md
+docs/medcalc_orchestrator_report.md
 orchestrate_cache/
 results_plot.png
 benchmarks/**/results/*DEFAULT
@@ -9,6 +12,7 @@ benchmarks/**/tmp*.py
 docs/orchestrator_demo.html
 docs/presentation.md
 docs/handoff_population_optimizer.md
+docs/aditya-contribution-report.md
 docs/orchestration_learner_sweep_results.md
 docs/orchestration_learner_sweep_curves.html
 docs/orchestration_learner_research_findings.html

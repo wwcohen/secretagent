@@ -1,0 +1,11 @@
+1. What SPECIFIC failure pattern did you identify?
+The pipeline's accuracy dropped because the orchestrator LLM (via the `calculate_medical_value` entrypoint) completely bypassed the highly-accurate induced tools, attempting to answer complex calculations zero-shot. This led to hallucinated formulas and arithmetic errors (e.g., incorrectly summing points for HAS-BLED and APACHE II, or messing up the math for Delta Gap and MELD Na).
+
+2. How many of the shown failures share this pattern?
+Nearly all of them. Over 20 failures are clinical scores (APACHE II, HAS-BLED, GBS, Child-Pugh, Wells, HEART, PSI) and several others are complex formulas (Delta Gap, Free Water Deficit) which were handled perfectly by the tools during induction but failed here due to zero-shotting.
+
+3. What is the MINIMAL change that fixes this pattern?
+Instead of forcing a rigid pure Python router (which hurt accuracy in Iter 1), I improved the docstring of the `calculate_medical_value` entrypoint to strictly instruct the LLM orchestrator to delegate to the specialized tools. I also expanded the `apply_clinical_score` docstring to include precise reference criteria for the failing scoring systems, and re-introduced `compute_calculation_impl` as a direct Python math evaluator to give the LLM a way to prevent summation and arithmetic errors.
+
+4. Why will this change NOT break currently working cases?
+It preserves the LLM's natural flexibility as an orchestrator while steering it toward the specialized tools that previously achieved a high 66.4% accuracy during induction. The expanded criteria in `apply_clinical_score` serve purely as a reference guide, reducing hallucinations without forcing strict logic. The mathematical evaluator is provided as a safe, optional tool that avoids rigid routing failures.

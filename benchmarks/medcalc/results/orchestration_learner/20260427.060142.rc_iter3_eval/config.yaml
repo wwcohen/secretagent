@@ -1,0 +1,28 @@
+llm:
+  model: gemini/gemini-3.1-flash-lite-preview
+  max_tokens: 65536
+  thinking: true
+  reasoning_effort: high
+simulate_pydantic:
+  template: simulate_pydantic_thinking.txt
+cachier:
+  cache_dir: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/medcalc/llm_cache
+  enable_caching: true
+evaluate:
+  result_dir: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/medcalc/results/orchestration_learner
+  expt_name: rc_iter3_eval
+  entry_point: calculate_medical_value
+  record_details: false
+dataset:
+  split: train
+  stratified: true
+  'n': 110
+  shuffle_seed: 43
+ptools:
+  calculate_medical_value:
+    method: simulate_pydantic
+    tools:
+    - ptools_induced.calculate_clinical_score
+    - ptools_induced.compute_clinical_value
+    - ptools_induced.apply_clinical_score
+root: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/medcalc
