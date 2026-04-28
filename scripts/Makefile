@@ -5,7 +5,7 @@ hero_table:
 	uv run hero_table.py --min-cols 3
 
 latex_correct:
-	uv run hero_table.py --min-cols 3 --format latex-correct > hero.tex
+	uv run hero_table.py --min-cols 3 --format latex-correct > 	hero.tex
 
 summarize:
 	uv run hero_table.py --min-cols 3 --format plot-correct --x react --output summary/correct_react.png; open summary/correct_react.png
@@ -25,3 +25,6 @@ check_models:
 
 count_ptools:
 	uv run benchmark_config.py --strategy react --check '*.tools' --len
+
+check_splits:
+	uv run benchmark_config.py --check dataset.split

@@ -2,7 +2,8 @@
 
 import re
 from pathlib import Path
-from pydantic import BaseModel
+from typing import Literal
+from pydantic import BaseModel, Field
 
 from secretagent.core import interface, implement_via
 
@@ -19,11 +20,31 @@ class BagItem(BaseModel):
 
 
 class AirlineParams(BaseModel):
-    base_price: int
-    customer_class: str
-    routine: str
-    direction: int
-    bag_list: list[BagItem]
+    base_price: int = Field(..., description="Ticket price in dollars (no decimals).")
+    customer_class: Literal[
+        "Basic Economy", "Main Cabin", "Main Plus",
+        "Premium Economy", "Business", "First",
+    ] = Field(..., description="Travel class — must be one of the six listed values.")
+    routine: str = Field(
+        ...,
+        description=(
+            "The non-U.S. country/region of the flight. Use one of: U.S., Canada, "
+            "Mexico, Cuba, Haiti, Panama, Colombia, Ecuador, Peru, South America, "
+            "Israel, Qatar, Europe, India, China, Japan, South Korea, Hong Kong, "
+            "Australia, New Zealand, Puerto Rico. Use 'U.S.' only for fully domestic "
+            "flights between two U.S. cities."
+        ),
+    )
+    direction: Literal[0, 1] = Field(
+        ...,
+        description=(
+            "0 if the U.S. city is the place of DEPARTURE (passenger flies FROM the U.S. "
+            "to the foreign region); 1 if the U.S. city is the place of ARRIVAL "
+            "(passenger flies FROM the foreign region TO the U.S.). For domestic U.S. "
+            "flights use 0."
+        ),
+    )
+    bag_list: list[BagItem] = Field(..., description="Checked and carry-on items.")
 
 
 # -- Interfaces bound via conf.yaml --
@@ -63,12 +84,12 @@ def _parse_numeric_answer(llm_output: str) -> float:
     is still measured when the model ignores the output format.
     Raises ValueError if no amount is found at all.
     """
-    m = re.search(
-        r'total\s+cost\s+is\s+\$?([\d,]+(?:\.\d+)?)',
+    matches = re.findall(
+        r'total\s+cost\s*(?:is|=|:)\s*\$?([\d,]+(?:\.\d+)?)',
         llm_output, re.IGNORECASE,
     )
-    if m:
-        return float(m.group(1).replace(',', ''))
+    if matches:
+        return float(matches[-1].replace(',', ''))
     amounts = re.findall(r'\$\s*([\d,]+(?:\.\d+)?)', llm_output)
     if amounts:
         return float(amounts[-1].replace(',', ''))
@@ -85,19 +106,37 @@ _VALID_REGIONS = {
 }
 
 _REGION_FIXES = {
-    "asia": "China", "north america": "U.S.", "us": "U.S.", "usa": "U.S.",
-    "united states": "U.S.", "domestic": "U.S.", "tokyo": "Japan",
-    "beijing": "China", "shanghai": "China", "seoul": "South Korea",
-    "sydney": "Australia", "london": "Europe", "paris": "Europe",
-    "berlin": "Europe",
+    # Order matters: city tokens come before short abbreviations like "us"
+    # (substring of "austin"/"houston") so the substring scan picks the more
+    # specific match first.
+    "tokyo": "Japan", "osaka": "Japan", "nagoya": "Japan",
+    "beijing": "China", "shanghai": "China", "chengdu": "China",
+    "wuhan": "China", "guangzhou": "China",
+    "seoul": "South Korea", "busan": "South Korea",
+    "sydney": "Australia",
+    "mumbai": "India",
+    "london": "Europe", "paris": "Europe", "berlin": "Europe",
+    "barcelona": "Europe", "stockholm": "Europe", "helsinki": "Europe",
+    "athens": "Europe", "amsterdam": "Europe",
+    "buenos aires": "South America",
+    "bogotá": "Colombia", "bogota": "Colombia",
+    "port-au-prince": "Haiti",
+    "asia": "China", "north america": "U.S.",
+    "united states": "U.S.", "domestic": "U.S.", "usa": "U.S.", "us": "U.S.",
 }
 
 
 def _normalize_region(routine: str) -> str:
     if routine in _VALID_REGIONS:
         return routine
-    fixed = _REGION_FIXES.get(routine.lower().strip())
-    return fixed if fixed else "U.S."
+    rt_lower = routine.lower().strip()
+    fixed = _REGION_FIXES.get(rt_lower)
+    if fixed:
+        return fixed
+    for token, region in _REGION_FIXES.items():
+        if token in rt_lower:
+            return region
+    return "U.S."
 
 
 _VALID_CLASSES = {

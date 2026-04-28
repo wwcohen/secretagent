@@ -92,6 +92,10 @@ def build_tables() -> tuple[pd.DataFrame, pd.DataFrame]:
                     continue
                 mean = df[metric].mean()
                 sem = df[metric].sem()
+                # Report cost per 100 examples
+                if metric == "cost":
+                    mean *= 100
+                    sem *= 100
                 row[strategy] = f"{mean:.4f} +/- {sem:.4f}"
 
         cost_rows.append(cost_row)
@@ -193,7 +197,7 @@ _LATEX_HEADERS = {
 }
 
 
-def _print_latex(df: pd.DataFrame, caption: str):
+def _print_latex(df: pd.DataFrame, caption: str, minimize: bool = False):
     """Print a LaTeX table from a \"mean +/- sem\" DataFrame."""
     cols = df.columns.tolist()
     header_cols = " & ".join(_LATEX_HEADERS.get(c, c.replace("_", r"\_")) for c in cols)
@@ -206,7 +210,7 @@ def _print_latex(df: pd.DataFrame, caption: str):
     for task in df.index:
         parsed_row = {col: _parse_cell(df.loc[task, col]) for col in cols}
         means = [p[0] for p in parsed_row.values() if p is not None]
-        best = max(means) if means else None
+        best = (min(means) if minimize else max(means)) if means else None
         cells = []
         for col in cols:
             p = parsed_row[col]
@@ -237,8 +241,8 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--min-cols", type=int, default=0,
                         help="Suppress rows with fewer than K populated columns")
-    parser.add_argument("--format", choices=["table", "plot-correct", "plot-cost", "latex-correct"], default="table",
-                        help="Output format: table (default), plot-correct, plot-cost, or latex-correct")
+    parser.add_argument("--format", choices=["table", "plot-correct", "plot-cost", "latex-correct", "latex-cost"], default="table",
+                        help="Output format: table (default), plot-correct, plot-cost, latex-correct, or latex-cost")
     parser.add_argument("--output", default="hero_plot.png",
                         help="Output PNG file path (for plot-correct)")
     parser.add_argument("--x", default="react",
@@ -260,6 +264,15 @@ def main():
         _print_latex(correct_df, "Correctness")
         return
 
+    if args.format == "latex-cost":
+        cost_df = pd.concat([
+            cost_df,
+            _avg_row(cost_df, "AVERAGE"),
+            _avg_row(cost_df, "AVERAGE_EXCL_TAU", exclude_prefix="tau_bench/"),
+        ])
+        _print_latex(cost_df, "Cost (per 100 examples)", minimize=True)
+        return
+
     if args.format == "plot-correct":
         _plot_comparison(correct_df, "correctness", x_strategy=args.x, y_strategy=args.y, output=args.output)
         return
@@ -278,7 +291,7 @@ def main():
     print("=== Correctness ===")
     print(correct_df.to_string())
     print()
-    print("=== Cost ===")
+    print("=== Cost (per 100 examples) ===")
     print(cost_df.to_string())
 
 

@@ -1,15 +1,39 @@
 """Access an LLM model, and monitor cost, latency, etc.
 """
 
+import random
 import shutil
 import sys
 import textwrap
 import time
-from typing import Any
+from typing import Any, Callable
 
 from secretagent import config
 from secretagent.cache_util import cached
 from litellm import completion, completion_cost, token_counter
+from litellm import ServiceUnavailableError, InternalServerError, RateLimitError
+
+_RETRYABLE_LLM_ERRORS = (ServiceUnavailableError, InternalServerError, RateLimitError)
+
+
+def _retry_with_backoff(fn: Callable, *, attempts: int = 3, base: float = 1.0):
+    """Call fn() with retry on transient litellm 5xx/429 errors.
+
+    Exponential backoff with jitter; up to `attempts` total tries.
+    Re-raises on the final attempt or on non-retryable exceptions
+    (4xx auth/schema errors propagate immediately).
+    """
+    for i in range(attempts):
+        try:
+            return fn()
+        except _RETRYABLE_LLM_ERRORS as ex:
+            if i == attempts - 1:
+                raise
+            sleep_s = base * (2 ** i) + random.random()
+            if config.get('echo.service'):
+                print(f'[retry] {type(ex).__name__}; sleeping {sleep_s:.2f}s '
+                      f'(attempt {i + 1}/{attempts})')
+            time.sleep(sleep_s)
 
 def echo_boxed(text: str, tag:str = ''):
     """Echo some text in a pretty box.
@@ -75,20 +99,23 @@ def _llm_impl(prompt: str, model: str) -> tuple[str, dict[str, Any]]:
   start_time = time.time()
 
   if stream:
-    chunks = []
-    response_stream = completion(
-        model=model, messages=messages, stream=True,
-        stream_options={'include_usage': True},
-        **extra_kw,
-    )
-    for chunk in response_stream:
-      delta = ''
-      if chunk.choices:
-        delta = chunk.choices[0].delta.content or ''
-      chunks.append(delta)
-      if config.get('echo.stream') and delta:
-        sys.stderr.write(delta)
-        sys.stderr.flush()
+    def _do_streaming():
+      chunks: list[str] = []
+      response_stream = completion(
+          model=model, messages=messages, stream=True,
+          stream_options={'include_usage': True},
+          **extra_kw,
+      )
+      for chunk in response_stream:
+        delta = ''
+        if chunk.choices:
+          delta = chunk.choices[0].delta.content or ''
+        chunks.append(delta)
+        if config.get('echo.stream') and delta:
+          sys.stderr.write(delta)
+          sys.stderr.flush()
+      return chunks
+    chunks = _retry_with_backoff(_do_streaming)
     if config.get('echo.stream'):
       sys.stderr.write('\n')
     latency = time.time() - start_time
@@ -117,7 +144,8 @@ def _llm_impl(prompt: str, model: str) -> tuple[str, dict[str, Any]]:
           reasoning_content=None, model=model,
       )
   else:
-    response = completion(model=model, messages=messages, **extra_kw)
+    response = _retry_with_backoff(
+        lambda: completion(model=model, messages=messages, **extra_kw))
     latency = time.time() - start_time
     msg = response.choices[0].message
     content = msg.content or ''
@@ -160,7 +188,16 @@ def llm(prompt: str, model: str) -> tuple[str, dict[str, Any]]:
 
   See cache_util.py for why this weird process is necessary.
   """
-  model_output, stats = cached(_llm_impl)(prompt, model)
+  result = cached(_llm_impl)(prompt, model)
+  if result is None:
+    # cachier on Windows occasionally returns None instead of the cached
+    # tuple; bypass the cache once. Don't swallow silently — log so we
+    # can track frequency and chase the root cause in cache_util.
+    sys.stderr.write(
+        f'[warn] cached(_llm_impl) returned None for model={model}; '
+        f'bypassing cache once.\n')
+    result = _llm_impl(prompt, model)
+  model_output, stats = result
   if config.get('echo.llm_output'):
     echo_boxed(model_output, 'llm_output')
   return model_output, stats
