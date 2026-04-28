@@ -16,9 +16,10 @@ from litellm import cost_per_token
 from secretagent import config, record
 from secretagent.cache_util import cached
 from secretagent.core import register_factory
-from secretagent.implement.core import SimulateFactory, ToolUsingFactory
+from secretagent.implement.core import (
+    SimulateFactory, ToolUsingFactory, _format_pydantic_schema)
 from secretagent.implement.util import load_template
-from secretagent.llm_util import echo_boxed
+from secretagent.llm_util import echo_boxed, _retry_with_backoff
 
 def _run_agent_hashkey(_, kwds):
     """Create a hashkey for the arguments of _run_agent.
@@ -55,10 +56,12 @@ def _run_agent_impl(interface, model_name, return_type, prompt, tools):
     # timeout the whole pipeline hangs indefinitely.
     timeout = config.get('llm.timeout', None)
     start_time = time.time()
+    def _do_run_sync():
+        return agent.run_sync(prompt)
     if timeout is not None:
         import concurrent.futures
         with concurrent.futures.ThreadPoolExecutor(max_workers=1) as executor:
-            future = executor.submit(agent.run_sync, prompt)
+            future = executor.submit(_retry_with_backoff, _do_run_sync)
             try:
                 result = future.result(timeout=float(timeout))
             except concurrent.futures.TimeoutError as ex:
@@ -66,7 +69,7 @@ def _run_agent_impl(interface, model_name, return_type, prompt, tools):
                     f'pydantic-ai agent exceeded llm.timeout={timeout}s'
                 ) from ex
     else:
-        result = agent.run_sync(prompt)
+        result = _retry_with_backoff(_do_run_sync)
     latency = time.time() - start_time
 
     # get the answer and maybe echo it
@@ -93,8 +96,15 @@ def _run_agent_impl(interface, model_name, return_type, prompt, tools):
 
 def _run_agent(interface, model_name, return_type, prompt, tools):
     """Run a pydantic agent, with optional cachier caching via config."""
-    return cached(_run_agent_impl, hash_func=_run_agent_hashkey)(
+    result = cached(_run_agent_impl, hash_func=_run_agent_hashkey)(
         interface, model_name, return_type, prompt, tools)
+    if result is None:
+        import sys
+        sys.stderr.write(
+            f'[warn] cached(_run_agent_impl) returned None for model={model_name}; '
+            f'bypassing cache once.\n')
+        result = _run_agent_impl(interface, model_name, return_type, prompt, tools)
+    return result
 
 class SimulatePydanticFactory(SimulateFactory, ToolUsingFactory):
     """Simulate a function call using a pydantic-ai Agent.
@@ -169,10 +179,13 @@ class SimulatePydanticFactory(SimulateFactory, ToolUsingFactory):
             thoughts = "<thought>\nANY THOUGHTS\n</thought>\n"
         else:
             thoughts = ""
+        return_type = interface.annotations.get('return', str)
+        schema_block = _format_pydantic_schema(return_type)
         prompt = template.substitute(
             dict(stub_src=interface.src,
                  args=input_args,
-                 thoughts=thoughts))
+                 thoughts=thoughts,
+                 schema_block=schema_block))
         return prompt
 
 def _summarize_messages(messages):

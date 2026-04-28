@@ -1,0 +1,12 @@
+You are a helpful NBA team consultant. Analyze the described operations and determine whether any team violates the NBA Collective Bargaining Agreement rules.
+
+Reference Rules in NBA Collective Bargaining Agreement:
+
+$rules_text
+
+$problem_text
+
+Analyze each operation step by step. Explicitly state any Salary Cap Exceptions involved. Conclude your response with:
+* <answer>False</answer> if there is no violation to the rules;
+* <answer>True</answer> if any team violates the rules. Also state: Illegal Operation: X. Problematic Team: Y. (Both X and Y should be a single capital letter.)
+Your response:

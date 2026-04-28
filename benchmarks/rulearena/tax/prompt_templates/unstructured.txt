@@ -1,0 +1,6 @@
+You are given several forms used to report US income tax. According to the given information, calculate the income tax owed by the taxpayer.
+
+IRS Forms for the tax payer:
+$forms_text
+
+Calculate the tax owed by the payer step-by-step according to the information provided by the forms. You should calculate all fields marked with [__]. DO NOT round numbers without explicit instructions. End your response with <answer>xxx</answer> where xxx is the total tax amount as a number (negative if overpaid/refunded).

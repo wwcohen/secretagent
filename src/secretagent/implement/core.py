@@ -137,11 +137,14 @@ class SimulateFactory(Implementation.Factory):
         examples_text = ""
         if examples:
             examples_text = format_examples_as_doctests(interface.name, examples)
+        return_type = interface.annotations.get('return', str)
+        schema_block = _format_pydantic_schema(return_type)
         prompt = template.substitute(
             dict(stub_src=interface.src,
                  input_args=input_args,
                  thoughts=thoughts,
-                 examples=examples_text))
+                 examples=examples_text,
+                 schema_block=schema_block))
         return prompt
 
     def parse_output(self, return_type, text):
@@ -157,11 +160,16 @@ class SimulateFactory(Implementation.Factory):
         if match_result:
             final_answer = match_result.group(1).strip()
             if return_type in [int, str, float]:
-                return return_type(final_answer)
+                return _coerce_numeric(final_answer, return_type)
+            final_answer = _strip_code_fences(final_answer)
+            pydantic_result = _parse_pydantic_constructor(final_answer, return_type)
+            if pydantic_result is not None:
+                return pydantic_result
             try:
-                return json.loads(final_answer)
+                parsed = json.loads(final_answer)
             except json.JSONDecodeError:
-                return ast.literal_eval(final_answer)
+                parsed = ast.literal_eval(final_answer)
+            return _maybe_model_validate(parsed, return_type)
 
         # Fallback for dict/list: extract JSON from the raw output
         if return_type in [dict, list] or (hasattr(return_type, '__origin__')
@@ -188,6 +196,14 @@ class SimulateFactory(Implementation.Factory):
         if return_type is str:
             return text.strip()
 
+        # Fence-fallback: model emitted ```python\nClassName(...)\n``` without
+        # <answer> tags. Recoverable when return_type is a pydantic BaseModel.
+        fence_match = re.search(r'```(?:python|json)?\s*\n?(.*?)\n?```', text, re.DOTALL)
+        if fence_match:
+            candidate = fence_match.group(1).strip()
+            pydantic_result = _parse_pydantic_constructor(candidate, return_type)
+            if pydantic_result is not None:
+                return pydantic_result
         raise ValueError('cannot find final answer')
 
 
@@ -259,6 +275,110 @@ class PromptLLMFactory(Implementation.Factory):
             return answer
 
 
+def _coerce_numeric(s: str, t: type):
+    """Cast s to t, stripping commas and $ for numeric types.
+
+    LLMs naturally emit dollar amounts as `$25,502.0` or `-25,502.0`;
+    bare float()/int() rejects those. Strip the formatting before
+    coercing for int/float; pass through unchanged for str.
+    """
+    if t in (int, float):
+        s = s.strip().replace(',', '').replace('$', '')
+    return t(s)
+
+
+def _strip_code_fences(text: str) -> str:
+    """Strip enclosing ```python|json ... ``` fences if present.
+
+    Returns the inner content, or the original text if no fence is found.
+    """
+    m = re.match(r'^```(?:python|json)?\s*\n?(.*?)\n?```\s*$',
+                 text.strip(), re.DOTALL)
+    return m.group(1).strip() if m else text
+
+
+def _eval_ast_node(node):
+    """Evaluate an AST node, treating nested Calls as dicts of kwargs.
+
+    Used by _parse_pydantic_constructor to handle expressions like
+    `[BagItem(id=1, name='bag')]` — converts BagItem(...) into a dict
+    that pydantic's model_validate can recursively validate.
+    """
+    if isinstance(node, ast.Call):
+        return {kw.arg: _eval_ast_node(kw.value) for kw in node.keywords}
+    if isinstance(node, ast.List):
+        return [_eval_ast_node(e) for e in node.elts]
+    if isinstance(node, ast.Tuple):
+        return tuple(_eval_ast_node(e) for e in node.elts)
+    if isinstance(node, ast.Dict):
+        return {_eval_ast_node(k): _eval_ast_node(v)
+                for k, v in zip(node.keys, node.values)}
+    if isinstance(node, ast.Set):
+        return {_eval_ast_node(e) for e in node.elts}
+    return ast.literal_eval(node)
+
+
+def _parse_pydantic_constructor(text: str, return_type):
+    """If text is `ClassName(...)` and return_type is a pydantic BaseModel,
+    parse the constructor call and call return_type.model_validate.
+
+    Returns None if not applicable so the caller can fall through to
+    json.loads / ast.literal_eval.
+    """
+    try:
+        from pydantic import BaseModel
+    except ImportError:
+        return None
+    if not (isinstance(return_type, type) and issubclass(return_type, BaseModel)):
+        return None
+    try:
+        tree = ast.parse(text.strip(), mode='eval')
+    except SyntaxError:
+        return None
+    if not isinstance(tree.body, ast.Call) or not isinstance(tree.body.func, ast.Name):
+        return None
+    kwargs = {kw.arg: _eval_ast_node(kw.value) for kw in tree.body.keywords}
+    return return_type.model_validate(kwargs)
+
+
+def _format_pydantic_schema(model_cls) -> str:
+    """Build a schema block to embed in simulate prompts.
+
+    Returns an empty string for non-pydantic return types so the prompt
+    template substitution stays a no-op.  When the return type is a
+    pydantic BaseModel, embeds the JSON Schema so the LLM sees the
+    actual field names and types instead of inferring them from the
+    function signature alone.
+    """
+    try:
+        from pydantic import BaseModel
+    except ImportError:
+        return ""
+    if not (isinstance(model_cls, type) and issubclass(model_cls, BaseModel)):
+        return ""
+    schema = model_cls.model_json_schema()
+    return (
+        f"\nThe return value must be a `{model_cls.__name__}` matching this JSON Schema:\n\n"
+        f"```json\n{json.dumps(schema, indent=2)}\n```\n\n"
+        f"Use EXACTLY the field names and types shown above. Return a single JSON object\n"
+        f"matching this schema (no extra fields, no renamed fields).\n"
+    )
+
+
+def _maybe_model_validate(parsed, return_type):
+    """If return_type is a pydantic BaseModel and parsed is a dict-like,
+    coerce via model_validate so missing/renamed fields surface as
+    ValidationError instead of being returned as a raw dict.
+    """
+    try:
+        from pydantic import BaseModel
+    except ImportError:
+        return parsed
+    if isinstance(return_type, type) and issubclass(return_type, BaseModel):
+        return return_type.model_validate(parsed)
+    return parsed
+
+
 def _extract_answer(return_type, text, answer_pattern):
     """Extract and type-cast the answer from LLM output."""
     if answer_pattern is None and return_type is str:
@@ -272,8 +392,13 @@ def _extract_answer(return_type, text, answer_pattern):
         raise ValueError(f'cannot find answer matching pattern {answer_pattern!r}')
     final_answer = match_result.group(1).strip()
     if return_type in [int, str, float]:
-        return return_type(final_answer)
-    return ast.literal_eval(final_answer)
+        return _coerce_numeric(final_answer, return_type)
+    final_answer = _strip_code_fences(final_answer)
+    pydantic_result = _parse_pydantic_constructor(final_answer, return_type)
+    if pydantic_result is not None:
+        return pydantic_result
+    parsed = ast.literal_eval(final_answer)
+    return _maybe_model_validate(parsed, return_type)
 
 class ToolUsingFactory(Implementation.Factory):
     """Abstract base for factories that use resolved tool lists.
