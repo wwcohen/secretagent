@@ -92,6 +92,10 @@ def build_tables() -> tuple[pd.DataFrame, pd.DataFrame]:
                     continue
                 mean = df[metric].mean()
                 sem = df[metric].sem()
+                # Report cost per 100 examples
+                if metric == "cost":
+                    mean *= 100
+                    sem *= 100
                 row[strategy] = f"{mean:.4f} +/- {sem:.4f}"
 
         cost_rows.append(cost_row)
@@ -266,7 +270,7 @@ def main():
             _avg_row(cost_df, "AVERAGE"),
             _avg_row(cost_df, "AVERAGE_EXCL_TAU", exclude_prefix="tau_bench/"),
         ])
-        _print_latex(cost_df, "Cost", minimize=True)
+        _print_latex(cost_df, "Cost (per 100 examples)", minimize=True)
         return
 
     if args.format == "plot-correct":
@@ -287,7 +291,7 @@ def main():
     print("=== Correctness ===")
     print(correct_df.to_string())
     print()
-    print("=== Cost ===")
+    print("=== Cost (per 100 examples) ===")
     print(cost_df.to_string())
 
 
