@@ -1,14 +1,18 @@
 """Partition NaturalPlan data into train/valid/test splits (100 each).
 
-The TEST split is defined as the 100 cases that were actually used for
+The TRAIN split is defined as the 100 cases that were actually used for
 the paper's baseline experiments (shuffle_seed=42 + n=100 on the full
-dataset). We extract their case_names from an existing results CSV so
-that the test set is EXACTLY the set that was evaluated — no re-runs
-needed.
+dataset). They were used to compare strategies (workflow / pot / react /
+structured / unstructured) — i.e. for METHOD selection — so by ML
+convention they belong in TRAIN, not TEST. We extract their case_names
+from an existing results CSV so the train set is EXACTLY the set that
+was evaluated — no re-runs needed.
 
-TRAIN and VALID are each 100 cases, freshly stratified-sampled from the
-pool of cases NOT in test (and disjoint from each other), with seeds
-42 and 43 respectively.
+TEST and VALID are each 100 cases, freshly stratified-sampled from the
+pool of cases NOT in train (and disjoint from each other), with seeds
+42 and 43 respectively. TEST is reserved for the final paper numbers on
+whichever method wins; VALID is for any further hyperparameter or
+prompt tuning before the final test run.
 
 The previous 50-example splits are preserved as `{task}_{split}_50.json`
 so past experiments keyed on those files (via dataset.partition=train_50
@@ -46,25 +50,28 @@ TASKS = {
         'prompt_field': 'prompt_0shot',
         # Any results CSV from the paper's N=100 seed=42 runs — all
         # strategies on a given subtask evaluated the same 100 case names.
-        'test_case_source_csv': _BENCHMARK_DIR / 'results/20260420.201651.workflow/results.csv',
+        'train_case_source_csv': _BENCHMARK_DIR / 'results/20260420.201651.workflow/results.csv',
     },
     'meeting': {
         'data_file': 'meeting_planning.json',
         'strata_key': lambda inst: str(inst['num_people']),
         'prompt_field': 'prompt_0shot',
-        'test_case_source_csv': _BENCHMARK_DIR / 'results/20260421.021958.structured_baseline/results.csv',
+        'train_case_source_csv': _BENCHMARK_DIR / 'results/20260421.021958.structured_baseline/results.csv',
     },
     'trip': {
         'data_file': 'trip_planning.json',
         'strata_key': lambda inst: str(inst['num_cities']),
         'prompt_field': 'prompt_0shot',
-        'test_case_source_csv': _BENCHMARK_DIR / 'results/20260421.052749.workflow/results.csv',
+        'train_case_source_csv': _BENCHMARK_DIR / 'results/20260421.052749.workflow/results.csv',
     },
 }
 
-NON_TEST_SPLITS = {
-    'train': {'seed': 42, 'n': 100},
+NON_TRAIN_SPLITS = {
+    # TRAIN implicitly uses seed=42 (it's the seed=42-shuffled first 100 of the
+    # full data, extracted from the paper's results CSV). Keep the convention
+    # that train=42, valid=43, test=44.
     'valid': {'seed': 43, 'n': 100},
+    'test':  {'seed': 44, 'n': 100},
 }
 
 
@@ -140,27 +147,27 @@ def partition_task(task: str, cfg: dict):
 
     print(f'{task}: {len(all_data)} total examples')
 
-    # --- TEST: the 100 cases actually evaluated in the paper baseline ---
-    test_csv_path = cfg['test_case_source_csv']
-    if not test_csv_path.exists():
+    # --- TRAIN: the 100 cases actually evaluated in the paper baseline ---
+    train_csv_path = cfg['train_case_source_csv']
+    if not train_csv_path.exists():
         raise FileNotFoundError(
-            f'Expected paper test-set source CSV at {test_csv_path}; '
-            f'if you moved results, update TASKS[{task!r}]["test_case_source_csv"].'
+            f'Expected paper train-set source CSV at {train_csv_path}; '
+            f'if you moved results, update TASKS[{task!r}]["train_case_source_csv"].'
         )
-    test_names = pd.read_csv(test_csv_path)['case_name'].tolist()
-    missing = [n for n in test_names if n not in all_data]
+    train_names = pd.read_csv(train_csv_path)['case_name'].tolist()
+    missing = [n for n in train_names if n not in all_data]
     if missing:
-        raise ValueError(f'{task}: {len(missing)} test case names not in full data')
+        raise ValueError(f'{task}: {len(missing)} train case names not in full data')
 
-    test_cases = make_cases_in_order(all_data, test_names, cfg['prompt_field'])
-    save_dataset(_DATA_DIR / f'{task}_test.json', task, 'test', test_cases)
+    train_cases = make_cases_in_order(all_data, train_names, cfg['prompt_field'])
+    save_dataset(_DATA_DIR / f'{task}_train.json', task, 'train', train_cases)
 
-    # --- TRAIN and VALID: 100 each, disjoint from test and each other ---
-    test_set = set(test_names)
+    # --- TEST and VALID: 100 each, disjoint from train and each other ---
+    train_set = set(train_names)
     used_keys: set[str] = set()
-    for split_name, split_cfg in NON_TEST_SPLITS.items():
+    for split_name, split_cfg in NON_TRAIN_SPLITS.items():
         available = {k: v for k, v in all_data.items()
-                     if k not in test_set and k not in used_keys}
+                     if k not in train_set and k not in used_keys}
         sampled = stratified_sample(
             available, cfg['strata_key'], split_cfg['n'], split_cfg['seed'],
         )
@@ -169,14 +176,14 @@ def partition_task(task: str, cfg: dict):
         save_dataset(_DATA_DIR / f'{task}_{split_name}.json', task, split_name, cases)
 
     # Sanity: confirm disjointness
-    overlap_tt = test_set & used_keys
-    assert not overlap_tt, f'{task}: test/train-or-valid overlap {overlap_tt}'
+    overlap = train_set & used_keys
+    assert not overlap, f'{task}: train/test-or-valid overlap {overlap}'
 
 
 if __name__ == '__main__':
     for task, cfg in TASKS.items():
         partition_task(task, cfg)
     print('\nDone. train/valid/test splits created (100 each, all disjoint).')
-    print('  test = the exact 100 cases used in paper baselines')
-    print('  train, valid = 100 each, stratified from non-test pool')
+    print('  train = the exact 100 cases used in paper baselines')
+    print('  valid, test = 100 each, stratified from the non-train pool')
     print('  Old 50-example splits preserved as *_50.json')
