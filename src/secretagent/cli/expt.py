@@ -137,5 +137,34 @@ def quick_test(
     pprint.pprint(records)
 
 
+@app.command(context_settings=_EXTRA_ARGS)
+def cached_test(
+    ctx: typer.Context,
+    interface: str = typer.Option(..., help="Top-level interface as 'module.name'"),
+):
+    """Test a configuration on a single example, keeping the LLM cache active.
+
+    Same as quick-test, but does not disable caching — repeat runs reuse
+    previously cached LLM calls so iteration on a single case is cheap.
+    """
+    dataset = setup_and_load_dataset(ctx.args)
+    print('dataset is', dataset.summary())
+    top_level = resolve_dotted(interface)
+    pprint.pprint(config.GLOBAL_CONFIG)
+
+    input_args = dataset.cases[0].input_args
+    print('input_args', input_args)
+    with config.configuration(
+            echo={
+                'model': True,
+                'llm_input': True, 'llm_output': True,
+                'code_eval_input': True, 'code_eval_output': True}
+    ):
+        with record.recorder() as records:
+            predicted_output = top_level(*input_args)
+    print('predicted output', predicted_output)
+    pprint.pprint(records)
+
+
 if __name__ == '__main__':
     app()
