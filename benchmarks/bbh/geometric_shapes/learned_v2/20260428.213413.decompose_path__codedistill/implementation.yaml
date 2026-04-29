@@ -1,0 +1,4 @@
+decompose_path:
+  backoff: true
+  learner: codedistill
+  method: learned_code

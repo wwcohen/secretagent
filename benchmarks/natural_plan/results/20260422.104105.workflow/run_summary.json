@@ -1,0 +1,7 @@
+{
+  "reproduce_cmd": "uv run python expt.py run --config-file conf/calendar.yaml dataset.n=2 dataset.prompt_mode=5shot evaluate.expt_name=workflow ptools.calendar_scheduling.method=direct ptools.calendar_scheduling.fn=ptools_calendar.calendar_workflow",
+  "accuracy": 0.0,
+  "total_cost_usd": 0,
+  "total_time_sec": 0,
+  "n_samples": 2
+}

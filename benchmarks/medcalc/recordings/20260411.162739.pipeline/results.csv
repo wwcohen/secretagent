@@ -1,0 +1,51 @@
+case_name,predicted_output,predicted_numeric,expected_output,correct,exact_match,within_limits,absolute_error,calculator_name,category,output_type,input_tokens,output_tokens,latency,cost,expt_name
+train.4278,4.0,4.0,5.0,0.0,0.0,0.0,1.0,HEART Score for Major Cardiac Events,risk,integer,793.0,4866.0,89.25917911529541,0.0016977,pipeline
+train.9258,184.0,184.0,297.8,0.0,0.0,0.0,113.80000000000001,Morphine Milligram Equivalents (MME) Calculator,dosage,integer,790.0,4961.0,60.03052997589111,0.0017253,pipeline
+train.5372,148.8,148.8,1390.8,0.0,0.0,0.0,1242.0,Sodium Correction for Hyperglycemia,lab test,decimal,821.0,3000.0,42.417702198028564,0.0011462999999999998,pipeline
+train.2288,14.26873,14.26873,14.26873,1.0,1.0,1.0,0.0,Body Mass Index (BMI),physical,decimal,804.0,3460.0,66.33374309539795,0.0012791999999999999,pipeline
+train.2935,0.0,0.0,10.0,0.0,0.0,0.0,10.0,Wells' Criteria for Pulmonary Embolism,risk,integer,798.0,9445.0,169.46569800376892,0.0030729,pipeline
+train.3253,18.03704,18.03704,18.03704,1.0,1.0,1.0,0.0,MDRD GFR Equation,lab test,decimal,837.0,2715.0,49.6419792175293,0.0010655999999999999,pipeline
+train.8533,-19.0,-19.0,-19.0,1.0,1.0,1.0,0.0,Delta Gap,lab test,decimal,793.0,2041.0,35.83424997329712,0.0008502,pipeline
+train.10213,0.402,0.402,0.611,0.0,0.0,0.0,0.20899999999999996,Framingham Risk Score for Hard Coronary Heart Disease,lab test,decimal,822.0,5082.0,80.55064988136292,0.0017712,pipeline
+train.6101,-6.48214,-6.48214,-6.48214,1.0,1.0,1.0,0.0,Free Water Deficit,lab test,decimal,808.0,3180.0,54.01419806480408,0.0011964,pipeline
+train.3736,52.38197,52.38197,52.38197,1.0,1.0,1.0,0.0,Ideal Body Weight,physical,decimal,801.0,3242.0,65.87999320030212,0.0012129,pipeline
+train.2713,9.54,9.54,9.54,1.0,1.0,1.0,0.0,Calcium Correction for Hypoalbuminemia,lab test,decimal,821.0,1815.0,68.9391188621521,0.0007907999999999999,pipeline
+train.6687,4.0,4.0,4.0,1.0,1.0,1.0,0.0,SIRS Criteria,diagnosis,integer,795.0,4260.0,52.769845962524414,0.0015164999999999998,pipeline
+train.4749,21.2,21.2,21.2,1.0,1.0,1.0,0.0,Maintenance Fluids Calculations,physical,decimal,800.0,3692.0,60.445356130599976,0.0013476,pipeline
+train.2832,0.0,0.0,6.0,0.0,0.0,0.0,6.0,Wells' Criteria for Pulmonary Embolism,risk,integer,798.0,9445.0,169.46569800376892,0.0030729,pipeline
+train.1995,111.333,111.333,111.33333,1.0,1.0,1.0,0.0003300000000052705,Mean Arterial Pressure (MAP),physical,decimal,793.0,3904.0,54.34978485107422,0.0014091,pipeline
+train.2379,22.7244,22.7244,22.7244,1.0,1.0,1.0,0.0,Body Mass Index (BMI),physical,decimal,804.0,3460.0,66.33374309539795,0.0012791999999999999,pipeline
+train.3478,52.38197,52.38197,52.38197,1.0,1.0,1.0,0.0,Ideal Body Weight,physical,decimal,801.0,3242.0,65.87999320030212,0.0012129,pipeline
+train.10497,18.0,18.0,11.0,0.0,0.0,0.0,7.0,APACHE II Score,risk,integer,768.0,3816.0,63.61044096946716,0.0013751999999999998,pipeline
+train.4181,2.0,2.0,3.0,0.0,0.0,0.0,1.0,HEART Score for Major Cardiac Events,risk,integer,793.0,4866.0,89.25917911529541,0.0016977,pipeline
+train.0868,6.0,6.0,6.0,1.0,1.0,1.0,0.0,CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk,risk,integer,796.0,2005.0,37.99795889854431,0.0008402999999999999,pipeline
+train.8344,86.19533,86.19533,86.19533,1.0,1.0,1.0,0.0,Adjusted Body Weight,physical,decimal,801.0,1984.0,32.781692028045654,0.0008354999999999999,pipeline
+train.5064,100.0,100.0,100.0,1.0,1.0,1.0,0.0,Maintenance Fluids Calculations,physical,decimal,800.0,3692.0,60.445356130599976,0.0013476,pipeline
+train.0576,23.34745,23.34745,24.06766,1.0,0.0,1.0,0.7202100000000016,CKD-EPI Equations for Glomerular Filtration Rate,lab test,decimal,825.0,4277.0,55.8978590965271,0.0015306,pipeline
+train.1411,89.333,89.333,89.33333,1.0,1.0,1.0,0.0003300000000052705,Mean Arterial Pressure (MAP),physical,decimal,3492.0,11567.0,177.75358176231384,0.0045176999999999995,pipeline
+train.7593,1.517,1.517,1.51731,1.0,1.0,1.0,0.00031000000000003247,Body Surface Area Calculator,physical,decimal,800.0,4192.0,71.23217391967773,0.0014976,pipeline
+train.6369,153.0,153.0,153.0,1.0,1.0,1.0,0.0,LDL Calculated,lab test,decimal,805.0,3171.0,50.17518591880798,0.0011928,pipeline
+train.3788,51.47646,51.47646,51.47646,1.0,1.0,1.0,0.0,Ideal Body Weight,physical,decimal,801.0,3242.0,65.87999320030212,0.0012129,pipeline
+train.2299,21.2322,21.2322,21.2322,1.0,1.0,1.0,0.0,Body Mass Index (BMI),physical,decimal,804.0,3460.0,66.33374309539795,0.0012791999999999999,pipeline
+train.5560,280.96825,280.96825,280.96825,1.0,1.0,1.0,0.0,Serum Osmolality,lab test,decimal,811.0,2834.0,60.32958698272705,0.0010934999999999999,pipeline
+train.8132,88.87564,88.87564,88.87564,1.0,1.0,1.0,0.0,Adjusted Body Weight,physical,decimal,801.0,1984.0,32.781692028045654,0.0008354999999999999,pipeline
+train.6607,2.0,2.0,2.0,1.0,1.0,1.0,0.0,SIRS Criteria,diagnosis,integer,795.0,4260.0,52.769845962524414,0.0015164999999999998,pipeline
+train.9149,31.149,31.149,31.1489,1.0,1.0,1.0,9.999999999976694e-05,Steroid Conversion Calculator,dosage,integer,787.0,2922.0,42.08294224739075,0.0011126999999999999,pipeline
+train.2223,17.64706,17.64706,17.64706,1.0,1.0,1.0,0.0,Body Mass Index (BMI),physical,decimal,804.0,3460.0,66.33374309539795,0.0012791999999999999,pipeline
+train.9197,0.0,0.0,8.0,0.0,0.0,0.0,8.0,Morphine Milligram Equivalents (MME) Calculator,dosage,integer,790.0,4961.0,60.03052997589111,0.0017253,pipeline
+train.4580,65.0,65.0,65.0,1.0,1.0,1.0,0.0,Maintenance Fluids Calculations,physical,decimal,800.0,3692.0,60.445356130599976,0.0013476,pipeline
+train.3844,64.12607,64.12607,64.12607,1.0,1.0,1.0,0.0,Ideal Body Weight,physical,decimal,801.0,3242.0,65.87999320030212,0.0012129,pipeline
+train.8025,1.5700318467067798,1.5700318467067798,1.57003,1.0,1.0,1.0,1.8467067797178771e-06,Body Surface Area Calculator,physical,decimal,3405.0,12694.0,200.6123080253601,0.0048297,pipeline
+train.5449,118.344,118.344,141.344,0.0,0.0,0.0,23.0,Sodium Correction for Hyperglycemia,lab test,decimal,821.0,3000.0,42.417702198028564,0.0011462999999999998,pipeline
+train.4032,447.558,447.558,447.55744,1.0,1.0,1.0,0.0005600000000072214,QTc Bazett Calculator,physical,decimal,781.0,2344.0,35.867329835891724,0.0009375,pipeline
+train.2487,26.27729,26.27729,26.27729,1.0,1.0,1.0,0.0,Body Mass Index (BMI),physical,decimal,804.0,3460.0,66.33374309539795,0.0012791999999999999,pipeline
+train.4879,73.4,73.4,73.4,1.0,1.0,1.0,0.0,Maintenance Fluids Calculations,physical,decimal,800.0,3692.0,60.445356130599976,0.0013476,pipeline
+train.9798,8.33333,8.33333,8.33333,1.0,1.0,1.0,0.0,HOMA-IR (Homeostatic Model Assessment for Insulin Resistance),lab test,decimal,792.0,2531.0,49.427417039871216,0.0009969,pipeline
+train.7213,1.615,1.615,1.61538,1.0,1.0,1.0,0.00038000000000004697,Body Surface Area Calculator,physical,decimal,800.0,4192.0,71.23217391967773,0.0014976,pipeline
+train.8555,7.0,7.0,7.0,1.0,1.0,1.0,0.0,Delta Gap,lab test,decimal,793.0,2041.0,35.83424997329712,0.0008502,pipeline
+train.1594,96.667,96.667,96.66667,1.0,1.0,1.0,0.0003300000000052705,Mean Arterial Pressure (MAP),physical,decimal,793.0,3904.0,54.34978485107422,0.0014091,pipeline
+train.9757,0.42416,0.42416,0.42416,1.0,1.0,1.0,0.0,Fractional Excretion of Sodium (FENa),lab test,decimal,806.0,3914.0,75.75322532653809,0.001416,pipeline
+train.9065,40.0,40.0,01/06/2020,0.0,0.0,0.0,1.0,Estimated Due Date,date,date,834.0,4067.0,72.03254914283752,0.0014703,pipeline
+train.9256,60.0,60.0,60.0,1.0,1.0,1.0,0.0,Morphine Milligram Equivalents (MME) Calculator,dosage,integer,790.0,4961.0,60.03052997589111,0.0017253,pipeline
+train.9843,3.12111,3.12111,130.14252,0.0,0.0,0.0,127.02140999999999,HOMA-IR (Homeostatic Model Assessment for Insulin Resistance),lab test,decimal,792.0,2531.0,49.427417039871216,0.0009969,pipeline
+train.7577,1.653,1.653,1.65328,1.0,1.0,1.0,0.000280000000000058,Body Surface Area Calculator,physical,decimal,800.0,4192.0,71.23217391967773,0.0014976,pipeline

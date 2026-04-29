@@ -1,0 +1,4 @@
+extract_relevant_information:
+  backoff: true
+  learner: codedistill
+  method: learned_code

@@ -1,0 +1,7 @@
+{
+  "reproduce_cmd": "uv run python expt.py run --config-file conf/calendar.yaml dataset.partition=train dataset.n=50 learn.train_dir=/Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/natural_plan/learned_class3_v3 ptools.calendar_scheduling.method=simulate_pydantic ptools.calendar_scheduling.tools=[propose_meeting_time,propose_meeting_time_2] ptools.calendar_scheduling.tool_module=__learned__ ptools.calendar_scheduling.learner=ptool_inducer evaluate.record_details=true evaluate.result_dir=/Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/natural_plan/learned_class3_v3/induced_recordings evaluate.expt_name=calendar_scheduling_induced_record",
+  "accuracy": 0.5,
+  "total_cost_usd": 0.135826,
+  "total_time_sec": 1626.89,
+  "n_samples": 50
+}

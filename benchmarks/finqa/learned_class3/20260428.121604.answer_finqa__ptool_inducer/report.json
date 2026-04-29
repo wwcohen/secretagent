@@ -1,0 +1,73 @@
+{
+  "interface": "answer_finqa",
+  "trace_mode": "react",
+  "only_correct": true,
+  "model": "together_ai/deepseek-ai/DeepSeek-V3",
+  "n_thoughts": 38,
+  "n_labeled": 38,
+  "n_unique_categories": 5,
+  "ptools": [
+    {
+      "func_name": "analyze_problem_and_requirements",
+      "display_name": "AnalyzeProblemAndRequirements",
+      "short_desc": "Analyze the financial QA problem to identify what specific numerical information needs to be extracted from the table and text.",
+      "docstring": "Analyzes the financial QA problem to determine what specific numerical information needs to be extracted and calculated.\nThe function should parse the question focus to identify:\n- The target value(s) to find\n- Relevant table columns/rows\n- Any constraints or exclusions mentioned\n- Required operations (sum, difference, percentage, etc.)\n\nPay attention to:\n- Key phrases indicating mathematical operations\n- Time periods or category filters\n- Comparative language (vs, compared to, relative to)\n- Exclusion terms (excluding, except, not including)\n\nReturns:\nA structured string outlining the analysis including:\n- Target value description\n- Required data sources\n- Necessary calculations\n- Any constraints to apply\n\nExample return:\n\"Target: Percentage of owned US facilities\\nData needed: Total US facilities count, Owned US facilities count\\nCalculation: (Owned US facilities / Total US facilities) * 100\\nConstraints: None\"",
+      "source_category": "Analyzing Problem and Requirements",
+      "count": 9
+    },
+    {
+      "func_name": "provide_final_answer",
+      "display_name": "ProvideFinalAnswer",
+      "short_desc": "Provide the final numerical answer to the financial QA problem.",
+      "docstring": "This function provides the final numerical answer to the financial QA problem.\n\nIt should be used when the agent has completed all reasoning steps and determined\nthe final numerical result. The function formats the answer appropriately for\nfinancial contexts, preserving percentages, decimal precision, and currency\nformatting as needed.\n\nParameters:\n    focus (str): The final calculated numerical value that answers the question.\n                 This should be a string representation of the number exactly as\n                 it should be presented in the final answer.\n\nReturns:\n    str: The final answer formatted as a string. The output should be ready for\n         direct use without additional processing.\n\nExample:\n    >>> provide_final_answer(\"40.5%\")\n    \"40.5%\"\n\nNote:\n    - The agent should ensure the value is properly rounded and formatted\n    - Percentages should include the % symbol\n    - Large numbers should not include commas (e.g., 858774.286825054)\n    - The function does not perform calculations; it only formats the final result",
+      "source_category": "Providing Final Answer",
+      "count": 9
+    },
+    {
+      "func_name": "perform_numerical_calculation",
+      "display_name": "PerformNumericalCalculation",
+      "short_desc": "Performs mathematical calculations on numerical values to solve financial problems.",
+      "docstring": "Performs mathematical operations (addition, subtraction, multiplication, division,\npercentage calculation, min/max comparison, etc.) on numerical values identified from\nthe financial context. The function receives a focus string describing the specific\ncalculation needed (e.g., 'percentage of owned facilities', 'net change from 2012 to 2013',\n'lowest operating income').\n\nThe response should be a structured string containing only the final calculated numerical\nvalue, formatted appropriately for the requested calculation (e.g., percentage with %\nsymbol, negative values with minus sign).\n\nAttention: Ensure all input values are properly validated as numerical before calculation.\nHandle division by zero errors and ensure proper rounding/precision based on financial\ncontext. Return the value in the exact format requested by the question.\n\nReturns:\n    str: The calculated numerical result (e.g., '92.86%', '-16', '846', '198')",
+      "source_category": "Performing Numerical Calculations",
+      "count": 9
+    },
+    {
+      "func_name": "extract_relevant_information",
+      "display_name": "ExtractRelevantInformation",
+      "short_desc": "Extracts and returns specific numerical values or text passages needed for solving a financial QA problem.",
+      "docstring": "Extracts relevant numerical values, text snippets, or data points from the provided context (table and surrounding text) based on the specified focus.\nThe response should be a structured string that clearly presents the extracted information, often listing values or describing the found data.\nThe agent should pay close attention to:\n- Identifying the exact information requested by the focus parameter\n- Locating this information in both tabular data and surrounding narrative text\n- Extracting numerical values with their proper units and signs\n- Noting any contextual details needed for interpretation (e.g., 'exclusive of X', 'through Y date')\n\nReturns:\nA string containing the extracted information, formatted for clarity. For example:\n\"- Class b-1 shareholders elect: 3 directors\\n- Class b-2 shareholders elect: 2 directors\\n- Total: 5 directors\"",
+      "source_category": "Extracting Relevant Information",
+      "count": 7
+    },
+    {
+      "func_name": "plan_calculation_approach",
+      "display_name": "PlanCalculationApproach",
+      "short_desc": "Plan the calculation approach for solving a numerical financial problem using table data and surrounding text.",
+      "docstring": "Determines the appropriate calculation method for solving a numerical financial problem.\n\nThis function outlines the reasoning approach for performing calculations based on\ntabular data and surrounding text. It focuses on identifying what needs to be\ncalculated, which data points to use, and the mathematical operations required.\nThe agent should pay attention to:\n- The specific financial metric or ratio being requested\n- Relevant columns/rows in the table data\n- Any necessary conversions or aggregations\n- Whether the calculation requires multiple steps\n- How to handle potential missing or ambiguous data\n\nReturns:\n    str: A structured plan outlining the calculation approach\n\nExample output:\n    \"Plan to calculate [specific metric] by [method description].\n    Will use [data points] from [table location] and perform [mathematical operations].\n    Need to consider [any special factors].\"",
+      "source_category": "Planning Calculation Approach",
+      "count": 4
+    }
+  ],
+  "categories": [
+    {
+      "category": "Analyzing Problem and Requirements",
+      "count": 9
+    },
+    {
+      "category": "Providing Final Answer",
+      "count": 9
+    },
+    {
+      "category": "Performing Numerical Calculations",
+      "count": 9
+    },
+    {
+      "category": "Extracting Relevant Information",
+      "count": 7
+    },
+    {
+      "category": "Planning Calculation Approach",
+      "count": 4
+    }
+  ]
+}

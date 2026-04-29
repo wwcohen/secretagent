@@ -1,0 +1,229 @@
+{
+  "n_thoughts": 37,
+  "trace_mode": "cot",
+  "only_correct": true,
+  "items": [
+    {
+      "case": "calendar_scheduling_example_264",
+      "pos": 0,
+      "text": "Here is the proposed time: Monday, 13:30 - 14:00",
+      "correct": true
+    },
+    {
+      "case": "calendar_scheduling_example_210",
+      "pos": 0,
+      "text": "Here is the proposed time: Monday, 12:30 - 13:00",
+      "correct": true
+    },
+    {
+      "case": "calendar_scheduling_example_523",
+      "pos": 0,
+      "text": "Here is the proposed time: Monday, 10:30 - 11:00",
+      "correct": true
+    },
+    {
+      "case": "calendar_scheduling_example_428",
+      "pos": 0,
+      "text": "Here is the proposed time: Monday, 13:00 - 13:30",
+      "correct": true
+    },
+    {
+      "case": "calendar_scheduling_example_38",
+      "pos": 0,
+      "text": "Here is the proposed time: Monday, 16:00 - 16:30",
+      "correct": true
+    },
+    {
+      "case": "calendar_scheduling_example_501",
+      "pos": 0,
+      "text": "Here is the proposed time: Monday, 9:00 - 9:30",
+      "correct": true
+    },
+    {
+      "case": "calendar_scheduling_example_76",
+      "pos": 0,
+      "text": "Here is the proposed time: Monday, 13:00 - 14:00",
+      "correct": true
+    },
+    {
+      "case": "calendar_scheduling_example_247",
+      "pos": 0,
+      "text": "Here is the proposed time: Monday, 14:00 - 14:30",
+      "correct": true
+    },
+    {
+      "case": "calendar_scheduling_example_184",
+      "pos": 0,
+      "text": "Here is the proposed time: Monday, 15:00 - 15:30",
+      "correct": true
+    },
+    {
+      "case": "calendar_scheduling_example_589",
+      "pos": 0,
+      "text": "Here is the proposed time: Monday, 9:00 - 9:30",
+      "correct": true
+    },
+    {
+      "case": "calendar_scheduling_example_666",
+      "pos": 0,
+      "text": "Here is the proposed time: Tuesday, 13:30 - 14:00",
+      "correct": true
+    },
+    {
+      "case": "calendar_scheduling_example_493",
+      "pos": 0,
+      "text": "Here is the proposed time: Monday, 12:00 - 12:30",
+      "correct": true
+    },
+    {
+      "case": "calendar_scheduling_example_741",
+      "pos": 0,
+      "text": "Here is the proposed time: Wednesday, 9:00 - 9:30",
+      "correct": true
+    },
+    {
+      "case": "calendar_scheduling_example_424",
+      "pos": 0,
+      "text": "Here is the proposed time: Monday, 16:00 - 16:30",
+      "correct": true
+    },
+    {
+      "case": "calendar_scheduling_example_713",
+      "pos": 0,
+      "text": "Here is the proposed time: Monday, 9:00 - 9:30",
+      "correct": true
+    },
+    {
+      "case": "calendar_scheduling_example_720",
+      "pos": 0,
+      "text": "Here is the proposed time: Monday, 9:00 - 9:30",
+      "correct": true
+    },
+    {
+      "case": "calendar_scheduling_example_790",
+      "pos": 0,
+      "text": "Here is the proposed time: Wednesday, 9:30 - 10:30",
+      "correct": true
+    },
+    {
+      "case": "calendar_scheduling_example_797",
+      "pos": 0,
+      "text": "Here is the proposed time: Tuesday, 12:00 - 13:00",
+      "correct": true
+    },
+    {
+      "case": "calendar_scheduling_example_792",
+      "pos": 0,
+      "text": "Here is the proposed time: Wednesday, 10:00 - 11:00",
+      "correct": true
+    },
+    {
+      "case": "calendar_scheduling_example_113",
+      "pos": 0,
+      "text": "Here is the proposed time: Monday, 10:00 - 10:30",
+      "correct": true
+    },
+    {
+      "case": "calendar_scheduling_example_842",
+      "pos": 0,
+      "text": "Here is the proposed time: Tuesday, 12:00 - 13:00",
+      "correct": true
+    },
+    {
+      "case": "calendar_scheduling_example_496",
+      "pos": 0,
+      "text": "Here is the proposed time: Monday, 14:30 - 15:00",
+      "correct": true
+    },
+    {
+      "case": "calendar_scheduling_example_354",
+      "pos": 0,
+      "text": "Here is the proposed time: Monday, 16:30 - 17:00",
+      "correct": true
+    },
+    {
+      "case": "calendar_scheduling_example_150",
+      "pos": 0,
+      "text": "Here is the proposed time: Monday, 12:30 - 13:00",
+      "correct": true
+    },
+    {
+      "case": "calendar_scheduling_example_586",
+      "pos": 0,
+      "text": "Here is the proposed time: Monday, 15:00 - 16:00",
+      "correct": true
+    },
+    {
+      "case": "calendar_scheduling_example_386",
+      "pos": 0,
+      "text": "Here is the proposed time: Monday, 14:30 - 15:00",
+      "correct": true
+    },
+    {
+      "case": "calendar_scheduling_example_506",
+      "pos": 0,
+      "text": "Here is the proposed time: Monday, 11:30 - 12:30",
+      "correct": true
+    },
+    {
+      "case": "calendar_scheduling_example_466",
+      "pos": 0,
+      "text": "Here is the proposed time: Monday, 16:00 - 16:30",
+      "correct": true
+    },
+    {
+      "case": "calendar_scheduling_example_298",
+      "pos": 0,
+      "text": "Here is the proposed time: Monday, 16:30 - 17:00",
+      "correct": true
+    },
+    {
+      "case": "calendar_scheduling_example_18",
+      "pos": 0,
+      "text": "Here is the proposed time: Monday, 12:30 - 13:00",
+      "correct": true
+    },
+    {
+      "case": "calendar_scheduling_example_418",
+      "pos": 0,
+      "text": "Here is the proposed time: Monday, 15:00 - 15:30",
+      "correct": true
+    },
+    {
+      "case": "calendar_scheduling_example_596",
+      "pos": 0,
+      "text": "Here is the proposed time: Monday, 11:00 - 11:30",
+      "correct": true
+    },
+    {
+      "case": "calendar_scheduling_example_56",
+      "pos": 0,
+      "text": "Here is the proposed time: Monday, 11:00 - 11:30",
+      "correct": true
+    },
+    {
+      "case": "calendar_scheduling_example_334",
+      "pos": 0,
+      "text": "Here is the proposed time: Monday, 9:30 - 10:00",
+      "correct": true
+    },
+    {
+      "case": "calendar_scheduling_example_581",
+      "pos": 0,
+      "text": "Here is the proposed time: Monday, 14:30 - 15:30",
+      "correct": true
+    },
+    {
+      "case": "calendar_scheduling_example_750",
+      "pos": 0,
+      "text": "Here is the proposed time: Tuesday, 12:00 - 12:30",
+      "correct": true
+    },
+    {
+      "case": "calendar_scheduling_example_924",
+      "pos": 0,
+      "text": "Here is the proposed time: Monday, 9:00 - 9:30",
+      "correct": true
+    }
+  ]
+}

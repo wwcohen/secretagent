@@ -1,0 +1,13 @@
+ptools:
+  extract_final_number:
+    backoff: true
+    learner: codedistill
+    method: learned_code
+dataset:
+  split: valid
+  'n': 30
+learn:
+  train_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/finqa/learned
+evaluate:
+  expt_name: finqa_val_class1
+  result_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/finqa/val_results

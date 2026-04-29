@@ -182,7 +182,9 @@ class Learner(ABC):
         """Yield Cases for the named interface from a single JSONL record.
 
         Stores the rollout context in Case.metadata so learners
-        can see how this interface was called within the workflow.
+        can see how this interface was called within the workflow,
+        plus the top-level task input/output so the learner sees the
+        global problem this ptool serves (not just its local i/o).
 
         When self.only_correct is True, skip rollouts that produced
         an incorrect final answer (filters out training data where the
@@ -191,6 +193,12 @@ class Learner(ABC):
         if self.only_correct and not record.get('correct'):
             return
         rollout = record.get('rollout', [])
+        # Top-level interface = first rollout entry; top-level i/o = record fields.
+        top_level_args = (rollout[0].get('args') if rollout else None)
+        top_level_kw = (rollout[0].get('kw') if rollout else None) or None
+        top_level_func = (rollout[0].get('func') if rollout else None)
+        top_level_predicted = record.get('predicted_output')
+        top_level_expected = record.get('expected_output')
         for sx, step in enumerate(rollout):
             if step['func'] == self.interface_name:
                 yield Case(
@@ -202,5 +210,10 @@ class Learner(ABC):
                         'rollout_correct': record.get('correct'),
                         'step_index': sx,
                         'prior_steps': rollout[:sx],
+                        'top_level_func': top_level_func,
+                        'top_level_args': top_level_args,
+                        'top_level_kw': top_level_kw,
+                        'top_level_predicted': top_level_predicted,
+                        'top_level_expected': top_level_expected,
                     }
                 )
