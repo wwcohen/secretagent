@@ -359,8 +359,21 @@ class WorkflowDistillLearner(CodeDistillLearner):
                 Available tools (importable from the tool module — you can call any
                 of these from inside your workflow). Some are pure-Python helpers
                 (free, no LLM call); others are LLM-backed `simulate` ptools — prefer
-                the pure-Python ones when possible:
-            """))
+                the pure-Python ones when possible.
+
+                ⚠️ **IMPORTANT — module-level state**: some induced/wrapper tools
+                read context (e.g. narrative, problem text) from a module-level
+                variable like `_REACT_STATE['narrative']`. If the tool source
+                below contains references to such state, **you MUST initialise
+                that state at the start of your workflow function** before
+                calling the tools, e.g.:
+
+                    def {iface}(narrative, question, choices):
+                        from ptools_common import _REACT_STATE
+                        _REACT_STATE['narrative'] = narrative
+                        ...
+                        evidence = gather_evidence("...")  # now reads narrative
+            """).replace('{iface}', self.interface_name))
             parts.append(tools_block)
 
         if in_domain_traces:
