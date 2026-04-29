@@ -1,0 +1,30 @@
+llm:
+  model: together_ai/deepseek-ai/DeepSeek-V3.1
+cachier:
+  cache_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/bbh/penguins_in_a_table/llm_cache
+evaluate:
+  result_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/bbh/penguins_in_a_table/val_results_full
+  expt_name: penguins_in_a_table_val_full_class1v4
+dataset:
+  split: valid
+  shuffle_seed: 137
+  'n': 43
+ptools:
+  analyze_input:
+    method: simulate
+  table_operation:
+    method: simulate
+  answer_question:
+    method: simulate
+    backoff: True ptools.answer_question.learner=codedistill ptools.answer_question.method=learned_code
+      ptools.choose_response.backoff=True ptools.choose_response.learner=codedistill
+      ptools.choose_response.method=learned_code ptools.table_operation.backoff=True
+      ptools.table_operation.learner=codedistill ptools.table_operation.method=learned_code
+  choose_response:
+    method: simulate
+  answer_penguin_question:
+    method: direct
+    fn: ptools.penguins_workflow
+learn:
+  train_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/bbh/penguins_in_a_table/learned_v4
+root: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/bbh/penguins_in_a_table
