@@ -1,0 +1,100 @@
+case_name,predicted_output,expected_output,correct,input_tokens,output_tokens,latency,cost,expt_name
+valid.043,J,(J),1.0,4117.0,2172.0,53.503246784210205,0.0061626,pot
+valid.002,E,(E),1.0,1742.0,462.0,13.846821784973145,0.0018306,pot
+valid.013,F,(B),0.0,7544.0,2207.0,75.28852152824402,0.008278299999999999,pot
+valid.006,**exception raised**: cannot find answer matching pattern '```python\n(.*?)\n```',(D),0.0,922.0,2048.0,80.9461076259613,0.0040348,pot
+valid.048,E,(E),1.0,1495.0,458.0,13.475568771362305,0.0016756,pot
+valid.035,D,(F),0.0,8810.0,4665.0,131.36528539657593,0.013216500000000004,pot
+valid.036,"**exception raised**: Code execution failed at line 'path, options = extract_path_and_options(input_text)' due to: SyntaxError: invalid syntax. Perhaps you forgot a comma? (<unknown>, line 1)",(J),0.0,1262.0,381.0,10.690043926239014,0.0014049,pot
+valid.072,E,(E),1.0,2638.0,530.0,26.1511390209198,0.0024838,pot
+valid.058,**exception raised**: cannot find answer matching pattern '```python\n(.*?)\n```',(I),0.0,911.0,2048.0,40.19432616233826,0.0040282,pot
+valid.046,(E),(E),1.0,1453.0,422.0,10.572435855865479,0.0015892,pot
+valid.037,H,(K),0.0,4718.0,1201.0,42.64244365692139,0.0048725,pot
+valid.005,I,(I),1.0,3505.0,776.0,23.645627737045288,0.0034222,pot
+valid.069,J,(D),0.0,1567.0,436.0,12.156996011734009,0.0016814,pot
+valid.014,J,(J),1.0,4678.0,1671.0,47.93204593658447,0.0056475,pot
+valid.045,D,(D),1.0,5385.0,2466.0,67.94099187850952,0.0074232000000000005,pot
+valid.038,J,(J),1.0,4002.0,2927.0,67.63620400428772,0.007377100000000001,pot
+valid.016,H,(D),0.0,3764.0,984.0,34.429023027420044,0.0039312,pot
+valid.063,"**exception raised**: Code execution failed at line 'for cmd in commands:
+    if cmd.startswith('M') or cmd.startswith('L'):
+        parts = cmd.split()
+        x = float(parts[1].strip(','))
+        y = float(parts[2])
+        points.append((x, y))' due to: ValueError: could not convert string to float: '53.64,29.71'",(F),0.0,994.0,1157.0,27.34122085571289,0.0025633,pot
+valid.003,G,(B),0.0,6886.0,4236.0,160.2474238872528,0.011332799999999999,pot
+valid.064,D,(G),0.0,6370.0,3913.0,77.15572714805603,0.0104741,pot
+valid.055,K,(K),1.0,1879.0,453.0,14.152870416641235,0.0018974999999999999,pot
+valid.047,J,(F),0.0,7544.0,4250.0,161.98286271095276,0.0117514,pot
+valid.028,I,(K),0.0,3244.0,623.0,19.524747371673584,0.0030055,pot
+valid.034,I,(K),0.0,3257.0,823.0,29.25635814666748,0.0033533,pot
+valid.026,(E),(E),1.0,877.0,474.0,13.163394212722778,0.0013319999999999999,pot
+valid.057,F,(F),1.0,1931.0,607.0,18.479435443878174,0.0021904999999999997,pot
+valid.018,J,(I),0.0,3835.0,978.0,24.394217252731323,0.003963599999999999,pot
+valid.017,(F),(B),0.0,8124.0,5286.0,155.25433444976807,0.0138606,pot
+valid.010,B,(B),1.0,7094.0,6214.0,219.18484473228455,0.014820200000000002,pot
+valid.019,"**exception raised**: Code execution failed at line 'for cmd in commands:
+    if cmd.startswith('M') or cmd.startswith('L'):
+        parts = cmd.split()
+        x = float(parts[1].strip(','))
+        y = float(parts[2])
+        points.append((x, y))' due to: ValueError: could not convert string to float: '46.15,14.88'",(D),0.0,1615.0,910.0,17.683323621749878,0.002516,pot
+valid.065,**exception raised**: cannot find answer matching pattern '```python\n(.*?)\n```',(C),0.0,922.0,2048.0,67.40753412246704,0.0040348,pot
+valid.012,D,(D),1.0,4733.0,3359.0,111.28061866760254,0.0085501,pot
+valid.007,"**exception raised**: Code execution failed at line 'path, options = extract_path_and_options(input_str)' due to: SyntaxError: unterminated string literal (detected at line 24) (<unknown>, line 24)",(G),0.0,1316.0,2029.0,54.80924654006958,0.0042389,pot
+valid.032,D,(K),0.0,5070.0,1425.0,44.652782917022705,0.005464500000000001,pot
+valid.049,E,(E),1.0,2624.0,692.0,21.981918334960938,0.0027508,pot
+valid.004,"**exception raised**: Code execution failed at line 'path_data, options = extract_path_and_options(input_str)' due to: SyntaxError: invalid syntax (<unknown>, line 1)",(C),0.0,1388.0,1549.0,31.449671983718872,0.0034661,pot
+valid.054,F,(K),0.0,3575.0,1260.0,42.70940089225769,0.004287,pot
+valid.025,I,(I),1.0,4152.0,1838.0,67.51434206962585,0.005615799999999999,pot
+valid.061,**exception raised**: cannot find answer matching pattern '```python\n(.*?)\n```',(C),0.0,931.0,2048.0,88.46033978462219,0.0040402,pot
+valid.040,C,(C),1.0,6071.0,3653.0,108.03778886795044,0.0098527,pot
+valid.020,"**exception raised**: Code execution failed at line 'path, options = extract_path_and_options(input)' due to: SyntaxError: invalid syntax. Perhaps you forgot a comma? (<unknown>, line 1)",(C),0.0,1298.0,538.0,16.719053983688354,0.0016934,pot
+valid.070,"**exception raised**: Code execution failed at line 'path, options = extract_path_and_options(input)' due to: SyntaxError: invalid syntax. Perhaps you forgot a comma? (<unknown>, line 1)",(K),0.0,1285.0,2188.0,77.09201979637146,0.0044906,pot
+valid.031,J,(J),1.0,4760.0,1741.0,61.69317412376404,0.0058157,pot
+valid.015,G,(G),1.0,5375.0,4144.0,136.24540305137634,0.0102698,pot
+valid.022,E,(E),1.0,2651.0,466.0,15.958584785461426,0.0023828,pot
+valid.011,J,(J),1.0,3385.0,575.0,18.181819200515747,0.0030085,pot
+valid.073,E,(E),1.0,1495.0,470.0,14.494117975234985,0.001696,pot
+valid.059,**exception raised**: cannot find answer matching pattern '```python\n(.*?)\n```',(C),0.0,958.0,2048.0,62.264442920684814,0.0040564,pot
+valid.074,J,(J),1.0,1567.0,452.0,12.952334880828857,0.0017085999999999998,pot
+valid.067,D,(D),1.0,6057.0,1280.0,42.999088764190674,0.0058102,pot
+valid.042,F,(B),0.0,1903.0,2100.0,73.93609857559204,0.0047118,pot
+valid.066,I,(I),1.0,3511.0,792.0,27.62572693824768,0.003453,pot
+valid.039,E,(E),1.0,1495.0,411.0,15.879577875137329,0.0015956999999999998,pot
+valid.000,"**exception raised**: Code execution failed at line 'for cmd in commands:
+    if cmd.startswith('M'):
+        # Move command: set current point
+        parts = cmd.split()
+        x = float(parts[1].strip(','))
+        y = float(parts[2])
+        current_point = (x, y)
+        points.append(current_point)
+    elif cmd.startswith('L'):
+        parts = cmd.split()
+        x = float(parts[1].strip(','))
+        y = float(parts[2])
+        current_point = (x, y)
+        points.append(current_point)' due to: ValueError: could not convert string to float: '37.73,31.58'",(F),0.0,1750.0,1786.0,51.996264934539795,0.0040862,pot
+valid.021,A,(K),0.0,3239.0,614.0,25.679435968399048,0.0029871999999999998,pot
+valid.056,(E),(E),1.0,1208.0,427.0,16.035919904708862,0.0014506999999999999,pot
+valid.060,D,(C),0.0,6068.0,1105.0,49.67576861381531,0.0055192999999999996,pot
+valid.027,F,(F),1.0,1930.0,877.0,26.783992290496826,0.0026489,pot
+valid.008,H,(D),0.0,3763.0,1112.0,39.58221220970154,0.0041481999999999995,pot
+valid.030,K,(K),1.0,1593.0,544.0,21.834311723709106,0.0018806,pot
+valid.033,G,(G),1.0,1930.0,1223.0,52.15953278541565,0.0032370999999999997,pot
+valid.068,H,(B),0.0,11123.0,4258.0,88.3531482219696,0.0139124,pot
+valid.053,(K),(K),1.0,1584.0,626.0,15.255724906921387,0.0020146,pot
+valid.050,"[('A', 'circle'), ('B', 'heptagon'), ('C', 'hexagon'), ('D', 'kite'), ('E', 'line'), ('F', 'octagon'), ('G', 'pentagon'), ('H', 'rectangle'), ('I', 'sector'), ('J', 'triangle')]",(C),0.0,922.0,961.0,30.52632188796997,0.0021869000000000003,pot
+valid.071,"FINAL ANSWER
+J",(K),0.0,6933.0,3164.0,61.00838375091553,0.0095386,pot
+valid.051,E,(E),1.0,2629.0,449.0,15.371983528137207,0.0023407000000000002,pot
+valid.001,**exception raised**: cannot find answer matching pattern '```python\n(.*?)\n```',(C),0.0,922.0,2048.0,64.05378603935242,0.0040348,pot
+valid.044,J,(D),0.0,4708.0,2252.0,74.61675071716309,0.006653200000000001,pot
+valid.062,E,(E),1.0,2628.0,507.0,20.110206127166748,0.0024387,pot
+valid.029,G,(F),0.0,8808.0,1825.0,94.06984448432922,0.0083873,pot
+valid.024,"**exception raised**: Code execution failed at line 'path_str, options = extract_path_and_options(input_str)' due to: SyntaxError: invalid syntax. Perhaps you forgot a comma? (<unknown>, line 1)",(J),0.0,1244.0,929.0,26.32125210762024,0.0023257,pot
+valid.041,J,(J),1.0,3401.0,2064.0,54.66467833518982,0.0055494,pot
+valid.052,"**exception raised**: Code execution failed at line 'path, options = extract_path_and_options(input)' due to: SyntaxError: invalid syntax. Perhaps you forgot a comma? (<unknown>, line 1)",(C),0.0,1388.0,504.0,11.333366394042969,0.0016896,pot
+valid.023,A,(K),0.0,3574.0,825.0,28.214866161346436,0.0035468999999999995,pot
+valid.009,D,(G),0.0,5393.0,2309.0,61.86804533004761,0.0071611,pot

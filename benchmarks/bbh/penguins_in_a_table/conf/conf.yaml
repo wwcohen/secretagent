@@ -21,7 +21,7 @@ evaluate:
   expt_name: DEFAULT # means the expt isn't fully configured and should be discarded
 
 dataset:
-  split: valid
+  split: test
   shuffle_seed: 137
 
 ptools:
