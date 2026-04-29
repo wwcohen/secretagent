@@ -236,13 +236,89 @@ def _print_latex(df: pd.DataFrame, caption: str, minimize: bool = False):
     print(r"\end{table*}")
 
 
+_COMPACT_STRATEGIES = ["workflow", "react", "structured_baseline"]
+
+
+def _print_latex_compact(correct_df: pd.DataFrame, cost_df: pd.DataFrame,
+                         caption: str = "Correctness and Cost (per 100 examples)"):
+    """Print a compact LaTeX table with correctness on the left and cost on the right."""
+    strats = _COMPACT_STRATEGIES
+    headers_correct = " & ".join(_LATEX_HEADERS.get(s, s.replace("_", r"\_")) for s in strats)
+    headers_cost = " & ".join(_LATEX_HEADERS.get(s, s.replace("_", r"\_")) for s in strats)
+
+    # Use cost_df index as it may have extra summary rows (e.g. AVERAGE_EXCL_TAU)
+    tasks = cost_df.index
+
+    col_spec = "l" + "c" * len(strats) + "|" + "c" * len(strats)
+    print(r"\begin{table*}[ht]")
+    print(r"\centering")
+    print(r"\small")
+    print(r"\begin{tabular}{" + col_spec + "}")
+    print(r"\toprule")
+    print(r" & \multicolumn{" + str(len(strats)) + r"}{c}{Correctness} & \multicolumn{"
+          + str(len(strats)) + r"}{c}{Cost (per 100 examples)} \\")
+    print(r"\cmidrule(lr){2-" + str(1 + len(strats)) + r"} \cmidrule(lr){"
+          + str(2 + len(strats)) + "-" + str(1 + 2 * len(strats)) + "}")
+    print(r"Task & " + headers_correct + " & " + headers_cost + r" \\")
+    print(r"\midrule")
+
+    for task in tasks:
+        # Correctness cells (bold = max)
+        parsed_correct = {s: _parse_cell(correct_df.loc[task, s]) for s in strats if s in correct_df.columns} if task in correct_df.index else {}
+        correct_means = [p[0] for p in parsed_correct.values() if p is not None]
+        best_correct = max(correct_means) if correct_means else None
+        cells_correct = []
+        for s in strats:
+            p = parsed_correct.get(s)
+            if p is None:
+                cells_correct.append("--")
+            else:
+                mean, sem = p
+                if mean == best_correct:
+                    cells_correct.append(f"$\\mathbf{{{mean:.2f}}}$")
+                else:
+                    cells_correct.append(f"${mean:.2f}$")
+
+        # Cost cells (bold = min)
+        parsed_cost = {s: _parse_cell(cost_df.loc[task, s]) for s in strats if s in cost_df.columns}
+        cost_means = [p[0] for p in parsed_cost.values() if p is not None]
+        best_cost = min(cost_means) if cost_means else None
+        cells_cost = []
+        for s in strats:
+            p = parsed_cost.get(s)
+            if p is None:
+                cells_cost.append("--")
+            else:
+                mean, sem = p
+                if mean == best_cost:
+                    cells_cost.append(f"$\\mathbf{{{mean:.2f}}}$")
+                else:
+                    cells_cost.append(f"${mean:.2f}$")
+
+        task_label = task.replace("_", r"\_")
+        if task == "AVERAGE":
+            print(r"\midrule")
+            task_label = r"\textrm{Average}"
+        elif task == "AVERAGE_EXCL_TAU":
+            task_label = r"\hspace{10pt}\textrm{without $\tau$ Bench}"
+            cells_correct = [""] * len(strats)
+        else:
+            task_label = TASK_TO_LATEX.get(task, task.replace("_", r"\_"))
+        print(task_label + " & " + " & ".join(cells_correct) + " & " + " & ".join(cells_cost) + r" \\")
+
+    print(r"\bottomrule")
+    print(r"\end{tabular}")
+    print(r"\caption{" + caption + "}")
+    print(r"\end{table*}")
+
+
 def main():
     import argparse
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--min-cols", type=int, default=0,
                         help="Suppress rows with fewer than K populated columns")
-    parser.add_argument("--format", choices=["table", "plot-correct", "plot-cost", "latex-correct", "latex-cost"], default="table",
-                        help="Output format: table (default), plot-correct, plot-cost, latex-correct, or latex-cost")
+    parser.add_argument("--format", choices=["table", "plot-correct", "plot-cost", "latex-correct", "latex-cost", "latex-compact"], default="table",
+                        help="Output format: table (default), plot-correct, plot-cost, latex-correct, latex-cost, or latex-compact")
     parser.add_argument("--output", default="hero_plot.png",
                         help="Output PNG file path (for plot-correct)")
     parser.add_argument("--x", default="react",
@@ -262,6 +338,16 @@ def main():
     if args.format == "latex-correct":
         correct_df = pd.concat([correct_df, _avg_row(correct_df, "AVERAGE")])
         _print_latex(correct_df, "Correctness")
+        return
+
+    if args.format == "latex-compact":
+        correct_df = pd.concat([correct_df, _avg_row(correct_df, "AVERAGE")])
+        cost_df = pd.concat([
+            cost_df,
+            _avg_row(cost_df, "AVERAGE"),
+            _avg_row(cost_df, "AVERAGE_EXCL_TAU", exclude_prefix="tau_bench/"),
+        ])
+        _print_latex_compact(correct_df, cost_df)
         return
 
     if args.format == "latex-cost":
