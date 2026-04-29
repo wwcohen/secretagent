@@ -1,0 +1,231 @@
+case_name,predicted_output,expected_output,correct,input_tokens,output_tokens,latency,cost,expt_name
+4443,7,7,True,397.0,378.0,11.993552684783936,0.0008807999999999999,structured_baseline
+552,5,5,True,355.0,213.0,8.310689449310303,0.0005751,structured_baseline
+34445,253,253,True,340.0,9.0,0.5136959552764893,0.0002193,structured_baseline
+13809,Monday,Monday,True,347.0,9.0,0.5835914611816406,0.00022349999999999998,structured_baseline
+22583,5,5,True,351.0,9.0,0.8019983768463135,0.0002259,structured_baseline
+8372,3/19,3/19,True,370.0,224.0,7.342241048812866,0.0006028,structured_baseline
+33943,5.80,5.80,True,375.0,164.0,6.384349346160889,0.0005038,structured_baseline
+32425,3/14,3/14,True,366.0,11.0,0.6314966678619385,0.0002383,structured_baseline
+7222,9,9,True,349.0,9.0,0.5413594245910645,0.0002247,structured_baseline
+5075,11,11,True,414.0,142.0,3.418107032775879,0.0004898,structured_baseline
+13750,8,8,True,339.0,242.0,6.741268873214722,0.0006148,structured_baseline
+5510,2,2,True,364.0,315.0,9.911377191543579,0.0007539000000000001,structured_baseline
+22577,8645,"8,645",True,357.0,63.0,3.022636890411377,0.0003213,structured_baseline
+33770,2,2,True,396.0,160.0,4.412079334259033,0.0005096,structured_baseline
+7807,Vostok Station,Death Valley,False,380.0,12.0,0.554192066192627,0.00024839999999999997,structured_baseline
+13978,"FINAL ANSWER
+</answer>
+
+And since it's a string, we should not include quotes; just the number.
+
+So, the final output should be:
+<answer>
+8",8,False,351.0,414.0,10.043164253234863,0.0009144,structured_baseline
+5443,12.11,12.11,True,345.0,93.0,3.122556447982788,0.0003651,structured_baseline
+16834,8,8,True,365.0,239.0,7.740522861480713,0.0006253,structured_baseline
+10849,Wednesday,Wednesday,True,343.0,85.0,2.7974798679351807,0.0003503,structured_baseline
+619,$2,2,True,358.0,65.0,2.1724586486816406,0.0003253,structured_baseline
+12840,2,2,True,364.0,218.0,6.001553535461426,0.000589,structured_baseline
+34647,nonlinear,linear,False,319.0,10.0,0.5110743045806885,0.0002084,structured_baseline
+5963,Thursday,Thursday,True,355.0,9.0,1.0503900051116943,0.0002283,structured_baseline
+30686,$22,22,True,363.0,10.0,0.5833427906036377,0.0002348,structured_baseline
+21154,Friday,Friday,True,345.0,9.0,0.5877871513366699,0.00022229999999999998,structured_baseline
+6169,2:25 P.M.,2:25 P.M.,True,424.0,71.0,0.848088264465332,0.0003751,structured_baseline
+506,44,44,True,347.0,144.0,4.505802392959595,0.00045299999999999995,structured_baseline
+9897,4,4,True,379.0,145.0,5.771186113357544,0.0004739,structured_baseline
+36437,51,51,True,343.0,187.0,6.897083520889282,0.0005237,structured_baseline
+25744,21,21,True,347.0,9.0,0.6322598457336426,0.00022349999999999998,structured_baseline
+18538,Orchestra,Orchestra,True,449.0,75.0,3.1719887256622314,0.0003969,structured_baseline
+11998,2,2,True,348.0,289.0,6.856336355209351,0.0007000999999999999,structured_baseline
+15882,nonlinear,nonlinear,True,319.0,10.0,0.8017139434814453,0.0002084,structured_baseline
+35321,6,6,True,329.0,9.0,0.7469062805175781,0.0002127,structured_baseline
+3524,61,61,True,342.0,150.0,5.385777473449707,0.0004602,structured_baseline
+3737,Scooters and More,Scooters and More,True,368.0,107.0,3.3641631603240967,0.0004027,structured_baseline
+28734,nonlinear,nonlinear,True,319.0,167.0,7.035255193710327,0.0004753,structured_baseline
+24354,nonlinear,nonlinear,True,319.0,10.0,0.6696288585662842,0.0002084,structured_baseline
+34727,Pine Elementary,Pine Elementary,True,350.0,11.0,0.633192777633667,0.00022869999999999998,structured_baseline
+4472,Fizzy Fun,Fizzy Fun,True,374.0,12.0,0.6399226188659668,0.0002448,structured_baseline
+17933,5/16,5/16,True,334.0,11.0,0.618598222732544,0.00021909999999999999,structured_baseline
+26408,10:45 A.M.,10:45 A.M.,True,442.0,94.0,2.8607397079467773,0.00042500000000000003,structured_baseline
+23985,$10,10,True,329.0,10.0,0.7748277187347412,0.0002144,structured_baseline
+273,120.70,120.70,True,339.0,218.0,4.717482089996338,0.000574,structured_baseline
+17432,nonlinear,linear,False,319.0,10.0,0.5506763458251953,0.0002084,structured_baseline
+8178,53,53,True,349.0,164.0,4.936898946762085,0.0004882,structured_baseline
+23275,$1485.00,"1,485",True,340.0,13.0,0.7673907279968262,0.0002261,structured_baseline
+14041,1/6,1/6,True,384.0,169.0,6.5693745613098145,0.0005177,structured_baseline
+31103,$14.00,14,True,353.0,92.0,3.4389030933380127,0.0003682,structured_baseline
+1230,14,14,True,362.0,9.0,0.8936460018157959,0.00023249999999999999,structured_baseline
+34715,May,April,False,363.0,9.0,0.8204054832458496,0.00023309999999999997,structured_baseline
+5664,orchestra rehearsal,orchestra rehearsal,True,510.0,265.0,7.677341461181641,0.0007565,structured_baseline
+568,4 hours and 15 minutes,4 hours and 15 minutes,True,504.0,349.0,11.688332796096802,0.0008957,structured_baseline
+16564,10,10,True,365.0,221.0,7.503342151641846,0.0005947,structured_baseline
+27679,55,55,True,357.0,9.0,0.8335840702056885,0.0002295,structured_baseline
+30015,5,5,True,347.0,122.0,4.447654724121094,0.0004156,structured_baseline
+13096,5,5,True,361.0,9.0,0.7422497272491455,0.00023189999999999997,structured_baseline
+19851,"and </answer> tags, and since it's a string, I should not include quotes. So, just ""3/5"" without quotes.
+
+Also, the function returns a string, so when printed, it should be without quotes.
+
+Therefore, the output should be:
+
+<answer>
+3/5
+</answer>
+
+I think that's it.
+<answer>
+3/5",3/5,False,352.0,474.0,15.894661664962769,0.001017,structured_baseline
+15392,2,2,True,407.0,236.0,5.258206605911255,0.0006454,structured_baseline
+13890,6,6,True,354.0,76.0,3.6283628940582275,0.00034159999999999995,structured_baseline
+8970,"and </answer> tags, and without any quotes or extra text.
+
+So, the final output should be:
+<answer>
+9
+</answer>
+<answer>
+9",9,False,340.0,307.0,10.63449764251709,0.0007259,structured_baseline
+5016,15,15,True,326.0,9.0,0.8487415313720703,0.00021089999999999998,structured_baseline
+29524,"and </answer> tags, and it should be as if printed by Python, so for a string, it should be without quotes.
+
+Therefore, the output should be:
+
+<answer>
+66.74
+</answer>
+
+But wait, is there a dollar sign? The question says ""how much did she spend"", and the prices are given with dollar signs, but the answer should probably be just the number, as it's a math problem. Looking at the table, the prices are written with ""$"", but the calculation is numerical. The function should return the numerical value as a string.
+
+In the table, it's ""$8.36"", but when we compute, we use 8.36. So the answer should be a number without currency symbol, I think.
+
+To be consistent, since the question is about money, perhaps it should include the dollar sign? But the documentation says ""return the answer as a string"", and it doesn't specify format. However, in the context, it might be expected to be a number.
+
+Let me see the example: the table has ""$8.36"", but when we output the answer, it might be just ""66.74"" or ""$66.74"". I think it's safer to output just the number, as the calculation is done numerically.
+
+Moreover, in math problems, often the answer is given as a number.
+
+But let's think: the function is called ""tabmwp_solve"", and it's for math word problems with tables. Typically, the answer is a number.
+
+Also, the choices are None, so no options to guide.
+
+I think ""66.74"" is fine.
+
+To be precise, let's confirm the calculation:
+
+5 * 6.66 = 33.3, but 6.66 * 5 = 33.30, which is 33.3, but we should keep two decimals.
+
+Similarly, 4 * 8.36 = 33.44
+
+33.30 + 33.44 = 66.74
+
+Yes.
+
+So, the final answer should be ""66.74"".
+
+Now, for the output, since it's a string, when printed, it should be without quotes.
+
+So, in the <answer> tags, I should have 66.74
+
+<answer>
+66.74",66.74,False,372.0,780.0,26.549376249313354,0.0015492,structured_baseline
+16785,30,30,True,320.0,9.0,0.9484379291534424,0.0002073,structured_baseline
+37902,1,1,True,359.0,155.0,6.967503547668457,0.0004789,structured_baseline
+36335,2:30 P.M.,2:30 P.M.,True,476.0,98.0,4.672123432159424,0.00045220000000000004,structured_baseline
+7102,1.18,1.18,True,341.0,93.0,3.7821784019470215,0.0003627,structured_baseline
+29558,6,6,True,374.0,286.0,6.99303936958313,0.0007106,structured_baseline
+36206,$1494.00,"1,494",True,354.0,105.0,4.191610336303711,0.0003909,structured_baseline
+9398,yes,yes,True,321.0,134.0,5.115241527557373,0.00042040000000000003,structured_baseline
+22199,6,6,True,337.0,61.0,2.445674180984497,0.0003059,structured_baseline
+20700,60,60,True,338.0,9.0,0.8815767765045166,0.0002181,structured_baseline
+13083,Thursday,Thursday,True,351.0,79.0,2.579859972000122,0.0003449,structured_baseline
+34876,underground lake,underground lake,True,374.0,12.0,1.6913554668426514,0.0002448,structured_baseline
+18955,"and </answer> tags.
+
+<answer>
+69",69,False,354.0,342.0,9.093860864639282,0.0007938,structured_baseline
+31739,4,4,True,354.0,9.0,1.1283822059631348,0.00022769999999999998,structured_baseline
+31098,30.00,30,True,329.0,11.0,0.7155611515045166,0.0002161,structured_baseline
+13717,no,no,True,353.0,110.0,3.2263238430023193,0.0003988,structured_baseline
+1603,4.20,4.20,True,351.0,110.0,4.379379510879517,0.0003976,structured_baseline
+7676,3,3,True,353.0,407.0,13.97344422340393,0.0009036999999999999,structured_baseline
+10942,$4.12,4.12,True,340.0,12.0,0.8851649761199951,0.0002244,structured_baseline
+37759,9,9,True,362.0,219.0,7.28241229057312,0.0005895,structured_baseline
+27080,0.09,0.09,True,356.0,132.0,5.849744558334351,0.000438,structured_baseline
+29535,25,25,True,336.0,9.0,0.8868107795715332,0.0002169,structured_baseline
+36062,"48
+</answer>
+
+I need to make sure it's exactly as it would be printed by print(x), so no quotes.
+<answer>
+48",48,False,368.0,364.0,14.217880010604858,0.0008396,structured_baseline
+33309,$11,11,True,377.0,10.0,1.9222614765167236,0.0002432,structured_baseline
+33302,4,4,True,354.0,239.0,6.40769362449646,0.0006187,structured_baseline
+4080,-3,-3,True,358.0,117.0,4.4627649784088135,0.0004137,structured_baseline
+6386,1:15 P.M.,1:15 P.M.,True,517.0,271.0,8.677475929260254,0.0007709,structured_baseline
+18723,5,5,True,340.0,114.0,4.231723070144653,0.0003978,structured_baseline
+21816,July,July,True,342.0,74.0,4.55267071723938,0.000331,structured_baseline
+18357,"and </answer>.
+
+So, the final answer should be ""2"", but since it's a rate, it might be ""2 emails per day"" or just ""2"". However, the question asks for ""the rate of change"", and in math problems, it's often just the numerical value.
+
+Looking back at the question: ""what was the rate of change between Tuesday and Wednesday?"" It might expect a number with units, but since it's a math word problem, often the answer is just the number.
+
+But to be precise, let's see the context. The table has ""Emails"" as the unit, and rate of change is emails per day.
+
+However, the function should return a string, and for free-text, it might be appropriate to return the numerical value.
+
+But the documentation says ""return the answer as a string"", so I can return ""2"" or ""2 emails per day"".
+
+I think for consistency with typical math problem solving, the numerical value is sufficient, especially since the unit is implied.
+
+In many such problems, the answer is just the number.
+
+For example, if it were multiple choice, choices might be numbers.
+
+Here, choices is None, so free-text.
+
+I think ""2"" is fine.
+
+But let me confirm the calculation.
+
+Tuesday: 1
+Wednesday: 3
+Change: 3 - 1 = 2
+Rate: 2 per day.
+
+Yes.
+
+So, the output should be ""2"".
+
+In the output format, it should be without quotes.
+
+So, inside <answer> tags, just 2.
+
+<answer>
+2
+</answer>
+
+But to be thorough, is there any trick? The table has Sunday to Thursday, but we only need Tuesday and Wednesday. Also, ""rate of change"" might be misinterpreted, but it's clear here.
+
+Another thing: is it average rate of change? Since it's between two points, it's the same.
+
+So, I think ""2"" is correct.
+<answer>
+2",2,False,346.0,634.0,16.38977360725403,0.0012854000000000001,structured_baseline
+35017,66.0,66,True,344.0,11.0,0.9119195938110352,0.0002251,structured_baseline
+1174,"and </answer> tags, and since it's a string, I should not include quotes. So just the number.
+
+<answer>
+44",44,False,346.0,350.0,10.861319065093994,0.0008026,structured_baseline
+10068,Saturday,Saturday,True,347.0,9.0,0.883528470993042,0.00022349999999999998,structured_baseline
+21397,"$2,134","2,134",True,351.0,12.0,0.7895021438598633,0.000231,structured_baseline
+24996,baseball stadium,baseball stadium,True,415.0,11.0,-1.552276849746704,0.0002677,structured_baseline
+30638,3,3,True,380.0,210.0,6.870868921279907,0.000585,structured_baseline
+22260,2,2,True,373.0,184.0,4.450239181518555,0.0005366,structured_baseline
+17781,"and </answer> tags, without quotes.
+
+Therefore, the output should be:
+
+<answer>
+5",5,False,352.0,327.0,9.209978818893433,0.0007670999999999999,structured_baseline
