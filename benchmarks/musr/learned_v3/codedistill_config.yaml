@@ -1,0 +1,5 @@
+ptools:
+  extract_index:
+    backoff: true
+    learner: codedistill
+    method: learned_code

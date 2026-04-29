@@ -462,14 +462,22 @@ class WorkflowDistillLearner(CodeDistillLearner):
             ptools_cfg = {}
         else:
             ptools_cfg = OmegaConf.to_container(ptools_cfg, resolve=True)
-        # Skip the target interface and any 'DEFAULT'/unconfigured ptools.
+        # Skip the target interface, 'DEFAULT'/unconfigured ptools, and
+        # any ptool name that doesn't actually exist in the loaded tool
+        # module — important for Class 3 (induced module only has the
+        # induced ptools, not the benchmark's hand-written ptools listed
+        # in the conf yaml).
         filtered = {}
+        skipped_missing = []
         for name, cfg in ptools_cfg.items():
             if name == self.interface_name:
                 continue
             if not isinstance(cfg, dict):
                 continue
             if cfg.get('method') in (None, 'DEFAULT'):
+                continue
+            if not hasattr(ptool_module, name):
+                skipped_missing.append(name)
                 continue
             filtered[name] = dict(cfg)
         if filtered:
@@ -479,6 +487,9 @@ class WorkflowDistillLearner(CodeDistillLearner):
         else:
             print(f'  no ptools to bind from {self.conf_file} '
                   f'(target={self.interface_name})')
+        if skipped_missing:
+            print(f'  skipped {len(skipped_missing)} ptools not in tool '
+                  f'module: {sorted(skipped_missing)}')
 
     def fit(self) -> "WorkflowDistillLearner":
         """Multi-round + ensemble fit on train portion; report val acc on holdout."""

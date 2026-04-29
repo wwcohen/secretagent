@@ -1,0 +1,28 @@
+llm:
+  model: together_ai/deepseek-ai/DeepSeek-V3.1
+cachier:
+  cache_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/bbh/geometric_shapes/llm_cache
+evaluate:
+  result_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/bbh/geometric_shapes/recordings
+  expt_name: bbh_geometric_train_record_v2
+  record_details: true
+dataset:
+  split: train
+  shuffle_seed: 137
+  'n': 50
+ptools:
+  extract_path_and_options:
+    method: simulate
+  decompose_path:
+    method: simulate
+  describe_command:
+    method: simulate
+  compute_angle:
+    method: simulate
+  describe_shape:
+    method: simulate
+  select_option:
+    method: simulate
+  identify_shape:
+    method: direct
+    fn: ptools.geometric_shapes_workflow

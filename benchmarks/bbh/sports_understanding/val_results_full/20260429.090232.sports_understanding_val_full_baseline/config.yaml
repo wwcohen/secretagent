@@ -1,0 +1,22 @@
+llm:
+  model: together_ai/deepseek-ai/DeepSeek-V3.1
+cachier:
+  cache_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/bbh/sports_understanding/llm_cache
+evaluate:
+  result_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/bbh/sports_understanding/val_results_full
+  expt_name: sports_understanding_val_full_baseline
+dataset:
+  split: valid
+  shuffle_seed: 137
+  'n': 75
+ptools:
+  analyze_sentence:
+    method: simulate
+  sport_for:
+    method: simulate
+  consistent_sports:
+    method: simulate
+  are_sports_in_sentence_consistent:
+    method: direct
+    fn: ptools.sports_understanding_workflow
+root: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/bbh/sports_understanding

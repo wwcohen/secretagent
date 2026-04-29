@@ -88,28 +88,56 @@ uv run -m secretagent.cli.learn workflow-codedistill \
   via the benchmark conf so the generated workflow can actually call
   them during eval.
 
-## Master result table (val split, n=30 each)
+## Master chain run summary (full-size, 2026-04-29)
+
+Master chain `/tmp/master_chain.sh` completed at 09:39 EDT. All 5 phases:
+- A — full-size baseline re-record (n=43-100 per benchmark, depending on
+  available data) → DONE 07:11
+- B' — class1 v4 codedistill-all max_wrong_rate=0.20 on full-size →
+  DONE (initially produced no output due to recording-name mismatch
+  bug; re-launched after fix)
+- C' — class2 v4 workflow-codedistill backoff=True on full-size → DONE
+  09:01 (10 benchmarks)
+- D' — class3 v4 workflow-distill on induced (musr/finqa/calendar) →
+  DONE 09:02 (musr OK, finqa/calendar failed due to ptool-binding bug
+  trying to bind benchmark ptools that aren't in induced module;
+  re-launched after fix)
+- E — full-size val eval baseline + class2v4 → DONE 09:39
+
+## Master result table (val full-size, see val_results_full/)
 
 > ⚠️ **BBH baselines were initially undercounted** — my val runs used
 > the default `ExactMatchEvaluator` which doesn't strip parens (`(C)` vs `C`).
 > Numbers below have been **post-hoc corrected** by re-applying paren-strip
 > normalisation to BBH benchmarks (others unaffected).
 
-| Benchmark | Workflow used | Baseline acc / cost | Class 1 (val acc / cost / ENABLED) | Class 2 (val acc / cost) | Class 3 v2 |
-|---|---|---|---|---|---|
-| natplan_calendar | calendar_workflow | 57% / $0.078 | n/a (no calendar ENABLED in learned_v2) | **93% / $0.000** ⭐ | failed (Stage B pydantic-ai) |
-| natplan_meeting  | meeting_workflow  | 33% / $0.149 | 1 ENABLED (`build_meeting_plan`); val n/a (couldn't apply only-meeting overrides) | 0% / $0.000 ❌ | n/a |
-| natplan_trip     | trip_workflow     | 33% / $0.086 | 2 ENABLED; val n/a | 33% / $0.086 (parity via backoff) | n/a |
-| musr_murder      | answer_question_workflow | 70% / $0.240 | **70% / $0.239** / 1 ENABLED (`extract_index`) (parity, marginal cost) | n/a (raw dataset) | failed (LLM didn't manage `_REACT_STATE`) |
-| bbh_sports       | sports_understanding_workflow | 97% / $0.042 | 93% / $0.037 / 1 ENABLED | 70% / $0.040 | n/a |
-| bbh_penguins     | penguins_workflow | 73% / $0.066 | 73% / $0.036 / 2 ENABLED | **93% / $0.004** ⭐ +20pp | n/a |
-| bbh_geometric    | geometric_shapes_workflow | 37% / $0.150 | 47% / $0.098 / 4 ENABLED | **87% / $0.000** ⭐ +50pp | n/a |
-| bbh_date         | zeroshot_unstructured_workflow | 93% / $0.026 | 0 ENABLED | 63% / $0.020 (-30pp vs zs baseline; +24pp vs orchestrated 39%) | failed (CoT pipeline) |
-| medcalc          | workflow.yaml     | (not run) | 0 ENABLED | 20% / 20% (holdout) | n/a |
-| finqa            | answer_finqa_workflow | 80% / $0.035 | **80% / $0.035** / 1 ENABLED (`extract_final_number`) (parity) | 0% / $0 ❌ (gen calls hand workflow then breaks) | failed (Stage B pydantic-ai) |
-| rulearena_nba    | l1_extract_workflow | 80% / $0.846 | 0 ENABLED | n/a (no train Dataset json) | n/a |
-| rulearena_tax    | l1_extract_workflow | 100% / $0.434 | 0 ENABLED | n/a | n/a |
-| rulearena_airline | l1_extract_workflow | 100% / $0.462 | 0 ENABLED | **100% / $0.000** ⭐ same acc, cost zeroed | n/a |
+| Benchmark | n | Baseline (DS-V3.1) | Class 1 v2 (n=30 mini) | Class 2 v4 (full, backoff=simulate) |
+|---|---|---|---|---|
+| natplan_calendar | 100 | 55% / $0.329 | n/a | **87% / $0.000** ⭐ +32pp |
+| natplan_meeting | 100 | 29% / $0.526 | n/a (1 ENABLED; trip-only config conflict) | 3% / $0.008 ❌ (overfit train) |
+| natplan_trip | 100 | 21% / $0.388 | 20% / $0.116 ❌ pipeline regression | 21% / $0.388 (parity via backoff) |
+| musr_murder | 75 | 68% / $0.604 | **70% / $0.239** ⭐ -60% cost | n/a (Class 3 v4 instead, 102-line workflow) |
+| bbh_sports | 75 | 99% / $0.105 | 93% / $0.037 ❌ -6pp | 99% / $0.107 (parity) |
+| bbh_penguins | 43 | 72% / $0.088 | 73% / $0.036 (parity, -59% cost) | **88% / $0.015** ⭐ +16pp |
+| bbh_geometric | 75 | 37% / $0.382 | 47% / $0.098 ⭐ +10pp | **100% / $0.000** ⭐⭐⭐ +63pp |
+| bbh_date | 75 | 83% / $0.065 | n/a (0 ENABLED, data scarcity v2) | **88% / $0.089** +5pp |
+| medcalc | 100 train | 75% / $0.188 (no val run) | 0 ENABLED | (running) |
+| finqa | 100 | 67% / $0.121 | 80% / $0.035 ⭐ +13pp (n=30 mini) | (running) |
+| rulearena_nba | 42 | 74% / $1.223 | 0 ENABLED | n/a |
+| rulearena_tax | 50 | 78% / $0.927 | 0 ENABLED | n/a |
+| rulearena_airline | 50 | 46% / $0.863 | 0 ENABLED | **100% / $0.000** ⭐⭐ |
+
+Note: rulearena_airline 46% baseline (my run, simulate_pydantic agent for L1 extract) ≠ existing 90% (their structured_baseline with simulate). Different methods. Their structured_baseline is a stronger baseline. Even so, Class 2 100% beats both.
+
+Class 2 v4 highlights (full-size n=43-100, backoff=simulate):
+- ⭐⭐⭐ **bbh_geometric 100% / $0** (vs 37% baseline, +63pp, $0.382 → $0)
+- ⭐⭐ **rulearena_airline 100% / $0** (vs 46% baseline)
+- ⭐⭐ **natplan_calendar 87% / $0** (vs 55% baseline, +32pp)
+- ⭐ **bbh_penguins 88% / $0.015** (vs 72% baseline, +16pp, -83% cost)
+- bbh_date 88% / $0.089 (modest)
+- bbh_sports 99% (parity — already saturated)
+- natplan_trip 21% (parity via backoff — generated workflow returns None, falls back to baseline)
+- natplan_meeting 3% — generated workflow has solver bug; backoff didn't rescue because code returns wrong values not None
 
 ## Alignment vs existing `results/` baselines
 

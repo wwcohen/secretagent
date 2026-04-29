@@ -39,9 +39,21 @@ BENCHMARKS = {
 
 
 def find_val_csv(benchdir: Path, expt_pat: str):
-    """Find the most recent results.csv matching an expt name pattern."""
-    cand = sorted(benchdir.glob(f'val_results/*.{expt_pat}/results.csv'))
-    return cand[-1] if cand else None
+    """Find the most recent results.csv matching an expt name pattern.
+    Prefers val_results_full/ (full-size n; suffix class2v4 etc) over
+    val_results/ (n=30 mini)."""
+    method = expt_pat.split('_')[-1]  # baseline / class1 / class2 / class3
+    pre = '_'.join(expt_pat.split('_')[:-1])
+    # Priority order: full-size newest first, then mini
+    for sub, suffix in [('val_results_full', f'_full_{method}v4'),
+                        ('val_results_full', f'_full_{method}'),
+                        ('val_results', f'_{method}v4'),
+                        ('val_results', f'_{method}v2'),
+                        ('val_results', f'_{method}')]:
+        cands = sorted(benchdir.glob(f'{sub}/*.{pre}{suffix}/results.csv'))
+        if cands:
+            return cands[-1]
+    return None
 
 
 def _norm_bbh(s):
