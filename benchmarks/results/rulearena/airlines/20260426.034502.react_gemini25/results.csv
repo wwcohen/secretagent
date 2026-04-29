@@ -1,0 +1,51 @@
+case_name,predicted_output,expected_output,correct,correct_tolerance,failure_mode,input_tokens,output_tokens,latency,cost,expt_name
+airline_0_6,**exception raised**: cannot find final answer,1131,0.0,0.0,extraction_failure,,,,,react_gemini25
+airline_1_28,2296.0,2296,1.0,1.0,none,64957.0,34697.0,138.0805790424347,0.10622960000000001,react_gemini25
+airline_1_10,2682.0,2682,1.0,1.0,none,40303.0,8305.0,44.629504919052124,0.032853400000000005,react_gemini25
+airline_2_30,**exception raised**: cannot find final answer,2658,0.0,0.0,extraction_failure,,,,,react_gemini25
+airline_0_90,**exception raised**: cannot find final answer,1847,0.0,0.0,extraction_failure,,,,,react_gemini25
+airline_0_72,1279.0,1279,1.0,1.0,none,53258.0,10183.0,52.39091634750366,0.0414349,react_gemini25
+airline_2_2,**exception raised**: cannot find final answer,3332,0.0,0.0,extraction_failure,,,,,react_gemini25
+airline_0_86,**exception raised**: cannot find final answer,1392,0.0,0.0,extraction_failure,,,,,react_gemini25
+airline_0_40,2735.0,2735,1.0,1.0,none,39641.0,3537.0,26.50574827194214,0.0207348,react_gemini25
+airline_0_79,1227.0,1227,1.0,1.0,none,53290.0,6779.0,41.004390001297,0.0329345,react_gemini25
+airline_2_40,4503.0,4293,0.0,0.0,calculation_error,26123.0,18189.0,77.39038562774658,0.05330940000000001,react_gemini25
+airline_2_3,3103.0,3103,1.0,1.0,none,41027.0,8294.0,44.80370116233826,0.033043100000000006,react_gemini25
+airline_2_1,3762.0,3762,1.0,1.0,none,41014.0,10939.0,51.7084858417511,0.039651700000000005,react_gemini25
+airline_0_16,**exception raised**: cannot find final answer,1300,0.0,0.0,extraction_failure,,,,,react_gemini25
+airline_1_52,**exception raised**: cannot find final answer,1896,0.0,0.0,extraction_failure,,,,,react_gemini25
+airline_2_25,**exception raised**: cannot find final answer,4578,0.0,0.0,extraction_failure,,,,,react_gemini25
+airline_1_96,2085.0,2085,1.0,1.0,none,28941.0,10110.0,38.62202739715576,0.0339573,react_gemini25
+airline_1_46,2019.0,2019,1.0,1.0,none,40331.0,11626.0,62.50211000442505,0.0411643,react_gemini25
+airline_0_74,903.0,903,1.0,1.0,none,39628.0,4834.0,28.998239278793335,0.0239734,react_gemini25
+airline_2_73,5012.0,4812,0.0,0.0,calculation_error,30346.0,9108.0,37.54453134536743,0.0318738,react_gemini25
+airline_2_59,3234.0,3234,1.0,1.0,none,41016.0,6592.0,35.01415038108826,0.0287848,react_gemini25
+airline_0_35,**exception raised**: cannot find final answer,1098,0.0,0.0,extraction_failure,,,,,react_gemini25
+airline_1_37,**exception raised**: cannot find final answer,4458,0.0,0.0,extraction_failure,,,,,react_gemini25
+airline_0_41,1838.0,1838,1.0,1.0,none,39639.0,5816.0,31.393404245376587,0.026431700000000002,react_gemini25
+airline_2_98,**exception raised**: cannot find final answer,3028,0.0,0.0,extraction_failure,,,,,react_gemini25
+airline_0_80,1165.0,1165,1.0,1.0,none,53287.0,4016.0,26.354106664657593,0.0260261,react_gemini25
+airline_2_69,4475.0,4475,1.0,1.0,none,41085.0,6090.0,36.82420349121094,0.0275505,react_gemini25
+airline_2_88,**exception raised**: cannot find final answer,3324,0.0,0.0,extraction_failure,,,,,react_gemini25
+airline_2_62,**exception raised**: cannot find final answer,3749,0.0,0.0,extraction_failure,,,,,react_gemini25
+airline_2_5,**exception raised**: cannot find final answer,4073,0.0,0.0,extraction_failure,,,,,react_gemini25
+airline_1_45,2535.0,2535,1.0,1.0,none,64992.0,15961.0,68.08006024360657,0.0594001,react_gemini25
+airline_2_87,**exception raised**: cannot find final answer,3157,0.0,0.0,extraction_failure,,,,,react_gemini25
+airline_1_71,2449.0,2449,1.0,1.0,none,65051.0,14108.0,63.56624412536621,0.0547853,react_gemini25
+airline_1_4,2207.0,2207,1.0,1.0,none,40324.0,1205.0,15.43544888496399,0.0151097,react_gemini25
+airline_0_99,**exception raised**: cannot find final answer,1421,0.0,0.0,extraction_failure,,,,,react_gemini25
+airline_1_76,2108.0,2108,1.0,1.0,none,40340.0,1477.0,16.81484818458557,0.0157945,react_gemini25
+airline_2_67,3029.0,3029,1.0,1.0,none,41017.0,1726.0,21.494911670684814,0.0166201,react_gemini25
+airline_2_10,3196.0,3056,0.0,0.0,calculation_error,13029.0,6865.0,27.38207483291626,0.0210712,react_gemini25
+airline_2_43,**exception raised**: cannot find final answer,5181,0.0,0.0,extraction_failure,,,,,react_gemini25
+airline_1_2,**exception raised**: cannot find final answer,2380,0.0,0.0,extraction_failure,,,,,react_gemini25
+airline_1_92,2254.0,2254,1.0,1.0,none,40321.0,1460.0,13.800009489059448,0.015746299999999998,react_gemini25
+airline_0_20,972.0,972,1.0,1.0,none,39638.0,10690.0,53.90649747848511,0.0386164,react_gemini25
+airline_1_1,2375.0,2375,1.0,1.0,none,40303.0,1535.0,15.617522716522217,0.0159284,react_gemini25
+airline_1_84,2205.0,2205,1.0,1.0,none,39880.0,5603.0,32.474499225616455,0.0259715,react_gemini25
+airline_0_36,**exception raised**: cannot find final answer,1742,0.0,0.0,extraction_failure,,,,,react_gemini25
+airline_0_4,1434.0,1434,1.0,1.0,none,39669.0,5051.0,31.76840829849243,0.0245282,react_gemini25
+airline_1_5,**exception raised**: cannot find final answer,2380,0.0,0.0,extraction_failure,,,,,react_gemini25
+airline_1_65,**exception raised**: No choices returned from LiteLLM,4808,0.0,0.0,extraction_failure,,,,,react_gemini25
+airline_0_69,1174.0,1174,1.0,1.0,none,39664.0,3777.0,26.03621816635132,0.021341699999999998,react_gemini25
+airline_0_37,1857.0,1857,1.0,1.0,none,39639.0,3407.0,24.612669944763184,0.020409200000000002,react_gemini25
