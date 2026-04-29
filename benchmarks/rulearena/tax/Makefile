@@ -3,11 +3,11 @@
 #
 
 .PHONY: basics unstructured_baseline structured_baseline workflow pot react \
-        list avg pair compare plot costs resplit partition
+        react_two_phase list avg pair compare plot costs resplit partition
 
 DOTPAIRS ?=
 
-basics: unstructured_baseline structured_baseline workflow pot react
+basics: unstructured_baseline structured_baseline workflow pot react react_two_phase
 
 # zero-shot unstructured queries with a vanilla prompt
 # the prompt returns a numeric string which is parsed to a float by parse_numeric_answer
@@ -48,6 +48,15 @@ react:
 	  ptools.compute_tax_answer.method=simulate_pydantic \
 	  ptools.compute_tax_answer.tools=[ptools.extract_tax_params,ptools.compute_tax_calculator] \
 	  ptools.extract_tax_params.method=simulate \
+	  $(DOTPAIRS)
+
+# Two-phase react: simulate_pydantic extraction first, then react compute only.
+react_two_phase:
+	uv run python -m secretagent.cli.expt run --interface ptools.compute_tax_answer --evaluator evaluator.TaxEvaluator evaluate.expt_name=react_two_phase \
+	  ptools.compute_tax_answer.method=direct \
+	  ptools.compute_tax_answer.fn=ptools.two_phase_react_workflow \
+	  ptools.compute_tax_answer_react.method=simulate_pydantic \
+	  ptools.compute_tax_answer_react.tools=[ptools.compute_tax_calculator] \
 	  $(DOTPAIRS)
 
 #

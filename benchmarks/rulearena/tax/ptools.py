@@ -274,3 +274,18 @@ def unstructured_workflow(forms_text: str) -> float:
     """Zero-shot unstructured workflow: prompt LLM, parse numeric answer."""
     raw = zeroshot_tax(forms_text=forms_text)
     return _parse_numeric_answer(raw)
+
+
+def two_phase_react_workflow(forms_text: str) -> float:
+    """Two-phase react: simulate_pydantic extraction outside the react loop."""
+    params = extract_tax_params(query=forms_text)
+    return float(compute_tax_answer_react(params))
+
+
+@interface
+def compute_tax_answer_react(params: TaxParams) -> float:
+    """Compute federal tax from extracted TaxParams using available tools.
+
+    Returns the amount owed (positive) or refund (negative) in dollars.
+    """
+    ...
