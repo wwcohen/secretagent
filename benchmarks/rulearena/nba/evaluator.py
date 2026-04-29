@@ -57,16 +57,26 @@ class NbaEvaluator(Evaluator):
 
     def compare_predictions(self, predicted_output, expected_output) -> dict[str, Any]:
         if predicted_output is None:
-            return dict(correct=0.0, failure_mode="calculation_error")
-
-        if isinstance(predicted_output, str) and predicted_output.startswith("**exception raised**"):
+            result = dict(correct=0.0, failure_mode="calculation_error")
+        elif isinstance(predicted_output, str) and predicted_output.startswith("**exception raised**"):
             lower = predicted_output.lower()
             if any(pat in lower for pat in _STEP_LIMIT_PATTERNS):
                 failure_mode = "step_limit"
             else:
                 failure_mode = "extraction_failure"
-            return dict(correct=0.0, failure_mode=failure_mode)
+            result = dict(correct=0.0, failure_mode=failure_mode)
+        else:
+            correct = float(_verdict_match(predicted_output, expected_output))
+            failure_mode = "none" if correct else "calculation_error"
+            result = dict(correct=correct, failure_mode=failure_mode)
 
-        correct = float(_verdict_match(predicted_output, expected_output))
-        failure_mode = "none" if correct else "calculation_error"
-        return dict(correct=correct, failure_mode=failure_mode)
+        try:
+            p = bool(float(predicted_output)) if predicted_output is not None else False
+            e = bool(float(expected_output))
+        except (TypeError, ValueError):
+            p, e = False, True
+        result['tp'] = float(p and e)
+        result['fp'] = float(p and not e)
+        result['tn'] = float(not p and not e)
+        result['fn'] = float(not p and e)
+        return result

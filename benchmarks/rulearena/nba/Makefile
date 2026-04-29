@@ -3,7 +3,10 @@
 #
 
 .PHONY: basics unstructured_baseline structured_baseline workflow pot react \
-        list avg pair compare plot costs resplit partition
+        list avg pair compare plot costs resplit partition \
+        record_react induce_ptools evaluate_ptool_inducer learn_ptool_pipeline \
+        record_workflow codedistill evaluate_codedistill learn_codedistill_pipeline \
+        orchestrated quick-test-orchestrated
 
 DOTPAIRS ?=
 
@@ -51,6 +54,90 @@ react:
 	  ptools.compute_nba_answer.tools=[ptools.extract_nba_params] \
 	  ptools.extract_nba_params.method=simulate \
 	  $(DOTPAIRS)
+
+#
+# Learning pipeline: ptool_inducer (record react → induce → evaluate)
+#
+
+RECORD_OPTS = dataset.split=train evaluate.record_details=true evaluate.result_dir=recordings
+
+record_react:
+	uv run python -m secretagent.cli.expt run --interface ptools.compute_nba_answer --evaluator evaluator.NbaEvaluator evaluate.expt_name=react \
+	  ptools.compute_nba_answer.method=simulate_pydantic \
+	  "ptools.compute_nba_answer.tools=[ptools.extract_nba_params]" \
+	  ptools.extract_nba_params.method=simulate \
+	  $(RECORD_OPTS)
+
+induce_ptools:
+	uv run -m secretagent.cli.learn induce-ptools \
+	  --interface compute_nba_answer \
+	  --task-desc "Determine whether NBA operations violate CBA salary-cap rules; identify the first violating operation and which team is responsible" \
+	  --trace-mode react \
+	  --learned-dir learned \
+	  recordings/*
+
+evaluate_ptool_inducer:
+	uv run python -m secretagent.cli.expt run --interface ptools.compute_nba_answer --evaluator evaluator.NbaEvaluator evaluate.expt_name=ptool_inducer \
+	  ptools.compute_nba_answer.method=simulate_pydantic \
+	  ptools.compute_nba_answer.tool_module=__learned__ \
+	  ptools.compute_nba_answer.learner=ptool_inducer \
+	  "ptools.compute_nba_answer.tools=__all__" \
+	  learn.train_dir=learned
+
+learn_ptool_pipeline: record_react induce_ptools evaluate_ptool_inducer
+
+#
+# Learning pipeline: codedistill (record workflow → distill → evaluate)
+#
+
+record_workflow:
+	uv run python -m secretagent.cli.expt run --interface ptools.compute_nba_answer --evaluator evaluator.NbaEvaluator evaluate.expt_name=workflow \
+	  ptools.compute_nba_answer.method=direct \
+	  ptools.compute_nba_answer.fn=ptools.nba_workflow \
+	  $(RECORD_OPTS)
+
+codedistill:
+	uv run -m secretagent.cli.learn codedistill \
+	  --interface compute_nba_answer \
+	  --learned-dir learned_codedistill \
+	  recordings/*
+
+evaluate_codedistill:
+	uv run python -m secretagent.cli.expt run --interface ptools.compute_nba_answer --evaluator evaluator.NbaEvaluator evaluate.expt_name=codedistill \
+	  ptools.compute_nba_answer.method=learned_code \
+	  ptools.compute_nba_answer.learner=codedistill \
+	  ptools.compute_nba_answer.backoff=true \
+	  learn.train_dir=learned_codedistill
+
+learn_codedistill_pipeline: record_workflow codedistill evaluate_codedistill
+
+#
+# Orchestrated: LLM auto-generates a workflow composing all sub-tools
+#
+
+ORCH_TASK_DESC = "Determine whether NBA team operations violate CBA salary-cap rules. Extract team situations, player contracts, and proposed operations. Analyze each operation against CBA rules. Return 1.0 if any violation exists, 0.0 if compliant."
+
+orchestrated:
+	uv run python -m secretagent.cli.expt run --interface ptools.compute_nba_answer_orchestrated \
+	  --evaluator evaluator.NbaEvaluator \
+	  evaluate.expt_name=orchestrated \
+	  echo.orchestrate=true \
+	  orchestrate.model=together_ai/deepseek-ai/DeepSeek-V3.1 \
+	  orchestrate.max_retries=3 \
+	  ptools.compute_nba_answer.method=simulate \
+	  ptools.compute_nba_answer_orchestrated.method=orchestrate \
+	  "ptools.compute_nba_answer_orchestrated.task_description=$(ORCH_TASK_DESC)" \
+	  "ptools.compute_nba_answer_orchestrated.exclude=[compute_nba_answer]"
+
+quick-test-orchestrated:
+	uv run python -m secretagent.cli.expt quick-test --interface ptools.compute_nba_answer_orchestrated \
+	  echo.orchestrate=true \
+	  orchestrate.model=together_ai/deepseek-ai/DeepSeek-V3.1 \
+	  orchestrate.max_retries=3 \
+	  ptools.compute_nba_answer.method=simulate \
+	  ptools.compute_nba_answer_orchestrated.method=orchestrate \
+	  "ptools.compute_nba_answer_orchestrated.task_description=$(ORCH_TASK_DESC)" \
+	  "ptools.compute_nba_answer_orchestrated.exclude=[compute_nba_answer]"
 
 #
 # Summarize results of past experiments
