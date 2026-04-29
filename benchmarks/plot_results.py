@@ -38,18 +38,28 @@ BENCHMARKS = {
 }
 
 
-def find_val_csv(benchdir: Path, expt_pat: str):
+def find_val_csv(benchdir: Path, expt_pat: str, strict_v4: bool = False):
     """Find the most recent results.csv matching an expt name pattern.
     Prefers val_results_full/ (full-size n; suffix class2v4 etc) over
-    val_results/ (n=30 mini)."""
+    val_results/ (n=30 mini).
+
+    If strict_v4=True, only return v4 full-size matches (no fallback to v2 / mini).
+    Used for plot 1 where we want exactly 3 points per bench (baseline + c1_v4 + c2_v4).
+    """
     method = expt_pat.split('_')[-1]  # baseline / class1 / class2 / class3
     pre = '_'.join(expt_pat.split('_')[:-1])
-    # Priority order: full-size newest first, then mini
-    for sub, suffix in [('val_results_full', f'_full_{method}v4'),
-                        ('val_results_full', f'_full_{method}'),
-                        ('val_results', f'_{method}v4'),
-                        ('val_results', f'_{method}v2'),
-                        ('val_results', f'_{method}')]:
+    if strict_v4:
+        priority = [('val_results_full', f'_full_{method}v4')]
+        # baseline is special — no v4 suffix (just _full_baseline)
+        if method == 'baseline':
+            priority = [('val_results_full', f'_full_{method}')]
+    else:
+        priority = [('val_results_full', f'_full_{method}v4'),
+                    ('val_results_full', f'_full_{method}'),
+                    ('val_results', f'_{method}v4'),
+                    ('val_results', f'_{method}v2'),
+                    ('val_results', f'_{method}')]
+    for sub, suffix in priority:
         cands = sorted(benchdir.glob(f'{sub}/*.{pre}{suffix}/results.csv'))
         if cands:
             return cands[-1]
@@ -189,8 +199,17 @@ def collect_all():
 
         cells = {'baseline': None, 'class1': None, 'class1v2': None,
                  'class2': None, 'class3': None}
+        # plot1 will use these strict_v4 cells; other plots use the loose ones
+        cells_v4 = {'baseline': None, 'class1': None, 'class2': None}
         train_rec = find_train_rec(bench)
         for pref in prefixes:
+            for method in cells_v4:
+                csv = find_val_csv(benchdir, f'{pref}_{method}', strict_v4=True)
+                if csv:
+                    cells_v4[method] = csv_metrics(csv, train_rec if method == 'baseline' else None)
+                    if method != 'baseline' and cells_v4[method]['cost_per_case'] > 0.001:
+                        m2 = csv_metrics(csv, train_rec)
+                        cells_v4[method]['calls_per_case'] = m2['calls_per_case']
             for method in cells:
                 csv = find_val_csv(benchdir, f'{pref}_{method}')
                 if csv:
@@ -202,6 +221,8 @@ def collect_all():
                     if method != 'baseline' and cells[method]['cost_per_case'] > 0.001:
                         m2 = csv_metrics(csv, train_rec)
                         cells[method]['calls_per_case'] = m2['calls_per_case']
+        # attach strict v4 view as a sibling key
+        cells['_v4'] = cells_v4
         out[bench] = cells
     return out
 
@@ -221,22 +242,32 @@ def plot1_cost_vs_acc(data, outpath):
     fig, ax = plt.subplots(figsize=(11, 7))
     methods = [
         ('baseline', 'red',     'o', 'baseline (hand workflow)'),
-        ('class1v2', 'blue',    's', 'Class 1 (ptool codedistill)'),
-        ('class1',   'blue',    's', None),
-        ('class2',   'green',   '^', 'Class 2 (workflow codedistill)'),
-        ('class3',   'orange',  'D', 'Class 3 (workflow on induced)'),
+        ('class1',   'blue',    's', 'Class 1 v4 (ptool codedistill)'),
+        ('class2',   'green',   '^', 'Class 2 v4 (workflow codedistill)'),
+        # v2/mini and Class 3 intentionally omitted: 3 points per benchmark
     ]
     legend_drawn = set()
 
     for bench, cells in data.items():
+        # plot1 uses the strict v4 view: baseline + c1_v4 + c2_v4 only
+        cells = cells.get('_v4', cells)
         path = []
-        for mkey in ['baseline', 'class1v2', 'class1', 'class2', 'class3']:
+        for mkey in ['baseline', 'class1', 'class2']:
             cell = cells.get(mkey)
             if cell:
-                path.append((cell['cost_per_case'], cell['acc']))
-        if len(path) >= 2:
-            xs, ys = zip(*path)
-            ax.plot(xs, ys, 'k--', alpha=0.2, lw=0.8, zorder=1)
+                path.append((cell['cost_per_case'], cell['acc'], mkey))
+        # Draw arrows between consecutive points (baseline → next → next).
+        # Up-and-left = better. Arrows make direction obvious.
+        for (x0, y0, _m0), (x1, y1, _m1) in zip(path, path[1:]):
+            if x0 == x1 and y0 == y1:
+                continue
+            ax.annotate(
+                '', xy=(x1, y1), xytext=(x0, y0),
+                arrowprops=dict(arrowstyle='->', color='gray',
+                                alpha=0.45, lw=0.9,
+                                shrinkA=8, shrinkB=8),
+                zorder=2,
+            )
 
         for mkey, color, marker, label in methods:
             cell = cells.get(mkey)
@@ -388,7 +419,7 @@ def main():
     for bench, cells in data.items():
         line = f'{bench}: '
         for method, m in cells.items():
-            if m is None: continue
+            if m is None or method == '_v4': continue
             line += f' {method}=acc{m["acc"]:.0f}%/${m["cost"]:.3f}/{m["calls_per_case"]:.1f}calls'
         print(line)
 

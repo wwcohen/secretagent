@@ -196,6 +196,8 @@ def codedistill_all(
     n_candidates: int = typer.Option(3, help='Number of candidate versions per round'),
     max_rounds: int = typer.Option(3, help='Maximum refinement rounds'),
     max_wrong_rate: float = typer.Option(0.05, help='Max fraction of wrong (non-None) answers to enable'),
+    gate_metric: str = typer.Option('val', help="ENABLE gate: 'val' (holdout) or 'train' (v1 style, looser)"),
+    only_correct: bool = typer.Option(False, help='If True, only learn from rollouts whose final answer was correct'),
 ):
     """Auto-distill all interfaces found in recordings.
 
@@ -217,6 +219,8 @@ def codedistill_all(
         max_rounds=max_rounds,
         latest=latest,
         check=check,
+        gate_metric=gate_metric,
+        only_correct=only_correct,
     )
 
 

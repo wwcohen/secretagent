@@ -1,0 +1,34 @@
+llm:
+  model: together_ai/deepseek-ai/DeepSeek-V3
+cachier:
+  cache_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/musr/llm_cache
+  enable_caching: false
+evaluate:
+  expt_name: murder_val_full_class1v4
+  result_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/musr/val_results_full
+  entry_point: answer_question_workflow
+  record_details: true
+dataset:
+  split: murder_mysteries_val
+  shuffle_seed: 42
+  'n': 75
+ptools:
+  raw_answer:
+    method: simulate
+  extract_index:
+    method: learned_code
+    backoff: true
+    learner: codedistill
+  extract_suspects_and_evidence:
+    method: simulate
+  verify_alibis:
+    method: simulate
+  deduce_murderer:
+    method: simulate
+  answer_question:
+    method: direct
+  answer_question_workflow:
+    method: direct
+learn:
+  train_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/musr/learned_v4
+root: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/musr

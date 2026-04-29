@@ -28,12 +28,12 @@ def _truncate_repr(obj, max_len: int = 2000) -> str:
     return s[:max_len] + f'...<truncated {len(s) - max_len} chars>'
 
 
-def _format_cases(cases, max_cases: int = 20) -> str:
+def _format_cases(cases, max_cases: int = 50) -> str:
     """Format training cases as function call examples for the prompt.
 
-    Shows examples as function calls with positional args to make the
-    parameter structure clear to the LLM. Long values are truncated to
-    keep prompts under control on benchmarks with large outputs.
+    Shows examples as function calls with positional args. v1-style:
+    no truncation; the LLM sees the full input/output of each case so
+    long structured outputs (e.g. JSON, schedules) round-trip exactly.
     """
     lines = []
     parts = cases[0].name.rsplit('_', 1) if cases else ['func']
@@ -42,11 +42,11 @@ def _format_cases(cases, max_cases: int = 20) -> str:
     for case in cases[:max_cases]:
         args = case.input_args or []
         kw = case.input_kw or {}
-        args_str = ", ".join(_truncate_repr(a, 500) for a in args)
+        args_str = ", ".join(repr(a) for a in args)
         if kw:
-            kw_str = ", ".join(f"{k}={_truncate_repr(v, 500)}" for k, v in kw.items())
+            kw_str = ", ".join(f"{k}={repr(v)}" for k, v in kw.items())
             args_str = f"{args_str}, {kw_str}" if args_str else kw_str
-        output_repr = _truncate_repr(case.expected_output, 2000)
+        output_repr = repr(case.expected_output)
         lines.append(f"  {func_name}({args_str}) -> {output_repr}")
     if len(cases) > max_cases:
         lines.append(f"  ... ({len(cases) - max_cases} more examples omitted)")
@@ -57,65 +57,49 @@ def _format_traces(cases, max_traces: int = 3) -> str:
     """Extract workflow trace context from Case.metadata.
 
     Shows how this interface is called within the broader workflow,
-    AND the top-level task input/expected output, so the LLM understands
-    the global problem this ptool serves (not just its local i/o).
+    helping the LLM understand data flow and output format requirements.
+    v1-style: local ptool I/O only, no top-level task header. Each
+    repr() is truncated to 80/120 chars to keep trace blocks compact.
     """
     traces = []
     seen = set()
     for case in cases:
         meta = case.metadata or {}
-        prior_steps = meta.get('prior_steps') or []
+        prior_steps = meta.get('prior_steps')
+        if not prior_steps:
+            continue
         # Deduplicate by step sequence signature
         sig = tuple(s.get('func', '') for s in prior_steps)
-        if sig in seen and prior_steps:
+        if sig in seen:
             continue
         seen.add(sig)
-
-        # Top-level task header
-        top_func = meta.get('top_level_func')
-        top_args = meta.get('top_level_args') or []
-        top_expected = meta.get('top_level_expected')
-        header_lines = []
-        if top_func is not None:
-            top_args_str = ", ".join(_truncate_repr(a, 200) for a in top_args)
-            header_lines.append(
-                f"Top-level task: {top_func}({top_args_str})"
-            )
-            if top_expected is not None:
-                header_lines.append(
-                    f"  expected final output: {_truncate_repr(top_expected, 500)}"
-                )
 
         trace_lines = []
         for step in prior_steps:
             func = step.get('func', '?')
             args = step.get('args', [])
             output = step.get('output')
-            args_str = ", ".join(_truncate_repr(a, 200) for a in (args or []))
-            output_str = _truncate_repr(output, 500)
+            args_str = ", ".join(repr(a)[:80] for a in (args or []))
+            output_str = repr(output)[:120]
             trace_lines.append(f"  {func}({args_str}) -> {output_str}")
         # Add current step
-        cur_args_str = ", ".join(_truncate_repr(a, 200) for a in (case.input_args or []))
-        cur_output_str = _truncate_repr(case.expected_output, 500)
+        args_str = ", ".join(repr(a)[:80] for a in (case.input_args or []))
+        output_str = repr(case.expected_output)[:120]
         trace_lines.append(
-            f"  {case.name.split('_')[0]}({cur_args_str}) -> {cur_output_str}  # <-- this function"
+            f"  {case.name.split('_')[0]}({args_str}) -> {output_str}  # <-- this function"
         )
 
         correct = meta.get('rollout_correct')
         status = "CORRECT" if correct else "INCORRECT" if correct is not None else "UNKNOWN"
-        block = ""
-        if header_lines:
-            block += "\n".join(header_lines) + "\n"
-        block += f"Trace ({status}):\n" + "\n".join(trace_lines)
-        traces.append(block)
+        traces.append(f"Trace ({status}):\n" + "\n".join(trace_lines))
 
         if len(traces) >= max_traces:
             break
 
     if not traces:
         return ""
-    return ("Workflow context (the global problem this function serves, "
-            "and how it is called):\n\n" + "\n\n".join(traces))
+    return ("Workflow context (how this function is called):\n\n"
+            + "\n\n".join(traces))
 
 
 def _format_errors(errors: list[dict]) -> str:
@@ -319,15 +303,6 @@ class CodeDistillLearner(Learner):
                   f'wrong={stats_str.get("wrong", "?")}, '
                   f'abstained={stats_str.get("abstained", "?")})')
 
-            # Early exit if accuracy is high enough
-            if best_accuracy >= 0.95:
-                break
-
-            # Round 1 hopeless: don't burn rounds 2/3 on a clearly unlearnable ptool
-            if round_idx == 0 and best_accuracy < 0.10:
-                print(f'  giving up: round 1 best = {best_accuracy:.2%} (< 10%)')
-                break
-
             # Feed error cases to next round
             if round_best[3]:
                 error_feedback = _format_errors(round_best[3])
@@ -338,44 +313,42 @@ class CodeDistillLearner(Learner):
         self.train_stats = best_stats
         return self
 
-    def learn(self, dirs, latest=1, check=None, holdout_fraction: float = 0.2):
-        """Single-fit 80/20 holdout: shuffle cases, fit on 80% train portion,
-        evaluate the resulting fn on the 20% holdout. NO refit-on-all (that
-        was the v1 source of triple-cost). The implementation saved is the
-        train-portion fit. The val accuracy / val wrong_rate is what
-        `distill_all` uses to decide whether to ENABLE the ptool — train
-        numbers can mislead via memorisation.
+    def validate(self, holdout_fraction: float = 0.2, seed: int = 42) -> dict:
+        """v1-style: fit on 80%, eval generated_fn on 20% (recording
+        val_stats with wrong vs abstained), then refit on 100%. The
+        last fit overwrites earlier state, so the saved code is the
+        100%-fit. val_acc / val_stats reflect the 80%-fit's holdout
+        performance — a sanity check, not a gate driver.
         """
         import random
-        self.collect_distillation_data(dirs, latest, check)
         all_cases = list(self.dataset.cases)
-        rng = random.Random(42)
+        rng = random.Random(seed)
         rng.shuffle(all_cases)
         split = max(1, int(len(all_cases) * holdout_fraction))
-        val_cases = all_cases[:split]
-        train_cases = all_cases[split:]
-        print(f'collected {len(all_cases)} examples '
-              f'(train={len(train_cases)}, val={len(val_cases)}) in {self.out_dir}')
+        holdout = all_cases[:split]
+        train = all_cases[split:]
 
-        # Fit on train portion only (single fit, no refit)
-        original = self.dataset.cases
-        self.dataset.cases = train_cases
-        try:
-            self.fit()
-        finally:
-            self.dataset.cases = original
+        original_cases = self.dataset.cases
+        self.dataset.cases = train
+        self.fit()  # Fit 2: 80% train portion
 
-        # Evaluate fit on val portion (no LLM call — just runs generated_fn)
-        if self.generated_fn is not None and val_cases:
-            val_acc, _, val_stats = _evaluate_on_cases(self.generated_fn, val_cases)
+        if self.generated_fn is not None and holdout:
+            val_acc, _, val_stats = _evaluate_on_cases(self.generated_fn, holdout)
         else:
-            val_acc, val_stats = 0.0, {'correct': 0, 'wrong': 0, 'abstained': len(val_cases)}
+            val_acc = 0.0
+            val_stats = {'correct': 0, 'wrong': 0, 'abstained': len(holdout)}
         self.val_accuracy = val_acc
         self.val_stats = val_stats
 
-        output_file = self.save_implementation()
-        print(self.report())
-        print(f'saved output to {output_file}')
+        self.dataset.cases = original_cases
+        self.fit()  # Fit 3: 100% refit (overwrites generated_fn)
+
+        return {
+            'accuracy': val_acc,
+            'holdout_size': len(holdout),
+            'train_size': len(train),
+            'stats': val_stats,
+        }
 
     def val_wrong_rate(self) -> float:
         """Wrong rate on the val holdout — the metric distill_all uses."""
@@ -598,6 +571,8 @@ def distill_all(
     max_rounds: int = 3,
     latest: int = 1,
     check: Optional[list[str]] = None,
+    gate_metric: str = 'val',
+    only_correct: bool = False,
 ) -> dict:
     """Auto-distill all interfaces found in recordings.
 
@@ -630,6 +605,7 @@ def distill_all(
                 model=model,
                 n_candidates=n_candidates,
                 max_rounds=max_rounds,
+                only_correct=only_correct,
             )
             learner.learn(dirs, latest=latest, check=check)
 
@@ -637,9 +613,16 @@ def distill_all(
             train_wr = learner.wrong_rate()
             val_acc = learner.val_accuracy
             val_wr = learner.val_wrong_rate()
-            # ENABLE decision uses VAL wrong_rate (honest generalisation),
-            # not train (which can be memorised). Val acc must also be > 0.
-            enabled = val_wr <= max_wrong_rate and val_acc > 0
+            # ENABLE decision uses gate_metric:
+            #   'val' = honest generalisation (default; conservative)
+            #   'train' = v1 style (looser; relies on backoff to catch overfit)
+            if gate_metric == 'train':
+                gate_wr = train_wr
+                gate_acc = train_acc
+            else:
+                gate_wr = val_wr
+                gate_acc = val_acc
+            enabled = gate_wr <= max_wrong_rate and gate_acc > 0
 
             results[iface] = {
                 'train_accuracy': train_acc,
@@ -658,11 +641,11 @@ def distill_all(
                     'learner': 'codedistill',
                     'backoff': True,
                 }
-                print(f'  -> ENABLED (val_wrong_rate {val_wr:.0%} <= {max_wrong_rate:.0%}, '
+                print(f'  -> ENABLED ({gate_metric}_wrong_rate {gate_wr:.0%} <= {max_wrong_rate:.0%}, '
                       f'val_acc {val_acc:.0%}, train_acc {train_acc:.0%})')
             else:
-                print(f'  -> SKIPPED (val_wrong_rate {val_wr:.0%} > {max_wrong_rate:.0%} '
-                      f'or val_acc {val_acc:.0%}, train_acc {train_acc:.0%})')
+                print(f'  -> SKIPPED ({gate_metric}_wrong_rate {gate_wr:.0%} > {max_wrong_rate:.0%} '
+                      f'or {gate_metric}_acc {gate_acc:.0%}, val_acc {val_acc:.0%}, train_acc {train_acc:.0%})')
 
         except Exception as ex:
             print(f'  -> FAILED: {ex}')
@@ -675,7 +658,7 @@ def distill_all(
 
     # Write summary
     print(f'\n{"="*60}')
-    print(f'SUMMARY (max_wrong_rate={max_wrong_rate:.0%})')
+    print(f'SUMMARY (gate={gate_metric}_wrong_rate <= {max_wrong_rate:.0%}, only_correct={only_correct})')
     print(f'{"="*60}')
     print(f'  {"interface":40s} {"train":>6s} {"val":>5s} {"v_wrong":>7s} {"v_abst":>6s} {"status"}')
     for iface, info in sorted(results.items()):

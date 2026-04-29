@@ -125,13 +125,13 @@ Master chain `/tmp/master_chain.sh` completed at 09:39 EDT. All 5 phases:
 | finqa | 100 | 67% / $0.121 | 80% / $0.035 ⭐ +13pp (n=30 mini) | (running) |
 | rulearena_nba | 42 | 74% / $1.223 | 0 ENABLED | n/a |
 | rulearena_tax | 50 | 78% / $0.927 | 0 ENABLED | n/a |
-| rulearena_airline | 50 | 46% / $0.863 | 0 ENABLED | **100% / $0.000** ⭐⭐ |
+| rulearena_airline | 50 | 46% / $0.863 | 0 ENABLED | **100% / $0.000** ⭐⭐ (n=30 mini AND n=50 full both at 100%) |
 
 Note: rulearena_airline 46% baseline (my run, simulate_pydantic agent for L1 extract) ≠ existing 90% (their structured_baseline with simulate). Different methods. Their structured_baseline is a stronger baseline. Even so, Class 2 100% beats both.
 
 Class 2 v4 highlights (full-size n=43-100, backoff=simulate):
 - ⭐⭐⭐ **bbh_geometric 100% / $0** (vs 37% baseline, +63pp, $0.382 → $0)
-- ⭐⭐ **rulearena_airline 100% / $0** (vs 46% baseline)
+- ⭐⭐ **rulearena_airline 100% / $0** (vs 46% baseline). Verified at both n=30 mini and n=50 full splits — 100% on both. (`val_results/20260428.213758.airline_val_class2`, `val_results_full/20260429.114154.airline_val_full_class2v4`.)
 - ⭐⭐ **natplan_calendar 87% / $0** (vs 55% baseline, +32pp)
 - ⭐ **bbh_penguins 88% / $0.015** (vs 72% baseline, +16pp, -83% cost)
 - bbh_date 88% / $0.089 (modest)
@@ -156,6 +156,37 @@ Class 2 v4 highlights (full-size n=43-100, backoff=simulate):
 | rulearena_nba n=42 val | 74% / $1.223 | (no comparable existing) | n/a | new |
 | rulearena_tax n=50 val | 78% / $0.927 | (no comparable existing) | n/a | new |
 | medcalc n=100 train | 75% / $0.188 (val not run) | workflow 79% (n=275 val) | -4 | ✓ aligned |
+
+### Why class 1 calendar v4 (55%) ≠ v1 doc (84%)
+
+The v1 doc ([docs/code_distillation_results.md](code_distillation_results.md))
+recorded **ptool codedistill (opus) calendar = 84%**. My v4 = 55% (= baseline).
+**This is not a regression in the new pipeline — the v1 84% likely had
+methodological inflation**:
+
+1. **`only_correct=False` (v1) vs `only_correct=True` (v4)** — v1 included
+   ptool I/O from rollouts where the final answer was wrong, doubling case
+   count (50 vs 34). For ptool inference, even "wrong" final rollouts often
+   have plausible intermediate steps; including them helps the LLM see
+   variation but is not strictly correctness-guaranteed.
+2. **`train_wrong_rate` gate (v1) vs `val_wrong_rate` gate (v4)** — v1 enabled
+   ptools by their train accuracy after fit (which sees ensemble + multi-round
+   selection of the best candidate, so train_acc is high). v4 holds out 20%
+   of cases as val and gates on `val_wrong_rate`, exposing overfit. For
+   calendar: `find_available_slots` train 54% but val 17% → SKIPPED at v4
+   threshold (val_wrong 83% > 20%). Under v1's train gate, it would have
+   passed.
+3. **Both used DS-V3.1 baseline, claude-opus-4-6 learner, 100 train rollouts;
+   same recording config** — verified by comparing `recordings/` (Apr 10) and
+   `recordings_full/` (Apr 29) `config.yaml`.
+
+Conclusion: **v4 55% is the more honest "what does ptool-only distillation
+actually buy on unseen calendar data with this baseline" number**. If you want
+to recover something near 84%, set `only_correct=False` and revert to
+train-acc gating — but that risks overfitting and inflating reported numbers.
+For headline results, **calendar's true gain comes from class 2 (workflow
+distill, 87%)**, which generates pure-Python parse/solve/format code that
+generalizes off-the-shelf.
 
 **Summary**: 8/13 benchmarks aligned within ±5pp. 5 known config differences:
 1. bbh_date — workflow choice (zeroshot vs orchestrated)
@@ -315,27 +346,6 @@ For musr `object` and `team`, Lex's `learned/<task>/...__ptool_inducer/`
 outputs are committed and could be used directly as `--tool-module` for
 `workflow-codedistill` (Class 3 v2 path). Out of scope this run.
 
-## Why `n/a` cells
-
-### Class 2 (4 n/a)
-
-| Benchmark | Reason | Fix |
-|---|---|---|
-| musr_murder | `data_train_50.json` is `{split, examples}` shape (musr's own schema), not the standard `{name, cases, input_args, expected_output}` Dataset shape; `Dataset.model_validate_json()` fails | Write a 10-line conversion shim |
-| rulearena_nba / rulearena_tax | rulearena only has `airline_train_50.json` pre-built in Dataset shape; nba/tax weren't extracted | Run `dataset.domain={nba|tax} dataset.split=train` + dump as Dataset, or write split script |
-| medcalc (val n/a) | Class 2 ran (train 20% / holdout 20%) but I never ran the val-split eval | One-line sh, ~5 min |
-
-### Class 3 (8 n/a + 3 failures)
-
-Class 3 needs ReAct (`step_info[].thought`) or zero-shot CoT (`rollout[0].output` reasoning) trace as input to PtoolInducer. Most benchmarks have neither.
-
-| Benchmark | Status | Why |
-|---|---|---|
-| musr_murder | tried, **failed** | LLM-generated workflow didn't `_REACT_STATE["narrative"] = narrative` before calling induced ptools → induced ptool internals read empty narrative → all returns None |
-| finqa | tried, **failed** | Stage B (re-record with induced ptools) hits pydantic-ai `RecursionError` when validating induced ptool docstrings (they're ~30 lines each) |
-| natplan_calendar | tried, **failed** | Same Stage B pydantic-ai recursion as finqa |
-| natplan_meeting / natplan_trip / bbh_sports / bbh_penguins / bbh_geometric / bbh_date / medcalc / rulearena_3 | n/a | No ReAct conf and no CoT conf exist for these. Adding ReAct requires per-benchmark wrapper functions for pydantic-ai (1-2 hours each); adding CoT requires only a prompt template + conf yaml (~10 min each, like I did for natplan_calendar) |
-
 **Fixes for Class 3**:
 - pydantic-ai recursion: truncate induced ptool docstrings to 500 chars in `PtoolInducer.fit`. **Or** the `Fix recursive structures when resolving Interface tools` commit on `origin/main` may already fix this.
 - musr state-management: change `PtoolInducer` to emit induced ptools that take all needed context as explicit params rather than reading module-level state.
@@ -378,3 +388,214 @@ benchmarks/
     run_bbh_class1_val.sh                # BBH-specific dotlist syntax
     plot_results.py                      # generates the 4 plots
 ```
+
+## Coverage status (2026-04-29)
+
+Benchmarks in `benchmarks/` and whether they fit the class 1/2/3 schema:
+
+| Benchmark | In scope | Why |
+|---|---|---|
+| natural_plan (calendar/meeting/trip) | ✅ | workflow + simulate ptools |
+| musr (murder/object/team) | ✅ | workflow + simulate ptools (object/team launched 2026-04-29) |
+| bbh (sports/penguins/geometric/date) | ✅ | workflow + simulate ptools |
+| medcalc | ✅ | workflow + simulate ptools |
+| finqa | ✅ | workflow + simulate ptools |
+| rulearena (nba/tax/airline) | ✅ | workflow + simulate ptools |
+| **tabmwp** | ✅ | 16 @interface ptools, has workflow_incontext.yaml (4-ptool decomp) — launched 2026-04-29 |
+| **medagentbench** | ❌ out-of-scope | requires running local FHIR server (`http://localhost:8080/fhir/`) for medical data lookups; not currently up |
+| **tau_bench** | ❌ out-of-scope | agent-loop benchmark (no `conf/workflow.yaml`, only `react/structured_baseline`); 29 tools but used as agent-callable, not as a decomposable workflow |
+| **designbench** | ❌ out-of-scope | code-generation, single `@interface`, no decomposition surface to distill |
+
+
+
+# Master comparison — all classes × all versions × all benchmarks
+
+## What each `vN` means
+
+All versions are MY own runs, not someone else's. They are snapshots of the codedistill pipeline as it evolved over April 2026.
+
+| Version | Date | Key behaviors |
+|---|---|---|
+| **v1** | early April | Original. `only_correct=False` (learned from wrong rollouts too). Gate: `train_wrong_rate <= 10%`, no held-out val split. `_format_traces` showed only the local ptool i/o (no top-level task context). `Learner.validate()` re-ran `fit()` 3× per ptool. Numbers preserved in [v1 doc](code_distillation_results.md). |
+| **v2** | 2026-04-28 (1st rerun) | First val gate. 80/20 case split inside the learner, `val_wrong_rate <= 5%` gate, `only_correct=True`. Top-level task i/o injected into `_format_traces`. Single-fit (skip Learner.validate re-fit). Round-1 early stop at <10%. Case-output truncation (`_truncate_repr`). Mostly run at mini sizes (n=30 train, n=30 val) so numbers are sample-noisy. |
+| **v3** | 2026-04-28 (2nd) | Mid-iteration snapshot — mostly mirrored v2 with bug fixes (e.g. `'backoff': 'true'`→`True`, pydantic-ai recursion fix). Many cells stayed empty because the rerun was abandoned in favor of v4. Effectively deprecated. |
+| **v4** | 2026-04-29 (full-size) | Full-size rerun. `max_wrong_rate=0.20` (relaxed from v2's 0.05). Train/val recordings at full benchmark sizes (n=43-100 instead of 30-50). Class 2 with `backoff=simulate` (LLM fallback when generated code returns None). Class 3 uses `_REACT_STATE` for musr induced-ptool state injection. Same fit-time 80/20 holdout as v2. **This is the headline version for the v2 doc.** |
+
+Legend for table cells:
+- **baseline_full**: my fresh DS-V3.1 baseline (full-size val)
+- **archived_workflow**: archived workflow run from `benchmarks/<bench>/results/` or `benchmarks/results/<bench>/`, filtered to DS-V3* model only
+- **v1_baseline / v1_ptool / v1_e2e**: numbers from [v1 doc](code_distillation_results.md)
+- **c1_vN**: Class 1 (ptool codedistill) version N — replaces individual simulate ptools with Python
+- **c2_vN**: Class 2 (workflow distill on hand-written tools) version N — replaces top-level workflow with Python that calls existing ptools
+- **c3_v4**: Class 3 (workflow distill on LLM-induced ptools) v4
+
+Cells marked `🏃` are currently being produced by a running master:
+  - musr_object / musr_team class 1/2/3 v4 → `/tmp/musr_obj_team_full.sh` (PID 7010)
+  - tabmwp class 1/2/3 v4 → `/tmp/tabmwp_full.sh` (PID 8536)
+  - musr_murder class 2 v4 was queued in fill master (now killed), needs explicit re-launch
+
+Cells marked `—` are not planned. Empty class 1/3 columns (v1, v3) and class 2 v3 dropped entirely.
+
+## Accuracy (%)
+
+| sub_bench                | baseline_full   | archived_workflow   | v1_baseline   | v1_ptool   | v1_e2e   | c1_v2   | c1_v4   | c2_v2   | c2_v4   | c3_v4   |
+|:-------------------------|:----------------|:--------------------|:--------------|:-----------|:---------|:--------|:--------|:--------|:--------|:--------|
+| natplan_calendar         | 55              | 49                  | 54            | 84         | 90       | —       | 54      | 93      | 87      | 64      |
+| natplan_meeting          | 29              | 30                  | 0             | —          | 0        | —       | —       | 0       | 3       | —       |
+| natplan_trip             | 21              | 15                  | —             | —          | —        | 20      | 21      | 33      | 21      | —       |
+| musr_murder              | 68              | 61                  | 70            | 70         | 0        | 70      | 68      | —       | —       | 85      |
+| musr_object              | 61              | 53                  | —             | —          | —        | —       | 🏃      | —       | 🏃      | 🏃      |
+| musr_team                | 53              | 59                  | —             | —          | —        | —       | 🏃      | —       | 🏃      | 🏃      |
+| bbh_sports_understanding | 99              | 97                  | 97            | 97         | 63       | 93      | 99      | 70      | 99      | —       |
+| bbh_penguins_in_a_table  | 72              | 63                  | 70            | 53         | 58       | 73      | 72      | 93      | 88      | —       |
+| bbh_geometric_shapes     | 37              | 32                  | 75            | 73         | —        | 47      | —       | 87      | 100     | —       |
+| bbh_date_understanding   | 83              | 84                  | 39            | —          | 59       | —       | —       | 63      | 88      | —       |
+| medcalc                  | —               | 79                  | 38            | 44         | 42       | —       | —       | —       | 🏃      | —       |
+| finqa                    | 67              | 66                  | 62            | 61         | 35       | 0       | 67      | —       | 67      | 25      |
+| rulearena_nba            | 74              | —                   | —             | —          | —        | —       | —       | —       | 🏃      | —       |
+| rulearena_tax            | 78              | —                   | —             | —          | —        | —       | —       | —       | 100     | —       |
+| rulearena_airline        | 46              | —                   | 90            | —          | —        | —       | —       | 100     | 100     | —       |
+| tabmwp                   | 36              | 95                  | —             | —          | —        | —       | 🏃      | —       | 🏃      | 🏃      |
+
+## Cost (total USD over val set)
+
+| sub_bench                | baseline_full   | archived_workflow   | v1_baseline   | v1_ptool   | v1_e2e   | c1_v2   | c1_v4   | c2_v2   | c2_v4   | c3_v4   |
+|:-------------------------|:----------------|:--------------------|:--------------|:-----------|:---------|:--------|:--------|:--------|:--------|:--------|
+| natplan_calendar         | $0.3            | $0.3                | $0.2          | $0.09      | $0       | —       | $0.3    | —       | —       | 🏃      |
+| natplan_meeting          | $0.5            | $0.5                | $0.2          | —          | $0       | —       | —       | —       | $0.01   | —       |
+| natplan_trip             | $0.4            | $0.4                | —             | —          | —        | $0.1    | $0.4    | $0.09   | $0.4    | —       |
+| musr_murder              | $0.6            | $0.6                | $0.8          | $0.8       | $0       | $0.2    | $0.6    | —       | —       | $0.2    |
+| musr_object              | $0.5            | $0.2                | —             | —          | —        | —       | 🏃      | —       | 🏃      | 🏃      |
+| musr_team                | $0.3            | $0.1                | —             | —          | —        | —       | 🏃      | —       | 🏃      | 🏃      |
+| bbh_sports_understanding | $0.1            | $0.1                | $0.1          | $0.09      | $0       | $0.04   | $0.1    | $0.04   | $0.1    | —       |
+| bbh_penguins_in_a_table  | $0.09           | $0.1                | $0.04         | $0.03      | $0       | $0.04   | $0.09   | $0      | $0.01   | —       |
+| bbh_geometric_shapes     | $0.4            | $0.4                | $1.6          | $0.9       | —        | $0.10   | —       | —       | —       | —       |
+| bbh_date_understanding   | $0.07           | $0.3                | $0.3          | —          | $0       | —       | —       | $0.02   | $0.09   | —       |
+| medcalc                  | —               | $0.1                | $0.1          | $0.01      | $0       | —       | —       | —       | 🏃      | —       |
+| finqa                    | $0.1            | $0.4                | $0.1          | $0.1       | $0       | —       | $0.1    | —       | $0.2    | $0.3    |
+| rulearena_nba            | $1.2            | —                   | —             | —          | —        | —       | —       | —       | 🏃      | —       |
+| rulearena_tax            | $0.9            | —                   | —             | —          | —        | —       | —       | —       | 🏃      | —       |
+| rulearena_airline        | $0.9            | —                   | $0.5          | —          | —        | —       | —       | —       | —       | —       |
+| tabmwp                   | $0.1            | $0.2                | —             | —          | —        | —       | 🏃      | —       | 🏃      | 🏃      |
+
+## N (val size)
+
+| sub_bench                | baseline_full   | archived_workflow   | v1_baseline   | v1_ptool   | v1_e2e   | c1_v2   | c1_v4   | c2_v2   | c2_v4   | c3_v4   |
+|:-------------------------|:----------------|:--------------------|:--------------|:-----------|:---------|:--------|:--------|:--------|:--------|:--------|
+| natplan_calendar         | 100             | 100                 | —             | —          | —        | —       | 100     | 30      | 100     | 100     |
+| natplan_meeting          | 100             | 100                 | —             | —          | —        | —       | —       | 30      | 100     | —       |
+| natplan_trip             | 100             | 100                 | —             | —          | —        | 30      | 100     | 30      | 100     | —       |
+| musr_murder              | 75              | 75                  | —             | —          | —        | 30      | 75      | —       | —       | 20      |
+| musr_object              | 75              | 75                  | —             | —          | —        | —       | 🏃      | —       | 🏃      | 🏃      |
+| musr_team                | 75              | 75                  | —             | —          | —        | —       | 🏃      | —       | 🏃      | 🏃      |
+| bbh_sports_understanding | 75              | 75                  | —             | —          | —        | 30      | 75      | 30      | 75      | —       |
+| bbh_penguins_in_a_table  | 43              | 60                  | —             | —          | —        | 30      | 43      | 30      | 43      | —       |
+| bbh_geometric_shapes     | 75              | 75                  | —             | —          | —        | 30      | —       | 30      | 75      | —       |
+| bbh_date_understanding   | 75              | 100                 | —             | —          | —        | —       | —       | 30      | 75      | —       |
+| medcalc                  | —               | 275                 | —             | —          | —        | —       | —       | —       | 🏃      | —       |
+| finqa                    | 100             | 300                 | —             | —          | —        | 100     | 100     | —       | 100     | 100     |
+| rulearena_nba            | 42              | —                   | —             | —          | —        | —       | —       | —       | 🏃      | —       |
+| rulearena_tax            | 50              | —                   | —             | —          | —        | —       | —       | —       | 50      | —       |
+| rulearena_airline        | 50              | —                   | —             | —          | —        | —       | —       | 30      | 50      | —       |
+| tabmwp                   | 100             | 100                 | —             | —          | —        | —       | 🏃      | —       | 🏃      | 🏃      |
+---
+
+# Method flow diagrams (for paper)
+
+## Class 1 — Learn Ptool (replace one LLM call with Python)
+
+```mermaid
+flowchart TB
+    A[Train dataset<br/>e.g. 100 question→answer pairs] --> B[Run baseline workflow<br/>simulate ptools = LLM]
+    B --> C["Recordings<br/>per case: top-level Q→A,<br/>list of ptool calls (in_args, out)"]
+    C --> D{For each<br/>simulate ptool:}
+    D --> E["Extract per-ptool training cases<br/>only_correct=True<br/>in_args→out pairs"]
+    E --> F[80/20 split:<br/>fit-cases + holdout val-cases]
+    F --> G["Prompt LLM (claude-opus-4-6)<br/>with: cases + top-level i/o context<br/>+ docstring + signature<br/>=> generate def ptool(...) Python"]
+    G --> H[Multi-round, ensemble:<br/>9 candidates × 3 rounds<br/>pick best-on-fit-set]
+    H --> I[Evaluate best candidate<br/>on held-out val-cases]
+    I --> J{val_wrong_rate ≤ 20%?}
+    J -- yes --> K[ENABLE ptool:<br/>save learned.py +<br/>codedistill_config.yaml]
+    J -- no --> L[SKIP — keep<br/>original LLM ptool]
+    K --> M[At inference:<br/>ptool call → learned Python<br/>if returns None → backoff to LLM]
+```
+
+**What it does**: replace deterministic-looking LLM calls (e.g. `parse_schedules`,
+`extract_index`, `compute_answer`) with generated Python. Only enables a ptool
+if its generated code generalizes to held-out cases.
+
+**Inputs**:
+- Recordings (`recordings_full/<bench>_train_full/results.jsonl`) — produced by
+  running the hand-written workflow with all sub-ptools as `simulate` (LLM).
+- Each ptool's `@interface` signature + docstring (from `ptools.py`).
+
+**Outputs**:
+- Per-ptool `learned/<timestamp>.<name>__codedistill/learned.py` — Python impl.
+- Merged `learned/codedistill_config.yaml` — per-ptool override:
+  ```yaml
+  ptools:
+    parse_schedules:
+      method: learned_code
+      backoff: true
+  ```
+- At eval time, simulate ptool calls route to the generated Python; on `None`
+  return, falls back to the original LLM `simulate`.
+
+---
+
+## Class 2 — Learn Workflow (replace top-level workflow with Python that calls existing tools)
+
+```mermaid
+flowchart TB
+    A[Top-level dataset<br/>e.g. 100 question→answer pairs] --> B[80/20 split:<br/>fit-cases + holdout val-cases]
+    C["Existing ptool module ptools_x.py<br/>list of @interface ptools<br/>(parse, extract, compute, format, ...)"] --> D
+    R["Reference workflows from<br/>OTHER benchmarks<br/>(in-context examples)"] --> D
+    B --> D[Prompt LLM with:<br/>cases + tool catalog +<br/>reference workflow examples]
+    D --> E["Generate def top_level_workflow(...):<br/>parse → solve → format<br/>can call any ptool from catalog"]
+    E --> F[Multi-round, ensemble:<br/>9 candidates × 3 rounds]
+    F --> G[Evaluate each candidate end-to-end on val-cases<br/>ptools bound to simulate=LLM]
+    G --> H[Pick best by val-acc]
+    H --> I["Save learned.py<br/>+ implementation.yaml<br/>(top_level: learned_code, backoff=true)"]
+    I --> J[At inference:<br/>top-level interface = generated workflow<br/>workflow internals call simulate ptools (LLM)<br/>if workflow returns None → backoff to original simulate]
+```
+
+**What it does**: replace the *outer* workflow function (e.g.
+`calendar_scheduling`, `tabmwp_solve`) with generated Python that orchestrates
+the existing ptool primitives. The ptools themselves stay LLM-based.
+
+**Inputs**:
+- Top-level `data/<bench>_train.json` — pure (input → expected_answer) pairs.
+- The benchmark's `ptools_*.py` module — gives the LLM a catalog of callable
+  primitives.
+- (Optional) one or more reference `ptools_*.py` from sibling benchmarks —
+  the LLM sees their hand-written workflow as a structural example.
+
+**Outputs**:
+- `learned_class2_v4/<timestamp>.<top>__workflow_distill/learned.py` —
+  generated workflow function.
+- `implementation.yaml`:
+  ```yaml
+  <top_level_iface>:
+    method: learned_code
+    learner: workflow_distill
+    backoff: true
+  ```
+- At eval time, the top-level call enters generated Python; sub-ptools (still
+  `simulate`) get called from inside; if the workflow returns `None`, the
+  original simulate-based workflow runs.
+
+---
+
+## Why two classes? (one-paragraph paper hook)
+
+Both methods turn an LLM-heavy pipeline into mostly-Python. **Class 1** does
+this **bottom-up** (replace each cheap deterministic LLM call with code,
+keeping the workflow shape). **Class 2** does this **top-down** (generate a
+new workflow function that may use the same tools differently — or skip them
+entirely if it can solve the task in pure Python). The two classes win on
+different benchmarks: Class 1 wins when individual ptool semantics are
+deterministic (sports_understanding "consistent_sports", finqa
+"extract_final_number"). Class 2 wins when the *whole task* is closed-form
+solvable in Python (geometric_shapes 100% / rulearena_airline 100% / calendar
+87%). Class 3 extends Class 2 to settings where no hand-written ptool module
+exists by inducing one from ReAct traces.
