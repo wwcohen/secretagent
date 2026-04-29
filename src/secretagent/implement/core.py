@@ -171,10 +171,18 @@ class SimulateFactory(Implementation.Factory):
                 parsed = ast.literal_eval(final_answer)
             return _maybe_model_validate(parsed, return_type)
 
-        # Fallback for dict/list: extract JSON from the raw output
-        if return_type in [dict, list] or (hasattr(return_type, '__origin__')
-                                           and return_type.__origin__ in [dict, list]):
-            open_ch, close_ch = ('{', '}') if return_type is dict else ('[', ']')
+        # Fallback for dict/list/BaseModel: extract JSON from the raw output
+        _is_basemodel = _is_pydantic_model(return_type)
+        if (return_type in [dict, list]
+                or (hasattr(return_type, '__origin__')
+                    and return_type.__origin__ in [dict, list])
+                or _is_basemodel):
+            if (return_type is list
+                    or (hasattr(return_type, '__origin__')
+                        and return_type.__origin__ is list)):
+                open_ch, close_ch = ('[', ']')
+            else:
+                open_ch, close_ch = ('{', '}')
             # prefer a fenced code block
             code_match = re.search(
                 r'```(?:json|python)?\s*(' + re.escape(open_ch) + r'.*?' + re.escape(close_ch) + r')\s*```',
@@ -188,22 +196,29 @@ class SimulateFactory(Implementation.Factory):
                 candidate = text[start:end + 1].strip() if start != -1 and end != -1 else ''
             if candidate:
                 try:
-                    return json.loads(candidate)
+                    parsed = json.loads(candidate)
                 except json.JSONDecodeError:
-                    return ast.literal_eval(candidate)
+                    parsed = ast.literal_eval(candidate)
+                return _maybe_model_validate(parsed, return_type)
 
         # For str return type without <answer> tags, return the raw text
         if return_type is str:
             return text.strip()
 
-        # Fence-fallback: model emitted ```python\nClassName(...)\n``` without
-        # <answer> tags. Recoverable when return_type is a pydantic BaseModel.
+        # Fence-fallback: model emitted ```python\nClassName(...)\n``` or
+        # ```json\n{...}\n``` without <answer> tags.
         fence_match = re.search(r'```(?:python|json)?\s*\n?(.*?)\n?```', text, re.DOTALL)
         if fence_match:
             candidate = fence_match.group(1).strip()
             pydantic_result = _parse_pydantic_constructor(candidate, return_type)
             if pydantic_result is not None:
                 return pydantic_result
+            if _is_basemodel:
+                try:
+                    parsed = json.loads(candidate)
+                    return return_type.model_validate(parsed)
+                except Exception:
+                    pass
         raise ValueError('cannot find final answer')
 
 
@@ -273,6 +288,14 @@ class PromptLLMFactory(Implementation.Factory):
             record.record(func=interface.name, args=args, kw=kw,
                           output=answer, stats=stats)
             return answer
+
+
+def _is_pydantic_model(t) -> bool:
+    try:
+        from pydantic import BaseModel
+        return isinstance(t, type) and issubclass(t, BaseModel)
+    except ImportError:
+        return False
 
 
 def _coerce_numeric(s: str, t: type):
