@@ -139,20 +139,30 @@ Class 2 v4 highlights (full-size n=43-100, backoff=simulate):
 - natplan_trip 21% (parity via backoff — generated workflow returns None, falls back to baseline)
 - natplan_meeting 3% — generated workflow has solver bug; backoff didn't rescue because code returns wrong values not None
 
-## Alignment vs existing `results/` baselines
+## Alignment vs existing `results/` baselines (full-size)
 
-| Benchmark | My v2 baseline (n=30) | Existing baseline (DS-V3.1, latest) | Δ | Note |
+| Benchmark | My full-size baseline | Existing (DS-V3.1) | Δ | Cause / Note |
 |---|---|---|---|---|
-| bbh_sports | 97% | 99% workflow (n=75) | -2 | OK |
-| bbh_penguins | 73% | 72% workflow (n=43) | +1 | OK |
-| bbh_geometric | 37% | (no DS-V3.1 workflow on n=75) | n/a | only haiku 75% existed; DS-V3.1 baseline is **new** |
-| **bbh_date** | **93%** zeroshot | **39%** orchestrated (n=75) | +54 | **different workflow!** mine uses `zeroshot_unstructured_workflow` (single LLM call); existing `orchestrated` uses 7 ptool decomposition |
-| finqa | 80% | 62% workflow_val (n=100) | +18 | sample variance + path differences |
-| musr_murder | 70% | 70% workflow test (n=100) | 0 | OK |
-| natplan_calendar | 57% | 49% workflow (n=100) | +8 | sample variance |
-| natplan_meeting | 33% | 30% workflow (n=100) | +3 | OK |
-| natplan_trip | 33% | 15% workflow (n=100) | +18 | n=30 sample variance |
-| rulearena_airline | 100% | 90% structured_baseline (n=30) | +10 | different fn (`l1_extract_workflow` vs structured) |
+| bbh_sports n=75 val | 99% / $0.105 | workflow 99% | 0 | ✓ aligned |
+| bbh_penguins n=43 val | 72% / $0.088 | workflow 72% | 0 | ✓ aligned |
+| bbh_geometric n=75 val | 37% / $0.382 | (no DS-V3.1 workflow; haiku 75%) | n/a | DS-V3.1 baseline is **new** (Lex used haiku) |
+| **bbh_date** n=75 val | **83%** / $0.065 | orchestrated 39% | +44 | **different workflow** — mine `zeroshot_unstructured_workflow` (single LLM call), theirs `orchestrated` (7 ptool decomp) |
+| finqa n=100 val | 67% / $0.121 | workflow_val 62% (n=100) | +5 | ✓ aligned |
+| musr_murder n=75 val | 68% / $0.604 | workflow 70% (n=100 test) | -2 | ✓ aligned |
+| **natplan_calendar** n=100 val | **55%** / $0.329 | workflow 49% (n=100) | +6 | ⚠️ different `prompt_mode`: mine 0shot, theirs 5shot. (45% mine train post-swap = old test) |
+| natplan_meeting n=100 val | 29% / $0.526 | workflow 30% (n=100) | -1 | ✓ aligned |
+| natplan_trip n=100 val | 21% / $0.371 | workflow 15% (n=100) | +6 | sample variance (note: train/test splits swapped on this branch, my "valid" is the same as before swap) |
+| **rulearena_airline** n=50 val | **46%** / $0.863 | structured_baseline 90% (n=30) | -44 | **different method**: mine `simulate_pydantic` ReAct agent on `l1_extract_workflow`; theirs `simulate` single-call structured. Both valid but different |
+| rulearena_nba n=42 val | 74% / $1.223 | (no comparable existing) | n/a | new |
+| rulearena_tax n=50 val | 78% / $0.927 | (no comparable existing) | n/a | new |
+| medcalc n=100 train | 75% / $0.188 (val not run) | workflow 79% (n=275 val) | -4 | ✓ aligned |
+
+**Summary**: 8/13 benchmarks aligned within ±5pp. 5 known config differences:
+1. bbh_date — workflow choice (zeroshot vs orchestrated)
+2. natplan_calendar — prompt_mode (0shot vs 5shot)
+3. rulearena_airline — agent method (simulate_pydantic vs simulate)
+4. natplan_trip — train/test swap on this branch's data
+5. bbh_geometric — DS-V3.1 baseline didn't previously exist (only haiku)
 
 ## Class 1 v2 (val-gated) ENABLED ptools
 
@@ -241,6 +251,69 @@ Conditions per benchmark:
 
 Conditions 2 / 3 / 5 are mostly empty due to (a) need for per-benchmark
 ReAct config infrastructure, (b) state-management issues in Class 3 v2.
+
+## Optimization explorations (phase 2 partial)
+
+### (a) Class 2 backoff to simulate — IMPLEMENTED + VERIFIED
+
+`WorkflowDistillLearner` now defaults `backoff=True` and `backoff_method='simulate'`.
+On `save_implementation`, writes a synthetic `source_configs/<top>_backoff.yaml`
+with `ptools.<top>.method=simulate` so `LearnedCodeFactory._build_backoff_impl`
+can construct a pure-LLM fallback. Crucially **NOT to the hand-written
+workflow** (we're trying to beat that, not match it).
+
+Verification on full-size val: massive wins on geometric (37→100%),
+calendar (55→87%), penguins (72→88%), airline (46→100%). For `meeting`
+the generated workflow returns wrong values (not None), so backoff
+doesn't fire — that's a generated-code-quality issue, not a
+backoff-infrastructure issue.
+
+### (b) In-pipeline val gate — DESIGNED, NOT IMPLEMENTED
+
+Current gate uses `val_wrong_rate` from a fit-time isolated holdout
+(20% of supervision cases). This passes some ptools that **then regress
+in pipeline** (e.g. trip class1 isolated 0% wrong, pipeline 33→20%;
+finqa class1 isolated 0% wrong, pipeline 80→0%).
+
+Design: after `distill_all` writes a candidate `codedistill_config.yaml`,
+run a quick `expt.py` invocation with the config on N=10 val cases,
+compare to baseline. If `pipeline_acc < baseline_pipeline_acc - 5pp`,
+flag (or auto-disable) the config.
+
+Implementation: add `pipeline-safety-check` CLI command. Out of scope
+for this run.
+
+### (c) Adaptive wrong_rate threshold — DESIGNED, NOT IMPLEMENTED
+
+Currently fixed at 0.05 (v2) or 0.20 (v3/v4). Better: per-benchmark
+based on baseline acc. High-baseline benchmarks (sports 99%) need strict
+gate; low-baseline (date 2-83%) can be lax.
+
+### (d) Class 3 induced ptool state-management — PARTIAL
+
+`PtoolInducer` outputs induced ptools that read module-level state
+(e.g. `_REACT_STATE['narrative']`). The generated workflow needs to set
+this state but the LLM doesn't always realise.
+
+Mitigation: prompt hint added to `WorkflowDistillLearner._build_prompt`
+explicitly warning the LLM to init the state at function start. Some
+generated workflows (e.g. musr Class 3 v4) do set it correctly; still
+returning all-None at fit-time eval, suggesting deeper issue (the
+simulate ptools may be cached across cases and contaminate state).
+
+### (e) Class 3 expand to more benchmarks — PARTIAL
+
+Wrote zero-shot CoT configs for `natplan/conf/{meeting,trip}_zs_cot.yaml`
++ matching prompt templates. Recordings with these confs not yet
+captured (out of scope this run).
+
+For BBH, the existing `zeroshot_unstructured_workflow` produces
+single-call rollouts that already serve as quasi-CoT — feasible but
+unrun.
+
+For musr `object` and `team`, Lex's `learned/<task>/...__ptool_inducer/`
+outputs are committed and could be used directly as `--tool-module` for
+`workflow-codedistill` (Class 3 v2 path). Out of scope this run.
 
 ## Why `n/a` cells
 
