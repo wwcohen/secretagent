@@ -22,5 +22,5 @@ dataset:
 
 ptools:
   solve_medical_task:
-    method: direct
-    fn: medagent_loop.medagent_loop
+    method: prompt_llm
+    prompt_template_file: 'prompt_templates/unstructured_baseline.txt'
