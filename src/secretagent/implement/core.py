@@ -171,10 +171,18 @@ class SimulateFactory(Implementation.Factory):
                 parsed = ast.literal_eval(final_answer)
             return _maybe_model_validate(parsed, return_type)
 
-        # Fallback for dict/list: extract JSON from the raw output
-        if return_type in [dict, list] or (hasattr(return_type, '__origin__')
-                                           and return_type.__origin__ in [dict, list]):
-            open_ch, close_ch = ('{', '}') if return_type is dict else ('[', ']')
+        # Fallback for dict/list/BaseModel: extract JSON from the raw output
+        _is_basemodel = _is_pydantic_model(return_type)
+        if (return_type in [dict, list]
+                or (hasattr(return_type, '__origin__')
+                    and return_type.__origin__ in [dict, list])
+                or _is_basemodel):
+            if (return_type is list
+                    or (hasattr(return_type, '__origin__')
+                        and return_type.__origin__ is list)):
+                open_ch, close_ch = ('[', ']')
+            else:
+                open_ch, close_ch = ('{', '}')
             # prefer a fenced code block
             code_match = re.search(
                 r'```(?:json|python)?\s*(' + re.escape(open_ch) + r'.*?' + re.escape(close_ch) + r')\s*```',
@@ -188,22 +196,36 @@ class SimulateFactory(Implementation.Factory):
                 candidate = text[start:end + 1].strip() if start != -1 and end != -1 else ''
             if candidate:
                 try:
-                    return json.loads(candidate)
+                    parsed = json.loads(candidate)
                 except json.JSONDecodeError:
-                    return ast.literal_eval(candidate)
+                    parsed = ast.literal_eval(candidate)
+                return _maybe_model_validate(parsed, return_type)
 
         # For str return type without <answer> tags, return the raw text
         if return_type is str:
             return text.strip()
 
-        # Fence-fallback: model emitted ```python\nClassName(...)\n``` without
-        # <answer> tags. Recoverable when return_type is a pydantic BaseModel.
+        # Numeric fallback: entire output is a bare number (no <answer> tags)
+        if return_type in (int, float):
+            try:
+                return _coerce_numeric(text.strip(), return_type)
+            except (ValueError, TypeError):
+                pass
+
+        # Fence-fallback: model emitted ```python\nClassName(...)\n``` or
+        # ```json\n{...}\n``` without <answer> tags.
         fence_match = re.search(r'```(?:python|json)?\s*\n?(.*?)\n?```', text, re.DOTALL)
         if fence_match:
             candidate = fence_match.group(1).strip()
             pydantic_result = _parse_pydantic_constructor(candidate, return_type)
             if pydantic_result is not None:
                 return pydantic_result
+            if _is_basemodel:
+                try:
+                    parsed = json.loads(candidate)
+                    return return_type.model_validate(parsed)
+                except Exception:
+                    pass
         raise ValueError('cannot find final answer')
 
 
@@ -273,6 +295,14 @@ class PromptLLMFactory(Implementation.Factory):
             record.record(func=interface.name, args=args, kw=kw,
                           output=answer, stats=stats)
             return answer
+
+
+def _is_pydantic_model(t) -> bool:
+    try:
+        from pydantic import BaseModel
+        return isinstance(t, type) and issubclass(t, BaseModel)
+    except ImportError:
+        return False
 
 
 def _coerce_numeric(s: str, t: type):
@@ -477,6 +507,8 @@ class PoTFactory(ToolUsingFactory):
     def __call__(self, *args, **kw):
         interface = self.bound_interface
         with config.configuration(**self.prompt_kw):
+            saved_custom_tools = dict(self.python_executor.custom_tools)
+            self.python_executor.state = {}
             # Inject input arg values into sandbox so LLM can reference
             # them as variables without copying large strings into code.
             if self.inject_args:
@@ -503,6 +535,8 @@ class PoTFactory(ToolUsingFactory):
                     output=f'**exception**: {ex}', stats=stats,
                     step_info=dict(generated_code=llm_output))
                 raise
+            finally:
+                self.python_executor.custom_tools = saved_custom_tools
             if config.get('echo.code_eval_output'):
                 llm_util.echo_boxed(str(answer), 'code_eval_output')
             record.record(
@@ -523,10 +557,15 @@ class PoTFactory(ToolUsingFactory):
             input_args = interface.format_args(*args, **kw)
         if (not input_args.strip()):
             raise ValueError(f'input_args null for {interface.name} on {args=} {kw=}')
-        tool_stub_src_listing = '\n\n'.join([
-            tool_interface.src
-            for tool_interface in tool_interfaces
-            ])
+        tool_stubs = []
+        for tool_interface in tool_interfaces:
+            stub = tool_interface.src
+            return_type = tool_interface.annotations.get('return', str)
+            schema = _format_pydantic_schema(return_type)
+            if schema:
+                stub += '\n' + schema
+            tool_stubs.append(stub)
+        tool_stub_src_listing = '\n\n'.join(tool_stubs)
         if additional_authorized_imports:
             imports = '\n' + '\n'.join(
                 ['You may use these packages:\n'] + 

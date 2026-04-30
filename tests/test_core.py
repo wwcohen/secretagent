@@ -152,6 +152,47 @@ def test_interface_keeps_full_src_when_configured():
     _INTERFACES.remove(iface)
 
 
+# --- parse_output numeric fallback ---
+
+class TestParseOutputNumericFallback:
+    """SimulateFactory.parse_output should handle bare numeric responses."""
+
+    def setup_method(self):
+        from secretagent.implement.core import SimulateFactory
+        self.factory = SimulateFactory()
+
+    def test_bare_float(self):
+        assert self.factory.parse_output(float, "1.0") == 1.0
+
+    def test_bare_int(self):
+        assert self.factory.parse_output(int, "42") == 42
+
+    def test_bare_negative_float(self):
+        assert self.factory.parse_output(float, "-3.14") == -3.14
+
+    def test_bare_float_with_whitespace(self):
+        assert self.factory.parse_output(float, "  1.0\n") == 1.0
+
+    def test_bare_float_with_dollar_and_commas(self):
+        assert self.factory.parse_output(float, "$25,502.0") == 25502.0
+
+    def test_answer_tags_still_preferred(self):
+        result = self.factory.parse_output(float, "reasoning here\n<answer>7.0</answer>")
+        assert result == 7.0
+
+    def test_prose_with_number_raises(self):
+        with pytest.raises(ValueError, match="cannot find final answer"):
+            self.factory.parse_output(float, "The answer is 7.0")
+
+    def test_empty_string_raises(self):
+        with pytest.raises(ValueError, match="cannot find final answer"):
+            self.factory.parse_output(float, "")
+
+    def test_trailing_period_raises(self):
+        with pytest.raises(ValueError, match="cannot find final answer"):
+            self.factory.parse_output(float, "1.0.")
+
+
 @needs_api_key
 def test_simulate():
     sport_for.implement_via('simulate', llm = dict(model=CI_TEST_MODEL))

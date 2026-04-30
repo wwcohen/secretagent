@@ -209,6 +209,12 @@ def compute_airline_answer(problem_text: str, rules_text: str) -> float:
     ...
 
 
+@interface
+def compute_airline_answer_orchestrated(problem_text: str, rules_text: str) -> float:
+    """Compute the total airline baggage and ticket cost for the given passenger scenario."""
+    ...
+
+
 # -- Workflows (bound via conf.yaml as direct implementations) --
 
 def airline_workflow(problem_text: str, rules_text: str) -> float:

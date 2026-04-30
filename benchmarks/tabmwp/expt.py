@@ -5,8 +5,11 @@ Example CLI commands:
     # download data first (from project root)
     uv run benchmarks/tabmwp/data/download.py
 
-    # zeroshot baseline (4 examples)
-    uv run python benchmarks/tabmwp/expt.py run --config-file conf/zeroshot.yaml
+    # structured baseline (single simulate call on top-level interface)
+    uv run python benchmarks/tabmwp/expt.py run --config-file conf/structured_baseline.yaml
+
+    # unstructured baseline (vanilla zero-shot prompt, no Python-stub framing)
+    uv run python benchmarks/tabmwp/expt.py run --config-file conf/unstructured_baseline.yaml
 
     # in-context workflow
     uv run python benchmarks/tabmwp/expt.py run --config-file conf/workflow_incontext.yaml
@@ -24,10 +27,10 @@ Example CLI commands:
     uv run python benchmarks/tabmwp/expt.py run --config-file conf/orchestrated.yaml
 
     # override n and model
-    uv run python benchmarks/tabmwp/expt.py run --config-file conf/zeroshot.yaml dataset.n=10 llm.model=claude-haiku-4-5-20251001
+    uv run python benchmarks/tabmwp/expt.py run --config-file conf/unstructured_baseline.yaml dataset.n=10 llm.model=claude-haiku-4-5-20251001
 
     # quick test (single example, verbose)
-    uv run python benchmarks/tabmwp/expt.py quick-test --config-file conf/zeroshot.yaml
+    uv run python benchmarks/tabmwp/expt.py quick-test --config-file conf/unstructured_baseline.yaml
 """
 
 import json
@@ -157,7 +160,7 @@ def _setup(config_file: str, extra_args: list[str]) -> Dataset:
     config.configure(yaml_file=str(cfg_path), dotlist=extra_args)
     config.set_root(_BENCHMARK_DIR)
 
-    split = config.get('dataset.split', 'test1k')
+    split = config.get('dataset.split', 'dev1k')
 
     # Populate table store for Option B tools
     raw_data = load_raw_data(split)

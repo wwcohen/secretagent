@@ -74,6 +74,12 @@ def compute_nba_answer(problem_text: str, rules_text: str) -> float:
     ...
 
 
+@interface
+def compute_nba_answer_orchestrated(problem_text: str, rules_text: str) -> float:
+    """Determine whether NBA team operations violate CBA salary cap rules."""
+    ...
+
+
 # -- Unstructured (zero-shot) helpers: always bound --
 
 @implement_via('prompt_llm',

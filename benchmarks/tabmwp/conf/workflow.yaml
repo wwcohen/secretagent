@@ -1,5 +1,5 @@
-# Best workflow: PTP-style trace simulation (guided_ptp)
-# Single LLM call with Python stubs as reasoning scaffolding — highest accuracy
+# 2-step workflow: extract_and_compute -> format_answer
+# Tests hypothesis: fewer, broader ptools reduce error propagation
 llm:
   model: together_ai/deepseek-ai/DeepSeek-V3.1
 
@@ -12,11 +12,15 @@ evaluate:
   record_details: true
 
 dataset:
-  split: dev1k
+  split: test
   shuffle_seed: 42
   n: 100
 
 ptools:
+  extract_and_compute:
+    method: simulate
+  format_answer:
+    method: simulate
   tabmwp_solve:
-    method: prompt_llm
-    prompt_template_file: prompt_templates/guided.txt
+    method: direct
+    fn: ptools.broad_workflow

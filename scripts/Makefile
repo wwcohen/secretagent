@@ -7,6 +7,9 @@ hero_table:
 latex_correct:
 	uv run hero_table.py --min-cols 3 --format latex-correct > 	hero.tex
 
+latex_cost:
+	uv run hero_table.py --min-cols 3 --format latex-cost > 	hero-cost.tex
+
 summarize:
 	uv run hero_table.py --min-cols 3 --format plot-correct --x react --output summary/correct_react.png; open summary/correct_react.png
 	uv run hero_table.py --min-cols 3 --format plot-correct --x pot --output summary/correct_pot.png; open summary/correct_pot.png
@@ -15,10 +18,10 @@ summarize:
 	uv run hero_table.py --min-cols 3 --format plot-correct --x structured_baseline --y unstructured_baseline --output summary/correct_baselines; open summary/correct_baselines.png
 
 summarize-cost:
-	uv run hero_table.py --min-cols 3 --format plot-cost --x react --output summary/correct_react.png; open summary/correct_react.png
-	uv run hero_table.py --min-cols 3 --format plot-cost --x pot --output summary/correct_pot.png; open summary/correct_pot.png
-	uv run hero_table.py --min-cols 3 --format plot-cost --x structured_baseline --output summary/correct_structured_baseline.png; open summary/correct_structured_baseline.png
-	uv run hero_table.py --min-cols 3 --format plot-cost --x unstructured_baseline --output summary/correct_unstructured_baseline.png; open summary/correct_unstructured_baseline.png
+	uv run hero_table.py --min-cols 3 --format plot-cost --x react --output summary/cost_react.png --suppress tau_bench/retail; open summary/cost_react.png
+	uv run hero_table.py --min-cols 3 --format plot-cost --x pot --output summary/cost_pot.png --suppress tau_bench/retail; open summary/cost_pot.png
+	uv run hero_table.py --min-cols 3 --format plot-cost --x structured_baseline --output summary/cost_structured_baseline.png --suppress tau_bench/retail; open summary/cost_structured_baseline.png
+	uv run hero_table.py --min-cols 3 --format plot-cost --x unstructured_baseline --output summary/cost_unstructured_baseline.png  --suppress tau_bench/retail; open summary/cost_unstructured_baseline.png
 
 check_models:
 	uv run benchmark_config.py --check llm.model
