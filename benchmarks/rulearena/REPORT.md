@@ -38,19 +38,18 @@ All experiments use `together_ai/deepseek-ai/DeepSeek-V3.1` unless noted.
 | unstructured_baseline | 46% | $0.021 | Apr 28 |
 | structured_baseline | 41% | $0.027 | Apr 28 |
 
-### Tax (valid split, N=50 — in progress)
+### Tax (test split, N=100)
 
-Tax experiments are still being developed. The structured strategies
-(workflow, pot, react) currently score 0% due to issues with form-field
-extraction that are being debugged. Current best:
+`correct` = within 1% relative error (RuleArena convention for tax).
 
-| Strategy | Accuracy | Cost/ex | Date | Notes |
-|----------|----------|---------|------|-------|
-| unstructured_baseline | 58% | $0.043 | Apr 26 | |
-| structured_baseline | 10% | $0.037 | Apr 26 | |
-| workflow | 0% | — | Apr 26 | extraction failures |
-| pot | 0% | — | Apr 25 | extraction failures |
-| react | 12% | $0.036 | Apr 29 | |
+| Strategy | Accuracy | Cost/ex | Date |
+|----------|----------|---------|------|
+| unstructured_baseline | **55%** | $0.010 | Apr 30 |
+| workflow | 50% | $0.010 | Apr 30 |
+| react_two_phase | 48% | $0.014 | Apr 30 |
+| pot | 46% | $0.016 | Apr 30 |
+| react | 15% | $0.035 | Apr 30 |
+| structured_baseline | 11% | $0.007 | Apr 30 |
 
 ### NBA (valid split, N=15 — in progress)
 
