@@ -39,7 +39,6 @@ TASKS = [
     "bbh/penguins_in_a_table",
     "bbh/sports_understanding",
     "designbench/vanilla",
-    "designbench/react",
     "designbench/vue",
     "designbench/angular",
     "finqa/finqa",
@@ -53,12 +52,38 @@ TASKS = [
     "natural_plan/calendar",
     "natural_plan/meeting",
     "natural_plan/trip",
-    "rulearena/airlines",
+    "rulearena/airline",
     "rulearena/tax",
     "rulearena/nba",
     "tabmwp/tabmwp",
     "tau_bench/retail",
 ]
+
+TASK_TO_LATEX = {
+    "bbh/date_understanding": "BBH Date Understanding",
+    "bbh/geometric_shapes": "BBH Geometric Shapes",
+    "bbh/penguins_in_a_table": "BBH Penguins in a Table",
+    "bbh/sports_understanding": "BBH Sports Understanding",
+    "designbench/vanilla": "DesignBench Vanilla",
+    "designbench/vue": "DesignBench Vue",
+    "designbench/angular": "DesignBench Angular",
+    "finqa/finqa": "FinQA",
+    "medagentbench/medagentbench": "MedAgentBench",
+    "medcalc/equation": "MedCalc Formulas",
+    "medcalc/rule": "MedCalc Rules",
+    "musr/murder": "MUSR Murder",
+    "musr/object": "MUSR Objects",
+    "musr/team": "MUSR Teams",
+    "natural_plan/calendar": "NaturalPlan Calendar",
+    "natural_plan/meeting": "NaturalPlan Meeting",
+    "natural_plan/trip": "NaturalPlan Trip",
+    "rulearena/airline": "Rulearena Airlines",
+    "rulearena/tax": "Rulearena Tax",
+    "rulearena/nba": "Rulearena NBA",
+    "tabmwp/tabmwp": "Tabular Math WP",
+    "tau_bench/retail": "$\\tau$ Bench Retail",
+}
+
 
 STRATEGIES = [
     "workflow",

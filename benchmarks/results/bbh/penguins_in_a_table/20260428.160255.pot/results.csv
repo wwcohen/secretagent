@@ -1,0 +1,61 @@
+case_name,predicted_output,expected_output,correct,input_tokens,output_tokens,latency,cost,expt_name
+test.018,"**exception raised**: Code execution failed at line 'table, actions, question_text, options = analyze_input(question)' due to: SyntaxError: closing parenthesis ']' does not match opening parenthesis '(' (<unknown>, line 1)",(A),0.0,1361.0,626.0,23.63406205177307,0.0018808000000000002,pot
+test.040,C,(A),0.0,3006.0,1438.0,53.97716522216797,0.004248200000000001,pot
+test.048,"**exception raised**: Code execution failed at line 'table, actions, question_text, options = analyze_input(question)' due to: SyntaxError: invalid syntax (<unknown>, line 1)",(D),0.0,1395.0,1812.0,62.407872915267944,0.0039174,pot
+test.017,"('A', '1')",(D),0.0,2239.0,700.0,29.239107370376587,0.0025334,pot
+test.007,(C),(C),1.0,2045.0,1816.0,65.54139232635498,0.0043142,pot
+test.059,"('D', '62')",(B),0.0,2656.0,821.0,31.875038862228394,0.0029893,pot
+test.049,(D),(D),1.0,1394.0,550.0,15.618013143539429,0.0017714,pot
+test.024,"('A', 'Louis')",(A),0.0,2866.0,1127.0,30.81661581993103,0.0036355,pot
+test.013,"('D', 'Gwen')",(D),0.0,2470.0,1311.0,43.84005284309387,0.0037107,pot
+test.019,"('E', 'James')",(E),0.0,2269.0,802.0,30.26727867126465,0.0027248,pot
+test.035,"**exception raised**: Code execution failed at line 'table, actions, question_text, options = analyze_input(question)' due to: SyntaxError: invalid syntax (<unknown>, line 1)",(C),0.0,1321.0,1349.0,50.16924428939819,0.0030859,pot
+test.054,"('E', 'James')",(E),0.0,2434.0,765.0,24.049156665802002,0.0027609,pot
+test.044,"('A', '1')",(A),0.0,2909.0,1097.0,27.809237957000732,0.0036103,pot
+test.005,"('E', '5')",(D),0.0,2304.0,762.0,20.63767147064209,0.0026777999999999997,pot
+test.037,"('E', 'James')",(E),0.0,2601.0,1224.0,22.120306253433228,0.0036414000000000004,pot
+test.038,"('A', 'Louis')",(A),0.0,2284.0,972.0,18.97324299812317,0.0030227999999999995,pot
+test.006,"('D', '4')",(D),0.0,2304.0,707.0,17.860154390335083,0.0025843,pot
+test.003,(C),(C),1.0,2301.0,1045.0,31.730792760849,0.0031570999999999995,pot
+test.016,"('A', '11')",(A),0.0,2857.0,1027.0,27.154367446899414,0.0034601,pot
+test.034,"**exception raised**: Code execution failed at line 'table, actions, q, options = analyze_input(question)' due to: SyntaxError: closing parenthesis ']' does not match opening parenthesis '(' (<unknown>, line 1)",(B),0.0,1319.0,535.0,16.363544464111328,0.0017009,pot
+test.002,"('D', '4')",(D),0.0,2368.0,1871.0,56.02360415458679,0.0046015,pot
+test.057,(A),(A),1.0,2166.0,403.0,13.89881944656372,0.0019847,pot
+test.029,"('C', 'Vincent')",(C),0.0,2876.0,1540.0,42.15834331512451,0.0043435999999999995,pot
+test.028,C,(B),0.0,2440.0,493.0,16.75744128227234,0.0023021,pot
+test.039,"('D', 'Gwen')",(D),0.0,2882.0,1557.0,42.46410083770752,0.0043761,pot
+test.041,"('A', '1')",(A),0.0,2670.0,1145.0,32.5448055267334,0.0035485,pot
+test.043,"**exception raised**: Code execution failed at line 'table, actions, question_text, options = analyze_input(question)' due to: SyntaxError: invalid syntax (<unknown>, line 1)",(B),0.0,1467.0,450.0,13.013059377670288,0.0016451999999999999,pot
+test.010,"('D', '4')",(D),0.0,2456.0,936.0,23.57538104057312,0.0030648000000000003,pot
+test.047,(C),(C),1.0,2079.0,695.0,23.47382664680481,0.0024289,pot
+test.055,"**exception raised**: Code execution failed at line 'table, actions, question_text, options = analyze_input(question)' due to: SyntaxError: invalid syntax (<unknown>, line 1)",(E),0.0,1359.0,1014.0,34.57417297363281,0.0025392,pot
+test.036,B,(B),1.0,2224.0,455.0,13.959182739257812,0.0021079000000000002,pot
+test.053,"**exception raised**: Code execution failed at line 'table, actions, question_text, options = analyze_input(question)' due to: SyntaxError: invalid syntax (<unknown>, line 1)",(A),0.0,1353.0,1238.0,39.63815236091614,0.0029164,pot
+test.015,(A),(A),1.0,2312.0,678.0,21.928241729736328,0.0025398,pot
+test.052,"('A', '1')",(A),0.0,1914.0,873.0,47.509215116500854,0.0026325,pot
+test.058,"('A', '1')",(A),0.0,2226.0,430.0,17.46313238143921,0.0020666,pot
+test.023,"('B', 'Gladys')",(D),0.0,2087.0,1563.0,57.556902170181274,0.003909300000000001,pot
+test.045,A,(D),0.0,2869.0,1252.0,33.14526581764221,0.0038497999999999996,pot
+test.009,"**exception raised**: Code execution failed at line 'table, actions, question_text, options = analyze_input(question)' due to: SyntaxError: invalid syntax (<unknown>, line 1)",(B),0.0,1527.0,2404.0,67.95412850379944,0.0050030000000000005,pot
+test.001,"('B', '6')",(B),0.0,1794.0,923.0,28.0497145652771,0.0026455000000000003,pot
+test.051,"('A', '37')",(C),0.0,2462.0,684.0,29.434281587600708,0.00264,pot
+test.021,"('A', '1')",(A),0.0,2888.0,2022.0,64.41245746612549,0.0051702,pot
+test.042,A,(A),1.0,2649.0,1588.0,73.91413450241089,0.004289,pot
+test.046,(A),(A),1.0,1750.0,897.0,25.83178472518921,0.0025749,pot
+test.027,"('D', 'Gwen')",(D),0.0,2876.0,1111.0,28.054567098617554,0.0036143,pot
+test.008,"('B', 'Bernard')",(B),0.0,2876.0,926.0,29.09723711013794,0.0032998,pot
+test.030,"('D', '70')",(D),0.0,2873.0,1038.0,31.268181324005127,0.0034884,pot
+test.033,"('B', '2')",(B),0.0,1790.0,659.0,24.989737272262573,0.0021943,pot
+test.050,(C),(C),1.0,2307.0,566.0,19.51937484741211,0.0023464000000000002,pot
+test.056,"**exception raised**: Code execution failed at line 'from typing import List, Tuple' due to: InterpreterError: Import from typing is not allowed. Authorized imports are: ['queue', 'math', 'datetime', 'itertools', 'statistics', 'time', 'unicodedata', 'stat', 'collections', 're', 'random']",(D),0.0,859.0,812.0,17.278815031051636,0.0018958,pot
+test.032,A,(A),1.0,2338.0,982.0,35.72999978065491,0.0030721999999999998,pot
+test.025,(D),(E),0.0,1895.0,375.0,14.766900539398193,0.0017745,pot
+test.000,"('C', 'Vincent')",(C),0.0,2662.0,821.0,25.748501777648926,0.0029928999999999997,pot
+test.022,C,(C),1.0,1875.0,526.0,17.43818974494934,0.0020192,pot
+test.031,"('B', '29')",(B),0.0,1750.0,677.0,22.40001940727234,0.0022009,pot
+test.014,(E),(E),1.0,2650.0,1112.0,40.968719244003296,0.0034804000000000002,pot
+test.012,E,(E),1.0,2293.0,805.0,28.43141007423401,0.0027443,pot
+test.020,D,(D),1.0,2921.0,1258.0,30.50132155418396,0.0038911999999999996,pot
+test.026,D,(E),0.0,1797.0,857.0,17.22292709350586,0.0025351,pot
+test.011,"**exception raised**: Code execution failed at line 'table, actions, question_text, options = analyze_input(question)' due to: SyntaxError: invalid syntax (<unknown>, line 1)",(B),0.0,1413.0,2311.0,62.405327796936035,0.0047764999999999995,pot
+test.004,"('C', '41')",(A),0.0,2440.0,851.0,31.723796129226685,0.0029107,pot

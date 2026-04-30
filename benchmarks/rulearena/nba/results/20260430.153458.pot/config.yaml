@@ -1,0 +1,19 @@
+llm:
+  model: together_ai/deepseek-ai/DeepSeek-V3.1
+  max_tokens: 16384
+  timeout: 600
+cachier:
+  cache_dir: C:\Users\STUDENT\OneDrive\Documents\Projects\AI Research\secretagent\benchmarks\rulearena\nba\llm_cache
+evaluate:
+  result_dir: C:\Users\STUDENT\OneDrive\Documents\Projects\AI Research\secretagent\benchmarks\rulearena\nba\results
+  expt_name: pot
+dataset:
+  split: test
+  shuffle_seed: 137
+ptools:
+  extract_nba_params:
+    method: simulate_pydantic
+  compute_nba_answer:
+    method: program_of_thought
+    inject_args: true
+root: C:\Users\STUDENT\OneDrive\Documents\Projects\AI Research\secretagent\benchmarks\rulearena\nba

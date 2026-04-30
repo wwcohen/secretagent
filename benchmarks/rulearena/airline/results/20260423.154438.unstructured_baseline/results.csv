@@ -1,0 +1,4 @@
+case_name,predicted_output,expected_output,correct,correct_tolerance,failure_mode,input_tokens,output_tokens,latency,cost,expt_name
+airline_0_6,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',1131,0.0,0.0,extraction_failure,11540.0,1829.0,61.23825263977051,0.0100333,unstructured_baseline
+airline_1_28,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',2296,0.0,0.0,extraction_failure,11599.0,2923.0,60.766143798828125,0.011928499999999998,unstructured_baseline
+airline_1_10,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',2682,0.0,0.0,extraction_failure,11598.0,2156.0,213.96334767341614,0.010624,unstructured_baseline

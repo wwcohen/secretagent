@@ -106,10 +106,22 @@ def run(
         evaluator=eval_instance)
 
 
+def _resolve_case(dataset, case_name):
+    """Pick a case by name, or default to the first case."""
+    if case_name is None:
+        return dataset.cases[0]
+    matching = [c for c in dataset.cases if c.name == case_name]
+    if not matching:
+        print(f'No case named {case_name!r} found in dataset')
+        raise typer.Exit(1)
+    return matching[0]
+
+
 @app.command(context_settings=_EXTRA_ARGS)
 def quick_test(
     ctx: typer.Context,
     interface: str = typer.Option(..., help="Top-level interface as 'module.name'"),
+    case: str = typer.Option(None, help="Case name to run, e.g. valid.006. Defaults to first case."),
 ):
     """Do a quick test of a configuration.
 
@@ -122,10 +134,42 @@ def quick_test(
     top_level = resolve_dotted(interface)
     pprint.pprint(config.GLOBAL_CONFIG)
 
-    input_args = dataset.cases[0].input_args
+    test_case = _resolve_case(dataset, case)
+    input_args = test_case.input_args
     print('input_args', input_args)
     with config.configuration(
             cachier={'enable_caching': False},
+            echo={
+                'model': True,
+                'llm_input': True, 'llm_output': True,
+                'code_eval_input': True, 'code_eval_output': True}
+    ):
+        with record.recorder() as records:
+            predicted_output = top_level(*input_args)
+    print('predicted output', predicted_output)
+    pprint.pprint(records)
+
+
+@app.command(context_settings=_EXTRA_ARGS)
+def cached_test(
+    ctx: typer.Context,
+    interface: str = typer.Option(..., help="Top-level interface as 'module.name'"),
+    case: str = typer.Option(None, help="Case name to run, e.g. valid.006. Defaults to first case."),
+):
+    """Test a configuration on a single example, keeping the LLM cache active.
+
+    Same as quick-test, but does not disable caching — repeat runs reuse
+    previously cached LLM calls so iteration on a single case is cheap.
+    """
+    dataset = setup_and_load_dataset(ctx.args)
+    print('dataset is', dataset.summary())
+    top_level = resolve_dotted(interface)
+    pprint.pprint(config.GLOBAL_CONFIG)
+
+    test_case = _resolve_case(dataset, case)
+    input_args = test_case.input_args
+    print('input_args', input_args)
+    with config.configuration(
             echo={
                 'model': True,
                 'llm_input': True, 'llm_output': True,

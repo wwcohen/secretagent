@@ -1,5 +1,4 @@
-# Structured baseline: 4-step ptools pipeline, each ptool sees only its own args (isolated context)
-# Equivalent to workflow_incontext — the naive decomposition baseline
+# Baseline: single LLM call, table in-context, unstructured output
 llm:
   model: together_ai/deepseek-ai/DeepSeek-V3.1
 
@@ -12,19 +11,10 @@ evaluate:
   record_details: true
 
 dataset:
-  split: dev1k
+  split: test
   shuffle_seed: 42
   n: 100
 
 ptools:
-  identify_operation:
-    method: simulate
-  extract_relevant_values:
-    method: simulate
-  compute_answer:
-    method: simulate
-  format_answer:
-    method: simulate
   tabmwp_solve:
-    method: direct
-    fn: ptools.incontext_workflow
+    method: simulate

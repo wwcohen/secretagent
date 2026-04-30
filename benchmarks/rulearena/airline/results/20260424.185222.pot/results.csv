@@ -1,0 +1,4 @@
+case_name,predicted_output,expected_output,correct,correct_tolerance,failure_mode,input_tokens,output_tokens,latency,cost,expt_name
+airline_0_6,**exception raised**: Code execution failed at line 'result = compute_airline_calculator(params)' due to: KeyError: 'First Class',1131,0.0,0.0,extraction_failure,14449.0,10891.0,59.40260100364685,0.031562200000000006,pot
+airline_1_28,**exception raised**: Code execution failed at line 'total_cost_int = compute_airline_calculator(params=params)' due to: KeyError: 'Business Class',2296,0.0,0.0,extraction_failure,25952.0,7098.0,38.644240617752075,0.025530599999999997,pot
+airline_1_10,**exception raised**: Code execution failed at line 'total_cost_int = compute_airline_calculator(params)' due to: KeyError: 'size',2682,0.0,0.0,extraction_failure,13054.0,15296.0,77.63574576377869,0.0421562,pot

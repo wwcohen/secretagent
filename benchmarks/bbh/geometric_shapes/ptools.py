@@ -5,9 +5,17 @@ returning the correct multiple-choice letter (e.g. "(J)").
 """
 
 from collections import defaultdict
-from typing import List, Optional, Tuple
+from typing import Any, List, Optional, Tuple
 
 from secretagent.core import interface, implement_via
+from secretagent.evaluate import Evaluator
+
+
+class GeometricShapesEvaluator(Evaluator):
+    def compare_predictions(self, predicted_output, expected_output) -> dict[str, Any]:
+        def normalize(s):
+            return str(s).strip().strip('()')
+        return dict(correct=float(normalize(predicted_output) == normalize(expected_output)))
 
 # ── path normalization ──────────────────────────────────────────────────────
 
@@ -138,11 +146,23 @@ def normalize_path(commands: List[str]) -> List[str]:
 # ── sub-tools ────────────────────────────────────────────────────────────────
 
 @interface
-def extract_path_and_options(input: str) -> Tuple[str, List[Tuple[str, str]]]:
-    """Extract the SVG path string and answer options from the prompt.
+def extract_path(input: str) -> str:
+    """Extract just the raw SVG path d="..." string from the prompt.
 
-    Returns (path, options) where path is the raw SVG path d="..." string
-    and options is a list of (letter, shape_name) pairs, e.g. [('A', 'circle'), ('B', 'heptagon')].
+    Returns the path commands as a single string, e.g.
+    'M 74.15,65.82 L 62.73,69.82 L 70.21,58.22'.
+    """
+    ...
+
+@interface
+def extract_options(input: str) -> List[Tuple[str, str]]:
+    """Extract just the labeled answer options from the prompt.
+
+    Returns a list of (letter, shape_name) pairs.
+
+    Examples:
+    >>> extract_options('... Options:\\n(A) circle\\n(B) kite\\n(C) triangle')
+    [('A', 'circle'), ('B', 'kite'), ('C', 'triangle')]
     """
     ...
 
@@ -224,7 +244,8 @@ def geometric_shapes_workflow(input: str) -> str:
         ptools.identify_shape.method=direct
         ptools.identify_shape.fn=ptools.geometric_shapes_workflow
     """
-    path, options = extract_path_and_options(input)
+    path = extract_path(input)
+    options = extract_options(input)
     commands = normalize_path(decompose_path(path))
 
     # describe each command, passing the previous command for L commands

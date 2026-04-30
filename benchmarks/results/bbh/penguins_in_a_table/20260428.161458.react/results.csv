@@ -1,0 +1,61 @@
+case_name,predicted_output,expected_output,correct,input_tokens,output_tokens,latency,cost,expt_name
+test.018,"**exception raised**: closing parenthesis ']' does not match opening parenthesis '(' (<unknown>, line 1)",(A),0.0,,,,,react
+test.040,Bernard,(A),0.0,4010.0,483.0,22.742629528045654,0.0032271,react
+test.048,"**exception raised**: invalid syntax (<unknown>, line 1)",(D),0.0,,,,,react
+test.017,(D),(D),1.0,7034.0,622.0,22.763733386993408,0.0052778,react
+test.007,C,(C),1.0,6099.0,681.0,23.26302409172058,0.0048170999999999995,react
+test.059,B,(B),1.0,9643.0,827.0,29.60914635658264,0.0071917,react
+test.049,A,(D),0.0,5367.0,559.0,21.82399272918701,0.0041705,react
+test.024,A,(A),1.0,3978.0,461.0,13.313753128051758,0.0031705,react
+test.013,(D),(D),1.0,8243.0,742.0,30.42888569831848,0.0062072,react
+test.019,E,(E),1.0,5679.0,574.0,24.441019296646118,0.004383199999999999,react
+test.035,"**exception raised**: invalid syntax (<unknown>, line 1)",(C),0.0,,,,,react
+test.054,E,(E),1.0,8090.0,725.0,28.649967432022095,0.0060865,react
+test.044,(A),(A),1.0,4174.0,637.0,32.65839171409607,0.0035873,react
+test.005,D,(D),1.0,5615.0,593.0,27.695250511169434,0.004377099999999999,react
+test.037,,(E),0.0,9434.0,785.0,22.67745590209961,0.0069949,react
+test.038,(B),(A),0.0,5700.0,588.0,16.965070486068726,0.004419599999999999,react
+test.006,D,(D),1.0,5755.0,632.0,23.1408748626709,0.004527399999999999,react
+test.003,C,(C),1.0,7864.0,789.0,28.54900336265564,0.0060596999999999995,react
+test.016,(A),(A),1.0,3907.0,428.0,11.725689888000488,0.0030717999999999995,react
+test.034,"**exception raised**: closing parenthesis ']' does not match opening parenthesis '(' (<unknown>, line 1)",(B),0.0,,,,,react
+test.002,D,(D),1.0,5943.0,640.0,22.448581218719482,0.0046538,react
+test.057,A,(A),1.0,7201.0,642.0,21.816914081573486,0.005411999999999999,react
+test.029,Vincent,(C),0.0,4077.0,545.0,14.708783864974976,0.0033727,react
+test.028,B,(B),1.0,4102.0,552.0,14.534445524215698,0.0033996,react
+test.039,(A),(D),0.0,3988.0,458.0,10.98199987411499,0.0031714,react
+test.041,A,(A),1.0,9908.0,874.0,27.09760880470276,0.0074306,react
+test.043,"**exception raised**: invalid syntax (<unknown>, line 1)",(B),0.0,,,,,react
+test.010,D,(D),1.0,10513.0,1076.0,34.29780912399292,0.008137,react
+test.047,(C),(C),1.0,7975.0,756.0,22.05190873146057,0.0060701999999999996,react
+test.055,"**exception raised**: invalid syntax (<unknown>, line 1)",(E),0.0,,,,,react
+test.036,(B),(B),1.0,3887.0,434.0,15.060886144638062,0.00307,react
+test.053,"**exception raised**: invalid syntax (<unknown>, line 1)",(A),0.0,,,,,react
+test.015,A,(A),1.0,7841.0,803.0,20.610640287399292,0.0060697,react
+test.052,(A),(A),1.0,5516.0,634.0,18.426929712295532,0.0043874,react
+test.058,A,(A),1.0,7409.0,710.0,19.746704816818237,0.005652399999999999,react
+test.023,D,(D),1.0,11000.0,1106.0,44.99080467224121,0.008480199999999999,react
+test.045,(D),(D),1.0,11228.0,1115.0,41.08233284950256,0.0086323,react
+test.009,"**exception raised**: invalid syntax (<unknown>, line 1)",(B),0.0,,,,,react
+test.001,(B),(B),1.0,13497.0,1341.0,64.14780521392822,0.010377899999999999,react
+test.051,(C),(C),1.0,6997.0,633.0,27.357527017593384,0.005274299999999999,react
+test.021,(A),(A),1.0,5519.0,540.0,24.606870889663696,0.0042293999999999995,react
+test.042,A,(A),1.0,9712.0,835.0,26.31077289581299,0.0072467,react
+test.046,A,(A),1.0,9981.0,822.0,35.27699661254883,0.007385999999999999,react
+test.027,D,(D),1.0,5453.0,548.0,25.290528297424316,0.0042033999999999995,react
+test.008,B,(B),1.0,3954.0,439.0,24.953035593032837,0.0031187,react
+test.030,D,(D),1.0,3941.0,434.0,24.772627115249634,0.0031024,react
+test.033,"**exception raised**: litellm.RateLimitError: RateLimitError: Together_aiException - We noticed too many requests from your account. We do our best to serve all requests, but due to high load, some bursty requests may not succeed. In this situation, we use your ""dynamic"" rate limit to properly classify errors for failed requests. Your dynamic rate limit is 0.3333333333333333 RPM, while your current request rate is 1 RPM. Please refer to https://docs.together.ai/docs/rate-limits for more details about dynamic rate limits. If your workload is truly bursty, we recommend using batch or dedicated inference. For any further questions, please contact our sales team at https://www.together.ai/contact-sales.",(B),0.0,7979.0,820.0,45.14525389671326,0.0061814,react
+test.050,(C),(C),1.0,7726.0,853.0,59.35421061515808,0.0060857,react
+test.056,(D),(D),1.0,9245.0,755.0,49.229896068573,0.0068305,react
+test.032,A,(A),1.0,5921.0,744.0,35.53739356994629,0.0048174,react
+test.025,E,(E),1.0,5481.0,625.0,25.45758819580078,0.0043511,react
+test.000,C,(C),1.0,7709.0,731.0,28.630032539367676,0.005868099999999999,react
+test.022,(C),(C),1.0,3928.0,476.0,24.36173391342163,0.003166,react
+test.031,(B),(B),1.0,4420.0,575.0,28.451136589050293,0.0036294999999999995,react
+test.014,(E),(E),1.0,9692.0,808.0,54.916882038116455,0.0071887999999999995,react
+test.012,(E),(E),1.0,7456.0,769.0,42.97503924369812,0.0057809,react
+test.020,C,(D),0.0,5559.0,531.0,35.897167921066284,0.0042381,react
+test.026,E,(E),1.0,8536.0,918.0,63.89615774154663,0.0066822,react
+test.011,"**exception raised**: invalid syntax (<unknown>, line 1)",(B),0.0,,,,,react
+test.004,A,(A),1.0,10712.0,963.0,52.318354845047,0.0080643,react

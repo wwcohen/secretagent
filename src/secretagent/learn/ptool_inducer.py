@@ -284,6 +284,14 @@ class PtoolInducer(Learner):
         self._counts: list = []
         self._ptools: list[dict] = []
 
+    def learn(self, dirs, latest=1, check=None):
+        self.collect_distillation_data(dirs, latest, check)
+        print(f'collected {len(self._items)} thoughts in working directory {self.out_dir}')
+        self.fit()
+        output_file = self.save_implementation()
+        print(self.report())
+        print(f'saved output to {output_file}')
+
     # --- override data collection to extract thoughts, not IO pairs ---
 
     def collect_distillation_data(self, dirs, latest=1, check=None):

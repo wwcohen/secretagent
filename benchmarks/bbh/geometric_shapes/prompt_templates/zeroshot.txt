@@ -1,12 +1,12 @@
-Determine plausibility of a sports-related sentence.
+Identify the geometric shape drawn by the given SVG path element.
 
-Specifically, determine if the sports associated with the player,
-action and event in a sentence are all consistent with each other.
+Choose the correct option from the multiple-choice answers provided.
 
-Your answer should be either 'True' or 'False'.  Use the following format:
+Your answer should be the option letter in parentheses, e.g. '(A)' or '(J)'.
+Use the following format:
 
 <answer>
 YOUR ANSWER
 </answer>
 
-The sentence is: $sentence
+The question is: $input

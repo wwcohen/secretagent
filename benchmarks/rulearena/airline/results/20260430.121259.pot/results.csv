@@ -1,0 +1,114 @@
+case_name,predicted_output,expected_output,correct,correct_tolerance,failure_mode,input_tokens,output_tokens,latency,cost,expt_name
+airline_2_24,3290,3290,1.0,1.0,none,14320.0,1681.0,54.82098937034607,0.0114497,pot
+airline_2_95,2808,2808,1.0,1.0,none,14332.0,770.0,30.854682683944702,0.009908199999999999,pot
+airline_2_36,2981,2981,1.0,1.0,none,14324.0,1596.0,64.4740686416626,0.0113076,pot
+airline_1_14,2354,2354,1.0,1.0,none,16654.0,982.0,55.851629972457886,0.0116618,pot
+airline_1_43,2293,2293,1.0,1.0,none,14212.0,2223.0,66.72365260124207,0.0123063,pot
+airline_0_88,1394,1394,1.0,1.0,none,14074.0,1582.0,53.11867380142212,0.011133800000000001,pot
+airline_0_38,1075,1075,1.0,1.0,none,14082.0,876.0,29.709749460220337,0.0099384,pot
+airline_2_7,"**exception raised**: Code execution failed at line 'import json' due to: InterpreterError: Import of json is not allowed. Authorized imports are: ['itertools', 'statistics', 'random', 'stat', 'collections', 'time', 'unicodedata', 'math', 're', 'queue', 'datetime']",3934,0.0,0.0,extraction_failure,12798.0,2943.0,86.1833553314209,0.0126819,pot
+airline_0_68,1490,1490,1.0,1.0,none,14076.0,2248.0,54.6591055393219,0.012267199999999999,pot
+airline_2_16,3754,3754,1.0,1.0,none,14328.0,2140.0,55.083332777023315,0.012234799999999999,pot
+airline_0_84,969,969,1.0,1.0,none,14076.0,2369.0,53.07477402687073,0.0124729,pot
+airline_2_17,3326,3326,1.0,1.0,none,12798.0,1061.0,24.689114809036255,0.0094825,pot
+airline_0_26,963,963,1.0,1.0,none,16385.0,2148.0,58.406240701675415,0.0134826,pot
+airline_2_11,2880,2880,1.0,1.0,none,12796.0,2239.0,49.92296624183655,0.0114839,pot
+airline_2_18,3438,3438,1.0,1.0,none,14324.0,1194.0,29.362937688827515,0.0106242,pot
+airline_2_15,3465,3465,1.0,1.0,none,14324.0,3737.0,114.45112490653992,0.0149473,pot
+airline_1_87,2147,2147,1.0,1.0,none,14202.0,1634.0,54.6677520275116,0.011299,pot
+airline_0_56,889,889,1.0,1.0,none,16152.0,1012.0,33.99545860290527,0.011411600000000001,pot
+airline_2_74,4938,4938,1.0,1.0,none,14318.0,4106.0,99.53687119483948,0.015571,pot
+airline_0_17,1321,1321,1.0,1.0,none,14080.0,1797.0,50.783406019210815,0.0115029,pot
+airline_2_76,"**exception raised**: Code execution failed at line 'params[""routine""] = ""South Korea""' due to: TypeError: 'AirlineParams' object does not support item assignment",4498,0.0,0.0,extraction_failure,20849.0,2176.0,62.81572890281677,0.016208599999999997,pot
+airline_1_39,3731,3731,1.0,1.0,none,14200.0,4069.0,123.06602549552917,0.0154373,pot
+airline_2_80,"**exception raised**: Code execution failed at line 'if params[""customer_class""] != ""Business"" or params[""routine""] != ""U.S."" or params[""direction""] != 0:
+    # Override if needed for this specific case
+    params[""customer_class""] = ""Business""
+    params[""routine""] = ""U.S.""
+    params[""direction""] = 0' due to: InterpreterError: Could not index base_price=234 customer_class='Business' routine='U.S.' direction=0 bag_list=[BagItem(id=1, name='backpack', size=[20, 11, 7], weight=11), BagItem(id=2, name='luggage box', size=[33, 22, 10], weight=53), BagItem(id=3, name='luggage box', size=[33, 19, 12], weight=62), BagItem(id=4, name='luggage box', size=[37, 15, 13], weight=52), BagItem(id=5, name='luggage box', size=[33, 20, 11], weight=70), BagItem(id=6, name='luggage box', size=[36, 19, 9], weight=53), BagItem(id=7, name='backpack', size=[35, 17, 13], weight=71), BagItem(id=8, name='backpack', size=[52, 32, 26], weight=90), BagItem(id=9, name='backpack', size=[34, 17, 14], weight=52), BagItem(id=10, name='backpack', size=[35, 17, 12], weight=87), BagItem(id=11, name='backpack', size=[41, 22, 18], weight=65)] with 'customer_class': TypeError: 'AirlineParams' object is not subscriptable",2764,0.0,0.0,extraction_failure,14324.0,1274.0,41.78748893737793,0.0107602,pot
+airline_2_46,3566,3566,1.0,1.0,none,14322.0,2031.0,58.819326639175415,0.012045899999999998,pot
+airline_0_32,"**exception raised**: Code parsing failed on line 1 due to: SyntaxError
+<answer>
+ ^
+Error: invalid syntax (<unknown>, line 1)",1315,0.0,0.0,extraction_failure,12675.0,660.0,17.403533697128296,0.008727,pot
+airline_1_6,3585,3585,1.0,1.0,none,14204.0,3291.0,78.27760720252991,0.0141171,pot
+airline_2_33,3916,3916,1.0,1.0,none,14318.0,1907.0,52.1005585193634,0.0118327,pot
+airline_1_12,2207,2207,1.0,1.0,none,14194.0,3012.0,83.05581617355347,0.013636800000000001,pot
+airline_2_52,3652,3652,1.0,1.0,none,14324.0,1932.0,56.150891065597534,0.011878799999999998,pot
+airline_2_44,3010,3010,1.0,1.0,none,14328.0,2897.0,102.84580826759338,0.013521699999999998,pot
+airline_1_67,2457,2457,1.0,1.0,none,14206.0,969.0,29.9727885723114,0.0101709,pot
+airline_0_43,1397,1397,1.0,1.0,none,14080.0,568.0,20.01126480102539,0.0094136,pot
+airline_2_82,5120,5120,1.0,1.0,none,14326.0,3217.0,89.59049105644226,0.0140645,pot
+airline_0_48,1419,1419,1.0,1.0,none,16276.0,2329.0,70.85558915138245,0.013724899999999998,pot
+airline_1_55,2375,2375,1.0,1.0,none,14204.0,918.0,27.14954972267151,0.010083,pot
+airline_0_29,1643,1643,1.0,1.0,none,14080.0,1827.0,56.18646764755249,0.0115539,pot
+airline_1_35,1960,1960,1.0,1.0,none,14198.0,2679.0,90.7004063129425,0.013073099999999999,pot
+airline_0_60,2510,2510,1.0,1.0,none,14078.0,495.0,17.481333255767822,0.0092883,pot
+airline_2_28,3306,3306,1.0,1.0,none,14320.0,1183.0,44.069003105163574,0.010603099999999999,pot
+airline_1_60,2372,2372,1.0,1.0,none,16603.0,1245.0,39.44457650184631,0.0120783,pot
+airline_0_82,1390,1390,1.0,1.0,none,14078.0,511.0,12.774280309677124,0.009315499999999999,pot
+airline_2_97,3033,3033,1.0,1.0,none,14318.0,842.0,42.93990468978882,0.010022199999999998,pot
+airline_1_90,3294,3294,1.0,1.0,none,12738.0,913.0,22.4002685546875,0.0091949,pot
+airline_2_58,2603,2603,1.0,1.0,none,12800.0,910.0,16.356985092163086,0.009226999999999999,pot
+airline_0_55,"**exception raised**: Code execution failed at line 'params[""base_price""] = 800' due to: TypeError: 'AirlineParams' object does not support item assignment",2080,0.0,0.0,extraction_failure,14078.0,940.0,32.57116889953613,0.0100448,pot
+airline_2_51,3303,3303,1.0,1.0,none,14320.0,786.0,22.233417987823486,0.0099282,pot
+airline_0_31,1104,1104,1.0,1.0,none,14074.0,1149.0,22.340715169906616,0.0103977,pot
+airline_1_31,2960,2960,1.0,1.0,none,14198.0,727.0,27.724620580673218,0.0097547,pot
+airline_0_12,992,992,1.0,1.0,none,14074.0,1002.0,24.307440042495728,0.0101478,pot
+airline_1_16,3090,3090,1.0,1.0,none,14200.0,601.0,23.75094962120056,0.0095417,pot
+airline_1_75,"**exception raised**: Code parsing failed on line 1 due to: SyntaxError
+<answer>
+ ^
+Error: invalid syntax (<unknown>, line 1)",4370,0.0,0.0,extraction_failure,12736.0,243.0,7.19486141204834,0.0080547,pot
+airline_1_81,3266,3266,1.0,1.0,none,14196.0,797.0,21.286804676055908,0.0098725,pot
+airline_1_53,"**exception raised**: Code execution failed at line 'bag_list = params[""bag_list""]' due to: InterpreterError: Could not index base_price=119 customer_class='Premium Economy' routine='U.S.' direction=0 bag_list=[BagItem(id=1, name='backpack', size=[22, 11, 7], weight=12), BagItem(id=2, name='backpack', size=[38, 20, 13], weight=52), BagItem(id=3, name='luggage box', size=[38, 12, 13], weight=56), BagItem(id=4, name='backpack', size=[34, 16, 14], weight=63), BagItem(id=5, name='luggage box', size=[37, 13, 14], weight=51), BagItem(id=6, name='backpack', size=[33, 22, 9], weight=51), BagItem(id=7, name='luggage box', size=[51, 32, 31], weight=65), BagItem(id=8, name='backpack', size=[53, 30, 25], weight=56)] with 'bag_list': TypeError: 'AirlineParams' object is not subscriptable",1929,0.0,0.0,extraction_failure,14204.0,1434.0,52.93611264228821,0.010960200000000002,pot
+airline_1_41,**exception raised**: Code execution failed at line 'CODE' due to: InterpreterError: The variable `CODE` is not defined.,2425,0.0,0.0,extraction_failure,12739.0,5886.0,131.78028178215027,0.0176496,pot
+airline_0_18,1377,1377,1.0,1.0,none,14080.0,1158.0,38.68076753616333,0.0104166,pot
+airline_1_98,"**exception raised**: Code parsing failed on line 1 due to: SyntaxError
+<answer>
+ ^
+Error: invalid syntax (<unknown>, line 1)",2151,0.0,0.0,extraction_failure,12734.0,915.0,31.141738414764404,0.0091959,pot
+airline_0_3,1513,1513,1.0,1.0,none,14082.0,1351.0,36.178237199783325,0.0107459,pot
+airline_0_19,2524,2524,1.0,1.0,none,14084.0,2204.0,56.93297505378723,0.0121972,pot
+airline_0_54,1310,1310,1.0,1.0,none,14088.0,1752.0,46.704898834228516,0.011431199999999999,pot
+airline_0_50,1186,1186,1.0,1.0,none,12673.0,1412.0,40.54612469673157,0.0100042,pot
+airline_2_41,3260,3260,1.0,1.0,none,14322.0,3452.0,79.54988765716553,0.0144616,pot
+airline_2_6,"**exception raised**: Code execution failed at line 'import json' due to: InterpreterError: Import of json is not allowed. Authorized imports are: ['itertools', 'statistics', 'random', 'stat', 'collections', 'time', 'unicodedata', 'math', 're', 'queue', 'datetime']",3676,0.0,0.0,extraction_failure,12796.0,2178.0,55.4680814743042,0.0113802,pot
+airline_2_19,3603,3603,1.0,1.0,none,14316.0,2637.0,73.6266098022461,0.013072499999999999,pot
+airline_0_11,"**exception raised**: Code execution failed at line 'params[""routine""] = ""U.S.""' due to: TypeError: 'AirlineParams' object does not support item assignment",1203,0.0,0.0,extraction_failure,14076.0,717.0,18.490976572036743,0.0096645,pot
+airline_1_73,1857,1857,1.0,1.0,none,14198.0,2197.0,77.85831952095032,0.0122537,pot
+airline_2_72,2991,2991,1.0,1.0,none,14324.0,854.0,36.98036003112793,0.0100462,pot
+airline_2_93,3204,3204,1.0,1.0,none,14324.0,899.0,37.58479690551758,0.010122699999999998,pot
+airline_1_36,2795,2795,1.0,1.0,none,14198.0,1158.0,28.99728536605835,0.0104874,pot
+airline_2_85,3220,3220,1.0,1.0,none,12796.0,2541.0,71.99710750579834,0.011997299999999999,pot
+airline_1_38,1565,1565,1.0,1.0,none,14116.0,506.0,15.355055332183838,0.0093298,pot
+airline_2_77,3089,3089,1.0,1.0,none,14322.0,2986.0,77.37251496315002,0.013669399999999998,pot
+airline_0_64,1496,1496,1.0,1.0,none,14080.0,1326.0,37.6404242515564,0.010702199999999999,pot
+airline_2_47,"**exception raised**: Code execution failed at line 'params[""routine""] = ""Canada""' due to: TypeError: 'AirlineParams' object does not support item assignment",3214,0.0,0.0,extraction_failure,14328.0,1326.0,32.38846230506897,0.010851,pot
+airline_0_61,898,898,1.0,1.0,none,14074.0,1989.0,47.43196201324463,0.0118257,pot
+airline_1_78,2665,2665,1.0,1.0,none,14198.0,1583.0,37.00337362289429,0.0112099,pot
+airline_1_47,2291,2291,1.0,1.0,none,14204.0,1025.0,24.34030055999756,0.010264899999999999,pot
+airline_0_23,1882,1882,1.0,1.0,none,14074.0,981.0,30.034259796142578,0.0101121,pot
+airline_0_7,957,957,1.0,1.0,none,14076.0,1035.0,27.969852447509766,0.0102051,pot
+airline_2_23,5389,5389,1.0,1.0,none,14326.0,1580.0,37.44554090499878,0.0112816,pot
+airline_0_65,**exception raised**: Code execution failed at line 'params['base_price'] = 1022' due to: TypeError: 'AirlineParams' object does not support item assignment,1702,0.0,0.0,extraction_failure,14078.0,3236.0,82.0135269165039,0.013948,pot
+airline_1_94,2223,2223,1.0,1.0,none,14204.0,1278.0,32.35776233673096,0.010695,pot
+airline_2_60,2565,2565,1.0,1.0,none,14322.0,741.0,24.95379877090454,0.009852900000000001,pot
+airline_1_20,2760,2760,1.0,1.0,none,14206.0,927.0,29.910048961639404,0.0100995,pot
+airline_1_64,1812,1812,1.0,1.0,none,14206.0,2358.0,70.12421941757202,0.0125322,pot
+airline_0_47,966,896,0.0,0.0,calculation_error,14078.0,1406.0,37.64247965812683,0.010837,pot
+airline_1_32,2167,2167,1.0,1.0,none,12734.0,4404.0,94.54954624176025,0.0151272,pot
+airline_2_57,5393,5393,1.0,1.0,none,14328.0,2698.0,59.02919816970825,0.0131834,pot
+airline_1_42,2243,2243,1.0,1.0,none,14198.0,2446.0,59.12793517112732,0.012676999999999999,pot
+airline_2_81,3452,3452,1.0,1.0,none,14322.0,1000.0,32.0123507976532,0.010293199999999999,pot
+airline_1_17,223,223,1.0,1.0,none,14002.0,915.0,25.434977531433105,0.0099567,pot
+airline_1_89,2704,2704,1.0,1.0,none,14200.0,1805.0,48.22078561782837,0.0115885,pot
+airline_0_9,1261,1261,1.0,1.0,none,12677.0,2115.0,47.63617300987244,0.0112017,pot
+airline_1_25,"**exception raised**: Code execution failed at line 'params[""direction""] = 1' due to: TypeError: 'AirlineParams' object does not support item assignment",2218,0.0,0.0,extraction_failure,14202.0,2221.0,57.194905519485474,0.0122969,pot
+airline_1_95,2775,2775,1.0,1.0,none,16569.0,988.0,29.7845938205719,0.011621,pot
+airline_0_49,1070,1070,1.0,1.0,none,14074.0,2462.0,56.827669858932495,0.0126298,pot
+airline_0_59,1852,1852,1.0,1.0,none,14078.0,382.0,11.793253898620605,0.0090962,pot
+airline_1_58,2228,2228,1.0,1.0,none,14202.0,3020.0,77.57671427726746,0.013655200000000001,pot
+airline_1_19,2439,2439,1.0,1.0,none,14200.0,1409.0,44.84248352050781,0.0109153,pot
+airline_0_42,2741,2741,1.0,1.0,none,16398.0,1380.0,39.10516333580017,0.012184799999999999,pot
+airline_0_67,"**exception raised**: Code execution failed at line 'params[""base_price""] = 385' due to: TypeError: 'AirlineParams' object does not support item assignment",1515,0.0,0.0,extraction_failure,14078.0,616.0,20.137218236923218,0.009493999999999999,pot
