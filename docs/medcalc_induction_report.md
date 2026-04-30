@@ -47,15 +47,15 @@ These directories contain the local run outputs used for the 2026-04-30 numbers.
 
 The learner also wrote per-iteration train/eval result directories beside the `.orch_learner` directories, for example `20260430.021402.rc_iter0`, `20260430.025618.rc_iter0_eval`, `20260430.035321.rc_iter0`, and `20260430.042544.rc_iter0_eval`.
 
-### Notes on the documentation-side rerun
+### Ongoing/future runs not included here
 
-A later documentation-side attempt to rerun the equation learner used `--scratch-evolved` and started writing:
+Later equation-only/rule-only orchestrator runs on the induced ptools may still be running from a separate terminal. Their scratch/run directories are intentionally not used for any metric in this report and should be summarized in a later update after they finish. Current local examples include:
 
 - `benchmarks/medcalc/results/orchestration_learner/20260430.153721.orch_learner/`
 - `benchmarks/medcalc/results/orchestration_learner/20260430.154012.rc_iter0/`
 - `benchmarks/medcalc/.orchestration_learner/ptools_induced_equation_20260430.153932_scratch.py`
 
-Those artifacts are incomplete and are not used for any reported metric in this document.
+Those artifacts are incomplete or future-work outputs and are not used for any reported metric in this document.
 
 ---
 
