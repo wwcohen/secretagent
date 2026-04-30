@@ -145,43 +145,92 @@ def _parse_cell(cell: str) -> tuple[float, float] | None:
     return float(parts[0].strip()), float(parts[1].strip())
 
 
-def _plot_comparison(df: pd.DataFrame, metric: str, x_strategy: str = "react",
+_STRATEGY_MARKERS = ["o", "^", "s", "*", "D", "v", "P", "X"]
+
+
+def _plot_comparison(df: pd.DataFrame, metric: str,
+                     x_strategy: str | list[str] = "react",
                      y_strategy: str = "workflow", output: str = "hero_plot.png"):
-    """Plot workflow vs another strategy on a given metric with error boxes."""
+    """Plot y_strategy vs x_strategy(ies) on a given metric with error boxes.
+
+    When x_strategy is a list, each strategy gets a distinct marker shape
+    and benchmarks are distinguished by color.
+    """
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
     from matplotlib.patches import Rectangle
 
+    if isinstance(x_strategy, str):
+        x_strategy = [x_strategy]
+
     fig, ax = plt.subplots(figsize=(10, 7))
 
-    for task in df.index:
-        wf = _parse_cell(df.loc[task, y_strategy])
-        xs = _parse_cell(df.loc[task, x_strategy])
-        if wf is None or xs is None:
-            continue
+    # Assign a persistent color per task across all x strategies
+    task_colors = {}
+    color_cycle = plt.rcParams["axes.prop_cycle"].by_key()["color"]
 
-        x_mean, x_sem = xs
-        y_mean, y_sem = wf
+    for si, x_strat in enumerate(x_strategy):
+        marker = _STRATEGY_MARKERS[si % len(_STRATEGY_MARKERS)]
+        for task in df.index:
+            wf = _parse_cell(df.loc[task, y_strategy])
+            xs = _parse_cell(df.loc[task, x_strat])
+            if wf is None or xs is None:
+                continue
 
-        ax.plot(x_mean, y_mean, "o", markersize=6, label=task)
-        color = ax.lines[-1].get_color()
-        rect = Rectangle(
-            (x_mean - x_sem, y_mean - y_sem),
-            2 * x_sem, 2 * y_sem,
-            linewidth=1, edgecolor=color, facecolor=color, alpha=0.25,
-        )
-        ax.add_patch(rect)
+            x_mean, x_sem = xs
+            y_mean, y_sem = wf
+
+            if task not in task_colors:
+                task_colors[task] = color_cycle[len(task_colors) % len(color_cycle)]
+            color = task_colors[task]
+
+            # Label: show task name only for first strategy, strategy name only when multiple
+            if len(x_strategy) == 1:
+                label = task
+            elif si == 0:
+                label = f"{task} ({x_strat})"
+            else:
+                label = f"{task} ({x_strat})"
+
+            ax.plot(x_mean, y_mean, marker=marker, markersize=7,
+                    color=color, label=label)
+            rect = Rectangle(
+                (x_mean - x_sem, y_mean - y_sem),
+                2 * x_sem, 2 * y_sem,
+                linewidth=1, edgecolor=color, facecolor=color, alpha=0.15,
+            )
+            ax.add_patch(rect)
 
     # y=x reference line
     lo = min(ax.get_xlim()[0], ax.get_ylim()[0])
     hi = max(ax.get_xlim()[1], ax.get_ylim()[1])
     ax.plot([lo, hi], [lo, hi], "k--", linewidth=0.8, alpha=0.5)
 
-    ax.set_xlabel(f"{x_strategy} {metric}")
+    # Add marker legend entries for strategies when multiple x strategies
+    if len(x_strategy) > 1:
+        from matplotlib.lines import Line2D
+        strategy_handles = []
+        for si, x_strat in enumerate(x_strategy):
+            marker = _STRATEGY_MARKERS[si % len(_STRATEGY_MARKERS)]
+            strategy_handles.append(
+                Line2D([0], [0], marker=marker, color="gray", linestyle="None",
+                       markersize=7, label=x_strat))
+        # Task color handles
+        task_handles = [
+            Line2D([0], [0], marker="o", color=c, linestyle="None",
+                   markersize=7, label=t)
+            for t, c in task_colors.items()
+        ]
+        ax.legend(handles=strategy_handles + task_handles, fontsize=8, loc="best")
+        x_label = "/".join(x_strategy)
+    else:
+        ax.legend(fontsize=8, loc="best")
+        x_label = x_strategy[0]
+
+    ax.set_xlabel(f"{x_label} {metric}")
     ax.set_ylabel(f"{y_strategy} {metric}")
-    ax.set_title(f"{y_strategy} vs {x_strategy} {metric}")
-    ax.legend(fontsize=8, loc="best")
+    ax.set_title(f"{y_strategy} vs {x_label} {metric}")
     fig.tight_layout()
     fig.savefig(output, dpi=150)
     plt.close(fig)
@@ -321,15 +370,21 @@ def main():
                         help="Output format: table (default), plot-correct, plot-cost, latex-correct, latex-cost, or latex-compact")
     parser.add_argument("--output", default="hero_plot.png",
                         help="Output PNG file path (for plot-correct)")
-    parser.add_argument("--x", default="react",
-                        choices=STRATEGY_ORDER,
-                        help="Strategy for x-axis in plot modes (default: react)")
+    parser.add_argument("--x", nargs="+", default=["react"],
+                        help="Strategy(ies) for x-axis in plot modes (default: react)")
     parser.add_argument("--y", default="workflow",
                         choices=STRATEGY_ORDER,
                         help="Strategy for y-axis in plot modes (default: workflow)")
+    parser.add_argument("--suppress", nargs="+", default=[],
+                        metavar="TASK",
+                        help="Benchmarks to exclude (e.g. tau_bench/retail)")
     args = parser.parse_args()
 
     cost_df, correct_df = build_tables()
+
+    if args.suppress:
+        cost_df = cost_df[~cost_df.index.isin(args.suppress)]
+        correct_df = correct_df[~correct_df.index.isin(args.suppress)]
 
     if args.min_cols > 0:
         cost_df = _filter_min_cols(cost_df, args.min_cols)
