@@ -22,6 +22,41 @@ Research questions and findings: [orchestration_learner_research_findings.html](
 
 Each timestamped `*.orch_learner/` directory listed in the table contains the checked-in learner artifacts for that run, including `run_metadata.json`, `report.json`, `implementation.yaml`, evolved ptools such as `ptools_evolved.py`, iteration snapshots, and `final_eval/*/results.csv`.
 
+## Artifact Lookup and Workflow Source
+
+For each row in the result table:
+
+- `result_dir = <result root below>/<Output>`
+- Per-run HTML report: `<result_dir>/report.html`
+- Final ptools: `<result_dir>/ptools_evolved.py`
+- Final workflow binding: `<result_dir>/implementation.yaml`
+- Run metadata: `<result_dir>/run_metadata.json`
+
+The `Class` column records the initial workflow used:
+
+- `existing_workflow`: `seed_orchestrate=false`; started from the benchmark's existing configured workflow for the entry point, then the learner edited a scratch/evolved ptools module.
+- `seed_from_ptools`: `seed_orchestrate=true`; started by inducing an initial workflow from the benchmark `ptools.py` building blocks for the same entry point, then the learner edited the evolved module.
+
+The final workflow used for scoring is always the function bound in `implementation.yaml`, which points into `ptools_evolved.py` under `__learned__`.
+
+| Table benchmark | Result root | Entry point |
+|---|---|---|
+| `finqa` | `benchmarks/finqa/results/orchestration_learner/` | `answer_finqa` |
+| `medcalc` | `benchmarks/medcalc/results/orchestration_learner/` | `calculate_medical_value` |
+| `musr_murder` | `benchmarks/musr/results/orchestration_learner/` | `answer_question_workflow` |
+| `musr_object` | `benchmarks/musr/results/orchestration_learner/` | `answer_question_workflow` |
+| `musr_team` | `benchmarks/musr/results/orchestration_learner/` | `answer_question` |
+| `natural_plan_calendar` | `benchmarks/natural_plan/results/orchestration_learner/` | `calendar_scheduling` |
+| `natural_plan_meeting` | `benchmarks/natural_plan/results/orchestration_learner/` | `meeting_planning` |
+| `natural_plan_trip` | `benchmarks/natural_plan/results/orchestration_learner/` | `trip_planning` |
+| `rulearena_airline` | `benchmarks/rulearena/results/orchestration_learner/` | `compute_rulearena_answer` |
+| `rulearena_nba` | `benchmarks/rulearena/results/orchestration_learner/` | `compute_rulearena_answer` |
+| `rulearena_tax` | `benchmarks/rulearena/results/orchestration_learner/` | `compute_rulearena_answer` |
+| `tabmwp` | `benchmarks/tabmwp/results/orchestration_learner/` | `tabmwp_solve` |
+| `sports_understanding` | `benchmarks/bbh/sports_understanding/results/orchestration_learner/` | `are_sports_in_sentence_consistent` |
+| `geometric_shapes` | `benchmarks/bbh/geometric_shapes/results/orchestration_learner/` | `identify_shape` |
+| `penguins_in_a_table` | `benchmarks/bbh/penguins_in_a_table/results/orchestration_learner/` | `answer_penguin_question` |
+
 ## Summary
 
 - Runs: 30
