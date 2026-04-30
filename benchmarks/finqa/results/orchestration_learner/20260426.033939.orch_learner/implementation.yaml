@@ -1,0 +1,4 @@
+answer_finqa:
+  method: direct
+  fn: __learned__.answer_finqa
+  learner: orch_learner

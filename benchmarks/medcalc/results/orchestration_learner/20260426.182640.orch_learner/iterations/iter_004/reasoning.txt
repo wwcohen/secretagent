@@ -1,0 +1,13 @@
+An analysis of the execution traces reveals a few very specific mathematical and time-frame extraction flaws that act as bottlenecks for our pipeline:
+
+1. **"Prior to any treatment" instruction ignored**: When a prompt says "prior to any treatment", the LLM sometimes extracts vitals recorded *after* an intervention (e.g., extracting a post-transfusion BP for Mean Arterial Pressure, or logging subsequent complications for Wells' Criteria). This leads to wrong scores. 
+2. **Date coercions crash the pipeline**: Because date calculation questions (Gestational Age, EDC, EDD) expect dates/tuples rather than numeric floats, the type coercion in our `workflow()` crashes and falls back to naive models.
+3. **Implicit values in complex calculations**: 
+   - `Free Water Deficit` takes the *desired* sodium from the question text as the *actual* patient sodium.
+   - `Centor Score` has an age modifier (McIsaac) in the Python calculator, but some questions strictly expect the classic non-modified score.
+   - `Albumin Corrected Delta Ratio` requires albumin for the math, but it's absent from the Python signature, leading to a naive calculation.
+
+### Strategy
+1. **Clarify Time-Frame Extraction**: Embed a strict "STRICT TIME-FRAME" directive in the docstrings for `analyze_scoring_conditions` and `extract_calculator_values` to anchor the LLM to initial presentation vitals.
+2. **Pure Python Date Intercept**: Intercept `Date` and `Gestational Age` calculators immediately after identification to compute dates using pure Python `datetime` math. This entirely bypasses LLM extraction and float coercion crashes.
+3. **Targeted Math Overrides**: Implement a set of safe, self-healing intercepts inside `workflow()` for edge-case scores (MME regex parsing, Centor un-modifying, Delta Ratio albumin injection, Maintenance Fluids regex rescue).

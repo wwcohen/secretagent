@@ -1,0 +1,4 @@
+tabmwp_solve:
+  method: direct
+  fn: __learned__.tools_workflow
+  learner: orch_learner

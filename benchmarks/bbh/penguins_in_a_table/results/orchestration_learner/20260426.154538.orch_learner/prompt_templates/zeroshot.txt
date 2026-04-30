@@ -1,0 +1,9 @@
+Answer the following question about a table of penguins.
+
+Your answer should be one of the option labels, e.g. "(A)".  Use the following format:
+
+<answer>
+YOUR ANSWER
+</answer>
+
+$question

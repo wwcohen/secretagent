@@ -11,7 +11,7 @@ defined at the bottom of this file.
 
 import pandas as pd
 
-from secretagent.core import interface
+from secretagent.core import interface, implement_via
 
 # ---------------------------------------------------------------
 # Table store — populated at experiment startup by expt.py
@@ -333,3 +333,18 @@ def rich_workflow(question: str, table: str, table_id: str, choices: list | None
     values = extract_relevant_values(question, table)
     result = compute_answer_rich(question, table, operation, values)
     return format_answer_rich(question, table, result, choices)
+
+
+# ---------------------------------------------------------------
+# Unstructured baseline: vanilla zero-shot prompt, no Python-stub framing.
+# Bind tabmwp_solve to zeroshot_unstructured_workflow for this baseline.
+# ---------------------------------------------------------------
+
+@interface
+def zeroshot_tabmwp_solve(question: str, table: str, table_id: str, choices: list | None) -> str:
+    """Vanilla zero-shot prompt for TabMWP. Returns the answer as a string."""
+
+
+def zeroshot_unstructured_workflow(question: str, table: str, table_id: str, choices: list | None) -> str:
+    """One-call zero-shot baseline."""
+    return zeroshot_tabmwp_solve(question, table, table_id, choices)

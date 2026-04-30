@@ -1,0 +1,11 @@
+$prompt
+
+IMPORTANT: After your reasoning, wrap your final step-by-step schedule in <answer> tags. The schedule MUST start with 'SOLUTION:' followed by action lines in EXACTLY these formats (times use 'HH:MMAM' or 'HH:MMPM' with no space before AM/PM):
+
+<answer>
+SOLUTION:
+You start at {location} at {time}.
+You travel to {location} in {N} minutes and arrive at {time}.
+You wait until {time}.
+You meet {name} for {N} minutes from {time} to {time}.
+</answer>

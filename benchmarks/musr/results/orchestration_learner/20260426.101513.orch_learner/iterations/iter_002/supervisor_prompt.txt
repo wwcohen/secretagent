@@ -1,0 +1,574 @@
+You are an expert ML engineer making a TARGETED improvement to an existing
+pipeline. The pipeline already works at a certain accuracy — your job is to
+make it BETTER, not blow it up.
+
+You have FULL CONTROL over the ptools module. You can modify ANY function,
+ANY docstring, ANY logic. Your changes will be written to ptools_evolved.py
+and evaluated.
+
+## Current ptools_evolved.py (FULL SOURCE — you own this file)
+
+```python
+"""Interfaces for MUSR team allocation.
+
+NOTE: A previous experiment with the single-ptool approach (answer_question
+bound to simulate with thinking) outperformed early decomposed workflows
+(84% vs 40-67%) — the LLM reasoned better about trade-offs holistically
+than through lossy intermediate extraction.
+
+The decomposed workflow below (extract_team_requirements +
+score_team_assignments) is included as a hand-designed BASELINE for the
+paper, not because it's expected to be the best — its purpose is to
+isolate "human-designed library structure" from "induced library
+structure" in a fair comparison.
+"""
+
+from secretagent.core import interface
+from ptools_common import (  # noqa: F401  (re-export so the loaded ptools module exposes them)
+    raw_answer,
+    extract_index,
+    react_solve,
+)
+
+
+@interface
+def extract_team_requirements(narrative: str) -> str:
+    """Extract the constraints and requirements that define a valid team.
+
+    Read the narrative carefully and extract:
+
+    Top level:
+    - roles: list of roles the team needs to fill (e.g. "lead", "analyst",
+      "support") with the headcount each role requires
+    - hard_constraints: requirements that MUST hold for an assignment to
+      be considered (e.g. "must have safety certification", "cannot pair
+      X with Y", "needs at least one senior member")
+    - soft_constraints: preferences that improve a team's score but are
+      not strictly required (e.g. "prefer same-shift workers", "synergies
+      between people with shared experience")
+    - scoring_rules: any explicit numeric or qualitative scoring rule the
+      narrative provides (e.g. "+2 if all members are bilingual",
+      "score = sum of individual ratings")
+    - synergies: pairs of people who work especially well together (only
+      include pairs the narrative explicitly mentions)
+    - conflicts: pairs of people who do NOT work well together (only
+      include pairs the narrative explicitly mentions)
+
+    Be exhaustive — don't omit constraints just because they sound minor.
+    Use the exact names that appear in the story so they can be matched
+    against the answer choices later. Do not invent constraints that the
+    narrative does not state.
+    """
+
+
+@interface
+def score_team_assignments(
+    narrative: str,
+    requirements: str,
+    question: str,
+    choices: list,
+) -> str:
+    """Score each candidate team assignment in the question's choices.
+
+    You receive:
+    1. The FULL original narrative (re-read it for details extraction may have missed)
+    2. Extracted team requirements (roles, hard/soft constraints, scoring rules,
+       synergies, conflicts)
+    3. The question (which usually asks "what is the best assignment of people
+       to roles?" or similar)
+    4. The answer choices — each choice is a candidate assignment
+
+    Your task — score each candidate assignment and identify the best one:
+
+    For each candidate in choices:
+      Step 1: List the (person, role) pairs the candidate proposes.
+      Step 2: Check every hard_constraint. If ANY hard constraint is
+              violated, mark the candidate INVALID and move on.
+      Step 3: For valid candidates, count satisfied soft constraints
+              and synergies; subtract for conflicts.
+      Step 4: Apply any explicit scoring_rules from the narrative.
+      Step 5: Produce a score (or qualitative ranking) for the candidate.
+
+    After scoring all candidates:
+      - Pick the candidate with the highest score (or the only valid one).
+      - Briefly justify the choice by referencing the constraints that
+        decided it.
+      - End your response with the chosen assignment EXACTLY as it appears
+        in the choices list, so the downstream extractor can match it.
+
+    IMPORTANT: The narrative is the source of truth — if requirements
+    extraction missed something, fall back to re-reading the narrative
+    rather than inventing.
+    """
+
+
+@interface
+def answer_question(narrative: str, question: str, choices: list) -> int:
+    """Read the narrative and determine the best team allocation.
+    Return the 0-based index of the correct choice.
+    """
+    text = raw_answer(narrative, question, choices)
+    return extract_index(text, choices)
+
+
+@interface
+def answer_question_workflow(narrative: str, question: str, choices: list) -> int:
+    """Solve by extracting team requirements, scoring assignments, then matching.
+
+    3-step hand-designed workflow:
+      1. extract_team_requirements — roles, constraints, scoring rules
+      2. score_team_assignments — score each candidate against the requirements
+      3. extract_index — match the chosen assignment to one of the choices
+    """
+    requirements = extract_team_requirements(narrative)
+    text = score_team_assignments(narrative, requirements, question, choices)
+    return extract_index(text, choices)
+
+```
+
+## Performance on training set
+
+Pipeline accuracy: 72.9%, avg cost: $0.0011/case, 70 cases
+
+Per-ptool breakdown:
+  extract_index: cost_frac=32.5%, calls/case=1.0, avg_cost=$0.0004, lift=N/A, errors=0
+  raw_answer: cost_frac=67.5%, calls/case=1.0, avg_cost=$0.0008, lift=N/A, errors=0
+
+Ptools called via LLM: ['extract_index', 'raw_answer']
+
+Held-out eval accuracy: 63.3% (train: 72.9%)
+A large train-eval gap means your changes are OVERFITTING. Prefer changes that generalize to unseen cases.
+
+## Failure cases with full context
+
+Total failures: 19 / showing 19:
+
+Failure counts by category:
+  unknown: 19 failures
+
+--- Case ex013: ---
+  Input arg 0: The bustling faculty lounge was brimming with anticipation as the annual school sports day loomed. This year, the responsibility of assembling the ideal team fell on my shoulders. The task at hand was to delegate roles to the right candidates, specifically Mary, Charles, and Lisa. The roles in question were twofold: participants, who would compete in the games, and organizers, who would ensure the smooth running of the event.
+
+Charles, whose weekends were dominated by community service, leading and volunteering for various projects, slipped into my mind first. He was industrious; no event seemed daunting to him. In the preceding year, he'd pulled off a successful school fundraiser single-handedly. Moreover, his athletics prowess was unmatched. His spirit seemed unstoppable, training rigorously every day after school and churning out stellar performances. The memory of him standing triumphant as a champion athlete at the previous year's inter-school sports day was fresh in my mind.
+
+However, the dynamic between Charles and Mary gloomed over my thoughts. He constantly bemoaned her lengthy formatting suggestions and their frequent arguments during team practices made the atmosphere tense. Mary herself was a determined character, but with a weakness for forgetting vital details pertaining to organized events. Though her enthusiasm for sports was undeniable, being an active member of a recreational badminton circle and a former basketball player, her organizing skills often left a lot to be desired, as evidenced by a poorly managed school project attributed to her.
+
+Then there was Lisa, her communication skills sharp and her organizing abilities commendable. She took charge of regular meetings within her book club and had even assisted in organizing a charity event, though it was small. She was good at games, having made it to the quarter-finals in singles in last year's inter-school sports day, but she didn't engage in sports as avidly as Charles. She did, however, shar
+  Input arg 1: Given the story, how would you uniquely allocate each person to make sure both tasks are accomplished efficiently?
+  Input arg 2: ['Participants: Lisa, Organizers: Charles and Mary', 'Participants: Mary, Organizers: Charles and Lisa', 'Participants: Charles, Organizers: Lisa and Mary']
+  Execution trace (2 LLM calls):
+    raw_answer(["The bustling faculty lounge was brimming with anticipation as the annual school sports day loomed. This year, the responsibility of assembling the ideal team fell on my shoulders. The task at hand w)
+      -> Participants: Charles, Organizers: Lisa and Mary [$0.0009]
+    extract_index(['Participants: Charles, Organizers: Lisa and Mary', ['Participants: Lisa, Organizers: Charles and Mary', 'Participants: Mary, Organizers: Charles and Lisa', 'Participants: Charles, Organizers: Lisa a)
+      -> 2 [$0.0003]
+  RESULT: predicted=2, expected=1
+
+--- Case ex000: ---
+  Input arg 0: In the heart of a bustling metropolis, the unsung drama of justice unfolded within the sleek, marble confines of a renowned law firm. This firm, celebrated for its exceptional proficiency and relentless efficiency, was home to a diverse array of legal professionals - lawyers, paralegals, investigators, and clerical staff - each a testament to their craft. The atmosphere was electric as the firm's leader grappled with a daunting task; the allocation of personnel to each case the firm was managing. Every team member held their breath in anticipation, their eyes fixed on the leader, awaiting their assignment. Among them were Michael, Angela, and Richard, each bringing their unique abilities to the fore. The leader's challenge was to assign them to two critical tasks - Legal Document Preparation and Investigation - a task that required careful consideration and strategic planning.
+
+Championing the command of law documentation expertise was Angela, beaming with the professional knowledge drawn from her degree in legal studies focused on law documentation. It was no secret that she took on and delivered each project with a meticulosity that others found eccentric. This charm earned her a reputation amongst her superiors and peers, who consistently praised her aptitude for swift and accurate drafting of legal documents. Not to mention, she frequently lent a helping hand to Richard, who was often overwhelmed with his caseload. Yet, in the same breath, Angela became a constant source of irritation for Michael, as she reproached his lackadaisical attitude towards details. She never missed an opportunity to point out the repercussions of his hasty and often error-riddled paperwork.
+
+Michael, on the other hand, was a man of disagreements and rapid delivery. Known for his strikingly quick typing speed, he was always the first to finish his case briefs, despite the relentless criticism from Angela. This speed, however, often translated into a lack of attention to detail, much to 
+  Input arg 1: Given the story, how would you uniquely allocate each person to make sure both tasks are accomplished efficiently?
+  Input arg 2: ['Legal Document Preparation: Richard, Investigation: Angela and Michael', 'Legal Document Preparation: Michael, Investigation: Angela and Richard', 'Legal Document Preparation: Angela, Investigation: Michael and Richard']
+  Execution trace (2 LLM calls):
+    raw_answer(["In the heart of a bustling metropolis, the unsung drama of justice unfolded within the sleek, marble confines of a renowned law firm. This firm, celebrated for its exceptional proficiency and relent)
+      -> Legal Document Preparation: Angela, Investigation: Michael and Richard [$0.0008]
+    extract_index(['Legal Document Preparation: Angela, Investigation: Michael and Richard', ['Legal Document Preparation: Richard, Investigation: Angela and Michael', 'Legal Document Preparation: Michael, Investigatio)
+      -> 2 [$0.0003]
+  RESULT: predicted=2, expected=1
+
+--- Case ex093: ---
+  Input arg 0: In a city pulsating with art and culture, there stood a majestic opera house, the epicentre of all performances. The stage was primed, the velvet curtains poised for their grand reveal, and a call reverberated through the ornate corridors - a call for performers and dress designers. Amidst the throng, three individuals stood out - Maria, Leonardo, and Sophia, each eager to lend their unique talents to the opera's grandeur. The task at hand for the manager was to assign them to the roles of performing and dress designing, a decision that would shape the future of the opera.
+
+Maria, a woman with fiery eyes and a hurricane of talent, had always been dedicated to the arts. Her past was filled with musical studies and a wealth of edifying experiences. Whether it was conducting a symphony or humming a lullaby, Maria lived and breathed music. She was known to invest a staggering amount of time honing her vocal prowess. The dulcet strains of Maria's singing were in perfect harmony with the melodious rhythm of her life. As an active participant in her school's drama club, she had amassed a rich theatrical background. But alas, Maria was not an artist of textiles and dyes. She had no training in fashion and design and was a stranger to the subtle art of dressmaking.
+
+Then there was Leonardo, a man of grace and humility. He held a deep passion for opera, keeping himself updated with recent performances and current techniques. Leonardo's voice resonated with the enchanting spell of the pure, heartfelt music of the opera. His years singing in his school choir had nurtured his talent, making his voice a captivating spectacle. Leonardo's life was also steeped in music; he knew nothing but how to be an opera singer. However, whenever he was around fabrics, wardrobes, dress cuts, he seemed lost and confused. Besides, Leonardo disliked it when his ideas were overlooked, which had a tendency to still his usually free-flowing creativity.
+
+Lastly, there was Sophia. Sophia was a creative
+  Input arg 1: Given the story, how would you uniquely allocate each person to make sure both tasks are accomplished efficiently?
+  Input arg 2: ['Performing: Leonardo, Dress designing: Maria and Sophia', 'Performing: Maria, Dress designing: Leonardo and Sophia', 'Performing: Sophia, Dress designing: Leonardo and Maria']
+  Execution trace (2 LLM calls):
+    raw_answer(["In a city pulsating with art and culture, there stood a majestic opera house, the epicentre of all performances. The stage was primed, the velvet curtains poised for their grand reveal, and a call r)
+      -> Performing: Leonardo, Dress designing: Maria and Sophia [$0.0007]
+    extract_index(['Performing: Leonardo, Dress designing: Maria and Sophia', ['Performing: Leonardo, Dress designing: Maria and Sophia', 'Performing: Maria, Dress designing: Leonardo and Sophia', 'Performing: Sophia, )
+      -> 0 [$0.0003]
+  RESULT: predicted=0, expected=1
+
+--- Case ex052: ---
+  Input arg 0: As a construction foreman, every new project is a thrilling challenge, a tangible testament to hard work, talent, and determination. On a brisk morning, under a sky heavy with contemplative clouds, I surveyed my crew: Paul, Maria, and Alex. Each one unique, each one vital. Ahead of us lay two critical tasks - framing, the skeletal structure of our creation, and electrical works, the unseen pulse that would bring it to life. The task of assigning each to their role was a puzzle waiting to be solved.
+
+There was Paul, the quick thinker who loved the rush of completing tasks at record speeds. Then there was Maria, the gentle hard-worker who had a high degree of precision and always sought approval. Lastly, we had Alex, the detail-oriented worker with his careful methodical approach and extensive knowledge - a human walking manual on electrical engineering.
+
+And now, we have two crucial tasks; framing, the crafting of the structural backbone, and electrical works, the dangerous heartbeat behind the walls. The decision on who to assign where was a delicate dance, an intricate puzzle.
+
+Alex, with his penchant for complex designs, was a case study in contrast. I remembered a previous project where he outdid himself by rewiring an entire floor in record time, it was sheer poetry to behold. But then again, I had seen him struggle with lifting large pieces of wood for framing. His issue with Maria didn't help matters. She would often question every stanza in his electrical poetry, grinding his quick-work to a halt. And then there was the matter with Paul- their opposing working styles did nothing to rectify the situation that was birthed when Alex reproached Paul once for less-than-stellar work.
+
+Maria, on the other hand, brought her own set of skills and aversions to the table. In one instance, she confessed about her trouble with reading framing blueprints and taking exact measurements. She said it made her feel like a fish out of water. Maria's fear of electricity was almos
+  Input arg 1: Given the story, how would you uniquely allocate each person to make sure both tasks are accomplished efficiently?
+  Input arg 2: ['Framing: Alex, Electrical works: Maria and Paul', 'Framing: Paul, Electrical works: Alex and Maria', 'Framing: Maria, Electrical works: Alex and Paul']
+  Execution trace (2 LLM calls):
+    raw_answer(["As a construction foreman, every new project is a thrilling challenge, a tangible testament to hard work, talent, and determination. On a brisk morning, under a sky heavy with contemplative clouds, )
+      -> Framing: Maria, Electrical works: Alex and Paul [$0.0012]
+    extract_index(['Framing: Maria, Electrical works: Alex and Paul', ['Framing: Alex, Electrical works: Maria and Paul', 'Framing: Paul, Electrical works: Alex and Maria', 'Framing: Maria, Electrical works: Alex and P)
+      -> 2 [$0.0004]
+  RESULT: predicted=2, expected=1
+
+--- Case ex021: ---
+  Input arg 0: Nestled within the city's vibrant streets was a quaint bakery, its tantalizing aroma drawing in passersby. As the manager, my task was to harmoniously assign Edward, Mary, and Tony to two essential roles: baking and cleaning. Baking, a task demanding precision and artistry, was as vital as cleaning, which ensured the bakery's hygiene and customer satisfaction.
+
+Edward, a hardcore critique, was always quick to denounce Tony's futile attempts at baking. Such was the irony for this vocal man as Edward himself had never baked in his life and struggled to differentiate between basic ingredients like baking soda and baking powder. His attempts to clean his own baking station were ineffective and he had a knack for bungling up with the cleaning equipment, often more than he could handle. My memory of his disputes with Mary over cleaning responsibilities rendered it untenable to team them up for it.
+
+The thought of Mary, on the other hand, brought a smile to my face. Mary had a spark in her. She was often sighted with a cluster of cleaning tools engaging in her cleaning routine. What struck me the most was her dedication to maintaining her own workspace meticulously and her readiness to tend to shared areas. Mary had an adventurous streak for culinary arts, honing her skills by experimenting with new recipes on the weekends. I was particularly impressed when she managed to repair a failed cake recipe on her own, adding a feather to her cap.
+
+Tony was a peculiar case. Despite his previous unsuccessful baking attempt with Edward, his lack of knowledge in baking, and his famously inedible product, it was his dedication to cleanliness that won me over. His past experience as a janitor in a school was noteworthy, but it was his penchant to spend his leisure time cleaning his home that highlighted his love for the task. Also, his rapport with Mary confirmed by the sight of their shared laughter while cleaning, gave me the semblance of a unison I needed.
+
+Each person was unique wi
+  Input arg 1: Given the story, how would you uniquely allocate each person to make sure both tasks are accomplished efficiently?
+  Input arg 2: ['Baking: Tony, Cleaning: Edward and Mary', 'Baking: Edward, Cleaning: Mary and Tony', 'Baking: Mary, Cleaning: Edward and Tony']
+  Execution trace (2 LLM calls):
+    raw_answer(["Nestled within the city's vibrant streets was a quaint bakery, its tantalizing aroma drawing in passersby. As the manager, my task was to harmoniously assign Edward, Mary, and Tony to two essential )
+      -> Baking: Mary, Cleaning: Edward and Tony [$0.0008]
+    extract_index(['Baking: Mary, Cleaning: Edward and Tony', ['Baking: Tony, Cleaning: Edward and Mary', 'Baking: Edward, Cleaning: Mary and Tony', 'Baking: Mary, Cleaning: Edward and Tony']])
+      -> 2 [$0.0003]
+  RESULT: predicted=2, expected=1
+
+--- Case ex059: ---
+  Input arg 0: In the vast, enigmatic expanse of space, a mission of paramount importance was about to unfold. Three courageous individuals, Jessica, Alexander, and Matthew, were chosen for this daring endeavor. Their critical tasks, yet to be assigned, were twofold: the precise piloting of the spacecraft and the meticulous maintenance of life support systems, as they embarked on their journey to Mars.
+
+Alexander, always the academic, had his head forever stuck in a book during training, engrossed in his Astrophysics degree. However, his abstractions and lofty notions hadn't been much help during the actual technical exercises. His lack of piloting practice was glaring during our spacecraft simulations, where he managed to crash the device repeatedly. It was a contributing factor in his inability to maintain life support systems during training. A crucial aspect of our mission was team dynamic, and it was clear that Alexander's stubborn disregard, particularly towards Jessica's suggestions rooted in her strong Environmental Science background, had started to ruffle a few feathers.
+
+Jessica, on the other hand, was pragmatic ever since her days in training, not naturally predisposed toward the abstract theories Alexander favored. Her lack of regard for his background in astrophysics came out as dismissive at times, causing further division. Jessica wasn’t perfect, though. She had her navigational struggles in the simulator despite her basic aviation training. While she made only minor errors in life support system simulations, she wasn't a natural like Matthew.
+
+Matthew, quiet yet steadfast, was a natural leader. A retired fighter pilot with a decade of service in the Air Force, piloting seemed like it was in his blood. His record during training was unfaltering, scoring the highest in space simulation tests and flawlessly acing the life support tests. His medical background as a respiratory therapist gave him a unique perspective on handling life support systems. Yet, he wasn’t fla
+  Input arg 1: Given the story, how would you uniquely allocate each person to make sure both tasks are accomplished efficiently?
+  Input arg 2: ['Piloting the spacecraft: Alexander, Maintaining life support systems: Jessica and Matthew', 'Piloting the spacecraft: Matthew, Maintaining life support systems: Alexander and Jessica', 'Piloting the spacecraft: Jessica, Maintaining life support systems: Alexander and Matthew']
+  Execution trace (2 LLM calls):
+    raw_answer(["In the vast, enigmatic expanse of space, a mission of paramount importance was about to unfold. Three courageous individuals, Jessica, Alexander, and Matthew, were chosen for this daring endeavor. T)
+      -> Piloting the spacecraft: Matthew, Maintaining life support systems: Alexander and Jessica [$0.0006]
+    extract_index(['Piloting the spacecraft: Matthew, Maintaining life support systems: Alexander and Jessica', ['Piloting the spacecraft: Alexander, Maintaining life support systems: Jessica and Matthew', 'Piloting th)
+      -> 1 [$0.0004]
+  RESULT: predicted=1, expected=2
+
+--- Case ex064: ---
+  Input arg 0: Navigating the tumultuous waters of an election campaign as a manager is a formidable task. The rhythm of the campaign, the dissemination of information, and above all, the orchestration of team dynamics, all rest on your shoulders. Jennifer, Emily, and Michael, my team members, each with their own unique strengths, were waiting for their assignments. The upcoming days were set to challenge my judgement and foresight as I had to assign them to two critical tasks - door-to-door canvassing and social media management. This was the test that lay ahead.
+
+Jennifer, Emily and Michael, each unique, each with distinct personalities and skills. I had a big task at hand. Figuring out the right skill set for the right person was like arranging a puzzle - and boy, it was a tricky one. In front of me stood two assignments - door-to-door canvassing and social media management.
+
+Emily and Michael had successfully collaborated on a previous project. A noticeable camaraderie had solidified between the two, minimal conflicts arose, and any disagreements were quickly resolved between them. On the flip side, Emily and Jennifer, well, that was tough terrain.
+
+Emily, a diligent worker, often felt undervalued when paired with Jennifer, whose opinions contrary to Emily's were a sore point. Jennifer's knack of constantly questioning Emily's decisions and plans was a chink in their potential collaborative armour. Jennifer’s often critical stance on Michael’s proposals was hardly unnoticed either.
+
+Election campaigns need a strong community outreach, and Emily was a natural fit. She was passionate about connecting with people, volunteering frequently for community outreach programs. But her disposition, at times a little aloof, somewhat affected her effectiveness in canvassing.
+
+Another potent skill Emily possessed was her acumen for social media. Her successful online business , with its dedicated and engaged following, was solely promoted via social media. However, working alongside Jennife
+  Input arg 1: Given the story, how would you uniquely allocate each person to make sure both tasks are accomplished efficiently?
+  Input arg 2: ['Door-to-door canvassing: Emily, Social media management: Jennifer and Michael', 'Door-to-door canvassing: Jennifer, Social media management: Emily and Michael', 'Door-to-door canvassing: Michael, Social media management: Emily and Jennifer']
+  Execution trace (2 LLM calls):
+    raw_answer(["Navigating the tumultuous waters of an election campaign as a manager is a formidable task. The rhythm of the campaign, the dissemination of information, and above all, the orchestration of team dyn)
+      -> Door-to-door canvassing: Emily, Social media management: Jennifer and Michael [$0.0008]
+    extract_index(['Door-to-door canvassing: Emily, Social media management: Jennifer and Michael', ['Door-to-door canvassing: Emily, Social media management: Jennifer and Michael', 'Door-to-door canvassing: Jennifer, )
+      -> 0 [$0.0004]
+  RESULT: predicted=0, expected=1
+
+--- Case ex067: ---
+  Input arg 0: In my latest tenure at a bustling educational institution, three staff members, Emily, Robert, and Alice, consistently caught my attention amidst the sea of educators and support personnel. As the school manager, my role was to distribute tasks, specifically Teaching and Admin work, in a way that capitalized on each individual's unique strengths, thereby streamlining the school's operations. These assignments, as crucial as they were intricate, were akin to the individual notes in a symphony, each playing a vital role in the harmony of the institution.
+
+Alice was a unique blend of complexities, as I carefully observed her interactions with the staff. Her proclivity for administrative tasks was evident, a much-needed quality in the heaving sea of paperwork the school generated. Alice often took the responsibility of capturing the minutes during our staff meetings and backed up Robert’s teachings with her painstaking administrative work. However, teaching was a different ball game for Alice, as she too often ventured off into uncharted territories, sometimes ending lessons in areas alarmingly different from what the curriculum instructed. A string of disagreements with Emily over administrative procedures made it evident that teaching and dealing with Emily was her Achilles heel. Remembering Alice's past as an entrepreneur, I ruminated on how best to leverage her skills.
+
+Then there was Emily, the epitome of a paradox, serving a cocktail of brilliance and ineptitude. Emily’s challenges with basic computer applications were a well-known fact among the staff. This disadvantage was a breeding ground for countless requests for aid on administrative tasks to others, Alice being her frequent go-to. However, that didn't hinder her audacity, often acting as the grammar police for Robert, much to his discomfort. Her relationship with the curriculum was another story, teasing it, almost, failing to finish it by year’s end, possibly leading to her consistently poor student evalu
+  Input arg 1: Given the story, how would you uniquely allocate each person to make sure both tasks are accomplished efficiently?
+  Input arg 2: ['Teaching: Emily, Admin work: Alice and Robert', 'Teaching: Robert, Admin work: Alice and Emily', 'Teaching: Alice, Admin work: Emily and Robert']
+  Execution trace (2 LLM calls):
+    raw_answer(["In my latest tenure at a bustling educational institution, three staff members, Emily, Robert, and Alice, consistently caught my attention amidst the sea of educators and support personnel. As the s)
+      -> Teaching: Robert, Admin work: Alice and Emily [$0.0012]
+    extract_index(['Teaching: Robert, Admin work: Alice and Emily', ['Teaching: Emily, Admin work: Alice and Robert', 'Teaching: Robert, Admin work: Alice and Emily', 'Teaching: Alice, Admin work: Emily and Robert']])
+      -> 1 [$0.0004]
+  RESULT: predicted=1, expected=0
+
+--- Case ex018: ---
+  Input arg 0: As the first light of dawn kissed the dilapidated building, the shadows of the renovation crew began to take form in the crisp morning air. The pivotal trio in this endeavor were Mike, Emma, and Robert, each bringing their unique backgrounds and experiences to the table. Their mission was twofold yet demanding - to resurrect the structure through meticulous construction, and to infuse it with life and vibrancy through painting. The challenge for the manager was to assign these tasks, leveraging their individual strengths to transform this shell of a building into a masterpiece.
+
+Emma was renowned for her meticulous eye for detail and her vigorous discussions with Robert. Frequently, they'd be seen huddled over sketchbooks and blueprints, a whirl of suggestions and ideas bouncing between them. It was clear she admired Robert's artistic flair. She'd often be seen studying his technqiues, brimming with a desire to learn from his wisdom. It was no secret that Emma veered away from tasks that required physical carpentry or the use of formidable tools. She once spent an entire evening fighting a losing battle with a simple DIY furniture kit for her study. However, her affinity for painting was well established. Not only had she painted her house interiors and exteriors during her spare time, Emma had even honed her skills in college through extra curricular classes in painting techniques.
+
+And then there was Mike. He was the polar opposite of Emma, with a pace of work that irked her a little more than she openly showed. He was a man of few words, often expressing his emotions passive aggressively. Mike's relationship with construction work was a rocky one. Even the simplest tasks seemed to daunt him, often needing external help to navigate the labyrinth of logistics involved. Mike and Robert never quite saw eye to eye; their disagreements failed to reach a consensus on past projects. In contrast, Mike had a degree in Fine Arts and years of experience in creating breathtak
+  Input arg 1: Given the story, how would you uniquely allocate each person to make sure both tasks are accomplished efficiently?
+  Input arg 2: ['Painting: Robert, Construction: Emma and Mike', 'Painting: Emma, Construction: Mike and Robert', 'Painting: Mike, Construction: Emma and Robert']
+  Execution trace (2 LLM calls):
+    raw_answer(["As the first light of dawn kissed the dilapidated building, the shadows of the renovation crew began to take form in the crisp morning air. The pivotal trio in this endeavor were Mike, Emma, and Rob)
+      -> Painting: Emma, Construction: Mike and Robert [$0.0008]
+    extract_index(['Painting: Emma, Construction: Mike and Robert', ['Painting: Robert, Construction: Emma and Mike', 'Painting: Emma, Construction: Mike and Robert', 'Painting: Mike, Construction: Emma and Robert']])
+      -> 1 [$0.0004]
+  RESULT: predicted=1, expected=2
+
+--- Case ex004: ---
+  Input arg 0: As the chief of a fire department, I am tasked with the pivotal role of assembling an efficient fire fighting team. My team is composed of three committed individuals: Alex, Sam, and Taylor. Their assignments revolve around two critical tasks: extinguishing fires and rescuing victims. Each team member possesses a unique set of strengths and weaknesses, making the task of assigning roles a complex one. It's a delicate balancing act, ensuring they are each placed where their skills can be most effectively utilized.
+
+Alex was a character to reckon with. During a recent rescue operation, he blamed Taylor for miscommunication, causing the operation to fail. He was prone to stress easily and one could see his increasing nervousness in perilous situations. Interestingly, Alex has always been afraid of heat, even evading camping trips during his youth. His phobia is often visible as his hands shook when he held the fire hose during the training sessions. To make things even more challenging, his failed attempts to get victim first-aid certification painted a grim picture of his rescue skills. The lack of trust in his colleague, Sam, aggravated the situation as Alex cited Sam's problematic behavior of not following orders.
+
+In comparison, Sam was quite an interesting individual. With his scores flying high on the first-aid certification test and his experience of working as a lifeguard for five years as testament to his ability, Sam was no stranger to saving lives. He had often stepped in to cover for Taylor, taking on additional stress-inducing work, but he had a contentious relationship with Alex due to not taking Alex's instructions seriously. His certification as a lifeguard, however required minimal fire handling, and this was evident in the practice sessions, where he would visibly shudder in the face of controlled fires.
+
+Taylor, on the other hand, was a complicated one. He accused Alex of poor coordination, a claim that has not helped their already strained relations
+  Input arg 1: Given the story, how would you uniquely allocate each person to make sure both tasks are accomplished efficiently?
+  Input arg 2: ['Fire extinguishing: Sam, Victim rescue: Alex and Taylor', 'Fire extinguishing: Taylor, Victim rescue: Alex and Sam', 'Fire extinguishing: Alex, Victim rescue: Sam and Taylor']
+  Execution trace (2 LLM calls):
+    raw_answer(["As the chief of a fire department, I am tasked with the pivotal role of assembling an efficient fire fighting team. My team is composed of three committed individuals: Alex, Sam, and Taylor. Their a)
+      -> Fire extinguishing: Taylor, Victim rescue: Alex and Sam [$0.0008]
+    extract_index(['Fire extinguishing: Taylor, Victim rescue: Alex and Sam', ['Fire extinguishing: Sam, Victim rescue: Alex and Taylor', 'Fire extinguishing: Taylor, Victim rescue: Alex and Sam', 'Fire extinguishing: )
+      -> 1 [$0.0004]
+  RESULT: predicted=1, expected=2
+
+--- Case ex055: ---
+  Input arg 0: Within the awe-inspiring confines of the Space Agency's headquarters, the leader was faced with a critical decision. Two pivotal missions lay before him: orchestrating a voyage to Mars and overseeing the complex operations of Satellite Control. Rebecca, Michael, and Vanessa, three distinct individuals, stood ready, their roles in these tasks yet to be determined.
+
+Rebecca, a dynamic woman with glasses perched on her nose, held a bachelor's degree in computer science. Her education, supplemented with her knowledge on satellite systems, rendered her a valuable asset to the space agency. Be it the daunting technological quandaries or the logistical challenges inherent to space missions, Rebecca has proven her mettle consistently. Notably, her work experience as a satellite control technician for a small company, although minimal, added another feather to her cap. 
+
+Furthermore, even though mild contradictions marked her relationship with the aerospace engineer, Michael, their partnership had always resulted in success. Despite their different communication styles, they managed to meet project deadlines together, establishing their mutual respect and effective communication. 
+
+Michael, with his strong, commanding presence and an imposing record in his background, was another force to reckon with. Armed with an aerospace engineering degree, he was thoroughly versed in physics and engineering, which are indispensable for successful mission planning. His prior experience as a satellite control supervisor consolidated his position further. He had successfully brought previous Mars expedition blueprints to life, and his dynamic collaborations with Vanessa on various projects exhibited the versatility of his leadership.
+
+Vanessa, an aggressive worker and Satellite Systems Engineering graduate, was applauded for her successful Mars mission proposal in her previous agency. Her studies in astrobiology had given her a comprehensive understanding of the biological implications of 
+  Input arg 1: Given the story, how would you uniquely allocate each person to make sure both tasks are accomplished efficiently?
+  Input arg 2: ['Planning Mars Mission: Vanessa, Managing Satellite Control: Michael and Rebecca', 'Planning Mars Mission: Michael, Managing Satellite Control: Rebecca and Vanessa', 'Planning Mars Mission: Rebecca, Managing Satellite Control: Michael and Vanessa']
+  Execution trace (2 LLM calls):
+    raw_answer(["Within the awe-inspiring confines of the Space Agency's headquarters, the leader was faced with a critical decision. Two pivotal missions lay before him: orchestrating a voyage to Mars and overseein)
+      -> Planning Mars Mission: Vanessa, Managing Satellite Control: Michael and Rebecca [$0.0007]
+    extract_index(['Planning Mars Mission: Vanessa, Managing Satellite Control: Michael and Rebecca', ['Planning Mars Mission: Vanessa, Managing Satellite Control: Michael and Rebecca', 'Planning Mars Mission: Michael,)
+      -> 0 [$0.0003]
+  RESULT: predicted=0, expected=2
+
+--- Case ex096: ---
+  Input arg 0: As the sun dipped below the horizon, the campaign office buzzed with activity. As the campaign manager, the responsibility of assigning roles was mine to bear. The campaign was gaining momentum, and key roles like canvassing and press communications were in dire need of leadership. Alice, George, and Linda were my top candidates, each bringing their unique skills to the table. The challenge was to assign them where they would shine the brightest.
+
+Our team comprised Alice, a steadfast, iron-willed individual, bearing a world of intelligence yet encumbered with chronic pain that made long periods of walking strenuous. George, a former school teacher, was notorious for taking up most of the dialogue during meetings, throwing around his ideas quite enthusiastically, and Linda, the epitome of dedication was always willing to rise to any challenges thrown her way, albeit with a lack of physical stamina.
+
+Alice, in some ways, was a paradox. She had this natural dislike for the spirited mantle taken up by George during group meetings. While George's vigorous involvement often seemed to dwarf Alice's input, Linda's indifference towards her ideas did not aid her cause. This led to the unfortunate situation where their teamwork, despite their individual talents, appeared as more of an encumbrance than benefit in the past. Alice also labored under severe issues when it came to multitasking through numerous conversations which was immediately apparent during packed meetings. Her interactions with the press were far from successful. More often than not, she misplaced vital campaign points during her engagements, disrupting the effectiveness of her communication.
+
+George, on the other hand, despite his eloquent speeches during internal meetings, was nervous about talking to unfamiliar faces. His desire to avoid walking around neighborhoods made him unenthusiastic about canvassing. Although it was noted he shared a fruitful collaboration with Linda on prior projects.
+
+Linda was th
+  Input arg 1: Given the story, how would you uniquely allocate each person to make sure both tasks are accomplished efficiently?
+  Input arg 2: ['Canvassing: Alice, Press Communications: George and Linda', 'Canvassing: Linda, Press Communications: Alice and George', 'Canvassing: George, Press Communications: Alice and Linda']
+  Execution trace (2 LLM calls):
+    raw_answer(["As the sun dipped below the horizon, the campaign office buzzed with activity. As the campaign manager, the responsibility of assigning roles was mine to bear. The campaign was gaining momentum, and)
+      -> Canvassing: George, Press Communications: Alice and Linda [$0.0009]
+    extract_index(['Canvassing: George, Press Communications: Alice and Linda', ['Canvassing: Alice, Press Communications: George and Linda', 'Canvassing: Linda, Press Communications: Alice and George', 'Canvassing: Ge)
+      -> 2 [$0.0003]
+  RESULT: predicted=2, expected=0
+
+--- Case ex091: ---
+  Input arg 0: In the aftermath of a devastating storm that had ravaged our small community, the ruins of our homes stood as a stark reminder of nature's wrath. Yet, amidst the despair, the dawn brought with it a beacon of hope in the form of three selfless volunteers - Jennifer, Martin, and Patricia. They had chosen to dedicate their time and energy to the monumental task of rebuilding our community. Their responsibilities were twofold: the supervision of the construction efforts and the management of supply distribution. Their commitment was unwavering, their spirits undeterred, as they prepared to breathe life back into our shattered community.
+
+Jennifer, a fiery spirit, was truly remarkable. Despite having no formal construction training, she held a potent drive in her heart. However, the very task of managing elevated heights cursed her with fear, and her habit of losing and misplacing things led to dysfunction within the group. Time management shadowed her like a predator, pulling the threads of her schedule. To make matters worse, Patricia's sensible suggestions usually fell on deaf ears, thanks to Jennifer's selective hearing. Patricia would sigh, feeling her contribution undermined by Jennifer's lack of respect. The crossfire wasn't limited to Patricia; Jennifer's intense attitude collided with Martin's laid back demeanor, which she read as a lack of commitment. The skirmish still burned between them, following an episode where Jennifer had vocally criticized Martin's work during a previous endeavor.
+
+This wasn't to suggest she didn't have valid criticism for him. A hyperactive environment shook Martin's nerves, reducing him to a flustered mess. He too carried the baggage of struggling to handle the pressure that came with the tasks. But most frustrating for him was his inability to remember names and faces, which often led to mix-ups. The mere memory of Martin's failure to keep track of the blueprints during a past project was enough to make Patricia visibly upset. Yet, 
+  Input arg 1: Given the story, how would you uniquely allocate each person to make sure both tasks are accomplished efficiently?
+  Input arg 2: ['Overseeing construction: Patricia, Distribution of supplies: Jennifer and Martin', 'Overseeing construction: Martin, Distribution of supplies: Jennifer and Patricia', 'Overseeing construction: Jennifer, Distribution of supplies: Martin and Patricia']
+  Execution trace (2 LLM calls):
+    raw_answer(["In the aftermath of a devastating storm that had ravaged our small community, the ruins of our homes stood as a stark reminder of nature's wrath. Yet, amidst the despair, the dawn brought with it a )
+      -> Overseeing construction: Patricia, Distribution of supplies: Jennifer and Martin [$0.0009]
+    extract_index(['Overseeing construction: Patricia, Distribution of supplies: Jennifer and Martin', ['Overseeing construction: Patricia, Distribution of supplies: Jennifer and Martin', 'Overseeing construction: Mart)
+      -> 0 [$0.0002]
+  RESULT: predicted=0, expected=2
+
+--- Case ex046: ---
+  Input arg 0: In the bustling hub of a prestigious travel agency, I find myself poised with the task of delegating duties to my capable team. The scent of freshly brewed coffee fills the air as I pore over my notes, acquainting myself with the key players in this corporate game - Alice, Robert, Emily - and the roles they are to fill: the dynamic Tour Guide or the detail-oriented Package Planner.
+
+First among the three is Alice, a vibrant character, her mutual understanding, and longstanding camaraderie with Robert trace back to their carefree college days. They've weathered countless projects together, bonds hardened in the crucible of shared experiences. However, when digging deeper, one uncovers that Alice is not devoid of fissures. She lacks fluency in the language of numerical calculations, her mind oftentimes getting knotted in a web of figures, and she has a palpable fear of public speaking. Furthermore, she is relatively unversed in the travel and leisure industry, her expertise tinged with a hue of green, and often fails to discern one scenic tourist spot from another.
+
+Next in this arena of tasks and skills, Emily comes into focus. A strong rapport with Robert engulfs her professional history, his expertise being fondly appreciated, his criticisms graciously accepted. her ability to calculate prices and balance the budget is a blessing to our operations, along with her previous experience in logistics management. Nevertheless, she is not without her limitations. Her knees, riddled with weakness, refuse to bear the burden of extended ambulation. An inability to converse fluently in any other language apart from English could also pose a potential hurdle on this multicultural platform. Lastly, she seems to struggle with maintaining professional courtesy, frequently making a spectacle of Alice’s errors.
+
+The final character strolling across this stage is Robert. A veteran, he feels at home in the labyrinth of city tours, even if he tends to lose himself in them sometimes. U
+  Input arg 1: Given the story, how would you uniquely allocate each person to make sure both tasks are accomplished efficiently?
+  Input arg 2: ['Tour Guide: Alice, Package Planner: Emily and Robert', 'Tour Guide: Robert, Package Planner: Alice and Emily', 'Tour Guide: Emily, Package Planner: Alice and Robert']
+  Execution trace (2 LLM calls):
+    raw_answer(["In the bustling hub of a prestigious travel agency, I find myself poised with the task of delegating duties to my capable team. The scent of freshly brewed coffee fills the air as I pore over my not)
+      -> Tour Guide: Robert, Package Planner: Alice and Emily [$0.0007]
+    extract_index(['Tour Guide: Robert, Package Planner: Alice and Emily', ['Tour Guide: Alice, Package Planner: Emily and Robert', 'Tour Guide: Robert, Package Planner: Alice and Emily', 'Tour Guide: Emily, Package Pl)
+      -> 1 [$0.0003]
+  RESULT: predicted=1, expected=0
+
+--- Case ex048: ---
+  Input arg 0: In the midst of a sun-drenched desert, three distinct personalities, each wielding their own brand of intellectual might, stand united as archaeologists. They are the ever-inquisitive Amelia, the seasoned veteran Oliver, and the methodical scholar Travis. Their mission is twofold: to delve into the earth's crust through Ground Scraping, and to decipher the stories of the past through the Classifying and Studying of Findings.
+
+Their challenge is simple. They must dive into ancient realms by taking up two strategically divided tasks — burrowing through the sun-scorched ground in search of hidden history, otherwise known as Ground Scraping, and unraveling the mysteries shaded in the shroud of time by analyzing the unearthed artifacts, a process affectionately referred to as the Classifying and Studying of Findings.
+
+Amelia, with her stacks of spectacles sitting on the bridge of her nose, harbors a deep awe for the beautiful mysteries that each unearthed artifact brings. Her heart beats fast in the rhythm of ancient histories, with a particular bias towards arts and craftwork. The subtle artistry and silent narrative of forgotten artifacts have always spoken to her more than the hardened, physical act of unearthing them.
+
+Yet, her frail health makes her a hesitant figure on the field, the relentless desert sun and exhausting physical labor often pushing her to her limits. While her relationship with Oliver often blooms in the thick of their expedition, her patience with Travis inevitably borders on the thin line. His steadfast commitment to protocol often stifles her, who thrives on intuitive analysis.
+
+Oliver, an aged gem in the field of archaeology, commands an impressive expertise in field works. His ability to adapt to ground conditions has always been a source of amazement to Amelia. However, his once-strong hands are now only gentle relics of their past, bearing the painful traces of arthritis. As a result, handling the heavy tools required for Ground Scraping oft
+  Input arg 1: Given the story, how would you uniquely allocate each person to make sure both tasks are accomplished efficiently?
+  Input arg 2: ['Ground Scraping: Travis, Classify and Study Findings: Amelia and Oliver', 'Ground Scraping: Oliver, Classify and Study Findings: Amelia and Travis', 'Ground Scraping: Amelia, Classify and Study Findings: Oliver and Travis']
+  Execution trace (2 LLM calls):
+    raw_answer(["In the midst of a sun-drenched desert, three distinct personalities, each wielding their own brand of intellectual might, stand united as archaeologists. They are the ever-inquisitive Amelia, the se)
+      -> Ground Scraping: Oliver, Classify and Study Findings: Amelia and Travis [$0.0008]
+    extract_index(['Ground Scraping: Oliver, Classify and Study Findings: Amelia and Travis', ['Ground Scraping: Travis, Classify and Study Findings: Amelia and Oliver', 'Ground Scraping: Oliver, Classify and Study Fin)
+      -> 1 [$0.0004]
+  RESULT: predicted=1, expected=0
+
+--- Case ex022: ---
+  Input arg 0: Beneath the glow of the stadium lights, I was faced with a managerial conundrum: assigning the roles of offense and defense - the quintessential tasks in a college sports team. My options were limited to three distinct individuals - Robert, Michael, and Daniel, each with their own unique set of skills and shortcomings.
+
+Daniel – the tactical genius, taller than most, yet not the fastest. He held a record for ‘decent’ plays. Notorious might be the word, but despite that, he consistently held the offense firm with his consistent performance. He was respected for his clear understanding of the game, and his intuitive sense for predicting where the ball would land was uncanny. Nevertheless, courage to admit, he wasn't the muscle man everyone had expected in their defense line. His strength when it came to tackling could do with some work, though his criticism of Robert’s lack of team spirit showed his belief in unity.
+
+Robert – an impulsive beast at heart. Strong and quick enough to match even the best, his aggressive style was a double-edged sword often leading to penalties on the field. He was the epitome of agility on the pitch, yet often tripped when running at high speed. His coordination was always off and he dropped passes more often than he'd admit. His relationship with Michael was another challenge. Arguments sparked like fireworks reducing their on-field coordination. To add fuel to the fire, Robert was quick to blame Michael for any mishaps during their games. It didn’t help that he often disregarded Daniel’s advice.
+
+And then there was Michael. He was a solid, sturdy figure who followed the mantra of safety. His awards spoke volumes of his defensive achievements from past seasons. He always practiced caution, avoiding risks like kids avoid broccoli. Passive on his approach, he'd often rather pass the ball than face a challenge alone. After hours, he'd often train with Daniel, supplementing their individual understanding of the game. This had resulted in suc
+  Input arg 1: Given the story, how would you uniquely allocate each person to make sure both tasks are accomplished efficiently?
+  Input arg 2: ['Defense assignment: Michael, Offense assignment: Daniel and Robert', 'Defense assignment: Daniel, Offense assignment: Michael and Robert', 'Defense assignment: Robert, Offense assignment: Daniel and Michael']
+  Execution trace (2 LLM calls):
+    raw_answer(["Beneath the glow of the stadium lights, I was faced with a managerial conundrum: assigning the roles of offense and defense - the quintessential tasks in a college sports team. My options were limit)
+      -> Defense assignment: Michael, Offense assignment: Daniel and Robert [$0.0007]
+    extract_index(['Defense assignment: Michael, Offense assignment: Daniel and Robert', ['Defense assignment: Michael, Offense assignment: Daniel and Robert', 'Defense assignment: Daniel, Offense assignment: Michael a)
+      -> 0 [$0.0003]
+  RESULT: predicted=0, expected=2
+
+--- Case ex090: ---
+  Input arg 0: As the steadfast overseer of a bustling, intricate train operation, I was presented with the daunting task of delegating my diverse team - Melissa, Joe, and Ethan - to roles they could master and excel in. The available positions, each unique in its demands and challenges, were engine operation, passenger service, and maintenance.
+
+Ethan, a former mechanic, was an intriguing character with a profound love for engines and mechanics. He often recounted tales of his endeared weekends spent tinkering with his vintage, classic car. His fingers danced along the contours of his machine, investing time and sophistication into his beloved hobby. And his expertise was not just anecdotal, let me remind you, Ethan held a successful career as a mechanic before gracing us with his presence at this establishment; his word was trusted, especially by Joe, who often sought Ethan's advice when faced with the slightest whiff of mechanical adversity.
+
+But it was not just amidst gears and gauges that Ethan proved his worth. A previous stint as a customer service representative had honed his social prowess, something that he exercised with unwavering finesse, be it while hosting one of his lavish dinner parties or while giving Joe, constructive rather than belittling feedback at work. However, I couldn't ignore the undertone of tension that prickled between him and Melissa. Ethan had admitted to overhearing Melissa expressing a less-than-flattering review of his work, an interaction augmented by her rude interruption during his company presentation.
+
+Joe, the recipient of Ethan's compliments and beneficiary of his wisdom, was quite the enigma. Lacking Ethan's affinity for cars and machinery, he isolated himself more often than not, deflecting social interactions with an ambivalent discomfort. He had a peculiarly noticeable tremor when the pressures mounted, often attributed to his lesser social skills. I'd frequently heard complaints from passengers, who found his interactions to be brusq
+  Input arg 1: Given the story, how would you uniquely allocate each person to make sure both tasks are accomplished efficiently?
+  Input arg 2: ['Engine Operation: Melissa, Passenger Service: Ethan and Joe', 'Engine Operation: Ethan, Passenger Service: Joe and Melissa', 'Engine Operation: Joe, Passenger Service: Ethan and Melissa']
+  Execution trace (2 LLM calls):
+    raw_answer(["As the steadfast overseer of a bustling, intricate train operation, I was presented with the daunting task of delegating my diverse team - Melissa, Joe, and Ethan - to roles they could master and ex)
+      -> Engine Operation: Ethan, Passenger Service: Joe and Melissa [$0.0008]
+    extract_index(['Engine Operation: Ethan, Passenger Service: Joe and Melissa', ['Engine Operation: Melissa, Passenger Service: Ethan and Joe', 'Engine Operation: Ethan, Passenger Service: Joe and Melissa', 'Engine O)
+      -> 1 [$0.0004]
+  RESULT: predicted=1, expected=0
+
+--- Case ex001: ---
+  Input arg 0: In the midst of a bustling conference, I found myself at the helm of a challenging task - orchestrating the chaos with my proficient team. The conference sector was a whirlwind of activity, demanding meticulous organisation. My responsibilities spanned across registration, security, and stage management, all while managing the diverse personalities of my team members: Maria, Scott, and Kate. The task at hand was to assign each of them to the right role, ensuring the smooth execution of the event.
+
+Scott - the tall chap with a quick wit and a tendency to forget his own phone number, was a relic. Despite being exceptionally poor at handling multiple tasks at once, or paying attention to small details, the bloke was masterful with manual tasks. I found myself deducing his capabilities, remembering how he was the only one who offered to help Kate transport her heap of possessions when she was shifting apartments. 
+
+Kate was grateful for this, reinforcing her faith in teamwork with Scott - she even treated him to lunch the day after. There was this unspoken bond among them after that particular 'Shifting day'. However, Scott’s slight at Maria during the last office party cast a shadow on his relationship with Maria. Maria, the fiery, independent woman, was not subtle in her grudges, especially so towards Scott.
+
+Maria, poor Maria. This would be her first event planning gig. Competent but miffed easily by her lack of patience with online systems, Maria was a dichotomy in herself. She had this knack to jettison important documents as if they were invisible, and made elaborate plans that never saw the light of day thanks to her inability to maintain tight schedules.
+
+Kate, the epitome of friendliness adorned with an incessant chatter bug, was often too chummy with strangers. While she tends to lose interest in heavy administrative tasks, her repute as the organiser of the merry office parties and her son's school events plastered her competence as a good manager.
+
+The chall
+  Input arg 1: Given the story, how would you uniquely allocate each person to make sure both tasks are accomplished efficiently?
+  Input arg 2: ['Registration: Scott, Stage Management: Kate and Maria', 'Registration: Kate, Stage Management: Maria and Scott', 'Registration: Maria, Stage Management: Kate and Scott']
+  Execution trace (2 LLM calls):
+    raw_answer(["In the midst of a bustling conference, I found myself at the helm of a challenging task - orchestrating the chaos with my proficient team. The conference sector was a whirlwind of activity, demandin)
+      -> Registration: Kate, Stage Management: Maria and Scott [$0.0008]
+    extract_index(['Registration: Kate, Stage Management: Maria and Scott', ['Registration: Scott, Stage Management: Kate and Maria', 'Registration: Kate, Stage Management: Maria and Scott', 'Registration: Maria, Stage)
+      -> 1 [$0.0004]
+  RESULT: predicted=1, expected=2
+
+--- Case ex086: ---
+  Input arg 0: As I ascended the makeshift podium, the eager anticipation of my team quieted to a hushed whisper. Bill, Emily, and Tom, among others, watched intently, their eyes reflecting the weight of the impending decisions. The task at hand was no small feat: assigning the roles of leading the search team and analyzing artifacts. I was the maestro of this archaeological orchestra, and the symphony of success hinged on the perfect alignment of roles and abilities.
+
+Enter Bill. His eyes were earnest, but the direction in which they journeyed was often at odds with reality. He was known to lose his way in a straight hallway. A map was to him what a rollercoaster was to a man with height phobia- a daunting proposition. His previous stint as leading the search team was a disaster; the team had wandered aimlessly under his command for most of the project. His limited knowledge of historical periods frequently landed him in the puddles of incorrect artifact identification, a cyclic pattern of errors that had caused substantial delays and budget overruns.
+
+Bill did have a knack for careful observation, always double-checking his findings before reporting. But this thoughtful diligence was marred by poor team management skills, often leaving tasks delegated without proper guidance. This habit bore a canopy of confusion over the team, intensifying the chaos. Barely able to make his own decisions that he unchain the rest of the team from their tether of uncertainty, any leadership role for Bill was thrown out the window.
+
+Emily forayed into the arena with an air of quiet confidence. Her attention to detail was unrivaled, as was her dedication to the arduous task of artifact analysis. Her findings not only propelled our previous project forward but had also earned her recognition within the scholarly community. However, her methodical approach became a whirlwind when applied to logistics and team assignments. Information, like jumbled puzzle pieces, often lost vital connectivity under he
+  Input arg 1: Given the story, how would you uniquely allocate each person to make sure both tasks are accomplished efficiently?
+  Input arg 2: ['Leading the Search Team: Emily, Analyzing Artifacts: Bill and Tom', 'Leading the Search Team: Bill, Analyzing Artifacts: Emily and Tom', 'Leading the Search Team: Tom, Analyzing Artifacts: Bill and Emily']
+  Execution trace (2 LLM calls):
+    raw_answer(["As I ascended the makeshift podium, the eager anticipation of my team quieted to a hushed whisper. Bill, Emily, and Tom, among others, watched intently, their eyes reflecting the weight of the impen)
+      -> Leading the Search Team: Tom, Analyzing Artifacts: Bill and Emily [$0.0008]
+    extract_index(['Leading the Search Team: Tom, Analyzing Artifacts: Bill and Emily', ['Leading the Search Team: Emily, Analyzing Artifacts: Bill and Tom', 'Leading the Search Team: Bill, Analyzing Artifacts: Emily a)
+      -> 2 [$0.0004]
+  RESULT: predicted=2, expected=1
+
+
+## Previous iterations
+
+Iter 0: train=72.9%, eval=63.3% — KEPT
+Iter 1: train=72.9%, eval=63.3% — ROLLED BACK
+  What was tried: 1. **Specific failure pattern identified:** The LLM consistently struggles with multi-variable constraint satisfaction in zero-shot (`raw_answer`). It fails to properly weigh hard skill constraints (e.g., physical inability to do a task) against soft interpersonal constraints (synergies vs. conflicts). It also misses nuances like "fear was almost non-existent" and fails to deduce that a "toxic" team member (someone who conflicts with both others) must be isolated into the 1-person task.
+2. **How many failures share this pattern:** All 19 of the shown failures stem from this structural logic puzzle constraint-satisfaction paradigm. The model hallucinates the optimal trade-off because it attempts to answer without reasoning through the grid.
+3. **Minimal change:** Add a new `@interface` called `think_and_solve_allocation` that serves as an explicit Chain-of-Thought (CoT) guide. This prompt instructs the LLM to systematically extract profiles, map dynamics (synergies/conflicts/toxic members), and explicitly evaluate the 3 choices against a hierarchy of rules (hard skill limits override conflicts; otherwise maximize team harmony). Update `answer_question` to use this thinking ptool instead of `raw_answer`.
+4. **Why it will not break working cases:** This change directly revives the "single-ptool approach bound to simulate with thinking" that the module docstring notes was the superior strategy (84% vs early decomposed workflows). By providing the exact logic framework needed to parse MUSR team allocations, it forces the model to "show its work" and logically deduce the answer, strictly improving accuracy on both simple and complex edge cases without altering the Python control flow or breaking extraction matching.
+  ⚠ This change HURT accuracy. Do NOT retry this approach.
+
+
+
+## HOW CHANGES WORK
+
+- @interface-decorated functions with method=simulate use their DOCSTRING as
+  the LLM prompt. Improving the docstring improves the LLM's output.
+- Functions bound with method=direct run as pure Python.
+- You can modify ANY function: workflow logic, extraction helpers, validation,
+  computation, docstrings, everything.
+- The entire file is reloaded after your changes, so all modifications take effect.
+
+## STRATEGY — READ THIS CAREFULLY
+
+Your changes are evaluated on ALL cases, not just the failures shown above.
+A change that fixes 5 failures but breaks 15 working cases is a NET REGRESSION.
+This has happened in previous iterations — learn from it.
+
+**CONSERVATIVE APPROACH REQUIRED:**
+- Changes to docstrings/prompts affect ALL cases that go through that code path.
+  If you add instructions that help edge cases but confuse the LLM on common
+  cases, accuracy drops. Be surgical.
+- Changes to Python logic (extraction, validation, computation) are SAFER because
+  they only fire when their conditions are met.
+- Prefer adding NEW conditional branches or fallback logic over modifying
+  existing working code paths.
+- If a previous iteration was rolled back, DO NOT try a more aggressive version
+  of the same idea. Try a completely different approach or a much smaller change.
+
+**PRIORITIZE THESE CHANGE TYPES (safest to riskiest):**
+1. Fix a bug in Python computation logic (zero risk to other cases)
+2. Add a new fallback/recovery path for a specific failure pattern
+3. Improve validation to catch and fix a category of extraction errors
+4. Add a small, specific instruction to a docstring (low risk if well-scoped)
+5. Rewrite extraction/prompt logic (HIGH RISK — only if you are very confident)
+
+**AVOID:**
+- Rewriting the extraction prompt wholesale — this breaks working cases
+- Adding many instructions at once — impossible to know what helped vs hurt
+- Changing unit conversion logic broadly — most values are already correct
+
+## CRITICAL RULES
+
+1. **DO NOT REWARD-HACK.** DO NOT overfit to specific failing cases by adding
+   hard-coded lookups, case-specific if/else for training examples, or
+   special-casing by patient name or case ID. Changes MUST generalize to
+   unseen cases. A held-out test set will expose overfitting.
+
+2. Make ONE targeted change per iteration. Don't rewrite everything at once.
+
+3. Return the COMPLETE modified ptools_evolved.py inside a <ptools_file> block.
+   Include ALL imports, ALL functions, everything. The block replaces the
+   entire file.
+
+4. Keep the file syntactically valid Python. Do not break existing imports
+   or function signatures that are referenced by the config.
+
+## Examples of GOOD changes
+- Fixing a specific computation bug (e.g. wrong formula for a calculator type)
+- Adding a validation check that catches a common extraction error pattern
+- Adding a small, specific docstring instruction scoped to a failure class
+- Adding a new fallback path for cases where extraction fails
+
+## Examples of BAD changes (cause regressions)
+- Rewriting the extraction prompt with many new instructions
+- Adding unit conversion logic that fires on all cases
+- Changing the workflow control flow
+- if calculator_name == "CHA2DS2-VASc": return 5
+
+<reasoning>
+1. What SPECIFIC failure pattern did you identify?
+2. How many of the shown failures share this pattern?
+3. What is the MINIMAL change that fixes this pattern?
+4. Why will this change NOT break currently working cases?
+</reasoning>
+
+<ptools_file>
+# Complete modified ptools_evolved.py here
+</ptools_file>
+
+<config>
+# Optional dotlist config overrides (e.g. model switches), one per line
+</config>

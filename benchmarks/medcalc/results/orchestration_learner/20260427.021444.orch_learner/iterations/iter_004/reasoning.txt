@@ -1,0 +1,8 @@
+An analysis of the failures reveals two massive patterns:
+1. **Mathematical hallucinations and missing rules:** The `apply_clinical_score` tool lacks the point criteria for many common scoring systems (e.g., Caprini, Centor, FeverPAIN, SIRS, PERC, RCRI, Charlson), forcing the LLM to guess and hallucinate. Similarly, `calculate_clinical_score` is missing references for tricky equations like Free Water Deficit and Delta Gap.
+2. **Date parsing destruction:** For the 6 date/gestational age questions, the underlying LLM accurately infers the text date, but the `_extract_number` function blindly strips out non-digit characters and forces a float conversion (e.g. `11/24/2005` becomes `11242005.0`), completely ruining the result.
+
+### Fix strategy:
+1. **Expand Tool Knowledge Base:** Inject accurate formulas and criteria point distributions for the failing calculators into the docstrings of `apply_clinical_score` and `calculate_clinical_score`. Providing accurate reference material in the prompt significantly curbs hallucination.
+2. **Strict & Safe Date Parsing:** Modify `_extract_number` to safely process dates (`MM/DD/YYYY`) and string tuples ONLY if they are explicitly contained within an `<answer>` tag, or if they appear at the very end of the string. This prevents the parser from accidentally interpreting dates mentioned inside the medical history reasoning as the final calculation, avoiding regressions on working float-based cases.
+3. **Orchestrator Instruction:** Update the `calculate_medical_value` orchestration prompt to enforce the use of `<answer>` tags for final extraction.

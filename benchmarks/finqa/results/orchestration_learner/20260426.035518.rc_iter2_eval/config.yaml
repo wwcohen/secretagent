@@ -1,0 +1,31 @@
+llm:
+  model: gemini/gemini-3.1-flash-lite-preview
+cachier:
+  cache_dir: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/finqa/llm_cache
+  enable_caching: true
+evaluate:
+  result_dir: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/finqa/results/orchestration_learner
+  expt_name: rc_iter2_eval
+  max_workers: 1
+  entry_point: answer_finqa
+  record_details: false
+dataset:
+  split: valid
+  shuffle_seed: 42
+  'n': null
+ptools:
+  parse_table:
+    method: direct
+  lookup_cell:
+    method: direct
+  compute:
+    method: direct
+  extract_reasoning_plan:
+    method: simulate
+  extract_final_number:
+    method: simulate
+  answer_finqa:
+    method: simulate
+orchestrate:
+  model: gemini/gemini-3.1-pro-preview
+root: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/finqa

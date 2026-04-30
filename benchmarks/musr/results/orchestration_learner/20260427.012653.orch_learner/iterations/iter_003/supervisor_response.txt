@@ -1,0 +1,121 @@
+<reasoning>
+1. **Specific failure pattern identified:** The LLM's `deduce_murderer` function is performing zero-shot classification on complex mystery logic. Because it lacks a Chain-of-Thought (CoT) "scratchpad," it fails to logically integrate the structured alibi data and instead pattern-matches against the instruction "Weight physical evidence heavily." This causes it to jump to conclusions, often picking suspects with obvious but circumstantial connections to the weapon, even when their timelines are logically solid compared to the true murderer.
+
+2. **How many failures share this pattern:** All 19 out of 19 failures show `deduce_murderer` outputting just a single name without any intermediate reasoning (indicated by the tiny $0.0005 cost and single-word output). 
+
+3. **Minimal change that fixes this pattern:** I am modifying the `deduce_murderer` docstring to require step-by-step reasoning ("Think step-by-step...") before concluding. Crucially, I am also softening the strict physical evidence heuristic to require *timeline alignment* ("carefully ensure it aligns with a realistic timeline"). I am *not* modifying any Python workflow code or string parsers—I am trusting the existing `extract_index` from `ptools_common` to parse the final answer out of the generated paragraph.
+
+4. **Why this change will not break currently working cases:** Iteration 2 proved that CoT vastly improves generalization on this dataset (eval jumped from 73.3% to 80.0%), but it was rolled back because modifying the Python parsing logic likely caused a brittle failure on the training set. By removing the custom Python parsing and relying entirely on the robust `ptools_common` `extract_index` function (which easily handles CoT outputs ending in "Final Answer: [Name]"), we capture the huge CoT logic gains safely, avoiding Iter 1's over-correction against red herrings and Iter 2's brittle workflow changes.
+</reasoning>
+
+<ptools_file>
+"""Interfaces for MUSR murder mystery reasoning.
+
+Migrated from AgentProject v2 ptools. Design principle: ptools ANNOTATE
+and ENHANCE reasoning on the raw narrative, rather than abstracting it
+away into lossy structured data.
+"""
+
+from secretagent.core import interface
+from ptools_common import (  # noqa: F401  (re-export so the loaded ptools module exposes them)
+    raw_answer,
+    extract_index,
+    react_solve,
+)
+
+
+@interface
+def extract_suspects_and_evidence(narrative: str) -> str:
+    """Extract the victim, crime details, and ALL suspects with their evidence.
+
+    Read the narrative carefully and extract:
+
+    Top level:
+    - victim: name of the murdered person
+    - crime_details: how/where they were killed, when body was found
+    - suspects: for each suspect, extract the following
+
+    For each suspect, extract:
+    - motive: why they might have killed the victim
+    - means: access to weapon, relevant skills/knowledge
+    - opportunity: were they near the crime scene, timeline gaps
+    - alibi_claim: what they say they were doing
+    - alibi_witnesses: people/evidence that could verify their alibi
+    - suspicious_behavior: nervousness, contradictions, cleanup, lies
+    - physical_evidence: weapon found at their place, forensics, DNA, fingerprints
+
+    Be thorough — include EVERY suspect mentioned. Do NOT omit anyone.
+    Include the victim's name so downstream analysis knows who was killed.
+    """
+
+
+@interface
+def verify_alibis(narrative: str, suspect_evidence: str) -> str:
+    """Re-read the narrative to verify or challenge each suspect's alibi.
+
+    You receive the original narrative AND structured evidence extracted
+    for each suspect. Cross-reference alibis against the narrative to
+    find weaknesses.
+
+    For each suspect, determine:
+    - alibi_holds: can the alibi actually be confirmed?
+    - alibi_gaps: any unexplained time periods
+    - contradictions: inconsistencies in their story vs narrative facts
+    - corroborating_evidence: evidence that supports or refutes involvement
+
+    Pay special attention to:
+    - Witnesses who contradict the suspect's claims
+    - Time gaps between when alibis end and the crime window
+    - Physical evidence that places them at the scene
+    - Statements that are plausible but unverifiable
+    """
+
+
+@interface
+def deduce_murderer(narrative: str, verified_analysis: str, question: str, choices: list) -> str:
+    """Given the original narrative, verified alibi analysis, and answer choices,
+    deduce who committed the murder.
+
+    You have access to:
+    1. The FULL original narrative — re-read it for details the analysis may have missed
+    2. Verified analysis for each suspect (alibi status, gaps, contradictions, evidence)
+    3. The multiple-choice options
+
+    Your task:
+    - Think step-by-step and write out your reasoning to synthesize all evidence.
+    - Compare the two suspects side-by-side, evaluating their means, motive, opportunity, and alibi.
+    - Consider which suspect has the WEAKEST alibi combined with the STRONGEST evidence against them.
+    - Weight physical evidence heavily (fingerprints, DNA, weapon possession), but carefully ensure it aligns with a realistic timeline and opportunity.
+    - Weight alibi contradictions by third parties heavily. Unverified or directly contradicted alibis are strong indicators of guilt.
+    - Consider motive as supporting but not sufficient alone.
+    - Conclude your reasoning by explicitly stating your final choice from the options on a new line.
+      Example: "Final Answer: John Doe"
+    """
+
+
+@interface
+def answer_question(narrative: str, question: str, choices: list) -> int:
+    """Read the murder mystery narrative and answer the question.
+    Return the 0-based index of the correct choice.
+    """
+    text = raw_answer(narrative, question, choices)
+    return extract_index(text, choices)
+
+
+@interface
+def answer_question_workflow(narrative: str, question: str, choices: list) -> int:
+    """Solve by extracting evidence, verifying alibis, deducing, then matching."""
+    evidence = extract_suspects_and_evidence(narrative)
+    verified = verify_alibis(narrative, evidence)
+    text = deduce_murderer(narrative, verified, question, choices)
+    return extract_index(text, choices)
+
+# --- Auto-generated by orchestration_learner --seed-orchestrate ---
+def answer_question_workflow_orchestrated_seed(narrative: str, question: str, choices: list) -> int:
+    suspects_and_evidence = extract_suspects_and_evidence(narrative)
+    verified_alibis = verify_alibis(narrative, suspects_and_evidence)
+    murderer_deduction = deduce_murderer(narrative, verified_alibis, question, choices)
+    final_index = extract_index(murderer_deduction, choices)
+    return final_index
+
+</ptools_file>

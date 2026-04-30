@@ -66,3 +66,33 @@ TIMEOUT_PARETO ?= 600
 
 pareto:
 	uv run python run_pareto.py --dataset-n $(N_PARETO) --timeout $(TIMEOUT_PARETO)
+
+#
+# Ptool induction pipeline (DeepSeek for traces, gemini-flash-lite for inducer/eval)
+#
+
+INDUCER_MODEL ?= gemini/gemini-3.1-flash-lite-preview
+TASK_DESC ?= Solve a medical-calculator question by extracting clinical values from a patient note and applying the right formula or score.
+
+# Step 3: generate train/eval traces (4 configs, sequential)
+traces: traces-react-train traces-react-eval traces-react-state-train traces-react-state-eval
+
+traces-react-train:
+	uv run python expt.py run --config-file conf/react_induct.yaml
+
+traces-react-eval:
+	uv run python expt.py run --config-file conf/react_eval.yaml
+
+traces-react-state-train:
+	uv run python expt.py run --config-file conf/react_state_induct.yaml
+
+traces-react-state-eval:
+	uv run python expt.py run --config-file conf/react_state_eval.yaml
+
+# Step 4: induction matrix (12 runs via run_matrix.py)
+induce-matrix:
+	uv run python run_matrix.py induce
+
+# Step 5: held-out eval per induced variant
+eval-matrix:
+	uv run python run_matrix.py evaluate-matrix

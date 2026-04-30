@@ -1,0 +1,10 @@
+Pipeline accuracy: 66.2%, avg cost: $0.0007/case, 210 cases
+
+Per-ptool breakdown:
+  extract_final_number: cost_frac=20.2%, calls/case=1.0, avg_cost=$0.0001, lift=N/A, errors=0
+  extract_reasoning_plan: cost_frac=79.8%, calls/case=1.0, avg_cost=$0.0006, lift=N/A, errors=0
+
+Ptools called via LLM: ['extract_final_number', 'extract_reasoning_plan']
+
+Held-out eval accuracy: 63.3% (train: 66.2%)
+A large train-eval gap means your changes are OVERFITTING. Prefer changes that generalize to unseen cases.

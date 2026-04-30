@@ -1,0 +1,10 @@
+1. **Specific failure pattern identified:** Many failures fall into three categories caused by a lack of context during computation: 
+   a) The calculation requires a quantity from the *question* (e.g. "1/5 of a pound", "4 tickets") but `compute_answer` only receives values from the table, causing it to return wrong values or fail entirely. 
+   b) Missing operations in `identify_operation`: "median", "multiply", "argmin" / "argmax" (finding the row label for min/max), and "probability" were completely absent from the operation list, causing the agent to guess. 
+   c) Stem-and-leaf plots are extracted as separate digits, causing computation to fail (e.g. stem 9, leaf 0 extracted as '9' and '0' instead of '90').
+2. **How many failures share this pattern?** Over 25 of the 32 failures shown fall into these exact patterns (multiply quantity from question: 28014, 7946, 22167, 16626, 27615, 29461, 7023, 28976; missing argmin/argmax: 17619, 29601, 12801, 6695, 35832; missing median/probability: 19617, 18050, 20103, 21189; comparison/shortage issues: 9055, 23843, 6282, 30575, 36693, 21148; stem-and-leaf: 22631).
+3. **Minimal change that fixes this pattern:** 
+   - Add `question` as the first argument to `compute_answer` and pass it in both `incontext_workflow` and `tools_workflow`. This gives the LLM the missing text quantities.
+   - Update `identify_operation` and `compute_answer` docstrings to support `multiply`, `median`, `argmin`, `argmax`, and `probability`, with specific formatting hints for comparisons (e.g., shortage/surplus).
+   - Add a brief note to `extract_relevant_values` instructing it to combine stem-and-leaf plots into actual numbers.
+4. **Why this will NOT break working cases:** Providing the `question` to `compute_answer` adds necessary context without taking anything away. The existing successful `sum` or `lookup` calls will continue working seamlessly because they just use the provided values as before. The changes directly target the missing operations and parsing quirks without overhauling any robust extraction or pipeline logic.

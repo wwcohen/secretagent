@@ -1,0 +1,97 @@
+uv run python run_matrix.py induce
+
+===== INDUCE stateless-oc0-mp3 =====
+collected 101 thoughts in learned/stateless-oc0-mp3/20260426.014753.calculate_medical_value__ptool_inducer
+loaded 101 thoughts (trace_mode=react, only_correct=False)
+categorized 101/101 thoughts
+unique categories after merge: 5
+induced 3 ptools from 101 labeled thoughts (mode=react, only_correct=False)
+saved output to learned/stateless-oc0-mp3/20260426.014753.calculate_medical_value__ptool_inducer/implementation.yaml
+
+===== INDUCE stateless-oc0-mp5 =====
+collected 101 thoughts in learned/stateless-oc0-mp5/20260426.014924.calculate_medical_value__ptool_inducer
+loaded 101 thoughts (trace_mode=react, only_correct=False)
+categorized 101/101 thoughts
+unique categories after merge: 5
+induced 4 ptools from 101 labeled thoughts (mode=react, only_correct=False)
+saved output to learned/stateless-oc0-mp5/20260426.014924.calculate_medical_value__ptool_inducer/implementation.yaml
+
+===== INDUCE stateless-oc0-mp8 =====
+collected 101 thoughts in learned/stateless-oc0-mp8/20260426.015036.calculate_medical_value__ptool_inducer
+loaded 101 thoughts (trace_mode=react, only_correct=False)
+categorized 101/101 thoughts
+unique categories after merge: 5
+induced 4 ptools from 101 labeled thoughts (mode=react, only_correct=False)
+saved output to learned/stateless-oc0-mp8/20260426.015036.calculate_medical_value__ptool_inducer/implementation.yaml
+
+===== INDUCE stateless-oc1-mp3 =====
+collected 76 thoughts in learned/stateless-oc1-mp3/20260426.015207.calculate_medical_value__ptool_inducer
+loaded 76 thoughts (trace_mode=react, only_correct=True)
+categorized 76/76 thoughts
+unique categories after merge: 6
+induced 3 ptools from 76 labeled thoughts (mode=react, only_correct=True)
+saved output to learned/stateless-oc1-mp3/20260426.015207.calculate_medical_value__ptool_inducer/implementation.yaml
+
+===== INDUCE stateless-oc1-mp5 =====
+collected 76 thoughts in learned/stateless-oc1-mp5/20260426.015416.calculate_medical_value__ptool_inducer
+loaded 76 thoughts (trace_mode=react, only_correct=True)
+categorized 76/76 thoughts
+unique categories after merge: 6
+induced 4 ptools from 76 labeled thoughts (mode=react, only_correct=True)
+saved output to learned/stateless-oc1-mp5/20260426.015416.calculate_medical_value__ptool_inducer/implementation.yaml
+
+===== INDUCE stateless-oc1-mp8 =====
+collected 76 thoughts in learned/stateless-oc1-mp8/20260426.015608.calculate_medical_value__ptool_inducer
+loaded 76 thoughts (trace_mode=react, only_correct=True)
+categorized 76/76 thoughts
+unique categories after merge: 6
+induced 4 ptools from 76 labeled thoughts (mode=react, only_correct=True)
+saved output to learned/stateless-oc1-mp8/20260426.015608.calculate_medical_value__ptool_inducer/implementation.yaml
+
+===== INDUCE state-oc0-mp3 =====
+collected 93 thoughts in learned/state-oc0-mp3/20260426.015801.calculate_medical_value__ptool_inducer
+loaded 93 thoughts (trace_mode=react, only_correct=False)
+categorized 93/93 thoughts
+unique categories after merge: 5
+induced 3 ptools from 93 labeled thoughts (mode=react, only_correct=False)
+saved output to learned/state-oc0-mp3/20260426.015801.calculate_medical_value__ptool_inducer/implementation.yaml
+
+===== INDUCE state-oc0-mp5 =====
+collected 93 thoughts in learned/state-oc0-mp5/20260426.020023.calculate_medical_value__ptool_inducer
+loaded 93 thoughts (trace_mode=react, only_correct=False)
+categorized 93/93 thoughts
+unique categories after merge: 5
+induced 5 ptools from 93 labeled thoughts (mode=react, only_correct=False)
+saved output to learned/state-oc0-mp5/20260426.020023.calculate_medical_value__ptool_inducer/implementation.yaml
+
+===== INDUCE state-oc0-mp8 =====
+collected 93 thoughts in learned/state-oc0-mp8/20260426.020147.calculate_medical_value__ptool_inducer
+loaded 93 thoughts (trace_mode=react, only_correct=False)
+categorized 93/93 thoughts
+unique categories after merge: 5
+induced 5 ptools from 93 labeled thoughts (mode=react, only_correct=False)
+saved output to learned/state-oc0-mp8/20260426.020147.calculate_medical_value__ptool_inducer/implementation.yaml
+
+===== INDUCE state-oc1-mp3 =====
+collected 66 thoughts in learned/state-oc1-mp3/20260426.020247.calculate_medical_value__ptool_inducer
+loaded 66 thoughts (trace_mode=react, only_correct=True)
+categorized 66/66 thoughts
+unique categories after merge: 4
+induced 3 ptools from 66 labeled thoughts (mode=react, only_correct=True)
+saved output to learned/state-oc1-mp3/20260426.020247.calculate_medical_value__ptool_inducer/implementation.yaml
+
+===== INDUCE state-oc1-mp5 =====
+collected 66 thoughts in learned/state-oc1-mp5/20260426.020406.calculate_medical_value__ptool_inducer
+loaded 66 thoughts (trace_mode=react, only_correct=True)
+categorized 66/66 thoughts
+unique categories after merge: 4
+induced 4 ptools from 66 labeled thoughts (mode=react, only_correct=True)
+saved output to learned/state-oc1-mp5/20260426.020406.calculate_medical_value__ptool_inducer/implementation.yaml
+
+===== INDUCE state-oc1-mp8 =====
+collected 66 thoughts in learned/state-oc1-mp8/20260426.020520.calculate_medical_value__ptool_inducer
+loaded 66 thoughts (trace_mode=react, only_correct=True)
+categorized 66/66 thoughts
+unique categories after merge: 4
+induced 4 ptools from 66 labeled thoughts (mode=react, only_correct=True)
+saved output to learned/state-oc1-mp8/20260426.020520.calculate_medical_value__ptool_inducer/implementation.yaml

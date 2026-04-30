@@ -1,0 +1,23 @@
+Consider the following documentation stub for a Python function.  Note
+that this is documentation, not a full implementation.
+```python
+$stub_src
+```
+
+Imagine that this function was fully implemented as suggested by the
+documentation stub, and that function were called with these arguments:
+
+$args
+
+Propose a possible output of the function for these inputs that is
+consistent with the documentation.
+
+$thoughts
+
+REASONING REQUIREMENT:
+Before every tool call, and again before producing the final output,
+you MUST emit a short paragraph of plain reasoning (1–4 sentences). State
+what you have learned from prior tool returns, what the next step is, and
+why. Tools are stateless and forget context — these reasoning paragraphs
+are the only continuous narrative. Do NOT skip this even when the tool
+call seems obvious.

@@ -1,0 +1,1402 @@
+You are an expert ML engineer making a TARGETED improvement to an existing
+pipeline. The pipeline already works at a certain accuracy — your job is to
+make it BETTER, not blow it up.
+
+You have FULL CONTROL over the ptools module. You can modify ANY function,
+ANY docstring, ANY logic. Your changes will be written to ptools_evolved.py
+and evaluated.
+
+## Current ptools_evolved.py (FULL SOURCE — you own this file)
+
+```python
+"""MedCalc-Bench interface definitions and workflow functions.
+
+Defines the secretagent interfaces used across all experiment levels (L0–L4).
+Each level binds a different implementation to `calculate_medical_value` via config.
+
+Level mapping:
+  L0 (baseline)   → prompt_llm with template file
+  L1 (simulate)   → simulate with rich docstring + formula reference
+  L2 (distilled)  → direct workflow: try Python, fallback to simulate helper
+  L3 (PoT)        → program_of_thought with tool interfaces
+  L4 (pipeline)   → direct workflow calling sub-interfaces for extraction + Python compute
+"""
+
+import inspect
+import json
+import re
+from typing import Any, Dict, List, Optional
+
+from secretagent.core import interface
+from secretagent import config
+
+
+# =============================================================================
+# Formula reference (dynamically extracted from calculator_simple.py)
+# =============================================================================
+
+def get_formula_reference() -> str:
+    """Extract formulas from calculator_simple.py at import time."""
+    import calculator_simple
+
+    formulas = {}
+    for name, spec in calculator_simple.CALCULATOR_REGISTRY.items():
+        if spec.name not in formulas and spec.formula:
+            formulas[spec.name] = spec.formula
+
+    lines = ["FORMULAS (use these exact formulas):"]
+    for name, formula in sorted(formulas.items()):
+        lines.append(f"- {name}: {formula}")
+    return "\n".join(lines)
+
+
+FORMULA_REFERENCE = get_formula_reference()
+
+
+# =============================================================================
+# Generate L0 baseline prompt template (same formulas, direct framing)
+# =============================================================================
+
+_BASELINE_TEMPLATE = f"""You are a medical calculation assistant.
+
+{FORMULA_REFERENCE}
+
+Patient Note:
+$patient_note
+
+Question: $question
+
+Instructions:
+1. Read the patient note carefully
+2. Extract the relevant values needed for the calculation
+3. Perform the calculation step by step
+4. Provide your final numeric answer
+
+Show your reasoning, then give the final answer as:
+ANSWER: <number>"""
+
+# Write at import time so prompt_llm can load it from file
+from pathlib import Path as _Path
+(_Path(__file__).parent / 'prompt_templates' / 'baseline.txt').write_text(
+    _BASELINE_TEMPLATE)
+
+
+# =============================================================================
+# Main entry-point interface (all levels evaluate this)
+# =============================================================================
+
+_CALCULATE_DOCSTRING = f"""Calculate a medical value from a patient note.
+
+Given a patient note and a calculation question, reason step by step:
+1. Carefully read the patient note to extract all relevant clinical values
+2. Identify what medical calculation/score is needed
+3. Apply the appropriate formula from the reference below
+4. Show your calculation step by step, checking your arithmetic
+
+{FORMULA_REFERENCE}
+
+Important:
+- Be precise with extracted values. Double-check your arithmetic.
+- For sex/gender: "man"/"male"/"he" → male, "woman"/"female"/"she" → female.
+- Convert units as needed (lbs→kg: ×0.453592, feet/inches→cm: (ft×12+in)×2.54).
+- For scoring systems: carefully check each criterion against the patient note.
+  Look for conditions implied by medications or clinical findings, not just
+  explicitly named conditions.
+
+Return the final numeric answer.
+
+Examples:
+>>> calculate_medical_value("A 70-year-old male weighing 80 kg, height 175 cm.", "What is the patient's BMI?")
+26.122
+>>> calculate_medical_value("A 65-year-old female, BP 130/85 mmHg.", "What is the patient's Mean Arterial Pressure (MAP)?")
+100.0
+"""
+
+
+def _build_medical_value_src(func_name: str, docstring: str) -> str:
+    """Build a synthetic source string with the docstring embedded."""
+    # Indent the docstring for Python source
+    doc_lines = docstring.strip().split('\n')
+    indented = '\n'.join('    ' + line for line in doc_lines)
+    return (
+        f'def {func_name}(patient_note: str, question: str) -> float:\n'
+        f'    """{doc_lines[0]}\n'
+        f'\n{indented}\n'
+        f'    """\n'
+        f'    ...\n'
+    )
+
+
+def calculate_medical_value(patient_note: str, question: str) -> float:
+    ...
+
+calculate_medical_value.__doc__ = _CALCULATE_DOCSTRING
+calculate_medical_value = interface(calculate_medical_value)
+calculate_medical_value.src = _build_medical_value_src(
+    'calculate_medical_value', _CALCULATE_DOCSTRING)
+
+
+# =============================================================================
+# State-aware ReAct entry point (mirrors MUSR's _REACT_STATE pattern)
+# =============================================================================
+
+_REACT_STATE: dict = {'patient_note': '', 'question': ''}
+
+
+def _reset_react_state(patient_note: str, question: str) -> None:
+    _REACT_STATE['patient_note'] = patient_note
+    _REACT_STATE['question'] = question
+
+
+def react_calculate(patient_note: str, question: str) -> float:
+    ...
+
+react_calculate.__doc__ = _CALCULATE_DOCSTRING
+react_calculate = interface(react_calculate)
+react_calculate.src = _build_medical_value_src(
+    'react_calculate', _CALCULATE_DOCSTRING)
+
+
+def _extract_number_local(value) -> Optional[float]:
+    """Local copy of expt._extract_number to avoid circular import."""
+    if value is None:
+        return None
+    if isinstance(value, (int, float)):
+        return float(value)
+    s = str(value)
+    if s.startswith('**exception'):
+        return None
+    try:
+        return float(s)
+    except ValueError:
+        pass
+    m = re.search(r'<answer>\s*([\d.eE+-]+)\s*</answer>', s)
+    if m:
+        try:
+            return float(m.group(1))
+        except ValueError:
+            pass
+    m = re.search(r'ANSWER:\s*([\d.eE+-]+)', s)
+    if m:
+        try:
+            return float(m.group(1))
+        except ValueError:
+            pass
+    nums = re.findall(r'-?\d+\.?\d*', s)
+    if nums:
+        try:
+            return float(nums[-1])
+        except ValueError:
+            pass
+    return None
+
+
+def react_calculate_impl(patient_note: str, question: str) -> float:
+    """Direct entry that resets state then runs the bound react_calculate."""
+    _reset_react_state(patient_note, question)
+    try:
+        raw = react_calculate(patient_note, question)
+    except Exception as ex:
+        return float('nan')
+    n = _extract_number_local(raw)
+    return float('nan') if n is None else n
+
+
+# =============================================================================
+# L2 helper: simulate fallback for distilled workflow
+# =============================================================================
+
+def simulate_medical_value(patient_note: str, question: str) -> float:
+    ...
+
+simulate_medical_value.__doc__ = _CALCULATE_DOCSTRING
+simulate_medical_value = interface(simulate_medical_value)
+simulate_medical_value.src = _build_medical_value_src(
+    'simulate_medical_value', _CALCULATE_DOCSTRING)
+
+
+# =============================================================================
+# L4 Date-Specific Fallback (prevents type casting crashes on strings/tuples)
+# =============================================================================
+
+def _is_date_question(question: str) -> bool:
+    q = question.lower()
+    return any(x in q for x in ['gestational age', 'conception', 'due date', 'm/d/y'])
+
+_DATE_DOCSTRING = """Calculate a medical date or gestational age from a patient note.
+
+Given a patient note and a calculation question, reason step by step:
+1. Identify the requested date or gestational age calculation.
+2. Read the patient note carefully to extract values like Last Menstrual Period (LMP) or cycle length.
+3. Compute the result. 
+   - Naegele's Rule for EDD: LMP + 7 days - 3 months + 1 year. (Adjust for cycle length if != 28 days: add (cycle_length - 28) days).
+   - Date of Conception: LMP + 14 days (assuming 28-day cycle).
+   - Gestational Age: Elapsed time from LMP to the current date.
+
+Format your final answer exactly as requested (e.g., MM/DD/YYYY, or a tuple like ('33 weeks', '5 days')).
+Return ONLY the final string/tuple in the ANSWER: format.
+
+Examples:
+>>> simulate_date_value("LMP was 09/17/2011. Cycle is 21 days.", "Estimated due date?")
+ANSWER: 06/16/2012
+>>> simulate_date_value("LMP 11/29/2024. Today is 07/23/2025.", "Gestational age?")
+ANSWER: ('33 weeks', '5 days')
+"""
+
+def simulate_date_value(patient_note: str, question: str) -> Any:
+    ...
+
+simulate_date_value.__doc__ = _DATE_DOCSTRING
+simulate_date_value = interface(simulate_date_value)
+simulate_date_value.src = _build_medical_value_src('simulate_date_value', _DATE_DOCSTRING)
+
+def run_date_simulate(patient_note: str, question: str) -> Any:
+    """Safe date runner that avoids float coercion on strings and tuples."""
+    raw = simulate_date_value(patient_note, question)
+    if isinstance(raw, str):
+        m = re.search(r'ANSWER:\s*(.+)', raw)
+        if m:
+            val = m.group(1).strip()
+            try:
+                import ast
+                if val.startswith("(") and val.endswith(")"):
+                    return ast.literal_eval(val)
+            except Exception:
+                pass
+            return val
+    return raw
+
+
+# =============================================================================
+# L3/L4 sub-interfaces
+# =============================================================================
+
+@interface
+def identify_calculator(question: str, available_calculators: list[str]) -> dict:
+    """Identify which medical calculator is needed based on the question.
+
+    Analyze the question and match it to one of the available calculators.
+
+    Return a dict with:
+    - "calculator_name": exact name from the available list
+    - "confidence": 0.0-1.0 confidence score
+    - "reasoning": brief explanation
+
+    Examples:
+    >>> identify_calculator("What is the patient's BMI?", ["Body Mass Index (BMI)", "Ideal Body Weight (Devine)"])
+    {'calculator_name': 'Body Mass Index (BMI)', 'confidence': 0.99, 'reasoning': 'BMI directly asked'}
+    """
+    ...
+
+
+@interface
+def extract_clinical_values(patient_note: str, required_values: list[str]) -> dict:
+    """Extract specific clinical values from a patient note.
+
+    Given the patient note and list of required values, find and extract each one.
+    Convert all values to standard units (kg for weight, cm for height, etc.).
+
+    IMPORTANT for sex/gender:
+    - "man", "male", "he", "his" → sex = "male"
+    - "woman", "female", "she", "her" → sex = "female"
+
+    Return a dict with:
+    - "extracted": {"value_name": numeric_value, ...}
+    - "missing": ["list of values not found"]
+
+    Examples:
+    >>> extract_clinical_values("A 70-year-old male weighing 80 kg, height 175 cm, creatinine 1.2 mg/dL.", ["age", "sex", "weight_kg", "height_cm", "creatinine_mg_dl"])
+    {'extracted': {'age': 70, 'sex': 'male', 'weight_kg': 80, 'height_cm': 175, 'creatinine_mg_dl': 1.2}, 'missing': []}
+    """
+    ...
+
+
+@interface
+def compute_calculation(calculator_name: str, values: dict) -> dict:
+    """Compute a medical calculation using pre-extracted values.
+
+    Uses verified Python implementations for all 55 medical calculators.
+    This tool is deterministic and accurate.
+
+    Args:
+        calculator_name: The exact calculator name
+        values: Dictionary of parameter names to values
+
+    Returns:
+        {"calculator_name": str, "result": numeric_answer, "formula_used": str}
+        OR {"error": str, "result": None} if calculation fails
+    """
+    ...
+
+
+# =============================================================================
+# L4 sub-interfaces: extraction pipeline
+# =============================================================================
+
+@interface
+def analyze_scoring_conditions(patient_note: str, calculator_name: str) -> dict:
+    """Analyze a patient note to identify conditions relevant to a scoring calculator.
+
+    You are a medical expert. Carefully read the patient note and identify ALL
+    conditions/criteria relevant to the named scoring calculator.
+
+    Look for:
+    - Conditions EXPLICITLY mentioned (e.g., "history of heart failure")
+    - Conditions IMPLIED by medications (e.g., warfarin implies anticoagulation,
+      metformin implies diabetes, ACE inhibitors imply hypertension)
+    - Conditions IMPLIED by clinical findings (e.g., elevated JVP implies heart failure)
+    - Demographics: age, sex (infer from pronouns if not stated)
+
+    Important definitions:
+    - For CHA2DS2-VASc: "Vascular disease" specifically means prior MI, peripheral artery disease, or aortic plaque. Do NOT count general vascular or small vessel disease.
+    - Do NOT hallucinate conditions. If it's not supported by the text, mark it absent.
+
+    Be thorough — missing a condition leads to wrong scores.
+
+    Return a dict with:
+    - "reasoning": step-by-step analysis of how you identified each condition
+    - "conditions_present": list of conditions found present
+    - "conditions_absent": list of conditions found absent
+    - "demographics": {"age": number, "sex": "male" or "female"}
+    """
+    ...
+
+
+@interface
+def extract_calculator_values(
+    patient_note: str,
+    calculator_name: str,
+    field_descriptions: str,
+    reasoning_context: str,
+) -> dict:
+    """Extract specific clinical values from a patient note for a medical calculator.
+
+    You are given:
+    - A patient note with clinical information
+    - The name of the calculator to extract values for
+    - A description of each field to extract (with units and expected ranges)
+    - Optional reasoning context from a prior analysis stage
+
+    Instructions:
+    - Use the EXACT parameter names from the field descriptions as JSON keys
+    - Read field descriptions carefully for what each parameter means
+    - For score/grade parameters (e.g. "temperature_score", "ascites_grade"):
+      map clinical findings to the numeric score described in the field description
+    - Extract numeric values with proper units (age in years, weight in kg, height in cm)
+    - Convert units as needed (lbs→kg: ×0.453592, feet/inches→cm, g/L→g/dL: ÷10)
+    - Double check context around numbers to avoid confusing metrics (e.g. do not extract head circumference as weight).
+    - For sex: "man"/"male"/"he" → "male", "woman"/"female"/"she" → "female"
+    - For boolean conditions: True if present, False if absent
+    - If a condition is not mentioned, assume it is absent (False or 0)
+    - Include ALL fields, even if the value is False/0/absent
+
+    Return a dict with:
+    - "extracted": {"param_name": value, ...} for each field
+    - "missing": ["list of values truly not determinable from the note"]
+    """
+    ...
+
+
+@interface
+def repair_missing_values(
+    patient_note: str,
+    calculator_name: str,
+    current_values: str,
+    missing_values: str,
+) -> dict:
+    """Re-extract missing clinical values from a patient note.
+
+    A previous extraction attempt was incomplete. Some required values are missing.
+    Look more carefully at the patient note to find them.
+
+    Return a dict with:
+    - "extracted": {"value_name": value, ...} for each previously missing value found
+    """
+    ...
+
+
+# =============================================================================
+# Direct implementations
+# =============================================================================
+
+def compute_calculation_impl(calculator_name: str, values: dict) -> dict:
+    """Direct Python implementation for compute_calculation."""
+    from calculators import compute_direct
+
+    result = compute_direct(calculator_name, values)
+    if result is None:
+        return {
+            "error": f"Calculation failed for {calculator_name} with values {values}",
+            "result": None,
+            "calculator_name": calculator_name,
+        }
+    return {
+        "calculator_name": result.calculator_name,
+        "result": result.result,
+        "extracted_values": result.extracted_values,
+        "formula_used": result.formula_used,
+    }
+
+
+# =============================================================================
+# L3/L2 workflows
+# =============================================================================
+
+def pot_medical_value(patient_note: str, question: str) -> float:
+    ...
+
+pot_medical_value.__doc__ = _CALCULATE_DOCSTRING
+pot_medical_value = interface(pot_medical_value)
+pot_medical_value.src = _build_medical_value_src(
+    'pot_medical_value', _CALCULATE_DOCSTRING)
+
+
+def pot_workflow(patient_note: str, question: str) -> Any:
+    import math
+    try:
+        result = pot_medical_value(patient_note, question)
+        if result is not None and not (isinstance(result, float) and math.isnan(result)):
+            return result
+    except Exception:
+        pass
+    return simulate_medical_value(patient_note, question)
+
+
+def distilled_workflow(patient_note: str, question: str) -> Any:
+    from calculators import calculate
+    result = calculate(patient_note, question)
+    if result is not None and result.result is not None:
+        return result.result
+    return simulate_medical_value(patient_note, question)
+
+
+# =============================================================================
+# L4 workflow: Python-orchestrated pipeline with specialist LLM stages
+# =============================================================================
+
+def _build_descriptive_fields(calc_name: str) -> list[str]:
+    """Build descriptive field names from calculator docstring."""
+    import calculator_simple
+    doc = calculator_simple.get_calculator_docstring(calc_name) or ''
+    sigs = calculator_simple.get_calculator_signatures()
+    sig = sigs.get(calc_name, {})
+    all_fields = sig.get('required', []) + sig.get('optional', [])
+
+    field_desc = {}
+    for line in doc.split('\n'):
+        line = line.strip()
+        match = re.match(r'(\w+):\s+(.+)', line)
+        if match and match.group(1) in all_fields:
+            field_desc[match.group(1)] = match.group(2).strip()
+
+    result = []
+    for f in all_fields:
+        if f in field_desc:
+            result.append(f'{f}: {field_desc[f]}')
+        else:
+            result.append(f)
+    return result
+
+
+def workflow(patient_note: str, question: str) -> Any:
+    """L4 workflow: Python-orchestrated with ptools interfaces + LLM extraction."""
+    import calculator_simple
+    from calculators import identify_calculator as python_identify
+
+    signatures = calculator_simple.get_calculator_signatures()
+    available = list(signatures.keys())
+
+    # ---- Stage 1: identify_calculator (ptools interface) ----
+    calc_name = None
+    try:
+        result = identify_calculator(question, available)
+        
+        # Soften markdown codeblock boundaries for resilient JSON loading
+        if isinstance(result, str):
+            m = re.search(r'\{.*\}', result, re.DOTALL)
+            if m:
+                try: result = json.loads(m.group())
+                except Exception: pass
+                
+        if isinstance(result, dict):
+            calc_name = result.get("calculator_name")
+            if calc_name and calc_name not in signatures:
+                calc_lower = calc_name.lower()
+                for sig_name in signatures:
+                    if calc_lower in sig_name.lower() or sig_name.lower() in calc_lower:
+                        calc_name = sig_name
+                        break
+                else:
+                    calc_name = None
+    except Exception:
+        pass
+
+    if not calc_name:
+        pattern = python_identify(question)
+        if pattern:
+            for name, spec in calculator_simple.CALCULATOR_REGISTRY.items():
+                if isinstance(spec, calculator_simple.CalculatorSpec):
+                    if pattern.lower() in spec.name.lower():
+                        calc_name = spec.name
+                        break
+
+    # If identification fails, return None to trigger safe orchestrator fallback
+    if not calc_name:
+        return None
+
+    # ---- Stage 2: Extract values (LLM with calculator-specific context) ----
+    sig = signatures.get(calc_name, {})
+    required = sig.get("required", [])
+    optional = sig.get("optional", [])
+
+    extracted = _extract_values_two_stage(
+        patient_note, calc_name, required, optional
+    )
+
+    # ---- Stage 3: Validate + compute_calculation (ptools interface) ----
+    is_valid, missing, cleaned = _validate_extracted_values(extracted, calc_name)
+
+    if missing and not is_valid:
+        repaired = _repair_extraction(patient_note, calc_name, cleaned, missing)
+        is_valid, missing, cleaned = _validate_extracted_values(repaired, calc_name)
+
+    if is_valid:
+        try:
+            result = compute_calculation(calc_name, cleaned)
+            if isinstance(result, dict) and result.get('result') is not None:
+                return result['result']
+        except Exception:
+            pass
+
+    return None
+
+pipeline_workflow = workflow
+
+
+# =============================================================================
+# L4 helper functions (inline LLM calls for extraction pipeline)
+# =============================================================================
+
+def _extract_values_two_stage(
+    patient_note: str,
+    calculator_name: str,
+    required_values: list[str],
+    optional_values: list[str],
+) -> dict:
+    """Two-stage extraction: medical reasoning → structured extraction."""
+    is_scoring = any(kw in calculator_name.lower() for kw in [
+        'score', 'criteria', 'cha2ds2', 'heart', 'wells',
+        'curb', 'sofa', 'apache', 'child-pugh', 'meld', 'centor', 'fever',
+        'has-bled', 'rcri', 'charlson', 'caprini', 'blatchford', 'perc'
+    ])
+
+    reasoning_context = ""
+    if is_scoring:
+        try:
+            reasoning_result = analyze_scoring_conditions(patient_note, calculator_name)
+            if isinstance(reasoning_result, str):
+                m = re.search(r'\{.*\}', reasoning_result, re.DOTALL)
+                if m:
+                    try: reasoning_result = json.loads(m.group())
+                    except Exception: pass
+                    
+            if isinstance(reasoning_result, dict):
+                conditions_present = reasoning_result.get("conditions_present", [])
+                conditions_absent = reasoning_result.get("conditions_absent", [])
+                demographics = reasoning_result.get("demographics", {})
+                reasoning_context = (
+                    f"MEDICAL ANALYSIS (from reasoning stage):\n"
+                    f"- Conditions PRESENT: {', '.join(conditions_present) if conditions_present else 'None'}\n"
+                    f"- Conditions ABSENT: {', '.join(conditions_absent) if conditions_absent else 'None'}\n"
+                    f"- Demographics: Age={demographics.get('age', 'unknown')}, Sex={demographics.get('sex', 'unknown')}"
+                )
+        except Exception:
+            pass
+
+    field_descriptions = '\n'.join(_build_descriptive_fields(calculator_name))
+
+    try:
+        result = extract_calculator_values(
+            patient_note, calculator_name, field_descriptions, reasoning_context)
+            
+        if isinstance(result, str):
+            m = re.search(r'\{.*\}', result, re.DOTALL)
+            if m:
+                try: result = json.loads(m.group())
+                except Exception: pass
+                
+        if isinstance(result, dict):
+            return result.get("extracted", result)
+    except Exception:
+        pass
+    return {}
+
+
+def _validate_extracted_values(
+    extracted: dict, calculator_name: str
+) -> tuple[bool, list[str], dict]:
+    """Validate and clean extracted values."""
+    import calculator_simple
+    import re
+
+    flattened = {}
+    for key, value in extracted.items():
+        if isinstance(value, dict):
+            for subkey, subvalue in value.items():
+                flattened[subkey] = subvalue
+        else:
+            flattened[key] = value
+
+    cleaned = {}
+    for key, value in flattened.items():
+        if isinstance(value, str):
+            val_lower = value.lower().strip()
+            if val_lower in ("true", "yes", "1", "present", "positive"):
+                cleaned[key] = True
+            elif val_lower in ("false", "no", "0", "absent", "negative"):
+                cleaned[key] = False
+            elif val_lower in ("m", "male", "man", "he"):
+                cleaned[key] = "male"
+            elif val_lower in ("f", "female", "woman", "she"):
+                cleaned[key] = "female"
+            else:
+                try:
+                    cleaned[key] = float(value)
+                except ValueError:
+                    m = re.match(r'^(-?\d+(?:\.\d+)?)\s*[a-zA-Z/%]+', val_lower)
+                    if m and "/" not in val_lower and "-" not in val_lower[1:]:
+                        cleaned[key] = float(m.group(1))
+                    else:
+                        # Extract basic digits safely, dodging dates (/) and times (:)
+                        m2 = re.search(r'-?\d+(?:\.\d+)?', val_lower)
+                        if m2 and "/" not in val_lower and ":" not in val_lower:
+                            cleaned[key] = float(m2.group())
+                        else:
+                            cleaned[key] = value.strip()
+        elif value is not None:
+            cleaned[key] = value
+
+    # Fix common magnitude scaling mistake for albumin
+    if 'albumin' in cleaned and isinstance(cleaned['albumin'], (int, float)):
+        if cleaned['albumin'] > 15:
+            cleaned['albumin'] /= 10.0
+
+    signatures = calculator_simple.get_calculator_signatures()
+    sig = signatures.get(calculator_name, {})
+    required = sig.get("required", [])
+    
+    missing = [v for v in required if v not in cleaned or cleaned[v] is None]
+    return len(missing) == 0, missing, cleaned
+
+
+def _repair_extraction(
+    patient_note: str, calculator_name: str,
+    current_values: dict, missing: list[str],
+) -> dict:
+    """Re-extract missing values via interface."""
+    try:
+        result = repair_missing_values(
+            patient_note, calculator_name,
+            str(current_values), ', '.join(missing))
+            
+        if isinstance(result, str):
+            m = re.search(r'\{.*\}', result, re.DOTALL)
+            if m:
+                try: result = json.loads(m.group())
+                except Exception: pass
+                
+        if isinstance(result, dict):
+            new_extracted = result.get("extracted", result)
+            return {**current_values, **new_extracted}
+    except Exception:
+        pass
+    return current_values
+
+# --- Auto-generated by orchestration_learner --seed-orchestrate ---
+def calculate_medical_value_orchestrated_seed(patient_note: str, question: str) -> Any:
+    """L4 orchestration entry point for the benchmark."""
+    
+    # 1. Isolate Date calculators to avoid float coercion crashes and signature mismatches
+    if _is_date_question(question):
+        from calculators import calculate
+        try:
+            res = calculate(patient_note, question)
+            if res is not None and res.result is not None:
+                return res.result
+        except Exception:
+            pass
+        return run_date_simulate(patient_note, question)
+
+    # 2. Try full LLM orchestration pipeline (handles complex scores using 2-stage reasoning)
+    # L4 extraction accurately grounds logic, avoiding the blind errors made by regex guesses
+    try:
+        ans = workflow(patient_note, question)
+        if ans is not None:
+            return ans
+    except Exception:
+        pass
+
+    # 3. Try pure Python approach as fallback (fastest, but regex can make contextual mistakes)
+    from calculators import calculate
+    try:
+        res = calculate(patient_note, question)
+        if res is not None and res.result is not None:
+            return res.result
+    except Exception:
+        pass
+
+    # 4. Ultimate Fallback to raw simulated LLM
+    return simulate_medical_value(patient_note, question)
+```
+
+## Performance on training set
+
+Pipeline accuracy: 79.8%, avg cost: $0.0009/case, 193 cases
+
+Per-ptool breakdown:
+  analyze_scoring_conditions: cost_frac=21.1%, calls/case=0.2, avg_cost=$0.0008, lift=N/A, errors=0
+  extract_calculator_values: cost_frac=47.3%, calls/case=1.0, avg_cost=$0.0004, lift=N/A, errors=0
+  identify_calculator: cost_frac=30.0%, calls/case=1.0, avg_cost=$0.0003, lift=N/A, errors=0
+  repair_missing_values: cost_frac=0.2%, calls/case=0.0, avg_cost=$0.0003, lift=N/A, errors=0
+  simulate_medical_value: cost_frac=1.5%, calls/case=0.0, avg_cost=$0.0012, lift=N/A, errors=0
+
+Ptools called via LLM: ['analyze_scoring_conditions', 'extract_calculator_values', 'identify_calculator', 'simulate_medical_value']
+
+Held-out eval accuracy: 68.3% (train: 79.8%)
+A large train-eval gap means your changes are OVERFITTING. Prefer changes that generalize to unseen cases.
+
+## Failure cases with full context
+
+Total failures: 39 / showing 39:
+
+Failure counts by category:
+  Wells' Criteria for Pulmonary Embolism: 4 failures
+  CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk: 3 failures
+  CURB-65 Score for Pneumonia Severity: 2 failures
+  Estimated of Conception: 2 failures
+  QTc Rautaharju Calculator: 2 failures
+  Estimated Due Date: 2 failures
+  Mean Arterial Pressure (MAP): 2 failures
+  Caprini Score for Venous Thromboembolism (2005): 1 failures
+  Morphine Milligram Equivalents (MME) Calculator: 1 failures
+  Serum Osmolality: 1 failures
+  Centor Score (Modified/McIsaac) for Strep Pharyngitis: 1 failures
+  Free Water Deficit: 1 failures
+  CKD-EPI Equations for Glomerular Filtration Rate: 1 failures
+  Albumin Corrected Delta Ratio: 1 failures
+  FeverPAIN Score for Strep Pharyngitis: 1 failures
+  Framingham Risk Score for Hard Coronary Heart Disease: 1 failures
+  Maintenance Fluids Calculations: 1 failures
+  Estimated Gestational Age: 1 failures
+  Steroid Conversion Calculator: 1 failures
+  MDRD GFR Equation: 1 failures
+  Child-Pugh Score for Cirrhosis Mortality: 1 failures
+  Albumin Corrected Delta Gap: 1 failures
+  HOMA-IR (Homeostatic Model Assessment for Insulin Resistance): 1 failures
+  Sequential Organ Failure Assessment (SOFA) Score: 1 failures
+  Calcium Correction for Hypoalbuminemia: 1 failures
+  Charlson Comorbidity Index (CCI): 1 failures
+  HEART Score for Major Cardiac Events: 1 failures
+  APACHE II Score: 1 failures
+  Glasgow Coma Score (GCS): 1 failures
+
+--- Case train.2733: (calculator_name=Wells' Criteria for Pulmonary Embolism, category=risk, output_type=integer) ---
+  Input arg 0: A 79-year-old woman with stage IV colon cancer, metastatic to the lungs and the adrenal glands, presented to the emergency department with dry cough and worsening dyspnea on exertion of 1-day duration. She was diagnosed with colon cancer in 2015 and underwent left-sided colectomy and then was treated with adjuvant chemotherapy (5-fluorouracil [5-FU] for a total of 6 cycles). In 2018, she developed left lower extremity edema and was diagnosed with deep venous thrombosis of the left femoral vein and left great saphenous vein and was placed on rivaroxaban. Extensive workup showed metastatic disease to the lungs, adrenal glands, and pelvic lymph nodes. Biopsy of one of the nodes confirmed adenocarcinoma of the colon. She was started on the combination of capecitabine 1000 mg twice a day (day 1 to day 14 every 21 days) and bevacizumab 7.5 mg/kg (day 1 every 21 days) and received the first dose of bevacizumab 1 week after starting capecitabine; she has never been on those drugs before. Less than 24 hours after the bevacizumab dose, she started having a dyspnea on exertion that was worsening and was associated with a dry cough and fatigue.
+She was tachycardic and tachypneic on admission (heart rate was 122 bpm, respiratory rate was 24 breaths/min). Her blood pressure was 163/110 mm Hg. Her Sao2 was 84% on room air. She was placed on noninvasive positive pressure ventilation for respiratory distress with minimal improvement on oxygen delivery therapies. Stat arterial blood gas showed acute hypoxic respiratory failure (pH of 7.26, Pco2 of 47, Po2 of 248, HCO3 of 21). She was subsequently intubated and required intensive care.
+Her admission blood work was significant for mild leukocytosis (white blood cell count of 13.42/μL, with 82% neutrophils) (see ). Chest radiograph showed bilateral basilar opacities (see ). Computed tomography (CT) of the chest with intravenous contrast redemonstrated bilateral airspace opacities with a slight central distribution (see ).
+She was starte
+  Input arg 1: What is the patient's score of Wells' criteria for Pulmonary Embolism? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.
+  Execution trace (3 LLM calls):
+    identify_calculator(["What is the patient's score of Wells' criteria for Pulmonary Embolism? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatm)
+      -> {'calculator_name': "Wells' Criteria for PE", 'confidence': 1.0, 'reasoning': "The question explicitly asks for 'Wells' criteria for Pulmonary Embolism'."} [$0.0003]
+    analyze_scoring_conditions(['A 79-year-old woman with stage IV colon cancer, metastatic to the lungs and the adrenal glands, presented to the emergency department with dry cough and worsening dyspnea on exertion of 1-day durati)
+      -> {'reasoning': "Wells' Criteria for PE assesses clinical signs of DVT, whether PE is the most likely diagnosis, heart rate >100, immobilization or surgery in the past 4 weeks, previous PE/DVT, hemoptysis, and malignancy. 1. Clinical signs of DVT: Patient has a history of DVT (2018), but no mention of current unilateral leg swelling/pain/erythema. Marked absent. 2. PE is most likely: Given the negative infectious workup and response to steroids, the clinical team suspected pneumonitis, not PE. Marked absent. 3. Heart rate >100: Patient was tachycardic (122 bpm). Marked present. 4. Immobilization/Surgery: No recent surgery or immobilization in the last 4 weeks. Marked absent. 5. Previous PE/DVT: Patient has a documented history of DVT in 2018. Marked present. 6. Hemoptysis: No mention of coughing up blood (only dry cough). Marked absent. 7. Malignancy: Patient has stage IV colon cancer with metastases. Marked present.", 'conditions_present': ['Heart rate > 100 bpm', 'Previous DVT', 'Malig [$0.0009]
+    extract_calculator_values(['A 79-year-old woman with stage IV colon cancer, metastatic to the lungs and the adrenal glands, presented to the emergency department with dry cough and worsening dyspnea on exertion of 1-day durati)
+      -> {'extracted': {'dvt_signs': False, 'pe_likely': False, 'heart_rate_over_100': True, 'immobilization_surgery': False, 'prior_pe_dvt': True, 'hemoptysis': False, 'malignancy': True}, 'missing': []} [$0.0005]
+  RESULT: predicted=4.0, expected=7.0, absolute_error=3.0
+
+--- Case train.0779: (calculator_name=CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk, category=risk, output_type=integer) ---
+  Input arg 0: An 88-year-old male presented to our emergency department (ED) with an acute onset of a painless loss of vision to his right eye. His past medical history was significant for hypertension, coronary artery disease and atrial fibrillation (on apixaban). He stated he was lying in bed reading when he had a sudden painless loss of vision to his right eye, described as a curtain closing, for which he presented to our ED ~24 h later. He denied any other symptoms including headache, scalp pain, jaw claudication, focal weakness, numbness, angina or shortness of breath.
+Vitals on arrival to the ED were as follows: 36.9°C, heart rate of 62 beats/min, respiratory rate of 16 breaths/min, blood pressure of 123/53 mmHg and pulse oximetry of 99% on room air. His cardiopulmonary exam was unremarkable. His neurologic exam was notable for a National Institute of Health Stroke Scale score of +2 for complete unilateral vision loss to the right eye. Intraocular pressures were 14 mmHg bilaterally. His remaining physical exam was notable for a right afferent pupillary defect (APD). To further assess the eye and its structures, a point-of-care ultrasound (POCUS) was then performed. Utilizing the high-frequency linear probe to the right eye, a transverse view demonstrated a retrobulbar spot sign (RBSS) in the distal portion of the central retinal artery within the optic nerve sheath (, red arrow). He had normal blood flow in his left eye (), and no blood flow was seen to the central retinal artery of the right eye, with the yellow arrow pointing to the RBSS (). The patient was then transferred to our tertiary referral center (TRC) for specialist consultation.
+Ophthalmology visualized a plaque on the dilated fundoscopic exam with associated retinal ischemia. Given the onset of ~24 h prior to arrival, the risks of tissue plasminogen activator (tPA) outweighed the benefits, as such, the patient was medically managed. His head computed tomography (CT) was unremarkable for acute changes. A magnet
+  Input arg 1: What is the patient's CHA2DS2-VASc Score? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.
+  Execution trace (3 LLM calls):
+    identify_calculator(["What is the patient's CHA2DS2-VASc Score? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.", ['Body Mass Index (BMI)
+      -> {'calculator_name': 'CHA2DS2-VASc Score', 'confidence': 1.0, 'reasoning': 'The question explicitly names the CHA2DS2-VASc Score.'} [$0.0003]
+    analyze_scoring_conditions(['An 88-year-old male presented to our emergency department (ED) with an acute onset of a painless loss of vision to his right eye. His past medical history was significant for hypertension, coronary )
+      -> {'reasoning': '1. Age: Patient is 88 years old (>=75 is 2 points). 2. Sex: Male (0 points). 3. Congestive heart failure: Echocardiography showed an EF of 40%, which indicates heart failure (1 point). 4. Hypertension: Explicitly stated in past medical history (1 point). 5. Age >= 75: 88 years old (1 point). 6. Diabetes mellitus: No mention of diabetes or anti-diabetic medications (0 points). 7. Stroke/TIA/Thromboembolism: History of atrial fibrillation and current presentation with central retinal artery occlusion (1 point). 8. Vascular disease: History of coronary artery disease is explicitly mentioned, meeting the definition criteria of prior MI/CAD (1 point). 9. Atrial fibrillation: Explicitly stated in medical history (2 points).', 'conditions_present': ['Congestive heart failure', 'Hypertension', 'Age >= 75', 'Stroke/TIA/Thromboembolism', 'Vascular disease (prior CAD)', 'Atrial fibrillation'], 'conditions_absent': ['Diabetes mellitus'], 'demographics': {'age': 88, 'sex': 'male'}} [$0.0007]
+    extract_calculator_values(['An 88-year-old male presented to our emergency department (ED) with an acute onset of a painless loss of vision to his right eye. His past medical history was significant for hypertension, coronary )
+      -> {'extracted': {'age': 88, 'sex': 'male', 'has_chf': True, 'has_hypertension': True, 'has_diabetes': False, 'has_stroke_tia': True, 'has_vascular_disease': True}, 'missing': []} [$0.0004]
+  RESULT: predicted=7.0, expected=4.0, absolute_error=3.0
+
+--- Case train.6419: (calculator_name=CURB-65 Score for Pneumonia Severity, category=risk, output_type=integer) ---
+  Input arg 0: A 67-year-old man presents to the emergency department with a fever and altered mental status. The patient has a history of Alzheimer dementia and is typically bed bound. His son found him confused with a warm and flushed complexion thus prompting his presentation. The patient has a past medical history of dementia, diabetes, and hypertension and typically has a visiting home nurse come to administer medications. Prior to examination, he is given haloperidol and diphenhydramine as he is combative and will not allow the nurses near him. His temperature is 102.9°F (39.4°C), blood pressure is 104/64 mmHg, pulse is 170/min, respirations are 22/min, and oxygen saturation is 100% on room air. Physical exam is notable for dry and flushed skin and a confused man. There is no skin breakdown, and flexion of the patient’s neck elicits no discomfort. Laboratory studies are drawn as seen below.
+
+Hemoglobin: 15 g/dL
+Hematocrit: 45%
+Leukocyte count: 4,500/mm^3 with normal differential
+Platelet count: 227,000/mm^3
+
+Serum:
+Na+: 139 mEq/L
+Cl-: 100 mEq/L
+K+: 4.3 mEq/L
+HCO3-: 24 mEq/L
+BUN: 30 mg/dL
+Glucose: 97 mg/dL
+Creatinine: 1.5 mg/dL
+Ca2+: 10.2 mg/dL
+AST: 12 U/L
+ALT: 10 U/L
+
+Urine:
+Color: Yellow
+Bacteria: Absent
+Nitrites: Negative
+Red blood cells: Negative
+
+An initial chest radiograph is unremarkable. The patient is given 3 liters of Ringer's lactate and an electric fan to cool off. Two hours later, his temperature is 99°F (37.2°C), blood pressure is 154/94 mmHg, pulse is 100/min, respirations are 17/min, and oxygen saturation is 100% on room air. The patient’s mental status is at the patient’s baseline according to the son.
+  Input arg 1: What is the patient's CURB-65 score? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.
+  Execution trace (3 LLM calls):
+    identify_calculator(["What is the patient's CURB-65 score? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.", ['Body Mass Index (BMI)', ')
+      -> {'calculator_name': 'CURB-65 Score', 'confidence': 1.0, 'reasoning': 'The question explicitly mentions the CURB-65 score, which matches the available calculator name.'} [$0.0003]
+    analyze_scoring_conditions(["A 67-year-old man presents to the emergency department with a fever and altered mental status. The patient has a history of Alzheimer dementia and is typically bed bound. His son found him confused )
+      -> {'reasoning': 'The CURB-65 score evaluates five criteria: Confusion, Urea, Respiratory rate, Blood pressure, and Age >= 65. 1. Confusion: Patient was confused on presentation but returned to baseline; per standard CURB-65, we assess current status (not confused). 2. Urea: BUN is 30 mg/dL. The threshold is >19 mg/dL (or >7 mmol/L), so this is present. 3. Respiratory rate: Current RR is 17/min. Threshold is >=30/min, so this is absent. 4. Blood pressure: Current BP is 154/94 mmHg. Threshold is systolic <90 mmHg or diastolic <=60 mmHg, so this is absent. 5. Age: Patient is 67, which is >=65, so this is present.', 'conditions_present': ['Age >= 65', 'Urea > 19 mg/dL'], 'conditions_absent': ['Confusion', 'Respiratory rate >= 30/min', 'Blood pressure (Systolic < 90 mmHg or Diastolic <= 60 mmHg)'], 'demographics': {'age': 67, 'sex': 'male'}} [$0.0007]
+    extract_calculator_values(["A 67-year-old man presents to the emergency department with a fever and altered mental status. The patient has a history of Alzheimer dementia and is typically bed bound. His son found him confused )
+      -> {'extracted': {'confusion': False, 'bun_elevated': True, 'respiratory_rate_elevated': False, 'hypotension': False, 'age_65_plus': True}, 'missing': []} [$0.0004]
+  RESULT: predicted=2.0, expected=3.0, absolute_error=1.0
+
+--- Case train.9313: (calculator_name=Estimated of Conception, category=date, output_type=date) ---
+  Input arg 0: The patient's last menstrual period was on 08/27/2003.
+  Input arg 1: Based on the patient's last menstrual period, what is the the patient's estimated date of conception? Your answer should be in the format of M/D/Y (ie 08/31/2023, 07/03/2000) with just the date and not other text.
+  Execution trace: (no rollout recorded)
+  RESULT: predicted=**exception raised**: no implementation registered for interface "simulate_date_value", expected=09/10/2003, absolute_error=inf
+
+--- Case train.7052: (calculator_name=QTc Rautaharju Calculator, category=physical, output_type=decimal) ---
+  Input arg 0: A patient has a heart rate of 109 bpm and a QT interval of 335 msec.
+  Input arg 1: Using the Rautaharju Formula for corrected QT interval, what is the patient's corrected QT interval in terms of msec?
+  Execution trace (2 LLM calls):
+    identify_calculator(["Using the Rautaharju Formula for corrected QT interval, what is the patient's corrected QT interval in terms of msec?", ['Body Mass Index (BMI)', 'Mean Arterial Pressure (MAP)', 'Ideal Body Weight ()
+      -> {'calculator_name': 'QTc (Rautaharju)', 'confidence': 1.0, 'reasoning': 'The question specifically mentions the Rautaharju Formula for corrected QT interval.'} [$0.0003]
+    extract_calculator_values(['A patient has a heart rate of 109 bpm and a QT interval of 335 msec.', 'QTc (Rautaharju)', 'qt_msec: QT interval in milliseconds (e.g., 400)\nheart_rate: Heart rate in bpm (e.g., 75)', ''])
+      -> {'extracted': {'qt_msec': 335, 'heart_rate': 109}, 'missing': []} [$0.0002]
+  RESULT: predicted=404.229, expected=426.19444, absolute_error=21.96544
+
+--- Case train.9030: (calculator_name=Estimated Due Date, category=date, output_type=date) ---
+  Input arg 0: The patient's last menstrual period was on 09/17/2011. Her cycle length is 21 days.
+  Input arg 1: Using Naegele's Rule for estimated due date based on the last menstrual period and cycle length, what is the the patient's estimated due date? Your response should be in the format of M/D/Y (ie 08/31/2023, 07/03/2000) with just the date and no other text.
+  Execution trace: (no rollout recorded)
+  RESULT: predicted=**exception raised**: no implementation registered for interface "simulate_date_value", expected=06/16/2012, absolute_error=inf
+
+--- Case train.1653: (calculator_name=Mean Arterial Pressure (MAP), category=physical, output_type=decimal) ---
+  Input arg 0: A 61-year-old African American female was found unconscious on the road after a suspected pedestrian versus motor vehicle accident. The patient was supposedly walking alongside a busy 4 lane road in the early evening time, when she was struck by a driver. EMS was notified by pedestrians, and she was found in the street unconscious at the time they arrived. There were no witnesses to the accident which came forward to aid police or medical professionals at the scene, and the vehicle involved in the incident fled. Specific details regarding the injury itself are unknown. The patient was intubated by EMS in the field and was brought to the local trauma center.
+At the time of presentation to the ED, the blood pressure was 64/50 (posttransfusion and placement of pelvic binder; BP reached 150/110), heart rate of 119, and respiratory rate of 22. The abdomen was soft, nontender and nondistended. No signs of rigidity or acute abdominal trauma were seen at this time. There was an open left lower leg fracture medially with an approximately 15 × 8 cm open wound with “venous oozing.” GCS of 7 quickly deteriorated to GCS of 3. Rectal exam revealed “no” tone. There was no gross blood noted per rectum, but the patient is guaiac positive. There was no vaginal blood or blood in the urethral meatus; however, later the patient was found to have gross bright red blood draining from the catheter.
+Hemodynamic instability upon arrival was apparent, and resuscitation through advanced life support (ATLS) protocol was quickly initiated shortly after arrival to the ED. IV fluids and trauma blood were given; 18 units of packed red blood cells, 11 units of FFP, and 1 unit of trauma platelets were been given to this point.
+The patient was transported to angiogram for angiography of the vertebral artery and embolization due to pelvic bleeding. Images showed large amounts of extravasation of contrast in the right lower quadrant corresponding to areas identified on a recent CT. The right internal il
+  Input arg 1: What is patient's mean arterial pressure in mm Hg? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.
+  Execution trace (2 LLM calls):
+    identify_calculator(["What is patient's mean arterial pressure in mm Hg? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.", ['Body Mass I)
+      -> {'calculator_name': 'Mean Arterial Pressure (MAP)', 'confidence': 1.0, 'reasoning': 'The question explicitly asks for the mean arterial pressure.'} [$0.0003]
+    extract_calculator_values(["A 61-year-old African American female was found unconscious on the road after a suspected pedestrian versus motor vehicle accident. The patient was supposedly walking alongside a busy 4 lane road in)
+      -> {'extracted': {'systolic': 64.0, 'diastolic': 50.0}, 'missing': []} [$0.0005]
+  RESULT: predicted=54.667, expected=123.33333, absolute_error=68.66633
+
+--- Case train.10017: (calculator_name=Caprini Score for Venous Thromboembolism (2005), category=risk, output_type=integer) ---
+  Input arg 0: A 56-year-old man is reviewed in the short-stay pre-operative area an hour before transfer to the minimally invasive suite, where the surgical team plans a four-port laparoscopic sleeve gastrectomy expected to last about ninety minutes under general anesthesia with overnight observation on the bariatric ward. He ambulated into the unit unassisted after parking his own car, reports that he still completes a two-mile neighborhood walk every evening with his spouse, and denies any recent limitation in daily activities other than occasional exertional dyspnea attributed to long-standing chronic obstructive pulmonary disease for which he uses once-daily tiotropium and intermittent albuterol; he has not required oral corticosteroids or hospital admission for a pulmonary exacerbation in more than two years, though he continues to carry a 35-pack-year smoking history and quit only three months ago. He has not developed pneumonia or other lower respiratory tract infection within the past month, and there has been no episode of sepsis or bacteremia requiring antimicrobials. The patient has never been treated for congestive heart failure, coronary ischemia, cerebrovascular events, spinal cord injury, or systemic infection, and he has avoided inpatient stays or operative procedures during the past twelve months apart from routine colonoscopy. Musculoskeletal history is free of casts, fractures of the pelvis or long bones, or multi-system trauma, and he currently sleeps in his own bed rather than a recliner without orthopnea. He recalls that his father developed a blood clot in the calf following hip arthroplasty in middle age and that a paternal aunt required long-term warfarin after an unprovoked pulmonary embolus; because of that background he underwent a thrombophilia work-up last year that demonstrated normal factor V Leiden genotype, normal prothrombin gene analysis, negative lupus anticoagulant, and a mild elevation of fasting plasma homocysteine at 18 μmol L⁻¹, for which
+  Input arg 1: What is the patient's Caprini Score for Venous Thromboembolism? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.
+  Execution trace (3 LLM calls):
+    identify_calculator(["What is the patient's Caprini Score for Venous Thromboembolism? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.", )
+      -> {'calculator_name': 'Caprini VTE Score', 'confidence': 1.0, 'reasoning': 'The question explicitly asks for the Caprini Score for Venous Thromboembolism.'} [$0.0003]
+    analyze_scoring_conditions(['A 56-year-old man is reviewed in the short-stay pre-operative area an hour before transfer to the minimally invasive suite, where the surgical team plans a four-port laparoscopic sleeve gastrectomy )
+      -> {'reasoning': 'The Caprini VTE score assesses risk for venous thromboembolism in surgical patients. Identified factors: 1) Age: 56 years (1 point: 41-60 years). 2) BMI: 34 kg/m² (1 point: BMI 25-30 is usually not counted, but 34 is >= 30, assigning 1 point for obesity). 3) Surgery: Laparoscopic sleeve gastrectomy is a major surgical procedure (2 points). 4) COPD: The note explicitly mentions long-standing chronic obstructive pulmonary disease, which is a significant clinical risk factor (1 point). 5) Smoking: 35-pack-year history, quit 3 months ago (1 point). 6) Family history: Paternal aunt with VTE (1 point). 7) Hyperhomocysteinemia: Noted at 18 μmol L⁻¹ (1 point). 8) Conditions absent: No personal history of VTE, no heart failure, no malignancy, no acute sepsis, no immobility, no hormone replacement therapy.', 'conditions_present': ['Age 41-60', 'Obesity (BMI > 30)', 'Major surgery', 'Chronic obstructive pulmonary disease (COPD)', 'History of smoking', 'Family history of VTE', 'Hype [$0.0011]
+    extract_calculator_values(['A 56-year-old man is reviewed in the short-stay pre-operative area an hour before transfer to the minimally invasive suite, where the surgical team plans a four-port laparoscopic sleeve gastrectomy )
+      -> {'extracted': {'age_score': 1, 'surgery_score': 2, 'mobility_score': 0, 'condition_scores': 5}, 'missing': []} [$0.0006]
+  RESULT: predicted=8.0, expected=11.0, absolute_error=3.0
+
+--- Case train.9229: (calculator_name=Morphine Milligram Equivalents (MME) Calculator, category=dosage, output_type=integer) ---
+  Input arg 0: A patient takes 20 mg of Morphine 2 times a day, 10 mg of OxyMORphone 3 times a day, and 20 mg of Tapentadol 3 times a day.
+  Input arg 1: Based on the number of doses per day and the quantity of different doses, what is the patient's daily Morphine Miligram Equivalents (MME)?
+  Execution trace (2 LLM calls):
+    identify_calculator(["Based on the number of doses per day and the quantity of different doses, what is the patient's daily Morphine Miligram Equivalents (MME)?", ['Body Mass Index (BMI)', 'Mean Arterial Pressure (MAP)',)
+      -> {'calculator_name': 'Morphine Milligram Equivalents (MME)', 'confidence': 1.0, 'reasoning': 'The question explicitly asks for the calculation of Morphine Milligram Equivalents (MME).'} [$0.0003]
+    extract_calculator_values(['A patient takes 20 mg of Morphine 2 times a day, 10 mg of OxyMORphone 3 times a day, and 20 mg of Tapentadol 3 times a day.', 'Morphine Milligram Equivalents (MME)', 'morphine_mg: Morphine dose in m)
+      -> {'extracted': {'morphine_mg': 40, 'oxycodone_mg': 0, 'hydrocodone_mg': 0, 'hydromorphone_mg': 0, 'fentanyl_mcg_hr': 0, 'methadone_mg': 0, 'codeine_mg': 0, 'tramadol_mg': 0}, 'missing': []} [$0.0003]
+  RESULT: predicted=40.0, expected=154.0, absolute_error=114.0
+
+--- Case train.5624: (calculator_name=Serum Osmolality, category=lab test, output_type=decimal) ---
+  Input arg 0: An 84-year-old female presented to the emergency department with complaints of constipation, vomiting, decreased appetite, and excessive urination for the last 10 days and altered sensorium for the last 2 days. There was a history of generalised bone pain for last 3 months for which she was prescribed calcium. Except Bell's palsy 5 months back with complete recovery, past and family history was unremarkable. On examination, the patient was drowsy but arousable. She was dehydrated, and blood pressure was 146/90 mm Hg. Her systemic examination including neurological did not reveal any localisation. Investigations revealed anemia (Hb—6.5 g/dl), deranged renal function (urea—118 mg/dl, creatinine 5.62 mg/dl), increased total protein (9.27 g/dl) and globulin (7.34 g/dl), low albumin (1.93 g/dl), and hypercalcemia (total calcium-15.07 mg/dl). Random plasma glucose (131 mg/dl) and serum electrolytes (sodium/potassium—141/3.92 meq/L) were in the normal range. Serum PTH levels were normal. In addition, serum ammonia levels were also normal (39.4 mmol/L, normal 17–90 mmol/L). Noncontrast computerised tomography of brain showed age-related changes in the bilateral cerebral hemisphere with multiple lytic lesions of varying sizes noticed in the cranial vault and base of the skull. The patient was diagnosed as hypercalcaemic encephalopathy with suspicion of multiple myeloma. To confirm the diagnosis of multiple myeloma, serum protein electrophoresis was performed, which showed M protein (in the beta region) 4.9 g/dL with increased beta 2 microglobulin (9284 ng/ml, normal 609–2366 ng/ml). Bone marrow aspiration showed 60% plasma cells. The final diagnosis of multiple myeloma with hypercalcaemic encephalopathy was made. The patient was treated with iv. fluids (0.9% normal saline, 200 ml/hr with the rate adjusted to maintain urine output 100–150 ml/hr). The patient was also treated with loop diuretics and calcitonin. The next day, zolendronic acid (at modified dose according to GFR)
+  Input arg 1: What is the patient's serum osmolality in terms of mOsm/kg? You may take the alcohol content as 0 mg/dL. You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.
+  Execution trace (2 LLM calls):
+    identify_calculator(["What is the patient's serum osmolality in terms of mOsm/kg? You may take the alcohol content as 0 mg/dL. You should use the patient's medical values and health status when they were first admitted t)
+      -> {'calculator_name': 'Serum Osmolality', 'confidence': 1.0, 'reasoning': "The question explicitly asks for the patient's serum osmolality and mentions parameters (alcohol content) relevant to that specific calculator."} [$0.0003]
+    extract_calculator_values(["An 84-year-old female presented to the emergency department with complaints of constipation, vomiting, decreased appetite, and excessive urination for the last 10 days and altered sensorium for the )
+      -> {'extracted': {'sodium': 141, 'bun': 55.07, 'glucose': 131}, 'missing': []} [$0.0004]
+  RESULT: predicted=308.946, expected=331.42063, absolute_error=22.47462999999999
+
+--- Case train.4407: (calculator_name=Centor Score (Modified/McIsaac) for Strep Pharyngitis, category=severity, output_type=integer) ---
+  Input arg 0: A 55-year-old Caucasian male with significant past medical history of hypertension, hyperlipidemia, patent foramen ovale, heart failure with preserved ejection fraction, impaired glucose tolerance, and obesity, presented to the emergency department on account of sudden onset generalized maculopapular rash involving his face, extremities, and trunk, with associated fever and chills. He was hospitalized 1 month earlier and managed for methicillin-sensitive Staphylococcus aureus (MSSA) bacteremia and thoracic vertebrae (T11–T12) discitis. During his recent hospitalization, he presented with mid-back pain, fever, and chills. His blood cultures revealed growth of MSSA that was pansensitive to oxacillin, cefazolin, ampicillin/sulbactam, clindamycin, daptomycin, ciprofloxacin, tetracycline, trimethoprim/sulfa, and vancomycin. Magnetic resonance imaging (MRI) of the thoracolumbar spine revealed T11–T12 discitis with no evidence of epidural collection or abscess (Fig. ). Transthoracic and transesophageal echocardiogram revealed his underlying patent foramen ovale, with no evidence of endocarditis or valvular vegetations. He was reviewed by the infectious disease specialist and managed with intravenous oxacillin 2 g administered every 4 hours during his hospitalization. He had resolution of his fever with intermittent mid-back pain. Repeat blood cultures showed no organism growth. He was discharged on intravenous oxacillin 2 g 4 hourly based on a scheduled 6-week course to be administered via a peripherally inserted central catheter (PICC) line.
+The patient remained apparently well until 3 weeks after the start of antibiotic therapy, when he developed sudden onset generalized skin rash with associated pruritus, fever, and chills. He had no recent travel or contact with anyone who had a similar rash. He was sexually active in a monogamous heterosexual relationship. He had no associated symptoms of runny nose, sore throat, cough, shortness of breath, joint pain, or myalgia. He 
+  Input arg 1: What is the patient's Centor Score? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.
+  Execution trace (3 LLM calls):
+    identify_calculator(["What is the patient's Centor Score? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.", ['Body Mass Index (BMI)', 'M)
+      -> {'calculator_name': 'Centor Score (McIsaac)', 'confidence': 1.0, 'reasoning': 'The question explicitly asks for the Centor Score, which matches the Centor Score (McIsaac) calculator.'} [$0.0003]
+    analyze_scoring_conditions(['A 55-year-old Caucasian male with significant past medical history of hypertension, hyperlipidemia, patent foramen ovale, heart failure with preserved ejection fraction, impaired glucose tolerance, )
+      -> {'reasoning': 'The Centor Score (McIsaac) is used to estimate the probability of streptococcal pharyngitis. It evaluates the following criteria: presence of tonsillar exudate, presence of tender anterior cervical adenopathy, presence of fever (>38°C), absence of cough, and age adjustments. Based on the patient note: Tonsillar exudate is not documented. Tender anterior cervical adenopathy is absent (the note specifies palpable nontender lymph nodes). Fever is present (101.2 °F). Cough is absent (note states "no associated symptoms of... cough"). Age is 55, which adds 0 points according to the McIsaac criteria (age > 45 receives 0 points).', 'conditions_present': ['Fever'], 'conditions_absent': ['Tonsillar exudate', 'Tender anterior cervical adenopathy', 'Cough'], 'demographics': {'age': 55, 'sex': 'male'}} [$0.0009]
+    extract_calculator_values(['A 55-year-old Caucasian male with significant past medical history of hypertension, hyperlipidemia, patent foramen ovale, heart failure with preserved ejection fraction, impaired glucose tolerance, )
+      -> {'extracted': {'tonsillar_exudate': False, 'tender_lymphadenopathy': False, 'fever': True, 'absence_of_cough': True, 'age': 55}, 'missing': []} [$0.0008]
+  RESULT: predicted=1.0, expected=2.0, absolute_error=1.0
+
+--- Case train.5968: (calculator_name=Free Water Deficit, category=lab test, output_type=decimal) ---
+  Input arg 0: He was born on 13th February 2006, at 37 weeks of gestation to a 39-year-old gravida 6 para 6 mother after uncomplicated twin pregnancy. The parents were second degree cousins of Saudi origins. He has 2 elder brothers and 3 sisters, all are alive and healthy. His birth weight was 2.0 kg, body length was 46 cm, and head circumference was 32 cm. He was discharged with his mother in good condition after 3 days of admission to the nursery for observation.
+At the age of 18 days, he was presented to the emergency department with history of vomiting, poor feeding, and decreased activity with failure to thrive. On physical examination, his weight was 1.66 kg, blood pressure (BP) was 67/51 mmHg, heart rate was 160/min, temperature was 36.2°C, and respiratory rate (RR) was 58/min. He was dehydrated, not dysmorphic with no evidence of hyperpigmentation. Normal systemic examination, with normal male genitalia ().
+He was admitted to neonatal intensive care unit with impression of sepsis. Laboratory tests showed hyponatremia 128 mmol/L with hyperkalemia 6.2 mmol/L. Septic workup was carried out and were awaited. He was managed with intravenous fluids and antibiotics. He was noticed to have persisted hyponatremia and hyperkalemia, therefore endocrine consultation was requested. A provisional diagnosis of congenital adrenal hyperplasia was made as it is the most common cause of salt wasting at this age group. His endocrinological data revealed unelevated adrenocorticotropic hormone (ACTH), serum aldosterone low-normal while plasma renin was very high. Adrenocorticotropic hormone stimulation test was carried out with 0.25 mg synthectin which showed normal cortisol response at 60 minutes. Seventeen hydroxyprogesterone, dehydroepiandrosterone sulfate (DHEAS), and testosterone were normal. Chromosomal study showed 46 XY ().
+These results ruled out CAH. He was diagnosed to have isolated aldosterone deficiency, and managed with fludrocortisone and sodium chloride orally with excellent re
+  Input arg 1: What is the patient's free water deficit in terms of kg? The desired serum sodium concentration is 140 mEq/L. You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.
+  Execution trace (2 LLM calls):
+    identify_calculator(["What is the patient's free water deficit in terms of kg? The desired serum sodium concentration is 140 mEq/L. You should use the patient's medical values and health status when they were first admit)
+      -> {'calculator_name': 'Free Water Deficit', 'confidence': 1.0, 'reasoning': 'The question explicitly asks for the free water deficit calculation.'} [$0.0003]
+    extract_calculator_values(['He was born on 13th February 2006, at 37 weeks of gestation to a 39-year-old gravida 6 para 6 mother after uncomplicated twin pregnancy. The parents were second degree cousins of Saudi origins. He h)
+      -> {'extracted': {'weight_kg': 32, 'sodium': 140, 'age': 12.25, 'sex': 'male'}, 'missing': []} [$0.0005]
+  RESULT: predicted=0.0, expected=-1.64571, absolute_error=1.64571
+
+--- Case train.0311: (calculator_name=CKD-EPI Equations for Glomerular Filtration Rate, category=lab test, output_type=decimal) ---
+  Input arg 0: A 43-year-old male, known to be deaf, mute, and blind, presented to the ED accompanied by his daughter. She said that he had multiple episodes of diarrhea and vomiting for two days.
+He was morbidly obese and diabetic, taking insulin. He had a history of coronary artery disease and had two coronary stents.
+Taking more history asking about the presence of blood in the stool revealed that his daughter did not enter with him to the bathroom. As the patient was blind, deaf, and mute, diarrhea history also came under doubt at this point. What we could understand was that he had abdominal pain somewhere, vomited a few times, and entered the bathroom several times a day for two days.
+He was vitally stable. Blood pressure was 130/76 mmHg, pulse was 92 beats per minute, respiratory rate was 16 breaths per minute, and the temperature was 37.3°C.
+On examination, the patient was lying on the bed flat, looking well, morbidly obese. He was conscious, moving all limbs, had no rash, no neck rigidity. His chest was clear bilaterally, with no added sounds. His abdomen was lax with no localized tenderness, and hernia orifices were unremarkable. He was pointing to his epigastrium and right flank when asked for pain location. His extremities did not show redness, hotness, edema, or signs of deep vein thrombosis.
+Investigations
+Blood tests showed mild leukocytosis (WBCs 12000), mild anemia (Hb 11 g/dL), normal platelet count, mild elevation in kidney function (creatinine 120 mmol/L), slight elevation in liver function (alanine transaminase 70, aspartate transaminase 84), average bilirubin level, and mild elevation in amylase. Electrocardiogram (ECG) showed normal sinus rhythm and no signs of new ischemia. A chest X-ray showed no pneumonic patches or air under the diaphragm. The bedside ultrasound did not add so much as the patient was morbidly obese.
+More blood tests, urine tests, and an official ultrasound (USG) for the abdomen were ordered. The lipase was normal. Troponin was negative.
+
+  Input arg 1: Using the 2021 CKD-EPI Creatinine equation, what is the patient's Glomerular Filtration Rate (GFR) in terms of mL/min/1.73 m²? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.
+  Execution trace (2 LLM calls):
+    identify_calculator(["Using the 2021 CKD-EPI Creatinine equation, what is the patient's Glomerular Filtration Rate (GFR) in terms of mL/min/1.73 m²? You should use the patient's medical values and health status when they)
+      -> {'calculator_name': 'CKD-EPI GFR (2021)', 'confidence': 1.0, 'reasoning': 'The question explicitly mentions the 2021 CKD-EPI Creatinine equation and requests the GFR calculation.'} [$0.0003]
+    extract_calculator_values(['A 43-year-old male, known to be deaf, mute, and blind, presented to the ED accompanied by his daughter. She said that he had multiple episodes of diarrhea and vomiting for two days.\nHe was morbidly)
+      -> {'extracted': {'age': 43, 'sex': 'male', 'creatinine_mg_dl': 1.356}, 'missing': []} [$0.0005]
+  RESULT: predicted=66.455, expected=0.01667, absolute_error=66.43833
+
+--- Case train.9019: (calculator_name=Albumin Corrected Delta Ratio, category=lab test, output_type=decimal) ---
+  Input arg 0: A 63-year-old woman working in a koji brewery presented to our hospital with a prolonged cough for 20 years but that had been increasing since 2015. In March 2016, she developed dyspnea on effort, and she presented to our hospital in June 2016. She had no past histories including allergic disorders and did not smoke or drink alcohol. She had not experienced episodic wheezes or rhonchi. She had been working as a koji brewer in a factory of her family's koji-brewing business for 30 years.
+On presentation, mild fine crackles were heard, and her respiratory rate was 17 per minute. Body temperature was 36.2°C. Results of pulmonary function tests including vital capacity, forced expiratory volume in 1 sec (FEV1), and FEV1/forced vital capacity were within normal range. The FEV1 did not change by bronchodilator inhalation. Her diffusion capacity of carbon monoxide was not measured. Blood gas analysis under ambient air showed a pH of 7.42, PaCO2 of 39.5 Torr, PaO2 of 79.4 Torr, and HCO3- of 25.2 mmol/L. Laboratory test results were as follows: white blood cell count (WBC), 4000/mm3; hemoglobin, 12.5 g/dL; platelets, 22.4 × 104/mm3; serum total protein, 7.5 g/dL; albumin, 4.2 g/dL; creatinine, 0.6 mg/dL; Na, 141 mmol/L; Cl, 104 mmol/L; K, 4.2 mmol/L; lactate dehydrogenase, 234 IU/L; C-reactive protein (CRP), 0.1 mg/dL; KL-6, 316 U/mL; IgE, 385 IU/mL; β-D-glucan, 30.5 pg/mL (normal range <11 pg/mL); and Aspergillus antigen (galactomannan antigen), 6.4. Serum anti-Trichosporon asahii antibody, IgA antibodies against Mycobacterium avium, and interferon-gamma releasing assay were all negative. Chest X-ray (Fig. A) showed no abnormal shadows, but computed tomography (Fig. B) showed ground-glass opacities and centrilobular nodules in both upper lobes.
+Bronchoalveolar lavage could not recover a sufficient amount of saline, and transbronchial lung biopsy showed alveolitis without granuloma formation. A. oryzae was cultured from the bronchoalveolar lavage fluid, and serum precipitati
+  Input arg 1: What is the patient's albumin corrected delta ratio? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.
+  Execution trace (2 LLM calls):
+    identify_calculator(["What is the patient's albumin corrected delta ratio? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.", ['Body Mass)
+      -> {'calculator_name': 'Delta Ratio', 'confidence': 0.85, 'reasoning': 'The question explicitly asks for the "albumin corrected delta ratio". While there are separate calculators for "Delta Ratio" and "Albumin Corrected Anion Gap", "Delta Ratio" is the primary clinical term associated with this specific query.'} [$0.0003]
+    extract_calculator_values(["A 63-year-old woman working in a koji brewery presented to our hospital with a prolonged cough for 20 years but that had been increasing since 2015. In March 2016, she developed dyspnea on effort, a)
+      -> {'extracted': {'sodium': 141, 'chloride': 104, 'bicarbonate': 25.2}, 'missing': []} [$0.0004]
+  RESULT: predicted=0.167, expected=0.58333, absolute_error=0.41633
+
+--- Case train.5885: (calculator_name=FeverPAIN Score for Strep Pharyngitis, category=diagnosis, output_type=integer) ---
+  Input arg 0: A 29-years-old female experienced an episode of mild upper respiratory tract infection followed by a slowly developing dysphagia and dyspnea. This led to impaired exercise tolerance lasting several months, with recent subacute exacerbation. There was no significant history of travel or exposure to infectious agents. She had not suffered from fever or other acute or chronic infectious symptoms. Her palatine tonsils had been removed in childhood. She was diagnosed with epilepsy at age 17 and had been free of epileptic symptoms for over 5 years with levetiracetam (500 mg two times per day) and lamotrigine (150 mg two times per day). Her family history was unremarkable.
+She spoke with hoarse voice, without signs or findings that would have suggested systemic involvement. There were no signs of generalized mucosal disease. Fiberoptic examination showed swelling of the lingual tonsil, epiglottic and arytenoid mucosa, causing airway obstruction (Fig. a). C-reactive protein concentration and blood sedimentation rate were low, and anti-nuclear, anti-neutrophil, anti-glomerular basement membrane, anti-myeloperoxidase, anti-proteinase 3, tissue transglutaminase and cyclic citrullinated peptide antibodies were negative. Thyroid function was normal and thyroid peroxidase antibodies were 34 IU/ml (normal value < 60 IU/ml). Plasma parathyroid hormone (39 ng/l; normal 18–80 ng/l) and serum vitamin D-25 (77 nmol/l; normal > 50 nmol/l) were normal. No evidence for acute or chronic viral, bacterial, mycobacterial or fungal infections, including hepatitis B and C, human immunodeficiency virus and tularemia, was found.
+Due to her swollen lingual tonsil and laryngeal mucosa causing airway obstruction, she was hospitalized and received empiric cefuroxime (1.5 g thrice daily) and methylprednisolone (75 mg once daily, height 173 cm, weight 63 kg, prednisolone dose 1.2 mg/kg) intravenously. After a transient positive response, she was discharged from the hospital after 6 days. Soon after, sh
+  Input arg 1: What is the patient's FeverPAIN score? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.
+  Execution trace (3 LLM calls):
+    identify_calculator(["What is the patient's FeverPAIN score? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.", ['Body Mass Index (BMI)',)
+      -> {'calculator_name': 'FeverPAIN Score', 'confidence': 1.0, 'reasoning': 'The question explicitly requests the FeverPAIN score.'} [$0.0003]
+    analyze_scoring_conditions(['A 29-years-old female experienced an episode of mild upper respiratory tract infection followed by a slowly developing dysphagia and dyspnea. This led to impaired exercise tolerance lasting several )
+      -> {'reasoning': "The FeverPAIN score is used to assess the likelihood of bacterial pharyngitis/tonsillitis, specifically focusing on fever, purulence, attend rapidly (within 3 days), inflamed tonsils, and absence of cough. 1. Fever: The note explicitly states 'She had not suffered from fever'. 2. Purulent tonsils: The note mentions 'swelling of the lingual tonsil' and biopsy showed granulomatous reaction, but no mention of exudate or purulence. 3. Attend rapidly: The symptoms were 'slowly developing' and had been present for 'several months', which does not meet the criteria for rapid attendance. 4. Inflamed tonsils: Fiberoptic examination showed 'swelling of the lingual tonsil', which qualifies as inflammation. 5. Absence of cough: The note does not describe a cough; however, it focuses on dyspnea and dysphagia. Given the 'slowly developing' nature and the specific diagnosis of hypogammaglobulinemia/granulomatous inflammation rather than acute bacterial pharyngitis, these criteria are l [$0.0010]
+    extract_calculator_values(['A 29-years-old female experienced an episode of mild upper respiratory tract infection followed by a slowly developing dysphagia and dyspnea. This led to impaired exercise tolerance lasting several )
+      -> {'extracted': {'fever': False, 'purulence': False, 'attend_rapidly': False, 'inflamed_tonsils': True, 'no_cough_coryza': False}, 'missing': []} [$0.0007]
+  RESULT: predicted=1.0, expected=2.0, absolute_error=1.0
+
+--- Case train.10184: (calculator_name=Framingham Risk Score for Hard Coronary Heart Disease, category=lab test, output_type=decimal) ---
+  Input arg 0: A 59-year-old woman presented to the outpatient internal-medicine clinic for a comprehensive wellness evaluation, stating that her last physical examination had been “a couple of years ago” and that she wished to assess her cardiovascular health before an upcoming hiking trip with friends. She has experienced no chest discomfort, dyspnea on exertion, palpitations, presyncope, or lower-extremity edema, and she specifically denies any prior episodes suggestive of myocardial infarction or angina. Her medical history is notable only for seasonal allergic rhinitis and remote appendectomy in her twenties; she has never been told she has hypertension, hyperglycemia, or kidney disease, nor has she been hospitalized for cardiac or cerebrovascular events. She is not currently taking prescription medications, including any agents aimed at lowering blood pressure or lipids, but she occasionally uses over-the-counter loratadine during pollen season and an occasional ibuprofen for tension headaches. The patient works as an administrative assistant, spends most of her day at a computer, and describes her physical activity level as “weekend gardener with the occasional neighborhood walk.” Of concern, she acknowledges that she continues to light up despite prior advice to quit, averaging about fifteen cigarettes daily since her late teens, and she has not made a serious cessation attempt in the past five years. Alcohol intake is one to two glasses of wine on Friday evenings, and she denies recreational drug use. Nutritionally, she admits to a preference for convenience foods during busy workweeks but tries to include salads and grilled fish when possible. Family history reveals that her father died at age 72 from complications related to chronic obstructive pulmonary disease and that her mother is alive at 84 with osteoarthritis; there is no known early-onset coronary disease, stroke, or diabetes among first-degree relatives. Review of systems is otherwise unremarkable, including ab
+  Input arg 1: Based on the Framingham Risk Score for Hard Coronary Heart Disease, what is the likelihood of 10-year risk of MI or death for this patient? Please return your answer as a percentage value. You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.
+  Execution trace (3 LLM calls):
+    identify_calculator(["Based on the Framingham Risk Score for Hard Coronary Heart Disease, what is the likelihood of 10-year risk of MI or death for this patient? Please return your answer as a percentage value. You shoul)
+      -> {'calculator_name': 'Framingham Risk Score', 'confidence': 1.0, 'reasoning': 'The user explicitly requested the Framingham Risk Score for Hard Coronary Heart Disease.'} [$0.0003]
+    analyze_scoring_conditions(['A 59-year-old woman presented to the outpatient internal-medicine clinic for a comprehensive wellness evaluation, stating that her last physical examination had been “a couple of years ago” and that)
+      -> {'reasoning': '1. Age/Sex: Patient is explicitly stated as 59-year-old female. 2. Smoking: Patient acknowledges active smoking, averaging 15 cigarettes daily. 3. Blood Pressure: Measured 124/76 mmHg; patient denies hypertension and takes no antihypertensives. 4. Diabetes: Fasting glucose 93 mg/dL and HbA1c 5.4% are within normal ranges; no history of diabetes. 5. Lipids: Total cholesterol 210 mg/dL, HDL 55 mg/dL. These are used in the Framingham Risk Score calculation. 6. Cardiovascular History: Patient denies MI, angina, or stroke. ECG is normal. Physical exam (carotids, pulses, heart sounds) is normal.', 'conditions_present': ['current smoker', 'elevated total cholesterol (210 mg/dL)'], 'conditions_absent': ['hypertension', 'diabetes mellitus', 'known coronary heart disease', 'prior stroke', 'peripheral artery disease'], 'demographics': {'age': 59, 'sex': 'female'}} [$0.0008]
+    extract_calculator_values(['A 59-year-old woman presented to the outpatient internal-medicine clinic for a comprehensive wellness evaluation, stating that her last physical examination had been “a couple of years ago” and that)
+      -> {'extracted': {'age': 59, 'sex': 'female', 'total_cholesterol': 210, 'hdl': 55, 'systolic': 124, 'smoker': True, 'treated_bp': False}, 'missing': []} [$0.0005]
+  RESULT: predicted=100.0, expected=3.679, absolute_error=96.321
+
+--- Case train.5261: (calculator_name=Maintenance Fluids Calculations, category=physical, output_type=decimal) ---
+  Input arg 0: A 52-year-old male patient was admitted in emergency in our clinic for acute abdomen and signs of peritonitis: diffuse abdominal pain and abdominal rigidity, ileus, nausea and chills. Anamnesis revealed no significant personal or family medical history, but the patient described a decreased appetite and weight loss of approximately 5 kg in the last 4 weeks.
+Paraclinical exams supported the diagnoses of peritonitis, with leukocytosis (18000/ mmc), increased CRP and ESR (20mm/ h). The lab test also showed severe anemia (Hb 7 mg/ dl). As simple abdominal X-ray revealed pneumoperitoneum, an emergency surgery was mandatory.
+After midline laparotomy, purulent generalized peritonitis, peritoneal carcinomatosis, ascitis and a giant malignant gastric perforation of 3,5-4 cm diameter were encountered. The surrounding gastric walls were rigid, infiltrated by the neoplastic process, with signs of gastric linitis plastica. The intent to mobilize the stomach was difficult and risky, so the classical techniques for repair could not be applied.
+Due to the lack of the available gastric material, an atypical solution of gastric packing with greater omentum by means of transgastric traction had to be used. The intra-surgery images are relevant regarding this aspect.
+The surgical technique had to be adapted to the local conditions. It includes highlighting the 3 distinct anatomical areas, individualized and personalized as operatory steps. The greater omentum became the efficient mobile part, which could be adapted for the creation of the contention effect. The gastric part is part of the technical criteria and the imposition carrying transduction becomes omentoplasty. The anatomic oro-gastric path represents the third distinct component reserved for supporting and handling the entire device and tissue-to-tissue fixation, whose biosynthesis is effective in time.
+Materials, tools, and devices are specific and are part of the arsenal for transgastric omentoplasty kit.
+A fragment of 4/3/1
+  Input arg 1: Based on the patient's weight, what is the patient's maintenance fluid in mL/hr?  You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.
+  Execution trace (4 LLM calls):
+    identify_calculator(["Based on the patient's weight, what is the patient's maintenance fluid in mL/hr?  You should use the patient's medical values and health status when they were first admitted to the hospital prior to)
+      -> {'calculator_name': 'Maintenance Fluids (4-2-1 Rule)', 'confidence': 0.98, 'reasoning': "The question explicitly asks for 'maintenance fluid' calculation, which maps directly to the 'Maintenance Fluids (4-2-1 Rule)' calculator."} [$0.0003]
+    extract_calculator_values(['A 52-year-old male patient was admitted in emergency in our clinic for acute abdomen and signs of peritonitis: diffuse abdominal pain and abdominal rigidity, ileus, nausea and chills. Anamnesis reve)
+      -> {'extracted': {'weight_kg': None}, 'missing': ['weight_kg']} [$0.0004]
+    repair_missing_values(['A 52-year-old male patient was admitted in emergency in our clinic for acute abdomen and signs of peritonitis: diffuse abdominal pain and abdominal rigidity, ileus, nausea and chills. Anamnesis reve)
+      -> {'extracted': {'weight_kg': None}} [$0.0003]
+    simulate_medical_value(['A 52-year-old male patient was admitted in emergency in our clinic for acute abdomen and signs of peritonitis: diffuse abdominal pain and abdominal rigidity, ileus, nausea and chills. Anamnesis reve)
+      -> 86.0 [$0.0007]
+  RESULT: predicted=86.0, expected=20.0, absolute_error=66.0
+
+--- Case train.9393: (calculator_name=Estimated Gestational Age, category=date, output_type=date) ---
+  Input arg 0: The patient's last menstrual period was on 11/29/2024. Today's date is 07/23/2025.
+  Input arg 1: Based on the patient's last menstrual period, what is the patient's estimated gestational age? Your answer should be a tuple, specifying the number of weeks and days (i.e. (4 weeks, 3 days), (0 weeks, 5 days), (1 week, 5 days), (8 weeks, 0 days)).
+  Execution trace: (no rollout recorded)
+  RESULT: predicted=**exception raised**: no implementation registered for interface "simulate_date_value", expected=('33 weeks', '5 days'), absolute_error=inf
+
+--- Case train.9154: (calculator_name=Steroid Conversion Calculator, category=dosage, output_type=integer) ---
+  Input arg 0: Patient has taken 37.402 mg of PrednisoLONE PO.
+  Input arg 1: Based on the patient's dose of PrednisoLONE PO, what is the equivalent dosage in mg of Dexamethasone PO?
+  Execution trace (2 LLM calls):
+    identify_calculator(["Based on the patient's dose of PrednisoLONE PO, what is the equivalent dosage in mg of Dexamethasone PO?", ['Body Mass Index (BMI)', 'Mean Arterial Pressure (MAP)', 'Ideal Body Weight (Devine)', 'Ad)
+      -> {'calculator_name': 'Steroid Conversion', 'confidence': 0.98, 'reasoning': 'The question asks for the equivalent dosage between two different corticosteroids (Prednisolone and Dexamethasone), which maps to the Steroid Conversion calculator.'} [$0.0003]
+    extract_calculator_values(['Patient has taken 37.402 mg of PrednisoLONE PO.', 'Steroid Conversion', 'steroid_name: Name of steroid (e.g., "dexamethasone", "hydrocortisone")\ndose_mg: Dose in mg (e.g., 4.0)', ''])
+      -> {'extracted': {'steroid_name': 'prednisolone', 'dose_mg': 37.402}, 'missing': []} [$0.0002]
+  RESULT: predicted=37.402, expected=5.60768, absolute_error=31.79432
+
+--- Case train.3381: (calculator_name=MDRD GFR Equation, category=lab test, output_type=decimal) ---
+  Input arg 0: A 15-year-old girl, who was suffered from ESRD since she was thirteen, was admitted to our hospital with dyspnea, chest pain, cellulitis, and osteomyelitis. Two months after admission, the patient had an operation with the diagnosis of septic knee arthritis. In the sonography performed 1 month later, renal stones were observed. The patient underwent HD and PD. Two days before transplantation, the BUN and Cr levels were 73 and 5.9 mg/dl, respectively. Before the operation, the patient had received methylprednisolone and vitamin B6. She underwent kidney transplantation from an independent living donor. Two days after transplantation, BUN and Cr levels were 24 and 1.4 mg/dl, respectively. The patient developed dyspnea and severe ascites and the urine volume decreased. Five days after transplantation, BUN and Cr levels increased (66 and 4 mg/dl, respectively). The leukocyte count also increased. Furthermore, renal transplant scintigraphy showed mild increased perfusion with reduced function of transplanted kidney with the evidence of dilated ureter (ureterovesical junction stenosis). Therefore, core needle biopsy of the transplanted kidney was done. Histopathologic view of the biopsy showed nonsignificant changes in glomeruli, moderate infiltration of lymphocytes accompanying edema in the interstitium, and marked Ox crystal deposition in some tubules and endarteritis consistent with type II acute T-cell-mediated rejection. Two months after transplantation, she developed avascular necrosis of the head of the femur. Finally, 9 months after transplantation, the nephrectomy was conducted due to graft failure. Renal transplant nephrectomy revealed excessive CaOx deposition. Subsequently, the peritoneal catheter was implanted which was functional for 1 month. At the end, she was again admitted with hyperkalemia and the patient died [Figures and ].
+  Input arg 1: Using the MDRD GFR Equation, what is the patient's Glomerular Filtration Rate (GFR) in terms of mL/min/1.73 m²? If the patient is black, please use the MDRD GFR Equation for Blacks. You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.
+  Execution trace (2 LLM calls):
+    identify_calculator(["Using the MDRD GFR Equation, what is the patient's Glomerular Filtration Rate (GFR) in terms of mL/min/1.73 m²? If the patient is black, please use the MDRD GFR Equation for Blacks. You should use t)
+      -> {'calculator_name': 'MDRD GFR', 'confidence': 0.98, 'reasoning': 'The question explicitly mentions the MDRD GFR Equation.'} [$0.0003]
+    extract_calculator_values(['A 15-year-old girl, who was suffered from ESRD since she was thirteen, was admitted to our hospital with dyspnea, chest pain, cellulitis, and osteomyelitis. Two months after admission, the patient h)
+      -> {'extracted': {'age': 15, 'sex': 'female', 'creatinine_mg_dl': 4.0}, 'missing': []} [$0.0003]
+  RESULT: predicted=15.133, expected=9.66345, absolute_error=5.46955
+
+--- Case train.9439: (calculator_name=Child-Pugh Score for Cirrhosis Mortality, category=severity, output_type=integer) ---
+  Input arg 0: A 56-year-old man with a fifteen-year history of untreated chronic hepatitis C infection complicated by progressive nodular cirrhosis and known portal hypertension was brought to the emergency department by his sister after she noticed that over the preceding three days he had become increasingly forgetful, slept most of the daytime hours, and answered questions a beat slower than usual, occasionally misplacing common objects such as his wallet and house keys. He denied frank gastrointestinal bleeding, vomiting, or recent alcohol use—he last drank beer six years earlier—but admitted to poor oral intake, intermittent nausea, and having missed several doses of his prescribed lactulose because he “didn’t feel up to it.” He also reported needing to loosen his belt one notch at the end of the day and awakening once overnight with a mild crampy sensation in the right upper abdomen that resolved spontaneously. Past medical history is notable for treated hypertension, well-controlled with amlodipine 5 mg daily, and stage 2 chronic kidney disease with baseline creatinine 1.3 mg/dL. He has never undergone variceal band ligation, is not on non-selective beta-blockers, and has no known drug allergies. Vital signs on arrival showed blood pressure 108/62 mm Hg, heart rate 96 beats per minute, respiratory rate 18 breaths per minute, oxygen saturation 96 % while breathing room air, and temperature 37.4 °C. He appeared tired but was arousable to voice, could state his name and location, but guessed the day of the week incorrectly and required cueing to recall recent events; his speech was coherent, and when he extended his hands, a barely perceptible flapping movement occurred after several seconds. Pupils were equal and reactive, extraocular movements intact, and there were no focal motor deficits. Sclerae were deeply icteric, oral mucosa was dry, and the breath emitted a faint musty odor. The chest was clear to auscultation, and cardiac examination revealed a regular rhythm withou
+  Input arg 1: What is the patient's Child-Pugh Score? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.
+  Execution trace (3 LLM calls):
+    identify_calculator(["What is the patient's Child-Pugh Score? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.", ['Body Mass Index (BMI)')
+      -> {'calculator_name': 'Child-Pugh Score', 'confidence': 1.0, 'reasoning': 'The question explicitly requests the Child-Pugh Score.'} [$0.0003]
+    analyze_scoring_conditions(['A 56-year-old man with a fifteen-year history of untreated chronic hepatitis C infection complicated by progressive nodular cirrhosis and known portal hypertension was brought to the emergency depar)
+      -> {'reasoning': "The Child-Pugh score assesses severity of cirrhosis based on five clinical and laboratory criteria: Total Bilirubin, Serum Albumin, INR, Ascites, and Hepatic Encephalopathy. 1. Bilirubin: Measured at 4.2 mg/dL (>3.0 = 3 points). 2. Albumin: Measured at 2.6 g/dL (2.8-3.5 = 2 points). 3. INR: Measured at 2.9 (>2.3 = 3 points). 4. Ascites: Patient has mild distension, flanks indicate fluid, and ultrasound shows a small rim of fluid (<2 cm), classified as mild/clinically detectable (2 points). 5. Hepatic Encephalopathy: Patient presents with forgetfulness, sleeping during day, and asterixis, consistent with Grade 1-2 (2 points). Demographics identified from '56-year-old man'.", 'conditions_present': ['Hyperbilirubinemia (4.2 mg/dL)', 'Hypoalbuminemia (2.6 g/dL)', 'Coagulopathy (INR 2.9)', 'Ascites (mild)', 'Hepatic Encephalopathy (Grade 1-2)'], 'conditions_absent': [], 'demographics': {'age': 56, 'sex': 'male'}} [$0.0009]
+    extract_calculator_values(['A 56-year-old man with a fifteen-year history of untreated chronic hepatitis C infection complicated by progressive nodular cirrhosis and known portal hypertension was brought to the emergency depar)
+      -> {'extracted': {'bilirubin': 4.2, 'albumin': 2.6, 'inr': 2.9, 'ascites_grade': 1, 'encephalopathy_grade': 1}, 'missing': []} [$0.0005]
+  RESULT: predicted=13.0, expected=12.0, absolute_error=1.0
+
+--- Case train.8964: (calculator_name=Albumin Corrected Delta Gap, category=lab test, output_type=decimal) ---
+  Input arg 0: A 33-year-old male presented with bilateral thigh pain after regular squatting. The patient often squatted for exercise and never developed rhabdomyolysis. On the following day, the patient developed severe bilateral pain and stiffness in both thighs. He took Tylenol for pain and denied using any steroid or illicit drugs. He noticed dark brown-colored urine which urged him to come to the hospital. There was no history of fever, cough, sore throat, headache, blurred vision, palpitations, diarrhea, or abdominal pain. The patient also had a past medical history of hyperthyroidism and was taking methimazole which he stopped 2 months prior to admission. On physical examination, the patient was alert and oriented in no acute distress. His blood pressure was 137/77 mmHg and pulse was 100 beats per minute, and he was afebrile. His eyes showed no lid lag or exophthalmos. An examination of neck revealed mild thyroid enlargement on swallowing but not tender. No thyroid bruit was heard. Heart and chest examinations were normal. Examination of thighs showed mild swelling and tenderness. Neurological examination showed no hand tremor, normal muscle power, and deep tendon reflex 2+ all. The remainder of the physical examination was unremarkable. A chest X-ray and an ECG were normal.
+The laboratory findings revealed the following values: blood urea nitrogen 10 mg/dL (8–22 mg/dL), creatinine 0.8 mg/dL (0.4–1.6 mg/dL), sodium 140 mg/dL (136–146 mg/dL), potassium 4.4 mg/dL (3.5–5.3 mg/dL), carbon dioxide 29 mg/dL (23–32 mg/dL), chloride 103 mg/dL (98–110 mg/dL), phosphate 4.6 (2.4–4.1 mg/dL), magnesium 1.97 (1.7–2.2 mg/dL), glucose 83 mg/dL (74–115 mg/dL), a hemoglobin 16.2 g/dL (13.5–17.5 g/dL), a white blood cell count 9.3 K/mcL (4.5–11 K/mcL) with a differential of 72.9 percent neutrophil, 17.7 percent lymphocyte, and 8.2 percent monocyte, platelet 217 K/mcL (130–400 K/mcL), CK 98407 IU/L (26–189 IU/L), thyroid stimulating hormone 0.01 mIU/mL (0.34–5.6 mIU/mL), free T4 1.98 ng/dL (
+  Input arg 1: What is the patient's albumin corrected delta gap in mEq/L? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.
+  Execution trace (2 LLM calls):
+    identify_calculator(["What is the patient's albumin corrected delta gap in mEq/L? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.", ['Bo)
+      -> {'calculator_name': 'Albumin Corrected Anion Gap', 'confidence': 0.95, 'reasoning': 'The question specifically asks for an albumin corrected delta gap, which is conceptually equivalent to the Albumin Corrected Anion Gap calculation.'} [$0.0003]
+    extract_calculator_values(["A 33-year-old male presented with bilateral thigh pain after regular squatting. The patient often squatted for exercise and never developed rhabdomyolysis. On the following day, the patient develope)
+      -> {'extracted': {'sodium': 140, 'chloride': 103, 'bicarbonate': 29, 'albumin': 2.8}, 'missing': []} [$0.0005]
+  RESULT: predicted=11.0, expected=-1.0, absolute_error=12.0
+
+--- Case train.5880: (calculator_name=HOMA-IR (Homeostatic Model Assessment for Insulin Resistance), category=lab test, output_type=decimal) ---
+  Input arg 0: In the 1998 report on the treatment of B, he was 20 years old. B had been a child with a classical gender dysphoric development and fulfilled the current criteria for GnRH analog treatment eligibility. He was interviewed shortly after his legal gender change. This meant that he had had puberty suppression, cross-sex hormone treatment, a mastectomy, ovariectomy, and uterus extirpation. From his assessment during the diagnostic phase, he appeared to be an intelligent person (IQ = 128) with excellent problem-solving capabilities with respect to emotional matters. Vulnerable aspects of his psychological functioning were his insecurity about himself and moderately depressed feelings. In all other areas, his scores on a broad range of measures were in the average range, as compared to Dutch normative samples. Shame concerning his transsexualism made him highly selective in his friendships and guarded in his contacts with new people. At the assessment, 1 year after his ovariectomy but prior to his metaidoioplasty, he no longer reported feelings of gender dysphoria. He had adjusted easily to the male role and expressed no doubts on the adequacy of his masculine behavior. After the development of his secondary male sex characteristics, nobody had ever approached him as a woman. He never felt any regrets about his decision and had never contemplated living as a girl again. Knowing what gender reassignment implied, he would do it all over again. B was happy with his life and did not feel lonely. He showed a significant pre-post treatment decrease in his feelings of inadequacy. At the time, he was attending medical school.
+B attended the pediatric endocrinology clinic for the first time when he was age 13.7 years. His medical history was uneventful. Puberty had started 1–2 years previously, but menarche had not occurred. On physical examination, a healthy girl was seen with a height of 157.3 cm and a Tanner pubertal stage of B3, P3. Bone age according to Tanner and Whitehouse w
+  Input arg 1: What is the patient's HOMA-IR score? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.
+  Execution trace (2 LLM calls):
+    identify_calculator(["What is the patient's HOMA-IR score? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.", ['Body Mass Index (BMI)', ')
+      -> {'calculator_name': 'HOMA-IR', 'confidence': 1.0, 'reasoning': 'The question explicitly asks for the HOMA-IR score, which is an exact match for one of the available calculators.'} [$0.0003]
+    extract_calculator_values(['In the 1998 report on the treatment of B, he was 20 years old. B had been a child with a classical gender dysphoric development and fulfilled the current criteria for GnRH analog treatment eligibili)
+      -> {'extracted': {'fasting_glucose': 97.3, 'fasting_insulin': 3.48}, 'missing': []} [$0.0006]
+  RESULT: predicted=0.836, expected=1089.76, absolute_error=1088.924
+
+--- Case train.9572: (calculator_name=Sequential Organ Failure Assessment (SOFA) Score, category=risk, output_type=integer) ---
+  Input arg 0: A 52-year-old man with a history of alcohol-associated cirrhosis complicated by prior episodes of ascites and grade II encephalopathy was brought to the emergency department by ambulance after being found somnolent and jaundiced on the floor of his apartment by a neighbor who had last seen him well two days earlier. According to pre-hospital personnel, he was moaning incomprehensibly, opened his eyes only to painful sternal rub, and withdrew his upper limbs sluggishly, prompting them to perform a more formal neurologic check that yielded a Glasgow Coma Score of 7 in the field; no sedatives, opioids, or paralytics had been given during transport, and the airway remained uninstrumented throughout. On arrival he lay in the resuscitation bay breathing through a non-rebreather mask connected to wall oxygen; an arterial blood gas drawn within ten minutes demonstrated a PaO₂ of 65 mm Hg while receiving a measured 52 % inspired oxygen fraction, pH 7.31, and PaCO₂ 48 mm Hg. Respiratory rate was 28 breaths/min with see-saw pattern but no accessory muscle fatigue, and auscultation revealed coarse crackles at both lung bases without wheeze. His skin was cool and slightly clammy, capillary refill prolonged to four seconds, and automated cuff readings repeated three times showed a systolic pressure of 80 mm Hg and diastolic pressure of 45 mm Hg before any crystalloid infusion or vasoactive medications were started; heart rate was 118 beats/min in a regular rhythm, and peripheral pulses were thready. Scleral icterus and spider angiomas were evident, the abdomen was distended with a positive fluid wave yet soft to palpation, and shifting dullness suggested moderate ascites; there was right upper-quadrant tenderness without guarding. Lower extremities displayed pitting edema to the mid-shin. No stigmata of acute gastrointestinal bleeding were obvious, though dark dried emesis coated his beard, raising concern for recent hematemesis; nasogastric lavage performed later returned coffee
+  Input arg 1: What is the patient's Sequential Organ Failure Assessment (SOFA) Score?
+  Execution trace (3 LLM calls):
+    identify_calculator(["What is the patient's Sequential Organ Failure Assessment (SOFA) Score?", ['Body Mass Index (BMI)', 'Mean Arterial Pressure (MAP)', 'Ideal Body Weight (Devine)', 'Adjusted Body Weight', 'Body Surfac)
+      -> {'calculator_name': 'SOFA Score', 'confidence': 1.0, 'reasoning': 'The question explicitly mentions the Sequential Organ Failure Assessment (SOFA) Score, which matches the available calculator name.'} [$0.0003]
+    analyze_scoring_conditions(['A 52-year-old man with a history of alcohol-associated cirrhosis complicated by prior episodes of ascites and grade II encephalopathy was brought to the emergency department by ambulance after being)
+      -> {'reasoning': 'The SOFA (Sequential Organ Failure Assessment) score assesses organ dysfunction across six systems: respiratory (PaO2/FiO2), nervous (Glasgow Coma Score), cardiovascular (mean arterial pressure/vasopressors), hepatic (bilirubin), coagulation (platelets), and renal (creatinine). 1) Respiratory: PaO2 65 mmHg / FiO2 0.52 = 125 (SOFA score 3). 2) Nervous: GCS of 7 (SOFA score 3). 3) Cardiovascular: MAP = (80 + 2*45)/3 = 56.6 mmHg (< 70 mmHg, SOFA score 1). 4) Hepatic: Bilirubin 3.5 mg/dL (SOFA score 2). 5) Coagulation: Platelets 115,000/µL (SOFA score 1). 6) Renal: Creatinine 1.1 mg/dL (SOFA score 0).', 'conditions_present': ['respiratory failure', 'impaired consciousness', 'hypotension', 'hyperbilirubinemia', 'thrombocytopenia'], 'conditions_absent': ['renal failure'], 'demographics': {'age': 52, 'sex': 'male'}} [$0.0008]
+    extract_calculator_values(['A 52-year-old man with a history of alcohol-associated cirrhosis complicated by prior episodes of ascites and grade II encephalopathy was brought to the emergency department by ambulance after being)
+      -> {'extracted': {'pao2_fio2_ratio': 125.0, 'platelets': 115.0, 'bilirubin': 3.5, 'map_or_vasopressors': 1, 'gcs': 7, 'creatinine': 1.1}, 'missing': []} [$0.0006]
+  RESULT: predicted=10.0, expected=9.0, absolute_error=1.0
+
+--- Case train.2610: (calculator_name=Calcium Correction for Hypoalbuminemia, category=lab test, output_type=decimal) ---
+  Input arg 0: In May 2016, a 47-year-old Caucasian woman was hospitalized for pain in the left knee resistant to common analgesics. She presented with a past history of epilepsy and gastroesophageal reflux disease. She was a hairdresser, and she smoked more than 20 cigarettes/day. She was married, and she had three healthy children. She had no family history of malignancy. She did not take any particular medication regularly. In 2014, she had undergone radical resection of a squamous cell carcinoma of the oropharynx (stage pT2, pN1), then received adjuvant radiotherapy. Her follow-up was uneventful until April 2016, when multiple bone metastases from a squamous cell carcinoma were histologically confirmed.
+The patient’s oxygen saturation on admission was 96%, and her blood pressure and heart rate were normal at 124/82 mmHg and 95 beats/minute, respectively. Her oral temperature was 36.8 °C. The result of her physical examination was normal except for a bulky, painful lesion of the left knee and a solitary, painless, intramammary lesion of 4 cm in the right upper external quadrant (UEQ), without any skin retraction, associated with multiple fixed right axillary and supraclavicular lymph nodes.
+The patient’s pH was 7.43, her partial pressure of arterial oxygen was 72 mmHg, and her partial pressure of arterial carbon dioxide was 36 mmHg. Laboratory tests revealed normocytic normochromic anemia (8.6 g/dl), hypoalbuminemia (26 g/dl), and severe hypercalcemia (3.31 mmol/L, ionized calcium 1.99 mmol/L). The patient’s renal and hepatic function was normal.
+Whole-body computed tomography revealed multiple lymph node, peritoneal, splenic, lung, and bone metastases, as well as a solitary breast lesion in the right UEQ (Fig. ). A positron emission tomographic scan documented multiple visceral lymph nodes and bone metastases with a single hypermetabolic lesion of the right breast (Fig. ). Breast ultrasound confirmed the presence of a hypoechogenic tumor lesion of 4 cm in the UEQ that was asso
+  Input arg 1: Using the Calcium Correction for Hypoalbuminemia formula, what is the patient's corrected calcium in mg/dL? Your may set your normal albumin concentration to be 4 g/dL. You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.
+  Execution trace (1 LLM calls):
+    extract_calculator_values(['In May 2016, a 47-year-old Caucasian woman was hospitalized for pain in the left knee resistant to common analgesics. She presented with a past history of epilepsy and gastroesophageal reflux diseas)
+      -> {'extracted': {'calcium': 13.264, 'albumin': 2.6}, 'missing': []} [$0.0004]
+  RESULT: predicted=14.384, expected=-4.334, absolute_error=18.718
+
+--- Case train.10272: (calculator_name=Charlson Comorbidity Index (CCI), category=risk, output_type=integer) ---
+  Input arg 0: A 59-year-old man was sent to the nephrology service by his primary internist after routine laboratory testing showed a rise in serum creatinine from 2.6 mg/dL six months ago to 3.1 mg/dL last week, with an accompanying estimated glomerular filtration rate of 24 mL/min/1.73 m². He reports gradually worsening early-morning fatigue and new nocturnal muscle cramps in the calves, but no dyspnea on exertion, orthopnea, or ankle swelling. Blood pressure at home averages 136/78 mm Hg on lisinopril 20 mg daily and amlodipine 5 mg nightly. Ten years ago he was told that long-standing hypertension and microvascular ischemia of the kidneys were responsible for a slowly progressive decline in renal function; he has never required dialysis, but recent discussions have centered on possible pre-transplant evaluation. He strongly denies any episodes of prolonged chest pressure, emergent cardiac catheterization, hospital admissions for pump failure, or ever being told he sustained a heart attack, and he walks two flights of stairs without substernal discomfort or undue shortness of breath. Intermittent brief neurologic events occurred two summers ago: three episodes of transient right-hand numbness accompanied by word-finding difficulty, each resolving within 15 minutes without residual weakness. Work-up at that time, including non-contrast head CT and carotid duplex ultrasound, revealed no acute infarct or hemodynamically significant plaque, yet aspirin 81 mg daily and high-intensity statin therapy were initiated and no further spells have occurred. He denies sudden unilateral paralysis, visual field loss, or facial droop at any other time. Five years earlier he was hospitalized for hematemesis and melena; upper endoscopy demonstrated a 2-cm clean-based posterior duodenal ulcer with no visible vessel. He completed an eradication course for Helicobacter pylori, has remained on omeprazole 40 mg twice daily, and undergoes annual hemoglobin checks that have stayed above 13 g/dL. Since 
+  Input arg 1: What is the patient's Charlson Comorbidity Index (CCI)? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.
+  Execution trace (3 LLM calls):
+    identify_calculator(["What is the patient's Charlson Comorbidity Index (CCI)? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.", ['Body M)
+      -> {'calculator_name': 'Charlson Comorbidity Index (CCI)', 'confidence': 1.0, 'reasoning': 'The question explicitly asks for the Charlson Comorbidity Index (CCI), which is present in the provided list of available calculators.'} [$0.0003]
+    analyze_scoring_conditions(['A 59-year-old man was sent to the nephrology service by his primary internist after routine laboratory testing showed a rise in serum creatinine from 2.6 mg/dL six months ago to 3.1 mg/dL last week,)
+      -> {'reasoning': '1. Age: 59 years old. 2. Hypertension: Explicitly mentioned history, patient is on lisinopril and amlodipine. 3. Renal disease: Serum creatinine 3.2 mg/dL, eGFR 24 mL/min/1.73 m², and 1+ proteinuria indicate chronic kidney disease. 4. Cardiovascular: History of MI, CHF, peripheral vascular disease, and cerebrovascular accident (CVA) were specifically assessed and denied; TIA symptoms were transient, no infarct found, thus no CVA/TIA history. 5. Liver disease: Mild hepatic steatosis and mild elevations in transaminases are present, but documentation of cirrhosis or chronic liver disease is absent; liver chemistry is stable and clinical exam shows no portal hypertension, jaundice, or encephalopathy. 6. Diabetes: HbA1c is 5.7% (normal range/prediabetes) and fasting glucose 88-104 mg/dL; no current diagnosis of diabetes. 7. Ulcer disease: Past history of duodenal ulcer (resolved), does not count as active peptic ulcer disease in CCI. 8. Malignancy: Explicitly denied history  [$0.0011]
+    extract_calculator_values(['A 59-year-old man was sent to the nephrology service by his primary internist after routine laboratory testing showed a rise in serum creatinine from 2.6 mg/dL six months ago to 3.1 mg/dL last week,)
+      -> {'extracted': {'age': 1, 'mi': False, 'chf': False, 'pvd': False, 'cva': False, 'dementia': False, 'copd': False, 'connective_tissue': False, 'pud': False, 'mild_liver': False, 'diabetes': False, 'hemiplegia': False, 'moderate_renal': True, 'diabetes_complications': False, 'malignancy': False, 'moderate_liver': False, 'metastatic': False, 'aids': False}, 'missing': []} [$0.0008]
+  RESULT: predicted=2.0, expected=6.0, absolute_error=4.0
+
+--- Case train.4160: (calculator_name=HEART Score for Major Cardiac Events, category=risk, output_type=integer) ---
+  Input arg 0: A 58-year-old woman comes to the physician because of intermittent painful retrosternal dullness for 4 weeks. The pain is recurrent and occurs when she exerts herself or when she is outside during cold weather. She also experiences shortness of breath and palpitations during these episodes. The symptoms resolve spontaneously when she stops or sits down for a while. Over the past few days, the episodes have increased in frequency. She has hypertension, type 2 diabetes mellitus, and osteoarthritis. Her left leg was amputated below the knee after a motorcycle accident 25 years ago. She is currently waiting for a new prosthesis and walks with crutches. Current medications include captopril, glyburide, and ibuprofen. She does not smoke or drink alcohol. Her pulse is 88/min, respirations are 20/min, and blood pressure is 144/90 mm Hg. Cardiac examination shows no abnormalities. An x-ray of the chest shows no abnormalities. An ECG shows a normal sinus rhythm without any signs of ischemia. Serum cardiac markers are within the reference range.
+  Input arg 1: What is the patient's score of the HEART Score? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.
+  Execution trace (3 LLM calls):
+    identify_calculator(["What is the patient's score of the HEART Score? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.", ['Body Mass Inde)
+      -> {'calculator_name': 'HEART Score', 'confidence': 1.0, 'reasoning': 'The question explicitly asks for the HEART Score.'} [$0.0003]
+    analyze_scoring_conditions(['A 58-year-old woman comes to the physician because of intermittent painful retrosternal dullness for 4 weeks. The pain is recurrent and occurs when she exerts herself or when she is outside during c)
+      -> {'reasoning': '1. Patient is a 58-year-old female. 2. HEART score criteria include History (risk factors), ECG, Age, Risk factors, and Troponin. 3. History: Presents with intermittent retrosternal chest pain triggered by exertion/cold, consistent with angina/suspected ACS. 4. Age: 58 years (typically 0-1 points depending on age range). 5. Risk factors: Hypertension (explicitly stated, medication captopril confirms), Diabetes (explicitly stated, medication glyburide confirms). 6. ECG: Stated as normal sinus rhythm without ischemia. 7. Troponin: Serum cardiac markers are within the reference range (negative). 8. Physical exam: No abnormalities noted.', 'conditions_present': ['Hypertension', 'Type 2 diabetes mellitus', 'Suspected angina/ACS', 'Age 58'], 'conditions_absent': ['Pathological ECG changes', 'Elevated troponin', 'History of prior myocardial infarction'], 'demographics': {'age': 58, 'sex': 'female'}} [$0.0006]
+    extract_calculator_values(['A 58-year-old woman comes to the physician because of intermittent painful retrosternal dullness for 4 weeks. The pain is recurrent and occurs when she exerts herself or when she is outside during c)
+      -> {'extracted': {'age': 58, 'history_suspicious': 2, 'ecg_findings': 0, 'risk_factors': 2, 'troponin': 0}, 'missing': []} [$0.0003]
+  RESULT: predicted=5.0, expected=3.0, absolute_error=2.0
+
+--- Case train.10534: (calculator_name=APACHE II Score, category=risk, output_type=integer) ---
+  Input arg 0: A 22-year-old woman with no past medical history, no chronic medication use, and up-to-date routine vaccinations was transported to the critical care receiving area twenty minutes after being pulled from a freshwater quarry where she had been swimming with classmates during a midsummer outing; witnesses reported that she inhaled water during a brief struggle to stay afloat and was unconscious for “less than a minute” before lifeguards extricated her. Paramedics arrived eight minutes after the call and documented that on ambient air her pulse oximetry registered in the low seventies, prompting placement of a tightly-fitting Venturi mask delivering 50 % inspired oxygen; during the ten-minute ride she received no intravenous fluids, no bronchodilators, no antimicrobials, no vasopressors, and no opioids, and her airway remained patent without adjuncts or positive-pressure support. Upon stretcher entry to the resuscitation bay—and before any hospital-initiated therapy—vital signs were captured: tympanic temperature 38.2 °C, regular but rapid pulse 118 beats per minute confirmed on three-lead telemetry, observed respiratory rate 24 breaths per minute with moderate accessory muscle recruitment, and a non-invasive blood pressure that cycled consistently at 122⁄70 mm Hg on both arms. She opened her eyes to spoken name, answered most orientation questions but was unsure of the exact date, and followed two-step commands, establishing a Glasgow Coma Score of 14 without sedatives, ethanol, or head trauma. Skin examination revealed flushed cheeks, warm extremities, brisk capillary refill, and no peripheral cyanosis or edema. Jugular venous pulsations were not distended at 30 degrees, carotid upstrokes were sharp, and distal pulses were bounding. Cardiac auscultation disclosed a loud S1, physiologic split S2, and no murmurs, rubs, or gallops. Breath sounds were coarse bilaterally with diffuse crackles more pronounced over the mid-zones, and percussion was mildly dull at the bases,
+  Input arg 1: What is the patient's APACHE II score?
+  Execution trace (3 LLM calls):
+    identify_calculator(["What is the patient's APACHE II score?", ['Body Mass Index (BMI)', 'Mean Arterial Pressure (MAP)', 'Ideal Body Weight (Devine)', 'Adjusted Body Weight', 'Body Surface Area (Mosteller)', 'Target Weig)
+      -> {'calculator_name': 'APACHE II Score', 'confidence': 1.0, 'reasoning': 'The question explicitly asks for the APACHE II score, which matches the calculator name in the available list.'} [$0.0003]
+    analyze_scoring_conditions(['A 22-year-old woman with no past medical history, no chronic medication use, and up-to-date routine vaccinations was transported to the critical care receiving area twenty minutes after being pulled)
+      -> {'reasoning': "The APACHE II score evaluates chronic health conditions and acute physiologic variables. 1. Age: 22 years (0 points). 2. Chronic Health: The note explicitly states 'no past medical history' and lab values match a collegiate physical from six months ago, confirming no immunocompromised state, organ insufficiency, or cirrhosis (0 points). 3. Physiology: Based on the 'untreated presentation' provided: Temp 38.2 (0 pts), MAP (122+2*70)/3 = 87.3 mmHg (0 pts), HR 118 (2 pts), RR 24 (1 pt), PaO2 not directly stated but A-a gradient of 480 mmHg with FiO2 0.5 implies significant hypoxemia (likely PaO2 < 55 mmHg, 4 pts), pH 7.43 (0 pts), Sodium 140 (0 pts), Potassium 4.3 (0 pts), Creatinine 0.8 (0 pts), Hct 42 (0 pts), WBC 17.05 (1 pt), GCS 14 (1 pt).", 'conditions_present': ['Sinus tachycardia', 'Tachypnea', 'Hypoxemia', 'Leukocytosis', 'Aspiration-related acute lung injury'], 'conditions_absent': ['Congestive heart failure', 'Chronic obstructive pulmonary disease', 'Cirrhosis',  [$0.0010]
+    extract_calculator_values(['A 22-year-old woman with no past medical history, no chronic medication use, and up-to-date routine vaccinations was transported to the critical care receiving area twenty minutes after being pulled)
+      -> {'extracted': {'temperature_score': 1, 'map_score': 0, 'heart_rate_score': 2, 'respiratory_rate_score': 1, 'oxygenation_score': 4, 'ph_score': 0, 'sodium_score': 0, 'potassium_score': 0, 'creatinine_score': 0, 'hematocrit_score': 0, 'wbc_score': 1, 'gcs_score': 1, 'age_score': 0, 'chronic_health_score': 0}, 'missing': []} [$0.0007]
+  RESULT: predicted=10.0, expected=7.0, absolute_error=3.0
+
+--- Case train.10039: (calculator_name=Glasgow Coma Score (GCS), category=severity, output_type=integer) ---
+  Input arg 0: A 27-year-old woman with no known chronic illnesses was brought to the emergency department by lifeguards after a shallow-water diving mishap at a public pool approximately twenty minutes earlier; witnesses report she struck her forehead on the concrete bottom before floating face-down for several seconds and was extricated on a spine board with a rigid collar applied. Prehospital personnel administered no analgesics, sedatives, or paralytics en route. On arrival she remains immobilized, supine, skin cool but well-perfused, with a thin trickle of blood from a superficial 1 cm laceration at the hairline. Initial vitals are blood pressure 128/76 mm Hg, heart rate 104 beats/min and regular, respiratory rate 22 breaths/min with shallow diaphragmatic effort, oxygen saturation 98 % on 6 L/min oxygen by face mask, and oral temperature 36.8 °C. Cardiac auscultation reveals normal S1/S2 without murmurs, and lungs are clear bilaterally, though chest rise is subdued. Inspection shows no chest wall bruising, abdomen is soft and non-distended, pelvis stable, and long bones without obvious deformity. Cranial nerves II–VII appear grossly intact: pupils are equal at 3 mm and briskly reactive, corneal and gag reflexes are present, and the mandible is midline. She lies with eyelids shut, lashes fluttering occasionally, but does not voluntarily raise them despite repeated verbal encouragement; a firm pinch to the trapezius elicits a brief parting of the lids, after which she tracks the examiner’s face for several seconds and states, in clear speech, “My name is ____; I dove into the pool; today is Friday; please help me,” demonstrating accurate orientation to person, place, and time. When asked to wiggle fingers or toes she expresses intent—“I’m trying, I can’t feel anything”—yet there is no visible contraction in upper or lower extremities. A nail-bed pressure to each hand and foot similarly produces no withdrawal, flexion, or extension, and deep tendon reflexes at biceps, triceps, p
+  Input arg 1: What is the patient's Glasgow Coma Score? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.
+  Execution trace (2 LLM calls):
+    identify_calculator(["What is the patient's Glasgow Coma Score? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.", ['Body Mass Index (BMI)
+      -> {'calculator_name': 'Glasgow Coma Scale (GCS)', 'confidence': 1.0, 'reasoning': 'The question explicitly asks for the Glasgow Coma Score, which directly maps to the Glasgow Coma Scale (GCS) calculator.'} [$0.0003]
+    extract_calculator_values(['A 27-year-old woman with no known chronic illnesses was brought to the emergency department by lifeguards after a shallow-water diving mishap at a public pool approximately twenty minutes earlier; w)
+      -> {'extracted': {'eye': 4, 'verbal': 5, 'motor': 1}, 'missing': []} [$0.0004]
+  RESULT: predicted=10.0, expected=8.0, absolute_error=2.0
+
+--- Case train.2867: (calculator_name=Wells' Criteria for Pulmonary Embolism, category=risk, output_type=integer) ---
+  Input arg 0: A 60-year-old man presented to hospital with progressive bilateral lower limb weakness, urinary retention and constipation.
+Eighteen days prior, he developed fever and cough 1 day after returning from a flight from South America. His symptoms persisted, and he also developed loss of taste (dysgeusia) and smell (anosmia). A nasopharyngeal swab for SARS-CoV-2 PCR was positive (AusDiagnostics) on day 7 of his illness. He did not receive any specific treatment (antiviral or immune modulatory) for COVID-19. His respiratory symptoms resolved after 13 days. On day 16, he developed acute urinary retention and required insertion of a bladder catheter. Over the next 2 days, he reported progressive lower limb stiffness, difficulty walking and constipation, prompting his visit to the emergency department.
+His medical history included well-controlled hypertension and hypercholesterolaemia for which he takes an angiotensin receptor blocker/calcium channel blocker and a statin, respectively. He was an ex-smoker and worked for the aviation industry. He had been involved in repatriation flights from South America to Australia. Several of his colleagues were also diagnosed with COVID-19 after returning on the same flight.
+On presentation to the emergency department, the patient was noted to have normal observations and was afebrile. His respiratory rate was 16 breaths per minute, oxygen saturation of 97% on room air, blood pressure of 154/88(110) mm Hg, heart rate of 85 beats per minute and temperature of 36.7°C. Clinical examination revealed increased tone, hyperreflexia and reduced proprioception of the lower limbs. The patient also exhibited patchy paresthesia bilaterally to the level of the umbilicus. There was decreased anal tone on digital rectal examination. There was no clinical evidence of major head or spinal trauma and the remainder of his cranial nerve and general neurological examination was unremarkable. These findings were consistent with an upper motor neuron lesion. 
+  Input arg 1: What is the patient's score of Wells' criteria for Pulmonary Embolism? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.
+  Execution trace (3 LLM calls):
+    identify_calculator(["What is the patient's score of Wells' criteria for Pulmonary Embolism? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatm)
+      -> {'calculator_name': "Wells' Criteria for PE", 'confidence': 1.0, 'reasoning': "The question explicitly asks for 'Wells' criteria for Pulmonary Embolism'."} [$0.0003]
+    analyze_scoring_conditions(['A 60-year-old man presented to hospital with progressive bilateral lower limb weakness, urinary retention and constipation.\nEighteen days prior, he developed fever and cough 1 day after returning f)
+      -> {'reasoning': "The patient is a 60-year-old male. Wells' Criteria for PE evaluates: 1) Clinical signs and symptoms of DVT (e.g., leg swelling, pain). The patient presents with lower limb weakness and stiffness, but no mention of unilateral swelling, pain, or pitting edema. 2) PE being the most likely diagnosis or equally likely. The patient's clinical presentation (urinary retention, bilateral lower limb weakness/stiffness, hyperreflexia, paresthesia up to the umbilicus) strongly suggests a spinal/neurological etiology rather than PE. 3) Heart rate > 100. Patient HR is 85. 4) Immobilization or surgery in last 4 weeks. No surgery or immobilization mentioned. 5) Previous DVT/PE. Not mentioned. 6) Hemoptysis. Not mentioned. 7) Malignancy. Not mentioned.", 'conditions_present': [], 'conditions_absent': ['Clinical signs or symptoms of DVT', 'Heart rate > 100', 'Immobilization or surgery in last 4 weeks', 'Previous DVT or PE', 'Hemoptysis', 'Malignancy'], 'demographics': {'age': 60, 'sex': ' [$0.0006]
+    extract_calculator_values(['A 60-year-old man presented to hospital with progressive bilateral lower limb weakness, urinary retention and constipation.\nEighteen days prior, he developed fever and cough 1 day after returning f)
+      -> {'extracted': {'dvt_signs': False, 'pe_likely': False, 'heart_rate_over_100': False, 'immobilization_surgery': False, 'prior_pe_dvt': False, 'hemoptysis': False, 'malignancy': False}, 'missing': []} [$0.0004]
+  RESULT: predicted=0.0, expected=1.5, absolute_error=1.5
+
+--- Case train.3025: (calculator_name=Wells' Criteria for Pulmonary Embolism, category=risk, output_type=integer) ---
+  Input arg 0: A 60-year-old man with a history of hypertension, variant angina, and hyperthyroidism developed high fever, cough, sputum, myalgia and dyspnea 4 days before admission. He was admitted to our hospital with a presumptive diagnosis of community-acquired pneumonia and treated with empirical antibiotic therapy comprising piperacillin–tazobactam and levofloxacin (Fig. ). His systolic blood pressure was 100 mm Hg, heart rate 126 beats/min, respiratory rate 36/min, and body temperature 39 °C. The initial laboratory findings were as follows: WBC 14,500/mm3, platelets 237,000/mm3, CRP 302.6 mg/L, BUN 29.8 mg/dL, and creatinine 1.18 mg/dL. Liver function tests were within normal ranges. The initial O2 saturation was 85% and he received O2 (5 L/min) via facial mask. On day 3, his chest X-ray findings were worse and his oxygen requirement was increased. The patient was transferred to the ICU and treated with a non-invasive positive pressure ventilator. However, his severe hypoxemia was not improved (SaO2 = 94% with FiO2 100% and respiratory rate = 45/min), and he was intubated. On ICU day 2, his severe hypoxemia was not improved despite mechanical ventilation (i.e., PaO2/FiO2 = 67.6 with a PEEP of 15 cm H2O), and his heart rate increased to 151 beats/min (SAPS II, 36). We decided to apply VV ECMO, and started CRRT for fluid management. The initial ECMO settings were as follows: blood flow 5.0 L/min, sweep gas flow 4.5 L/min, and FiO2 1.0. On ECMO day 4, a PCR test for HAdV in a sputum sample taken at the time of admission was positive; based on this finding, the patient was administered cidofovir 5 mL/kg/week. The cell differential in the BAL fluid was as follows: neutrophils 43%, lymphocytes 34%, macrophage 22%, and eosinophils 1%. All tests of the BAL specimen for bacteria and viruses were negative. Although his blood gas oxygenation and chest X-ray showed an initial improvement during the early period of VV ECMO support, they were again worse on ECMO day 7 (Fig. ). Therefore,
+  Input arg 1: What is the patient's score of Wells' criteria for Pulmonary Embolism? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.
+  Execution trace (3 LLM calls):
+    identify_calculator(["What is the patient's score of Wells' criteria for Pulmonary Embolism? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatm)
+      -> {'calculator_name': "Wells' Criteria for PE", 'confidence': 1.0, 'reasoning': "The question explicitly asks for 'Wells' criteria for Pulmonary Embolism'."} [$0.0003]
+    analyze_scoring_conditions(['A 60-year-old man with a history of hypertension, variant angina, and hyperthyroidism developed high fever, cough, sputum, myalgia and dyspnea 4 days before admission. He was admitted to our hospita)
+      -> {'reasoning': "1. Clinical signs and symptoms: The patient presented with cough, dyspnea, and high fever, which are common but non-specific. 2. Wells' Criteria for PE requirements: I. Clinical signs and symptoms of DVT (not reported). II. PE as likely as or more likely than alternative diagnosis (The note states a presumptive diagnosis of community-acquired pneumonia, followed by severe respiratory failure due to HAdV, making PE less likely than other diagnoses). III. Heart rate > 100 (Patient had heart rate 126 and 151, meeting this criterion). IV. Immobilization/Surgery in previous 4 weeks (The patient was on mechanical ventilation and ECMO, implying prolonged immobilization, though not explicitly 'surgery' in the prior 4 weeks). V. Previous DVT/PE (No history noted). VI. Hemoptysis (None reported). VII. Malignancy (None reported). Based on the note, the diagnosis of community-acquired pneumonia and subsequent HAdV infection are the identified etiologies, making PE less likely.", 'co [$0.0008]
+    extract_calculator_values(['A 60-year-old man with a history of hypertension, variant angina, and hyperthyroidism developed high fever, cough, sputum, myalgia and dyspnea 4 days before admission. He was admitted to our hospita)
+      -> {'extracted': {'dvt_signs': False, 'pe_likely': False, 'heart_rate_over_100': True, 'immobilization_surgery': True, 'prior_pe_dvt': False, 'hemoptysis': False, 'malignancy': False}, 'missing': []} [$0.0005]
+  RESULT: predicted=3.0, expected=1.5, absolute_error=1.5
+
+--- Case train.2956: (calculator_name=Wells' Criteria for Pulmonary Embolism, category=risk, output_type=integer) ---
+  Input arg 0: A 15-year-old male patient presented to an external center with headache and swelling that started in his left eye and occurred in his right eye and forehead on the next day. The laboratory tests performed in the external center showed a white blood cell (WBC) value of 15 600/mm3 and a C-reactive protein (CRP) value of 5.6 (normal: 0–0.5) mg/dL. A diagnosis of acute frontal sinusitis was made with an examination and the laboratory findings, and oral amoxicillin-clavulanate treatment was initiated at a dosage of 60 mg/kg/day. Netilmicin sulfate eye drops and sodium fusidate ophthalmic ointment treatment was initiated because of conjunctivitis. The patient, whose headache and swelling in the left eye and forehead continued during treatment, presented to our hospital when his symptoms did not regress.
+At the time of presentation, the patient’s vital findings were as follows: body temperature: 36.8°C, blood pressure: 110/70 mm Hg, apical heartbeat: 74 beats/min. On physical examination, his oropharynx was hyperemic, there was periorbital edema and 2x2 cm of local swelling infraorbitally, hyperemia and local increase in the heat (). There was marked postnasal purulent discharge and tenderness on the frontal region with palpation. The initial laboratory findings were as follows: WBC: 8.99 (74.5% neutrophil, 16% lymphocyte, 7.7% monocyte), hemoglobin (Hb): 15 g/dL, hematocrit (Hct): 42.2%, mean corpuscular volume (MCV): 92.9 fL, platelets (Plt): 333 000, CRP: 102 (normal: 0–8) mg/dL, erythrocyte sedimentation rate (ESR): 52 mm/h. Routine biochemical tests were found to be normal.
+Treatment with intravenous ceftriaxone (75 mg/kg/day) and teicoplanin (a loading dosage of 16 mg/kg/day on the first day and a maintenance dosage of 8 mg/kg/day subsequently) was initiated with a prediagnosis of Pott’s puffy tumor as a complication of frontal sinusitis. The paranasal sinus CT revealed increased mucosal thickness and appearance of a collection and a sclerotic lesion (osteoma?) in b
+  Input arg 1: What is the patient's score of Wells' criteria for Pulmonary Embolism? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.
+  Execution trace (3 LLM calls):
+    identify_calculator(["What is the patient's score of Wells' criteria for Pulmonary Embolism? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatm)
+      -> {'calculator_name': "Wells' Criteria for PE", 'confidence': 1.0, 'reasoning': "The question explicitly asks for 'Wells' criteria for Pulmonary Embolism'."} [$0.0003]
+    analyze_scoring_conditions(['A 15-year-old male patient presented to an external center with headache and swelling that started in his left eye and occurred in his right eye and forehead on the next day. The laboratory tests pe)
+      -> {'reasoning': "The patient is a 15-year-old male presenting with sinusitis and a subperiosteal abscess (Pott's puffy tumor). Wells' Criteria for Pulmonary Embolism (PE) evaluates the probability of PE based on clinical signs and symptoms. I analyzed the note for: 1) Clinical signs of DVT (leg swelling, pain, tenderness) - none reported; 2) Heart rate > 100 bpm - patient's heart rate was 74 bpm; 3) Immobilization/surgery in the last 4 weeks - none reported; 4) Previous DVT/PE - none reported; 5) Hemoptysis - none reported; 6) Malignancy - none reported; 7) Alternative diagnosis more likely than PE - acute frontal sinusitis with subperiosteal abscess (Pott's puffy tumor) is clearly established as the diagnosis.", 'conditions_present': ['Alternative diagnosis more likely than PE (acute frontal sinusitis, subperiosteal abscess)'], 'conditions_absent': ['Clinical signs of DVT', 'Heart rate > 100 bpm', 'Immobilization or surgery in the previous 4 weeks', 'Previous DVT or PE', 'Hemoptysis', ' [$0.0008]
+    extract_calculator_values(['A 15-year-old male patient presented to an external center with headache and swelling that started in his left eye and occurred in his right eye and forehead on the next day. The laboratory tests pe)
+      -> {'extracted': {'dvt_signs': False, 'pe_likely': False, 'heart_rate_over_100': False, 'immobilization_surgery': False, 'prior_pe_dvt': False, 'hemoptysis': False, 'malignancy': False}, 'missing': []} [$0.0005]
+  RESULT: predicted=0.0, expected=1.5, absolute_error=1.5
+
+--- Case train.0897: (calculator_name=CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk, category=risk, output_type=integer) ---
+  Input arg 0: A 67-years-old Caucasian man presented for refashioning of a left below-knee amputation stump. His co-morbidities included diabetes, cardiovascular disease, peripheral neuropathy, obesity and asthma. Medications included insulin, amlodipine, lisinopril, gabapentin and salbutamol. Previous regional block and general anaesthesia were uneventful. The patient made an informed choice of spinal anaesthesia. Standard perioperative monitoring was used. Spinal block was performed aseptically at the L4/5 spinal space with a 25 G Whitacre needle and 2.5 ml of heavy 0.5% bupivacaine plus diamorphine 300 mcg. The spinal block procedure was uneventful. Adequate motor and sensory block was achieved at five minutes. Adequate sensory block up to the T8 dermatome was confirmed by loss of cold sensation. The intraoperative course was uneventful. However, at the end of surgery, about 60 minutes after the spinal blockade, the patient complained of repetitive muscle spasm in the absent amputated limb. The phantom spasm was distressful to the patient and was promptly treated with intravenous midazolam 5 mg. There was no recurrence of myoclonus and no sequelae.
+  Input arg 1: What is the patient's CHA2DS2-VASc Score? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.
+  Execution trace (3 LLM calls):
+    identify_calculator(["What is the patient's CHA2DS2-VASc Score? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.", ['Body Mass Index (BMI)
+      -> {'calculator_name': 'CHA2DS2-VASc Score', 'confidence': 1.0, 'reasoning': 'The question explicitly names the CHA2DS2-VASc Score.'} [$0.0003]
+    analyze_scoring_conditions(['A 67-years-old Caucasian man presented for refashioning of a left below-knee amputation stump. His co-morbidities included diabetes, cardiovascular disease, peripheral neuropathy, obesity and asthma)
+      -> {'reasoning': '1. Age: 67 years old. 2. Sex: Man (male). 3. Congestive heart failure: No history or findings (e.g., JVP) mentioned. 4. Hypertension: Patient is taking lisinopril (an ACE inhibitor) and amlodipine, which implies hypertension. 5. Age >= 75: No (67 is between 65-74). 6. Diabetes: Explicitly stated. 7. Stroke/TIA/Thromboembolism: No history mentioned. 8. Vascular disease: Peripheral artery disease is a form of vascular disease; the patient has a history of below-knee amputation, which is strongly associated with severe peripheral vascular disease. 9. Sex category (Female): Patient is male.', 'conditions_present': ['Hypertension', 'Diabetes', 'Vascular disease'], 'conditions_absent': ['Congestive heart failure', 'Age >= 75', 'Stroke/TIA/Thromboembolism', 'Sex category (Female)'], 'demographics': {'age': 67, 'sex': 'male'}} [$0.0006]
+    extract_calculator_values(['A 67-years-old Caucasian man presented for refashioning of a left below-knee amputation stump. His co-morbidities included diabetes, cardiovascular disease, peripheral neuropathy, obesity and asthma)
+      -> {'extracted': {'age': 67, 'sex': 'male', 'has_chf': False, 'has_hypertension': True, 'has_diabetes': True, 'has_stroke_tia': False, 'has_vascular_disease': True}, 'missing': []} [$0.0004]
+  RESULT: predicted=4.0, expected=5.0, absolute_error=1.0
+
+--- Case train.0734: (calculator_name=CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk, category=risk, output_type=integer) ---
+  Input arg 0: A 76-year-old Caucasian man came to our observation because of lumbar pain and epigastric discomfort. He was taking ibuprofen orally 400 mg bid as an analgesic treatment for 1 month. About his clinical history, 1 year before the admission, he had suffered from acute coronary syndrome during an episode of atrial tachyfibrillation treated with percutaneous transluminal coronary angioplasty and stenting, and subsequently a biologic prosthetic mitral valve had been implanted due to severe mitral insufficiency. He was on regular treatment with warfarin, atorvastatin, and bisoprolol tablets. At the admission to our ward we stopped ibuprofen. He demonstrated a state of mild confusion and irritability. Laboratory tests showed sodium 116 mmol/L and chloride 84 mmol/L; hepatic and renal tests, as well as the other routine blood tests, were normal, with uric acid 2.5 mg/dL and urea 37 mg/dL. Duration of hyponatremia was unknown. The patient appeared clinically normovolemic (blood pressure 126/76 mmHg without orthostatic hypotension, heart rate 86 bpm) and showed no signs of heart or renal failure. We performed thyroid function tests and measurement of urinary cortisol excretion that resulted normal. After the evidence of low plasma osmolality (252 mOsm/L), high Uosm (561 mOsm/L), and high urinary sodium (160 mmol/L), a diagnosis of SIADH was formulated. To determine the etiopathogenesis of the syndrome, we performed brain MR, total body CT scan, radionuclide bone scan, serologic tests for Chlamydia, Legionella, and Mycoplasma: all tests resulted normal.
+We started infusion of a slightly hypertonic saline solution (1.2% at a rate of 60 mL per h) for 3 days without significant sodium changes; since the patient was taking warfarin and therefore we could not prepare immediately a central iv line to allow the infusion of a more hypertonic solution (3% saline), we decided to treat the patient with tolvaptan, an oral AVP V2 receptor antagonist, initially at the dosage of 7.5 mg daily
+  Input arg 1: What is the patient's CHA2DS2-VASc Score? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.
+  Execution trace (3 LLM calls):
+    identify_calculator(["What is the patient's CHA2DS2-VASc Score? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.", ['Body Mass Index (BMI)
+      -> {'calculator_name': 'CHA2DS2-VASc Score', 'confidence': 1.0, 'reasoning': 'The question explicitly names the CHA2DS2-VASc Score.'} [$0.0003]
+    analyze_scoring_conditions(['A 76-year-old Caucasian man came to our observation because of lumbar pain and epigastric discomfort. He was taking ibuprofen orally 400 mg bid as an analgesic treatment for 1 month. About his clini)
+      -> {'reasoning': "The CHA2DS2-VASc score evaluates Congestive Heart Failure (C), Hypertension (H), Age (A2), Diabetes (D2), Stroke/TIA/Thromboembolism (S2), Vascular disease (V), Age (A), and Sex Category (Sc). 1. Congestive Heart Failure: Patient explicitly stated 'no signs of heart failure'. 2. Hypertension: No history of HTN mentioned, and BP is 126/76 (normotensive). Bisoprolol is used for rate control/atrial fibrillation history, not necessarily implying HTN in this specific clinical context of recent AF. 3. Age: Patient is 76 (2 points). 4. Diabetes: No history mentioned, no medications (metformin, etc.) imply it. 5. Stroke/TIA/Thromboembolism: No history mentioned. 6. Vascular disease: Patient had an acute coronary syndrome and underwent PTCA/stenting, which qualifies as prior MI/vascular disease under the definition provided (1 point). 7. Sex: Male (0 points).", 'conditions_present': ['Age 75 or older', 'Vascular disease (prior MI)'], 'conditions_absent': ['Congestive Heart Failur [$0.0008]
+    extract_calculator_values(['A 76-year-old Caucasian man came to our observation because of lumbar pain and epigastric discomfort. He was taking ibuprofen orally 400 mg bid as an analgesic treatment for 1 month. About his clini)
+      -> {'extracted': {'age': 76, 'sex': 'male', 'has_chf': False, 'has_hypertension': False, 'has_diabetes': False, 'has_stroke_tia': False, 'has_vascular_disease': True}, 'missing': []} [$0.0004]
+  RESULT: predicted=3.0, expected=4.0, absolute_error=1.0
+
+--- Case train.6408: (calculator_name=CURB-65 Score for Pneumonia Severity, category=risk, output_type=integer) ---
+  Input arg 0: A 55-year-old male patient without a prior medical history was admitted to the emergency room of our university hospital for treatment of a severe headache and vomiting on May 12th, 2010. His vital signs included blood pressure of 180/100 mmHg, pulse rate of 88/min, respiratory rate of 24/min, and body temperature of 36.0℃. An initial head computed tomography (CT) scan revealed an acute extensive subarchnoid hemorrhage filling the basilar cisterns. Subsequent CT angiography showed an anterolaterally-directed ruptured aneurysm on the left mid-cranial artery bifurcation. As a result of these findings, microsurgical clipping was proposed. During the left pterional craniotomy and dural reflection, an intraoperative rupture was encountered and a rapid corticectomy with a retraction of the temporal lobe made the aneurysm clipping amenable.
+Post-operatively, the patient was stuporous and responded only to basal stimuli. On post-operative day 2, a controlled mandatory ventilation mode mechanical ventilator was applied along with intravenous sedatives. The patient's neurologic status was stationary. Around post-operative day 5, the patient's body temporal temperature elevated to 38.1℃, and the arterial oxygen saturation levels dropped to 90%. Additional laboratory examinations revealed elevated C-reactive protein (27.0 mg/dL), leukocytosis (20,990/mm3) with a high neutrophil percentage (93%) and a left-shift. A chest CT discovered diffused bilateral lower lobe interstitial infiltrates with pleural effusion, consistent with a diagnosis of ARDS. Following this, the patient was placed on a regimen of IV teicoplanin (200 mg every 12 h), moxifloxacin (400 mg every 24 h) and meropenem (0.5 g every 12 h). On post-operative day 7, a culture of a sputum specimen was found to be positive for multi-drug-resistant Acinetobacter baumannii and methicillin-resistant Staphylococcus aureus, but they were not isolated later. Consequently, the administration of meropenem was changed to colisti
+  Input arg 1: What is the patient's CURB-65 score? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.
+  Execution trace (3 LLM calls):
+    identify_calculator(["What is the patient's CURB-65 score? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.", ['Body Mass Index (BMI)', ')
+      -> {'calculator_name': 'CURB-65 Score', 'confidence': 1.0, 'reasoning': 'The question explicitly mentions the CURB-65 score, which matches the available calculator name.'} [$0.0003]
+    analyze_scoring_conditions(["A 55-year-old male patient without a prior medical history was admitted to the emergency room of our university hospital for treatment of a severe headache and vomiting on May 12th, 2010. His vital )
+      -> {'reasoning': 'The CURB-65 score assesses pneumonia severity using five criteria: Confusion, Urea, Respiratory rate, Blood pressure, and Age. 1. Confusion: The note describes the patient as "stuporous and responded only to basal stimuli" post-operatively, which indicates altered mental status/confusion. 2. Urea: The note states BUN is 111 mg/dL. Normal BUN is typically 7-20 mg/dL; this is significantly elevated (>19 mg/dL or 7 mmol/L). 3. Respiratory rate: The note records a respiratory rate of 24/min on admission, and the patient is on mechanical ventilation later, meeting the >=30/min criteria or clinical necessity. 4. Blood pressure: Admitted with 180/100 mmHg, later became hemodynamically unstable requiring vasopressors (dopamine/dobutamine). CURB-65 criteria is systolic < 90 or diastolic <= 60. While his BP was high, he was later unstable. However, the BUN and Confusion are clearly present. 5. Age: Patient is 55 years old (age >= 65 is the threshold).', 'conditions_present': ['Con [$0.0010]
+    extract_calculator_values(["A 55-year-old male patient without a prior medical history was admitted to the emergency room of our university hospital for treatment of a severe headache and vomiting on May 12th, 2010. His vital )
+      -> {'extracted': {'confusion': True, 'bun_elevated': True, 'respiratory_rate_elevated': False, 'hypotension': True, 'age_65_plus': False}, 'missing': []} [$0.0006]
+  RESULT: predicted=3.0, expected=2.0, absolute_error=1.0
+
+--- Case train.9333: (calculator_name=Estimated of Conception, category=date, output_type=date) ---
+  Input arg 0: The patient's last menstrual period was on 05/10/2001.
+  Input arg 1: Based on the patient's last menstrual period, what is the the patient's estimated date of conception? Your answer should be in the format of M/D/Y (ie 08/31/2023, 07/03/2000) with just the date and not other text.
+  Execution trace: (no rollout recorded)
+  RESULT: predicted=**exception raised**: no implementation registered for interface "simulate_date_value", expected=05/24/2001, absolute_error=inf
+
+--- Case train.7050: (calculator_name=QTc Rautaharju Calculator, category=physical, output_type=decimal) ---
+  Input arg 0: A patient has a heart rate of 81 bpm and a QT interval of 229 msec.
+  Input arg 1: Using the Rautaharju Formula for corrected QT interval, what is the patient's corrected QT interval in terms of msec?
+  Execution trace (2 LLM calls):
+    identify_calculator(["Using the Rautaharju Formula for corrected QT interval, what is the patient's corrected QT interval in terms of msec?", ['Body Mass Index (BMI)', 'Mean Arterial Pressure (MAP)', 'Ideal Body Weight ()
+      -> {'calculator_name': 'QTc (Rautaharju)', 'confidence': 1.0, 'reasoning': 'The question specifically mentions the Rautaharju Formula for corrected QT interval.'} [$0.0003]
+    extract_calculator_values(['A patient has a heart rate of 81 bpm and a QT interval of 229 msec.', 'QTc (Rautaharju)', 'qt_msec: QT interval in milliseconds (e.g., 400)\nheart_rate: Heart rate in bpm (e.g., 75)', ''])
+      -> {'extracted': {'qt_msec': 229, 'heart_rate': 81}, 'missing': []} [$0.0002]
+  RESULT: predicted=268.926, expected=255.71667, absolute_error=13.209329999999994
+
+--- Case train.9100: (calculator_name=Estimated Due Date, category=date, output_type=date) ---
+  Input arg 0: The patient's last menstrual period was on 09/05/2001. Her cycle length is 25 days.
+  Input arg 1: Using Naegele's Rule for estimated due date based on the last menstrual period and cycle length, what is the the patient's estimated due date? Your response should be in the format of M/D/Y (ie 08/31/2023, 07/03/2000) with just the date and no other text.
+  Execution trace: (no rollout recorded)
+  RESULT: predicted=**exception raised**: no implementation registered for interface "simulate_date_value", expected=06/09/2002, absolute_error=inf
+
+--- Case train.1275: (calculator_name=Mean Arterial Pressure (MAP), category=physical, output_type=decimal) ---
+  Input arg 0: A previously healthy 13-year-old girl visited our Emergency Department due to left-sided chest pain that had occurred suddenly 10 hours ago. The pain was continuous pressing in nature without any radiation, and it improved on bending forward but worsened with deep inspiration. She had no specific past medical history such as Kawasaki disease, asthma, and no family history of heart or lung disease. She did not appear ill; and her vital signs were as follows: blood pressure was 133/79 mmHg, heart rate was 117 beats/min, and temperature was 37.6℃. Her weight was 40 kg. The physical examination did not reveal any other specific findings, especially her lung sound was normal Electrocardiogram (ECG) showed sinus tachycardia with a heart rate of 114 beats/min without ST segment changes (), and the chest x-ray was normal. We performed echocardiography that revealed normal regional wall motion and normal anatomy. However, her cardiac enzyme levels were slightly elevated; N-terminal prohormone brain natriuretic peptide was 257.6 pg/mL, troponin I was 2.138 ng/mL, and creatine kinase-myoglobin (CK-MB) was 13.02 ng/mL. The next day, she again complained of severe chest pain. Her blood pressure was 100/60 mmHg. Her ECG was taken again, and it showed marked ST elevation in the V4-V6 left precordial leads and inferior leads and ST depression in aVR lead, which was suggestive of myocardial ischemia (). Also, her cardiac enzyme levels were elevated; troponin I was 4.310 ng/mL, CK-MB was 10.78 ng/mL. Although the chest pain regressed spontaneously, further evaluation was performed.
+We performed coronary angiography; left coronary artery (LCA) was bifurcated normally into left anterior descending (LAD) and left circumflex (LCX) coronary arteries, and it showed the absence of normally originating right coronary artery (RCA). An aberrant branch was extended from the distal LCX, which crossed the crux and continued to the right atrioventricular groove, covering the territory of the RCA (
+  Input arg 1: What is patient's mean arterial pressure in mm Hg? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.
+  Execution trace (2 LLM calls):
+    identify_calculator(["What is patient's mean arterial pressure in mm Hg? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.", ['Body Mass I)
+      -> {'calculator_name': 'Mean Arterial Pressure (MAP)', 'confidence': 1.0, 'reasoning': 'The question explicitly asks for the mean arterial pressure.'} [$0.0003]
+    extract_calculator_values(['A previously healthy 13-year-old girl visited our Emergency Department due to left-sided chest pain that had occurred suddenly 10 hours ago. The pain was continuous pressing in nature without any ra)
+      -> {'extracted': {'systolic': 100.0, 'diastolic': 60.0}, 'missing': []} [$0.0004]
+  RESULT: predicted=73.333, expected=97.0, absolute_error=23.667
+
+
+## Previous iterations
+
+Iter 0: train=56.0%, eval=48.8% — KEPT
+Iter 1: train=40.4%, eval=29.3% — ROLLED BACK
+  What was tried: An analysis of the pipeline's failures reveals two main issues:
+1. **Type Coercion Crashes on Dates:** The `simulate_medical_value` function has a `-> float:` type hint. `secretagent` attempts to cast the LLM's string outputs (like `"09/10/2003"` or `"('33 weeks', '5 days')"`) into floats, causing hard crashes (`ValueError: could not convert string to float`).
+2. **LLM Calculation Errors:** The LLM consistently fails on specific calculations (Maintenance Fluids, Free Water Deficit, Delta Gap, QTc, etc.) because it doesn't know the exact formulas or rules used by the dataset evaluators (e.g., standardizing Total Body Water to `0.6 * weight` for everyone in Free Water Deficit, or strictly applying the 4-2-1 rule for fluids).
+
+**The Solution:**
+1. Change the return type hints of the medical calculation endpoints from `float` to `Any`. This tells `secretagent` to return the raw string.
+2. Implement a robust `_parse_final_answer` parser to safely extract dates, tuples (for gestational age), and numbers before passing the answer to the evaluator.
+3. Inject the exact calculation formulas and extraction rules into the LLM's `_CALCULATE_DOCSTRING` for the top 10 failing medical scores. Because it runs for `simulate_medical_value` across all workflows, it directly improves pipeline accuracy safely.
+  ⚠ This change HURT accuracy. Do NOT retry this approach.
+Iter 2: train=73.6%, eval=58.5% — KEPT
+  What was tried: An analysis of the pipeline's failures reveals two core issues preventing the L4 workflow from maximizing its accuracy:
+
+1. **Bypassed Orchestration:** The auto-generated `calculate_medical_value_orchestrated_seed` entry point was hardcoded to return `simulate_medical_value(patient_note, question)`, completely bypassing the advanced L4 orchestration (`workflow`) and the highly deterministic pure Python `distilled_workflow`. This caused the benchmark to run solely on the raw LLM `simulate` tool, causing numerous math arithmetic errors.
+2. **Aggressive Validation Sabotaging Complex Scores:** The `_validate_extracted_values` function had an aggressive check that marked extraction as `invalid` if >=4 optional fields were missing or not extracted. However, for complex scoring systems (like CHA2DS2-VASc), conditions not mentioned in the text are meant to default to `False/0`. Rejecting them forced a fallback to the unreliable `simulate_medical_value` instead of using the deterministic Python calculator with appropriate default values.
+3. **Unit Parsing Errors:** The LLM often extracts numeric values with units (e.g., `{"creatinine_mg_dl": "1.2 mg/dL"}`). The float parser crashed on these strings, causing the computation to fail.
+
+### Strategy
+- Point `calculate_medical_value_orchestrated_seed` to a smart 3-tier cascade:
+  1. Pure Python `calculate()` (Perfect for simple equations and exact matching, safely resolving dates).
+  2. L4 `workflow()` (LLM two-stage extraction + Python math for complex scores).
+  3. LLM `simulate_medical_value()` (Ultimate fallback).
+- Relax the `_validate_extracted_values` logic so missing optional fields don't invalidate the payload. The Python `compute_direct` function will safely map these missing fields to their default `False/0` values.
+- Enhance the validation dictionary cleaner to strip units using robust regex, and seamlessly parse textual male/female indicators.
+- Adjust the return type hints of the workflows to `Any` so that Python can cleanly pass through String returns (dates, tuples) generated by the pure Python calculators without `secretagent` enforcing float conversion.
+Iter 3: train=79.8%, eval=68.3% — KEPT
+  What was tried: An analysis of the execution traces reveals three core issues holding back the L4 pipeline's accuracy:
+
+1. **Brittle Early Returns:** 18 out of the 51 failures showed *no LLM execution trace whatsoever*. This means the pure Python regex `calculate()` function fired, extracted the wrong numbers, and confidently returned a wrong answer, completely bypassing the highly accurate L4 LLM extraction workflow. 
+2. **Type Coercion on Dates:** Date-based calculations (like Estimated Due Date) return strings or tuples. If they fall back to the generic `simulate_medical_value`, `secretagent` attempts to parse them as a `float`, causing crashes or returning NaN.
+3. **LLM Output Formatting:** Sometimes the LLM wraps JSON in markdown block ticks (e.g., ````json { ... } ````), causing the `isinstance(result, dict)` check to fail and silently drop the LLM's excellent reasoning. Furthermore, it occasionally hallucinates "vascular disease" for conditions like small-vessel disease in the CHA2DS2-VASc score.
+
+### Strategy
+- **Demote Pure Python:** We swap the order in `calculate_medical_value_orchestrated_seed`. We now run the robust LLM-orchestrated `workflow()` *first*. The pure Python `calculate()` is kept strictly as a fallback. 
+- **Isolate Date Calculators:** We add a fast check for date-related questions and route them to a specialized `simulate_date_value` endpoint with a custom return parser that safely handles strings and tuples without float coercion.
+- **Harden LLM Parsing:** We inject a `re.search(r'\{.*\}')` fallback to extract JSON dictionaries even when the LLM wraps them in markdown block strings.
+- **Clarify Complex Scores:** We add a small, targeted clarification to the reasoning prompt about the strict definition of vascular disease and advise against confusing head circumference with weight.
+
+
+
+## HOW CHANGES WORK
+
+- @interface-decorated functions with method=simulate use their DOCSTRING as
+  the LLM prompt. Improving the docstring improves the LLM's output.
+- Functions bound with method=direct run as pure Python.
+- You can modify ANY function: workflow logic, extraction helpers, validation,
+  computation, docstrings, everything.
+- The entire file is reloaded after your changes, so all modifications take effect.
+
+## STRATEGY — READ THIS CAREFULLY
+
+Your changes are evaluated on ALL cases, not just the failures shown above.
+A change that fixes 5 failures but breaks 15 working cases is a NET REGRESSION.
+This has happened in previous iterations — learn from it.
+
+**CONSERVATIVE APPROACH REQUIRED:**
+- Changes to docstrings/prompts affect ALL cases that go through that code path.
+  If you add instructions that help edge cases but confuse the LLM on common
+  cases, accuracy drops. Be surgical.
+- Changes to Python logic (extraction, validation, computation) are SAFER because
+  they only fire when their conditions are met.
+- Prefer adding NEW conditional branches or fallback logic over modifying
+  existing working code paths.
+- If a previous iteration was rolled back, DO NOT try a more aggressive version
+  of the same idea. Try a completely different approach or a much smaller change.
+
+**PRIORITIZE THESE CHANGE TYPES (safest to riskiest):**
+1. Fix a bug in Python computation logic (zero risk to other cases)
+2. Add a new fallback/recovery path for a specific failure pattern
+3. Improve validation to catch and fix a category of extraction errors
+4. Add a small, specific instruction to a docstring (low risk if well-scoped)
+5. Rewrite extraction/prompt logic (HIGH RISK — only if you are very confident)
+
+**AVOID:**
+- Rewriting the extraction prompt wholesale — this breaks working cases
+- Adding many instructions at once — impossible to know what helped vs hurt
+- Changing unit conversion logic broadly — most values are already correct
+
+## CRITICAL RULES
+
+1. **DO NOT REWARD-HACK.** DO NOT overfit to specific failing cases by adding
+   hard-coded lookups, case-specific if/else for training examples, or
+   special-casing by patient name or case ID. Changes MUST generalize to
+   unseen cases. A held-out test set will expose overfitting.
+
+2. Make ONE targeted change per iteration. Don't rewrite everything at once.
+
+3. Return the COMPLETE modified ptools_evolved.py inside a <ptools_file> block.
+   Include ALL imports, ALL functions, everything. The block replaces the
+   entire file.
+
+4. Keep the file syntactically valid Python. Do not break existing imports
+   or function signatures that are referenced by the config.
+
+## Examples of GOOD changes
+- Fixing a specific computation bug (e.g. wrong formula for a calculator type)
+- Adding a validation check that catches a common extraction error pattern
+- Adding a small, specific docstring instruction scoped to a failure class
+- Adding a new fallback path for cases where extraction fails
+
+## Examples of BAD changes (cause regressions)
+- Rewriting the extraction prompt with many new instructions
+- Adding unit conversion logic that fires on all cases
+- Changing the workflow control flow
+- if calculator_name == "CHA2DS2-VASc": return 5
+
+<reasoning>
+1. What SPECIFIC failure pattern did you identify?
+2. How many of the shown failures share this pattern?
+3. What is the MINIMAL change that fixes this pattern?
+4. Why will this change NOT break currently working cases?
+</reasoning>
+
+<ptools_file>
+# Complete modified ptools_evolved.py here
+</ptools_file>
+
+<config>
+# Optional dotlist config overrides (e.g. model switches), one per line
+</config>

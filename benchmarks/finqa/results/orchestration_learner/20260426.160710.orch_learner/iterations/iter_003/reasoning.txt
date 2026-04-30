@@ -1,0 +1,13 @@
+An analysis of the failure cases indicates two primary issues causing regressions in the previous iteration:
+
+1. **Overfitted Prompt Instructions:** The previously added instruction `"DO NOT multiply by 100"` was overly restrictive. While it helped standard decimal cases, it broke many FinQA examples where the ground truth *expected* a percentage in absolute terms (e.g., `24.69` instead of `0.2469`). Removing this strict rule and letting the model adapt format to the question leads to much better generalization. 
+2. **Formula Extraction & Evaluation Brittleness:** 
+    - The LLM sometimes outputs formulas as assignments (e.g., `Formula: 5 + 3 = 8` or `Formula: x = 5 + 3`), causing syntax errors in `eval`.
+    - The LLM sometimes uses commas as thousands separators (e.g. `1,000 / 2,000`), which causes `eval` to treat them as invalid tuples instead of math.
+    - When `eval` fails, it currently poisons the extraction context by injecting `Calculated: ... = ERROR: invalid syntax`, tricking the final extractor into outputting the word `"ERROR"`.
+
+To address this conservatively without breaking working cases:
+1. **Loosen Formatting Rules:** Revert the overly rigid rule about percentages in both prompt docstrings and replace it with a rule to format numbers exactly as the question implies. 
+2. **Robust Comma Handling:** Update `compute()` to use a targeted regex that *only* removes commas acting as thousands separators (leaving function calls like `max(1, 2)` perfectly intact).
+3. **Robust Equation Parsing:** Update `_extract_formula()` to safely extract the actual math expression from assignments (e.g., pulling `5 + 3` out of `5 + 3 = 8`).
+4. **Graceful Fallback:** If `eval` throws an error or no formula is found, intercept the error and instead prompt the final `extract_final_number` LLM to manually calculate the answer based on the reasoning plan.

@@ -1,0 +1,177 @@
+<reasoning>
+1. What SPECIFIC failure pattern did you identify?
+The pipeline is currently operating perfectly at 100% train and 100% eval accuracy, so there are no explicit failure patterns to fix. However, the workflow relies on the assumption that `sport_for` will always successfully return a non-empty string. If the LLM behaves unpredictably and returns an empty string, the pipeline passes these empty strings to `consistent_sports`, which can lead to unpredictable outcomes or hallucinations.
+
+2. How many of the shown failures share this pattern?
+0 cases (preventative fix for unseen/adversarial edge cases).
+
+3. What is the MINIMAL change that fixes this pattern?
+Add a standard Python defensive check: `if not player_sport or not action_sport: return False` after calling `sport_for`. If `event` is present, I apply the same check for `event_sport`.
+
+4. Why will this change NOT break currently working cases?
+This is a purely defensive Python check. Because the pipeline is currently at 100% accuracy, we know that for all existing cases `sport_for` correctly yields non-empty valid strings (like 'soccer', 'basketball', 'general sports', etc.). This check will never trigger for the currently successful cases, entirely protecting the 100% accuracy while improving the robustness of the system against potential LLM failures in out-of-distribution texts.
+</reasoning>
+
+<ptools_file>
+"""A demo of secretagent, based on the 'sports_understanding' task in
+BBH.
+
+Backstory: These tools were derived from the program trace prompt
+'mock' for sports_understanding in
+https://github.com/wwcohen/doctest-prompting.
+
+"""
+
+from secretagent.core import interface, implement_via
+
+#
+# tools
+#
+
+@interface
+def analyze_sentence(sentence: str) -> tuple[str, str, str]:
+  """Extract the name of a player, an action, and an optional event.
+
+  The action should be as descriptive as possible. The event will be
+  an empty string if no event is mentioned in the sentence. Do not extract generic phrases like "on the defender" as events; keep them as part of the action.
+
+  Examples:
+  >>> analyze_sentence("Bam Adebayo scored a reverse layup in the Western Conference Finals.")
+  ('Bam Adebayo', 'scored a reverse layup', 'in the Western Conference Finals.')
+  >>> analyze_sentence('Santi Cazorla scored a touchdown.')
+  ('Santi Cazorla', 'scored a touchdown.', '')
+  >>> analyze_sentence('Carles Puyol did a maradona on the defender.')
+  ('Carles Puyol', 'did a maradona on the defender.', '')
+  """
+
+@interface
+def sport_for(x: str)-> str:
+  """Return the name of the sport associated with a player, action, or event.
+
+  If the action or event is highly generic and applies to multiple sports (e.g., 'scored', 'ran', 'passed'), return 'general sports'.
+
+  Examples:
+  >>> sport_for('Bam Adebayo')
+  'basketball'
+  >>> sport_for('scored a reverse layup')
+  'basketball'
+  >>> sport_for('in the Western Conference Finals.')
+  'basketball'
+  >>> sport_for('Santi Cazorla')
+  'soccer'
+  >>> sport_for('scored a touchdown.')
+  'American football and rugby'
+  >>> sport_for('scored')
+  'general sports'
+  """
+    
+@interface
+def consistent_sports(sport1: str, sport2: str) -> bool:
+  """Compare two descriptions of sports, and determine if they are consistent.
+
+  Descriptions are consistent if:
+  - They refer to the exact same sport.
+  - One is more general than the other.
+  - There is any overlap between them (e.g., 'American football' is consistent with 'American football and rugby').
+  - One of the descriptions is 'general sports' or refers to a generic action applicable to the other.
+
+  Examples:
+  >>> consistent_sports('American football', 'American football and rugby')
+  True
+  >>> consistent_sports('soccer', 'soccer')
+  True
+  >>> consistent_sports('ice hockey', 'general sports')
+  True
+  >>> consistent_sports('ice hockey', 'basketball, soccer, and American football')
+  False
+  """
+  ...
+
+@interface
+def are_sports_in_sentence_consistent(sentence:str) -> bool:
+  """Determine plausibility of a sports-related sentence.
+
+  Specifically, determine if the sports associated with the player,
+  action and event in a sentence are all consistent with each other.
+  """
+  ...
+
+def sports_understanding_workflow(sentence:str) -> bool:
+  """Handcoded workflow for are_sports_in_sentence_consistent.
+  """
+  parsed = analyze_sentence(sentence)
+  if not isinstance(parsed, tuple) or len(parsed) != 3:
+      return False
+  
+  player, action, event = parsed
+  if not player or not action:
+      return False
+
+  player_sport = sport_for(player)
+  action_sport = sport_for(action)
+  
+  if not player_sport or not action_sport:
+      return False
+
+  result = consistent_sports(player_sport, action_sport)
+  if event:
+    event_sport = sport_for(event)
+    if not event_sport:
+        return False
+    result = result and consistent_sports(player_sport, event_sport)
+  return result
+
+#
+# zeroshot unstructured model is a workflow - first get a string
+# answer, then use a second tool to generate a bool from that
+#
+
+@implement_via('prompt_llm', prompt_template_file='prompt_templates/zeroshot.txt')
+def zeroshot_are_sports_in_sentence_consistent(sentence: str) -> str:
+  ...
+
+@implement_via('simulate')
+def convert_llm_output_to_true_or_false(llm_output: str) -> bool:
+  """Given an llm's output, approximate the intended answer as bool.
+  """
+  ...
+
+def zeroshot_unstructured_workflow(sentence:str) -> bool:
+  """Workflow for using a zero-shot prompt and coercing the type to bool.
+
+  To run the zeroshot unstructured model, bind this to the
+  implementation of 'are_sports_in_sentence_consistent'.
+  """
+  llm_output = zeroshot_are_sports_in_sentence_consistent(sentence)
+  return convert_llm_output_to_true_or_false(llm_output)
+
+# --- Auto-generated by orchestration_learner --seed-orchestrate ---
+def are_sports_in_sentence_consistent_orchestrated_seed(sentence: str) -> bool:
+    parsed = analyze_sentence(sentence)
+    if not isinstance(parsed, tuple) or len(parsed) != 3:
+        return False
+    
+    player, action, event = parsed
+    if not player or not action:
+        return False
+
+    player_sport = sport_for(player)
+    action_sport = sport_for(action)
+
+    if not player_sport or not action_sport:
+        return False
+
+    if not consistent_sports(player_sport, action_sport):
+        return False
+
+    if event:
+        event_sport = sport_for(event)
+        if not event_sport:
+            return False
+        if not consistent_sports(player_sport, event_sport):
+            return False
+        if not consistent_sports(action_sport, event_sport):
+            return False
+
+    return True
+</ptools_file>

@@ -146,11 +146,23 @@ def normalize_path(commands: List[str]) -> List[str]:
 # ── sub-tools ────────────────────────────────────────────────────────────────
 
 @interface
-def extract_path_and_options(input: str) -> Tuple[str, List[Tuple[str, str]]]:
-    """Extract the SVG path string and answer options from the prompt.
+def extract_path(input: str) -> str:
+    """Extract just the raw SVG path d="..." string from the prompt.
 
-    Returns (path, options) where path is the raw SVG path d="..." string
-    and options is a list of (letter, shape_name) pairs, e.g. [('A', 'circle'), ('B', 'heptagon')].
+    Returns the path commands as a single string, e.g.
+    'M 74.15,65.82 L 62.73,69.82 L 70.21,58.22'.
+    """
+    ...
+
+@interface
+def extract_options(input: str) -> List[Tuple[str, str]]:
+    """Extract just the labeled answer options from the prompt.
+
+    Returns a list of (letter, shape_name) pairs.
+
+    Examples:
+    >>> extract_options('... Options:\\n(A) circle\\n(B) kite\\n(C) triangle')
+    [('A', 'circle'), ('B', 'kite'), ('C', 'triangle')]
     """
     ...
 
@@ -232,7 +244,8 @@ def geometric_shapes_workflow(input: str) -> str:
         ptools.identify_shape.method=direct
         ptools.identify_shape.fn=ptools.geometric_shapes_workflow
     """
-    path, options = extract_path_and_options(input)
+    path = extract_path(input)
+    options = extract_options(input)
     commands = normalize_path(decompose_path(path))
 
     # describe each command, passing the previous command for L commands

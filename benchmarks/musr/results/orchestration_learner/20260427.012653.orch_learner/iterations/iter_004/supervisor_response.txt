@@ -1,0 +1,125 @@
+An analysis of the failures reveals a very clear pattern in how the LLM is being "tricked" by the murder mysteries: it is struggling to differentiate between a **generic** connection to the murder weapon/scene and an **exact/specific** connection. 
+
+Because MUSR dataset cases are designed to have multiple viable suspects with means and motives, the LLM is often falling for "red herrings" (e.g., in `ex063`, suspect Sophie trains with modern tridents, but suspect Lowell owns the *antique* trident used in the murder). Our previous instruction to simply *"Weight physical evidence heavily"* caused the LLM to aggressively lock onto any physical connection without verifying if it was the *exact* match. 
+
+The most robust way to fix this without breaking the CoT reasoning that successfully lifted eval accuracy to 80.0% is to update the docstring instructions across the 3 LLM calls. We will instruct the model to explicitly seek out the **"Smoking Gun"** and to cleanly differentiate between "generic access" to a weapon type versus an "exact physical match" (e.g. they bought it that day, or it was their exact specific item). 
+
+<reasoning>
+1. **Specific failure pattern identified:** The LLM is failing to distinguish between generic, circumstantial evidence (like owning a similar tool) and the highly specific "smoking gun" evidence embedded in the narrative (like buying the weapon on the day of the murder, or the weapon being an exact antique match). 
+2. **How many failures share this pattern:** The vast majority of the 18 failures shown (e.g., ex063, ex060, ex022, ex083) feature the LLM choosing the suspect with a generic weapon connection over the suspect with the exact/specific connection.
+3. **Minimal change that fixes this pattern:** I am updating the docstrings for `extract_suspects_and_evidence`, `verify_alibis`, and `deduce_murderer` to explicitly extract and analyze "specific clues" and "exact weapon matches", prompting the LLM to search for the definitive "Smoking Gun" that breaks the tie between two otherwise viable suspects.
+4. **Why this change will NOT break currently working cases:** It perfectly preserves the Chain-of-Thought ("Think step-by-step") format and exact string output formatting ("Final Answer: ...") that proved successful in Iteration 3. It merely sharpens the heuristics the LLM uses during that thought process to prevent it from getting distracted by red herrings.
+</reasoning>
+
+<ptools_file>
+"""Interfaces for MUSR murder mystery reasoning.
+
+Migrated from AgentProject v2 ptools. Design principle: ptools ANNOTATE
+and ENHANCE reasoning on the raw narrative, rather than abstracting it
+away into lossy structured data.
+"""
+
+from secretagent.core import interface
+from ptools_common import (  # noqa: F401  (re-export so the loaded ptools module exposes them)
+    raw_answer,
+    extract_index,
+    react_solve,
+)
+
+
+@interface
+def extract_suspects_and_evidence(narrative: str) -> str:
+    """Extract the victim, crime details, and ALL suspects with their evidence.
+
+    Read the narrative carefully and extract:
+
+    Top level:
+    - victim: name of the murdered person
+    - crime_details: how/where they were killed, EXACT description of the murder weapon, when body was found
+    - suspects: for each suspect, extract the following
+
+    For each suspect, extract:
+    - motive: why they might have killed the victim
+    - means: access to weapon, relevant skills/knowledge
+    - opportunity: were they near the crime scene, timeline gaps
+    - alibi_claim: what they say they were doing
+    - alibi_witnesses: people/evidence that could verify their alibi
+    - suspicious_behavior: nervousness, contradictions, cleanup, lies
+    - physical_evidence: weapon found at their place, forensics, DNA, fingerprints
+    - specific_clues: highly incriminating details (e.g., exact weapon match, bought weapon on the day, caught on camera)
+
+    Be thorough — include EVERY suspect mentioned. Do NOT omit anyone.
+    Pay close attention to exact phrasing regarding the murder weapon to match it correctly to the suspect.
+    Include the victim's name so downstream analysis knows who was killed.
+    """
+
+
+@interface
+def verify_alibis(narrative: str, suspect_evidence: str) -> str:
+    """Re-read the narrative to verify or challenge each suspect's alibi and evidence.
+
+    You receive the original narrative AND structured evidence extracted
+    for each suspect. Cross-reference alibis against the narrative to
+    find weaknesses and highlight definitive clues.
+
+    For each suspect, determine:
+    - alibi_holds: can the alibi actually be confirmed?
+    - alibi_gaps: any unexplained time periods
+    - contradictions: direct inconsistencies in their story vs narrative facts
+    - weapon_match: distinguish between generic access to a weapon vs an EXACT connection (e.g., it was their specific item, or they bought it that day)
+    - corroborating_evidence: evidence that strongly supports or refutes involvement
+
+    Pay special attention to:
+    - Witnesses who contradict the suspect's claims
+    - Time gaps between when alibis end and the crime window
+    - Physical evidence that definitively places them at the scene
+    """
+
+
+@interface
+def deduce_murderer(narrative: str, verified_analysis: str, question: str, choices: list) -> str:
+    """Given the original narrative, verified alibi analysis, and answer choices,
+    deduce who committed the murder.
+
+    You have access to:
+    1. The FULL original narrative — re-read it for details the analysis may have missed
+    2. Verified analysis for each suspect (alibi status, gaps, contradictions, evidence)
+    3. The multiple-choice options
+
+    Your task:
+    - Think step-by-step and write out your reasoning to synthesize all evidence.
+    - Compare the two suspects side-by-side. Both will likely have a motive and general means.
+    - Identify the "SMOKING GUN": a specific, undeniable piece of evidence that breaks the tie.
+    - Look for EXACT physical evidence matches: differentiate between a suspect who merely has generic access to a similar weapon, versus the suspect whose EXACT weapon was found, or who acquired it right before the murder.
+    - Look for FATAL alibi contradictions: a suspect whose whereabouts are explicitly contradicted by a witness, camera, or physical fact.
+    - The true murderer is the one with the smoking gun or caught in a direct lie, not just the one with the most motive or generic means.
+    - Conclude your reasoning by explicitly stating your final choice from the options on a new line.
+      Example: "Final Answer: John Doe"
+    """
+
+
+@interface
+def answer_question(narrative: str, question: str, choices: list) -> int:
+    """Read the murder mystery narrative and answer the question.
+    Return the 0-based index of the correct choice.
+    """
+    text = raw_answer(narrative, question, choices)
+    return extract_index(text, choices)
+
+
+@interface
+def answer_question_workflow(narrative: str, question: str, choices: list) -> int:
+    """Solve by extracting evidence, verifying alibis, deducing, then matching."""
+    evidence = extract_suspects_and_evidence(narrative)
+    verified = verify_alibis(narrative, evidence)
+    text = deduce_murderer(narrative, verified, question, choices)
+    return extract_index(text, choices)
+
+# --- Auto-generated by orchestration_learner --seed-orchestrate ---
+def answer_question_workflow_orchestrated_seed(narrative: str, question: str, choices: list) -> int:
+    suspects_and_evidence = extract_suspects_and_evidence(narrative)
+    verified_alibis = verify_alibis(narrative, suspects_and_evidence)
+    murderer_deduction = deduce_murderer(narrative, verified_alibis, question, choices)
+    final_index = extract_index(murderer_deduction, choices)
+    return final_index
+</ptools_file>

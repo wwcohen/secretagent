@@ -1,0 +1,57 @@
+Consider the following Python program that uses documentation stubs
+(ptools) to solve a tabular math word problem. Each function is
+described only by its type signature and docstring — imagine each
+is fully implemented as suggested by the documentation.
+
+```python
+def identify_operation(question: str, table_description: str) -> str:
+    """Determine what math operation is needed to answer the question.
+    Given the question and a description of the table, identify the
+    operation: lookup, sum, difference, average, count, comparison,
+    min, max, range, or other.
+    Return a short string naming the operation.
+    """
+
+def extract_relevant_values(question: str, table: str) -> list[str]:
+    """Given the full table in context, extract the specific values
+    needed to answer the question.
+    Read the table carefully, identify which rows and columns are
+    relevant, and return their values as a list of strings.
+    """
+
+def compute_answer(operation: str, values: list[str]) -> str:
+    """Perform the arithmetic or logical operation on the given values.
+    Return the computed result as a string.
+    """
+
+def format_answer(result: str, choices: list | None) -> str:
+    """Format the computed result into the final answer.
+    If choices is a list, select the matching choice.
+    If choices is None, return the result as a clean string
+    (no units, no extra text).
+    """
+
+# Inputs:
+question = "$question"
+table = """$table"""
+choices = $choices
+
+# Program trace:
+operation = identify_operation(question, table)
+values = extract_relevant_values(question, table)
+result = compute_answer(operation, values)
+answer = format_answer(result, choices)
+print(answer)
+```
+
+Simulate executing this program. For each function call, show what
+the function would return given the documentation stub. Then give
+the final printed output.
+
+<answer>
+FINAL ANSWER
+</answer>
+
+The answer should be printed as a Python interpreter would print it.
+If the answer is a string, do NOT include quotes. Include only the
+final answer between the <answer> and </answer> tags.

@@ -1,0 +1,14 @@
+Pipeline accuracy: 54.7%, avg cost: $0.0028/case, 53 cases
+
+Per-ptool breakdown:
+  compute_angle: cost_frac=22.0%, calls/case=3.2, avg_cost=$0.0002, lift=N/A, errors=0
+  decompose_path: cost_frac=11.5%, calls/case=1.0, avg_cost=$0.0003, lift=N/A, errors=0
+  describe_command: cost_frac=38.5%, calls/case=5.2, avg_cost=$0.0002, lift=N/A, errors=0
+  describe_shape: cost_frac=6.3%, calls/case=1.0, avg_cost=$0.0002, lift=N/A, errors=0
+  extract_path_and_options: cost_frac=14.8%, calls/case=1.0, avg_cost=$0.0004, lift=N/A, errors=0
+  select_option: cost_frac=6.9%, calls/case=1.0, avg_cost=$0.0002, lift=N/A, errors=0
+
+Ptools called via LLM: ['compute_angle', 'decompose_path', 'describe_command', 'describe_shape', 'extract_path_and_options', 'select_option']
+
+Held-out eval accuracy: 50.0% (train: 54.7%)
+A large train-eval gap means your changes are OVERFITTING. Prefer changes that generalize to unseen cases.

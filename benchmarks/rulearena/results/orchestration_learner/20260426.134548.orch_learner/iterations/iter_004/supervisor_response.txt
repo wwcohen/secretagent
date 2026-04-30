@@ -1,0 +1,27 @@
+]. Dollar values like "$1,234" become numeric (1234.0).
+    Use the precise line numbers indicated in the field descriptions.
+    """
+    ...
+```
+
+Let's verify `student_list` again. In the actual code `_apply_tax_defaults`, it defaults to `[]` if absent or not a list.
+```python
+    if not isinstance(result.get("student_list"), list):
+        result["student_list"] = []
+```
+If we set `default_factory=list`, it will be a list when instantiated.
+
+One minor point: what if `wage_tip_compensation` text says:
+```
+Line 1a - Total amount from Form(s) W-2, box 1: $133,202
+```
+This is W-2 box 1. My description: `Line 1a - W-2 box 1` should hit it reliably.
+
+Let's review the traces again.
+Case `tax_0_18`:
+Extracted:
+`age=0` -> Expected `58`
+`wage_tip_compensation=679.0` -> Expected `133202.0`
+`unreported_tip=1595.0` -> Expected `1595.0` (this one hit correctly)
+
+This clearly shows that Pydantic `Field(..., description=...)` is exactly what we need to guide the LL

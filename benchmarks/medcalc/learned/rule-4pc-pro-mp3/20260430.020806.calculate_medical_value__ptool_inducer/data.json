@@ -1,0 +1,457 @@
+{
+  "n_thoughts": 75,
+  "trace_mode": "react",
+  "only_correct": false,
+  "items": [
+    {
+      "case": "train.4386",
+      "pos": 4,
+      "text": "The patient is 9 years old (initial encounter). The Centor Score (McIsaac criteria) includes:\n- Age: 3\u201314 years (+1 point)\n- Fever (>38\u00b0C): 37.2\u00b0C (0 points)\n- Absence of cough (+1 point) \u2014 The patient had a cough (0 points)\n- Tonsillar exudates or swelling (0 points as none mentioned)\n- Tender anterior cervical lymphadenopathy (0 points as none mentioned)\n\nCalculation: Age (1) + Fever (0) + No cough (0) + Exudates (0) + Adenopathy (0) = 1.",
+      "correct": true
+    },
+    {
+      "case": "train.6389",
+      "pos": 8,
+      "text": "The CURB-65 score consists of 5 criteria: Confusion, Urea (>7 mmol/L), Respiratory rate (>=30 breaths/min), Blood pressure (Systolic <90 mmHg or Diastolic <=60 mmHg), and Age (>=65). Based on the admission clinical note:\n- **Confusion**: The note says he was \"alert\", so confusion is absent (0 points).\n- **Urea**: Blood urea nitrogen is 5.9 mmol/L, which is <7 mmol/L (0 points).\n- **Respiratory Rate**: 20 breaths/min, which is <30 (0 points).\n- **Blood Pressure**: 136/72 mmHg, which is not <90/60 (0 points).\n- **Age**: 85 years, which is >=65 (1 point).\n\nSumming these points gives 0 + 0 + 0 + 0 + 1 = 1.",
+      "correct": true
+    },
+    {
+      "case": "train.9965",
+      "pos": 6,
+      "text": "The Caprini VTE score is calculated by assessing risk factors. Based on the patient note, the following points apply:\n- Age 66 (1 point)\n- History of cancer (2 points)\n- Major surgery planned (2 points)\n- Varicose veins (1 point)\n- Note: Hypertension is not a direct criterion in the standard Caprini score.\n\nSumming these points: 1 (Age) + 2 (Cancer) + 2 (Major surgery) + 1 (Varicose veins) = 6.\n\nFinal result: 6.0",
+      "correct": false
+    },
+    {
+      "case": "train.6499",
+      "pos": 2,
+      "text": "The patient note provides the necessary clinical information to evaluate the PERC rule criteria for Pulmonary Embolism. I have identified the patient's age (72), heart rate (92 bpm), oxygen saturation (92%), and blood pressure (140/90 mmHg). Now I need to evaluate the 8 PERC criteria: Age >= 50, Heart Rate >= 100, O2 saturation < 95%, Unilateral leg swelling, Hemoptysis, Surgery/trauma within 4 weeks, Prior PE/DVT, and Hormone use.\n\nBased on the data:\n1. Age >= 50: Yes (72) -> 1 point\n2. Heart Rate >= 100: No (92) -> 0 points\n3. O2 saturation < 95%: Yes (92%) -> 1 point\n4. Unilateral leg swelling: No mentioned -> 0 points\n5. Hemoptysis: No mentioned -> 0 points\n6. Surgery/trauma within 4 weeks: No mentioned -> 0 points\n7. Prior PE/DVT: No mentioned -> 0 points\n8. Hormone use: No mentioned -> 0 points\n\nTotal criteria met = 2.",
+      "correct": true
+    },
+    {
+      "case": "train.10025",
+      "pos": 2,
+      "text": "To calculate the Caprini Score, I need to evaluate the patient's risk factors based on her status at the time of admission. Based on the extracted information, she is 67 years old (1 point), female (0 points for Caprini, though some versions count it, the standard Caprini list does not), has a BMI of 26 (0 points, as the threshold is 25-30 for 1 point, let's verify: BMI 25-30 is 1 point), and has hypertension (1 point). She presented with sepsis/infection (acute infection = 1 point), and she is scheduled for a cholecystectomy (minor surgery = 1 point, major surgery >45 mins = 2 points, cholecystectomy is usually 2 points).\n\nI will now calculate the score by summing these factors: Age 61-74 (1), BMI 25-30 (1), Hypertension (1), Acute infection (1), and Cholecystectomy surgery (2). Total = 6.\n\nFinal check of Caprini factors:\n- Age 61-74: 1 pt\n- BMI 25-30: 1 pt\n- Hypertension: 1 pt\n- Acute infection (within 1 month): 1 pt\n- Surgery lasting > 45 mins: 2 pts\nTotal = 6 points.",
+      "correct": false
+    },
+    {
+      "case": "train.5881",
+      "pos": 6,
+      "text": "The FeverPAIN score is calculated by assessing five criteria: Fever, Purulence, Attend rapidly, Inflamed tonsils, and No cough/coryza. Based on the patient note, the patient had fever (+1) and a congested oropharynx suggesting inflamed tonsils (+1), but also had cough and rhinorrhea (indicating cough/coryza present), no mention of tonsillar purulence, and no mention of attending rapidly. Therefore, the score is 1 + 1 + 0 + 0 + 0 = 2.",
+      "correct": true
+    },
+    {
+      "case": "train.6628",
+      "pos": 2,
+      "text": "The SIRS criteria assess physiological status based on four parameters: temperature, heart rate, respiratory rate, and white blood cell count. I have extracted the necessary values from the note: temperature 99.1\u00b0F (37.28\u00b0C), heart rate 87 bpm, respiratory rate 18 breaths/min, and white blood cell count 3,000/mm\u00b3. Now I will evaluate each criterion to determine the total count.\n\n1. **Temperature:** Criteria is < 36\u00b0C or > 38\u00b0C. 99.1\u00b0F is ~37.28\u00b0C. (Criterion NOT met)\n2. **Heart Rate:** Criteria is > 90 bpm. Patient has 87 bpm. (Criterion NOT met)\n3. **Respiratory Rate:** Criteria is > 20 breaths/min or PaCO2 < 32 mmHg. Patient has 18 breaths/min. (Criterion NOT met)\n4. **White Blood Cell Count:** Criteria is < 4,000/mm\u00b3 or > 12,000/mm\u00b3. Patient has 3,000/mm\u00b3. (Criterion IS met)\n\nTotal criteria met: 1.",
+      "correct": true
+    },
+    {
+      "case": "train.10382",
+      "pos": 22,
+      "text": "The patient's HAS-BLED score is calculated as follows:\n- Hypertension (H): BP is persistently >160 systolic (measured at 152/90, 150/92, 154/88, but historic readings were 150s/90s) = 1 point\n- Abnormal renal or liver function (A): None = 0 points\n- Stroke (S): None = 0 points\n- Bleeding history or predisposition (B): None = 0 points\n- Labile INR (L): Significant fluctuation with only 5/13 readings in range = 1 point\n- Elderly (E): Age 32 = 0 points\n- Drugs or alcohol (D): 7 drinks per week (not considered excessive, which is >8 per week) = 0 points\n\nTotal score = 1 (H) + 1 (L) = 2.\n\nFinal result: 2.0",
+      "correct": true
+    },
+    {
+      "case": "train.9524",
+      "pos": 16,
+      "text": "To determine the patient's Wells' criteria score for DVT, I evaluated the clinical findings:\n1.  **Active cancer:** No (0 points)\n2.  **Paralysis, paresis, or recent plaster immobilization of the lower extremities:** No (0 points)\n3.  **Recently bedridden for 3 days or more, or major surgery within 12 weeks:** No (0 points)\n4.  **Localized tenderness along the deep venous system:** Yes, elicited in the adductor canal, popliteal fossa, and posterior medial gastrocnemius (1 point)\n5.  **Entire leg swollen:** No, enlargement was restricted to the left calf (0 points)\n6.  **Calf swelling at least 3 cm larger than the asymptomatic side:** Yes, 3.8 cm difference (1 point)\n7.  **Pitting edema confined to the symptomatic leg:** Yes, observed (1 point)\n8.  **Collateral superficial veins (non-varicose):** No (0 points)\n9.  **Previously documented DVT:** No (0 points)\n10. **Alternative diagnosis at least as likely as DVT:** The physician noted that no other diagnosis convincingly accounts for the findings (0 points)\n\nSumming these points (1 + 1 + 1), the total score is 3.",
+      "correct": true
+    },
+    {
+      "case": "train.9915",
+      "pos": 2,
+      "text": "To calculate the Pneumonia Severity Index (PSI), I need to extract the specific demographic, clinical, and laboratory parameters defined in the PORT score system, such as age, comorbidities (e.g., liver disease), physical exam findings (e.g., confusion, vital signs), and lab values (e.g., BUN, glucose, sodium, hematocrit). Since the documentation requires me to show my work based on the provided patient note and the formula logic, I will now extract these values.",
+      "correct": true
+    },
+    {
+      "case": "train.9915",
+      "pos": 13,
+      "text": "The PSI/PORT score calculation involves summing points from demographics, comorbidities, and physical/lab findings. Based on the extracted values:\n\n**Demographics:**\n- Age: 42 (Male = 42 points)\n- Nursing home resident: No (0)\n\n**Comorbidities:**\n- Neoplastic disease: No (0)\n- Liver disease: Yes (20 points)\n- Congestive heart failure: No (0)\n- Cerebrovascular disease: No (0)\n- Renal disease: No (0)\n\n**Physical Findings:**\n- Altered mental status: Yes (20 points)\n- Respiratory rate \u2265 30/min: Yes (52/min, 20 points)\n- Systolic BP < 90 mmHg: No (134 mmHg, 0 points)\n- Temperature < 35\u00b0C or \u2265 40\u00b0C: Yes (102\u00b0F/38.9\u00b0C is < 40\u00b0C, but PSI uses 35-39.9 range, so 0 points)\n- Pulse \u2265 125/min: No (119/min, 0 points)\n\n**Laboratory/Radiographic Findings:**\n- pH < 7.35: No (7.65, 0 points)\n- BUN \u2265 30 mg/dL: Yes (56 mg/dL, 20 points)\n- Sodium < 130 mEq/L: Yes (115 mEq/L, 20 points)\n- Glucose \u2265 250 mg/dL: No (154 mg/dL, 0 points)\n- Hematocrit < 30%: No (62%, 0 points)\n- Oxygen saturation < 90%: No (92%, 0 points)\n\n**Summing the scores:**\n42 (Age) + 20 (Liver) + 20 (Altered Mental Status) + 20 (RR) + 20 (BUN) + 20 (Sodium) = 142 points.\n\n*(Self-correction: PSI scoring for age is Age in years for men, and Age - 10 for women. For 42-year-old male, points = 42.)*\n\nTotal Score = 142.",
+      "correct": true
+    },
+    {
+      "case": "train.10064",
+      "pos": 6,
+      "text": "The patient's Glasgow Coma Scale (GCS) is calculated based on the neurological assessment findings at admission: Eye opening to voice (E3), absence of verbal response (V1), and flexion to painful stimulus (M4). Summing these values (3 + 1 + 4) results in a total GCS score of 8.\n\nFinal Result: 8.0",
+      "correct": false
+    },
+    {
+      "case": "train.9647",
+      "pos": 4,
+      "text": "The Glasgow-Blatchford Score (GBS) is determined using specific criteria. Based on the patient note:\n- BUN: 19 mg/dL (1 point: 18.2-22.4 mg/dL)\n- Hemoglobin: 15.2 g/dL (0 points: >13 g/dL for male)\n- Systolic BP: 125 mm Hg (0 points: 110-129 mm Hg)\n- Heart rate: 104 bpm (1 point: >=100 bpm)\n- Other markers: No melena (0 points), no syncope (0 points), no liver disease (0 points), no heart failure (the patient has chronic systolic heart failure - 2 points).\n\nTotal score = 1 (BUN) + 0 (Hb) + 0 (SBP) + 1 (HR) + 2 (CHF) = 4.",
+      "correct": false
+    },
+    {
+      "case": "train.0779",
+      "pos": 2,
+      "text": "The extracted clinical values confirm the patient's age (88), sex (male), and history of hypertension and vascular disease. I need to assess for CHF (ejection fraction 40% suggests possible CHF), diabetes, and history of stroke/TIA/thromboembolism from the note to accurately calculate the CHA2DS2-VASc score. The note mentions atrial fibrillation (already a condition, but the score uses the components), and I will evaluate the missing categories based on the provided text.\n\nBased on the text:\n- Congestive Heart Failure: Ejection fraction is 40% (significant for dysfunction).\n- Hypertension: Yes (noted in PMH).\n- Age: 88 (>= 75, so +2).\n- Diabetes: Not mentioned (assume 0).\n- Stroke/TIA/Thromboembolism: The presentation itself is an embolic event (loss of vision), but CHA2DS2-VASc is used to assess stroke risk *prior* to a stroke event for anticoagulation decisions. However, the score is often calculated retrospectively. If strictly using criteria: atrial fibrillation is the indication, history of vascular disease (+1), age >= 75 (+2), hypertension (+1).\n- Sex: Male (0).\n\nCHA2DS2-VASc components:\n- CHF: +1 (due to diastolic dysfunction/ejection fraction 40%)\n- HTN: +1\n- Age >= 75: +2\n- DM: 0\n- Stroke/TIA/Thromboembolism: 0 (the index event is the reason for admission, not a history)\n- Vascular Disease: +1 (CAD mentioned)\n- Sex: 0 (male)\n- Atrial Fibrillation: (The score *is* for AF, but the criteria are the letters).\n\nLet's re-verify the criteria: CHF (+1), HTN (+1), Age >= 75 (+2), Diabetes (+1), Stroke/TIA (+2), Vascular (+1), Female (+1).\nAge 88: +2\nHTN: +1\nVascular Disease (CAD): +1\nCHF (EF 40%): +1\nTotal: 5.\n\nFinal check of the question: \"CHA2DS2-VASc Score... prior to any treatment.\"\nScore: 5.\n\nWait, looking at common CHA2DS2-VASc calculation:\nAge 88: +2\nHTN: +1\nVascular disease (CAD): +1\nCHF: +1 (The note says \"left ventricular diastolic dysfunction with an ejection fraction of 40%\". This is consistent with CHF).\nSum = 5.\n\nFinal calculation: 5.0.",
+      "correct": false
+    },
+    {
+      "case": "train.9491",
+      "pos": 4,
+      "text": "To calculate the Child-Pugh score, I have extracted the necessary clinical values: total bilirubin (2.56 mg/dL), serum albumin (3.41 g/dL), INR (1.26), presence of ascites (none = 0), and presence of encephalopathy (none = 0).\n\nThe Child-Pugh scoring criteria are:\n1. **Total Bilirubin (mg/dL):**\n   - <2: 1 point\n   - 2\u20133: 2 points\n   - >3: 3 points\n   - Patient has 2.56 mg/dL \u2192 **2 points**\n\n2. **Serum Albumin (g/dL):**\n   - >3.5: 1 point\n   - 2.8\u20133.5: 2 points\n   - <2.8: 3 points\n   - Patient has 3.41 g/dL \u2192 **2 points**\n\n3. **INR:**\n   - <1.7: 1 point\n   - 1.7\u20132.3: 2 points\n   - >2.3: 3 points\n   - Patient has 1.26 \u2192 **1 point**\n\n4. **Ascites:**\n   - None: 1 point\n   - Mild/Controlled: 2 points\n   - Severe/Refractory: 3 points\n   - Patient has none \u2192 **1 point**\n\n5. **Encephalopathy:**\n   - None: 1 point\n   - Grade I\u2013II: 2 points\n   - Grade III\u2013IV: 3 points\n   - Patient has none \u2192 **1 point**\n\n**Total Score = 2 + 2 + 1 + 1 + 1 = 7.**",
+      "correct": true
+    },
+    {
+      "case": "train.6746",
+      "pos": 2,
+      "text": "The SIRS criteria require 2 or more of the following: \n1. Temperature > 38\u00b0C or < 36\u00b0C\n2. Heart rate > 90 bpm\n3. Respiratory rate > 20 breaths/min or PaCO2 < 32 mmHg\n4. WBC count > 12,000/mm\u00b3, < 4,000/mm\u00b3, or > 10% immature (band) forms\n\nBased on the extracted values:\n1. Temperature: 38.2\u00b0C (> 38\u00b0C) \u2192 Criteria met (1 point)\n2. Heart rate: 125 bpm (> 90 bpm) \u2192 Criteria met (1 point)\n3. Respiratory rate: 20 breaths/min (not > 20) \u2192 Criteria not met\n4. WBC: 4700/mL (normal range 3500-9700) \u2192 Criteria not met\n\nTotal SIRS criteria met: 1 + 1 + 0 + 0 = 2.",
+      "correct": false
+    },
+    {
+      "case": "train.2959",
+      "pos": 4,
+      "text": "The Wells' criteria for PE includes points for clinical signs of DVT (3 points), heart rate > 100 bpm (1.5 points), immobilization/surgery in the previous 4 weeks (1.5 points), previous PE or DVT (1.5 points), hemoptysis (1 point), malignancy (1 point), and PE as the most likely diagnosis (3 points). Based on the patient note, none of these criteria are explicitly met: the HR is 80 (not >100), and there is no evidence of DVT, recent surgery, previous thrombosis, hemoptysis, or malignancy reported. As the alternative diagnosis (hemorrhage/stroke) is the primary clinical finding, it is not \"more likely than an alternative diagnosis.\" Therefore, the total score is 0.",
+      "correct": true
+    },
+    {
+      "case": "train.2959",
+      "pos": 7,
+      "text": "The previous tool call failed, likely because it requires explicit boolean inputs rather than zeros. Since none of the clinical criteria for the Wells' Criteria for PE are documented in the patient note, the score is 0.",
+      "correct": true
+    },
+    {
+      "case": "train.9706",
+      "pos": 4,
+      "text": "The Glasgow-Blatchford Score requires assessment of several criteria: hemoglobin, blood urea nitrogen (BUN), systolic blood pressure, heart rate, and presence of melena, syncope, cardiac failure, and liver disease. I have identified the following values: age 63, BUN 77 mg/dL, Hb 9.4 g/dL, HR 138 bpm, SBP 84 mmHg, and a history of cardiac failure. I need to confirm the presence of melena and syncope from the note (the note mentions \"pitch-black, sticky stool\" which is melena, and denies \"lost vision or felt the room spin\" suggesting no syncope) and liver disease (denies history of liver disease). I will now perform the calculation based on these findings.\n\n- BUN 77 mg/dL: 6 points (>= 25)\n- Hemoglobin 9.4 g/dL (for woman): 3 points (10.0\u201311.9 is 1; <10 is 3, wait, let me re-check: GBS for women: Hb 10-12 is 1, Hb <10 is 3. Yes, 3 points.)\n- SBP 84 mmHg: 3 points (80-89 mmHg is 3)\n- Heart Rate 138 bpm: 2 points (>= 100 is 1, but this score is usually 1, let me check standard GBS: HR >= 100 is 1 point.) *Correction: HR >= 100 is 1 point.*\n- Melena: 1 point\n- Cardiac failure: 2 points\n- Syncope: 0 points\n- Liver disease: 0 points\n\nTotal: 6 (BUN) + 3 (Hb) + 3 (SBP) + 1 (HR) + 1 (Melena) + 2 (Cardiac failure) = 16 points.\n\nWait, let's re-verify:\nBUN 77: 6 points (>=25)\nHb 9.4 (female): 3 points (<10)\nSBP 84: 3 points (80-89)\nHR 138: 1 point (>=100)\nMelena: 1 point\nCardiac failure: 2 points\nTotal: 6+3+3+1+1+2 = 16.\n\nWait, check BUN points: >=25 is 6? Let's check GBS scale:\nBUN: 6.5\u20138 (1), >8 (2) ... wait, units! 77 mg/dL is high.\nBUN (mmol/L): 6.5-8 (2), 8-10 (3), 10-25 (4), >=25 (6).\nAh, 77 mg/dL / 2.8 = 27.5 mmol/L. So yes, 6 points for BUN.\n\nEverything seems correct. Total = 16.",
+      "correct": true
+    },
+    {
+      "case": "train.10360",
+      "pos": 4,
+      "text": "The patient is 76 years old (Age \u2265 65 is 1 point). She has hypertension (SBP > 160 mmHg, 1 point). She has a history of major bleeding (gastric ulcer, 1 point). Her alcohol consumption is high (38 drinks per week, 1 point). Renal function, liver function, stroke history, labile INR, and bleeding-predisposing medications need to be carefully assessed based on the provided patient note to determine the remaining points.\n\n*   **H (Hypertension):** Yes, SBP is > 160 mmHg. (+1)\n*   **A (Abnormal Renal/Liver function):** Albumin is normal (4.2), Bilirubin is normal (0.7), Liver enzymes are normal. No mention of CKD or dialysis. (0)\n*   **S (Stroke):** No history of stroke or TIA. (0)\n*   **B (Bleeding history):** Yes, prior GI bleed. (+1)\n*   **L (Labile INR):** TTR is 82%, stable control. (0)\n*   **E (Elderly):** Age is 76 (\u2265 65). (+1)\n*   **D (Drugs/Alcohol):** Using aspirin and naproxen. While she denies glucocorticoids, aspirin and NSAIDs (naproxen) are both associated with increased bleeding risk. Also, heavy alcohol consumption is present. (+1 for drugs, +1 for alcohol = +1 total for the \"D\" criterion, as the category is Drugs/Alcohol).\n\nTotal Score = 1 (H) + 0 (A) + 0 (S) + 1 (B) + 0 (L) + 1 (E) + 1 (D) = 4.",
+      "correct": false
+    },
+    {
+      "case": "train.10360",
+      "pos": 7,
+      "text": "The manual calculation indicates a HAS-BLED score of 4. Since the `compute_calculation` tool failed, I will provide the score based on the clinical assessment of the criteria:\n- **H**: 1 (SBP > 160)\n- **A**: 0\n- **S**: 0\n- **B**: 1 (Prior GI bleed)\n- **L**: 0\n- **E**: 1 (Age 76)\n- **D**: 1 (Aspirin/NSAID use and alcohol, counted as one category)\nTotal = 4.",
+      "correct": false
+    },
+    {
+      "case": "train.4192",
+      "pos": 4,
+      "text": "The HEART score assesses chest pain in the emergency department setting based on five categories: History, ECG, Age, Risk factors, and Troponin. The patient was a 44-year-old male presenting with an incomplete right bundle branch block (IRBBB) and was completely asymptomatic, showing no signs of acute coronary syndrome. Based on the documentation provided in the note, he has no history of CAD, no traditional risk factors, and troponin levels were not elevated or concerning as cardiac ischemic disease was formally excluded. Assigning points according to HEART score criteria: History (highly suspicious/other: 0), ECG (other: 0), Age (<45: 0), Risk factors (none: 0), and Troponin (not elevated: 0).",
+      "correct": true
+    },
+    {
+      "case": "train.0771",
+      "pos": 2,
+      "text": "The extraction shows the patient is a 70-year-old female with a history of diabetes. I need to verify the other components of the CHA2DS2-VASc score (CHF, hypertension, history of stroke/TIA, and vascular disease) from the patient note, keeping in mind the instruction to assess her status at initial admission. The note mentions atrial fibrillation was observed on day 2, which is post-admission; I will review the note for evidence of other conditions at the time of admission.\n\n- Age: 70 (2 points)\n- Sex: Female (1 point)\n- Diabetes: Yes (1 point)\n- CHF: Not mentioned (0 points)\n- Hypertension: Not mentioned (0 points)\n- Stroke/TIA: The current event is a stroke, but prior history of stroke/TIA is not indicated.\n- Vascular Disease: Not mentioned (0 points)\n\nThe total score is 2 (Age) + 1 (Female) + 1 (Diabetes) = 4.",
+      "correct": false
+    },
+    {
+      "case": "train.10281",
+      "pos": 2,
+      "text": "The patient has documented rheumatoid arthritis (a connective tissue disease), a history of a peptic ulcer (for which she was hospitalized), and diabetes (diagnosed six years ago). I will now calculate the Charlson Comorbidity Index (CCI) based on these findings: Rheumatoid Arthritis (+1), Peptic Ulcer Disease (+1), and Diabetes (+1). The patient is 47, which does not add any age points (age points start at 50).\n\n- Rheumatoid Arthritis: +1\n- Peptic Ulcer Disease: +1\n- Diabetes: +1\n- Total: 3",
+      "correct": true
+    },
+    {
+      "case": "train.6463",
+      "pos": 6,
+      "text": "The CURB-65 score is determined by evaluating five criteria (1 point each):\n- **C**onfusion: Not mentioned in the note (0 points).\n- **U**rea Nitrogen: >19 mg/dL (Note is 16 mg/dL, 0 points).\n- **R**espiratory Rate: \u226530/min (Note is 22/min, 0 points).\n- **B**lood Pressure: Systolic <90 mmHg or Diastolic \u226460 mmHg (Note is 125/90 mmHg, 0 points).\n- **65**: Age \u226565 years (Note is 68 years, 1 point).\n\nTotal Score = 0 + 0 + 0 + 0 + 1 = 1.",
+      "correct": true
+    },
+    {
+      "case": "train.10462",
+      "pos": 14,
+      "text": "The Revised Cardiac Risk Index (RCRI) is calculated by summing the following six clinical predictors:\n1. History of ischemic heart disease (Present: 1 point)\n2. History of heart failure (Absent: 0 points)\n3. History of cerebrovascular disease (Absent: 0 points)\n4. Preoperative insulin-dependent diabetes mellitus (Present: 1 point)\n5. Preoperative serum creatinine > 2.0 mg/dL (Serum Cr 1.71 mg/dL, so Absent: 0 points)\n6. High-risk surgery (Elective arthroscopic repair, Absent: 0 points)\n\nThe sum of these predictors is 1 + 0 + 0 + 1 + 0 + 0 = 2.\n\nfinal_result(response=2.0)",
+      "correct": true
+    },
+    {
+      "case": "train.9574",
+      "pos": 4,
+      "text": "The SOFA score is calculated by assessing six organ systems based on clinical and laboratory values extracted from the note:\n\n1.  **Respiration (PaO\u2082/FiO\u2082):** PaO\u2082 = 92 mm Hg, FiO\u2082 = 0.60. Ratio = 92 / 0.6 = 153.33. Score: **2** (PaO\u2082/FiO\u2082 100\u2013200).\n2.  **Coagulation (Platelets):** 98,000 /\u00b5L. Score: **1** (Platelets < 150 \u00d7 10\u00b3/\u00b5L).\n3.  **Liver (Bilirubin):** 1.0 mg/dL. Score: **0** (< 1.2 mg/dL).\n4.  **Cardiovascular (MAP):** 70 mm Hg (no vasopressors used). Score: **0** (MAP \u2265 70 mm Hg).\n5.  **Neurological (GCS):** 12. Score: **2** (GCS 10\u201312).\n6.  **Renal (Creatinine/Urine Output):** Creatinine = 2.6 mg/dL. Urine output = 500 mL/24hr. Score: **3** (Creatinine 2.0\u20133.4 mg/dL or Urine output < 500 mL/day; this patient qualifies for 3).\n\nTotal SOFA Score = 2 + 1 + 0 + 0 + 2 + 3 = 8.",
+      "correct": false
+    },
+    {
+      "case": "train.10414",
+      "pos": 4,
+      "text": "The RCRI (Revised Cardiac Risk Index) criteria for a patient undergoing non-cardiac surgery are:\n1. High-risk surgery (intraperitoneal, intrathoracic, or suprainguinal vascular procedures): Yes, sigmoid colectomy is an intraperitoneal procedure.\n2. History of ischemic heart disease: Yes, history of NSTEMI.\n3. History of congestive heart failure: No.\n4. History of cerebrovascular disease: Yes, history of TIA/stroke.\n5. History of diabetes mellitus requiring insulin: No, patient is on metformin.\n6. Preoperative serum creatinine > 2.0 mg/dL: No, it is 1.05 mg/dL.\n\nBased on these findings, the patient meets 3 criteria (High-risk surgery, Ischemic heart disease, Cerebrovascular disease). I will now perform the calculation.",
+      "correct": false
+    },
+    {
+      "case": "train.10414",
+      "pos": 7,
+      "text": "The previous calculation attempt failed, likely due to a parameter name mismatch in the tool's interface. However, the calculation of the RCRI is straightforward: it is a simple sum of the criteria met (1 point for each of the 6 factors). Since the patient meets three criteria (High-risk surgery, History of ischemic heart disease, and History of cerebrovascular disease), the total score is 3.",
+      "correct": false
+    },
+    {
+      "case": "train.10369",
+      "pos": 2,
+      "text": "The HAS-BLED score is calculated by summing points for the following criteria: Hypertension (systolic BP > 160 mmHg, 1 point), Abnormal renal/liver function (1 point each), Stroke history (1 point), Bleeding history (1 point), Labile INR (1 point), Elderly (age > 65, 1 point), and Drugs/alcohol use (1 point each). \n\nFrom the patient note:\n- **H (Hypertension):** Systolic BP is 112 mmHg (normal), 0 points.\n- **A (Abnormal renal/liver function):** Has end-stage renal disease on hemodialysis (abnormal renal), 1 point. Liver function is normal, 0 points.\n- **S (Stroke history):** No mention of prior stroke, 0 points.\n- **B (Bleeding history):** Prior upper GI hemorrhage, 1 point.\n- **L (Labile INR):** TTR is 35%, which is < 60% and clearly labile, 1 point.\n- **E (Elderly):** Age 85 (> 65), 1 point.\n- **D (Drugs/Alcohol):** Excessive alcohol intake (46 drinks/week), 1 point.\n\nTotal score = 0 + 1 + 0 + 1 + 1 + 1 + 1 = 5.",
+      "correct": true
+    },
+    {
+      "case": "train.6441",
+      "pos": 4,
+      "text": "The CURB-65 score uses five criteria: Confusion (C), Urea (U) > 19 mg/dL, Respiratory Rate (R) \u2265 30/min, Blood Pressure (B) (systolic < 90 mmHg or diastolic \u2264 60 mmHg), and Age (65) \u2265 65 years.\n\nBased on the provided information:\n- Confusion: No evidence of confusion is mentioned (\"He was comfortable at rest with a normal physical exam\"). Point = 0.\n- Urea: BUN is 28 mg/dL (> 19 mg/dL). Point = 1.\n- Respiratory Rate: 20/min (< 30/min). Point = 0.\n- Blood Pressure: 150/79 (Systolic \u2265 90 and Diastolic > 60). Point = 0.\n- Age: 62 years (< 65). Point = 0.\n\nTotal CURB-65 score = 0 + 1 + 0 + 0 + 0 = 1.",
+      "correct": true
+    },
+    {
+      "case": "train.0995",
+      "pos": 2,
+      "text": "The patient's clinical history indicates a CHA2DS2-VASc score needs calculation based on the criteria provided. From the extracted data, I have confirmed the patient is a 66-year-old male (age 65-74 grants 1 point), has a history of hypertension (1 point), and has had a stroke/TIA (2 points). Additionally, vascular disease is present (1 point), while diabetes and heart failure are not mentioned.\n\nThe criteria are:\n- CHF: 0\n- HTN: 1\n- Age 65-74: 1\n- DM: 0\n- Stroke/TIA: 2\n- Vascular disease: 1\n- Female: 0\n\nTotal score = 0 + 1 + 1 + 0 + 2 + 1 + 0 = 5.",
+      "correct": false
+    },
+    {
+      "case": "train.9429",
+      "pos": 2,
+      "text": "The clinical values for the Child-Pugh score have been extracted: total bilirubin 2.8 mg/dL, serum albumin 3.0 g/dL, INR 1.8, presence of ascites, and encephalopathy grade 3. Now, I will calculate the points for each of these categories based on standard Child-Pugh criteria and sum them to arrive at the total score.\n\nThe Child-Pugh criteria are:\n1. Total Bilirubin: 2.8 mg/dL (2 points, range 2-3)\n2. Serum Albumin: 3.0 g/dL (2 points, range 2.8-3.5)\n3. INR: 1.8 (2 points, range 1.7-2.3)\n4. Ascites: present (2 points)\n5. Encephalopathy: Grade 3 (3 points)\n\nCalculation: 2 + 2 + 2 + 2 + 3 = 11.",
+      "correct": false
+    },
+    {
+      "case": "train.4129",
+      "pos": 4,
+      "text": "The HEART score evaluates five components: History, ECG, Age, Risk Factors, and Troponin, with each scored 0, 1, or 2. Based on the note:\n- **History:** The pain was described as \"acute tearing chest pain radiating to the interscapular region,\" which is highly suspicious for aortic dissection or serious cardiac events (Score 2).\n- **ECG:** \"Sinus rhythm with symmetric T waves in leads V1 through V4\" represents an abnormal ECG but not STEMI (Score 1).\n- **Age:** 34 years old (Score 0: <45).\n- **Risk Factors:** \"without cardiovascular risk factors\" (Score 0: no known risk factors).\n- **Troponin:** 30.5 ng/L (normal is 3\u201314 ng/L); this is elevated (Score 2: >3x normal limit).\n\nSumming these points: 2 (History) + 1 (ECG) + 0 (Age) + 0 (Risk Factors) + 2 (Troponin) = 5.",
+      "correct": true
+    },
+    {
+      "case": "train.4421",
+      "pos": 4,
+      "text": "The patient is a 15-month-old girl presenting with a fever. The Centor (McIsaac) Score is used for pharyngitis and is not clinically applicable to a 15-month-old child, as it is designed for children aged 3 to 14 years. Since the relevant clinical indicators for pharyngitis (tonsillar exudate, cough absence, tender cervical adenopathy) are not mentioned or appropriate for this age, the score cannot be calculated for this patient. Therefore, the Centor Score is 0.",
+      "correct": false
+    },
+    {
+      "case": "train.2833",
+      "pos": 4,
+      "text": "The patient had a heart rate of 130/min, which is >100 bpm (1.5 points). There is no mention of DVT symptoms, hemoptysis, prior DVT/PE, recent immobilization/surgery, or active malignancy in the note. The note states that the patient presented with viral exanthemata symptoms and a CT pulmonary angiogram was ordered to rule out PE due to tachypnea and tachycardia; however, clinical guidelines for Wells' Criteria for PE do not list the clinical suspicion being the primary diagnosis without other specific evidence, and the clinical picture was primarily respiratory/viral. Therefore, based on the documented findings at admission, only the tachycardia criterion is clearly met.\n\nFinal score: 1.5.",
+      "correct": true
+    },
+    {
+      "case": "train.9516",
+      "pos": 4,
+      "text": "The Well's criteria for DVT (original 2003 version) assigns points based on clinical features. Based on the documentation:\n1. Active cancer: No (0 points)\n2. Paralysis, paresis, or recent plaster immobilization of the lower extremities: No (0 points)\n3. Recently bedridden for 3 days or more, or major surgery within 12 weeks: No (0 points)\n4. Localized tenderness along the distribution of the deep venous system: No (0 points)\n5. Entire leg swollen: Yes (1 point)\n6. Calf swelling at least 3 cm larger than the asymptomatic side: Yes (1 point)\n7. Pitting edema confined to the symptomatic leg: No (0 points)\n8. Collateral superficial veins (non-varicose): No (0 points)\n9. Previously documented DVT: Yes (1 point)\n10. Alternative diagnosis at least as likely as DVT: No, the exam and findings indicate no other obvious cause (0 points).\n\nSumming these points: 1 (entire leg swollen) + 1 (calf swelling >3cm) + 1 (prior DVT) = 3 points. A score of 3 indicates a \"High Probability\" for DVT.",
+      "correct": true
+    },
+    {
+      "case": "train.10072",
+      "pos": 4,
+      "text": "To determine the Glasgow Coma Scale (GCS) score, we need to evaluate the patient's Eye (E), Verbal (V), and Motor (M) responses based on the provided clinical documentation at the time of arrival.\n\n1.  **Eye Response (E):** The note states the patient's eyes are shut during quiet observation and do not respond to conversational volume, but the lids part after being spoken to loudly. According to GCS criteria, opening eyes to sound/speech corresponds to a score of **3**.\n2.  **Verbal Response (V):** The patient produces only unintelligible deep, throaty moans devoid of articulation or recognizable language. This corresponds to a GCS verbal score of **2**.\n3.  **Motor Response (M):** Upon noxious stimulation (nail-bed pressure/sternal rub), the patient exhibits abnormal flexion (decorticate posturing: elbows flexed, wrists/fists clenched, shoulders adducted). This corresponds to a GCS motor score of **3**.\n\nThe total GCS score is E3 + V2 + M3 = 8.",
+      "correct": true
+    },
+    {
+      "case": "train.4376",
+      "pos": 6,
+      "text": "The Centor (McIsaac) Score uses specific clinical criteria: fever (>38\u00b0C), lack of cough, swollen/tender anterior cervical nodes, tonsillar exudates, and an age modifier. The patient was 22 months old (1.83 years), had fever (initially), but also had a cough, no reported tonsillar exudate or cervical lymphadenopathy, and the throat culture was negative. The age modifier in the McIsaac score adds 1 point for age 3-14, 0 for age 15-44, and -1 for age >=45; for a 22-month-old, the score contribution is generally 0. Based on the criteria (Fever=+1, Cough=+1 (which negates the fever point or is simply not \"no cough\"), Tonsillar Exudate=0, Nodes=0, Age=0), the total score is 0.",
+      "correct": true
+    },
+    {
+      "case": "train.5885",
+      "pos": 6,
+      "text": "The patient's FeverPAIN score is calculated based on clinical criteria at admission. The note explicitly states she had \"not suffered from fever\" (Fever = 0) and the fiberoptic examination showed \"swelling of the lingual tonsil\" (Inflamed tonsils = 1). Other criteria (purulence, attending rapidly, and no cough) are not mentioned or cannot be inferred as present, and are thus assigned 0. Therefore, the FeverPAIN score is 1 + 0 + 0 + 0 + 0 = 1.",
+      "correct": false
+    },
+    {
+      "case": "train.10338",
+      "pos": 4,
+      "text": "The HAS-BLED score evaluates major bleeding risk in patients with atrial fibrillation using clinical criteria. Based on the patient note, I have identified the following:\n- Hypertension (H): Patient has a history of high blood pressure and is on lisinopril, so this criteria is met (+1).\n- Abnormal renal/liver function (A): Patient has no history of liver or kidney disease and labs are normal, so this is not met (0).\n- Stroke (S): No history of stroke, so this is not met (0).\n- Bleeding history (B): Patient had a significant upper gastrointestinal bleed (posterior duodenal ulcer), so this criteria is met (+1).\n- Labile INR (L): Not applicable for apixaban (0).\n- Elderly (E): Patient is 48 years old, so not met (0).\n- Drugs/Alcohol (D): Patient is currently on an anticoagulant (apixaban) which increases bleeding risk, so this criteria is met (+1); he does not meet the criteria for alcohol excess (consuming 13 drinks/week is generally below the clinical threshold for \"excess\" in this context).\n\nThe sum of these points (H+B+D) is 3.",
+      "correct": true
+    },
+    {
+      "case": "train.4414",
+      "pos": 4,
+      "text": "The Centor (McIsaac) score criteria are:\n1. Fever > 38\u00b0C (+1)\n2. Absence of cough (+1)\n3. Tonsillar exudates (+1)\n4. Tender anterior cervical lymphadenopathy (+1)\n5. Age (3-14: +1, 15-44: 0, >=45: -1)\n\nBased on the note:\n- Fever: Yes (38.3\u00b0C, +1)\n- Cough: The note explicitly states the patient presents with a cough (+0)\n- Tonsillar exudate: Not mentioned (+0)\n- Tender anterior cervical lymphadenopathy: Not mentioned (+0)\n- Age: 24 (+0)\n\nTotal score = 1 + 0 + 0 + 0 + 0 = 1.",
+      "correct": true
+    },
+    {
+      "case": "train.9593",
+      "pos": 2,
+      "text": "The SOFA score is calculated based on six organ systems: respiratory (PaO2/FiO2), nervous (GCS), cardiovascular (MAP or vasopressors), coagulation (platelets), liver (bilirubin), and renal (creatinine or urine output).\n\n1.  **Respiratory:** PaO2 = 84 mmHg, FiO2 = 0.43. PaO2/FiO2 = 84 / 0.43 \u2248 195.35. A ratio < 200 corresponds to 3 points.\n2.  **Nervous:** GCS = 14. GCS 13-14 corresponds to 1 point.\n3.  **Cardiovascular:** MAP = (2 * 72 + 114) / 3 = 86.67 mmHg. MAP >= 70 mmHg corresponds to 0 points.\n4.  **Coagulation:** Platelets = 118,000 /\u00b5L. 100,000 <= Platelets < 150,000 corresponds to 1 point.\n5.  **Liver:** Bilirubin = 1.25 mg/dL. 1.2 <= Bilirubin < 2.0 corresponds to 1 point.\n6.  **Renal:** Creatinine = 1.75 mg/dL. 1.2 <= Creatinine < 2.0 corresponds to 1 point.\n\nSumming these: 3 + 1 + 0 + 1 + 1 + 1 = 7.\n\nFinal SOFA score: 7.",
+      "correct": true
+    },
+    {
+      "case": "train.5894",
+      "pos": 4,
+      "text": "The FeverPAIN score is calculated based on five criteria: Fever (>38\u00b0C), Purulence, Attend rapidly (<= 3 days), Inflamed tonsils, and No cough or coryza. According to the patient note, the patient had no fever (temperature 36.8\u00b0C), and there was no mention of tonsillar purulence, inflamed tonsils, or cough/coryza symptoms. Since the FeverPAIN criteria are designed for pharyngitis assessment and the patient presented for knee pain with no respiratory symptoms noted, he meets none of the criteria.\n\nThe FeverPAIN score is:\n- Fever (>38\u00b0C): 0\n- Purulence (tonsillar exudate): 0\n- Attend rapidly (<=3 days): 0\n- Inflamed tonsils: 0\n- No cough/coryza: 0\n\nTotal Score = 0 + 0 + 0 + 0 + 0 = 0.",
+      "correct": false
+    },
+    {
+      "case": "train.9979",
+      "pos": 4,
+      "text": "The Caprini VTE risk assessment model assigns points based on patient factors. Based on the provided note, we can extract the following:\n\n- **Age (41\u201360 years):** 1 point.\n- **BMI (25\u201330 kg/m\u00b2):** 1 point.\n- **Major surgery planned (Total Knee Replacement):** 5 points.\n- **Recent surgery (within 1 month: hysterectomy and ankle reconstruction):** 2 points.\n- **Confined to bed (significant immobility):** 1 point.\n- **Lower extremity injury/cast (left ankle cast):** 2 points.\n\nSumming these factors: 1 (Age) + 1 (BMI) + 5 (Major Surgery) + 2 (Recent Surgery) + 1 (Immobility) + 2 (Lower Extremity Injury) = 12 points.\n\n(Note: Other factors such as varicose veins might also be considered, but the current clinical scoring is strongly established at 12).\n\nFinal Answer: 12.0",
+      "correct": false
+    },
+    {
+      "case": "train.9687",
+      "pos": 2,
+      "text": "The Glasgow-Blatchford Bleeding score (GBS) is calculated using specific clinical and laboratory parameters:\n- Blood Urea Nitrogen (BUN): 59 mg/dL (Points: 6, since BUN > 25)\n- Hemoglobin (Hb): 9.2 g/dL (Points: 3, since Hb for women is 10.0-11.9)\n- Systolic Blood Pressure (SBP): 93 mm Hg (Points: 2, since SBP 90-109)\n- Heart Rate (HR): 130 bpm (Points: 1, since HR >= 100)\n- Presentation: Melena is present (Points: 1)\n- Other: Age 63 (0 pts), Syncope (0 pts), Hepatic/Cardiac disease (0 pts).\n\nTotal Score = 6 (BUN) + 3 (Hb) + 2 (SBP) + 1 (HR) + 1 (Melena) = 13.",
+      "correct": true
+    },
+    {
+      "case": "train.10490",
+      "pos": 4,
+      "text": "The patient has the following clinical parameters relevant to the APACHE II score:\n*   **Acute Physiology Score (APS):**\n    *   Temperature 38.9 \u00b0C (+1)\n    *   Mean Arterial Pressure (MAP = (138 + 2*72)/3 = 94 mmHg, normal range 0)\n    *   Heart Rate 97 bpm (normal range 0)\n    *   Respiratory Rate 35 bpm (+3)\n    *   Oxygenation (FiO2 0.58, PaO2 not directly provided, but A-a gradient is 528 mmHg, indicating profound hypoxemia, assume PaO2 < 55 mmHg based on FiO2 and severity: +4)\n    *   pH 7.49 (normal range 0)\n    *   Serum Sodium 139 mmol/L (normal range 0)\n    *   Serum Potassium 5.0 mmol/L (normal range 0)\n    *   Creatinine 1.32 mg/dL (normal range 0)\n    *   Hematocrit 42% (normal range 0)\n    *   WBC 14,600 cells/mm\u00b3 (+1)\n    *   GCS Score 14 (15 - 14 = 1 point, so 15-14 = 1) -> GCS 14 corresponds to 1 point.\n    *   Total APS = 1 + 0 + 0 + 3 + 4 + 0 + 0 + 0 + 0 + 0 + 1 + 1 = 10.\n*   **Age Points:** 66 years old is in the 55-64 (2 points) or 65-74 (3 points) bracket. APACHE II age points for 66 = 3.\n*   **Chronic Health Points:** Patient has DM, but not organ failure or immunocompromised state. 0 points.\n\nAPACHE II Score = 10 + 3 + 0 = 13.",
+      "correct": false
+    },
+    {
+      "case": "train.3100",
+      "pos": 4,
+      "text": "The patient note indicates that the patient was scheduled for a bladder tumor resection (suggestive of malignancy) and was undergoing surgery (immobilization/surgery within the last 4 weeks is considered present for pre-operative assessment). Other risk factors for PE, such as clinical signs of DVT, previous history of DVT/PE, hemoptysis, and tachycardia (HR > 100), were not reported in the notes or were explicitly stated as normal/absent. Given these inputs, I will calculate the score based on the available criteria: malignancy (+1) and surgery/immobilization (+1.5).",
+      "correct": false
+    },
+    {
+      "case": "train.3100",
+      "pos": 7,
+      "text": "The automated tool failed to compute the score, likely due to specific input format requirements for the Wells' PE criteria in the formula library. Based on the standard clinical criteria: malignancy (bladder tumor) gives +1, and the patient is currently presenting for surgery (immobilization/surgery within 4 weeks) gives +1.5. Summing these points (1 + 1.5), the total score is 2.5.",
+      "correct": false
+    },
+    {
+      "case": "train.4098",
+      "pos": 4,
+      "text": "The HEART Score assesses five categories, each scored 0, 1, or 2: History (Highly suspicious, Moderately suspicious, Slightly suspicious), ECG (Significant ST deviation, Nonspecific repolarization disturbance, Normal), Age (>=65, 45-64, <45), Risk factors (>=3, 1-2, 0), and Troponin (>=3x normal, 1-3x normal, <= normal).\n\nBased on the note:\n- History: The patient describes acute RUQ pain after a large meal, which is classic for biliary colic, not cardiac ischemia. This is \"Slightly suspicious\" or potentially even irrelevant to a heart score, but I will assign 0 for \"Slightly suspicious\" (the lowest category for a non-cardiac presentation).\n- ECG: The note says the cardiac examination is normal, and it does not mention any abnormal ECG changes. I will assume 0 for \"Normal\".\n- Age: The patient is 43 years old. This is <45, so 0 points.\n- Risk factors: The patient takes oral contraceptives (1 risk factor, if considering as such) and has a BMI of 36.3. Let's assume 1 risk factor (if we count obesity). Even if it were 1-2, it's 1 point.\n- Troponin: The note does not mention troponin, but based on the lack of cardiac symptoms and normal physical exam, it is presumably normal. I will assign 0 points.\n\nCalculating: 0 (History) + 0 (ECG) + 0 (Age) + 1 (Risk) + 0 (Troponin) = 1.\n\nFinal check: 43 years old < 45 = 0 points. The presentation is non-cardiac (biliary colic), so minimal points for history, ECG, and troponin. Risk factors include BMI 36.3, which is 1 point. Total score = 1.",
+      "correct": true
+    },
+    {
+      "case": "train.9894",
+      "pos": 4,
+      "text": "The patient is a 61-year-old male with a history of congestive heart failure (ischemic cardiomyopathy) and prior stroke. Admitted vitals were: Temp 37.3\u00b0C, HR 91, RR 37, SBP 126, O2 sat 89-91%. Labs: pH 7.5, BUN 13, Na 127, Glucose 114, Hct 29%. Mental status is noted as alert/conversant.\n\nThe PSI/PORT score is calculated based on:\n1.  **Demographics**: Age 61 (+61 points), Sex male (+0) = 61.\n2.  **Comorbidities**:\n    *   Congestive heart failure: (+10 points)\n    *   Cerebrovascular disease (prior lacunar infarct): (+10 points)\n    *   Total Comorbidities = 20 points.\n3.  **Physical Exam**:\n    *   Mental status: Alert = 0.\n    *   Temperature: 37.3\u00b0C = 0.\n    *   Pulse: 91 = 0.\n    *   RR: 37 (>=30) = +20.\n    *   SBP: 126 (>=90) = 0.\n    *   Total Physical = 20 points.\n4.  **Labs**:\n    *   pH: 7.5 (>=7.35) = 0.\n    *   BUN: 13 (<30) = 0.\n    *   Na: 127 (<130) = +20.\n    *   Glucose: 114 (<250) = 0.\n    *   Hematocrit: 29 (<30) = +10.\n    *   Total Labs = 30 points.\n\n**Total Score** = 61 (Demographics) + 20 (Comorbidities) + 20 (Physical) + 30 (Labs) = 131.\n\nThe PSI score is 131.",
+      "correct": false
+    },
+    {
+      "case": "train.0660",
+      "pos": 4,
+      "text": "The CHA2DS2-VASc score for this patient is calculated based on his medical history:\n- Age: 72 years (Age 65-74 = 1 point)\n- Sex: Male (0 points)\n- CHF: No history (0 points)\n- Hypertension: Not mentioned/No (0 points)\n- Diabetes Mellitus: Type 2 (1 point)\n- Stroke/TIA: No history (0 points)\n- Vascular Disease: Prior myocardial infarction (1 point)\n- Atrial Fibrillation: Yes (2 points)\n\nTotal Score = 1 (Age) + 1 (DM) + 1 (Vascular) + 2 (AFib) = 5.",
+      "correct": false
+    },
+    {
+      "case": "train.5888",
+      "pos": 6,
+      "text": "The patient presented with ear symptoms rather than sore throat symptoms, and the FeverPAIN criteria are specifically for assessing streptococcal pharyngitis. Based on the documentation and the provided patient note, the patient did not have fever or tonsillar inflammation, and the \"no cough/coryza\" criterion is met by the lack of constitutional symptoms; thus, the score is calculated based on the available criteria.\n\nFinal Result: 1.0",
+      "correct": false
+    },
+    {
+      "case": "train.6407",
+      "pos": 2,
+      "text": "The patient's initial presentation includes confusion (drowsy state/GCS 11), a respiratory rate of 26 breaths per minute, a blood pressure of 110/80 mmHg, and a blood urea level of 84 mg/dl. The CURB-65 criteria are Confusion (1 point if GCS < 15), Urea > 19 mg/dl (1 point if BUN > 19 mg/dl, which corresponds to roughly 40 mg/dl of urea), Respiratory rate >= 30 (0 points here as RR is 26), Blood pressure < 90/60 mmHg (0 points as 110/80 is above this), and Age >= 65 (0 points as she is 40). I have sufficient information to calculate the score.\n\n*   Confusion: Yes (GCS 11) = 1 point\n*   Urea: 84 mg/dl (> 19 mg/dl) = 1 point\n*   Respiratory rate: 26 (< 30) = 0 points\n*   Blood pressure: 110/80 (>= 90/60) = 0 points\n*   Age: 40 (< 65) = 0 points\nTotal CURB-65 = 1 + 1 + 0 + 0 + 0 = 2.",
+      "correct": true
+    },
+    {
+      "case": "train.9995",
+      "pos": 2,
+      "text": "To calculate the Caprini VTE score, I must carefully evaluate each of the patient's risk factors based on the clinical documentation. I will extract the pertinent details (age, medical history, planned surgery) to determine the sum of the weighted points for the patient.\n\n### Caprini VTE Risk Factors Analysis:\n*   **Age 41\u201360 (1 point):** The patient is 58 years old. (Score: 1)\n*   **Minor surgery (1 point):** Not applicable (laparoscopic surgery is typically categorized as major).\n*   **Major surgery (2 points):** Laparoscopic fundoplication is an elective major surgery. (Score: 2)\n*   **Body Mass Index (BMI) \u2265 25 kg/m\u00b2 (1 point):** Patient's BMI is 29. (Score: 1)\n*   **History of DVT/PE (3 points):** No history reported. (Score: 0)\n*   **Family history of DVT/PE (3 points):** No history reported. (Score: 0)\n*   **Known thrombophilia (G20210A mutation) (3 points):** Patient is positive for the prothrombin gene mutation G20210A. (Score: 3)\n*   **History of Inflammatory Bowel Disease (1 point):** None. (Score: 0)\n*   **Swollen legs (current) (1 point):** None. (Score: 0)\n*   **Varicose veins (1 point):** None. (Score: 0)\n*   **History of massive trauma (< 1 month) (5 points):** None. (Score: 0)\n*   **History of major surgery (< 1 month) (5 points):** None. (Score: 0)\n*   **Confined to bed or restricted mobility (1 point):** None (patient is ambulatory). (Score: 0)\n*   **Central venous access (2 points):** None (only peripheral cannula). (Score: 0)\n\n### Summation:\n*   Age (58): 1 point\n*   Major surgery: 2 points\n*   BMI (29): 1 point\n*   Thrombophilia (Prothrombin G20210A): 3 points\n\nTotal = 1 + 2 + 1 + 3 = 7.",
+      "correct": false
+    },
+    {
+      "case": "train.9897",
+      "pos": 4,
+      "text": "The Pneumonia Severity Index (PSI) is calculated by assigning points based on demographic factors, comorbidities, physical exam findings, and laboratory results.\n\n**1. Demographics:**\n*   Age 72: 72 points\n*   Male: 0 points\n*   Nursing home resident: +10 points\n\n**2. Comorbidities:**\n*   Neoplastic disease: 0 points\n*   Liver disease: 0 points\n*   Congestive heart failure: 0 points\n*   Cerebrovascular disease (history of stroke): +10 points\n*   Renal disease: 0 points\n\n**3. Physical Examination:**\n*   Altered mental status: 0 points (patient is cognitively intact)\n*   Respiratory rate \u2265 30/min: 0 points (RR 28)\n*   Systolic BP < 90 mm Hg: 0 points (SBP 102)\n*   Temperature < 35\u00b0C or \u2265 40\u00b0C: 0 points (Temp 37.1)\n*   Pulse \u2265 125/min: 0 points (Pulse 113)\n\n**4. Laboratory/Radiographic Findings:**\n*   pH < 7.35: +30 points (pH 7.27)\n*   BUN \u2265 30 mg/dL: +20 points (BUN 41)\n*   Sodium < 130 mEq/L: +20 points (Na 125)\n*   Glucose \u2265 250 mg/dL: 0 points (Glucose 133)\n*   Hematocrit < 30%: +10 points (Hct 27)\n*   pO2 < 60 mm Hg: 0 points (pO2 63)\n\n**Total PSI Score Calculation:**\n72 (Age) + 10 (Nursing home) + 10 (Cerebrovascular disease) + 30 (pH) + 20 (BUN) + 20 (Sodium) + 10 (Hematocrit) = 172 points.\n\nFinal result: 172.0",
+      "correct": true
+    },
+    {
+      "case": "train.9879",
+      "pos": 6,
+      "text": "The Pneumonia Severity Index (PSI) score is calculated using clinical criteria including age, comorbidities (heart failure and liver disease), and vital signs/lab values upon presentation. Given the patient's age (63), medical history of systolic dysfunction and compensated cirrhosis, and initial physical/laboratory findings, the calculated score is 63.\n\nFinal Answer: 63.0",
+      "correct": false
+    },
+    {
+      "case": "train.6566",
+      "pos": 2,
+      "text": "The patient's clinical parameters at the time of admission are age (73 years), heart rate (72 bpm), pulse oximetry (94%), and respiratory rate (24 bpm). The PERC rule criteria for the risk of PE are: 1) Age < 50, 2) Heart Rate < 100, 3) Oxygen Saturation \u2265 95%, 4) No prior DVT/PE, 5) No recent surgery/trauma, 6) No hemoptysis, 7) No estrogen use, 8) No unilateral leg swelling. Based on the data, she is >= 50 years old (1 point), heart rate < 100 (0 points), oxygen saturation < 95% (1 point), and respiratory rate is not a PERC criterion, but I must evaluate the remaining conditions. The patient is 73 (fails Age < 50), heart rate 72 (passes), O2 94% (fails), I need to check the other clinical conditions.\n\nThe PERC criteria:\n1. Age < 50: No (73 years old) -> 1 point\n2. Pulse < 100 bpm: Yes (72 bpm) -> 0 points\n3. O2 saturation \u2265 95%: No (94%) -> 1 point\n4. No unilateral leg swelling: Yes (no mention of unilateral leg swelling) -> 0 points\n5. No hemoptysis: Yes (no mention of hemoptysis) -> 0 points\n6. No recent surgery/trauma: No (she has an aortic dissection) -> 1 point (or did the dissection happen before? The note says admitted \"due to compressive chest pain\", so the dissection is the reason for admission).\n7. No prior PE/DVT: Yes (no mention) -> 0 points\n8. No hormone use: Yes (not taking any medications) -> 0 points\n\nTotal PERC points = 3.\n\nWait, let me re-verify the PERC criteria definitions.\nPERC Criteria:\n1. Age < 50 years: No\n2. Pulse < 100 bpm: Yes\n3. SaO2 \u2265 95%: No\n4. No unilateral leg swelling: Yes\n5. No hemoptysis: Yes\n6. No recent trauma or surgery: No (Aortic dissection is a major event/trauma to the body, but usually \"recent surgery/trauma\" refers to within 4 weeks. Let's re-read.)\nActually, the PERC criteria are:\n- Age < 50\n- Pulse < 100\n- SaO2 > 94%\n- No unilateral leg swelling\n- No hemoptysis\n- No recent trauma or surgery\n- No prior PE or DVT\n- No hormone use\n\nEvaluation:\n- Age < 50: No (she is 73) -> +1\n- Pulse < 100: Yes (72) -> +0\n- SaO2 > 94%: No (94 is not > 94) -> +1\n- No unilateral leg swelling: Yes -> +0\n- No hemoptysis: Yes -> +0\n- No recent trauma/surgery: No (admitted for aortic dissection) -> +1\n- No prior PE/DVT: Yes -> +0\n- No hormone use: Yes -> +0\nTotal = 3.\n\nFinal result is 3.\n\n<thought>\nI have extracted the clinical values and assessed each of the eight PERC criteria based on the patient's status at admission. The patient meets the criteria for age (73 is not < 50), oxygen saturation (94% is not > 94%), and recent trauma (aortic dissection). Summing these points, I have a result of 3.\n</thought>",
+      "correct": false
+    },
+    {
+      "case": "train.10036",
+      "pos": 6,
+      "text": "The clinical evaluation of the patient's neurological status on admission shows an eye-opening score of 1 (no eye opening), a verbal response score of 4 (confused speech), and a motor response score of 4 (withdrawal from pain). Summing these values gives a Glasgow Coma Scale score of 9.\n\n9.0",
+      "correct": true
+    },
+    {
+      "case": "train.6538",
+      "pos": 4,
+      "text": "The PERC (Pulmonary Embolism Rule-Out Criteria) consists of 8 items: 1) Age < 50 years, 2) Pulse < 100 bpm, 3) Oxygen saturation > 94%, 4) No unilateral leg swelling, 5) No hemoptysis, 6) No recent surgery or trauma (within 4 weeks), 7) No prior PE or DVT, 8) No hormone use.\n\nFrom the clinical note:\n1. Age: 25 years (< 50) -> Met (Criterion absent)\n2. Pulse: 142/min (>= 100) -> Not Met (Criterion present)\n3. Oxygen Saturation: 87% (<= 94%) -> Not Met (Criterion present)\n4. Unilateral leg swelling: No mention -> Assume absent (Criterion absent)\n5. Hemoptysis: No mention -> Assume absent (Criterion absent)\n6. Recent surgery/trauma: Patient had \"4 days of progressive dyspnea\" and presenting to the hospital; no mention of surgery/trauma within 4 weeks prior to presentation. -> Assume absent (Criterion absent)\n7. Prior PE/DVT: No mention -> Assume absent (Criterion absent)\n8. Hormone use: No mention (other than pregnancy) -> Assume absent (Criterion absent)\n\nThe PERC Rule is intended to be used only on patients who are already considered \"low risk\" by clinical gestalt. In this case, the patient clearly has multiple high-risk features (tachycardia, hypoxia), meaning they would not be considered low risk. However, strictly evaluating the PERC criteria for the purpose of the requested calculation: the patient has two criteria present (pulse >= 100 and oxygen saturation <= 94).\n\nWait, the PERC rule is a list of criteria where *all* must be absent to rule out PE. If any of the 8 criteria are present, the patient is \"PERC positive\" (rule out failed).\nCriteria present in this patient:\n- Pulse: 142 (>= 100) -> Present\n- Oxygen saturation: 87% (<= 94%) -> Present\n\nTotal criteria met (present): 2.",
+      "correct": false
+    },
+    {
+      "case": "train.9432",
+      "pos": 10,
+      "text": "The Child-Pugh score is calculated based on five clinical parameters: total bilirubin, serum albumin, INR, ascites, and encephalopathy.\n- Total bilirubin: 1.8 mg/dL (1 point: < 2)\n- Serum albumin: 3.8 g/dL (1 point: > 3.5)\n- INR: 1.2 (1 point: < 1.7)\n- Ascites: Absent (1 point)\n- Encephalopathy: Absent (1 point)\nSumming these points gives a total score of 1+1+1+1+1 = 5.",
+      "correct": true
+    },
+    {
+      "case": "train.10292",
+      "pos": 2,
+      "text": "The patient is a 46-year-old male. Based on the Charlson Comorbidity Index criteria, he has diabetes with end-organ damage (retinopathy) which contributes 2 points, and he has a chronic pulmonary disease (asthma/COPD) which contributes 1 point. According to the CCI age scoring system, patients under 40 get 0 points, 40-49 get 1, 50-59 get 2, 60-69 get 3, 70-79 get 4, and 80+ get 5; at 46 years old, he receives 1 point. Therefore, the total CCI is 1 (age) + 2 (diabetes with end-organ damage) + 1 (chronic pulmonary disease) = 4.",
+      "correct": true
+    },
+    {
+      "case": "train.9575",
+      "pos": 10,
+      "text": "To calculate the SOFA score, we evaluate the six organ systems based on the clinical data provided:\n1.  **Respiration:** PaO\u2082/FiO\u2082 = 88 / 0.55 = 160. Score = 3.\n2.  **Coagulation:** Platelets = 110,000/\u00b5L. Score = 1.\n3.  **Liver:** Bilirubin = 1.4 mg/dL. Score = 1.\n4.  **Cardiovascular:** MAP = (84 + 2 * 44) / 3 = 172 / 3 \u2248 57.3 mmHg. Score = 1 (MAP < 70 mmHg).\n5.  **Neurological:** GCS = 5. Score = 4.\n6.  **Renal:** Creatinine = 2.2 mg/dL. Score = 2.\n\nTotal SOFA Score = 3 + 1 + 1 + 1 + 4 + 2 = 12.",
+      "correct": false
+    },
+    {
+      "case": "train.3124",
+      "pos": 8,
+      "text": "The patient presented with palpitations, dizziness, and VT, and there was no mention of symptoms or history meeting any of the Wells' criteria for PE at the time of admission (e.g., no clinical signs of DVT, heart rate > 100, hemoptysis, immobilization, surgery, or malignancy). Each component of the score is therefore 0. Summing these factors (0+0+0+0+0+0+0) results in a total score of 0.",
+      "correct": false
+    },
+    {
+      "case": "train.10277",
+      "pos": 2,
+      "text": "The Charlson Comorbidity Index (CCI) requires summing points for age and specific comorbid conditions. Based on the patient note, I have identified the following: Age 71 (2 points), COPD (1 point), Diabetes (1 point), Peptic Ulcer Disease (1 point), Chronic Kidney Disease (1 point), and Hypertension (1 point, generally included in the Charlson index's comorbidities under cardiovascular/renal context, though sometimes debated; however, it is standard to include these). Let's calculate the score based on these findings.\n\n- Age: 71 (70-79 is 2 points)\n- COPD: 1 point\n- Diabetes: 1 point\n- Peptic Ulcer Disease: 1 point\n- Chronic Kidney Disease: 1 point\n- Hypertension: 1 point (Note: The CCI includes \"Moderate to severe chronic kidney disease\" and \"Diabetes with chronic complications,\" but often counts these as separate entities. Hypertension itself is often included in modified versions or the Charlson index list).\n\nWait, reviewing the standard Charlson CCI categories:\n1. Myocardial infarction\n2. Congestive heart failure\n3. Peripheral vascular disease\n4. Cerebrovascular disease\n5. Dementia\n6. Chronic pulmonary disease (COPD): 1 point\n7. Connective tissue disease\n8. Peptic ulcer disease: 1 point\n9. Mild liver disease\n10. Diabetes (without end-organ damage): 1 point\n11. Diabetes with end-organ damage: 2 points\n12. Hemiplegia\n13. Moderate or severe renal disease: 2 points (Cr > 3 mg/dL or on dialysis, or transplant? Usually moderate/severe. With GFR 38, it is likely Stage 3B CKD. Standard CCI often assigns 2 points for moderate/severe renal disease).\n14. Any malignancy\n15. Leukemia\n16. Lymphoma\n17. Moderate or severe liver disease\n18. Metastatic solid tumor\n19. AIDS\n\nRefining:\n- Age 71: 2 points\n- COPD: 1 point\n- Peptic Ulcer Disease: 1 point\n- Diabetes (uncomplicated): 1 point\n- CKD (GFR 38 is moderate): 2 points (Standard CCI: Moderate/severe renal disease = 2 points).\n\nTotal = 2 + 1 + 1 + 1 + 2 = 7.\n\nFinal check of points:\nAge (71) = 2\nCOPD = 1\nPUD = 1\nDiabetes = 1\nCKD (moderate/severe) = 2\nTotal = 7.\n\nWait, hypertension is not a standard category in the original Charlson index. I will exclude it.\n\nFinal score: 7.",
+      "correct": false
+    },
+    {
+      "case": "train.10448",
+      "pos": 4,
+      "text": "The Revised Cardiac Risk Index (RCRI) uses six criteria: 1) High-risk surgery (e.g., intraperitoneal, intrathoracic, or suprainguinal vascular surgery), 2) History of ischemic heart disease, 3) History of heart failure, 4) History of cerebrovascular disease, 5) Pre-operative treatment with insulin, and 6) Pre-operative serum creatinine > 2.0 mg/dL (177 \u03bcmol/L).\n\nBased on the patient note:\n- High-risk surgery: Yes, open repair of a thoracic aortic aneurysm (thoracic surgery) is high-risk (+1).\n- History of ischemic heart disease: Denied (no history, normal ECG).\n- History of heart failure: Denied (+0).\n- History of cerebrovascular disease: Denied (+0).\n- Pre-operative treatment with insulin: Yes, the patient is on insulin glargine and lispro (+1).\n- Pre-operative serum creatinine > 2.0 mg/dL: No, it is 1.34 mg/dL (+0).\n\nThe total RCRI score is 1 + 0 + 0 + 0 + 1 + 0 = 2.",
+      "correct": true
+    },
+    {
+      "case": "train.9711",
+      "pos": 4,
+      "text": "The Glasgow-Blatchford score is calculated by assessing specific clinical criteria, including blood markers (BUN and hemoglobin), vital signs (systolic BP, heart rate), and symptoms (melena, syncope, hepatic disease, cardiac failure).\n\nBased on the clinical notes:\n- BUN: 80 mg/dL (>= 25 but < 40 = 3 points, >= 40 but < 65 = 4 points, >= 65 but < 80 = 5 points, >= 80 = 6 points) -> **6 points**\n- Hemoglobin: 16.0 g/dL (Female, >= 12.0 = 0 points) -> **0 points**\n- Systolic BP: 153 mm Hg (110\u2013129 = 1, 130\u2013149 = 2, >= 150 = 3 points) -> **3 points**\n- Pulse rate: 141 bpm (>= 100 = 1 point) -> **1 point**\n- Melena: Yes -> **1 point**\n- Syncope: Yes -> **2 points**\n- Hepatic disease: No -> **0 points**\n- Cardiac failure: No -> **0 points**\n\nTotal score = 6 + 0 + 3 + 1 + 1 + 2 = **13**",
+      "correct": false
+    },
+    {
+      "case": "train.6569",
+      "pos": 4,
+      "text": "The patient is 40 years old, has a heart rate of 100-120 bpm (meeting the tachycardia criterion), has an oxygen saturation of 78% (below 95%), and is tachypneic (respiratory rate 42/min). The PERC rule consists of 8 criteria: Age <50, Pulse <100, SaO2 >=95%, No unilateral leg swelling, No hemoptysis, No recent surgery/trauma, No prior DVT/PE, No hormone use. \n\nBased on the note:\n1. Age < 50: Yes (40)\n2. Pulse < 100: No (100-120)\n3. SaO2 >= 95%: No (78%)\n4. No unilateral leg swelling: No (Bilateral swelling is mentioned, but unilateral swelling is specifically a exclusion; I will assume the patient does not meet the \"No unilateral swelling\" criteria due to the clinical presentation)\n5. No hemoptysis: Yes (not mentioned)\n6. No recent surgery/trauma: Yes (not mentioned)\n7. No prior DVT/PE: Yes (not mentioned)\n8. No hormone use: Yes (not mentioned)\n\nActually, the PERC rule is a screening tool used to *exclude* PE in low-risk patients. If any of the 8 criteria are met, the patient is NOT PERC-negative. Let's re-evaluate:\n- Age >= 50: No (40)\n- Pulse >= 100: Yes (100-120)\n- SaO2 < 95%: Yes (78%)\n- Unilateral leg swelling: (Bilateral swelling present)\n- Hemoptysis: No\n- Recent surgery/trauma: No\n- Prior DVT/PE: No\n- Hormone use: No\n\nSince the patient fails the Pulse and SaO2 criteria, they are definitely PERC-positive. The question asks for the number of criteria met. \n\nCriteria met:\n1. Pulse >= 100 (Yes)\n2. SaO2 < 95% (Yes)\n\nTotal criteria met = 2.",
+      "correct": false
+    },
+    {
+      "case": "train.9620",
+      "pos": 2,
+      "text": "The SOFA score is calculated by assessing six organ systems based on clinical data. Using the extracted values:\n- Respiration (PaO2/FiO2 ratio = 57 / 0.72 \u2248 79.2): SOFA = 4 (PaO2/FiO2 < 100).\n- Coagulation (Platelets = 88,000 /\u00b5L): SOFA = 1 (Platelets < 150).\n- Liver (Bilirubin = 1.75 mg/dL): SOFA = 1 (Bilirubin 1.2\u20131.9).\n- Cardiovascular (MAP = 56 mm Hg, no vasopressors): SOFA = 1 (MAP < 70).\n- Central Nervous System (GCS = 10): SOFA = 2 (GCS 10\u201312).\n- Renal (Creatinine = 2.33 mg/dL, urine output = 540 mL/24h): SOFA = 3 (Creatinine 2.0\u20133.4 or urine output 200-500 mL/day; note: he is between the criteria for 2 and 3, but his creatinine is 2.33, which fits the 2.0-3.4 mg/dL range corresponding to 3 points). \n\nSumming these scores: 4 + 1 + 1 + 1 + 2 + 3 = 12.\n\nFinal calculation: 12.0.",
+      "correct": true
+    },
+    {
+      "case": "train.10271",
+      "pos": 4,
+      "text": "The patient is 64 years old. According to the Charlson Comorbidity Index criteria, he has:\n- Diabetes with end-organ damage (he has diabetic retinopathy, which is confirmed by the finding of microaneurysms and intraretinal hemorrhages): 2 points.\n- Chronic pulmonary disease (he has COPD based on FEV1/FVC < 0.70 and his symptoms): 1 point.\n- Liver disease (he has hepatic steatosis): 1 point.\n- Age (64): 0 points (points are added for age starting at 50, but in the standard Charlson index, it is 1 point for every decade over 40, so at 64, he is in the 60-69 range, which adds 2 points).\n\nWait, let's re-verify the age points:\nStandard Charlson scoring for age:\n- 50-59: 1 point\n- 60-69: 2 points\n- 70-79: 3 points\n- 80+: 4 points\nSo at 64, he receives 2 points.\n\nTotal score = Diabetes (2) + Chronic pulmonary disease (1) + Liver disease (1) + Age (2) = 6 points.\n\nFinal calculation: 6.",
+      "correct": true
+    },
+    {
+      "case": "train.10531",
+      "pos": 10,
+      "text": "To calculate the APACHE II score, I first extracted the necessary clinical values. I identified the temperature as 37.2\u00b0C (0 points), MAP as (128 + 2*74)/3 = 92 mmHg (0 points), heart rate as 88 bpm (0 points), respiratory rate as 18/min (0 points), arterial pH as 7.36 (0 points), sodium as 142 mmol/L (0 points), potassium as 4.0 mmol/L (0 points), creatinine as 1.8 mg/dL (2 points, as this is >1.5 but <2.0 in a non-ARF patient), hematocrit as 35% (2 points), and WBC as 9,800/mm\u00b3 (0 points). Regarding oxygenation, FiO2 is 50% and PaO2 is 65 mmHg, which is an A-a gradient of >500 (since PaO2 < 70 mmHg on FiO2 > 50% is not strictly met, but PaO2 65 mmHg on 50% FiO2 yields an A-a gradient calculation which the note states is 304 mmHg, corresponding to 3 points). For GCS, a score of 14 yields 1 point. Age is 58 (0 points). Chronic health points: stage 3 CKD indicates 2 points for immunocompromised/organ insufficiency. Total score: 0 (Temp) + 0 (MAP) + 0 (HR) + 0 (RR) + 0 (pH) + 0 (Na) + 0 (K) + 2 (Cr) + 2 (Hct) + 0 (WBC) + 3 (A-a gradient) + 1 (GCS) + 0 (Age) + 2 (Chronic) = 10.\n\nfinal_result{response:10}",
+      "correct": false
+    },
+    {
+      "case": "train.9554",
+      "pos": 30,
+      "text": "The Wells' Criteria for DVT is a validated clinical decision tool used to estimate the pre-test probability of a deep vein thrombosis. Based on the patient note, the following points are assigned:\n- Entire leg swollen: +1 point\n- Calf swelling > 3 cm: +1 point\n- Localized tenderness along the deep venous system: +1 point\n- All other criteria (previous DVT, active cancer, bedridden/surgery, paralysis/cast, collateral superficial veins, pitting edema, and alternative diagnosis more likely) are absent (0 points).\n- The sum of these findings results in a score of 3.0.",
+      "correct": true
+    },
+    {
+      "case": "train.10423",
+      "pos": 4,
+      "text": "The RCRI (Revised Cardiac Risk Index) assesses six factors: 1) High-risk surgery (intraperitoneal, intrathoracic, or suprainguinal vascular surgery), 2) History of ischemic heart disease, 3) History of heart failure, 4) History of cerebrovascular disease, 5) Preoperative treatment with insulin (for diabetes), and 6) Preoperative serum creatinine > 2.0 mg/dL. \n\nFrom the note:\n- High-risk surgery: Yes (open pancreaticoduodenectomy is an intraperitoneal procedure).\n- History of ischemic heart disease: No (denies symptoms, no cardiac history).\n- History of heart failure: No.\n- History of cerebrovascular disease: Yes (prior stroke).\n- Diabetes mellitus: The note says she has prediabetes (A1c 6.1%), never prescribed insulin, so this criterion is not met.\n- Preoperative serum creatinine > 2.0 mg/dL: No (it is 1.22 mg/dL).\n\nThe criteria met are: 1) High-risk surgery, 2) History of cerebrovascular disease. This gives a total score of 2.",
+      "correct": true
+    },
+    {
+      "case": "train.9475",
+      "pos": 2,
+      "text": "The patient's values extracted from the clinical note are: Total bilirubin 2.3 mg/dL, serum albumin 3.65 g/dL, INR 1.74, ascites categorized as mild, and hepatic encephalopathy grade 1. I need to calculate the Child-Pugh score based on these findings by assigning points to each category.\n\n*   **Total Bilirubin (2.3 mg/dL):** 2.0-3.0 range = 2 points\n*   **Serum Albumin (3.65 g/dL):** 2.8-3.5 range = 2 points (Note: Often <2.8 is 3, 2.8-3.5 is 2, >3.5 is 1 point; since 3.65 > 3.5, this is 1 point)\n*   **INR (1.74):** 1.7-2.3 range = 2 points\n*   **Ascites (Mild):** 1 point\n*   **Hepatic Encephalopathy (Grade 1):** 1 point\n\nTotal Score = 2 + 1 + 2 + 1 + 1 = 7.\n\nWait, let me re-verify the standard Child-Pugh scoring ranges:\n- Bilirubin: <2 (1), 2-3 (2), >3 (3). Score: 2\n- Albumin: >3.5 (1), 2.8-3.5 (2), <2.8 (3). Score: 1\n- INR: <1.7 (1), 1.7-2.3 (2), >2.3 (3). Score: 2\n- Ascites: None (1), Mild (2), Moderate/Severe (3). Score: 2\n- Encephalopathy: None (1), Grade 1-2 (2), Grade 3-4 (3). Score: 2\n\nLet's re-read the note for ascites and encephalopathy. The note mentions a \"slim band of dullness... that shifted\" (mild ascites) and \"gentle prompting\" / \"low-amplitude flap\" (Grade 1 encephalopathy).\n\nRe-calculating:\n- Bilirubin 2.3: 2 points\n- Albumin 3.65: 1 point\n- INR 1.74: 2 points\n- Ascites (Mild): 2 points\n- Encephalopathy (Grade 1): 2 points\nTotal: 2 + 1 + 2 + 2 + 2 = 9.\n\nWait, let me double check the standard ranges again.\nChild-Pugh points:\nBilirubin (mg/dL): <2 (1), 2-3 (2), >3 (3). (2.3 is 2 pts)\nAlbumin (g/dL): >3.5 (1), 2.8-3.5 (2), <2.8 (3). (3.65 is 1 pt)\nINR: <1.7 (1), 1.7-2.3 (2), >2.3 (3). (1.74 is 2 pts)\nAscites: None (1), Mild (2), Moderate/Severe (3). (Mild is 2 pts)\nEncephalopathy: None (1), Grade 1-2 (2), Grade 3-4 (3). (Grade 1 is 2 pts)\n\nSum = 2+1+2+2+2 = 9.\n\nOne final check on the ranges:\nSome sources use Albumin >3.5 = 1, 2.8-3.5 = 2, <2.8 = 3. Correct.\nSome sources use INR <1.7 = 1, 1.7-2.3 = 2, >2.3 = 3. Correct.\nSome sources use Ascites: None=1, Mild=2, Moderate=3. Correct.\nSome sources use Encephalopathy: None=1, Grade 1-2 = 2, Grade 3-4 = 3. Correct.\n\nThe score is 9.",
+      "correct": false
+    },
+    {
+      "case": "train.9513",
+      "pos": 4,
+      "text": "The patient's clinical presentation, particularly the metastatic sigmoid adenocarcinoma, implies active malignancy. He also presents with unilateral calf swelling of 4.3 cm (exceeding the 3 cm threshold) and localized tenderness along the deep venous system. According to the Wells' Criteria for DVT, the criteria met are: active cancer (+1), calf swelling >3cm (+1), and localized tenderness (+1). All other criteria, such as prior DVT, paralysis/plaster, immobilization, or alternative diagnosis at least as likely, are not met. Therefore, the score is 3.",
+      "correct": true
+    }
+  ]
+}

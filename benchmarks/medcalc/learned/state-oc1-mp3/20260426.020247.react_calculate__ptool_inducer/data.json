@@ -1,0 +1,403 @@
+{
+  "n_thoughts": 66,
+  "trace_mode": "react",
+  "only_correct": true,
+  "items": [
+    {
+      "case": "train.4738",
+      "pos": 6,
+      "text": "The patient weighs 18 kg. Applying the Maintenance Fluids (4-2-1 Rule):\n- The first 10 kg require 4 mL/kg/hr = 10 * 4 = 40 mL/hr.\n- The remaining 8 kg (18 kg - 10 kg) require 2 mL/kg/hr = 8 * 2 = 16 mL/hr.\n- Total maintenance fluid = 40 + 16 = 56 mL/hr.",
+      "correct": true
+    },
+    {
+      "case": "train.7288",
+      "pos": 6,
+      "text": "The patient's birth weight was 1133 g (1.133 kg) and birth length was 39.4 cm. Using these values in the Mosteller body surface area formula: BSA = sqrt((39.4 * 1.133) / 3600), we calculate: sqrt(44.6402 / 3600) = sqrt(0.0124) \u2248 0.1114. Rounding as appropriate, the result is 0.111 m\u00b2.",
+      "correct": true
+    },
+    {
+      "case": "train.5525",
+      "pos": 6,
+      "text": "The sodium correction formula for hyperglycemia, often cited in the literature (e.g., Hillier et al., 1999), is $Na_{corrected} = Na_{measured} + 0.024 \\times (Glucose_{measured} - 100)$. Using the patient's initial laboratory values of $Na = 130 \\text{ mmol/L}$ and $Glucose = 87 \\text{ mg/dL}$:\n\n$Na_{corrected} = 130 + 0.024 \\times (87 - 100)$\n$Na_{corrected} = 130 + 0.024 \\times (-13)$\n$Na_{corrected} = 130 - 0.312$\n$Na_{corrected} = 129.688 \\text{ mEq/L}$\n\n(Note: As the glucose is below 100 mg/dL, no significant \"correction\" for hyperglycemia is necessary, as the value decreases slightly.)\n\nfinal_result(129.688)",
+      "correct": true
+    },
+    {
+      "case": "train.10336",
+      "pos": 30,
+      "text": "The patient's HAS-BLED score is calculated based on the following criteria:\n1.  **Hypertension**: None (0 points).\n2.  **Abnormal Renal/Liver Function**: None (0 points).\n3.  **Stroke**: History of ischemic stroke (1 point).\n4.  **Bleeding History**: History of significant gastrointestinal bleed (1 point).\n5.  **Labile INR**: Not applicable (0 points).\n6.  **Elderly (Age > 65)**: Patient is 82 (1 point).\n7.  **Drugs/Alcohol**: No history of NSAIDs or excessive alcohol use mentioned (0 points).\n\nThe sum of these points (0 + 0 + 1 + 1 + 0 + 1 + 0) equals 3.",
+      "correct": true
+    },
+    {
+      "case": "train.7472",
+      "pos": 6,
+      "text": "The patient's weight is 56 kg and her height is 174 cm. Using the Mosteller formula for Body Surface Area (BSA = sqrt((height_cm * weight_kg) / 3600)), I calculate: BSA = sqrt((174 * 56) / 3600) = sqrt(9744 / 3600) = sqrt(2.70666...) \u2248 1.645.",
+      "correct": true
+    },
+    {
+      "case": "train.8898",
+      "pos": 14,
+      "text": "The Anion Gap (AG) is calculated using the formula AG = Na - (Cl + HCO3). Using the provided clinical values (Na = 132 mEq/L, Cl = 79 mEq/L, HCO3 = 32 mEq/L), we have AG = 132 - (79 + 32) = 132 - 111 = 21. The Delta Gap is calculated as Delta Gap = AG - 12 (assuming 12 is the normal AG), so 21 - 12 = 9. The Delta Ratio is defined as Delta Gap / (24 - HCO3). Given the HCO3 is 32, this calculation results in 9 / (24 - 32) = 9 / -8 = -1.125.",
+      "correct": true
+    },
+    {
+      "case": "train.9660",
+      "pos": 2,
+      "text": "The Glasgow-Blatchford Bleeding Score (GBS) requires specific criteria: blood urea nitrogen (BUN), hemoglobin, heart rate, systolic blood pressure, and clinical presentation (melena, syncope, hepatic disease, or cardiac failure). I have extracted the patient's BUN (34 mg/dL), hemoglobin (13.0 g/dL), heart rate (97 bpm), and systolic blood pressure (138 mmHg). I will now calculate the points for each component based on the GBS standard: BUN \u2265 25\u201340 (2 points), Hb for males 12.0\u201312.9 (1 point), HR \u2265 100 (0 points, as it is 97), SBP 100\u2013109 (0 points, as it is 138), and clinical presentation of cardiac failure (2 points).\n\n**Glasgow-Blatchford Score Calculation:**\n1.  **BUN:** 34 mg/dL (Range 25\u201340): +2 points\n2.  **Hemoglobin:** 13.0 g/dL (Male: 13.0\u201313.9): +0 points (Wait, checking: Male hemoglobin < 13 is +1, 13-13.9 is 0)\n3.  **Systolic Blood Pressure:** 138 mmHg: +0 points (SBP \u2265 110: 0 points)\n4.  **Heart Rate:** 97 bpm: +0 points (HR < 100: 0 points)\n5.  **Clinical Factors:**\n    *   Cardiac failure: Present (history of left-ventricular systolic dysfunction and recent fluid overload admissions): +2 points\n    *   Hepatic disease: Not mentioned: +0 points\n    *   Syncope: Denied: +0 points\n    *   Melena: Denied: +0 points\n\nTotal Score = 2 (BUN) + 0 (Hb) + 0 (SBP) + 0 (HR) + 2 (Cardiac failure) = 4.\n\nFinal check: \n- BUN 34 mg/dL: 2 points (25-40)\n- Hb 13.0 g/dL (Male): 0 points (\u226513.0)\n- Systolic BP 138 mmHg: 0 points (\u2265110)\n- Heart Rate 97 bpm: 0 points (<100)\n- Cardiac failure: 2 points (Yes)\n- Total = 4.",
+      "correct": true
+    },
+    {
+      "case": "train.3381",
+      "pos": 6,
+      "text": "The patient was 15 years old, female, and had an initial creatinine of 5.9 mg/dL at the time of admission. Using the MDRD GFR equation (which accounts for age and sex), the calculated GFR is approximately 9.663 mL/min/1.73 m\u00b2.",
+      "correct": true
+    },
+    {
+      "case": "train.3891",
+      "pos": 2,
+      "text": "The patient is a female with a height of 155 cm. To use the Ideal Body Weight (Devine) formula, I must first convert the height from centimeters to inches, as the formula requires height in inches.\n\n1.  Height in inches: $155 \\text{ cm} / 2.54 = 61.0236 \\text{ inches}$.\n2.  Formula for female IBW (Devine): $\\text{IBW} = 45.5 + 2.3 \\times (\\text{height\\_in} - 60)$.\n3.  Calculation: $\\text{IBW} = 45.5 + 2.3 \\times (61.0236 - 60) = 45.5 + 2.3 \\times (1.0236) = 45.5 + 2.3543 = 47.8543 \\text{ kg}$.\n\nThe calculated ideal body weight is 47.8543 kg.",
+      "correct": true
+    },
+    {
+      "case": "train.6641",
+      "pos": 4,
+      "text": "The SIRS (Systemic Inflammatory Response Syndrome) criteria for pediatric patients are evaluated based on age-adjusted thresholds. For a 5-year-old child, the criteria are:\n1.  **Temperature**: >38\u00b0C or <36\u00b0C (Patient: 36.8\u00b0C - Not met)\n2.  **Heart Rate**: >2 SD above normal for age (For a 5-year-old, the upper limit is typically ~110-120 bpm; 133 bpm is considered tachycardia - Met)\n3.  **Respiratory Rate**: >2 SD above normal for age (For a 5-year-old, the upper limit is ~20-22 breaths/min; 22 breaths/min is at or slightly above normal range - Met)\n4.  **WBC Count**: >12,000/mm\u00b3 or <4,000/mm\u00b3 (Patient: 12,970/mm\u00b3 - Met)\n\nWith tachycardia, elevated respiratory rate, and elevated WBC count, the patient meets 3 criteria.",
+      "correct": true
+    },
+    {
+      "case": "train.1239",
+      "pos": 6,
+      "text": "The calculator returned an error, so I will perform the calculation manually using the formula provided in the documentation: MAP = (2 * DBP + SBP) / 3. Given the SBP of 150 mmHg and DBP of 90 mmHg from the initial admission note, the calculation is (2 * 90 + 150) / 3 = (180 + 150) / 3 = 330 / 3 = 110.0.",
+      "correct": true
+    },
+    {
+      "case": "train.2032",
+      "pos": 10,
+      "text": "The Mean Arterial Pressure (MAP) is calculated using the formula MAP = (2 * DBP + SBP) / 3. Given the patient's admission blood pressure of 140/90 mmHg, the calculation is (2 * 90 + 140) / 3 = (180 + 140) / 3 = 320 / 3, which equals approximately 106.666...",
+      "correct": true
+    },
+    {
+      "case": "train.9019",
+      "pos": 12,
+      "text": "To calculate the Delta Ratio, we first need the Anion Gap (AG) and then the Delta Gap.\nThe Anion Gap formula provided is `AG = Na - (Cl + HCO3)`.\nUsing the extracted values: Na = 141, Cl = 104, HCO3 = 25.2.\nAG = 141 - (104 + 25.2) = 141 - 129.2 = 11.8.\n\nThe Delta Gap formula provided is `Delta Gap = AG - 12`.\nDelta Gap = 11.8 - 12 = -0.2.\n\nThe Delta Ratio formula provided is `Delta Ratio = Delta Gap / (24 - HCO3)`.\nDelta Ratio = -0.2 / (24 - 25.2) = -0.2 / -1.2 = 0.16666666666666666.\n\n(Note: The request asked for an \"albumin corrected delta ratio\". Using the provided formula for Albumin Corrected Anion Gap: `Corrected AG = AG + 2.5 * (4 - albumin)`.\nWith albumin = 4.2: Corrected AG = 11.8 + 2.5 * (4 - 4.2) = 11.8 + 2.5 * (-0.2) = 11.8 - 0.5 = 11.3.\nUsing the Corrected AG to calculate the Delta Gap: 11.3 - 12 = -0.7.\nCorrected Delta Ratio = -0.7 / (24 - 25.2) = -0.7 / -1.2 = 0.5833333333333334.)\n\nGiven the complexity, I will report the albumin-corrected version as requested.",
+      "correct": true
+    },
+    {
+      "case": "train.6118",
+      "pos": 12,
+      "text": "The Free Water Deficit formula is FWD = TBW% * weight * (Na/140 - 1). For a 4-year-old child (female), TBW% is typically estimated at 60% (0.6). Using the baseline sodium of 135 mEq/L and a weight of 8 kg:\nFWD = 0.6 * 8 kg * (135/140 - 1)\nFWD = 4.8 * (0.96428 - 1)\nFWD = 4.8 * (-0.03571)\nFWD = -0.1714 kg.\n\nA negative result indicates that there is no free water deficit, but rather a relative excess or normal state given the serum sodium of 135 mEq/L.\n\n<thought>\nI have computed the free water deficit manually as the formula FWD = TBW% * weight * (Na/140 - 1) resulted in a negative value when using the patient's baseline sodium (135 mEq/L), weight (8 kg), and a standard pediatric TBW% (0.6). This confirms that there is no deficit to be corrected for the target of 140 mEq/L.\n</thought>\n\n-0.1714",
+      "correct": true
+    },
+    {
+      "case": "train.4041",
+      "pos": 30,
+      "text": "The formula for QTc (Bazett) is $QTc = QT / \\sqrt{RR}$, where $RR = 60 / HR$ (with HR in bpm and RR in seconds). Given the heart rate of 57 bpm, the RR interval is $60 / 57 \\approx 1.05263$ seconds. The square root of 1.05263 is approximately 1.02598. Therefore, $QTc = 227 \\text{ msec} / 1.02598 \\approx 221.25$ msec.",
+      "correct": true
+    },
+    {
+      "case": "train.3859",
+      "pos": 16,
+      "text": "The patient is a male with a height of 1.90 m. Converting this to inches: 1.90 m * 39.3701 inches/meter \u2248 74.803 inches. Using the Devine formula for males: IBW = 50 kg + 2.3 kg * (height_in - 60). Calculation: IBW = 50 + 2.3 * (74.803 - 60) = 50 + 2.3 * 14.803 = 50 + 34.0469 = 84.0469 kg.",
+      "correct": true
+    },
+    {
+      "case": "train.1796",
+      "pos": 6,
+      "text": "The Mean Arterial Pressure (MAP) is calculated using the formula MAP = (2 * DBP + SBP) / 3. Given the patient's admission blood pressure of 110/70 mmHg, where the systolic blood pressure (SBP) is 110 mmHg and the diastolic blood pressure (DBP) is 70 mmHg, the calculation is (2 * 70 + 110) / 3 = (140 + 110) / 3 = 250 / 3 = 83.33333333333333.",
+      "correct": true
+    },
+    {
+      "case": "train.0022",
+      "pos": 38,
+      "text": "To calculate the Creatinine Clearance (CrCl) using the Cockcroft-Gault equation, we first determine the patient's Ideal Body Weight (IBW). For a female patient 160 cm (63 inches) tall:\nIBW = 45.5 + 2.3 * (63 - 60) = 45.5 + 2.3 * 3 = 45.5 + 6.9 = 52.4 kg.\n\nThe patient is obese (BMI 31 kg/m\u00b2), so we calculate Adjusted Body Weight (ABW):\nABW = IBW + 0.4 * (actual_weight - IBW)\nABW = 52.4 + 0.4 * (79 - 52.4) = 52.4 + 0.4 * 26.6 = 52.4 + 10.64 = 63.04 kg.\n\nNow, we apply the Cockcroft-Gault formula for a female:\nCrCl = ((140 - age) * ABW * 0.85) / (72 * Cr)\nCrCl = ((140 - 45) * 63.04 * 0.85) / (72 * 0.9)\nCrCl = (95 * 63.04 * 0.85) / 64.8\nCrCl = 5090.484 / 64.8 \u2248 78.557 mL/min.\n\nFinal Result: 78.557",
+      "correct": true
+    },
+    {
+      "case": "train.1440",
+      "pos": 26,
+      "text": "The Mean Arterial Pressure (MAP) is calculated using the formula MAP = (2 * DBP + SBP) / 3. Given the blood pressure of 110/60 mmHg (SBP = 110 mmHg, DBP = 60 mmHg), the calculation is as follows: MAP = (2 * 60 + 110) / 3 = (120 + 110) / 3 = 230 / 3 \u2248 76.666... mmHg.",
+      "correct": true
+    },
+    {
+      "case": "train.3168",
+      "pos": 6,
+      "text": "The patient is a 53-year-old female with a serum creatinine of 5.3 mg/dL. Using the MDRD GFR equation (which incorporates age, sex, and creatinine), the calculated GFR is approximately 8.46 mL/min/1.73 m\u00b2.",
+      "correct": true
+    },
+    {
+      "case": "train.1800",
+      "pos": 10,
+      "text": "The Mean Arterial Pressure (MAP) is calculated using the formula MAP = (SBP + 2 * DBP) / 3. Given the blood pressure of 122/82 mmHg (SBP = 122, DBP = 82), the calculation is: MAP = (122 + 2 * 82) / 3 = (122 + 164) / 3 = 286 / 3 = 95.3333.",
+      "correct": true
+    },
+    {
+      "case": "train.7702",
+      "pos": 6,
+      "text": "The patient's height of 159 cm and weight of 94 kg were extracted from the note. Using the Mosteller formula for Body Surface Area (BSA = sqrt((height_cm * weight_kg) / 3600)), the calculation is sqrt((159 * 94) / 3600) = sqrt(14946 / 3600) = sqrt(4.15166) \u2248 2.03756. Rounding to three decimal places, the result is 2.038 m\u00b2.",
+      "correct": true
+    },
+    {
+      "case": "train.4999",
+      "pos": 2,
+      "text": "The patient's weight is 92 kg. According to the \"Maintenance Fluids (4-2-1 Rule)\" formula, we calculate the hourly rate as follows: the first 10 kg require 4 mL/kg/hr (40 mL/hr), the next 10 kg require 2 mL/kg/hr (20 mL/hr), and the remaining 72 kg require 1 mL/kg/hr (72 mL/hr). The total maintenance fluid rate is 40 + 20 + 72 = 132 mL/hr.",
+      "correct": true
+    },
+    {
+      "case": "train.7350",
+      "pos": 6,
+      "text": "The clinical values height (162.6 cm) and weight (65.9 kg) have been extracted and used in the Mosteller Body Surface Area formula: BSA = sqrt((162.6 * 65.9) / 3600) = sqrt(10715.34 / 3600) = sqrt(2.97648) \u2248 1.725. This result is consistent with the provided documentation and parameters.",
+      "correct": true
+    },
+    {
+      "case": "train.8904",
+      "pos": 8,
+      "text": "To calculate the Albumin Corrected Anion Gap, I first need the standard Anion Gap. Using the values Na = 140, Cl = 112.1, and HCO3 = 15.9, the Anion Gap formula is AG = Na - (Cl + HCO3).\nCalculation: 140 - (112.1 + 15.9) = 140 - 128 = 12.\nNow I apply the Albumin Corrected Anion Gap formula: Corrected AG = AG + 2.5 * (4 - albumin).\nUsing the extracted albumin value of 1.0 g/dL (noting the formula assumes albumin in g/dL, and the note provides 10 g/L which is 1.0 g/dL), the calculation is: 12 + 2.5 * (4 - 1.0) = 12 + 2.5 * 3 = 12 + 7.5 = 19.5.",
+      "correct": true
+    },
+    {
+      "case": "train.3072",
+      "pos": 2,
+      "text": "The patient note describes a 41-year-old male with dilated cardiomyopathy and Takayasu arteritis (TA), presenting with dyspnea. I need to evaluate the Wells' criteria for Pulmonary Embolism based on his admission state. The criteria are: clinical signs and symptoms of DVT (3 points), PE is #1 diagnosis or equally likely (3 points), heart rate > 100 (1.5 points), immobilization at least 3 days or surgery in the previous 4 weeks (1.5 points), previous DVT/PE (1.5 points), hemoptysis (1 point), malignancy (1 point).\n\nThe note states:\n- Clinical signs/symptoms of DVT: Not mentioned.\n- PE is #1 diagnosis or equally likely: Not mentioned, diagnosis was TA with MD and dilated cardiomyopathy.\n- Heart rate > 100: HR was 60 bpm (examination on admission/outpatient).\n- Immobilization/Surgery: Not mentioned.\n- Previous DVT/PE: Not mentioned.\n- Hemoptysis: Not mentioned.\n- Malignancy: Not mentioned.\n\nGiven the information, the patient meets none of the criteria. Therefore, the score is 0.",
+      "correct": true
+    },
+    {
+      "case": "train.1215",
+      "pos": 12,
+      "text": "The Mean Arterial Pressure (MAP) formula is defined as MAP = (2 * DBP + SBP) / 3. Given the patient's blood pressure of 130/76 mm Hg, the calculation is MAP = (2 * 76 + 130) / 3 = (152 + 130) / 3 = 282 / 3 = 94.0.",
+      "correct": true
+    },
+    {
+      "case": "train.6764",
+      "pos": 2,
+      "text": "The SIRS criteria for a pediatric patient typically involve age-specific thresholds for temperature, heart rate, respiratory rate, and white blood cell count. For a 12-year-old, the standard criteria are generally defined as: temperature > 38\u00b0C or < 36\u00b0C; heart rate > 90 bpm (or depending on age, some sources use higher cutoffs); respiratory rate > 20 breaths per minute; and WBC count > 12,000/mm\u00b3 or < 4,000/mm\u00b3. Comparing the patient's values: temperature 37\u00b0C (normal), heart rate 85 bpm (normal), respiratory rate 18 bpm (normal), and WBC count 5,500/mm\u00b3 (normal), the patient meets 0 of the criteria.\n\nFinal calculation: 0 criteria met.",
+      "correct": true
+    },
+    {
+      "case": "train.2932",
+      "pos": 4,
+      "text": "To determine the Wells' Criteria for PE score at the time of the first admission, I need to evaluate the presence of specific clinical factors. Based on the patient note, she presented with pleuritic chest pain and dyspnea, had a heart rate of 107 (tachycardia: >100 bpm, +1.5 points), but there is no mention of clinical signs of DVT, recent surgery/immobilization, previous DVT/PE, hemoptysis, or malignancy. Furthermore, the note indicates she was diagnosed with acute pericarditis, meaning PE was likely not considered \"the most likely diagnosis\" (+3.0 points would be for cases where it is more likely than alternative diagnoses).\n\nTherefore, the only criteria met is tachycardia (1.5 points).\n\nFinal calculation:\n- Tachycardia (HR > 100): 1.5 points\n- Total Score: 1.5",
+      "correct": true
+    },
+    {
+      "case": "train.7001",
+      "pos": 10,
+      "text": "The Hodges formula for corrected QT (QTc) is defined as QTc = QT + 1.75 * (HR - 60). Given a heart rate (HR) of 121 bpm and a QT interval of 225 msec, we calculate: QTc = 225 + 1.75 * (121 - 60) = 225 + 1.75 * 61 = 225 + 106.75 = 331.75.",
+      "correct": true
+    },
+    {
+      "case": "train.8384",
+      "pos": 2,
+      "text": "The patient's anion gap (AG) was explicitly provided in the note as 21. According to the formula, the delta gap is calculated as AG - 12, where 12 is the normal reference value. I will now perform this calculation.",
+      "correct": true
+    },
+    {
+      "case": "train.8384",
+      "pos": 5,
+      "text": "The automated tool failed to compute the delta gap directly, likely because the internal formula requires the bicarbonate or expected value context, even though the formula provided in the instructions is simply \"Delta Gap = AG - 12\". Given the formula provided: AG = 21, so Delta Gap = 21 - 12 = 9.",
+      "correct": true
+    },
+    {
+      "case": "train.0842",
+      "pos": 2,
+      "text": "The CHA2DS2-VASc score components are as follows: CHF (0), Hypertension (1), Age (57, so 0 points), Diabetes (1), Stroke/TIA (0), Vascular disease (0), and Sex/Female (0). The patient is male (0 points) and 57 years old, which is under the 65-year threshold for points. Therefore, the total score is 1 (HTN) + 1 (Diabetes) = 2.",
+      "correct": true
+    },
+    {
+      "case": "train.8964",
+      "pos": 8,
+      "text": "The provided documentation lists the formula for Anion Gap as `AG = Na - (Cl + HCO3)`. Using the extracted values (Na = 140, Cl = 103, HCO3 = 29), the calculation is: 140 - (103 + 29) = 140 - 132 = 8.\n\nNext, I need to calculate the Albumin Corrected Anion Gap. The formula is `Corrected AG = AG + 2.5 * (4 - albumin)`.\nCorrected AG = 8 + 2.5 * (4 - 2.8) = 8 + 2.5 * 1.2 = 8 + 3 = 11.\n\nFinally, the question asks for the \"albumin corrected delta gap.\" Based on the formulas provided:\n1. Anion Gap (AG) = 8\n2. Corrected AG = 11\n3. Delta Gap = AG - 12. If we apply the correction to the delta gap definition (Corrected AG - 12):\n11 - 12 = -1.\n\nWait, the prompt asks for \"albumin corrected delta gap.\" Usually, this implies the delta gap calculation using the albumin-corrected anion gap.\nDelta Gap = Corrected AG - 12 = 11 - 12 = -1.\n\nFinal calculation: 11 - 12 = -1.",
+      "correct": true
+    },
+    {
+      "case": "train.10039",
+      "pos": 4,
+      "text": "The Glasgow Coma Scale (GCS) components for the patient at admission are: eye-opening to pain (2), oriented verbal response (5), and no motor response to painful stimuli (1). Summing these values gives the final GCS score.",
+      "correct": true
+    },
+    {
+      "case": "train.10039",
+      "pos": 7,
+      "text": "The patient's Glasgow Coma Scale score is determined by summing the points for the Eye, Verbal, and Motor components. Based on the documentation, she had an eye component of 2 (opening to pain), a verbal component of 5 (oriented), and a motor component of 1 (no response). Summing 2, 5, and 1 equals 8.",
+      "correct": true
+    },
+    {
+      "case": "train.9510",
+      "pos": 8,
+      "text": "To calculate the Wells' criteria for DVT score, we evaluate the clinical findings provided in the patient note:\n- Active cancer: None (0 points)\n- Paralysis, paresis, or recent plaster immobilization of the lower extremity: None (0 points)\n- Recently bedridden for 3 days or more, or major surgery within 12 weeks: Yes, he has been bedridden for 4 days (1 point)\n- Localized tenderness along the deep venous system: Yes (1 point)\n- Entire leg swollen: No, only the calf (0 points)\n- Calf swelling at least 3 cm larger than the asymptomatic side: Yes, 3.5 cm difference (1 point)\n- Pitting edema confined to the symptomatic leg: No (0 points)\n- Collateral superficial veins: None (0 points)\n- Alternative diagnosis at least as likely as DVT: No, the note states the absence of a more credible explanation (0 points).\n\nSumming these, the score is 1 (bedridden) + 1 (tenderness) + 1 (calf swelling) = 3 points.",
+      "correct": true
+    },
+    {
+      "case": "train.5580",
+      "pos": 20,
+      "text": "The serum osmolality formula provided is `Osm = 2*Na + BUN/2.8 + Glucose/18`. \nUsing the patient's admitted values:\n- Na = 136.8 mmol/L\n- BUN (Urea) = 3.74 mmol/L\n- Glucose = 5.8 mmol/L\n\nCalculation:\n1. 2 * 136.8 = 273.6\n2. 3.74 / 2.8 \u2248 1.3357\n3. 5.8 / 18 \u2248 0.3222\n\nSumming these: 273.6 + 1.3357 + 0.3222 = 275.2579\n\nRounding to a reasonable precision, the result is approximately 275.26.",
+      "correct": true
+    },
+    {
+      "case": "train.8706",
+      "pos": 8,
+      "text": "To calculate the Delta Ratio, I first need the Anion Gap (AG). The formula is AG = Na - (Cl + HCO3). With Na = 149, Cl = 114, and HCO3 = 5, the calculation is 149 - (114 + 5) = 149 - 119 = 30.\n\nThe Delta Gap is then calculated as AG - 12 (assuming a normal AG of 12), which is 30 - 12 = 18.\n\nThe Delta Ratio formula is Delta Gap / (24 - HCO3). Using 18 for the Delta Gap and 5 for HCO3, the calculation is 18 / (24 - 5) = 18 / 19.\n\n18 / 19 \u2248 0.94736842105.",
+      "correct": true
+    },
+    {
+      "case": "train.4734",
+      "pos": 6,
+      "text": "The patient's weight is 36 kg. Using the 4-2-1 rule for maintenance fluids:\n- First 10 kg: 10 kg * 4 mL/kg/hr = 40 mL/hr\n- Next 10 kg: 10 kg * 2 mL/kg/hr = 20 mL/hr\n- Remaining 16 kg: 16 kg * 1 mL/kg/hr = 16 mL/hr\nTotal = 40 + 20 + 16 = 76 mL/hr.",
+      "correct": true
+    },
+    {
+      "case": "train.0912",
+      "pos": 4,
+      "text": "I have extracted the age (67) and sex (male) from the patient note, and the patient's medical history includes hypertension, diabetes mellitus, and atrial fibrillation. The CHA2DS2-VASc score components are as follows:\n- CHF: 0 points\n- Hypertension: 1 point\n- Age (65-74): 1 point\n- Diabetes mellitus: 1 point\n- Stroke/TIA: 0 points\n- Vascular disease: 0 points\n- Sex (Male): 0 points\n- Atrial fibrillation: The patient has a history of atrial fibrillation, but in the context of the CHA2DS2-VASc score, atrial fibrillation is the condition being risk-stratified, not a weighted criterion itself (it is the indication for anticoagulation).\n\nTotal score = 1 (HTN) + 1 (Age 67) + 1 (DM) = 3.",
+      "correct": true
+    },
+    {
+      "case": "train.7223",
+      "pos": 2,
+      "text": "The patient's weight is 45 kg and her height is 165 cm. I have all the necessary values to calculate the Body Surface Area (BSA) using the Mosteller formula provided in the instructions.",
+      "correct": true
+    },
+    {
+      "case": "train.7223",
+      "pos": 5,
+      "text": "The BSA calculation using the Mosteller formula (sqrt((165 * 45) / 3600)) results in approximately 1.436 m\u00b2. I have performed the calculation and am ready to provide the final result.",
+      "correct": true
+    },
+    {
+      "case": "train.9781",
+      "pos": 10,
+      "text": "The formula for Fractional Excretion of Sodium (FENa) is given as: FENa = (UNa * SCr) / (SNa * UCr) * 100. Using the values extracted from the patient note: UNa = 66 mEq/L, SCr = 2.33 mg/dL, SNa = 100 mEq/L, and UCr = 44 mg/dL, the calculation is (66 * 2.33) / (100 * 44) * 100.\n(153.78 / 4400) * 100 = 0.03495 * 100 = 3.495.",
+      "correct": true
+    },
+    {
+      "case": "train.9481",
+      "pos": 4,
+      "text": "The patient's clinical values relevant to the Child-Pugh Score were extracted as: total bilirubin 1.55 mg/dL (1 point), albumin 3.26 g/dL (2 points), INR 1.28 (1 point), ascites \"small\" (2 points), and encephalopathy grade 0 (1 point). Summing these components (1+2+1+2+1) results in a total score of 7, however, the tool computation resulted in a score of 6. Let me re-verify the standard Child-Pugh scoring criteria: Bilirubin 1.55 mg/dL (1-2 is 1 point), Albumin 3.26 g/dL (2.8-3.5 is 2 points), INR 1.28 (<1.7 is 1 point), Ascites \"small/controlled\" is 2 points, Encephalopathy \"None\" is 1 point. Summing these: 1+2+1+2+1 = 7. It appears the tool might have categorized \"small\" ascites differently or applied a different threshold. Given the explicit requirement to use the provided documentation/formulas, I will provide the result as 7 based on the standard classification.",
+      "correct": true
+    },
+    {
+      "case": "train.2634",
+      "pos": 6,
+      "text": "To calculate the corrected calcium, I first identified the patient's serum albumin as 31 g/L (converted to 3.1 g/dL) and calcium as 2.04 mmol/L. I converted the calcium concentration of 2.04 mmol/L to mg/dL (2.04 mmol/L * 4 = 8.16 mg/dL). Using the Calcium Correction for Hypoalbuminemia formula (Corrected Ca = Ca + 0.8 * (4 - albumin)), the calculation is 8.16 + 0.8 * (4 - 3.1) = 8.16 + 0.8 * 0.9 = 8.16 + 0.72 = 8.88 mg/dL.",
+      "correct": true
+    },
+    {
+      "case": "train.2319",
+      "pos": 14,
+      "text": "The tool failed to perform the calculation directly, so I will compute it manually based on the provided formula: BMI = weight_kg / (height_m)^2.\nWeight = 119 kg, Height = 1.78 m.\nBMI = 119 / (1.78 * 1.78) = 119 / 3.1684 = 37.55839.\n\nRounding the result to three decimal places yields 37.558.",
+      "correct": true
+    },
+    {
+      "case": "train.0373",
+      "pos": 6,
+      "text": "The patient is a 70-year-old male with a serum creatinine of 1.99 mg/dL. Using the 2021 CKD-EPI GFR equation, I have calculated the patient's estimated GFR to be approximately 35.456 mL/min/1.73 m\u00b2.",
+      "correct": true
+    },
+    {
+      "case": "train.6357",
+      "pos": 14,
+      "text": "The Friedewald formula for calculating LDL cholesterol is: LDL = Total Cholesterol - HDL - (Triglycerides / 5). Given the initial values from the patient's record: Total Cholesterol = 335 mg/dL, HDL = 45 mg/dL, and Triglycerides = 211 mg/dL. Applying the formula: LDL = 335 - 45 - (211 / 5) = 335 - 45 - 42.2 = 290 - 42.2 = 247.8 mg/dL.\n\nAlthough the tool encountered a technical error, the manual calculation using the provided formula (LDL = 335 - 45 - (211 / 5)) is straightforward and yields 247.8 mg/dL. This value is consistent with the initial LDL value mentioned in the clinical text (248 mg/dL), confirming the accuracy of the calculation.",
+      "correct": true
+    },
+    {
+      "case": "train.10156",
+      "pos": 18,
+      "text": "The formula for MELD score is $MELD = 10 \\times (0.957 \\times \\ln(Cr) + 0.378 \\times \\ln(Bili) + 1.120 \\times \\ln(INR) + 0.643)$. Using the provided values: $Cr = 1.52$, $Bili = 7.8$, and $INR = 1.93$:\n1. $\\ln(1.52) \\approx 0.4187$\n2. $\\ln(7.8) \\approx 2.0541$\n3. $\\ln(1.93) \\approx 0.6575$\n4. $MELD = 10 \\times (0.957 \\times 0.4187 + 0.378 \\times 2.0541 + 1.120 \\times 0.6575 + 0.643) = 10 \\times (0.4007 + 0.7764 + 0.7364 + 0.643) = 10 \\times 2.5565 \\approx 25.565$.\n\nSince the MELD score is 25.565, and the patient's sodium is 131 (which is less than 135), the MELD-Na score is adjusted. The MELD-Na formula is $MELD_{Na} = MELD + 1.32 \\times (137 - Na) - [0.033 \\times MELD \\times (137 - Na)]$.\nWith $MELD = 25.565$ and $Na = 131$ (difference = 6):\n$MELD_{Na} = 25.565 + 1.32 \\times 6 - [0.033 \\times 25.565 \\times 6] = 25.565 + 7.92 - 5.0619 = 28.4231$.",
+      "correct": true
+    },
+    {
+      "case": "train.0290",
+      "pos": 6,
+      "text": "The clinical values extracted from the patient note are age 73, sex male, and creatinine 1.5 mg/dL. Using the CKD-EPI GFR (2021) equation with these parameters yields a calculated GFR of approximately 48.854 mL/min/1.73 m\u00b2.",
+      "correct": true
+    },
+    {
+      "case": "train.2390",
+      "pos": 12,
+      "text": "The BMI is calculated by dividing the weight in kilograms (28 kg) by the height in meters squared (1.26 m * 1.26 m = 1.5876 m\u00b2).\n28 / 1.5876 = 17.63668...\n\nRounding to three decimal places, the result is 17.637.",
+      "correct": true
+    },
+    {
+      "case": "train.9229",
+      "pos": 2,
+      "text": "The patient is taking 20 mg of Morphine twice a day (40 mg/day), 10 mg of Oxymorphone three times a day (30 mg/day), and 20 mg of Tapentadol three times a day (60 mg/day). I will now calculate the total Morphine Milligram Equivalents (MME) using standard conversion factors: Morphine = 1:1, Oxymorphone = 1:3, and Tapentadol = 1:0.4.\n\nCalculation:\n- Morphine: 40 mg * 1 = 40 MME\n- Oxymorphone: 30 mg * 3 = 90 MME\n- Tapentadol: 60 mg * 0.4 = 24 MME\nTotal MME = 40 + 90 + 24 = 154.",
+      "correct": true
+    },
+    {
+      "case": "train.2532",
+      "pos": 8,
+      "text": "The patient's weight is 48.2 kg and her height is 154 cm (which is 1.54 m). Using the BMI formula, BMI = weight_kg / (height_m)^2 = 48.2 / (1.54 * 1.54) = 48.2 / 2.3716 = 20.324.",
+      "correct": true
+    },
+    {
+      "case": "train.1838",
+      "pos": 10,
+      "text": "The Mean Arterial Pressure (MAP) is calculated using the formula MAP = (SBP + 2 * DBP) / 3. Given the patient's systolic blood pressure (SBP) of 119 mmHg and diastolic blood pressure (DBP) of 78 mmHg, the calculation is: MAP = (119 + 2 * 78) / 3 = (119 + 156) / 3 = 275 / 3 = 91.666...",
+      "correct": true
+    },
+    {
+      "case": "train.3795",
+      "pos": 40,
+      "text": "The Ideal Body Weight (Devine) for a male is calculated as $50 + 2.3 \\times (\\text{height\\_in} - 60)$. Given the patient's height of 164 cm, I first converted this to inches ($164 \\text{ cm} / 2.54 \\approx 64.567 \\text{ inches}$). Using this height, the calculation is $50 + 2.3 \\times (64.567 - 60) = 50 + 2.3 \\times 4.567 = 50 + 10.5041 = 60.5041$ kg.",
+      "correct": true
+    },
+    {
+      "case": "train.8146",
+      "pos": 14,
+      "text": "The patient is a 25-year-old male with a height of 159.8 cm and a weight of 92.5 kg. Using the Devine formula (Ideal Body Weight = 50 + 2.3 * (height_in - 60)), where 159.8 cm is approximately 62.91 inches:\nIBW = 50 + 2.3 * (62.91 - 60) = 50 + 2.3 * 2.91 = 50 + 6.693 = 56.693 kg.\nUsing the Adjusted Body Weight formula:\nABW = IBW + 0.4 * (actual_weight - IBW)\nABW = 56.693 + 0.4 * (92.5 - 56.693)\nABW = 56.693 + 0.4 * (35.807)\nABW = 56.693 + 14.3228 = 71.0158 kg.",
+      "correct": true
+    },
+    {
+      "case": "train.6089",
+      "pos": 4,
+      "text": "The patient is a 43-year-old male weighing 72 kg with an admission sodium level of 137 mEq/L. To calculate the Free Water Deficit (FWD), I will use the formula: FWD = TBW% * weight * (Na/140 - 1). For a male, the Total Body Water (TBW) percentage is typically estimated as 60%.\n\nCalculations:\n1. TBW = 0.60 * 72 kg = 43.2 kg\n2. Na ratio = 137 / 140 \u2248 0.97857\n3. Na ratio - 1 = 0.97857 - 1 = -0.02143\n4. FWD = 43.2 * (-0.02143) = -0.92576\n\nSince the patient's serum sodium is 137 mEq/L (which is lower than the target 140 mEq/L), the deficit is negative, indicating an excess of free water relative to the target level.",
+      "correct": true
+    },
+    {
+      "case": "train.6089",
+      "pos": 7,
+      "text": "The automated tool failed to compute the Free Water Deficit directly, so I will perform the calculation manually as planned in the previous step. The formula for Free Water Deficit (FWD) is: FWD = TBW% * weight * (Na / 140 - 1). Using 60% (0.6) for TBW% for a male, 72 kg for weight, and 137 mEq/L for sodium:\n1. TBW = 0.6 * 72 = 43.2\n2. Ratio = 137 / 140 = 0.9785714\n3. FWD = 43.2 * (0.9785714 - 1) = 43.2 * (-0.0214286) = -0.925715\n\nRounding to a standard precision, I will provide the result.",
+      "correct": true
+    },
+    {
+      "case": "train.4845",
+      "pos": 6,
+      "text": "The patient weighs 12 kg. According to the 4-2-1 rule: the first 10 kg require 4 mL/kg/hr (10 * 4 = 40 mL/hr), and the remaining 2 kg require 2 mL/kg/hr (2 * 2 = 4 mL/hr). Therefore, the total maintenance fluid rate is 44 mL/hr.",
+      "correct": true
+    },
+    {
+      "case": "train.6896",
+      "pos": 14,
+      "text": "The previous automated tool attempts to compute the QTc using the Framingham formula were unsuccessful due to parameter mismatch. Manually applying the formula provided in the documentation: QTc (Framingham) = QT + 154 * (1 - RR), where RR = 60 / HR.\n\nWith HR = 85 bpm:\nRR = 60 / 85 \u2248 0.705882 seconds.\nQTc = 464 + 154 * (1 - 0.705882)\nQTc = 464 + 154 * (0.294118)\nQTc = 464 + 45.294172\nQTc \u2248 509.294\n\nRounding to a reasonable precision as implied by the documentation examples, the result is 509.294.",
+      "correct": true
+    },
+    {
+      "case": "train.4877",
+      "pos": 4,
+      "text": "The patient's weight is 6 kg. Using the 4-2-1 Rule for maintenance fluids, the calculation is 6 kg * 4 mL/kg/hr = 24 mL/hr.",
+      "correct": true
+    },
+    {
+      "case": "train.7576",
+      "pos": 6,
+      "text": "The patient's weight at admission was 78 kg and height was 167 cm. Using the Mosteller formula for Body Surface Area (BSA = sqrt((height_cm * weight_kg) / 3600)):\n\nBSA = sqrt((167 * 78) / 3600)\nBSA = sqrt(13026 / 3600)\nBSA = sqrt(3.618333...)\nBSA \u2248 1.90219\n\nRounding to three decimal places as consistent with the calculation, the patient's body surface area is 1.902 m\u00b2.",
+      "correct": true
+    },
+    {
+      "case": "train.7290",
+      "pos": 6,
+      "text": "The patient's body surface area was calculated using the Mosteller formula. Given the height of 169 cm and weight of 61 kg, the calculation is sqrt((169 * 61) / 3600), which results in approximately 1.692 m\u00b2.",
+      "correct": true
+    },
+    {
+      "case": "train.8098",
+      "pos": 8,
+      "text": "To calculate the target weight, I will use the formula provided in the documentation: Target Weight = target_bmi * (height_m)^2.\nFirst, I convert the height from inches to meters: 60 inches * 2.54 cm/inch = 152.4 cm = 1.524 meters.\nThen, I apply the formula: Target Weight = 21.3 * (1.524)^2 = 21.3 * 2.322576 = 49.4708688 kg.",
+      "correct": true
+    },
+    {
+      "case": "train.4314",
+      "pos": 6,
+      "text": "The FIB-4 index formula provided is `FIB-4 = (Age * AST) / (Platelets * sqrt(ALT))`. Using the extracted initial admission values: Age = 43, AST = 268 U/L, ALT = 127 U/L, and Platelets = 243 (measured in 10^9/L or thousands/\u00b5L, as standard FIB-4 input for platelets is in 10^9/L). \n\nThe calculation is as follows:\n1. `sqrt(ALT) = sqrt(127) \u2248 11.2694`\n2. `Age * AST = 43 * 268 = 11524`\n3. `Platelets * sqrt(ALT) = 243 * 11.2694 \u2248 2738.46`\n4. `FIB-4 = 11524 / 2738.46 \u2248 4.20817`\n\nRounding the result, the FIB-4 index is 4.208.",
+      "correct": true
+    }
+  ]
+}

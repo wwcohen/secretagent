@@ -1,0 +1,11 @@
+Pipeline accuracy: 82.9%, avg cost: $0.0047/case, 70 cases
+
+Per-ptool breakdown:
+  build_meeting_plan: cost_frac=34.2%, calls/case=1.0, avg_cost=$0.0016, lift=N/A, errors=0
+  parse_meeting_info: cost_frac=31.4%, calls/case=1.0, avg_cost=$0.0015, lift=N/A, errors=0
+  plan_visit_order: cost_frac=34.4%, calls/case=1.0, avg_cost=$0.0016, lift=N/A, errors=0
+
+Ptools called via LLM: ['build_meeting_plan', 'parse_meeting_info', 'plan_visit_order']
+
+Held-out eval accuracy: 83.3% (train: 82.9%)
+A large train-eval gap means your changes are OVERFITTING. Prefer changes that generalize to unseen cases.

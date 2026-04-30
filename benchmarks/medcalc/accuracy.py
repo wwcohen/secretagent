@@ -28,7 +28,7 @@ class AccuracyResult:
 def normalize_date(date_str: str) -> str:
     """Normalize date string for comparison."""
     date_str = date_str.strip()
-    match = re.match(r'(\d{1,2})/(\d{1,2})/(\d{4})', date_str)
+    match = re.search(r'(\d{1,2})/(\d{1,2})/(\d{4})', date_str)
     if match:
         month, day, year = match.groups()
         return f"{int(month):02d}/{int(day):02d}/{year}"

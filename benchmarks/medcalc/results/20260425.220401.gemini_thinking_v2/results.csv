@@ -1,0 +1,55 @@
+case_name,predicted_output,predicted_numeric,expected_output,correct,exact_match,within_limits,absolute_error,calculator_name,category,output_type,input_tokens,output_tokens,latency,cost,expt_name
+train.4278,"**exception raised**: status_code: 400, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.BadRequestError: GeminiException BadRequestError - {
+  ""error"": {
+    ""code"": 400,
+    ""message"": ""Invalid JSON payload received. Unknown name \""reasoning_effort\"": Cannot find field."",
+    ""status"": ""INVALID_ARGUMENT"",
+    ""details"": [
+      {
+        ""@type"": ""type.googleapis.com/google.rpc.BadRequest"",
+        ""fieldViolations"": [
+          {
+            ""description"": ""Invalid JSON payload received. Unknown name \""reasoning_effort\"": Cannot find field.""
+          }
+        ]
+      }
+    ]
+  }
+}
+",,5.0,0.0,0.0,0.0,inf,HEART Score for Major Cardiac Events,risk,integer,,,,,gemini_thinking_v2
+train.9258,"**exception raised**: status_code: 400, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.BadRequestError: GeminiException BadRequestError - {
+  ""error"": {
+    ""code"": 400,
+    ""message"": ""Invalid JSON payload received. Unknown name \""reasoning_effort\"": Cannot find field."",
+    ""status"": ""INVALID_ARGUMENT"",
+    ""details"": [
+      {
+        ""@type"": ""type.googleapis.com/google.rpc.BadRequest"",
+        ""fieldViolations"": [
+          {
+            ""description"": ""Invalid JSON payload received. Unknown name \""reasoning_effort\"": Cannot find field.""
+          }
+        ]
+      }
+    ]
+  }
+}
+",,297.8,0.0,0.0,0.0,inf,Morphine Milligram Equivalents (MME) Calculator,dosage,integer,,,,,gemini_thinking_v2
+train.5372,"**exception raised**: status_code: 400, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.BadRequestError: GeminiException BadRequestError - {
+  ""error"": {
+    ""code"": 400,
+    ""message"": ""Invalid JSON payload received. Unknown name \""reasoning_effort\"": Cannot find field."",
+    ""status"": ""INVALID_ARGUMENT"",
+    ""details"": [
+      {
+        ""@type"": ""type.googleapis.com/google.rpc.BadRequest"",
+        ""fieldViolations"": [
+          {
+            ""description"": ""Invalid JSON payload received. Unknown name \""reasoning_effort\"": Cannot find field.""
+          }
+        ]
+      }
+    ]
+  }
+}
+",,1390.8,0.0,0.0,0.0,inf,Sodium Correction for Hyperglycemia,lab test,decimal,,,,,gemini_thinking_v2

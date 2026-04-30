@@ -1,0 +1,111 @@
+case_name,predicted_output,predicted_numeric,expected_output,correct,exact_match,within_limits,absolute_error,calculator_name,category,output_type,input_tokens,output_tokens,latency,cost,expt_name
+train.9456,8.0,8.0,8.0,1.0,1.0,1.0,0.0,Child-Pugh Score for Cirrhosis Mortality,severity,integer,8906.0,1449.0,31.642475128173828,0.004399999999999999,react_eval
+train.9798,8.333333333333334,8.333333333333334,8.33333,1.0,1.0,1.0,3.33333333379926e-06,HOMA-IR (Homeostatic Model Assessment for Insulin Resistance),lab test,decimal,21119.0,1026.0,24.922914743423462,0.00681875,react_eval
+train.1486,99.0,99.0,99.0,1.0,1.0,1.0,0.0,Mean Arterial Pressure (MAP),physical,decimal,15030.0,283.0,23.17863965034485,0.004182,react_eval
+train.8836,-0.2727,-0.2727,-0.27273,1.0,1.0,1.0,2.999999999997449e-05,Delta Ratio,lab test,decimal,31440.0,1663.0,20.29328227043152,0.010354499999999999,react_eval
+train.5204,132.0,132.0,132.0,1.0,1.0,1.0,0.0,Maintenance Fluids Calculations,physical,decimal,16442.0,227.0,22.71400213241577,0.004450999999999999,react_eval
+train.0213,3.921,3.921,63.96379,0.0,0.0,0.0,60.042790000000004,CKD-EPI Equations for Glomerular Filtration Rate,lab test,decimal,17599.0,1020.0,32.95756936073303,0.00592975,react_eval
+train.4208,2.0,2.0,0.0,0.0,0.0,0.0,2.0,HEART Score for Major Cardiac Events,risk,integer,13773.0,940.0,25.238239526748657,0.00485325,react_eval
+train.4808,0.0,0.0,47.21552,0.0,0.0,0.0,47.21552,Maintenance Fluids Calculations,physical,decimal,6832.0,522.0,16.07329225540161,0.002491,react_eval
+train.9518,0.0,0.0,0.0,1.0,1.0,1.0,0.0,Wells' Criteria for DVT,risk,decimal,26024.0,1941.0,34.433340549468994,0.009417499999999999,react_eval
+train.5523,119.944,119.944,119.944,1.0,1.0,1.0,0.0,Sodium Correction for Hyperglycemia,lab test,decimal,13814.0,971.0,19.473435640335083,0.00491,react_eval
+train.1799,75.0,75.0,75.0,1.0,1.0,1.0,0.0,Mean Arterial Pressure (MAP),physical,decimal,14158.0,1023.0,15.844957113265991,0.0050739999999999995,react_eval
+train.5151,124.0,124.0,124.0,1.0,1.0,1.0,0.0,Maintenance Fluids Calculations,physical,decimal,6316.0,295.0,14.542623281478882,0.0020215,react_eval
+train.7090,547.769,547.769,694.6,0.0,0.0,0.0,146.83100000000002,QTc Rautaharju Calculator,physical,decimal,32193.0,546.0,20.165303945541382,0.00886725,react_eval
+train.3479,63.9,63.9,63.9,1.0,1.0,1.0,0.0,Ideal Body Weight,physical,decimal,52666.0,929.0,32.471559286117554,0.01456,react_eval
+train.9295,0.7012015,0.7012015,07/01/2015,0.0,0.0,0.0,1.0,Estimated of Conception,date,date,13130.0,681.0,14.894655704498291,0.004304,react_eval
+train.3918,47.854,47.854,47.85442,1.0,1.0,1.0,0.0004199999999983106,Ideal Body Weight,physical,decimal,14870.0,585.0,12.27634572982788,0.004595,react_eval
+train.3813,59.626,59.626,59.62607,1.0,1.0,1.0,7.000000000090267e-05,Ideal Body Weight,physical,decimal,68950.0,1724.0,26.876781940460205,0.0198235,react_eval
+train.0443,85.421,85.421,56.60281,0.0,0.0,0.0,28.81819000000001,CKD-EPI Equations for Glomerular Filtration Rate,lab test,decimal,16013.0,1266.0,15.325825691223145,0.0059022499999999995,react_eval
+train.10233,0.0,0.0,7.426,0.0,0.0,0.0,7.426,Framingham Risk Score for Hard Coronary Heart Disease,lab test,decimal,21619.0,416.0,33.74512791633606,0.006028749999999999,react_eval
+train.2915,3.0,3.0,3.0,1.0,1.0,1.0,0.0,Wells' Criteria for Pulmonary Embolism,risk,integer,19191.0,814.0,54.48431730270386,0.00601875,react_eval
+train.2056,22.06,22.06,22.06035,1.0,1.0,1.0,0.00035000000000096065,Body Mass Index (BMI),physical,decimal,28290.0,395.0,18.237471342086792,0.007665,react_eval
+train.3017,7.5,7.5,9.0,0.0,0.0,0.0,1.5,Wells' Criteria for Pulmonary Embolism,risk,integer,15922.0,647.0,20.343464851379395,0.004951,react_eval
+train.1016,2.0,2.0,2.0,1.0,1.0,1.0,0.0,CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk,risk,integer,50292.0,1362.0,24.617475748062134,0.014615999999999999,react_eval
+train.6854,510.54,510.54,510.5417,1.0,1.0,1.0,0.001699999999971169,QTc Fridericia Calculator,physical,decimal,28235.0,930.0,35.98938965797424,0.00845375,react_eval
+train.6085,2.5,2.5,-0.97198,0.0,0.0,0.0,3.47198,Free Water Deficit,lab test,decimal,12552.0,2027.0,26.152680158615112,0.0061785,react_eval
+train.6413,2.0,2.0,2.0,1.0,1.0,1.0,0.0,CURB-65 Score for Pneumonia Severity,risk,integer,13475.0,1729.0,27.470417976379395,0.00596225,react_eval
+train.8969,1.5,1.5,1.5,1.0,1.0,1.0,0.0,Albumin Corrected Delta Gap,lab test,decimal,51539.0,1595.0,39.29296159744263,0.01527725,react_eval
+train.9748,0.09944,0.09944,0.09944,1.0,1.0,1.0,0.0,Fractional Excretion of Sodium (FENa),lab test,decimal,49364.0,2895.0,53.18726921081543,0.0166835,react_eval
+train.6037,**exception raised**: The next request would exceed the request_limit of 50,,-0.15,0.0,0.0,0.0,inf,Free Water Deficit,lab test,decimal,,,,,react_eval
+train.7347,0.806,0.806,0.80623,1.0,1.0,1.0,0.00022999999999995246,Body Surface Area Calculator,physical,decimal,14007.0,666.0,19.331335306167603,0.0045007499999999995,react_eval
+train.6593,0.0,0.0,1.0,0.0,0.0,0.0,1.0,PERC Rule for Pulmonary Embolism,diagnosis,integer,8339.0,461.0,13.71003007888794,0.00277625,react_eval
+train.6972,605.5,605.5,605.50145,1.0,1.0,1.0,0.0014499999999770807,QTc Hodges Calculator,physical,decimal,5616.0,208.0,14.434507131576538,0.0017159999999999999,react_eval
+train.6383,238.808,238.808,227.2154,0.0,0.0,0.0,11.592600000000004,LDL Calculated,lab test,decimal,15817.0,642.0,22.706295013427734,0.00491725,react_eval
+train.5892,2.0,2.0,3.0,0.0,0.0,0.0,1.0,FeverPAIN Score for Strep Pharyngitis,diagnosis,integer,13357.0,1611.0,31.745907068252563,0.0057557500000000004,react_eval
+train.9883,128.0,128.0,108.0,0.0,0.0,0.0,20.0,PSI Score: Pneumonia Severity Index for CAP,severity,integer,19464.0,1591.0,33.27967071533203,0.0072525,react_eval
+train.1081,7.0,7.0,7.0,1.0,1.0,1.0,0.0,CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk,risk,integer,52521.0,1216.0,25.37609887123108,0.014954249999999999,react_eval
+train.7499,0.725,0.725,0.72486,1.0,1.0,1.0,0.000140000000000029,Body Surface Area Calculator,physical,decimal,15095.0,787.0,15.29803729057312,0.00495425,react_eval
+train.6160,14.0,14.0,14.0,1.0,1.0,1.0,0.0,Anion Gap,lab test,decimal,21217.0,1025.0,27.4268217086792,0.00684175,react_eval
+train.8995,-1.917,-1.917,1.1875,0.0,0.0,0.0,3.1045,Albumin Corrected Delta Ratio,lab test,decimal,8352.0,813.0,22.444376468658447,0.0033075,react_eval
+train.10524,**exception raised**: The next request would exceed the request_limit of 50,,35.0,0.0,0.0,0.0,inf,APACHE II Score,risk,integer,,,,,react_eval
+train.8148,53.288,53.288,53.28588,1.0,1.0,1.0,0.0021199999999979013,Adjusted Body Weight,physical,decimal,58106.0,1473.0,33.37304878234863,0.016736,react_eval
+train.10024,6.0,6.0,9.0,0.0,0.0,0.0,3.0,Caprini Score for Venous Thromboembolism (2005),risk,integer,13173.0,534.0,26.7492036819458,0.00409425,react_eval
+train.7578,1.562,1.562,1.56152,1.0,1.0,1.0,0.00048000000000003595,Body Surface Area Calculator,physical,decimal,10474.0,267.0,14.297606229782104,0.003019,react_eval
+train.9608,9.0,9.0,8.0,0.0,0.0,0.0,1.0,Sequential Organ Failure Assessment (SOFA) Score,risk,integer,49361.0,1947.0,34.25956702232361,0.015260749999999998,react_eval
+train.4941,16.0,16.0,16.0,1.0,1.0,1.0,0.0,Maintenance Fluids Calculations,physical,decimal,13340.0,1120.0,14.82427453994751,0.005015,react_eval
+train.9201,**exception raised**: [Errno 11] Resource temporarily unavailable,,104.0,0.0,0.0,0.0,inf,Morphine Milligram Equivalents (MME) Calculator,dosage,integer,,,,,react_eval
+train.9067,9072012.0,9072012.0,09/05/2012,0.0,0.0,0.0,1.0,Estimated Due Date,date,date,6214.0,932.0,5.839581251144409,0.0029515,react_eval
+train.8080,65.37,65.37,65.38064,1.0,0.0,1.0,0.010639999999995098,Target weight,physical,decimal,20301.0,706.0,39.72662353515625,0.00613425,react_eval
+train.8902,7.25,7.25,7.25,1.0,1.0,1.0,0.0,Albumin Corrected Anion Gap,lab test,decimal,48848.0,1329.0,45.259085178375244,0.0142055,react_eval
+train.2715,8.647,8.647,8.647,1.0,1.0,1.0,0.0,Calcium Correction for Hypoalbuminemia,lab test,decimal,44712.0,855.0,35.38508152961731,0.0124605,react_eval
+train.3408,31.086,31.086,32.20125,1.0,0.0,1.0,1.1152500000000032,MDRD GFR Equation,lab test,decimal,25524.0,928.0,26.72227191925049,0.0077729999999999995,react_eval
+train.10172,27.1,27.1,27.0,1.0,0.0,1.0,0.10000000000000142,MELD Na (UNOS/OPTN),lab test,decimal,46714.0,1149.0,27.24292492866516,0.013401999999999999,react_eval
+train.4641,**exception raised**: [Errno 11] Resource temporarily unavailable,,93.4,0.0,0.0,0.0,inf,Maintenance Fluids Calculations,physical,decimal,,,,,react_eval
+train.0924,2.0,2.0,2.0,1.0,1.0,1.0,0.0,CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk,risk,integer,6040.0,364.0,25.01744794845581,0.0020559999999999997,react_eval
+train.2226,17.998,17.998,17.99816,1.0,1.0,1.0,0.00015999999999749548,Body Mass Index (BMI),physical,decimal,21124.0,347.0,21.50941252708435,0.0058015,react_eval
+train.2227,**exception raised**: The next request would exceed the request_limit of 50,,15.98244,0.0,0.0,0.0,inf,Body Mass Index (BMI),physical,decimal,,,,,react_eval
+train.1408,**exception raised**: [Errno 11] Resource temporarily unavailable,,80.0,0.0,0.0,0.0,inf,Mean Arterial Pressure (MAP),physical,decimal,,,,,react_eval
+train.2558,13.5,13.5,13.5,1.0,1.0,1.0,0.0,Calcium Correction for Hypoalbuminemia,lab test,decimal,18954.0,518.0,20.745965003967285,0.0055155,react_eval
+train.1743,91.33333333333333,91.33333333333333,91.33333,1.0,1.0,1.0,3.3333333249174757e-06,Mean Arterial Pressure (MAP),physical,decimal,22098.0,1016.0,18.79326891899109,0.0070485,react_eval
+train.4799,110.0,110.0,110.0,1.0,1.0,1.0,0.0,Maintenance Fluids Calculations,physical,decimal,17108.0,1374.0,15.06907868385315,0.006338,react_eval
+train.8486,-1.0,-1.0,-1.0,1.0,1.0,1.0,0.0,Delta Gap,lab test,decimal,19116.0,393.0,17.687559366226196,0.005368499999999999,react_eval
+train.6956,**exception raised**: [Errno 11] Resource temporarily unavailable,,378.71216,0.0,0.0,0.0,inf,QTc Framingham Calculator,physical,decimal,,,,,react_eval
+train.3731,48.7598,48.7598,48.75993,1.0,1.0,1.0,0.0001299999999986312,Ideal Body Weight,physical,decimal,105554.0,1513.0,44.94021129608154,0.028658,react_eval
+train.3981,73.184,73.184,73.18119,1.0,1.0,1.0,0.0028099999999966485,Ideal Body Weight,physical,decimal,29361.0,1284.0,21.829730987548828,0.00926625,react_eval
+train.8324,**exception raised**: The next request would exceed the request_limit of 50,,72.54572,0.0,0.0,0.0,inf,Adjusted Body Weight,physical,decimal,,,,,react_eval
+train.2968,0.0,0.0,0.0,1.0,1.0,1.0,0.0,Wells' Criteria for Pulmonary Embolism,risk,integer,22675.0,1387.0,33.9724862575531,0.007749249999999999,react_eval
+train.0801,3.0,3.0,3.0,1.0,1.0,1.0,0.0,CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk,risk,integer,10883.0,310.0,22.930949926376343,0.00318575,react_eval
+train.0329,"**exception raised**: invalid syntax (<unknown>, line 1)",,7.53796,0.0,0.0,0.0,inf,CKD-EPI Equations for Glomerular Filtration Rate,lab test,decimal,,,,,react_eval
+train.7454,1.719,1.719,1.71949,1.0,1.0,1.0,0.0004899999999998794,Body Surface Area Calculator,physical,decimal,10308.0,571.0,19.52396869659424,0.0034335,react_eval
+train.1327,100.667,100.667,100.66667,1.0,1.0,1.0,0.0003300000000052705,Mean Arterial Pressure (MAP),physical,decimal,16391.0,946.0,16.152701139450073,0.00551675,react_eval
+train.9405,0.0,0.0,"('6 weeks', '0 days')",0.0,0.0,0.0,1.0,Estimated Gestational Age,date,date,9058.0,215.0,19.202182054519653,0.002587,react_eval
+train.8792,-2.26,-2.26,-2.26087,1.0,1.0,1.0,0.0008700000000003705,Delta Ratio,lab test,decimal,16961.0,1170.0,21.278208017349243,0.005995250000000001,react_eval
+train.5659,292.627,292.627,292.62698,1.0,1.0,1.0,2.0000000006348273e-05,Serum Osmolality,lab test,decimal,19792.0,1147.0,20.936001300811768,0.0066685,react_eval
+train.1364,**exception raised**: cannot unpack non-iterable NoneType object,,100.0,0.0,0.0,0.0,inf,Mean Arterial Pressure (MAP),physical,decimal,,,,,react_eval
+train.10276,5.0,5.0,4.0,0.0,0.0,0.0,1.0,Charlson Comorbidity Index (CCI),risk,integer,8476.0,366.0,15.9369957447052,0.002668,react_eval
+train.0815,**exception raised**: The next request would exceed the request_limit of 50,,5.0,0.0,0.0,0.0,inf,CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk,risk,integer,,,,,react_eval
+train.4487,**exception raised**: [Errno 11] Resource temporarily unavailable,,63.2,0.0,0.0,0.0,inf,Maintenance Fluids Calculations,physical,decimal,,,,,react_eval
+train.8500,43.0,43.0,36.0,0.0,0.0,0.0,7.0,Delta Gap,lab test,decimal,32991.0,339.0,20.206812858581543,0.00875625,react_eval
+train.1122,99.667,99.667,99.66667,1.0,1.0,1.0,0.0003300000000052705,Mean Arterial Pressure (MAP),physical,decimal,21403.0,925.0,21.89595675468445,0.0067382499999999994,react_eval
+train.7797,1.784,1.784,1.78396,1.0,1.0,1.0,4.0000000000040004e-05,Body Surface Area Calculator,physical,decimal,17741.0,779.0,16.704174518585205,0.00560375,react_eval
+train.2440,13.888,13.888,18.18551,0.0,0.0,0.0,4.297510000000001,Body Mass Index (BMI),physical,decimal,62127.0,2416.0,48.21160411834717,0.01915575,react_eval
+train.3923,62.315,62.315,62.31505,1.0,1.0,1.0,5.000000000165983e-05,Ideal Body Weight,physical,decimal,10084.0,399.0,12.35587739944458,0.0031195,react_eval
+train.4365,**exception raised**: [Errno 11] Resource temporarily unavailable,,0.44977,0.0,0.0,0.0,inf,Fibrosis-4 (FIB-4) Index for Liver Fibrosis,lab test,decimal,,,,,react_eval
+train.10041,11.0,11.0,11.0,1.0,1.0,1.0,0.0,Glasgow Coma Score (GCS),severity,integer,16208.0,288.0,38.09946393966675,0.004484,react_eval
+train.3241,35.868,35.868,35.86756,1.0,1.0,1.0,0.0004400000000046589,MDRD GFR Equation,lab test,decimal,19852.0,1780.0,28.740018129348755,0.007632999999999999,react_eval
+train.4226,5.0,5.0,5.0,1.0,1.0,1.0,0.0,HEART Score for Major Cardiac Events,risk,integer,15650.0,834.0,36.41789412498474,0.0051635,react_eval
+train.10338,1.0,1.0,3.0,0.0,0.0,0.0,2.0,HAS-BLED Score for Major Bleeding Risk,risk,integer,13595.0,2059.0,38.37558460235596,0.00648725,react_eval
+train.1387,88.0,88.0,88.0,1.0,1.0,1.0,0.0,Mean Arterial Pressure (MAP),physical,decimal,29558.0,1320.0,22.954439163208008,0.0093695,react_eval
+train.9664,1.0,1.0,0.0,0.0,0.0,0.0,1.0,Glasgow-Blatchford Bleeding Score (GBS),risk,integer,16613.0,467.0,19.884422540664673,0.0048537499999999996,react_eval
+train.6754,2.0,2.0,3.0,0.0,0.0,0.0,1.0,SIRS Criteria,diagnosis,integer,8405.0,1345.0,19.438477277755737,0.00411875,react_eval
+train.1236,**exception raised**: [Errno 11] Resource temporarily unavailable,,92.66667,0.0,0.0,0.0,inf,Mean Arterial Pressure (MAP),physical,decimal,,,,,react_eval
+train.4050,"**exception raised**: invalid syntax (<unknown>, line 1)",,786.03615,0.0,0.0,0.0,inf,QTc Bazett Calculator,physical,decimal,,,,,react_eval
+train.5406,**exception raised**: [Errno 11] Resource temporarily unavailable,,137.184,0.0,0.0,0.0,inf,Sodium Correction for Hyperglycemia,lab test,decimal,,,,,react_eval
+train.0199,125.046,125.046,133.07946,0.0,0.0,0.0,8.033460000000005,CKD-EPI Equations for Glomerular Filtration Rate,lab test,decimal,23654.0,1240.0,51.26481246948242,0.007773499999999999,react_eval
+train.7540,2.005,2.005,2.00505,1.0,1.0,1.0,5.000000000032756e-05,Body Surface Area Calculator,physical,decimal,24713.0,1653.0,19.36421775817871,0.008657749999999999,react_eval
+train.0019,188.125,188.125,188.125,1.0,1.0,1.0,0.0,Creatinine Clearance (Cockcroft-Gault Equation),lab test,decimal,35368.0,926.0,39.389201402664185,0.010230999999999999,react_eval
+train.0192,**exception raised**: [Errno 11] Resource temporarily unavailable,,32.10919,0.0,0.0,0.0,inf,CKD-EPI Equations for Glomerular Filtration Rate,lab test,decimal,,,,,react_eval
+train.9160,45.387,45.387,45.3583,1.0,0.0,1.0,0.028700000000000614,Steroid Conversion Calculator,dosage,integer,9414.0,670.0,43.83007311820984,0.0033584999999999995,react_eval
+train.5724,"**exception raised**: invalid syntax (<unknown>, line 1)",,294.23016,0.0,0.0,0.0,inf,Serum Osmolality,lab test,decimal,,,,,react_eval
+train.4429,1.0,1.0,2.0,0.0,0.0,0.0,1.0,Centor Score (Modified/McIsaac) for Strep Pharyngitis,severity,integer,20015.0,1908.0,55.935765981674194,0.00786575,react_eval
+train.6631,1.0,1.0,1.0,1.0,1.0,1.0,0.0,SIRS Criteria,diagnosis,integer,11444.0,1039.0,17.936309099197388,0.0044195,react_eval
+train.5591,286.301,286.301,286.30159,1.0,1.0,1.0,0.0005899999999883221,Serum Osmolality,lab test,decimal,28246.0,1413.0,26.38960552215576,0.009181,react_eval
+train.4830,100.0,100.0,100.0,1.0,1.0,1.0,0.0,Maintenance Fluids Calculations,physical,decimal,15039.0,304.0,21.83615016937256,0.00421575,react_eval
+train.8628,**exception raised**: The next request would exceed the request_limit of 50,,18.7,0.0,0.0,0.0,inf,Delta Gap,lab test,decimal,,,,,react_eval
+train.2058,17.942,17.942,17.94182,1.0,1.0,1.0,0.00018000000000029104,Body Mass Index (BMI),physical,decimal,22016.0,1072.0,29.283768892288208,0.007111999999999999,react_eval
+train.7712,1.835,1.835,1.83542,1.0,1.0,1.0,0.00042000000000008697,Body Surface Area Calculator,physical,decimal,22676.0,2265.0,46.980119466781616,0.0090665,react_eval
+train.10435,2.0,2.0,2.0,1.0,1.0,1.0,0.0,Revised Cardiac Risk Index for Pre-Operative Risk,risk,integer,28513.0,2476.0,42.85149526596069,0.010842250000000001,react_eval
+train.2820,1.5,1.5,3.0,0.0,0.0,0.0,1.5,Wells' Criteria for Pulmonary Embolism,risk,integer,47119.0,1635.0,44.58829188346863,0.01423225,react_eval
+train.7478,1.802,1.802,1.80174,1.0,1.0,1.0,0.000260000000000149,Body Surface Area Calculator,physical,decimal,16802.0,1306.0,21.265026092529297,0.0061595,react_eval
+train.7951,1.041,1.041,1.04083,1.0,1.0,1.0,0.00017000000000000348,Body Surface Area Calculator,physical,decimal,15848.0,308.0,21.83102011680603,0.004424,react_eval

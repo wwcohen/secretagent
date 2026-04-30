@@ -1,0 +1,35 @@
+llm:
+  model: gemini/gemini-3.1-flash-lite-preview
+  max_tokens: 65536
+  thinking: true
+  reasoning_effort: high
+cachier:
+  cache_dir: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/medcalc/llm_cache
+  enable_caching: true
+evaluate:
+  result_dir: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/medcalc/results
+  expt_name: gemini_thinking_check
+  entry_point: calculate_medical_value
+  record_details: true
+dataset:
+  split: train
+  stratified: true
+  'n': 3
+  shuffle_seed: 42
+ptools:
+  identify_calculator:
+    method: simulate
+  extract_clinical_values:
+    method: simulate
+  compute_calculation:
+    method: direct
+    fn: ptools.compute_calculation_impl
+  calculate_medical_value:
+    method: simulate_pydantic
+    tools:
+    - ptools.identify_calculator
+    - ptools.extract_clinical_values
+    - ptools.compute_calculation
+simulate_pydantic:
+  template_file: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/medcalc/simulate_pydantic_thinking.txt
+root: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/medcalc

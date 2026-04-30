@@ -126,6 +126,78 @@ calculate_medical_value.src = _build_medical_value_src(
 
 
 # =============================================================================
+# State-aware ReAct entry point (mirrors MUSR's _REACT_STATE pattern)
+#
+# Induced ptools default to `def f(focus: str) -> str` and so cannot see
+# the patient note. We stash patient_note/question in a module-level dict
+# and let induced helpers reach it via _REACT_STATE["patient_note"].
+# react_calculate is a NEW interface (not a rebind of calculate_medical_value)
+# to avoid the direct wrapper recursing into itself.
+# =============================================================================
+
+_REACT_STATE: dict = {'patient_note': '', 'question': ''}
+
+
+def _reset_react_state(patient_note: str, question: str) -> None:
+    _REACT_STATE['patient_note'] = patient_note
+    _REACT_STATE['question'] = question
+
+
+def react_calculate(patient_note: str, question: str) -> float:
+    ...
+
+react_calculate.__doc__ = _CALCULATE_DOCSTRING
+react_calculate = interface(react_calculate)
+react_calculate.src = _build_medical_value_src(
+    'react_calculate', _CALCULATE_DOCSTRING)
+
+
+def _extract_number_local(value) -> Optional[float]:
+    """Local copy of expt._extract_number to avoid circular import."""
+    if value is None:
+        return None
+    if isinstance(value, (int, float)):
+        return float(value)
+    s = str(value)
+    if s.startswith('**exception'):
+        return None
+    try:
+        return float(s)
+    except ValueError:
+        pass
+    m = re.search(r'<answer>\s*([\d.eE+-]+)\s*</answer>', s)
+    if m:
+        try:
+            return float(m.group(1))
+        except ValueError:
+            pass
+    m = re.search(r'ANSWER:\s*([\d.eE+-]+)', s)
+    if m:
+        try:
+            return float(m.group(1))
+        except ValueError:
+            pass
+    nums = re.findall(r'-?\d+\.?\d*', s)
+    if nums:
+        try:
+            return float(nums[-1])
+        except ValueError:
+            pass
+    return None
+
+
+def react_calculate_impl(patient_note: str, question: str) -> float:
+    """Direct entry that resets state then runs the bound react_calculate."""
+    _reset_react_state(patient_note, question)
+    try:
+        raw = react_calculate(patient_note, question)
+    except Exception as ex:
+        return float('nan')
+    n = _extract_number_local(raw)
+    return float('nan') if n is None else n
+
+
+# =============================================================================
 # L2 helper: simulate fallback for distilled workflow
 # =============================================================================
 
@@ -136,6 +208,20 @@ simulate_medical_value.__doc__ = _CALCULATE_DOCSTRING
 simulate_medical_value = interface(simulate_medical_value)
 simulate_medical_value.src = _build_medical_value_src(
     'simulate_medical_value', _CALCULATE_DOCSTRING)
+
+
+def simulate_medical_value_text(patient_note: str, question: str) -> str:
+    ...
+
+simulate_medical_value_text.__doc__ = _CALCULATE_DOCSTRING + """
+
+Return the final answer in text form. For date questions, preserve the
+requested date format. For weeks/days questions, preserve the requested
+weeks/days format. Do not force date-like answers into numbers.
+"""
+simulate_medical_value_text = interface(simulate_medical_value_text)
+simulate_medical_value_text.src = _build_medical_value_src(
+    'simulate_medical_value_text', simulate_medical_value_text.__doc__)
 
 
 # =============================================================================
@@ -209,6 +295,24 @@ def compute_calculation(calculator_name: str, values: dict) -> dict:
 # =============================================================================
 
 @interface
+def select_calculator_from_question(question: str, available_calculators: list[str]) -> dict:
+    """Select the calculator named by the question.
+
+    This is a deterministic selector in workflow v2. The question in
+    MedCalc-Bench names the intended calculator, so selection should be based
+    on explicit calculator-name phrases rather than clinical reasoning.
+
+    Return a dict with:
+    - "calculator_name": exact local calculator name to use for extraction/compute
+    - "official_name": MedCalc-Bench calculator label when known
+    - "selector_key": matched selector phrase
+    - "supported_by_simple_registry": whether deterministic compute is available
+    - "confidence": 1.0 for direct phrase matches, 0.0 otherwise
+    """
+    ...
+
+
+@interface
 def analyze_scoring_conditions(patient_note: str, calculator_name: str) -> dict:
     """Analyze a patient note to identify conditions relevant to a scoring calculator.
 
@@ -276,6 +380,76 @@ def extract_calculator_values(
 
 
 @interface
+def extract_calculator_values_v2(
+    patient_note: str,
+    question: str,
+    calculator_name: str,
+    field_descriptions: str,
+    reasoning_context: str,
+) -> dict:
+    """Extract calculator inputs from a patient note and question.
+
+    You are given:
+    - A patient note with clinical information
+    - The original question, which may contain calculator-specific rules,
+      constants, output units, or values such as target BMI/desired sodium
+    - The selected calculator name
+    - Calculator-specific field descriptions and formula/schema context
+    - Optional reasoning context from a prior analysis stage
+
+    Instructions:
+    - Extract inputs only; do not calculate the final answer.
+    - Use the exact parameter names from the field descriptions as JSON keys.
+    - Use the question when it specifies constants or rules for the calculator.
+    - Convert units into the units requested by the field descriptions.
+    - For sex: "man"/"male"/"he" -> "male", "woman"/"female"/"she" -> "female".
+    - For boolean conditions: True if present, False if absent.
+    - Include fields when they are determinable; list truly missing fields.
+
+    Return a dict with:
+    - "extracted": {"param_name": value, ...}
+    - "missing": ["list of values not determinable from note/question"]
+
+    Examples:
+    >>> extract_calculator_values_v2("A 70yo male, 80kg, 175cm, Cr 1.2", "What is the patient's Creatinine Clearance using Cockcroft-Gault?", "Creatinine Clearance (Cockcroft-Gault)", "age: years, sex: male/female, weight_kg: kg, creatinine_mg_dl: mg/dL", "")
+    {'extracted': {'age': 70, 'sex': 'male', 'weight_kg': 80, 'height_cm': 175, 'creatinine_mg_dl': 1.2}, 'missing': []}
+    """
+    ...
+
+
+@interface
+def refine_calculator_values_v2(
+    patient_note: str,
+    question: str,
+    calculator_name: str,
+    field_descriptions: str,
+    current_values: str,
+    missing_values: str,
+    reasoning_context: str,
+) -> dict:
+    """Review and repair a draft calculator-input extraction.
+
+    You are given the original note/question, calculator schema, and a draft
+    extraction. Check whether each extracted value is supported by the note or
+    question, correct extraction mistakes, and fill missing values if the
+    evidence is present.
+
+    Instructions:
+    - Extract or repair inputs only; do not calculate the final answer.
+    - Prefer values explicitly supported by the note/question.
+    - Preserve correct existing values.
+    - Correct unit mistakes and obvious type mistakes.
+    - If a value is not determinable, leave it out and include it in "missing".
+
+    Return a dict with:
+    - "extracted": the full corrected extraction dict
+    - "missing": values still not determinable
+    - "changed": field names changed from current_values, if any
+    """
+    ...
+
+
+@interface
 def repair_missing_values(
     patient_note: str,
     calculator_name: str,
@@ -307,6 +481,127 @@ def repair_missing_values(
 # =============================================================================
 # Direct implementations
 # =============================================================================
+
+_SELECTOR_TO_OFFICIAL_CACHE: dict[str, str] | None = None
+
+
+def _normalize_match_text(value: str) -> str:
+    """Normalize calculator names/selector keys for phrase matching."""
+    value = str(value).lower()
+    value = re.sub(r"[’']", "", value)
+    value = re.sub(r"[^a-z0-9]+", " ", value)
+    return re.sub(r"\s+", " ", value).strip()
+
+
+def _simple_to_official_name(simple_name: str) -> str:
+    """Map a calculator_simple name to the official MedCalc-Bench name."""
+    try:
+        import official_calculators
+        return official_calculators.NAME_MAPPING.get(simple_name, simple_name)
+    except Exception:
+        return simple_name
+
+
+def _official_to_simple_name(official_name: str) -> str | None:
+    """Map an official MedCalc-Bench name to calculator_simple if supported."""
+    import calculator_simple
+
+    signatures = calculator_simple.get_calculator_signatures()
+    if official_name in signatures:
+        return official_name
+
+    for simple_name in signatures:
+        if _simple_to_official_name(simple_name) == official_name:
+            return simple_name
+    return None
+
+
+def _selector_to_official_names() -> dict[str, str]:
+    """Build selector-key -> official-name mapping from bundled metadata."""
+    global _SELECTOR_TO_OFFICIAL_CACHE
+    if _SELECTOR_TO_OFFICIAL_CACHE is not None:
+        return _SELECTOR_TO_OFFICIAL_CACHE
+
+    from pathlib import Path
+    from calculators import identify_calculator as python_identify
+
+    metadata_path = (
+        Path(__file__).parent
+        / "calculator_implementations"
+        / "name_to_python.json"
+    )
+    mapping: dict[str, str] = {}
+
+    try:
+        metadata = json.loads(metadata_path.read_text())
+        for item in metadata.values():
+            question = item.get("question")
+            official_name = item.get("calculator name")
+            if not question or not official_name:
+                continue
+            selector_key = python_identify(question)
+            if selector_key and selector_key not in mapping:
+                mapping[selector_key] = official_name
+    except Exception:
+        mapping = {}
+
+    _SELECTOR_TO_OFFICIAL_CACHE = mapping
+    return mapping
+
+
+def _match_simple_name_from_selector(selector_key: str) -> str | None:
+    """Fallback mapping from a selector phrase to a local calculator name."""
+    import calculator_simple
+
+    selector_norm = _normalize_match_text(selector_key)
+    for simple_name, sig in calculator_simple.get_calculator_signatures().items():
+        candidates = [simple_name, *sig.get("aliases", [])]
+        for candidate in candidates:
+            candidate_norm = _normalize_match_text(candidate)
+            if not candidate_norm:
+                continue
+            if selector_norm == candidate_norm:
+                return simple_name
+            if selector_norm in candidate_norm or (
+                len(candidate_norm) > 3 and candidate_norm in selector_norm
+            ):
+                return simple_name
+    return None
+
+
+def select_calculator_from_question_impl(
+    question: str, available_calculators: list[str] | None = None
+) -> dict:
+    """Direct implementation for workflow v2 calculator selection."""
+    from calculators import identify_calculator as python_identify
+
+    selector_key = python_identify(question)
+    if not selector_key:
+        return {
+            "calculator_name": None,
+            "official_name": None,
+            "selector_key": None,
+            "supported_by_simple_registry": False,
+            "confidence": 0.0,
+        }
+
+    official_name = _selector_to_official_names().get(selector_key)
+    simple_name = (
+        _official_to_simple_name(official_name) if official_name else None
+    )
+    if simple_name is None and official_name is None:
+        simple_name = _match_simple_name_from_selector(selector_key)
+    if official_name is None and simple_name is not None:
+        official_name = _simple_to_official_name(simple_name)
+
+    return {
+        "calculator_name": simple_name or official_name or selector_key,
+        "official_name": official_name,
+        "selector_key": selector_key,
+        "supported_by_simple_registry": simple_name is not None,
+        "confidence": 1.0,
+    }
+
 
 def compute_calculation_impl(calculator_name: str, values: dict) -> dict:
     """Direct Python implementation for compute_calculation."""
@@ -616,3 +911,264 @@ def _repair_extraction(
     except Exception:
         pass
     return current_values
+
+
+# =============================================================================
+# L4 v2 workflow: deterministic calculator selection + extraction refinement
+# =============================================================================
+
+def _is_date_time_calculator(calculator_name: str | None, official_name: str | None = None) -> bool:
+    """Return True for date/weeks-days calculators that should use LLM fallback."""
+    names = " ".join(n for n in [calculator_name, official_name] if n)
+    n = _normalize_match_text(names)
+    return (
+        "estimated due date" in n
+        or "gestational age" in n
+        or "conception" in n
+    )
+
+
+def _is_scoring_calculator_name(calculator_name: str) -> bool:
+    """Heuristic used only to decide whether to call the scoring analysis ptool."""
+    return any(kw in calculator_name.lower() for kw in [
+        'score', 'criteria', 'cha2ds2', 'heart', 'wells',
+        'curb', 'sofa', 'apache', 'child-pugh', 'meld', 'centor', 'fever',
+        'has-bled', 'rcri', 'charlson', 'caprini', 'blatchford', 'perc'
+    ])
+
+
+def _build_calculator_schema_context(calc_name: str) -> str:
+    """Build field descriptions plus lightweight formula/schema context."""
+    import calculator_simple
+
+    signatures = calculator_simple.get_calculator_signatures()
+    sig = signatures.get(calc_name, {})
+    required = sig.get("required", [])
+    optional = sig.get("optional", [])
+    formula = sig.get("formula", "")
+    fields = _build_descriptive_fields(calc_name)
+
+    lines = []
+    if formula:
+        lines.append(f"Formula: {formula}")
+    if required:
+        lines.append(f"Required fields: {', '.join(required)}")
+    if optional:
+        lines.append(f"Optional/defaultable fields: {', '.join(optional)}")
+    if fields:
+        lines.append("Field descriptions:")
+        lines.extend(f"- {field}" for field in fields)
+    return "\n".join(lines)
+
+
+def _coerce_extraction_result(result: Any) -> tuple[dict, list[str]]:
+    """Extract the useful dict payload from an LLM extraction response."""
+    if not isinstance(result, dict):
+        return {}, []
+
+    extracted = result.get("extracted")
+    if extracted is None:
+        extracted = result.get("values")
+    if extracted is None:
+        extracted = result
+    if not isinstance(extracted, dict):
+        extracted = {}
+
+    missing = result.get("missing", [])
+    if isinstance(missing, str):
+        missing = [m.strip() for m in missing.split(",") if m.strip()]
+    if not isinstance(missing, list):
+        missing = []
+    return extracted, missing
+
+
+def _extract_values_v2(patient_note: str, question: str, calc_name: str) -> dict:
+    """Draft extraction followed by one generic extraction-refinement call."""
+    reasoning_context = ""
+    clinical_context = f"{patient_note}\n\nQuestion: {question}"
+
+    if _is_scoring_calculator_name(calc_name):
+        try:
+            reasoning_result = analyze_scoring_conditions(clinical_context, calc_name)
+            if isinstance(reasoning_result, dict):
+                conditions_present = reasoning_result.get("conditions_present", [])
+                conditions_absent = reasoning_result.get("conditions_absent", [])
+                demographics = reasoning_result.get("demographics", {})
+                reasoning_context = (
+                    f"MEDICAL ANALYSIS (from reasoning stage):\n"
+                    f"- Conditions PRESENT: {', '.join(conditions_present) if conditions_present else 'None'}\n"
+                    f"- Conditions ABSENT: {', '.join(conditions_absent) if conditions_absent else 'None'}\n"
+                    f"- Demographics: Age={demographics.get('age', 'unknown')}, Sex={demographics.get('sex', 'unknown')}"
+                )
+        except Exception:
+            pass
+
+    field_descriptions = _build_calculator_schema_context(calc_name)
+
+    extracted: dict = {}
+    missing: list[str] = []
+    try:
+        draft = extract_calculator_values_v2(
+            patient_note, question, calc_name, field_descriptions, reasoning_context
+        )
+        extracted, missing = _coerce_extraction_result(draft)
+    except Exception:
+        extracted, missing = {}, []
+
+    try:
+        refined = refine_calculator_values_v2(
+            patient_note,
+            question,
+            calc_name,
+            field_descriptions,
+            json.dumps(extracted, default=str),
+            ", ".join(missing),
+            reasoning_context,
+        )
+        refined_extracted, _ = _coerce_extraction_result(refined)
+        if refined_extracted:
+            extracted = refined_extracted
+    except Exception:
+        pass
+
+    return extracted
+
+
+def _extract_nested_value_v2(value: Any) -> Any:
+    """Accept either plain values or lightweight typed-envelope values."""
+    if isinstance(value, dict) and "value" in value:
+        return value.get("value")
+    return value
+
+
+def _clean_scalar_v2(value: Any) -> Any:
+    """Normalize common LLM scalar formats into calculator-ready values."""
+    value = _extract_nested_value_v2(value)
+
+    if value is None:
+        return None
+    if isinstance(value, bool):
+        return value
+    if isinstance(value, (int, float)):
+        return value
+    if isinstance(value, (list, tuple)):
+        if not value:
+            return None
+        numeric_parts = [
+            item for item in value
+            if isinstance(item, (int, float))
+            or (isinstance(item, str) and re.fullmatch(r"-?\d+(?:\.\d+)?", item.strip()))
+        ]
+        if len(numeric_parts) == 1:
+            try:
+                return float(numeric_parts[0])
+            except (TypeError, ValueError):
+                pass
+        return value
+    if not isinstance(value, str):
+        return value
+
+    text = value.strip().strip("\"'")
+    text = re.sub(r"</?answer>", "", text, flags=re.IGNORECASE).strip()
+    if not text:
+        return None
+
+    lowered = text.lower().strip(" .,:;")
+    if lowered in {"unknown", "not mentioned", "not stated", "n/a", "na", "none", "null"}:
+        return None
+    if lowered in {"true", "yes", "y", "1", "present", "positive"}:
+        return True
+    if lowered in {"false", "no", "n", "0", "absent", "negative"}:
+        return False
+    if lowered in {"male", "man", "m"}:
+        return "male"
+    if lowered in {"female", "woman", "f"}:
+        return "female"
+
+    numeric_text = text.replace(",", "")
+    try:
+        return float(numeric_text)
+    except ValueError:
+        pass
+
+    if "/" not in numeric_text:
+        numbers = re.findall(r"-?\d+(?:\.\d+)?", numeric_text)
+        if len(numbers) == 1:
+            return float(numbers[0])
+
+    return text
+
+
+def _validate_extracted_values_v2(
+    extracted: dict, calculator_name: str
+) -> tuple[bool, list[str], dict]:
+    """Validate required fields and normalize value types for workflow v2."""
+    import calculator_simple
+
+    flattened = {}
+    for key, value in (extracted or {}).items():
+        if isinstance(value, dict) and "value" in value:
+            flattened[key] = value.get("value")
+        elif isinstance(value, dict):
+            for subkey, subvalue in value.items():
+                flattened[subkey] = _extract_nested_value_v2(subvalue)
+        else:
+            flattened[key] = value
+
+    cleaned = {}
+    for key, value in flattened.items():
+        clean_value = _clean_scalar_v2(value)
+        if clean_value is not None:
+            cleaned[key] = clean_value
+
+    signatures = calculator_simple.get_calculator_signatures()
+    sig = signatures.get(calculator_name, {})
+    required = sig.get("required", [])
+    missing = [v for v in required if v not in cleaned or cleaned[v] is None]
+    return len(missing) == 0, missing, cleaned
+
+
+def workflow_v2(patient_note: str, question: str) -> float:
+    """Workflow v2: deterministic selector, question-aware extraction, refine, compute.
+
+    This keeps all LLM calls behind interfaces. The LLM extracts/refines
+    calculator inputs; deterministic Python still performs supported
+    calculations. Date/time calculators and unsupported local calculators use
+    the generic medical-value fallback because v1's extraction/compute path is
+    structurally weak for those outputs.
+    """
+    import calculator_simple
+
+    signatures = calculator_simple.get_calculator_signatures()
+    available = list(signatures.keys())
+
+    try:
+        selected = select_calculator_from_question(question, available)
+    except Exception:
+        selected = {}
+
+    calc_name = selected.get("calculator_name") if isinstance(selected, dict) else None
+    official_name = selected.get("official_name") if isinstance(selected, dict) else None
+    supported = bool(selected.get("supported_by_simple_registry")) if isinstance(selected, dict) else False
+
+    if not calc_name:
+        return simulate_medical_value_text(patient_note, question)
+
+    if _is_date_time_calculator(calc_name, official_name):
+        return simulate_medical_value_text(patient_note, question)
+
+    if not supported or calc_name not in signatures:
+        return simulate_medical_value_text(patient_note, question)
+
+    extracted = _extract_values_v2(patient_note, question, calc_name)
+    is_valid, _missing, cleaned = _validate_extracted_values_v2(extracted, calc_name)
+
+    if is_valid:
+        try:
+            result = compute_calculation(calc_name, cleaned)
+            if isinstance(result, dict) and result.get("result") is not None:
+                return result["result"]
+        except Exception:
+            pass
+
+    return simulate_medical_value_text(patient_note, question)

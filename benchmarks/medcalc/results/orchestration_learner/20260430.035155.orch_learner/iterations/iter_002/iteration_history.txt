@@ -1,0 +1,14 @@
+Iter 0: train=40.8%, eval=50.0% — KEPT
+Iter 1: train=40.8% — ROLLED BACK
+  What was tried: 1. What SPECIFIC failure pattern did you identify?
+The main entry point `calculate_medical_value` is currently defined as an `@interface` returning a `float`. Without a `direct` implementation, the agent framework handles this by prompting the LLM to output a raw float. This forces "zero-shot" execution without Chain-of-Thought (CoT), which leads to massive inaccuracies on complex medical calculators (APACHE II, Caprini, HAS-BLED, etc.). Furthermore, if the LLM tries to output text to explain itself, it violates the schema, causing endless retry loops that eventually crash with `request_limit of 50` exceptions.
+
+2. How many of the shown failures share this pattern?
+All 45 failures shown are multi-criteria medical scores where zero-shot guessing fails. The 3 cases resulting in an `**exception raised**` are a direct consequence of the LLM failing the strict float schema generation and hitting retry limits.
+
+3. What is the MINIMAL change that fixes this pattern?
+I will change `calculate_medical_value` to use `@implement_via('direct')` so it runs as a pure Python function. Inside it, I will explicitly call `calculate_clinical_score` (which returns a `str`, allowing full CoT). I will also slightly enhance the prompt in `calculate_clinical_score` to instruct the LLM to end with `<answer>TOTAL</answer>`. Finally, `_extract_number` will parse the value out. 
+
+4. Why will this change NOT break currently working cases?
+Moving from zero-shot guessing to explicit step-by-step reasoning universally improves math and score assignment accuracy across all cases. Additionally, because the LLM is now allowed to return unstructured text (via the `str` return type on the simulated helper) before we extract the number via regex, we completely eliminate the parsing-retry crashes without breaking any existing extraction logic.
+  ⚠ This change HURT accuracy. Do NOT retry this approach.

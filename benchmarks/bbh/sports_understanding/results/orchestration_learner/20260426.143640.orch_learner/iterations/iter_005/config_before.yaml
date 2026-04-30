@@ -1,0 +1,26 @@
+llm:
+  model: gemini/gemini-3.1-flash-lite-preview
+cachier:
+  cache_dir: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/bbh/sports_understanding/llm_cache
+  enable_caching: true
+evaluate:
+  result_dir: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/bbh/sports_understanding/results/orchestration_learner
+  expt_name: DEFAULT
+  max_workers: 1
+  entry_point: are_sports_in_sentence_consistent
+dataset:
+  split: valid
+  shuffle_seed: 137
+ptools:
+  analyze_sentence:
+    method: simulate
+  sport_for:
+    method: simulate
+  consistent_sports:
+    method: simulate
+  are_sports_in_sentence_consistent:
+    method: direct
+    fn: ptools.sports_understanding_workflow
+orchestrate:
+  model: gemini/gemini-3.1-pro-preview
+root: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/bbh/sports_understanding

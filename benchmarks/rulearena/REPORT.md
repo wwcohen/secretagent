@@ -34,9 +34,9 @@ All experiments use `together_ai/deepseek-ai/DeepSeek-V3.1` unless noted.
 |----------|----------|---------|------|
 | workflow | **98%** | $0.030 | Apr 28 |
 | react | 89% | $0.024 | Apr 28 |
-| pot | 69% | $0.026 | Apr 28 |
+| pot | 84% | $0.026 | Apr 30 |
 | unstructured_baseline | 46% | $0.021 | Apr 28 |
-| structured_baseline | 41% | $0.027 | Apr 28 |
+| structured_baseline | 41% | $0.027 | Apr 30 |
 
 ### Tax (test split, N=100)
 
@@ -47,17 +47,21 @@ All experiments use `together_ai/deepseek-ai/DeepSeek-V3.1` unless noted.
 | unstructured_baseline | **55%** | $0.010 | Apr 30 |
 | workflow | 50% | $0.010 | Apr 30 |
 | react_two_phase | 48% | $0.014 | Apr 30 |
-| pot | 46% | $0.016 | Apr 30 |
+| pot | 43% | $0.016 | Apr 30 |
 | react | 15% | $0.035 | Apr 30 |
 | structured_baseline | 11% | $0.007 | Apr 30 |
 
-### NBA (valid split, N=15 — in progress)
+### NBA (test split, N=46)
 
-Only workflow has been run on the per-domain benchmark so far:
+`correct` = binary match (0/1 violation detection).
 
 | Strategy | Accuracy | Cost/ex | Date |
 |----------|----------|---------|------|
-| workflow | 93% | $0.015 | Apr 29 |
+| unstructured_baseline | **72%** | $0.016 | Apr 30 |
+| structured_baseline | 67% | $0.014 | Apr 30 |
+| workflow | 61% | $0.015 | Apr 30 |
+| react | 59% | $0.030 | Apr 30 |
+| pot | 2% | $0.019 | Apr 30 |
 
 ## Analysis
 
@@ -106,9 +110,10 @@ runs dated 2026-02-27 to 2026-03-05.
 
 ## Known Issues
 
-- **Tax extraction failures:** workflow/pot/react score 0% on tax due to
-  form-field extraction issues. Needs domain-specific prompt templates.
-- **NBA limited runs:** only workflow evaluated on per-domain benchmark so far.
 - **ptool_inducer: 0% on airline.** Induced ptools are text-reasoning stubs
   that can't replicate the Python calculator's arithmetic. This learner is not
   well-suited for exact numerical computation tasks.
+- **NBA PoT: 2%.** With no calculator to call, PoT requires the LLM to encode
+  all CBA salary-cap rules as Python logic. DeepSeek-V3.1 fails almost
+  universally on this — the generated code is syntactically valid but
+  semantically wrong. Not a framework bug; PoT is a poor fit for this domain.

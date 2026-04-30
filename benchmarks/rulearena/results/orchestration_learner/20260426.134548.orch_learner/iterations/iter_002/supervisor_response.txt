@@ -1,0 +1,27 @@
+query`:
+```python
+    forms = [mod.basic_forms]
+    if tax_payer["itemized"]:
+        forms.append(mod.itemized_forms)
+    if tax_payer["self_employed"]:
+        forms.append(mod.self_employ_forms)
+    if tax_payer["has_student_loans_or_education_expenses"]:
+        forms.append(mod.edu_forms)
+    if tax_payer["child_and_dependent"]:
+        forms.append(mod.schedule_8812)
+```
+
+By explicitly adding the mapping in the docstring, the LLM will match the lines perfectly.
+
+Let's use `pydantic.Field` directly in the `TaxParams` model! It is robust because `simulate_pydantic` converts the BaseModel into a JSON Schema for the LLM prompt, using `Field(description="...")` to document each field. This is standard and guarantees the LLM sees the mapping right next to the field name.
+
+Let's change `TaxParams` class:
+
+```python
+from pydantic import BaseModel, Field
+
+class TaxParams(BaseModel):
+    # Basic Info
+    name: str = Field("", description="Taxpayer Name")
+    age: int = Field(0, description="Age (on January 2, 2024)")
+    spouse_age: int = Field(0, description="Age (on January 2, 2024) of Your

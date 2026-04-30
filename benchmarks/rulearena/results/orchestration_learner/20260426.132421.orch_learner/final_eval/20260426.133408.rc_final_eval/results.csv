@@ -1,0 +1,19 @@
+case_name,predicted_output,expected_output,correct,correct_tolerance,failure_mode,input_tokens,output_tokens,latency,cost,expt_name
+airline_1_22,**exception raised**: 'Business Class',2227,0.0,0.0,extraction_failure,26626.0,508.0,2.1050634384155273,0.0074185,rc_final_eval
+airline_0_93,399.0,599,0.0,0.0,calculation_error,12786.0,126.0,0.7712504863739014,0.0033854999999999996,rc_final_eval
+airline_0_22,**exception raised**: 'First Class',1078,0.0,0.0,extraction_failure,12835.0,174.0,1.0767626762390137,0.0034697499999999997,rc_final_eval
+airline_1_18,**exception raised**: 'Premium Economy Class passenger',1779,0.0,0.0,extraction_failure,12910.0,258.0,1.0265111923217773,0.0036145,rc_final_eval
+airline_2_92,**exception raised**: 'Business Class',5162,0.0,0.0,extraction_failure,12983.0,339.0,1.1743440628051758,0.0037542499999999998,rc_final_eval
+airline_1_90,**exception raised**: 'Business class',3294,0.0,0.0,extraction_failure,12910.0,259.0,1.338158369064331,0.003616,rc_final_eval
+airline_1_72,**exception raised**: 'Business Class',2918,0.0,0.0,extraction_failure,12913.0,263.0,1.0853781700134277,0.0036227499999999997,rc_final_eval
+airline_0_61,898.0,898,1.0,1.0,none,12835.0,174.0,0.9450607299804688,0.0034697499999999997,rc_final_eval
+airline_2_73,3672.0,4812,0.0,0.0,calculation_error,12984.0,337.0,1.2498974800109863,0.0037514999999999996,rc_final_eval
+airline_0_78,**exception raised**: 'First Class',1041,0.0,0.0,extraction_failure,12833.0,182.0,2.19695782661438,0.00348125,rc_final_eval
+airline_1_49,**exception raised**: 'First Class',2108,0.0,0.0,extraction_failure,12910.0,261.0,1.0370585918426514,0.003619,rc_final_eval
+airline_2_22,2085.0,1985,0.0,0.0,calculation_error,12864.0,208.0,1.0315380096435547,0.003528,rc_final_eval
+airline_1_3,3143.0,3148,1.0,0.0,none,12909.0,257.0,1.4501011371612549,0.0036127499999999996,rc_final_eval
+airline_2_43,4426.0,5181,0.0,0.0,calculation_error,12986.0,343.0,1.2066686153411865,0.0037609999999999996,rc_final_eval
+airline_0_74,**exception raised**: 'First Class',903,0.0,0.0,extraction_failure,12833.0,183.0,0.9290289878845215,0.0034827499999999997,rc_final_eval
+airline_2_8,3800.0,4850,0.0,0.0,calculation_error,12987.0,343.0,1.2179608345031738,0.00376125,rc_final_eval
+airline_2_46,3566.0,3566,1.0,1.0,none,12986.0,341.0,1.3864140510559082,0.003758,rc_final_eval
+airline_0_40,2185.0,2735,0.0,0.0,calculation_error,12836.0,180.0,1.041060447692871,0.003479,rc_final_eval

@@ -1,5 +1,5 @@
 llm:
-  model: together_ai/deepseek-ai/DeepSeek-V3
+  model: together_ai/deepseek-ai/DeepSeek-V3.1
 
 cachier:
   cache_dir: llm_cache

@@ -1,0 +1,129 @@
+An analysis of the execution traces reveals two distinct failure mechanisms that are preventing the pipeline from reaching higher accuracy:
+
+1. **Output Truncation (The Primary Bug):** In 12 of the 14 failure cases shown, the output of `deduce_murderer` was cut off mid-sentence (e.g., `...the physical evidenc [$0.0009]`). Because the reasoning block was truncated, the model never generated the `FINAL ANSWER: <suspect name>` line. The fallback logic then fed the incomplete, half-baked reasoning block to `extract_index`, forcing it to blindly guess which suspect the truncated text was leaning towards.
+2. **Logical Traps in Physical Evidence:** The pipeline frequently fell for "red herring" physical evidence. For example, in **ex022**, the murder weapon was a pickaxe lodged in the victim's body. Penelope was suspected because she had a pickaxe, but she explicitly possessed hers in her yard. The model failed to realize that if she still has her pickaxe, it cannot be the one lodged in the body. Furthermore, the model occasionally mixed up facts between suspects (e.g., in **ex024**, attributing Russell's bleach burns to Alice).
+
+### The Fix
+1. **Prevent Truncation:** Instruct `deduce_murderer` to keep its reasoning explicitly concise (maximum 150 words). This forces the LLM to complete its Chain of Thought and output the `FINAL ANSWER` safely within the token limit.
+2. **Inject "Weapon Logic" and Fact-Checking:** Add explicit fields to `extract_suspects_and_evidence` and `verify_alibis` to track the location of the murder weapon vs. the suspect's personal weapon. Prompt `deduce_murderer` to use this logic to clear suspects who couldn't have left their weapon at the scene.
+3. **Pass Full Context:** Update `answer_question_workflow` to pass the structured `evidence` into `deduce_murderer` so the final synthesis step has the fully extracted means, motives, and physical states, rather than just the alibi analysis. 
+
+<ptools_file>
+"""Interfaces for MUSR murder mystery reasoning.
+
+Migrated from AgentProject v2 ptools. Design principle: ptools ANNOTATE
+and ENHANCE reasoning on the raw narrative, rather than abstracting it
+away into lossy structured data.
+"""
+
+import re
+from secretagent.core import interface
+from ptools_common import (  # noqa: F401  (re-export so the loaded ptools module exposes them)
+    raw_answer,
+    extract_index,
+    react_solve,
+)
+
+
+@interface
+def extract_suspects_and_evidence(narrative: str) -> str:
+    """Extract the victim, crime details, and ALL suspects with their evidence.
+
+    Read the narrative carefully and extract:
+
+    Top level:
+    - victim: name of the murdered person
+    - crime_details: how/where they were killed, when body was found
+    - suspects: for each suspect, extract the following
+
+    For each suspect, extract:
+    - motive: why they might have killed the victim
+    - means: access to weapon, relevant skills/knowledge
+    - opportunity: were they near the crime scene, timeline gaps
+    - alibi_claim: what they say they were doing
+    - alibi_witnesses: people/evidence that could verify their alibi
+    - suspicious_behavior: nervousness, contradictions, cleanup, lies
+    - physical_evidence: weapon found at their place, forensics, DNA, fingerprints
+    - weapon_status: explicitly note the location of their personal weapon vs the murder weapon
+
+    Be thorough — include EVERY suspect mentioned. Do NOT omit anyone.
+    Include the victim's name so downstream analysis knows who was killed.
+    """
+
+
+@interface
+def verify_alibis(narrative: str, suspect_evidence: str) -> str:
+    """Re-read the narrative to verify or challenge each suspect's alibi.
+
+    You receive the original narrative AND structured evidence extracted
+    for each suspect. Cross-reference alibis against the narrative to
+    find weaknesses.
+
+    For each suspect, determine:
+    - alibi_holds: can the alibi actually be confirmed?
+    - alibi_gaps: any unexplained time periods
+    - contradictions: inconsistencies in their story vs narrative facts
+    - weapon_logic: does their physical possession of a weapon exonerate or implicate them?
+    - corroborating_evidence: evidence that supports or refutes involvement
+
+    Pay special attention to:
+    - Witnesses who contradict the suspect's claims
+    - Time gaps between when alibis end and the crime window
+    - Physical evidence that places them at the scene
+    - Statements that are plausible but unverifiable
+    """
+
+
+@interface
+def deduce_murderer(narrative: str, suspect_evidence: str, verified_analysis: str, question: str, choices: list) -> str:
+    """Given the original narrative, structured evidence, verified alibi analysis, and answer choices,
+    deduce who committed the murder.
+
+    You have access to:
+    1. The FULL original narrative — re-read it for details the analysis may have missed
+    2. Structured evidence extracted for each suspect (motive, means, opportunity, physical evidence, weapon status)
+    3. Verified analysis for each suspect (alibi status, gaps, contradictions, weapon logic, corroborating evidence)
+    4. The multiple-choice options
+
+    Your task:
+    - Synthesize all evidence step-by-step. KEEP IT CONCISE (max 150 words) so your response is not truncated.
+    - Cross-reference suspect claims against physical states and the environment (e.g. indoor vs outdoor, paint vs blood) to find logical contradictions.
+    - Check weapon states: if the murder weapon was left at the scene (e.g. lodged in the body), a suspect who still has their personal weapon is innocent.
+    - Check fact attribution: carefully ensure you do not mix up which suspect did what.
+    - Consider which suspect has the WEAKEST alibi combined with the STRONGEST evidence against them.
+    - Weight physical evidence heavily (fingerprints, DNA, weapon possession).
+    - Weight alibi contradictions by third parties heavily.
+    - Consider motive as supporting but not sufficient alone.
+
+    Structure your response EXACTLY as follows:
+
+    REASONING:
+    <concise step-by-step comparative analysis here>
+
+    FINAL ANSWER: <suspect name>
+    """
+
+
+@interface
+def answer_question(narrative: str, question: str, choices: list) -> int:
+    """Read the murder mystery narrative and answer the question.
+    Return the 0-based index of the correct choice.
+    """
+    text = raw_answer(narrative, question, choices)
+    return extract_index(text, choices)
+
+
+@interface
+def answer_question_workflow(narrative: str, question: str, choices: list) -> int:
+    """Solve by extracting evidence, verifying alibis, deducing, then matching."""
+    evidence = extract_suspects_and_evidence(narrative)
+    verified = verify_alibis(narrative, evidence)
+    text = deduce_murderer(narrative, evidence, verified, question, choices)
+    
+    # Safely extract the final answer if the REASONING / FINAL ANSWER format is used
+    match = re.search(r"(?i)FINAL\s*ANSWER\s*:\s*(.*)", text, re.DOTALL)
+    if match:
+        text = match.group(1).strip()
+        
+    return extract_index(text, choices)
+</ptools_file>

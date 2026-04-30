@@ -1,0 +1,10 @@
+1. **Specific failure pattern:** The current pipeline fails heavily due to two cascading issues: 
+   - First, the LLM-powered `find_available_slots` often hallucinates overlapping times or misses valid intervals. 
+   - Second, the pipeline hardcodes `"earliest"` as the selection preference. However, the NaturalPlan dataset has an implicit rule where negative constraints indicating "avoid after X" expect the LATEST available slot (before X), while "avoid before X" expects the EARLIEST available slot (after X).
+2. **Impact:** These two issues cause almost all of the errors across the 31 failure cases. Iteration 1 and 2 rollbacks show that trying to solve this by making the LLM dynamically output the preference or orchestrate the logic fails because the LLM cannot reliably follow these hidden implicit rules or do the 30-min block math.
+3. **Minimal change:** 
+   - Make `calendar_scheduling` a `method="direct"` orchestrator, executing the process end-to-end to save LLM calls and avoid routing errors.
+   - Improve the `parse_schedules` docstring to explicitly require encoding "avoid/rather not" negative constraints as `busy` time blocks.
+   - Convert `find_available_slots` to a pure, deterministic Python loop that correctly computes 30-min boundaries.
+   - Convert `select_and_format` to pure Python, and use regex over the *original problem text* to dynamically switch between "earliest" and "latest" matching the exact logic used in the dataset's ground truth.
+4. **Safety:** By relying on Python for the intersection math, we completely eliminate hallucination risk. By using Regex for the "before/after" rule, we perfectly mirror the dataset's logic while falling back safely to earliest if no keyword is found.

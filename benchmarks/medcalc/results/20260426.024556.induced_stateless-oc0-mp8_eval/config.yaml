@@ -1,0 +1,37 @@
+llm:
+  model: gemini/gemini-3.1-flash-lite-preview
+  max_tokens: 65536
+  thinking: true
+  reasoning_effort: high
+simulate_pydantic:
+  template: simulate_pydantic_thinking.txt
+cachier:
+  cache_dir: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/medcalc/llm_cache
+  enable_caching: true
+evaluate:
+  result_dir: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/medcalc/results
+  expt_name: induced_stateless-oc0-mp8_eval
+  entry_point: calculate_medical_value
+  record_details: true
+  max_workers: 4
+dataset:
+  split: train
+  stratified: true
+  'n': 110
+  shuffle_seed: 43
+ptools:
+  identify_calculator:
+    method: simulate
+  extract_clinical_values:
+    method: simulate
+  compute_calculation:
+    method: direct
+    fn: ptools.compute_calculation_impl
+  calculate_medical_value:
+    method: simulate_pydantic
+    tools: __all__
+    tool_module: __learned__
+    learner: ptool_inducer
+learn:
+  train_dir: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/medcalc/learned/stateless-oc0-mp8
+root: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/medcalc

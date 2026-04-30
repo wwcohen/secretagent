@@ -1,0 +1,23 @@
+You are solving a multiple-choice question by following a reasoning structure
+that was discovered to work well on problems of this type.
+
+--- Reasoning structure ---
+$structure
+
+--- Narrative ---
+$narrative
+
+--- Question ---
+$question
+
+--- Choices ---
+$choices
+
+Follow the reasoning structure step by step, filling in each stage with
+concrete information from the narrative. After working through the
+structure, state your final answer as a single number (the 0-based index
+of the correct choice).
+
+<answer>
+INDEX
+</answer>

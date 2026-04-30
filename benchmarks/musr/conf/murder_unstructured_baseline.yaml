@@ -1,5 +1,5 @@
 llm:
-  model: together_ai/deepseek-ai/DeepSeek-V3
+  model: together_ai/deepseek-ai/DeepSeek-V3.1
 
 cachier:
   cache_dir: llm_cache
@@ -11,9 +11,8 @@ evaluate:
   entry_point: answer_question
 
 dataset:
-  split: murder_mysteries
+  split: murder_mysteries_test
   shuffle_seed: 42
-  n: 75
 
 ptools:
   raw_answer:

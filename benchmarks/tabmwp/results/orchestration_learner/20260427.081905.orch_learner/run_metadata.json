@@ -1,0 +1,19 @@
+{
+  "benchmark": "tabmwp",
+  "benchmark_dir": "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/tabmwp",
+  "config_file": "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/tabmwp/conf/conf.yaml",
+  "entry_point": "tabmwp_solve",
+  "ptools_module": "ptools",
+  "seed_orchestrate": true,
+  "scratch_evolved": true,
+  "evolved_path": "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/tabmwp/.orchestration_learner/ptools_20260427.081905_scratch.py",
+  "results_base": "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/tabmwp/results/orchestration_learner",
+  "resume_from": null,
+  "train_split": "dev1k",
+  "eval_split": "dev1k",
+  "n_train": 70,
+  "n_eval": 30,
+  "max_iterations": 5,
+  "target_accuracy": null,
+  "supervisor_model": "gemini/gemini-3.1-pro-preview"
+}

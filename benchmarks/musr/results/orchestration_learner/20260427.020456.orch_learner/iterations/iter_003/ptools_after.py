@@ -1,0 +1,164 @@
+"""Interfaces for MUSR object placement (theory of mind)."""
+
+from secretagent.core import interface
+from ptools_common import (  # noqa: F401  (re-export so the loaded ptools module exposes them)
+    raw_answer,
+    extract_index,
+    react_solve,
+)
+
+
+@interface
+def extract_movements(narrative: str) -> str:
+    """Extract a chronological list of every object-movement event in the narrative.
+
+    For each move event, record:
+    - object: which object is being moved
+    - from_location: where it was before the move
+    - to_location: where it ends up after the move
+    - actor: who performed the move (the mover)
+    - present: list of OTHER characters who were in the scene and witnessed the move
+    - absent: list of characters who are mentioned in the story but were NOT in the scene
+      when this move happened (and therefore did not witness it)
+
+    Be exhaustive — include EVERY move of EVERY object, in the order they
+    happen in the narrative. Do not paraphrase locations: use the exact
+    place names that appear in the story so they match the answer choices
+    later. Do not infer moves that are not described.
+
+    Format the output as a numbered list:
+        1. object=<X>, from=<L1>, to=<L2>, actor=<A>, present=[...], absent=[...]
+        2. object=<Y>, from=<L1>, to=<L3>, actor=<B>, present=[...], absent=[...]
+        ...
+
+    This list is the load-bearing structure for false-belief reasoning, so
+    accuracy of who-was-present-when matters more than prose quality.
+    """
+
+
+@interface
+def extract_discoveries(narrative: str) -> str:
+    """Extract incidental discoveries from the narrative.
+
+    A "discovery" is a moment where a character notices/sees/learns the
+    location of an object WITHOUT witnessing the move that put it there.
+    These update a character's belief about the object's location even
+    though they were not present when it was moved.
+
+    Examples of discoveries:
+    - "Bob walked past the kitchen and saw the keys on the counter."
+    - "Alice looked into the box and noticed the necklace inside."
+    - "Tom told Sarah that the wrench was in the toolshed."  (verbal report
+      counts as a discovery — Sarah now believes that)
+
+    For each discovery, record:
+    - observer: the character who learned the location
+    - object: which object they learned about
+    - location: where they observed/were-told the object is
+    - mode: 'saw_directly' | 'told_by_<name>' | 'inferred_from_<event>'
+
+    Format as a numbered list:
+        1. observer=<X>, object=<O>, location=<L>, mode=<M>
+        2. ...
+
+    If there are no incidental discoveries, return: "No discoveries."
+    Be conservative — only include events explicitly stated in the narrative.
+    """
+
+
+@interface
+def infer_belief(narrative: str, movements: str, question: str, choices: list) -> str:
+    """Determine where the target person believes the target object is located.
+
+    You receive:
+    1. The FULL original narrative (re-read it for details extraction may have missed)
+    2. Extracted object movements with presence/absence info
+    3. Incidental discoveries (someone saw/noticed an object without witnessing the move)
+    4. The question identifying the target person and object, and answer choices
+
+    Your task — determine the person's BELIEF about the object's location:
+
+    Step 1: Start with the object's initial location (everyone knows this)
+    Step 2: For each movement of the target_object (in chronological order):
+       - If target_person is in "present" → they know the new location
+       - If target_person is in "absent" → they still believe the old location
+    Step 3: Check discoveries — if target_person discovered the target_object
+       at a location, that UPDATES their belief to that location
+    Step 4: Re-read the narrative to check for anything the extraction missed:
+       - Did someone TELL the target person where the object is?
+       - Did the target person GO TO the object's location and see it there?
+       - Did the target person interact with something NEAR the object?
+    Step 5: Match the believed location to one of the answer choices
+
+    IMPORTANT: The question asks where the person would LOOK, which means
+    where they BELIEVE the object is — not necessarily where it actually is.
+    """
+
+
+@interface
+def analyze_belief_state(narrative: str, question: str) -> str:
+    """Analyze the narrative to determine where the target person believes the target object is.
+
+    Theory of Mind Principles:
+    - Characters always know the initial location of objects.
+    - If an object is moved, a character ONLY knows the new location if they witnessed the move, performed it themselves, or explicitly heard about it.
+    - Characters do NOT witness a move if they are:
+      * In another room or different area
+      * Engrossed, immersed, or deeply focused on a task (e.g., on a phone call, reading, cleaning, discussing)
+      * Looking away or otherwise distracted
+    - If a character did NOT witness a move, their belief remains at the LAST location they knew about.
+    - **Self-Moves**: If the target person moved the object themselves, they know its new location.
+    - **Discoveries**: Even if a character missed a move, if they later go to the object's current location, OR the object is brought to where the character currently is, they see it and update their belief.
+    - **Routines**: If a character knows it's someone's daily routine to move an object to a specific place, they will assume it is there during that routine.
+
+    Output a brief step-by-step analysis:
+    1. Target: Identify the specific Person and Object from the question. IGNORE other people and objects.
+    2. Initial state: Where was this specific Object originally?
+    3. Movements: Chronological list of times this Object was moved. For each, who moved it and to where? (Ignore moves of other objects).
+    4. Witness & Discovery Check: For each move, did the Target Person see it? Were they engrossed/away? Did they discover it later?
+    5. Conclusion: State clearly where the Target Person believes the Object is.
+    """
+
+
+@interface
+def answer_question(narrative: str, question: str, choices: list) -> int:
+    """Read the narrative and answer where someone would look for an object.
+    This is a theory-of-mind task: the answer is based on what the person
+    believes, not the object's actual location.
+    Return the 0-based index of the correct choice.
+    """
+    # 1. Generate the isolated logical trace tracking states and Theory of Mind checks
+    reasoning = analyze_belief_state(narrative, question)
+    
+    # 2. Prepend the explicit analysis to the narrative to serve as ironclad context for the short-answer task
+    enriched_narrative = f"{narrative}\n\n=== CAREFUL ANALYSIS ===\n{reasoning}\n"
+    
+    # 3. Call the short-answer LLM and reliably parse its output
+    text = raw_answer(enriched_narrative, question, choices)
+    return extract_index(text, choices)
+
+
+@interface
+def answer_question_workflow(narrative: str, question: str, choices: list) -> int:
+    """Solve by extracting movements + discoveries, inferring belief, then matching.
+
+    4-step hand-designed workflow:
+      1. extract_movements — chronological list of who-saw-which-move
+      2. extract_discoveries — incidental observations of object locations
+      3. infer_belief — combine narrative + movements + discoveries to
+         determine the target person's belief about the target object
+      4. extract_index — match the inferred belief to one of the choices
+    """
+    movements = extract_movements(narrative)
+    discoveries = extract_discoveries(narrative)
+    combined = (
+        f"## Object movements\n{movements}\n\n"
+        f"## Incidental discoveries\n{discoveries}"
+    )
+    text = infer_belief(narrative, combined, question, choices)
+    return extract_index(text, choices)
+
+
+# --- Auto-generated by orchestration_learner --seed-orchestrate ---
+def answer_question_workflow_orchestrated_seed(narrative: str, question: str, choices: list) -> int:
+    return answer_question(narrative, question, choices)

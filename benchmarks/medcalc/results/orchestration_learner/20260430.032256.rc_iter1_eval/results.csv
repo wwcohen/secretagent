@@ -1,0 +1,67 @@
+case_name,predicted_output,predicted_numeric,expected_output,correct,exact_match,within_limits,absolute_error,calculator_name,category,output_type,input_tokens,output_tokens,latency,cost,expt_name
+train.0107,**exception raised**: Tool name conflicts with existing tool: 'perform_manual_calculation',,40.78419,0.0,0.0,0.0,inf,Creatinine Clearance (Cockcroft-Gault Equation),lab test,decimal,,,,,rc_iter1_eval
+train.3397,**exception raised**: Tool name conflicts with existing tool: 'perform_manual_calculation',,43.6208,0.0,0.0,0.0,inf,MDRD GFR Equation,lab test,decimal,,,,,rc_iter1_eval
+train.5191,**exception raised**: Tool name conflicts with existing tool: 'perform_manual_calculation',,115.0,0.0,0.0,0.0,inf,Maintenance Fluids Calculations,physical,decimal,,,,,rc_iter1_eval
+train.7033,**exception raised**: Tool name conflicts with existing tool: 'perform_manual_calculation',,397.74962,0.0,0.0,0.0,inf,QTc Hodges Calculator,physical,decimal,,,,,rc_iter1_eval
+train.8991,**exception raised**: Tool name conflicts with existing tool: 'perform_manual_calculation',,14.25,0.0,0.0,0.0,inf,Albumin Corrected Delta Gap,lab test,decimal,,,,,rc_iter1_eval
+train.6907,**exception raised**: Tool name conflicts with existing tool: 'perform_manual_calculation',,386.44376,0.0,0.0,0.0,inf,QTc Framingham Calculator,physical,decimal,,,,,rc_iter1_eval
+train.9201,**exception raised**: Tool name conflicts with existing tool: 'perform_manual_calculation',,104.0,0.0,0.0,0.0,inf,Morphine Milligram Equivalents (MME) Calculator,dosage,integer,,,,,rc_iter1_eval
+train.3413,**exception raised**: Tool name conflicts with existing tool: 'perform_manual_calculation',,75.01979,0.0,0.0,0.0,inf,Ideal Body Weight,physical,decimal,,,,,rc_iter1_eval
+train.9206,**exception raised**: Tool name conflicts with existing tool: 'perform_manual_calculation',,20.0,0.0,0.0,0.0,inf,Morphine Milligram Equivalents (MME) Calculator,dosage,integer,,,,,rc_iter1_eval
+train.8647,**exception raised**: Tool name conflicts with existing tool: 'perform_manual_calculation',,-7.0,0.0,0.0,0.0,inf,Delta Gap,lab test,decimal,,,,,rc_iter1_eval
+train.9018,**exception raised**: Tool name conflicts with existing tool: 'perform_manual_calculation',,0.31818,0.0,0.0,0.0,inf,Albumin Corrected Delta Ratio,lab test,decimal,,,,,rc_iter1_eval
+train.8963,**exception raised**: Tool name conflicts with existing tool: 'perform_manual_calculation',,18.85,0.0,0.0,0.0,inf,Albumin Corrected Delta Gap,lab test,decimal,,,,,rc_iter1_eval
+train.8073,**exception raised**: Tool name conflicts with existing tool: 'perform_manual_calculation',,67.47967,0.0,0.0,0.0,inf,Target weight,physical,decimal,,,,,rc_iter1_eval
+train.7118,**exception raised**: Tool name conflicts with existing tool: 'perform_manual_calculation',,536.5,0.0,0.0,0.0,inf,QTc Rautaharju Calculator,physical,decimal,,,,,rc_iter1_eval
+train.9804,**exception raised**: Tool name conflicts with existing tool: 'perform_manual_calculation',,7.09877,0.0,0.0,0.0,inf,HOMA-IR (Homeostatic Model Assessment for Insulin Resistance),lab test,decimal,,,,,rc_iter1_eval
+train.3183,**exception raised**: Tool name conflicts with existing tool: 'perform_manual_calculation',,46.51892,0.0,0.0,0.0,inf,MDRD GFR Equation,lab test,decimal,,,,,rc_iter1_eval
+train.0091,**exception raised**: Tool name conflicts with existing tool: 'perform_manual_calculation',,73.78858,0.0,0.0,0.0,inf,Creatinine Clearance (Cockcroft-Gault Equation),lab test,decimal,,,,,rc_iter1_eval
+train.4341,**exception raised**: Tool name conflicts with existing tool: 'perform_manual_calculation',,0.5696,0.0,0.0,0.0,inf,Fibrosis-4 (FIB-4) Index for Liver Fibrosis,lab test,decimal,,,,,rc_iter1_eval
+train.2464,**exception raised**: Tool name conflicts with existing tool: 'perform_manual_calculation',,19.22607,0.0,0.0,0.0,inf,Body Mass Index (BMI),physical,decimal,,,,,rc_iter1_eval
+train.5283,**exception raised**: Tool name conflicts with existing tool: 'perform_manual_calculation',,150.976,0.0,0.0,0.0,inf,Sodium Correction for Hyperglycemia,lab test,decimal,,,,,rc_iter1_eval
+train.4076,**exception raised**: Tool name conflicts with existing tool: 'perform_manual_calculation',,503.48754,0.0,0.0,0.0,inf,QTc Bazett Calculator,physical,decimal,,,,,rc_iter1_eval
+train.9787,**exception raised**: Tool name conflicts with existing tool: 'perform_manual_calculation',,0.51612,0.0,0.0,0.0,inf,Fractional Excretion of Sodium (FENa),lab test,decimal,,,,,rc_iter1_eval
+train.10137,**exception raised**: Tool name conflicts with existing tool: 'perform_manual_calculation',,31.0,0.0,0.0,0.0,inf,MELD Na (UNOS/OPTN),lab test,decimal,,,,,rc_iter1_eval
+train.7048,**exception raised**: Tool name conflicts with existing tool: 'perform_manual_calculation',,521.49926,0.0,0.0,0.0,inf,QTc Hodges Calculator,physical,decimal,,,,,rc_iter1_eval
+train.7880,**exception raised**: Tool name conflicts with existing tool: 'perform_manual_calculation',,1.33718,0.0,0.0,0.0,inf,Body Surface Area Calculator,physical,decimal,,,,,rc_iter1_eval
+train.2641,**exception raised**: Tool name conflicts with existing tool: 'perform_manual_calculation',,10.835,0.0,0.0,0.0,inf,Calcium Correction for Hypoalbuminemia,lab test,decimal,,,,,rc_iter1_eval
+train.8904,**exception raised**: Tool name conflicts with existing tool: 'perform_manual_calculation',,19.5,0.0,0.0,0.0,inf,Albumin Corrected Anion Gap,lab test,decimal,,,,,rc_iter1_eval
+train.0383,**exception raised**: Tool name conflicts with existing tool: 'perform_manual_calculation',,9.12304,0.0,0.0,0.0,inf,CKD-EPI Equations for Glomerular Filtration Rate,lab test,decimal,,,,,rc_iter1_eval
+train.7115,**exception raised**: Tool name conflicts with existing tool: 'perform_manual_calculation',,273.0,0.0,0.0,0.0,inf,QTc Rautaharju Calculator,physical,decimal,,,,,rc_iter1_eval
+train.2590,**exception raised**: Tool name conflicts with existing tool: 'perform_manual_calculation',,8.5,0.0,0.0,0.0,inf,Calcium Correction for Hypoalbuminemia,lab test,decimal,,,,,rc_iter1_eval
+train.8133,**exception raised**: Tool name conflicts with existing tool: 'perform_manual_calculation',,97.25202,0.0,0.0,0.0,inf,Adjusted Body Weight,physical,decimal,,,,,rc_iter1_eval
+train.9816,**exception raised**: Tool name conflicts with existing tool: 'perform_manual_calculation',,97.68711,0.0,0.0,0.0,inf,HOMA-IR (Homeostatic Model Assessment for Insulin Resistance),lab test,decimal,,,,,rc_iter1_eval
+train.1984,**exception raised**: Tool name conflicts with existing tool: 'perform_manual_calculation',,95.0,0.0,0.0,0.0,inf,Mean Arterial Pressure (MAP),physical,decimal,,,,,rc_iter1_eval
+train.6179,**exception raised**: Tool name conflicts with existing tool: 'perform_manual_calculation',,17.2,0.0,0.0,0.0,inf,Anion Gap,lab test,decimal,,,,,rc_iter1_eval
+train.8210,**exception raised**: Tool name conflicts with existing tool: 'perform_manual_calculation',,60.14572,0.0,0.0,0.0,inf,Adjusted Body Weight,physical,decimal,,,,,rc_iter1_eval
+train.3594,**exception raised**: Tool name conflicts with existing tool: 'perform_manual_calculation',,52.38197,0.0,0.0,0.0,inf,Ideal Body Weight,physical,decimal,,,,,rc_iter1_eval
+train.10189,**exception raised**: Tool name conflicts with existing tool: 'perform_manual_calculation',,3.974,0.0,0.0,0.0,inf,Framingham Risk Score for Hard Coronary Heart Disease,lab test,decimal,,,,,rc_iter1_eval
+train.8896,**exception raised**: Tool name conflicts with existing tool: 'perform_manual_calculation',,0.46154,0.0,0.0,0.0,inf,Delta Ratio,lab test,decimal,,,,,rc_iter1_eval
+train.8909,**exception raised**: Tool name conflicts with existing tool: 'perform_manual_calculation',,15.75,0.0,0.0,0.0,inf,Albumin Corrected Anion Gap,lab test,decimal,,,,,rc_iter1_eval
+train.5073,**exception raised**: Tool name conflicts with existing tool: 'perform_manual_calculation',,99.0,0.0,0.0,0.0,inf,Maintenance Fluids Calculations,physical,decimal,,,,,rc_iter1_eval
+train.7311,**exception raised**: Tool name conflicts with existing tool: 'perform_manual_calculation',,0.46476,0.0,0.0,0.0,inf,Body Surface Area Calculator,physical,decimal,,,,,rc_iter1_eval
+train.2087,**exception raised**: Tool name conflicts with existing tool: 'perform_manual_calculation',,25.39022,0.0,0.0,0.0,inf,Body Mass Index (BMI),physical,decimal,,,,,rc_iter1_eval
+train.6344,**exception raised**: Tool name conflicts with existing tool: 'perform_manual_calculation',,79.0,0.0,0.0,0.0,inf,LDL Calculated,lab test,decimal,,,,,rc_iter1_eval
+train.6908,**exception raised**: Tool name conflicts with existing tool: 'perform_manual_calculation',,412.6591,0.0,0.0,0.0,inf,QTc Framingham Calculator,physical,decimal,,,,,rc_iter1_eval
+train.9012,**exception raised**: Tool name conflicts with existing tool: 'perform_manual_calculation',,-2.33333,0.0,0.0,0.0,inf,Albumin Corrected Delta Ratio,lab test,decimal,,,,,rc_iter1_eval
+train.6354,**exception raised**: Tool name conflicts with existing tool: 'perform_manual_calculation',,139.2,0.0,0.0,0.0,inf,LDL Calculated,lab test,decimal,,,,,rc_iter1_eval
+train.6840,**exception raised**: Tool name conflicts with existing tool: 'perform_manual_calculation',,331.96658,0.0,0.0,0.0,inf,QTc Fridericia Calculator,physical,decimal,,,,,rc_iter1_eval
+train.6181,**exception raised**: Tool name conflicts with existing tool: 'perform_manual_calculation',,12.0,0.0,0.0,0.0,inf,Anion Gap,lab test,decimal,,,,,rc_iter1_eval
+train.5689,**exception raised**: Tool name conflicts with existing tool: 'perform_manual_calculation',,284.01587,0.0,0.0,0.0,inf,Serum Osmolality,lab test,decimal,,,,,rc_iter1_eval
+train.9173,**exception raised**: Tool name conflicts with existing tool: 'perform_manual_calculation',,184.92859,0.0,0.0,0.0,inf,Steroid Conversion Calculator,dosage,integer,,,,,rc_iter1_eval
+train.1706,**exception raised**: Tool name conflicts with existing tool: 'perform_manual_calculation',,98.33333,0.0,0.0,0.0,inf,Mean Arterial Pressure (MAP),physical,decimal,,,,,rc_iter1_eval
+train.0400,**exception raised**: Tool name conflicts with existing tool: 'perform_manual_calculation',,8.5242,0.0,0.0,0.0,inf,CKD-EPI Equations for Glomerular Filtration Rate,lab test,decimal,,,,,rc_iter1_eval
+train.8082,**exception raised**: Tool name conflicts with existing tool: 'perform_manual_calculation',,81.80109,0.0,0.0,0.0,inf,Target weight,physical,decimal,,,,,rc_iter1_eval
+train.9123,**exception raised**: Tool name conflicts with existing tool: 'perform_manual_calculation',,7.1955,0.0,0.0,0.0,inf,Steroid Conversion Calculator,dosage,integer,,,,,rc_iter1_eval
+train.5898,**exception raised**: Tool name conflicts with existing tool: 'perform_manual_calculation',,-2.1,0.0,0.0,0.0,inf,Free Water Deficit,lab test,decimal,,,,,rc_iter1_eval
+train.6827,**exception raised**: Tool name conflicts with existing tool: 'perform_manual_calculation',,556.10772,0.0,0.0,0.0,inf,QTc Fridericia Calculator,physical,decimal,,,,,rc_iter1_eval
+train.5415,**exception raised**: Tool name conflicts with existing tool: 'perform_manual_calculation',,141.44,0.0,0.0,0.0,inf,Sodium Correction for Hyperglycemia,lab test,decimal,,,,,rc_iter1_eval
+train.4365,**exception raised**: Tool name conflicts with existing tool: 'perform_manual_calculation',,0.44977,0.0,0.0,0.0,inf,Fibrosis-4 (FIB-4) Index for Liver Fibrosis,lab test,decimal,,,,,rc_iter1_eval
+train.5837,**exception raised**: Tool name conflicts with existing tool: 'perform_manual_calculation',,286.64286,0.0,0.0,0.0,inf,Serum Osmolality,lab test,decimal,,,,,rc_iter1_eval
+train.10226,**exception raised**: Tool name conflicts with existing tool: 'perform_manual_calculation',,24.434,0.0,0.0,0.0,inf,Framingham Risk Score for Hard Coronary Heart Disease,lab test,decimal,,,,,rc_iter1_eval
+train.8807,**exception raised**: Tool name conflicts with existing tool: 'perform_manual_calculation',,1.21739,0.0,0.0,0.0,inf,Delta Ratio,lab test,decimal,,,,,rc_iter1_eval
+train.8419,**exception raised**: Tool name conflicts with existing tool: 'perform_manual_calculation',,1.0,0.0,0.0,0.0,inf,Delta Gap,lab test,decimal,,,,,rc_iter1_eval
+train.9771,**exception raised**: Tool name conflicts with existing tool: 'perform_manual_calculation',,0.38241,0.0,0.0,0.0,inf,Fractional Excretion of Sodium (FENa),lab test,decimal,,,,,rc_iter1_eval
+train.6058,**exception raised**: Tool name conflicts with existing tool: 'perform_manual_calculation',,1.41748,0.0,0.0,0.0,inf,Free Water Deficit,lab test,decimal,,,,,rc_iter1_eval
+train.10177,**exception raised**: Tool name conflicts with existing tool: 'perform_manual_calculation',,27.0,0.0,0.0,0.0,inf,MELD Na (UNOS/OPTN),lab test,decimal,,,,,rc_iter1_eval
+train.4013,**exception raised**: Tool name conflicts with existing tool: 'perform_manual_calculation',,439.39248,0.0,0.0,0.0,inf,QTc Bazett Calculator,physical,decimal,,,,,rc_iter1_eval

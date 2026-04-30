@@ -1,0 +1,14 @@
+$prompt
+
+IMPORTANT: You MUST wrap your final answer in <answer>...</answer> tags. The content inside <answer> MUST be in EXACTLY this format (a header line followed by day-range visits and flights, one per line):
+
+<answer>
+Here is the trip plan for visiting the 3 European cities for 14 days:
+**Day 1-5:** Visit Helsinki for 5 days.
+**Day 5:** Fly from Helsinki to Barcelona.
+**Day 5-9:** Visit Barcelona for 5 days.
+**Day 9:** Fly from Barcelona to Florence.
+**Day 9-14:** Visit Florence for 6 days.
+</answer>
+
+Substitute the actual city names, day ranges, and total day count from your plan. Do NOT omit the <answer> tags or the header line.

@@ -1,0 +1,31 @@
+case_name,predicted_output,expected_output,correct,expt_name
+2055,**exception raised**: '2055',Champ,False,rc_iter1_eval
+21594,**exception raised**: '21594',3/11,False,rc_iter1_eval
+12870,**exception raised**: '12870',1:35 P.M.,False,rc_iter1_eval
+17422,**exception raised**: '17422',9,False,rc_iter1_eval
+26822,**exception raised**: '26822',0,False,rc_iter1_eval
+26188,**exception raised**: '26188',-7,False,rc_iter1_eval
+29277,**exception raised**: '29277',8,False,rc_iter1_eval
+21590,**exception raised**: '21590',3,False,rc_iter1_eval
+27742,**exception raised**: '27742',2,False,rc_iter1_eval
+3710,**exception raised**: '3710',90,False,rc_iter1_eval
+38364,**exception raised**: '38364',16.20,False,rc_iter1_eval
+17485,**exception raised**: '17485',17,False,rc_iter1_eval
+4752,**exception raised**: '4752',12,False,rc_iter1_eval
+33646,**exception raised**: '33646',2,False,rc_iter1_eval
+33680,**exception raised**: '33680',Jason,False,rc_iter1_eval
+21503,**exception raised**: '21503',linear,False,rc_iter1_eval
+36686,**exception raised**: '36686',"1,464",False,rc_iter1_eval
+24751,**exception raised**: '24751',-8,False,rc_iter1_eval
+24331,**exception raised**: '24331',1/10,False,rc_iter1_eval
+24478,**exception raised**: '24478',0.13,False,rc_iter1_eval
+26362,**exception raised**: '26362',onions,False,rc_iter1_eval
+38305,**exception raised**: '38305',3,False,rc_iter1_eval
+31008,**exception raised**: '31008',Tuesday,False,rc_iter1_eval
+6694,**exception raised**: '6694',1/6,False,rc_iter1_eval
+35482,**exception raised**: '35482',2,False,rc_iter1_eval
+24941,**exception raised**: '24941',Taylor Boulevard,False,rc_iter1_eval
+21025,**exception raised**: '21025',8,False,rc_iter1_eval
+32818,**exception raised**: '32818',Floral Gardens,False,rc_iter1_eval
+16899,**exception raised**: '16899',49,False,rc_iter1_eval
+29583,**exception raised**: '29583',surplus,False,rc_iter1_eval

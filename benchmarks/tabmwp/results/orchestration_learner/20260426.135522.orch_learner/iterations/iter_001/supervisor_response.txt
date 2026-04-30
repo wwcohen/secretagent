@@ -1,0 +1,368 @@
+<reasoning>
+1. **Specific failure pattern identified:** Many failures fall into three categories caused by a lack of context during computation: 
+   a) The calculation requires a quantity from the *question* (e.g. "1/5 of a pound", "4 tickets") but `compute_answer` only receives values from the table, causing it to return wrong values or fail entirely. 
+   b) Missing operations in `identify_operation`: "median", "multiply", "argmin" / "argmax" (finding the row label for min/max), and "probability" were completely absent from the operation list, causing the agent to guess. 
+   c) Stem-and-leaf plots are extracted as separate digits, causing computation to fail (e.g. stem 9, leaf 0 extracted as '9' and '0' instead of '90').
+2. **How many failures share this pattern?** Over 25 of the 32 failures shown fall into these exact patterns (multiply quantity from question: 28014, 7946, 22167, 16626, 27615, 29461, 7023, 28976; missing argmin/argmax: 17619, 29601, 12801, 6695, 35832; missing median/probability: 19617, 18050, 20103, 21189; comparison/shortage issues: 9055, 23843, 6282, 30575, 36693, 21148; stem-and-leaf: 22631).
+3. **Minimal change that fixes this pattern:** 
+   - Add `question` as the first argument to `compute_answer` and pass it in both `incontext_workflow` and `tools_workflow`. This gives the LLM the missing text quantities.
+   - Update `identify_operation` and `compute_answer` docstrings to support `multiply`, `median`, `argmin`, `argmax`, and `probability`, with specific formatting hints for comparisons (e.g., shortage/surplus).
+   - Add a brief note to `extract_relevant_values` instructing it to combine stem-and-leaf plots into actual numbers.
+4. **Why this will NOT break working cases:** Providing the `question` to `compute_answer` adds necessary context without taking anything away. The existing successful `sum` or `lookup` calls will continue working seamlessly because they just use the provided values as before. The changes directly target the missing operations and parsing quirks without overhauling any robust extraction or pipeline logic.
+</reasoning>
+
+<ptools_file>
+"""Interfaces for the TabMWP (Tabular Math Word Problems) benchmark.
+
+Two modes of table access:
+  - Option A (in-context): table text is passed directly in arguments.
+  - Option B (tool-based): table is accessed via direct-implemented tool
+    interfaces that query a table store.
+
+The top-level interface is `tabmwp_solve`. Hand-coded workflows are
+defined at the bottom of this file.
+"""
+
+import pandas as pd
+
+from secretagent.core import interface
+
+# ---------------------------------------------------------------
+# Table store — populated at experiment startup by expt.py
+# Maps example id -> {"table": str, "table_for_pd": dict,
+#                      "table_title": str | None}
+# ---------------------------------------------------------------
+
+_TABLE_STORE: dict[str, dict] = {}
+
+
+def load_table_store(dataset_dict: dict) -> None:
+    """Populate the table store from the raw dataset dict.
+
+    Called by expt.py before running experiments.
+    """
+    _TABLE_STORE.clear()
+    for ex_id, ex in dataset_dict.items():
+        _TABLE_STORE[ex_id] = {
+            "table": ex["table"],
+            "table_for_pd": ex["table_for_pd"],
+            "table_title": ex.get("table_title"),
+        }
+
+
+# ---------------------------------------------------------------
+# Top-level interface
+# ---------------------------------------------------------------
+
+@interface
+def tabmwp_solve(question: str, table: str, table_id: str, choices: list | None) -> str:
+    """Solve a TabMWP problem. Return the answer as a string.
+
+    Arguments:
+      question: the math word problem text
+      table: the table as pipe-delimited text (header row + data rows)
+      table_id: identifier for looking up the table via tool interfaces
+      choices: list of answer options for multi-choice, or None for free-text
+    """
+
+
+# ---------------------------------------------------------------
+# Shared reasoning interfaces (used by both Option A and Option B)
+# ---------------------------------------------------------------
+
+@interface
+def identify_operation(question: str, table_description: str) -> str:
+    """Determine what math operation is needed to answer the question.
+
+    Given the question and a description of the table (column names,
+    row count, title), identify the operation: lookup, sum, difference,
+    multiply, division, average, median, probability, count, comparison,
+    min, max, argmin, argmax, range, or other.
+
+    Use 'argmin' or 'argmax' when the question asks for the row label 
+    (e.g., name, day, month) associated with the minimum or maximum value.
+
+    Return a short string naming the operation.
+    """
+
+
+@interface
+def compute_answer(question: str, operation: str, values: list[str]) -> str:
+    """Perform the arithmetic or logical operation to answer the question.
+
+    Arguments:
+      question: the original math word problem
+      operation: the operation to perform (e.g. "sum", "average", "difference", "multiply", "median", "argmin", "argmax")
+      values: the numeric or text values extracted from the table
+
+    Use the numbers from the `values` list AND any necessary numbers or context mentioned directly in the `question` to compute the final result.
+
+    Notes on operations:
+      - multiply/division: compute using numbers from the values and the question (e.g., cost per item * quantity).
+      - difference/rate of change: ensure the correct order of subtraction (e.g., final minus initial).
+      - median: find the middle value of the numbers after sorting them.
+      - argmin/argmax: return the row label (e.g., name, day, month) that corresponds to the minimum or maximum value.
+      - range: maximum value minus minimum value.
+      - probability: calculate the target count divided by the total count. Represent as a fraction if requested.
+      - comparison: return the specific entity that satisfies the question (e.g., the one that is smaller/larger). For shortage/surplus, shortage is demand > supply, surplus is supply > demand.
+
+    Return the computed result as a string.
+    """
+
+
+@interface
+def format_answer(result: str, choices: list | None) -> str:
+    """Format the computed result into the final answer.
+
+    If choices is a list (multi-choice question), select the choice
+    that best matches the result. If choices is None (free-text),
+    return the result directly as a clean string (no units, no extra text).
+    """
+
+
+# ---------------------------------------------------------------
+# Option A: in-context table interfaces
+# ---------------------------------------------------------------
+
+@interface
+def extract_relevant_values(question: str, table: str) -> list[str]:
+    """Given the full table in context, extract the specific values
+    needed to answer the question.
+
+    Read the table carefully, identify which rows and columns are
+    relevant to the question, and return their values as a list
+    of strings. Include row/column labels if needed for context.
+    
+    For stem-and-leaf plots, combine the stem and leaf into the actual numbers (e.g., stem 9, leaf 0 becomes 90).
+    """
+
+
+# ---------------------------------------------------------------
+# Option B: tool-based table access interfaces (direct implementations)
+# ---------------------------------------------------------------
+
+@interface
+def get_table_schema(table_id: str) -> str:
+    """Return the table schema: column names, row count, and table title.
+
+    Does NOT return actual data values. Use lookup_value or query_column
+    to retrieve data.
+    """
+    info = _TABLE_STORE[table_id]
+    df = pd.DataFrame(info["table_for_pd"])
+    title = info["table_title"] or "(no title)"
+    columns = ", ".join(df.columns.tolist())
+    return f"Title: {title}\nColumns: {columns}\nRows: {len(df)}"
+
+
+@interface
+def lookup_value(table_id: str, row_label: str, column: str) -> str:
+    """Look up a specific cell value by row label and column name.
+
+    The row_label is matched against the first column of the table.
+    Returns the cell value as a string, or 'NOT FOUND' if no match.
+    """
+    info = _TABLE_STORE[table_id]
+    df = pd.DataFrame(info["table_for_pd"])
+    first_col = df.columns[0]
+    mask = df[first_col].str.strip().str.lower() == row_label.strip().lower()
+    if mask.any() and column in df.columns:
+        return str(df.loc[mask, column].iloc[0])
+    return "NOT FOUND"
+
+
+@interface
+def query_column(table_id: str, column: str) -> list[str]:
+    """Return all values in a given column as a list of strings.
+
+    Returns an empty list if the column name is not found.
+    """
+    info = _TABLE_STORE[table_id]
+    df = pd.DataFrame(info["table_for_pd"])
+    if column in df.columns:
+        return df[column].tolist()
+    return []
+
+
+@interface
+def query_table(table_id: str) -> str:
+    """Return the full table as pipe-delimited text.
+
+    Fallback tool when targeted lookups are insufficient.
+    """
+    return _TABLE_STORE[table_id]["table"]
+
+
+# ---------------------------------------------------------------
+# Answer extraction (for post-processing verbose agent output)
+# ---------------------------------------------------------------
+
+@interface
+def extract_answer(llm_output: str, choices: list | None) -> str:
+    """Extract a clean, concise answer from verbose LLM output.
+
+    The llm_output may contain reasoning, explanation, or prose around
+    the actual answer. Extract just the final answer value.
+
+    If choices is a list, return the matching choice exactly.
+    If choices is None, return the numeric or short text answer only,
+    with no extra words, units, or explanation.
+    """
+
+
+# ---------------------------------------------------------------
+# PoT-specific interface (receives table as pandas-ready dict)
+# ---------------------------------------------------------------
+
+@interface
+def tabmwp_solve_pot(question: str, table_for_pd: dict, choices: list | None) -> str:
+    """Solve a TabMWP problem using generated Python code.
+
+    Arguments:
+      question: the math word problem text
+      table_for_pd: a dictionary where keys are column names and values
+        are lists of cell values as strings.
+        Example: {"Name": ["Alice", "Bob"], "Score": ["90", "85"]}
+      choices: list of answer options for multi-choice, or None for free-text
+
+    The table_for_pd dict can be accessed directly:
+      columns = list(table_for_pd.keys())
+      values = table_for_pd[column_name]  # list of strings
+
+    To do arithmetic, convert strings to numbers manually:
+      nums = [statistics.mean([int(v) for v in table_for_pd["Score"]])]
+
+    Call final_answer(result) with the answer as a string.
+    """
+
+
+def pot_workflow(question: str, table: str, table_id: str, choices: list | None) -> str:
+    """Wrapper that converts inputs for the PoT interface.
+
+    Looks up table_for_pd from the table store and delegates to
+    tabmwp_solve_pot which receives a pandas-ready dict.
+    """
+    info = _TABLE_STORE[table_id]
+    return tabmwp_solve_pot(question, info["table_for_pd"], choices)
+
+
+@interface
+def tabmwp_react(question: str, table: str, table_id: str, choices: list | None) -> str:
+    """Solve a TabMWP problem using a ReAct agent with tools, then
+    extract a clean answer from the agent's verbose output.
+    """
+    raw_output = tabmwp_solve(question, table, table_id, choices)
+    return extract_answer(raw_output, choices)
+
+
+# ---------------------------------------------------------------
+# Hand-coded workflows
+# ---------------------------------------------------------------
+
+def incontext_workflow(question: str, table: str, table_id: str, choices: list | None) -> str:
+    """Option A workflow: table passed in-context through ptool arguments.
+
+    table_id is unused here but included to match the top-level signature.
+    """
+    lines = table.strip().split("\n")
+    header = lines[0] if lines else ""
+    table_description = f"Columns: {header} | Rows: {len(lines) - 1}"
+
+    operation = identify_operation(question, table_description)
+    values = extract_relevant_values(question, table)
+    result = compute_answer(question, operation, values)
+    return format_answer(result, choices)
+
+
+def tools_workflow(question: str, table: str, table_id: str, choices: list | None) -> str:
+    """Option B workflow: table accessed via tool-calling interfaces.
+
+    The table argument is available as fallback but the workflow uses
+    tool calls to query the table store via table_id.
+    """
+    schema = get_table_schema(table_id)
+    operation = identify_operation(question, schema)
+
+    # Use extract_relevant_values with the full table text to determine
+    # which values are needed, then compute
+    values = extract_relevant_values(question, query_table(table_id))
+    result = compute_answer(question, operation, values)
+    return format_answer(result, choices)
+
+
+# ---------------------------------------------------------------
+# Workflow improvement experiments
+# ---------------------------------------------------------------
+
+# --- Experiment: workflow_broad (fewer, broader ptools) ---
+
+@interface
+def extract_and_compute(question: str, table: str) -> str:
+    """Given a question and a table, extract the relevant values and
+    compute the answer in a single step.
+
+    Read the table carefully, determine what operation is needed
+    (lookup, sum, difference, average, count, comparison, etc.),
+    extract the relevant values, perform the calculation, and return
+    the result as a string.
+
+    Return ONLY the computed value, no units or explanation.
+    """
+
+
+def broad_workflow(question: str, table: str, table_id: str, choices: list | None) -> str:
+    """2-step workflow: extract_and_compute -> format_answer."""
+    result = extract_and_compute(question, table)
+    return format_answer(result, choices)
+
+
+# --- Experiment: workflow_rich (full context at every step) ---
+
+@interface
+def identify_operation_rich(question: str, table: str) -> str:
+    """Given the full question and table, determine what math operation
+    is needed to answer the question.
+
+    Read both the question and the table data carefully.
+    Identify the operation: lookup, sum, difference, average, count,
+    comparison, min, max, range, or other.
+
+    Return a short string naming the operation.
+    """
+
+
+@interface
+def compute_answer_rich(question: str, table: str, operation: str, values: list[str]) -> str:
+    """Perform the arithmetic or logical operation on the given values.
+
+    You also receive the original question and table for full context.
+
+    Arguments:
+      question: the original math word problem
+      table: the full table as pipe-delimited text
+      operation: the operation to perform (e.g. "sum", "average", "difference")
+      values: the numeric or text values extracted from the table
+
+    Return the computed result as a string.
+    """
+
+
+@interface
+def format_answer_rich(question: str, table: str, result: str, choices: list | None) -> str:
+    """Format the computed result into the final answer.
+
+    You also receive the original question and table for full context.
+
+    If choices is a list (multi-choice question), select the choice
+    that best matches the result. If choices is None (free-text),
+    return the result directly as a clean string (no units, no extra text).
+    """
+
+
+def rich_workflow(question: str, table: str, table_id: str, choices: list | None) -> str:
+    """4-step workflow where every ptool receives full question + table context."""
+    operation = identify_operation_rich(question, table)
+    values = extract_relevant_values(question, table)
+    result = compute_answer_rich(question, table, operation, values)
+    return format_answer_rich(question, table, result, choices)
+</ptools_file>

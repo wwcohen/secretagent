@@ -1,0 +1,41 @@
+# React with state injection: calculate_medical_value -> direct wrapper that
+# resets _REACT_STATE then calls the agent (react_calculate) bound to
+# simulate_pydantic. Mirrors MUSR's react_answer_impl pattern so that
+# induced ptools (which default to def f(focus) -> str) can read the
+# patient note from module-globals.
+llm:
+  model: together_ai/deepseek-ai/DeepSeek-V3.1
+  max_tokens: 65536
+
+cachier:
+  cache_dir: llm_cache
+  enable_caching: true
+
+evaluate:
+  result_dir: results
+  expt_name: react_state
+  entry_point: calculate_medical_value
+
+dataset:
+  split: train
+  stratified: true
+  n: 275
+  shuffle_seed: 42
+
+ptools:
+  identify_calculator:
+    method: simulate
+  extract_clinical_values:
+    method: simulate
+  compute_calculation:
+    method: direct
+    fn: ptools.compute_calculation_impl
+  calculate_medical_value:
+    method: direct
+    fn: ptools.react_calculate_impl
+  react_calculate:
+    method: simulate_pydantic
+    tools:
+      - ptools.identify_calculator
+      - ptools.extract_clinical_values
+      - ptools.compute_calculation
