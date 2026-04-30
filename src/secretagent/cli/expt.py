@@ -106,10 +106,22 @@ def run(
         evaluator=eval_instance)
 
 
+def _resolve_case(dataset, case_name):
+    """Pick a case by name, or default to the first case."""
+    if case_name is None:
+        return dataset.cases[0]
+    matching = [c for c in dataset.cases if c.name == case_name]
+    if not matching:
+        print(f'No case named {case_name!r} found in dataset')
+        raise typer.Exit(1)
+    return matching[0]
+
+
 @app.command(context_settings=_EXTRA_ARGS)
 def quick_test(
     ctx: typer.Context,
     interface: str = typer.Option(..., help="Top-level interface as 'module.name'"),
+    case: str = typer.Option(None, help="Case name to run, e.g. valid.006. Defaults to first case."),
 ):
     """Do a quick test of a configuration.
 
@@ -122,7 +134,8 @@ def quick_test(
     top_level = resolve_dotted(interface)
     pprint.pprint(config.GLOBAL_CONFIG)
 
-    input_args = dataset.cases[0].input_args
+    test_case = _resolve_case(dataset, case)
+    input_args = test_case.input_args
     print('input_args', input_args)
     with config.configuration(
             cachier={'enable_caching': False},
@@ -141,6 +154,7 @@ def quick_test(
 def cached_test(
     ctx: typer.Context,
     interface: str = typer.Option(..., help="Top-level interface as 'module.name'"),
+    case: str = typer.Option(None, help="Case name to run, e.g. valid.006. Defaults to first case."),
 ):
     """Test a configuration on a single example, keeping the LLM cache active.
 
@@ -152,7 +166,8 @@ def cached_test(
     top_level = resolve_dotted(interface)
     pprint.pprint(config.GLOBAL_CONFIG)
 
-    input_args = dataset.cases[0].input_args
+    test_case = _resolve_case(dataset, case)
+    input_args = test_case.input_args
     print('input_args', input_args)
     with config.configuration(
             echo={
