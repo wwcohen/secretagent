@@ -4,6 +4,26 @@
 
 This report is the index for the MedCalc induction/orchestration artifacts in this repository. The report file itself is listed in `.gitignore`, so updates to this file must be force-added when committing.
 
+### Read this first: where to find the main artifacts
+
+Use this table as the human-readable index. The directory names contain timestamps because that is how the runner writes outputs, but the left column is the stable experiment label to use in discussion.
+
+| Human label | What it is | Final ptools to inspect/use | Result directory |
+|---|---|---|---|
+| Historical induced ptools | Original best induced ptools from the 12-way induction matrix | `benchmarks/medcalc/ptools_induced.py` | See Part A result directories under `benchmarks/medcalc/results/*induced*_eval/` |
+| Historical induced + supervisor refinement | OrchestrationLearner starting from `ptools_induced.py` | `benchmarks/medcalc/ptools_induced_evolved.py` | `benchmarks/medcalc/results/orchestration_learner/20260427.021444.orch_learner/` |
+| Workflow provided / existing workflow | OrchestrationLearner on the hand-provided MedCalc workflow (`conf/workflow.yaml`, `seed_orchestrate=false`) | `benchmarks/medcalc/results/orchestration_learner/20260426.040958.orch_learner/ptools_evolved.py` and tracked scratch copy `benchmarks/medcalc/.orchestration_learner/ptools_20260426.040958_scratch.py` | `benchmarks/medcalc/results/orchestration_learner/20260426.040958.orch_learner/` |
+| Workflow composed by orchestrator | OrchestrationLearner after first asking the orchestrator to compose a seed workflow (`conf/workflow.yaml`, `seed_orchestrate=true`) | `benchmarks/medcalc/results/orchestration_learner/20260426.182640.orch_learner/ptools_evolved.py` and tracked scratch copy `benchmarks/medcalc/.orchestration_learner/ptools_20260426.182640_scratch.py` | `benchmarks/medcalc/results/orchestration_learner/20260426.182640.orch_learner/` |
+| Equation-only induced ptools | New equation-only induction on equation calculator traces | `benchmarks/medcalc/ptools_induced_equation.py` | `benchmarks/medcalc/learned/equation-4pc-pro-mp3/20260430.020302.calculate_medical_value__ptool_inducer/` |
+| Equation-only induced + supervisor run | Completed learner run starting from equation-only induced ptools; no supervisor edit was kept | `benchmarks/medcalc/ptools_induced_equation_evolved.py` | `benchmarks/medcalc/results/orchestration_learner/20260430.021235.orch_learner/` |
+| Rule-only induced ptools | New rule-only induction on rule calculator traces | `benchmarks/medcalc/ptools_induced_rule.py` | `benchmarks/medcalc/learned/rule-4pc-pro-mp3/20260430.020806.calculate_medical_value__ptool_inducer/` |
+| Rule-only induced + supervisor run | Completed learner run starting from rule-only induced ptools; no supervisor edit was kept | `benchmarks/medcalc/ptools_induced_rule_evolved.py` | `benchmarks/medcalc/results/orchestration_learner/20260430.035155.orch_learner/` |
+
+For the equation-only/rule-only existing-benchmark evaluations, use:
+
+- Equation benchmark eval: `benchmarks/medcalc/results/benchmark_eval/20260430.051051.equation_orch_on_existing_benchmark/`
+- Rule benchmark eval: `benchmarks/medcalc/results/benchmark_eval/20260430.061531.rule_orch_on_existing_benchmark/`
+
 ### Committed ptool artifacts from the earlier induction session
 
 These are the original MedCalc induced ptool artifacts from the 2026-04-26/2026-04-27 run and are already part of git:
@@ -31,6 +51,22 @@ These are the new artifacts from the equation-only/rule-only experiment requeste
 | Rule-only inducer output | `benchmarks/medcalc/learned/rule-4pc-pro-mp3/20260430.020806.calculate_medical_value__ptool_inducer/` |
 
 The equation/rule `*_evolved.py` modules matched their corresponding built modules after the completed learner runs because the supervisor did not keep any proposed code changes.
+
+### Workflow-mode OrchestrationLearner artifacts
+
+These are separate from the induced-ptool experiments above. They answer the question "what happens when the learner starts from an existing/provided workflow versus a workflow first composed by the orchestrator?"
+
+| Mode | Config / setup | Result directory | Final ptools | Summary |
+|---|---|---|---|---|
+| Workflow provided / existing workflow | `conf/workflow.yaml`, `seed_orchestrate=false`, `scratch_evolved=true` | `benchmarks/medcalc/results/orchestration_learner/20260426.040958.orch_learner/` | `benchmarks/medcalc/results/orchestration_learner/20260426.040958.orch_learner/ptools_evolved.py` | best train 79.3%, final eval 67.1% |
+| Workflow composed by orchestrator | `conf/workflow.yaml`, `seed_orchestrate=true`, `scratch_evolved=true` | `benchmarks/medcalc/results/orchestration_learner/20260426.182640.orch_learner/` | `benchmarks/medcalc/results/orchestration_learner/20260426.182640.orch_learner/ptools_evolved.py` | best train 82.9%, final eval 72.0% |
+
+The same final code is also present in tracked scratch-module files:
+
+- Provided workflow scratch copy: `benchmarks/medcalc/.orchestration_learner/ptools_20260426.040958_scratch.py`
+- Orchestrator-composed workflow scratch copy: `benchmarks/medcalc/.orchestration_learner/ptools_20260426.182640_scratch.py`
+
+The run directory is the better place to send readers because it contains `report.json`, `report.html`, `implementation.yaml`, `run_metadata.json`, `ptools_evolved.py`, plots, final eval, and per-iteration before/after files.
 
 ### 2026-04-30 local result directories
 
