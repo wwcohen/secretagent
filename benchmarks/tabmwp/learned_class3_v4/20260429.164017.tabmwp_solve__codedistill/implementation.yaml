@@ -1,0 +1,4 @@
+tabmwp_solve:
+  backoff: true
+  learner: codedistill
+  method: learned_code

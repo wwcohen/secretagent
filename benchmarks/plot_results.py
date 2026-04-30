@@ -26,6 +26,8 @@ BENCHMARKS = {
     'natplan_meeting':  BENCHMARKS_DIR / 'natural_plan',
     'natplan_trip':     BENCHMARKS_DIR / 'natural_plan',
     'musr_murder':      BENCHMARKS_DIR / 'musr',
+    'musr_object':      BENCHMARKS_DIR / 'musr',
+    'musr_team':        BENCHMARKS_DIR / 'musr',
     'bbh_sports':       BENCHMARKS_DIR / 'bbh' / 'sports_understanding',
     'bbh_penguins':     BENCHMARKS_DIR / 'bbh' / 'penguins_in_a_table',
     'bbh_geometric':    BENCHMARKS_DIR / 'bbh' / 'geometric_shapes',
@@ -35,6 +37,7 @@ BENCHMARKS = {
     'rulearena_nba':    BENCHMARKS_DIR / 'rulearena',
     'rulearena_tax':    BENCHMARKS_DIR / 'rulearena',
     'rulearena_airline': BENCHMARKS_DIR / 'rulearena',
+    'tabmwp':           BENCHMARKS_DIR / 'tabmwp',
 }
 
 
@@ -49,12 +52,15 @@ def find_val_csv(benchdir: Path, expt_pat: str, strict_v4: bool = False):
     method = expt_pat.split('_')[-1]  # baseline / class1 / class2 / class3
     pre = '_'.join(expt_pat.split('_')[:-1])
     if strict_v4:
-        priority = [('val_results_full', f'_full_{method}v4')]
+        # match v4 with optional suffix (e.g. _force, _v3) to pick the latest re-run
+        priority = [('val_results_full', f'_full_{method}v4_*'),
+                    ('val_results_full', f'_full_{method}v4')]
         # baseline is special — no v4 suffix (just _full_baseline)
         if method == 'baseline':
             priority = [('val_results_full', f'_full_{method}')]
     else:
-        priority = [('val_results_full', f'_full_{method}v4'),
+        priority = [('val_results_full', f'_full_{method}v4_*'),
+                    ('val_results_full', f'_full_{method}v4'),
                     ('val_results_full', f'_full_{method}'),
                     ('val_results', f'_{method}v4'),
                     ('val_results', f'_{method}v2'),
@@ -192,10 +198,16 @@ def collect_all():
             prefixes.append(ru_sub[bench])
         elif bench == 'musr_murder':
             prefixes.append('murder_val')
+        elif bench == 'musr_object':
+            prefixes.append('object_val')
+        elif bench == 'musr_team':
+            prefixes.append('team_val')
         elif bench == 'medcalc':
             prefixes.append('medcalc_val')
         elif bench == 'finqa':
             prefixes.append('finqa_val')
+        elif bench == 'tabmwp':
+            prefixes.append('tabmwp_val')
 
         cells = {'baseline': None, 'class1': None, 'class1v2': None,
                  'class2': None, 'class3': None}

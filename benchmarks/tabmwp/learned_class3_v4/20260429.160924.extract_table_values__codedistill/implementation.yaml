@@ -1,0 +1,4 @@
+extract_table_values:
+  backoff: true
+  learner: codedistill
+  method: learned_code

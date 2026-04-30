@@ -417,6 +417,13 @@ class WorkflowDistillLearner(CodeDistillLearner):
             Requirements:
             - Define `def {self.interface_name}(...)` matching the input signature
               shown in the examples
+            - **CRITICAL — return type must EXACTLY match the @interface signature.**
+              If the signature is `-> str`, you MUST return a str (not a list,
+              not a dict, not a tuple). If you compute multiple lines/items,
+              join them into a single string (e.g. `'\\n'.join(parts)`,
+              `' '.join(words)`). The evaluator does not auto-coerce types —
+              returning a list when str was expected is counted as wrong on
+              every case.
             - Inside the function, call the available tools as helpers; the file
               will start with `from {self.tool_module} import *` so the tools are
               already in scope
@@ -430,6 +437,7 @@ class WorkflowDistillLearner(CodeDistillLearner):
               None** because backoff cannot rescue you when the answer is
               non-None.
             - Output must exactly match the format shown in the expected outputs
+              (including return TYPE — see CRITICAL note above)
             - Use only standard library imports beyond the tool module
             - Write clean, correct, defensive Python code
 
