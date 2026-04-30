@@ -908,6 +908,7 @@ class OrchestrationLearner(Learner):
         report.html, plots/, iterations/, and final_eval/ if eval is run.
         """
         from secretagent.core import implement_via_config
+        from secretagent.orchestrate.module_reload import exec_ptools_module
         from secretagent.orchestrate.catalog import PtoolCatalog
         from secretagent.orchestrate.improve import (
             improve_with_supervisor, SupervisorReport,
@@ -1033,7 +1034,7 @@ class OrchestrationLearner(Learner):
             ptools_module_name, str(evolved_path))
         ptools_module_obj = importlib.util.module_from_spec(spec)
         sys.modules[ptools_module_name] = ptools_module_obj
-        spec.loader.exec_module(ptools_module_obj)
+        exec_ptools_module(ptools_module_obj, evolved_path)
 
         if adapter is not None:
             evaluator_module = None
@@ -1075,9 +1076,7 @@ class OrchestrationLearner(Learner):
                 task_description_override=self.orchestrate_task_description,
                 model=seed_model,
             )
-            spec = importlib.util.spec_from_file_location(
-                ptools_module_name, str(evolved_path))
-            spec.loader.exec_module(ptools_module_obj)
+            exec_ptools_module(ptools_module_obj, evolved_path)
 
         implement_via_config(ptools_module_obj, config.require('ptools'))
         if adapter is not None:
@@ -1137,9 +1136,7 @@ class OrchestrationLearner(Learner):
             prev_evolved = self.resume / 'ptools_evolved.py'
             if prev_evolved.exists():
                 evolved_path.write_text(prev_evolved.read_text())
-                spec = importlib.util.spec_from_file_location(
-                    ptools_module_name, str(evolved_path))
-                spec.loader.exec_module(ptools_module_obj)
+                exec_ptools_module(ptools_module_obj, evolved_path)
                 implement_via_config(ptools_module_obj, config.require('ptools'))
                 entry_interface = getattr(ptools_module_obj, entry_point_name)
                 print(f'Loaded ptools_evolved.py from {self.resume.name}')

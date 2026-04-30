@@ -412,6 +412,7 @@ def improve_with_supervisor(
     continue the improvement loop from where the previous run left off.
     """
     from secretagent.orchestrate.composer import recompose
+    from secretagent.orchestrate.module_reload import exec_ptools_module
     from secretagent.orchestrate.transforms.base import format_profiling_summary
     from secretagent.core import implement_via_config
 
@@ -441,9 +442,7 @@ def improve_with_supervisor(
     # evolved file. We must use spec.loader.exec_module() instead.
     def _reload_evolved_module():
         """Re-execute the evolved ptools file into the existing module object."""
-        import importlib.util as ilu
-        spec = ilu.spec_from_file_location(ptools_module.__name__, str(evolved_path))
-        spec.loader.exec_module(ptools_module)
+        exec_ptools_module(ptools_module, evolved_path)
 
     print(f'[supervisor] evolved ptools: {evolved_path.name}')
 
