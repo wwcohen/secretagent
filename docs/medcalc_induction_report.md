@@ -68,6 +68,91 @@ Those artifacts are incomplete and are not used for any reported metric in this 
 
 ---
 
+## 2026-04-30 Equation-Only and Rule-Only Split Experiments
+
+These are the newest completed experiments covered by this report. The later scratch/orchestrator reruns that are still running in another terminal are not included in the metrics below and should be treated as future work.
+
+### What was run
+
+| Experiment | Trace source | Induced ptools | Orchestrator final ptools | Config |
+|---|---|---|---|---|
+| Equation-only | `benchmarks/medcalc/results/20260430.004024.react_train_equation_4pc/` | `benchmarks/medcalc/ptools_induced_equation.py` | `benchmarks/medcalc/ptools_induced_equation_evolved.py` | `benchmarks/medcalc/conf/induced_orch_equation.yaml` |
+| Rule-only | `benchmarks/medcalc/results/20260430.013446.react_train_rule_4pc/` | `benchmarks/medcalc/ptools_induced_rule.py` | `benchmarks/medcalc/ptools_induced_rule_evolved.py` | `benchmarks/medcalc/conf/induced_orch_rule.yaml` |
+
+The raw inducer outputs are:
+
+- Equation-only: `benchmarks/medcalc/learned/equation-4pc-pro-mp3/20260430.020302.calculate_medical_value__ptool_inducer/`
+- Rule-only: `benchmarks/medcalc/learned/rule-4pc-pro-mp3/20260430.020806.calculate_medical_value__ptool_inducer/`
+
+Both completed OrchestrationLearner runs kept iteration 0 as the best version. Therefore the final evolved modules are the same learned ptools with no accepted supervisor rewrite.
+
+### Sampling
+
+Both experiments used MedCalc's cached train partition, filtered by category, with Gemini 3.1 Pro Preview as the inducer/supervisor and Gemini 3.1 Flash-Lite Preview as the agent model.
+
+| Experiment | Category filter | Induction train sample | Learner train sample | Learner held-out eval sample |
+|---|---|---:|---:|---:|
+| Equation-only | `physical`, `lab test`, `dosage` | 132 = 4/calc across 33 calculators | 132 | 66 |
+| Rule-only | `risk`, `diagnosis`, `severity` | 76 = 4/calc across 19 calculators | 76 | 38 |
+
+Note: the trace-induction sample and OrchestrationLearner sample had matching counts, but the learner made its own disjoint train/eval split. The counts match the intended 4/calc and 2/calc scale, but the learner split is not guaranteed to be the exact same case IDs as the trace-generation sample.
+
+### Trace generation and induction results
+
+| Experiment | Trace result directory | Trace accuracy | Inducer output | Thoughts | Ptools |
+|---|---|---:|---|---:|---:|
+| Equation-only | `benchmarks/medcalc/results/20260430.004024.react_train_equation_4pc/` | 95/132 = 72.0% | `benchmarks/medcalc/learned/equation-4pc-pro-mp3/20260430.020302.calculate_medical_value__ptool_inducer/` | 119 | 3 |
+| Rule-only | `benchmarks/medcalc/results/20260430.013446.react_train_rule_4pc/` | 39/76 = 51.3% | `benchmarks/medcalc/learned/rule-4pc-pro-mp3/20260430.020806.calculate_medical_value__ptool_inducer/` | 75 | 3 |
+
+### OrchestrationLearner results
+
+| Experiment | Orchestrator run directory | Best iteration | Train accuracy | Held-out eval accuracy | Final ptools |
+|---|---|---:|---:|---:|---|
+| Equation-only | `benchmarks/medcalc/results/orchestration_learner/20260430.021235.orch_learner/` | 0 | 96/132 = 72.7% | 51/66 = 77.3% | `benchmarks/medcalc/ptools_induced_equation_evolved.py` |
+| Rule-only | `benchmarks/medcalc/results/orchestration_learner/20260430.035155.orch_learner/` | 0 | 31/76 = 40.8% | 19/38 = 50.0% | `benchmarks/medcalc/ptools_induced_rule_evolved.py` |
+
+Per-iteration train/eval result directories were written next to the learner run directories. Important baseline directories:
+
+- Equation train iter0: `benchmarks/medcalc/results/orchestration_learner/20260430.021402.rc_iter0/`
+- Equation eval iter0: `benchmarks/medcalc/results/orchestration_learner/20260430.025618.rc_iter0_eval/`
+- Rule train iter0: `benchmarks/medcalc/results/orchestration_learner/20260430.035321.rc_iter0/`
+- Rule eval iter0: `benchmarks/medcalc/results/orchestration_learner/20260430.042544.rc_iter0_eval/`
+
+The learner's in-process final eval hit tool-name registration conflicts for both runs, so those final-eval CSVs should not be used as metrics. Fresh-process benchmark evaluations below are the valid final numbers for the existing benchmark subsets.
+
+### Existing benchmark subset evaluation
+
+These evaluations used the exact existing benchmark case lists under `benchmarks/results/medcalc/` and loaded those case IDs from the cached MedCalc train split.
+
+| Experiment | Benchmark result directory | Cases | Accuracy | Exact match | Final ptools |
+|---|---|---:|---:|---:|---|
+| Equation-only | `benchmarks/medcalc/results/benchmark_eval/20260430.051051.equation_orch_on_existing_benchmark/` | 205 | 162/205 = 79.0% | 64.9% | `benchmarks/medcalc/ptools_induced_equation_evolved.py` |
+| Rule-only | `benchmarks/medcalc/results/benchmark_eval/20260430.061531.rule_orch_on_existing_benchmark/` | 64 | 33/64 = 51.6% | 51.6% | `benchmarks/medcalc/ptools_induced_rule_evolved.py` |
+
+Equation category breakdown:
+
+| Category | Cases | Accuracy |
+|---|---:|---:|
+| dosage | 4 | 4/4 = 100.0% |
+| lab test | 84 | 55/84 = 65.5% |
+| physical | 117 | 103/117 = 88.0% |
+
+Rule category breakdown:
+
+| Category | Cases | Accuracy |
+|---|---:|---:|
+| diagnosis | 10 | 6/10 = 60.0% |
+| risk | 46 | 22/46 = 47.8% |
+| severity | 8 | 5/8 = 62.5% |
+
+### Interpretation
+
+The equation-only induced ptools generalized reasonably well to the existing equation benchmark subset, especially physical calculators. The rule-only induced ptools remained close to the trace-generation baseline and were weakest on risk-score cases, which still require careful criterion-by-criterion mapping and summation.
+
+The completed supervisor runs did not produce an accepted improvement. Several proposed changes failed because they changed the SecretAgent interface/config shape or introduced duplicate tool-name registration problems during same-process reload/evaluation. The committed ptool modules are therefore the induced versions, not supervisor-modified versions.
+
+---
+
 ## 1. What is this experiment about?
 
 MedCalc-Bench is a dataset of 10,543 medical calculation problems. Each problem gives a patient clinical note and asks a numerical question like "What is this patient's CHA2DS2-VASc score?" or "Calculate the patient's BMI." The model must extract the right numbers from the note, pick the right formula, and compute the answer.
@@ -447,6 +532,25 @@ All costs are for Gemini at published pricing ($0.25/$1.50 per million input/out
 | `results/orchestration_learner/20260427.021444.orch_learner/` | Full run directory |
 | `results/orchestration_learner/20260427.021444.orch_learner/report.html` | Interactive HTML report |
 | `results/orchestration_learner/20260427.021444.orch_learner/iterations/` | Per-iteration before/after code, reasoning, traces |
+
+### 2026-04-30 equation-only/rule-only artifacts
+
+| File or directory | Purpose |
+|------|---------|
+| `benchmarks/medcalc/ptools_induced_equation.py` | Built equation-only ptools from the equation-only trace induction |
+| `benchmarks/medcalc/ptools_induced_equation_evolved.py` | Final equation-only ptools after the completed OrchestrationLearner run; same as built ptools because no supervisor edit was kept |
+| `benchmarks/medcalc/ptools_induced_rule.py` | Built rule-only ptools from the rule-only trace induction |
+| `benchmarks/medcalc/ptools_induced_rule_evolved.py` | Final rule-only ptools after the completed OrchestrationLearner run; same as built ptools because no supervisor edit was kept |
+| `benchmarks/medcalc/conf/induced_orch_equation.yaml` | Evaluation/orchestrator config for equation-only induced ptools |
+| `benchmarks/medcalc/conf/induced_orch_rule.yaml` | Evaluation/orchestrator config for rule-only induced ptools |
+| `benchmarks/medcalc/learned/equation-4pc-pro-mp3/20260430.020302.calculate_medical_value__ptool_inducer/` | Raw equation-only PtoolInducer output |
+| `benchmarks/medcalc/learned/rule-4pc-pro-mp3/20260430.020806.calculate_medical_value__ptool_inducer/` | Raw rule-only PtoolInducer output |
+| `benchmarks/medcalc/results/20260430.004024.react_train_equation_4pc/` | Equation-only trace-generation results used as induction input |
+| `benchmarks/medcalc/results/20260430.013446.react_train_rule_4pc/` | Rule-only trace-generation results used as induction input |
+| `benchmarks/medcalc/results/orchestration_learner/20260430.021235.orch_learner/` | Completed equation-only OrchestrationLearner run directory |
+| `benchmarks/medcalc/results/orchestration_learner/20260430.035155.orch_learner/` | Completed rule-only OrchestrationLearner run directory |
+| `benchmarks/medcalc/results/benchmark_eval/20260430.051051.equation_orch_on_existing_benchmark/` | Fresh-process equation-only evaluation on the existing benchmark subset |
+| `benchmarks/medcalc/results/benchmark_eval/20260430.061531.rule_orch_on_existing_benchmark/` | Fresh-process rule-only evaluation on the existing benchmark subset |
 
 ---
 

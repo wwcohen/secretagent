@@ -1,0 +1,14 @@
+1. **What SPECIFIC failure pattern did you identify?**
+   There are two main failure patterns:
+   - **Schema Validation Crashes (3 cases):** The main entry point `calculate_medical_value` enforces a `float` return schema. When the LLM attempts to output step-by-step text to explain its reasoning, it fails validation, resulting in a retry loop and eventually an `**exception raised**: The next request would exceed the request_limit of 50`.
+   - **Zero-Shot Calculation Errors (42 cases):** Because the agent directly calls `calculate_medical_value` and tries to output the float zero-shot (without Chain of Thought), it makes significant math and threshold errors on complex medical scores like APACHE II, HEART, Caprini, and HAS-BLED. The provided computational tools (`calculate_clinical_score`, etc.) are completely ignored because the agent is not instructed to use them.
+
+2. **How many of the shown failures share this pattern?**
+   All 45 failures fall into these two patterns (3 crashes + 42 math/logic errors).
+
+3. **What is the MINIMAL change that fixes this pattern?**
+   Instead of modifying signatures (which broke Iteration 3) or changing `@interface` to `@implement_via('direct')` (which broke Iterations 1 & 2), the safest fix is to heavily modify the docstring of the main `@interface` entry point. 
+   I added `CRITICAL INSTRUCTIONS` telling the LLM that it **MUST** use the `calculate_clinical_score` tool *before* answering. Crucially, because the tool's signature only accepts a `focus: str`, I explicitly instructed the LLM to pack BOTH the patient details and the score name into the `focus` parameter. Finally, I reinforced that its ultimate output must be a pure float to prevent schema crashes.
+
+4. **Why will this change NOT break currently working cases?**
+   This approach preserves all existing function signatures, decorators, and the internal `_extract_number` logic. It respects the OrchestrationLearner's structural expectations completely. By only altering the natural language instructions, it safely guides the LLM to use the provided tools for step-by-step reasoning without disrupting the underlying `secretagent` pipeline execution.

@@ -1,0 +1,65 @@
+case_name,predicted_output,predicted_numeric,expected_output,correct,exact_match,within_limits,absolute_error,calculator_name,category,output_type,input_tokens,output_tokens,latency,cost,expt_name
+train.4160,3.0,3.0,3.0,1.0,1.0,1.0,0.0,HEART Score for Major Cardiac Events,risk,integer,3073.0,189.0,28.272056102752686,0.00105175,rule_orch_on_existing_benchmark
+train.10096,13.0,13.0,13.0,1.0,1.0,1.0,0.0,Glasgow Coma Score (GCS),severity,integer,5099.0,219.0,30.816479444503784,0.0016032499999999999,rule_orch_on_existing_benchmark
+train.6707,1.0,1.0,2.0,0.0,0.0,0.0,1.0,SIRS Criteria,diagnosis,integer,7216.0,381.0,77.9222366809845,0.0023755,rule_orch_on_existing_benchmark
+train.6764,0.0,0.0,0.0,1.0,1.0,1.0,0.0,SIRS Criteria,diagnosis,integer,7214.0,500.0,91.77690172195435,0.0025535,rule_orch_on_existing_benchmark
+train.3072,0.0,0.0,0.0,1.0,1.0,1.0,0.0,Wells' Criteria for Pulmonary Embolism,risk,integer,9737.0,305.0,106.46908116340637,0.00289175,rule_orch_on_existing_benchmark
+train.6535,2.0,2.0,2.0,1.0,1.0,1.0,0.0,PERC Rule for Pulmonary Embolism,diagnosis,integer,3739.0,193.0,48.374632358551025,0.0012242499999999999,rule_orch_on_existing_benchmark
+train.10272,4.0,4.0,6.0,0.0,0.0,0.0,2.0,Charlson Comorbidity Index (CCI),risk,integer,5708.0,65.0,37.98642158508301,0.0015244999999999998,rule_orch_on_existing_benchmark
+train.10336,4.0,4.0,3.0,0.0,0.0,0.0,1.0,HAS-BLED Score for Major Bleeding Risk,risk,integer,8212.0,312.0,66.03445649147034,0.002521,rule_orch_on_existing_benchmark
+train.2753,4.5,4.5,0.0,0.0,0.0,0.0,4.5,Wells' Criteria for Pulmonary Embolism,risk,integer,3857.0,174.0,13.559721231460571,0.00122525,rule_orch_on_existing_benchmark
+train.6594,1.0,1.0,1.0,1.0,1.0,1.0,0.0,PERC Rule for Pulmonary Embolism,diagnosis,integer,6436.0,233.0,114.42417788505554,0.0019585,rule_orch_on_existing_benchmark
+train.10358,3.0,3.0,3.0,1.0,1.0,1.0,0.0,HAS-BLED Score for Major Bleeding Risk,risk,integer,5178.0,236.0,38.290000677108765,0.0016484999999999998,rule_orch_on_existing_benchmark
+train.2867,0.0,0.0,1.5,0.0,0.0,0.0,1.5,Wells' Criteria for Pulmonary Embolism,risk,integer,26889.0,355.0,241.3304476737976,0.00725475,rule_orch_on_existing_benchmark
+train.10283,6.0,6.0,8.0,0.0,0.0,0.0,2.0,Charlson Comorbidity Index (CCI),risk,integer,5365.0,164.0,28.019114017486572,0.0015872500000000001,rule_orch_on_existing_benchmark
+train.0974,3.0,3.0,3.0,1.0,1.0,1.0,0.0,CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk,risk,integer,3783.0,168.0,34.42571806907654,0.00119775,rule_orch_on_existing_benchmark
+train.2797,4.5,4.5,1.5,0.0,0.0,0.0,3.0,Wells' Criteria for Pulmonary Embolism,risk,integer,3821.0,189.0,11.912873029708862,0.0012387499999999998,rule_orch_on_existing_benchmark
+train.9643,2.0,2.0,2.0,1.0,1.0,1.0,0.0,Glasgow-Blatchford Bleeding Score (GBS),risk,integer,9750.0,416.0,78.88556861877441,0.0030615,rule_orch_on_existing_benchmark
+train.9481,7.0,7.0,7.0,1.0,1.0,1.0,0.0,Child-Pugh Score for Cirrhosis Mortality,severity,integer,13822.0,326.0,95.35706877708435,0.0039445,rule_orch_on_existing_benchmark
+train.3041,6.0,6.0,4.5,0.0,0.0,0.0,1.5,Wells' Criteria for Pulmonary Embolism,risk,integer,3583.0,146.0,55.67219686508179,0.0011147499999999999,rule_orch_on_existing_benchmark
+train.0706,3.0,3.0,3.0,1.0,1.0,1.0,0.0,CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk,risk,integer,4822.0,152.0,53.491008281707764,0.0014334999999999999,rule_orch_on_existing_benchmark
+train.6419,3.0,3.0,3.0,1.0,1.0,1.0,0.0,CURB-65 Score for Pneumonia Severity,risk,integer,8143.0,190.0,164.8623707294464,0.00232075,rule_orch_on_existing_benchmark
+train.4108,3.0,3.0,3.0,1.0,1.0,1.0,0.0,HEART Score for Major Cardiac Events,risk,integer,2891.0,137.0,47.80150771141052,0.00092825,rule_orch_on_existing_benchmark
+train.6581,3.0,3.0,4.0,0.0,0.0,0.0,1.0,PERC Rule for Pulmonary Embolism,diagnosis,integer,9404.0,190.0,107.53871130943298,0.002636,rule_orch_on_existing_benchmark
+train.4139,1.0,1.0,1.0,1.0,1.0,1.0,0.0,HEART Score for Major Cardiac Events,risk,integer,3256.0,154.0,25.401191473007202,0.001045,rule_orch_on_existing_benchmark
+train.6778,0.0,0.0,0.0,1.0,1.0,1.0,0.0,SIRS Criteria,diagnosis,integer,18096.0,193.0,151.52715373039246,0.004813499999999999,rule_orch_on_existing_benchmark
+train.0661,3.0,3.0,4.0,0.0,0.0,0.0,1.0,CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk,risk,integer,3964.0,142.0,30.424354314804077,0.001204,rule_orch_on_existing_benchmark
+train.0842,2.0,2.0,2.0,1.0,1.0,1.0,0.0,CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk,risk,integer,3400.0,125.0,32.17971992492676,0.0010375,rule_orch_on_existing_benchmark
+train.3025,1.5,1.5,1.5,1.0,1.0,1.0,0.0,Wells' Criteria for Pulmonary Embolism,risk,integer,6659.0,257.0,73.42023992538452,0.00205025,rule_orch_on_existing_benchmark
+train.0665,3.0,3.0,3.0,1.0,1.0,1.0,0.0,CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk,risk,integer,5643.0,176.0,79.82747030258179,0.00167475,rule_orch_on_existing_benchmark
+train.10510,4.0,4.0,4.0,1.0,1.0,1.0,0.0,APACHE II Score,risk,integer,4957.0,156.0,47.16371273994446,0.00147325,rule_orch_on_existing_benchmark
+train.9660,6.0,6.0,4.0,0.0,0.0,0.0,2.0,Glasgow-Blatchford Bleeding Score (GBS),risk,integer,10591.0,234.0,118.20415019989014,0.00299875,rule_orch_on_existing_benchmark
+train.0779,4.0,4.0,4.0,1.0,1.0,1.0,0.0,CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk,risk,integer,3857.0,122.0,34.79792666435242,0.0011472499999999998,rule_orch_on_existing_benchmark
+train.10421,1.0,1.0,2.0,0.0,0.0,0.0,1.0,Revised Cardiac Risk Index for Pre-Operative Risk,risk,integer,8583.0,84.0,55.40719127655029,0.00227175,rule_orch_on_existing_benchmark
+train.9949,120.0,120.0,120.0,1.0,1.0,1.0,0.0,PSI Score: Pneumonia Severity Index for CAP,severity,integer,12249.0,416.0,68.015465259552,0.00368625,rule_orch_on_existing_benchmark
+train.4437,3.0,3.0,3.0,1.0,1.0,1.0,0.0,Centor Score (Modified/McIsaac) for Strep Pharyngitis,severity,integer,2971.0,154.0,36.09508514404297,0.0009737499999999999,rule_orch_on_existing_benchmark
+train.9959,12.0,12.0,16.0,0.0,0.0,0.0,4.0,Caprini Score for Venous Thromboembolism (2005),risk,integer,25615.0,592.0,133.70454382896423,0.00729175,rule_orch_on_existing_benchmark
+train.10017,**exception raised**: The next request would exceed the request_limit of 50,,11.0,0.0,0.0,0.0,inf,Caprini Score for Venous Thromboembolism (2005),risk,integer,,,,,rule_orch_on_existing_benchmark
+train.0979,3.0,3.0,3.0,1.0,1.0,1.0,0.0,CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk,risk,integer,3441.0,135.0,26.337754487991333,0.0010627500000000001,rule_orch_on_existing_benchmark
+train.0870,1.0,1.0,1.0,1.0,1.0,1.0,0.0,CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk,risk,integer,4812.0,73.0,47.408947229385376,0.0013124999999999999,rule_orch_on_existing_benchmark
+train.9572,10.0,10.0,9.0,0.0,0.0,0.0,1.0,Sequential Organ Failure Assessment (SOFA) Score,risk,integer,7439.0,124.0,69.80711531639099,0.00204575,rule_orch_on_existing_benchmark
+train.10432,2.0,2.0,2.0,1.0,1.0,1.0,0.0,Revised Cardiac Risk Index for Pre-Operative Risk,risk,integer,12084.0,331.0,119.35885834693909,0.0035175,rule_orch_on_existing_benchmark
+train.5885,3.0,3.0,2.0,0.0,0.0,0.0,1.0,FeverPAIN Score for Strep Pharyngitis,diagnosis,integer,8881.0,135.0,77.38148593902588,0.00242275,rule_orch_on_existing_benchmark
+train.6621,3.0,3.0,3.0,1.0,1.0,1.0,0.0,SIRS Criteria,diagnosis,integer,7218.0,303.0,103.41796946525574,0.0022589999999999997,rule_orch_on_existing_benchmark
+train.2733,4.5,4.5,7.0,0.0,0.0,0.0,2.5,Wells' Criteria for Pulmonary Embolism,risk,integer,4441.0,45.0,11.862588882446289,0.00117775,rule_orch_on_existing_benchmark
+train.9439,13.0,13.0,12.0,0.0,0.0,0.0,1.0,Child-Pugh Score for Cirrhosis Mortality,severity,integer,7254.0,355.0,81.36282515525818,0.002346,rule_orch_on_existing_benchmark
+train.2766,0.0,0.0,0.0,1.0,1.0,1.0,0.0,Wells' Criteria for Pulmonary Embolism,risk,integer,3760.0,113.0,33.062779903411865,0.0011095,rule_orch_on_existing_benchmark
+train.0734,3.0,3.0,4.0,0.0,0.0,0.0,1.0,CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk,risk,integer,3921.0,141.0,41.716269731521606,0.00119175,rule_orch_on_existing_benchmark
+train.6682,3.0,3.0,3.0,1.0,1.0,1.0,0.0,SIRS Criteria,diagnosis,integer,6935.0,270.0,78.59211945533752,0.00213875,rule_orch_on_existing_benchmark
+train.1005,**exception raised**: The next request would exceed the request_limit of 50,,4.0,0.0,0.0,0.0,inf,CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk,risk,integer,,,,,rule_orch_on_existing_benchmark
+train.4407,1.0,1.0,2.0,0.0,0.0,0.0,1.0,Centor Score (Modified/McIsaac) for Strep Pharyngitis,severity,integer,13801.0,257.0,50.903247117996216,0.0038357499999999998,rule_orch_on_existing_benchmark
+train.6641,2.0,2.0,3.0,0.0,0.0,0.0,1.0,SIRS Criteria,diagnosis,integer,7281.0,166.0,76.47557854652405,0.00206925,rule_orch_on_existing_benchmark
+train.6408,0.0,0.0,2.0,0.0,0.0,0.0,2.0,CURB-65 Score for Pneumonia Severity,risk,integer,8631.0,247.0,98.55379962921143,0.00252825,rule_orch_on_existing_benchmark
+train.4154,4.0,4.0,4.0,1.0,1.0,1.0,0.0,HEART Score for Major Cardiac Events,risk,integer,5182.0,103.0,37.84572100639343,0.00145,rule_orch_on_existing_benchmark
+train.4121,8.0,8.0,6.0,0.0,0.0,0.0,2.0,HEART Score for Major Cardiac Events,risk,integer,8561.0,363.0,133.61070084571838,0.0026847499999999996,rule_orch_on_existing_benchmark
+train.0826,1.0,1.0,2.0,0.0,0.0,0.0,1.0,CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk,risk,integer,7894.0,195.0,54.444321632385254,0.002266,rule_orch_on_existing_benchmark
+train.2942,0.0,0.0,1.5,0.0,0.0,0.0,1.5,Wells' Criteria for Pulmonary Embolism,risk,integer,10604.0,265.0,121.9500982761383,0.0030484999999999996,rule_orch_on_existing_benchmark
+train.9895,153.0,153.0,153.0,1.0,1.0,1.0,0.0,PSI Score: Pneumonia Severity Index for CAP,severity,integer,21493.0,306.0,202.41411519050598,0.00583225,rule_orch_on_existing_benchmark
+train.2932,4.5,4.5,1.5,0.0,0.0,0.0,3.0,Wells' Criteria for Pulmonary Embolism,risk,integer,5482.0,122.0,40.262879848480225,0.0015535,rule_orch_on_existing_benchmark
+train.2956,0.0,0.0,1.5,0.0,0.0,0.0,1.5,Wells' Criteria for Pulmonary Embolism,risk,integer,4367.0,165.0,43.127065658569336,0.0013392500000000002,rule_orch_on_existing_benchmark
+train.0912,3.0,3.0,3.0,1.0,1.0,1.0,0.0,CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk,risk,integer,3762.0,123.0,50.17442226409912,0.001125,rule_orch_on_existing_benchmark
+train.9615,0.0,0.0,0.0,1.0,1.0,1.0,0.0,Sequential Organ Failure Assessment (SOFA) Score,risk,integer,11107.0,251.0,79.47632884979248,0.00315325,rule_orch_on_existing_benchmark
+train.0897,3.0,3.0,5.0,0.0,0.0,0.0,2.0,CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk,risk,integer,3185.0,134.0,72.42256546020508,0.0009972499999999999,rule_orch_on_existing_benchmark
+train.9510,3.0,3.0,3.0,1.0,1.0,1.0,0.0,Wells' Criteria for DVT,risk,decimal,11051.0,329.0,77.83264303207397,0.00325625,rule_orch_on_existing_benchmark
+train.10039,9.0,9.0,8.0,0.0,0.0,0.0,1.0,Glasgow Coma Score (GCS),severity,integer,19070.0,375.0,95.04013466835022,0.00533,rule_orch_on_existing_benchmark
+train.10534,8.0,8.0,7.0,0.0,0.0,0.0,1.0,APACHE II Score,risk,integer,15266.0,244.0,112.93293786048889,0.0041825000000000005,rule_orch_on_existing_benchmark

@@ -1,0 +1,168 @@
+<reasoning>
+1. **What SPECIFIC failure pattern did you identify?**
+   The pipeline currently suffers from two major issues:
+   - **Zero-Shot Calculation Errors:** The orchestrator agent is forced to calculate complex medical scores (like APACHE II, Caprini, HEART) zero-shot because the provided step-by-step computational tools (`calculate_clinical_score`, etc.) lack the `@interface` decorator. Without this decorator, the agent framework does not expose them as callable tools in the LLM's schema, making them invisible.
+   - **Schema Validation Crashes:** When the agent attempts to explain its math in the final output (compensating for the lack of CoT tools), it violates the strict `float` return schema of `calculate_medical_value`. This triggers JSON-schema validation errors, entering endless retry loops that culminate in `request_limit of 50` exceptions.
+
+2. **How many of the shown failures share this pattern?**
+   All 45 failures stem from these intertwined architectural issues. The 42 calculation errors are due to the inability to perform explicit Chain-of-Thought, and the 3 exceptions are due to schema retry crashes.
+
+3. **What is the MINIMAL change that fixes this pattern?**
+   - I added the `@interface` decorator to the three induced ptools (`calculate_clinical_score`, etc.). This formally registers them in the Orchestrator's tool schema so they can actually be used.
+   - I updated the signatures of these tools from `(focus: str)` to `(patient_note: str, score_name: str)` and updated their internal docstrings so the agent knows exactly how to pass arguments without hacking them together.
+   - I updated the docstring of the main entry point `calculate_medical_value` with a `CRITICAL INSTRUCTION` guiding the Orchestrator to *first* call `calculate_clinical_score` for the step-by-step breakdown, and *only then* output the final float. 
+
+4. **Why will this change NOT break currently working cases?**
+   Unlike previous iterations that attempted to hijack the execution flow by changing the entry point to a `direct` python implementation (which bypassed the Orchestrator's natural routing and fell back to the 40.8% baseline), this safely preserves `calculate_medical_value` as an `@interface`. It just gives the Orchestrator the tools it previously lacked. Furthermore, by strictly commanding the agent to return a raw float at the end, we prevent schema validation crashes without altering the underlying python pipeline typing.
+</reasoning>
+
+<ptools_file>
+"""Self-contained ptools module wrapping induced helpers.
+
+Hand-derived from the winning induction variant in learned/rule-4pc-pro-mp3.
+Designed to be ingested by OrchestrationLearner via inspect.getsource:
+the file MUST have no indirection — every symbol the supervisor sees
+lives here.
+"""
+
+import re
+from typing import Optional
+
+from secretagent.core import interface, implement_via
+
+# Reuse the existing medcalc machinery (formulas + calculator engine).
+# Only computational helpers are imported; nothing that wires interfaces.
+import calculator_simple
+import calculators
+
+
+# =============================================================================
+# Induced ptools (inlined from learned/rule-4pc-pro-mp3)
+# =============================================================================
+
+@interface
+@implement_via('simulate')
+def map_patient_data_to_score(patient_note: str, score_name: str) -> str:
+    """
+    Maps extracted patient data to the criteria of a specific medical score or formula to calculate the total.
+
+    Provide the `patient_note` and the `score_name`. The response will break down each criterion, evaluate the patient's data against it, assign the corresponding points, and calculate the final total.
+
+    Pay attention to the exact thresholds, units, and point values defined by the medical score (e.g., Age >= 65, HR > 100, specific biomarker ranges). Make sure to explicitly note criteria that receive 0 points due to lack of evidence, falling outside the risk thresholds, or normal findings.
+
+    Returns:
+    Score Name: [Name of the Score]
+    - [Criterion 1]: [Patient Data / Observation] -> [Points]
+    - [Criterion 2]: [Patient Data / Observation] -> [Points]
+    ...
+    Total Score: [Calculated Sum]
+    """
+
+
+@interface
+@implement_via('simulate')
+def compute_score_step_by_step(patient_note: str, score_name: str) -> str:
+    """
+    Computes a medical score manually step-by-step. Provide the `patient_note` and the `score_name` (e.g., 'CURB-65', 'Caprini VTE').
+
+    The response will structure the calculation by:
+    1. Listing all the criteria evaluated for the score.
+    2. Stating the patient's specific extracted data or status for each criterion.
+    3. Assigning the exact point value (including 0 points for absent symptoms or normal findings) for each criterion.
+    4. Providing the explicit mathematical sum of the points to reach the final total score.
+
+    Pay attention to the specific definitions, thresholds, and exclusions for each scoring criterion to ensure accurate point assignment.
+
+    Returns:
+    - **[Criterion 1]**: [Patient's status/value] ([X] points)
+    - **[Criterion 2]**: [Patient's status/value] ([Y] points)
+    ...
+    Calculation: [X] + [Y] + ... = [Total Score]
+    """
+
+
+@interface
+@implement_via('simulate')
+def calculate_clinical_score(patient_note: str, score_name: str) -> str:
+    """
+    Calculates a specified medical score by extracting relevant clinical criteria and applying the appropriate scoring formula.
+
+    Information to extract/reason about:
+    - Identify the required parameters for the specific score indicated in `score_name` (e.g., 'SOFA score', 'Child-Pugh score', 'Charlson Comorbidity Index').
+    - Extract the corresponding clinical values (lab results, vitals, comorbidities, age) from `patient_note`.
+
+    How the response should be structured:
+    - Provide a step-by-step list of each parameter evaluated.
+    - Note the extracted patient value for each parameter.
+    - State the points assigned based on the specific scoring criteria.
+    - Provide a final summation equation yielding the total score.
+
+    What the agent should pay attention to:
+    - Accurately apply clinical thresholds, age brackets, and unit conversions.
+    - Account for missing information properly (e.g., defaulting to normal/0 points if the score guidelines permit, or noting the missing data).
+    - Ensure strict arithmetic correctness when summing the assigned points. Double-check your final addition.
+
+    Returns:
+    A structured string detailing the score calculation step-by-step.
+
+    Example:
+    Score Calculation: SOFA score
+    1. Respiration: PaO2/FiO2 = 160 -> Score = 3
+    2. Coagulation: Platelets = 110,000/uL -> Score = 1
+    3. Liver: Bilirubin = 1.4 mg/dL -> Score = 1
+    4. Cardiovascular: MAP = 57.3 mmHg -> Score = 1
+    5. Neurological: GCS = 5 -> Score = 4
+    6. Renal: Creatinine = 2.2 mg/dL -> Score = 2
+    Total SOFA Score = 3 + 1 + 1 + 1 + 4 + 2 = 12
+    """
+
+# =============================================================================
+# Public entry point — calculate_medical_value
+# =============================================================================
+
+@interface
+def calculate_medical_value(patient_note: str, question: str) -> float:
+    """Calculate a medical value from a patient note and question.
+    
+    CRITICAL INSTRUCTION: For medical risk scores and complex clinical rules (e.g., APACHE II, 
+    HEART, Caprini, HAS-BLED, Wells', GBS, PERC, CCI, SOFA, Child-Pugh, Centor, etc.), 
+    you MUST NOT attempt to calculate the score zero-shot. 
+    
+    Instead, you MUST first call the `calculate_clinical_score` tool (or one of the other 
+    step-by-step tools). Pass it the `patient_note` and the `score_name` requested in the question.
+    
+    Wait for the tool to return the detailed criteria breakdown and the final mathematical sum.
+    Then, and ONLY then, return the final calculated score as a raw float (e.g., 12.0). 
+    Do not include any reasoning or text in your final output to avoid schema errors.
+    """
+
+
+
+
+def _extract_number(value) -> Optional[float]:
+    if value is None:
+        return None
+    if isinstance(value, (int, float)):
+        return float(value)
+    s = str(value)
+    if s.startswith('**exception'):
+        return None
+    try:
+        return float(s)
+    except ValueError:
+        pass
+    for pat in (r'<answer>\s*([\d.eE+-]+)\s*</answer>', r'ANSWER:\s*([\d.eE+-]+)'):
+        m = re.search(pat, s)
+        if m:
+            try:
+                return float(m.group(1))
+            except ValueError:
+                pass
+    nums = re.findall(r'-?\d+\.?\d*', s)
+    if nums:
+        try:
+            return float(nums[-1])
+        except ValueError:
+            pass
+    return None
+</ptools_file>
