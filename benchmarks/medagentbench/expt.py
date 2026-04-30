@@ -309,14 +309,15 @@ def setup(dotlist: list[str], config_file: Path | None = None) -> tuple[Dataset,
     config.configure(yaml_file=config_file, dotlist=dotlist)
     config.set_root(_BENCHMARK_DIR)
 
-    # Verify FHIR server
-    fhir_base = config.get('fhir.api_base', 'http://localhost:8080/fhir/')
-    fhir_tools.set_api_base(fhir_base)
-    if not fhir_tools.verify_fhir_server():
-        print(f'ERROR: FHIR server not reachable at {fhir_base}')
-        print('Start it with: docker run -d -p 8080:8080 jyxsu6/medagentbench:latest')
-        raise SystemExit(1)
-    print(f'FHIR server OK at {fhir_base}')
+    if not 'baseline' in str(config_file):
+        # Verify FHIR server for tool-using
+        fhir_base = config.get('fhir.api_base', 'http://localhost:8080/fhir/')
+        fhir_tools.set_api_base(fhir_base)
+        if not fhir_tools.verify_fhir_server():
+            print(f'ERROR: FHIR server not reachable at {fhir_base}')
+            print('Start it with: docker run -d -p 8080:8080 jyxsu6/medagentbench:latest')
+            raise SystemExit(1)
+        print(f'FHIR server OK at {fhir_base}')
 
     # Load dataset
     version = config.get('dataset.version', 'v2')

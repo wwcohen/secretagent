@@ -1,0 +1,1128 @@
+case_name,predicted_output,expected_output,correct,input_tokens,output_tokens,latency,cost,expt_name
+33817,22,19,False,1118.0,175.0,4.339766979217529,0.0009683000000000001,orchestrated_evolve
+18986,Timothy seed,7,False,1113.0,47.0,1.9585943222045898,0.0007476999999999999,orchestrated_evolve
+1288,5.0,5,True,1093.0,53.0,2.585270881652832,0.0007459,orchestrated_evolve
+34752,85,85,True,1215.0,114.0,3.322288990020752,0.0009227999999999999,orchestrated_evolve
+29227,0.24,0.24,True,1124.0,48.0,2.2179272174835205,0.0007559999999999998,orchestrated_evolve
+18048,hazelnuts,51.45,False,1099.0,612.0,16.09281635284424,0.0016998,orchestrated_evolve
+3527,109.53,109.53,True,1128.0,128.0,3.367002487182617,0.0008944,orchestrated_evolve
+27944,23,23,True,1269.0,103.0,3.4862215518951416,0.0009364999999999998,orchestrated_evolve
+13497,8,9,False,1190.0,389.0,9.496557235717773,0.0013753,orchestrated_evolve
+19411,7,7,True,1106.0,582.0,14.452898025512695,0.001653,orchestrated_evolve
+6626,2,-2,False,1128.0,122.0,3.6616604328155518,0.0008841999999999999,orchestrated_evolve
+30432,4,4,True,1138.0,380.0,9.551578998565674,0.0013288000000000002,orchestrated_evolve
+15918,nonlinear,nonlinear,True,1067.0,285.0,7.889499187469482,0.0011247,orchestrated_evolve
+22746,29,22,False,1119.0,143.0,4.374831676483154,0.0009145,orchestrated_evolve
+25289,779910,9,False,1094.0,508.0,10.533159255981445,0.00152,orchestrated_evolve
+18822,1,1,True,1113.0,279.0,7.58814549446106,0.0011421,orchestrated_evolve
+28247,King Edward potatoes 1.69/kg,6.76,False,1146.0,204.0,5.614900827407837,0.0010344,orchestrated_evolve
+2085,1,-1,False,1124.0,40.0,2.007150411605835,0.0007424,orchestrated_evolve
+13426,"**exception raised**: unterminated string literal (detected at line 1) (<unknown>, line 1)",11,False,734.0,1260.0,28.01529026031494,0.0025824,orchestrated_evolve
+27287,10,10,True,1135.0,122.0,4.298851490020752,0.0008884000000000001,orchestrated_evolve
+12914,2,20,False,1084.0,40.0,1.6971077919006348,0.0007183999999999999,orchestrated_evolve
+16900,41346,2/7,False,1144.0,324.0,8.059224128723145,0.0012372000000000001,orchestrated_evolve
+29793,0,0,True,1125.0,484.0,11.42823839187622,0.0014978,orchestrated_evolve
+17353,11,11,True,1207.0,355.0,8.202905893325806,0.0013277,orchestrated_evolve
+22927,2,2,True,1184.0,262.0,6.736427545547485,0.0011558,orchestrated_evolve
+17651,Timothy seed,7,False,1151.0,301.0,6.6314003467559814,0.0012023,orchestrated_evolve
+22739,3,3,True,1203.0,550.0,11.546145677566528,0.0016568000000000002,orchestrated_evolve
+20615,11,11,True,1110.0,244.0,5.9432008266448975,0.0010808,orchestrated_evolve
+13790,176.28,176.28,True,1109.0,143.0,3.4107913970947266,0.0009085,orchestrated_evolve
+28918,1.06,1.06,True,1092.0,144.0,4.053028345108032,0.0008999999999999999,orchestrated_evolve
+23399,19.27,19.27,True,1137.0,206.0,5.996330499649048,0.0010324,orchestrated_evolve
+35781,no,no,True,1114.0,321.0,6.452068567276001,0.0012140999999999999,orchestrated_evolve
+29944,?,6,False,1064.0,211.0,5.768955230712891,0.0009971,orchestrated_evolve
+18621,690,69/127,False,1102.0,349.0,9.809855222702026,0.0012545,orchestrated_evolve
+34882,no,yes,False,1107.0,117.0,3.8880045413970947,0.0008630999999999999,orchestrated_evolve
+13889,3,3,True,1185.0,312.0,6.809933423995972,0.0012414000000000001,orchestrated_evolve
+21997,5,25,False,1070.0,38.0,1.91520094871521,0.0007065999999999999,orchestrated_evolve
+27062,10,10,True,1162.0,92.0,3.272050619125366,0.0008535999999999999,orchestrated_evolve
+2178,-2,2,False,1124.0,348.0,9.068405628204346,0.0012659999999999998,orchestrated_evolve
+16080,6,6,True,1105.0,125.0,3.585453748703003,0.0008755,orchestrated_evolve
+2198,other,18,False,1134.0,528.0,11.68364405632019,0.0015780000000000002,orchestrated_evolve
+10348,5,25,False,1074.0,38.0,1.8802192211151123,0.000709,orchestrated_evolve
+29011,other,19/124,False,1096.0,375.0,8.30341124534607,0.0012951,orchestrated_evolve
+6681,1522.81,"1,522.81",True,1201.0,747.0,12.241739988327026,0.0019905,orchestrated_evolve
+17351,4,5,False,1156.0,222.0,4.866322755813599,0.001071,orchestrated_evolve
+29691,8,8,True,1178.0,1287.0,29.74918246269226,0.0028947,orchestrated_evolve
+6310,3,3,True,1120.0,416.0,9.291200876235962,0.0013792000000000001,orchestrated_evolve
+27569,"**exception raised**: unterminated string literal (detected at line 1) (<unknown>, line 1)",9:00 P.M.,False,980.0,1407.0,34.95868182182312,0.0029798999999999997,orchestrated_evolve
+5717,5,5/17,False,1155.0,131.0,3.9560282230377197,0.0009157,orchestrated_evolve
+4730,no,yes,False,1168.0,258.0,6.682430982589722,0.0011394,orchestrated_evolve
+21816,**exception raised**: malformed node or string on line 1: <ast.Name object at 0x11f417400>,July,False,588.0,22.0,1.4919219017028809,0.00039019999999999994,orchestrated_evolve
+24688,3,3,True,1119.0,116.0,3.6540772914886475,0.0008686,orchestrated_evolve
+36976,other,6,False,1097.0,168.0,4.669792890548706,0.0009438000000000001,orchestrated_evolve
+15761,34,-34,False,1118.0,227.0,6.409473419189453,0.0010567,orchestrated_evolve
+6749,-1,1,False,1098.0,352.0,8.69215178489685,0.0012572,orchestrated_evolve
+21521,4,-4,False,1124.0,131.0,3.9722166061401367,0.0008971000000000001,orchestrated_evolve
+8128,"**exception raised**: invalid syntax (<unknown>, line 1)",10,False,584.0,301.0,6.806241750717163,0.0008621,orchestrated_evolve
+11709,"**exception raised**: invalid syntax (<unknown>, line 1)",0.46,False,620.0,22.0,1.4154019355773926,0.0004094,orchestrated_evolve
+14730,6,6,True,1114.0,52.0,2.098881483078003,0.0007568,orchestrated_evolve
+28365,surplus,surplus,True,1188.0,510.0,10.847351312637329,0.0015798000000000001,orchestrated_evolve
+748,12,12,True,1184.0,763.0,15.8029043674469,0.0020074999999999997,orchestrated_evolve
+23579,2,2,True,1104.0,247.0,6.0822837352752686,0.0010823,orchestrated_evolve
+12840,2,2,True,1140.0,223.0,4.96853232383728,0.0010631,orchestrated_evolve
+13774,1.31,6.22,False,1110.0,379.0,7.175567865371704,0.0013103000000000001,orchestrated_evolve
+16134,"**exception raised**: unterminated string literal (detected at line 5) (<unknown>, line 5)",5,False,648.0,1031.0,21.25521683692932,0.0021415,orchestrated_evolve
+1529,Tuesday,Tuesday,True,1094.0,40.0,2.474928617477417,0.0007243999999999999,orchestrated_evolve
+626,4,4,True,1160.0,498.0,8.335649967193604,0.0015426000000000003,orchestrated_evolve
+54,surplus,shortage,False,1183.0,311.0,6.324966192245483,0.0012385,orchestrated_evolve
+21385,21,21,True,1138.0,874.0,18.50945210456848,0.0021686,orchestrated_evolve
+33078,522.00,522,True,1099.0,861.0,12.666295051574707,0.0021230999999999997,orchestrated_evolve
+7314,7,7,True,1189.0,574.0,10.238857746124268,0.0016892,orchestrated_evolve
+18477,58,58,True,1127.0,503.0,5.833853244781494,0.0015313000000000002,orchestrated_evolve
+9567,1.59,1.59,True,1126.0,115.0,4.087809801101685,0.0008711,orchestrated_evolve
+18972,10,16,False,1120.0,271.0,5.33463716506958,0.0011327,orchestrated_evolve
+34427,10,20,False,1064.0,92.0,3.487867832183838,0.0007948,orchestrated_evolve
+33850,59,59,True,1130.0,227.0,6.121917724609375,0.0010639,orchestrated_evolve
+2900,1.45,4.35,False,1126.0,131.0,3.4442098140716553,0.0008983,orchestrated_evolve
+26626,yes,yes,True,1137.0,284.0,6.152950048446655,0.0011649999999999998,orchestrated_evolve
+18995,12.11,16.98,False,1108.0,41.0,3.49249005317688,0.0007344999999999999,orchestrated_evolve
+33673,17.82,47.40,False,1116.0,330.0,7.672893285751343,0.0012306,orchestrated_evolve
+31688,-8,8,False,1154.0,42.0,4.675983428955078,0.0007638,orchestrated_evolve
+28606,6,12,False,1086.0,38.0,3.0858054161071777,0.0007162,orchestrated_evolve
+11551,0.53,0.53,True,1096.0,41.0,2.8571674823760986,0.0007272999999999998,orchestrated_evolve
+11449,44,22/81,False,1095.0,666.0,21.698142766952515,0.0017892,orchestrated_evolve
+6428,2,2.80,False,1118.0,314.0,11.285602569580078,0.0012046,orchestrated_evolve
+7285,1471,"1,471",True,1101.0,129.0,9.787927389144897,0.0008798999999999999,orchestrated_evolve
+34357,543,543,True,1091.0,234.0,7.7091381549835205,0.0010524,orchestrated_evolve
+25673,3,-3,False,1122.0,40.0,2.9868996143341064,0.0007412,orchestrated_evolve
+974,3151.00,"3,151",True,1191.0,160.0,8.531312942504883,0.0009866,orchestrated_evolve
+7505,9.70,35.33,False,1151.0,192.0,9.252379179000854,0.0010170000000000001,orchestrated_evolve
+20100,24850,"24,850",True,1128.0,334.0,14.118051052093506,0.0012446,orchestrated_evolve
+35255,-2625,"2,625",False,1114.0,50.0,3.398104190826416,0.0007534,orchestrated_evolve
+16053,no,yes,False,1170.0,474.0,15.417363405227661,0.0015078,orchestrated_evolve
+15293,5,5,True,1207.0,209.0,4.988238096237183,0.0010795,orchestrated_evolve
+22456,13111,"13,111",True,1137.0,174.0,4.893580436706543,0.000978,orchestrated_evolve
+19638,2,23,False,1080.0,663.0,16.367160320281982,0.0017751000000000002,orchestrated_evolve
+1318,March,March,True,1098.0,505.0,11.640495777130127,0.0015173,orchestrated_evolve
+29844,no,no,True,1104.0,1119.0,33.46499180793762,0.0025647,orchestrated_evolve
+11208,Salmon,4/11,False,1157.0,48.0,2.206386089324951,0.0007757999999999999,orchestrated_evolve
+22404,47.00,47,True,1120.0,122.0,7.373473167419434,0.0008793999999999999,orchestrated_evolve
+24781,9,9,True,1130.0,356.0,13.853273391723633,0.0012832,orchestrated_evolve
+35917,16,16,True,1109.0,396.0,14.907542705535889,0.0013386000000000001,orchestrated_evolve
+11698,0.80,1.60,False,1138.0,513.0,17.90926504135132,0.0015549000000000001,orchestrated_evolve
+36766,shortage,surplus,False,1188.0,321.0,7.678800344467163,0.0012584999999999999,orchestrated_evolve
+35414,3,3/17,False,1123.0,198.0,4.962625503540039,0.0010104,orchestrated_evolve
+32002,no,yes,False,1161.0,630.0,19.156246185302734,0.0017675999999999998,orchestrated_evolve
+27277,-4,4,False,1056.0,42.0,1.9464409351348877,0.000705,orchestrated_evolve
+35718,linear,nonlinear,False,1049.0,597.0,18.43503451347351,0.0016443,orchestrated_evolve
+19588,17,17,True,1101.0,213.0,8.602203845977783,0.0010227,orchestrated_evolve
+11327,1,-1,False,1108.0,264.0,8.831363916397095,0.0011136,orchestrated_evolve
+16285,7.0,7,True,1156.0,176.0,8.425180673599243,0.0009928,orchestrated_evolve
+1174,44.0,44,True,1118.0,135.0,7.118673086166382,0.0009003,orchestrated_evolve
+8615,10:15 A.M.,10:15 A.M.,True,1245.0,265.0,9.134013891220093,0.0011975,orchestrated_evolve
+30841,Watson High,Truman High,False,1110.0,48.0,2.9488203525543213,0.0007476,orchestrated_evolve
+9308,5,11,False,1148.0,46.0,2.5743253231048584,0.0007669999999999999,orchestrated_evolve
+5634,12,12,True,1096.0,149.0,3.9567017555236816,0.0009108999999999999,orchestrated_evolve
+12428,4,4,True,1118.0,270.0,6.415681600570679,0.0011298,orchestrated_evolve
+19229,Valentina,Valentina,True,1138.0,152.0,4.500633955001831,0.0009412,orchestrated_evolve
+20848,no,no,True,1244.0,447.0,8.953283309936523,0.0015063,orchestrated_evolve
+30253,"6,4,3,5,6,4,3,5",1/3,False,1157.0,701.0,18.304080724716187,0.0018859,orchestrated_evolve
+24577,7,7,True,1125.0,158.0,4.618894577026367,0.0009436,orchestrated_evolve
+7222,9,9,True,1119.0,212.0,5.755315065383911,0.0010318,orchestrated_evolve
+14096,Operation not supported,30,False,1085.0,603.0,13.952821254730225,0.0016761000000000002,orchestrated_evolve
+15883,yes,no,False,1132.0,276.0,8.650127649307251,0.0011484,orchestrated_evolve
+21468,1195,"1,195",True,1125.0,90.0,7.384677886962891,0.000828,orchestrated_evolve
+36188,13.0,13,True,1133.0,59.0,4.982030153274536,0.0007800999999999998,orchestrated_evolve
+12567,4.74,4.74,True,1098.0,241.0,10.938539505004883,0.0010685,orchestrated_evolve
+19149,2,2,True,1141.0,216.0,7.266552925109863,0.0010517999999999999,orchestrated_evolve
+30971,1,3,False,1171.0,353.0,13.288041591644287,0.0013027,orchestrated_evolve
+33019,5,62,False,1157.0,49.0,2.8921289443969727,0.0007775,orchestrated_evolve
+31395,19,19,True,1148.0,357.0,6.290568828582764,0.0012956999999999999,orchestrated_evolve
+13617,-29.00,29,False,1088.0,50.0,2.7932260036468506,0.0007378,orchestrated_evolve
+2596,107,107,True,1076.0,88.0,3.039515972137451,0.0007952,orchestrated_evolve
+21983,no,no,True,1162.0,213.0,4.9550862312316895,0.0010593,orchestrated_evolve
+29656,?,12,False,1083.0,292.0,6.588625907897949,0.0011461999999999998,orchestrated_evolve
+13529,-90,90,False,1079.0,100.0,3.1875030994415283,0.0008174,orchestrated_evolve
+32634,wrestling team,volleyball team,False,1101.0,710.0,16.243560552597046,0.0018676,orchestrated_evolve
+6738,12:30 P.M.,1:30 P.M.,False,1348.0,462.0,9.07765793800354,0.0015942,orchestrated_evolve
+34651,1.01,1.01,True,1112.0,136.0,3.5727806091308594,0.0008983999999999998,orchestrated_evolve
+34068,Sweden,Australia,False,1158.0,503.0,7.2494752407073975,0.0015498999999999999,orchestrated_evolve
+27223,-246.00,246,False,1110.0,140.0,4.222612619400024,0.0009040000000000001,orchestrated_evolve
+12746,0.06,0.07,False,1166.0,208.0,6.891635179519653,0.0010532,orchestrated_evolve
+35820,30,30,True,1122.0,237.0,7.355296850204468,0.0010761,orchestrated_evolve
+17301,"**exception raised**: invalid syntax (<unknown>, line 1)",3:35 P.M.,False,844.0,129.0,3.4141130447387695,0.0007256999999999999,orchestrated_evolve
+25979,"';
+```
+
+But wait: the `result` string actually starts with `</answer>` and then has a lot of explanatory text. This seems to be a mistake in the provided `result`? However, the function is called with `result = '...'` (a long string) and `choices = None`.
+
+The function should process this string to produce a clean output. Since it is free-text, it should return the result directly as a clean string. But what is the intended ""clean"" output? The `result` string itself discusses that the final answer is an empty string.
+
+Given that the function is designed to return a clean string (no extra text, no units), and the `result` string contains a lot of extra text, the function might be implemented to extract only the relevant part. However, the documentation does not specify how to clean the string. It just says ""return the result directly as a clean string"".
+
+But note: the `result` string includes the text ""Final output: <answer>';"" which is not clean. This might be an error in the problem setup.
+
+Alternatively, the function might be implemented to simply return the `result` string as is? But that would not be ""clean"" (it has extra text). So perhaps the function is intended to strip any extra text and return only the core answer.
+
+Given the confusion, let's look at the `result` string: it ends with ""Final output: <answer>';"". This suggests that the intended output is an empty string (since `';` is a string containing a single quote and a semicolon? But wait, no: it says ""<answer>';"" which is not valid.
+
+Wait, the `result` string is:
+```
+</answer>\n\nNote: ... (long text) ... Final output:\n<answer>';
+```
+So the string ends with `<answer>';`. This is likely a typo? It should be just `';`? But no, it is part of the text.
+
+Given the complexity, and since the function is supposed to return a clean string, the most reasonable interpretation is that the function should return the empty string (which is discussed in the result string) as the final answer.
+
+Therefore, the function should output an empty string.
+
+So for the call with `result = '...'` and `choices = None`, the function should return an empty string.
+
+Thus, the output should be nothing between the tags.
+
+<answer>",20,False,1293.0,1233.0,30.91890788078308,0.0028719,orchestrated_evolve
+12270,7.0,7,True,1162.0,100.0,3.400090217590332,0.0008671999999999999,orchestrated_evolve
+25277,"';
+```
+
+But wait: the `result` string actually starts with `</answer>` and then has a lot of explanatory text. This seems to be a mistake in the provided `result`? However, the function is called with `result = '...'` (a long string) and `choices = None`.
+
+The function should process this string to produce a clean output. Since it is free-text, it should return the result directly as a clean string. But what is the intended ""clean"" output? The `result` string itself discusses that the final answer is an empty string.
+
+Given that the function is designed to return a clean string (no extra text, no units), and the `result` string contains a lot of extra text, the function might be implemented to extract only the relevant part. However, the documentation does not specify how to clean the string. It just says ""return the result directly as a clean string"".
+
+But note: the `result` string includes the text ""Final output: <answer>';"" which is not clean. This might be an error in the problem setup.
+
+Alternatively, the function might be implemented to simply return the `result` string as is? But that would not be ""clean"" (it has extra text). So perhaps the function is intended to strip any extra text and return only the core answer.
+
+Given the confusion, let's look at the `result` string: it ends with ""Final output: <answer>';"". This suggests that the intended output is an empty string (since `';` is a string containing a single quote and a semicolon? But wait, no: it says ""<answer>';"" which is not valid.
+
+Wait, the `result` string is:
+```
+</answer>\n\nNote: ... (long text) ... Final output:\n<answer>';
+```
+So the string ends with `<answer>';`. This is likely a typo? It should be just `';`? But no, it is part of the text.
+
+Given the complexity, and since the function is supposed to return a clean string, the most reasonable interpretation is that the function should return the empty string (which is discussed in the result string) as the final answer.
+
+Therefore, the function should output an empty string.
+
+So for the call with `result = '...'` and `choices = None`, the function should return an empty string.
+
+Thus, the output should be nothing between the tags.
+
+<answer>",20,False,1307.0,1233.0,29.550275802612305,0.0028803,orchestrated_evolve
+29996,shortage,shortage,True,1187.0,983.0,17.456457138061523,0.0023833,orchestrated_evolve
+17268,other,3,False,1162.0,306.0,6.558124303817749,0.0012174,orchestrated_evolve
+19387,4,-4,False,1118.0,254.0,6.360658645629883,0.0011026,orchestrated_evolve
+27706,relay race,relay race,True,1445.0,339.0,8.307614803314209,0.0014433,orchestrated_evolve
+23413,8,8,True,1131.0,55.0,2.4659323692321777,0.0007721,orchestrated_evolve
+15130,The Real Chicago,The Real Chicago,True,1159.0,541.0,13.159623384475708,0.0016151,orchestrated_evolve
+7017,-3,3,False,1120.0,42.0,2.651282787322998,0.0007434,orchestrated_evolve
+15197,68,68,True,1193.0,870.0,19.86878228187561,0.0021948000000000002,orchestrated_evolve
+27521,8,12.80,False,1114.0,47.0,2.687230348587036,0.0007483,orchestrated_evolve
+18331,9,9,True,1175.0,253.0,7.090473175048828,0.0011351,orchestrated_evolve
+5914,Germany,Germany,True,1153.0,134.0,3.2506330013275146,0.0009195999999999999,orchestrated_evolve
+9994,13,30,False,1053.0,389.0,8.96064829826355,0.0012931000000000002,orchestrated_evolve
+15127,8.0,8,True,1118.0,56.0,2.7796783447265625,0.0007659999999999999,orchestrated_evolve
+21323,3,-3,False,1126.0,259.0,7.3053224086761475,0.0011159,orchestrated_evolve
+22693,Unsupported operation: other,9,False,1119.0,325.0,7.609678506851196,0.0012239,orchestrated_evolve
+13677,Pleased,2/11,False,1179.0,48.0,2.0621747970581055,0.000789,orchestrated_evolve
+34713,6,12,False,1101.0,1048.0,24.062734842300415,0.0024422000000000003,orchestrated_evolve
+37086,9,56,False,1191.0,250.0,5.627374172210693,0.0011396,orchestrated_evolve
+30761,2,2,True,1139.0,113.0,3.1846067905426025,0.0008755,orchestrated_evolve
+34630,Friday,Friday,True,1098.0,40.0,2.1291286945343018,0.0007268,orchestrated_evolve
+25485,0.06,0.06,True,1140.0,260.0,6.230808258056641,0.001126,orchestrated_evolve
+15375,?,10,False,1084.0,157.0,3.415414571762085,0.0009173,orchestrated_evolve
+9755,4,4,True,1131.0,55.0,2.401202440261841,0.0007721,orchestrated_evolve
+3796,90,90,True,1183.0,297.0,5.962024688720703,0.0012147000000000002,orchestrated_evolve
+16903,10,10,True,1175.0,159.0,4.145610809326172,0.0009753000000000001,orchestrated_evolve
+18261,surplus,shortage,False,1195.0,212.0,5.4957358837127686,0.0010774,orchestrated_evolve
+24231,60,60,True,1119.0,170.0,4.300396203994751,0.0009604000000000001,orchestrated_evolve
+28790,13.00,13,True,1115.0,53.0,2.5071165561676025,0.0007590999999999999,orchestrated_evolve
+24930,3,14.25,False,1109.0,48.0,2.5237815380096436,0.0007469999999999999,orchestrated_evolve
+13196,5.0,5,True,1120.0,56.0,2.171072483062744,0.0007671999999999999,orchestrated_evolve
+5343,15.00,15,True,1191.0,105.0,3.3455970287323,0.0008930999999999999,orchestrated_evolve
+25670,"**exception raised**: unterminated string literal (detected at line 3) (<unknown>, line 3)",6,False,716.0,1356.0,27.225175857543945,0.0027348,orchestrated_evolve
+12208,4.76,9.52,False,1179.0,274.0,5.953603029251099,0.0011732,orchestrated_evolve
+23572,January,October,False,1104.0,402.0,8.476867914199829,0.0013457999999999999,orchestrated_evolve
+3669,40,40,True,1205.0,266.0,8.100663423538208,0.0011752,orchestrated_evolve
+37673,5,-5,False,1152.0,209.0,4.545382976531982,0.0010465,orchestrated_evolve
+38148,2,1/5,False,1171.0,846.0,14.78769564628601,0.0021408,orchestrated_evolve
+5182,Edward,Edward,True,1083.0,787.0,14.690045595169067,0.0019877,orchestrated_evolve
+17570,fruit salad $4 per pound,15,False,1142.0,176.0,10.301813840866089,0.0009843999999999999,orchestrated_evolve
+32067,1,7,False,1207.0,287.0,8.003427505493164,0.0012121,orchestrated_evolve
+12655,36.0,36,True,1136.0,699.0,15.42256474494934,0.0018699,orchestrated_evolve
+14201,54,54,True,1099.0,300.0,10.656885385513306,0.0011694000000000001,orchestrated_evolve
+6480,linear,nonlinear,False,1049.0,361.0,10.457784175872803,0.0012431,orchestrated_evolve
+18753,-7,7,False,1068.0,42.0,3.052435874938965,0.0007122,orchestrated_evolve
+1031,9,9,True,1101.0,260.0,8.883041143417358,0.0011026,orchestrated_evolve
+22819,no,yes,False,1076.0,40.0,2.1975650787353516,0.0007136,orchestrated_evolve
+13409,42,42,True,1123.0,343.0,9.922571659088135,0.0012569,orchestrated_evolve
+33682,88,88,True,1190.0,301.0,18.870800018310547,0.0012257,orchestrated_evolve
+2099,1,5,False,1138.0,284.0,6.026325464248657,0.0011656,orchestrated_evolve
+17562,11,23,False,1227.0,434.0,9.364163875579834,0.001474,orchestrated_evolve
+5584,"**exception raised**: invalid syntax (<unknown>, line 2)",3/10,False,734.0,25.0,1.4445571899414062,0.0004829,orchestrated_evolve
+33200,linear,linear,True,1055.0,50.0,2.483412981033325,0.000718,orchestrated_evolve
+6280,13,13,True,1105.0,112.0,3.4814419746398926,0.0008534,orchestrated_evolve
+25721,-2708.20,"1,807.80",False,1196.0,565.0,11.718559980392456,0.0016781,orchestrated_evolve
+36780,6,1/3,False,1186.0,172.0,3.7951111793518066,0.0010040000000000001,orchestrated_evolve
+5609,May,April,False,1144.0,47.0,2.730465888977051,0.0007663,orchestrated_evolve
+2971,"-2,058","2,058",False,1144.0,50.0,2.0510928630828857,0.0007714,orchestrated_evolve
+15957,7:30 P.M.,7:30 P.M.,True,1849.0,346.0,6.499127388000488,0.0016975999999999998,orchestrated_evolve
+37451,5,5,True,1157.0,169.0,4.21040153503418,0.0009815,orchestrated_evolve
+7602,adding an upgrade,buying a used phone,False,1186.0,762.0,14.98153805732727,0.002007,orchestrated_evolve
+38283,6.0,6,True,1147.0,59.0,2.6110849380493164,0.0007884999999999999,orchestrated_evolve
+29115,5.82,15.36,False,1147.0,205.0,4.481448411941528,0.0010367,orchestrated_evolve
+11832,0.14,0.14,True,1119.0,249.0,8.234782218933105,0.0010947,orchestrated_evolve
+29216,10,10,True,1240.0,371.0,10.676451206207275,0.0013747,orchestrated_evolve
+23191,45,45,True,1148.0,153.0,4.080477952957153,0.0009488999999999999,orchestrated_evolve
+19530,19,19,True,1116.0,446.0,11.909552574157715,0.0014278000000000001,orchestrated_evolve
+19018,2,2,True,1165.0,42.0,2.5284149646759033,0.0007704000000000001,orchestrated_evolve
+29999,9,9,True,1229.0,356.0,8.453037023544312,0.0013426000000000002,orchestrated_evolve
+8658,29,32,False,1119.0,737.0,13.803080797195435,0.0019242999999999999,orchestrated_evolve
+14504,5:45 P.M.,European History class,False,1270.0,1359.0,29.88761591911316,0.0030723,orchestrated_evolve
+31558,1/6,1/6,True,1138.0,320.0,7.609780311584473,0.0012268000000000001,orchestrated_evolve
+17683,-8,8,False,1152.0,162.0,4.017787218093872,0.0009666,orchestrated_evolve
+4827,no,no,True,1089.0,198.0,4.929720163345337,0.00099,orchestrated_evolve
+34365,8,8,True,1128.0,40.0,2.1078014373779297,0.0007447999999999999,orchestrated_evolve
+4986,5,50,False,1079.0,227.0,4.2012779712677,0.0010333,orchestrated_evolve
+22308,6,6,True,1096.0,245.0,4.673192024230957,0.0010741000000000001,orchestrated_evolve
+1198,90,90,True,1175.0,425.0,8.868314266204834,0.0014275,orchestrated_evolve
+18492,shortage,shortage,True,1184.0,786.0,14.675910234451294,0.0020466,orchestrated_evolve
+250,"**exception raised**: invalid syntax (<unknown>, line 2)",7,False,638.0,20.0,1.52093505859375,0.00041679999999999994,orchestrated_evolve
+21230,8,8,True,1134.0,141.0,3.763589382171631,0.0009201000000000001,orchestrated_evolve
+2365,0.70,4.90,False,1119.0,354.0,7.213202238082886,0.0012732,orchestrated_evolve
+16629,2154,"2,154",True,1087.0,44.0,2.651737928390503,0.000727,orchestrated_evolve
+32812,988.00,"4,940",False,1113.0,397.0,9.067392826080322,0.0013427,orchestrated_evolve
+5525,"` tags.
+
+In the provided `result`, there is:
+```
+Unsupported operation: other\n</answer>\n\nAlternatively, if the function is designed to return a numeric result even for unknown operations by defaulting to a specific operation (like sum), but that seems less likely given the context. Since the documentation does not specify, the error message is a safe bet.\n\nThus, the final answer is:\n<answer>\nUnsupported operation: other
+```
+
+This includes an `<answer>` tag with ""Unsupported operation: other"". The function might extract the text inside the `<answer>` tags to get the clean string.
+
+Thus, the output should be the content of the last `<answer>` tag: ""Unsupported operation: other"".
+
+So, the final answer is:
+<answer>
+Unsupported operation: other",30,False,1138.0,917.0,19.8370418548584,0.0022417,orchestrated_evolve
+6934,1.63,4.89,False,1125.0,54.0,2.917680501937866,0.0007668,orchestrated_evolve
+27974,8,8,True,1107.0,49.0,2.1548964977264404,0.0007474999999999999,orchestrated_evolve
+23615,nonlinear,linear,False,1058.0,1114.0,21.62660002708435,0.0025285999999999998,orchestrated_evolve
+20890,"**exception raised**: unterminated string literal (detected at line 9) (<unknown>, line 9)",17,False,690.0,1783.0,34.74273920059204,0.0034451000000000004,orchestrated_evolve
+35185,linear,linear,True,1049.0,508.0,14.346535205841064,0.001493,orchestrated_evolve
+23229,no,no,True,1134.0,214.0,7.940719127655029,0.0010442,orchestrated_evolve
+681,0.43,3.87,False,1109.0,383.0,6.37445855140686,0.0013165,orchestrated_evolve
+27261,nonlinear,linear,False,1069.0,511.0,15.828497648239136,0.0015101000000000001,orchestrated_evolve
+27692,1,12,False,1243.0,452.0,9.419349670410156,0.0015142,orchestrated_evolve
+21241,5.66,5.66,True,1098.0,202.0,7.639462471008301,0.0010022,orchestrated_evolve
+34521,4,16,False,1164.0,365.0,11.731586933135986,0.0013189,orchestrated_evolve
+21210,8,10,False,1236.0,508.0,17.504740476608276,0.0016052,orchestrated_evolve
+6775,"**exception raised**: invalid syntax. Perhaps you forgot a comma? (<unknown>, line 1)",84,False,646.0,165.0,6.465683698654175,0.0006681,orchestrated_evolve
+893,19,19,True,1121.0,178.0,4.497463703155518,0.0009752000000000001,orchestrated_evolve
+7727,15,26,False,1106.0,221.0,4.133294105529785,0.0010393,orchestrated_evolve
+246,no,yes,False,1128.0,523.0,9.870918035507202,0.0015658999999999998,orchestrated_evolve
+16729,1.00,191,False,1102.0,315.0,8.774494886398315,0.0011967,orchestrated_evolve
+12834,3,3,True,1132.0,52.0,1.9480547904968262,0.0007676,orchestrated_evolve
+11749,23,18,False,1098.0,184.0,6.713298082351685,0.0009716,orchestrated_evolve
+2423,27,27,True,1145.0,324.0,10.19225263595581,0.0012378,orchestrated_evolve
+19023,Sofia,Sofia,True,1092.0,893.0,27.03424096107483,0.0021732999999999995,orchestrated_evolve
+5419,surplus,surplus,True,1185.0,950.0,23.22559952735901,0.002326,orchestrated_evolve
+6810,2,2,True,1124.0,258.0,8.327646255493164,0.0011129999999999998,orchestrated_evolve
+10262,6,6,True,1106.0,177.0,3.330470323562622,0.0009645000000000001,orchestrated_evolve
+24628,30,30,True,1056.0,269.0,4.667134523391724,0.0010909,orchestrated_evolve
+23822,9,9,True,1132.0,167.0,3.520831346511841,0.0009630999999999999,orchestrated_evolve
+30154,-3,3,False,1122.0,42.0,2.310656785964966,0.0007446,orchestrated_evolve
+30477,no,yes,False,1122.0,338.0,6.868213415145874,0.0012478,orchestrated_evolve
+25288,86,86,True,1146.0,243.0,6.610525369644165,0.0011007,orchestrated_evolve
+8683,27,27,True,1109.0,509.0,13.074263572692871,0.0015307,orchestrated_evolve
+29889,"**exception raised**: invalid syntax (<unknown>, line 1)",6,False,654.0,598.0,13.6356360912323,0.001409,orchestrated_evolve
+8859,"-1,680","1,680",False,1102.0,50.0,2.875596284866333,0.0007462,orchestrated_evolve
+31439,10.31,64.41,False,1138.0,211.0,8.771528720855713,0.0010415,orchestrated_evolve
+18008,"**exception raised**: invalid syntax (<unknown>, line 2)",yes,False,548.0,365.0,12.58355712890625,0.0009493,orchestrated_evolve
+15674,"14
+</answer>
+```
+
+<answer>
+14",linear,False,1058.0,1160.0,29.715696811676025,0.0026068000000000003,orchestrated_evolve
+23262,true,false,False,1363.0,193.0,4.669142007827759,0.0011459,orchestrated_evolve
+13639,11,7,False,1253.0,390.0,12.179925203323364,0.0014148,orchestrated_evolve
+21432,7,7,True,1122.0,133.0,3.7696077823638916,0.0008993,orchestrated_evolve
+7302,"1,539","1,539",True,1090.0,48.0,2.3515007495880127,0.0007356,orchestrated_evolve
+10744,166.14,166.14,True,1114.0,142.0,4.349144220352173,0.0009098,orchestrated_evolve
+36517,"46,55,55,46,48,55,48",55,False,1137.0,266.0,5.920098304748535,0.0011343999999999998,orchestrated_evolve
+3488,3.5,29,False,1131.0,100.0,14.452548027038574,0.0008485999999999999,orchestrated_evolve
+6271,bromine mixture,bromine mixture,True,1103.0,134.0,17.429441928863525,0.0008896,orchestrated_evolve
+18080,2,2,True,1087.0,49.0,1.8445055484771729,0.0007355,orchestrated_evolve
+9065,32,-32,False,1118.0,302.0,23.233931064605713,0.0011842,orchestrated_evolve
+584,4,4,True,1128.0,524.0,26.17469024658203,0.0015676000000000002,orchestrated_evolve
+12488,5.82,23.28,False,1136.0,232.0,3.6284093856811523,0.0010760000000000001,orchestrated_evolve
+19798,12,12,True,1166.0,345.0,26.66841220855713,0.0012861,orchestrated_evolve
+12712,25,25,True,1088.0,186.0,8.502357721328735,0.000969,orchestrated_evolve
+11437,8,8,True,1147.0,340.0,16.103960037231445,0.0012661999999999999,orchestrated_evolve
+31986,linear,linear,True,1049.0,208.0,4.680355548858643,0.000983,orchestrated_evolve
+9661,0.25,7/19,False,1116.0,229.0,9.17204213142395,0.0010589,orchestrated_evolve
+11059,10.00,55,False,1150.0,138.0,5.197202920913696,0.0009245999999999999,orchestrated_evolve
+25329,egg relay,parachute ball toss,False,1379.0,342.0,13.432159900665283,0.0014088,orchestrated_evolve
+28300,**exception raised**: malformed node or string on line 1: <ast.Name object at 0x11f608040>,Friday,False,596.0,18.0,1.3627641201019287,0.0003882,orchestrated_evolve
+16102,yes,yes,True,1104.0,861.0,40.075913429260254,0.0021260999999999997,orchestrated_evolve
+17030,10.31,36.18,False,1157.0,396.0,12.47425389289856,0.0013674,orchestrated_evolve
+6554,22,22,True,1104.0,163.0,3.3473172187805176,0.0009395,orchestrated_evolve
+34052,-0.24,0.24,False,1142.0,263.0,5.499630689620972,0.0011323,orchestrated_evolve
+17097,17,23,False,1237.0,350.0,8.959201574325562,0.0013372,orchestrated_evolve
+20672,Bronx,Bronx,True,1172.0,165.0,3.2892513275146484,0.0009837,orchestrated_evolve
+16025,890,100/533,False,1148.0,54.0,1.9538500308990479,0.0007806,orchestrated_evolve
+31787,**exception raised**: malformed node or string on line 1: <ast.Name object at 0x11eb14220>,Princeton,False,888.0,268.0,3.4293041229248047,0.0009884,orchestrated_evolve
+462,3,3.30,False,1121.0,125.0,3.9054672718048096,0.0008851,orchestrated_evolve
+20453,4,20,False,1075.0,426.0,9.61140751838684,0.0013692,orchestrated_evolve
+21351,Wednesday,Thursday,False,1128.0,128.0,2.9348368644714355,0.0008943999999999998,orchestrated_evolve
+23271,7,7,True,1227.0,499.0,10.905458211898804,0.0015845,orchestrated_evolve
+7252,25,7/18,False,1173.0,433.0,8.648155927658081,0.0014399,orchestrated_evolve
+15521,"**exception raised**: invalid syntax (<unknown>, line 2)",578,False,610.0,20.0,1.124946117401123,0.00039999999999999996,orchestrated_evolve
+16065,8,8,True,1156.0,517.0,9.999667406082153,0.0015725000000000001,orchestrated_evolve
+19861,5,5,True,1119.0,407.0,8.535333156585693,0.0013633,orchestrated_evolve
+14054,7,-7,False,1118.0,40.0,2.1969687938690186,0.0007388,orchestrated_evolve
+1237,French club,Spanish club,False,1098.0,650.0,10.082536697387695,0.0017638,orchestrated_evolve
+15350,14,14,True,1108.0,145.0,3.141429901123047,0.0009113000000000001,orchestrated_evolve
+27081,2,8,False,1063.0,412.0,8.960563659667969,0.0013382,orchestrated_evolve
+16741,unsupported operation,30,False,1090.0,667.0,9.956223011016846,0.0017879000000000003,orchestrated_evolve
+19977,9,9,True,1170.0,138.0,3.215153455734253,0.0009365999999999999,orchestrated_evolve
+20460,"**exception raised**: invalid syntax (<unknown>, line 1)",7.80,False,694.0,19.0,1.1450040340423584,0.0004487,orchestrated_evolve
+21259,6,6,True,1116.0,148.0,3.810380220413208,0.0009212000000000001,orchestrated_evolve
+11006,3,yes,False,1087.0,785.0,14.855071067810059,0.0019867,orchestrated_evolve
+2945,1,11,False,1211.0,538.0,11.967716932296753,0.0016412000000000002,orchestrated_evolve
+23441,318,318,True,1094.0,141.0,3.5496129989624023,0.0008960999999999999,orchestrated_evolve
+1597,Australia,Australia,True,1156.0,367.0,7.896271705627441,0.0013175,orchestrated_evolve
+29007,6,6,True,1200.0,1382.0,19.961440563201904,0.0030694000000000008,orchestrated_evolve
+32431,60,60,True,1117.0,104.0,3.0091207027435303,0.0008469999999999999,orchestrated_evolve
+26523,17,17,True,1223.0,640.0,13.78539228439331,0.0018218000000000002,orchestrated_evolve
+5472,20,33,False,1141.0,177.0,5.884540557861328,0.0009855,orchestrated_evolve
+14678,-5349.00,"5,349",False,1139.0,155.0,6.619592189788818,0.0009468999999999999,orchestrated_evolve
+30539,-3,3,False,1128.0,194.0,7.187538385391235,0.0010065999999999999,orchestrated_evolve
+33405,shortage,surplus,False,1194.0,783.0,17.807297945022583,0.0020475,orchestrated_evolve
+17103,12,12,True,1210.0,401.0,15.459642171859741,0.0014077,orchestrated_evolve
+26275,shortage,surplus,False,1185.0,235.0,5.274009943008423,0.0011105,orchestrated_evolve
+12501,8,15,False,1063.0,288.0,8.1146559715271,0.0011274,orchestrated_evolve
+35334,3,15,False,1053.0,716.0,20.212570667266846,0.0018490000000000002,orchestrated_evolve
+17116,other,70.80,False,1083.0,288.0,6.762199401855469,0.0011394,orchestrated_evolve
+12574,oatmeal raisin cookie dough 7 per pound,5.25,False,1186.0,196.0,4.821245193481445,0.0010447999999999998,orchestrated_evolve
+23016,646,Madison Corporation,False,1107.0,1097.0,21.540343523025513,0.0025291000000000003,orchestrated_evolve
+30771,4,10,False,1107.0,163.0,6.142187118530273,0.0009413,orchestrated_evolve
+15271,"**exception raised**: invalid syntax (<unknown>, line 1)",2:00 P.M.,False,882.0,157.0,3.1442248821258545,0.0007961,orchestrated_evolve
+5145,22,22,True,1205.0,465.0,13.101011037826538,0.0015135,orchestrated_evolve
+5228,15.00,30,False,1127.0,454.0,11.21527886390686,0.001448,orchestrated_evolve
+34574,-4,4,False,1122.0,285.0,5.333610773086548,0.0011576999999999998,orchestrated_evolve
+21989,3,12,False,1093.0,43.0,2.076080799102783,0.0007289,orchestrated_evolve
+5474,14,14,True,1262.0,1438.0,32.40801787376404,0.0032017999999999994,orchestrated_evolve
+15767,3,3.90,False,1143.0,48.0,2.906449794769287,0.0007674,orchestrated_evolve
+38261,4,10.40,False,1144.0,319.0,6.868453025817871,0.0012287,orchestrated_evolve
+6051,4.58,4.58,True,1109.0,50.0,2.813985586166382,0.0007503999999999999,orchestrated_evolve
+10018,-9,9,False,1124.0,264.0,6.676492214202881,0.0011232,orchestrated_evolve
+15574,44,44,True,1138.0,209.0,6.217321395874023,0.0010381,orchestrated_evolve
+11320,6,6,True,1085.0,36.0,2.7774853706359863,0.0007121999999999999,orchestrated_evolve
+32940,9:30 A.M.,9:30 A.M.,True,1763.0,1034.0,25.575757265090942,0.0028155999999999997,orchestrated_evolve
+23521,linear,linear,True,1049.0,44.0,3.3273630142211914,0.0007042,orchestrated_evolve
+13495,17,17,True,1098.0,40.0,3.5348525047302246,0.0007267999999999999,orchestrated_evolve
+11988,5,50,False,1088.0,184.0,7.075963497161865,0.0009656,orchestrated_evolve
+23778,25.0,7,False,1099.0,177.0,10.215602159500122,0.0009603,orchestrated_evolve
+25188,20,20,True,1080.0,33.0,7.971417665481567,0.0007041,orchestrated_evolve
+31284,4,-4,False,1114.0,144.0,10.781647682189941,0.0009132000000000001,orchestrated_evolve
+35514,4,4,True,1103.0,222.0,11.446360111236572,0.0010391999999999999,orchestrated_evolve
+8878,no,yes,False,1105.0,48.0,3.600104570388794,0.0007446,orchestrated_evolve
+25249,hamburger buns $4/kilogram,3.60,False,1154.0,228.0,8.137600898742676,0.0010799999999999998,orchestrated_evolve
+12331,0,30,False,1065.0,698.0,26.63131022453308,0.0018256000000000001,orchestrated_evolve
+10374,32.50,32.50,True,1112.0,164.0,6.3751349449157715,0.0009459999999999999,orchestrated_evolve
+27047,22,22,True,1175.0,356.0,12.638570308685303,0.0013102,orchestrated_evolve
+2645,"**exception raised**: invalid syntax (<unknown>, line 1)",6,False,688.0,1043.0,22.335633039474487,0.0021859,orchestrated_evolve
+2183,4,4,True,1146.0,328.0,7.619640111923218,0.0012452000000000001,orchestrated_evolve
+32599,18,19,False,1216.0,323.0,10.949973583221436,0.0012787,orchestrated_evolve
+24390,31,183,False,1076.0,221.0,8.164695739746094,0.0010213,orchestrated_evolve
+14458,4,4,True,1123.0,111.0,4.697981595993042,0.0008625,orchestrated_evolve
+31337,**exception raised**: malformed node or string on line 1: <ast.BinOp object at 0x11f355750>,3/19,False,668.0,535.0,17.42432403564453,0.0013103,orchestrated_evolve
+35899,surplus,shortage,False,1190.0,485.0,11.984628915786743,0.0015385,orchestrated_evolve
+34049,1,-1,False,1118.0,91.0,3.9913277626037598,0.0008255000000000001,orchestrated_evolve
+30072,16.65,66.60,False,1116.0,44.0,3.3139328956604004,0.0007444,orchestrated_evolve
+16155,1,13,False,1091.0,37.0,1.7888197898864746,0.0007175,orchestrated_evolve
+15542,no,yes,False,1057.0,234.0,10.809011220932007,0.001032,orchestrated_evolve
+11571,50,50,True,1147.0,37.0,3.538978099822998,0.0007511,orchestrated_evolve
+3690,13,6,False,1130.0,711.0,25.753311157226562,0.0018867000000000003,orchestrated_evolve
+26034,"2,677","2,677",True,1138.0,167.0,4.78234601020813,0.0009666999999999999,orchestrated_evolve
+7625,6,6,True,1107.0,39.0,1.8764512538909912,0.0007305,orchestrated_evolve
+18364,49,1,False,1137.0,198.0,10.093650579452515,0.0010188,orchestrated_evolve
+32574,-5,5,False,1136.0,42.0,2.397860050201416,0.000753,orchestrated_evolve
+1492,linear,nonlinear,False,1049.0,90.0,5.217936754226685,0.0007824,orchestrated_evolve
+5054,2.91,2.91,True,1166.0,431.0,18.705984354019165,0.0014323,orchestrated_evolve
+33024,linear,linear,True,1049.0,278.0,9.128995895385742,0.001102,orchestrated_evolve
+35964,3,yes,False,1075.0,1398.0,26.97573494911194,0.0030216,orchestrated_evolve
+34632,3,0.75,False,1133.0,134.0,8.362520217895508,0.0009075999999999999,orchestrated_evolve
+5083,May,April,False,1140.0,47.0,3.9667019844055176,0.0007639,orchestrated_evolve
+33903,0.07,0.07,True,1140.0,117.0,6.073631525039673,0.0008828999999999999,orchestrated_evolve
+37471,2,3,False,1080.0,40.0,2.1210086345672607,0.0007160000000000001,orchestrated_evolve
+4117,"**exception raised**: invalid syntax (<unknown>, line 1)",1:10 P.M.,False,754.0,105.0,1.5475726127624512,0.0006309,orchestrated_evolve
+31552,2,20,False,1098.0,40.0,3.6863231658935547,0.0007267999999999999,orchestrated_evolve
+36200,2,-2,False,1108.0,40.0,3.5392653942108154,0.0007328,orchestrated_evolve
+4740,0.08,0.08,True,1104.0,41.0,5.523043394088745,0.0007321,orchestrated_evolve
+14665,0,0,True,1126.0,40.0,4.283063888549805,0.0007435999999999999,orchestrated_evolve
+1958,4,4,True,1138.0,40.0,2.6207830905914307,0.0007508,orchestrated_evolve
+972,Web Page Design class,Web Page Design class,True,1353.0,147.0,10.775329351425171,0.0010616999999999998,orchestrated_evolve
+16278,"**exception raised**: invalid syntax (<unknown>, line 1)",8:10 P.M.,False,866.0,124.0,7.025385141372681,0.0007304,orchestrated_evolve
+12557,16.0,16,True,1128.0,62.0,2.7437188625335693,0.0007821999999999999,orchestrated_evolve
+12481,16,16,True,1102.0,106.0,4.8339433670043945,0.0008414,orchestrated_evolve
+10273,7,-7,False,1118.0,84.0,3.4162545204162598,0.0008136,orchestrated_evolve
+6257,2:10 P.M.,2:10 P.M.,True,1327.0,263.0,7.611846208572388,0.0012433,orchestrated_evolve
+33131,**exception raised**: malformed node or string on line 1: <ast.BinOp object at 0x11fa64f40>,3/13,False,666.0,347.0,7.27164626121521,0.0009895,orchestrated_evolve
+5539,unsupported operation,15,False,1060.0,259.0,7.028223752975464,0.0010762999999999999,orchestrated_evolve
+1816,surplus,shortage,False,1183.0,477.0,10.120651006698608,0.0015206999999999998,orchestrated_evolve
+3578,8,8,True,1128.0,363.0,7.605666160583496,0.0012939000000000002,orchestrated_evolve
+14252,4,12.80,False,1104.0,308.0,7.629472017288208,0.001186,orchestrated_evolve
+37735,5.0,5,True,1121.0,73.0,3.1393790245056152,0.0007966999999999999,orchestrated_evolve
+15397,**exception raised**: malformed node or string on line 1: <ast.Name object at 0x11ee29150>,Wesley,False,576.0,20.0,1.4284558296203613,0.00037959999999999996,orchestrated_evolve
+13345,linear,linear,True,1049.0,138.0,3.918752908706665,0.000864,orchestrated_evolve
+4920,"` tags.
+- `choices` is `None`, meaning we are in free-text mode and should return the result directly as a clean string (no units, no extra text).
+
+The function should extract the clean result by removing any extra text and tags. Specifically, we need to extract the numerical value `$22,858.00` from the `result` string, but note that the documentation says ""no units, no extra text"". Therefore, we should remove the dollar sign and any commas to return just the number as a clean string.
+
+However, looking at the `result` string:
+`'and </answer> tags without any quotes.\n\nSo, the final answer should be:\n<answer>\n$22,858.00\n</answer>\n<answer>\n$22,858.00'`
+
+We see that the value `$22,858.00` appears twice. The function should return a clean string without any extra text. Since the documentation does not specify how to handle multiple occurrences, we assume we should take the first occurrence of the value inside the `<answer>` tags.
+
+But note: the documentation says ""return the result directly as a clean string"". So we should process the `result` to extract the numerical value without the dollar sign and commas.
+
+Steps:
+1. Extract the content inside the first `<answer>` tag.
+2. Remove any non-numeric characters except the decimal point (to get a clean number string).
+   - However, the documentation says ""no units"", so we remove the dollar sign.
+   - Also, we should remove commas to make it a plain number string.
+
+Alternatively, the function might be designed to simply return the `result` string after stripping extra whitespace and removing any tags? But the documentation says ""clean string (no units, no extra text)"".
+
+Given the input, a reasonable output would be to extract `22858.00` (without dollar sign and commas).
+
+But note: the function is called with `choices=None`, so it should return the result directly as a clean string. So we clean the `result` by taking the first number found inside the `<answer>` tags and removing any formatting.
+
+Therefore, we extract `22858.00`.
+
+However, the output should be a string without quotes. So we return `22858.00`.
+
+But wait: the `result` string has two occurrences of `$22,858.00`. We take the first one.
+
+So we extract `$22,858.00`, remove the dollar sign and comma to get `22858.00`.
+
+Final output: `22858.00`
+
+Now, we format it as required:
+
+<answer>
+22858.00","22,858",False,1170.0,1058.0,25.17459201812744,0.0025006000000000004,orchestrated_evolve
+18883,Each term in pattern B is 27 more than the corresponding term in pattern A.,Each term in pattern B is 10 times the corresponding term in pattern A.,False,1138.0,749.0,17.536006927490234,0.0019561,orchestrated_evolve
+8324,3.18,15.08,False,1105.0,215.0,3.31423282623291,0.0010285,orchestrated_evolve
+37908,"**exception raised**: invalid syntax (<unknown>, line 1)",1:45 P.M.,False,764.0,107.0,3.092881679534912,0.0006403,orchestrated_evolve
+22188,linear,linear,True,1049.0,157.0,7.703088045120239,0.0008963,orchestrated_evolve
+6100,6,6,True,1121.0,179.0,4.418529272079468,0.0009769,orchestrated_evolve
+19709,yes,yes,True,1116.0,881.0,15.945876598358154,0.0021673,orchestrated_evolve
+32077,surplus,shortage,False,1192.0,598.0,12.681783199310303,0.0017318,orchestrated_evolve
+16797,3,3,True,1122.0,302.0,4.274860382080078,0.0011866000000000001,orchestrated_evolve
+17489,0.01,0.08,False,1108.0,309.0,7.614179849624634,0.0011901,orchestrated_evolve
+12904,18,18,True,1171.0,440.0,9.76515507698059,0.0014506,orchestrated_evolve
+34580,57956,6,False,1096.0,462.0,10.804075241088867,0.001443,orchestrated_evolve
+4511,19,19,True,1235.0,537.0,12.284797668457031,0.0016539000000000002,orchestrated_evolve
+7465,0,0,True,1126.0,278.0,8.723134517669678,0.0011482,orchestrated_evolve
+32317,4,4,True,1121.0,428.0,16.20695662498474,0.0014002,orchestrated_evolve
+5813,4,4,True,1176.0,404.0,15.113717555999756,0.0013924,orchestrated_evolve
+5789,42,44,False,1120.0,153.0,5.105882883071899,0.0009320999999999999,orchestrated_evolve
+21571,Lauren,Keith,False,1082.0,38.0,2.6526308059692383,0.0007137999999999999,orchestrated_evolve
+28212,3.0,3,True,1162.0,62.0,3.0100393295288086,0.0008025999999999999,orchestrated_evolve
+30032,box of crayonsbox of crayons,11.20,False,1117.0,60.0,3.841705799102783,0.0007722,orchestrated_evolve
+11191,7,7,True,1147.0,345.0,17.93680763244629,0.0012747,orchestrated_evolve
+14537,"9,079","63,553",False,1107.0,221.0,6.079355478286743,0.0010399,orchestrated_evolve
+23953,154,154,True,1084.0,42.0,3.3690950870513916,0.0007218000000000001,orchestrated_evolve
+17140,October,December,False,1096.0,925.0,19.747474908828735,0.0022301,orchestrated_evolve
+37848,unsupported operation,1/9,False,1149.0,413.0,8.899001121520996,0.0013915,orchestrated_evolve
+27450,0.0,6,False,1150.0,38.0,11.608822107315063,0.0007545999999999999,orchestrated_evolve
+30207,171,913,False,1075.0,176.0,12.555220603942871,0.0009442000000000001,orchestrated_evolve
+18877,34,34,True,1261.0,96.0,12.417539596557617,0.0009197999999999999,orchestrated_evolve
+19949,unsupported operation: other,15,False,1068.0,290.0,16.766496181488037,0.0011338,orchestrated_evolve
+20251,12,12,True,1143.0,234.0,17.656713008880615,0.0010835999999999999,orchestrated_evolve
+33511,5,5,True,1158.0,189.0,7.850893020629883,0.0010161,orchestrated_evolve
+20767,21,21,True,1111.0,315.0,21.094928741455078,0.0012021000000000002,orchestrated_evolve
+19717,0.10,0.10,True,1128.0,48.0,3.0634045600891113,0.0007583999999999999,orchestrated_evolve
+22682,35.00,35,True,1096.0,150.0,6.727957487106323,0.0009125999999999998,orchestrated_evolve
+13562,5,16.25,False,1119.0,342.0,12.966741800308228,0.0012527999999999999,orchestrated_evolve
+26600,2,1,False,1150.0,163.0,6.649794578552246,0.0009671,orchestrated_evolve
+32125,65,65,True,1123.0,37.0,2.3220839500427246,0.0007366999999999999,orchestrated_evolve
+12988,**exception raised**: malformed node or string on line 1: <ast.Name object at 0x11e546aa0>,Thursday,False,594.0,18.0,1.4177289009094238,0.000387,orchestrated_evolve
+10146,Friday,Friday,True,1102.0,308.0,12.475494146347046,0.0011848,orchestrated_evolve
+2410,2:35 P.M.,2:35 P.M.,True,1299.0,181.0,9.497982025146484,0.0010871,orchestrated_evolve
+16277,2,2,True,1144.0,217.0,10.083226442337036,0.0010553,orchestrated_evolve
+19473,8,8,True,1170.0,58.0,2.6208271980285645,0.0008006,orchestrated_evolve
+19089,30,35,False,1133.0,251.0,12.742524147033691,0.0011065,orchestrated_evolve
+36312,2,2,True,1100.0,40.0,1.5125765800476074,0.0007279999999999999,orchestrated_evolve
+33773,6.0,6,True,1123.0,111.0,4.993739128112793,0.0008624999999999999,orchestrated_evolve
+27932,34,42,False,1144.0,212.0,9.884592056274414,0.0010467999999999999,orchestrated_evolve
+5752,surplus,surplus,True,1190.0,483.0,20.60500979423523,0.0015351000000000002,orchestrated_evolve
+7453,18,18,True,1232.0,849.0,32.95094585418701,0.0021825,orchestrated_evolve
+25071,4,40,False,1063.0,41.0,2.8033435344696045,0.0007075,orchestrated_evolve
+14274,4,46,False,1124.0,46.0,2.5455243587493896,0.0007526,orchestrated_evolve
+18201,KeyError: 6,6,False,1100.0,333.0,10.885443210601807,0.0012261,orchestrated_evolve
+6712,dance competition,dance competition,True,1330.0,173.0,6.5454792976379395,0.0010921,orchestrated_evolve
+34097,16.19,16.19,True,1104.0,48.0,3.2596075534820557,0.000744,orchestrated_evolve
+13201,49,49,True,1137.0,382.0,8.203398942947388,0.0013316,orchestrated_evolve
+21095,top of the skyscraper,bottom of the mine,False,1158.0,163.0,5.934103488922119,0.0009719000000000002,orchestrated_evolve
+25550,5,5,True,1125.0,175.0,5.449904918670654,0.0009725000000000001,orchestrated_evolve
+29446,8,8,True,1210.0,337.0,5.97777533531189,0.0012989000000000002,orchestrated_evolve
+10888,8.0,8,True,1141.0,635.0,11.841567039489746,0.0017641,orchestrated_evolve
+13863,61,61,True,1117.0,780.0,12.97498083114624,0.0019962,orchestrated_evolve
+35701,6,6,True,1135.0,300.0,6.577003479003906,0.001191,orchestrated_evolve
+19835,"2.23,1.55",3.78,False,1106.0,393.0,14.472111225128174,0.0013317000000000001,orchestrated_evolve
+11597,0.20,0.20,True,1116.0,41.0,8.784003019332886,0.0007392999999999999,orchestrated_evolve
+7164,8,15,False,1069.0,41.0,2.727409839630127,0.0007110999999999999,orchestrated_evolve
+20237,1.42,5.68,False,1081.0,339.0,14.21864914894104,0.0012249000000000001,orchestrated_evolve
+10461,10,10,True,1200.0,1340.0,29.273421049118042,0.0029980000000000002,orchestrated_evolve
+26213,no,yes,False,1154.0,652.0,9.504554033279419,0.0018008,orchestrated_evolve
+12266,7,28,False,1176.0,53.0,2.0166170597076416,0.0007957,orchestrated_evolve
+10240,Southport-Fort Fisher,Southport-Fort Fisher,True,1217.0,574.0,8.473749160766602,0.001706,orchestrated_evolve
+37559,0.55,11/56,False,1138.0,41.0,2.775249719619751,0.0007524999999999999,orchestrated_evolve
+6019,65,74,False,1112.0,40.0,2.459460496902466,0.0007351999999999999,orchestrated_evolve
+968,"**exception raised**: invalid syntax (<unknown>, line 1)",14,False,660.0,1503.0,30.017839908599854,0.0029511,orchestrated_evolve
+27149,13,13,True,1197.0,30.0,2.1265947818756104,0.0007692,orchestrated_evolve
+20150,"**exception raised**: invalid syntax (<unknown>, line 1)","23,690",False,616.0,345.0,6.471631050109863,0.0009561,orchestrated_evolve
+15381,surplus,surplus,True,1188.0,372.0,7.097295761108398,0.0013452,orchestrated_evolve
+30786,4,8,False,1075.0,40.0,2.3003485202789307,0.0007130000000000001,orchestrated_evolve
+3956,22,22,True,1298.0,1647.0,34.01817297935486,0.0035786999999999998,orchestrated_evolve
+11690,335,335,True,1096.0,40.0,3.858832597732544,0.0007255999999999999,orchestrated_evolve
+17193,7.0,7,True,1244.0,1608.0,28.219178676605225,0.003479999999999999,orchestrated_evolve
+29852,linear,linear,True,1049.0,359.0,10.270795106887817,0.0012397,orchestrated_evolve
+16891,medical research,hunger,False,1126.0,647.0,18.574458837509155,0.0017754999999999997,orchestrated_evolve
+28151,274,274,True,1073.0,128.0,7.1002442836761475,0.0008614,orchestrated_evolve
+6386,1:15 P.M.,1:15 P.M.,True,1457.0,816.0,17.399903059005737,0.0022613999999999998,orchestrated_evolve
+3734,8,90,False,1127.0,43.0,3.6922619342803955,0.0007493,orchestrated_evolve
+604,58,268,False,1084.0,33.0,2.003687858581543,0.0007064999999999999,orchestrated_evolve
+38299,7,7,True,1141.0,120.0,3.6799118518829346,0.0008886,orchestrated_evolve
+23780,0.90,0.90,True,1134.0,293.0,7.555657625198364,0.0011785,orchestrated_evolve
+32733,316,316,True,1085.0,247.0,5.720085382461548,0.0010709,orchestrated_evolve
+16192,15,15,True,1065.0,161.0,3.5958802700042725,0.0009127,orchestrated_evolve
+17825,90,90,True,1125.0,327.0,8.551393508911133,0.0012309,orchestrated_evolve
+35289,April,June,False,1091.0,467.0,12.910764694213867,0.0014485,orchestrated_evolve
+25695,Friday,Friday,True,1106.0,251.0,4.924790859222412,0.0010903,orchestrated_evolve
+10189,0.14,0.14,True,1140.0,269.0,4.843732118606567,0.0011413,orchestrated_evolve
+29358,Richard,Darren,False,1103.0,914.0,22.204384565353394,0.0022156,orchestrated_evolve
+12699,heart-shaped beads,14.70,False,1127.0,245.0,5.155407190322876,0.0010927,orchestrated_evolve
+18584,94.0,94,True,1095.0,53.0,1.9575467109680176,0.0007470999999999999,orchestrated_evolve
+20909,"**exception raised**: invalid syntax. Perhaps you forgot a comma? (<unknown>, line 1)",Return to Tumbleweed City,False,850.0,276.0,3.7424349784851074,0.0009792,orchestrated_evolve
+15170,5,29,False,1108.0,204.0,4.316204309463501,0.0010116,orchestrated_evolve
+1434,no,no,True,1111.0,56.0,3.3675739765167236,0.0007618,orchestrated_evolve
+24570,4,4,True,1099.0,107.0,3.0657083988189697,0.0008412999999999999,orchestrated_evolve
+16685,"**exception raised**: invalid syntax (<unknown>, line 2)",1/11,False,650.0,474.0,6.199108839035034,0.0011958,orchestrated_evolve
+35198,58,114,False,1186.0,304.0,6.483201742172241,0.0012284000000000002,orchestrated_evolve
+3984,4,4,True,1164.0,106.0,3.4002153873443604,0.0008786,orchestrated_evolve
+23549,53,53,True,1131.0,148.0,4.238345623016357,0.0009302,orchestrated_evolve
+4751,"**exception raised**: invalid syntax (<unknown>, line 1)",6.60,False,664.0,297.0,5.440478086471558,0.0009033,orchestrated_evolve
+12961,0.50,0.50,True,1100.0,48.0,2.4195821285247803,0.0007415999999999999,orchestrated_evolve
+25360,-5,5,False,1120.0,84.0,2.632158041000366,0.0008148,orchestrated_evolve
+536,1,4,False,1127.0,168.0,4.158138751983643,0.0009618000000000001,orchestrated_evolve
+16795,16,16,True,1093.0,270.0,6.946459054946899,0.0011148,orchestrated_evolve
+30716,47,47/137,False,1102.0,190.0,7.1158246994018555,0.0009842,orchestrated_evolve
+13606,4,4,True,1121.0,133.0,5.094398498535156,0.0008986999999999999,orchestrated_evolve
+12316,June,August,False,1083.0,426.0,10.017759084701538,0.0013739999999999998,orchestrated_evolve
+6551,"**exception raised**: invalid syntax (<unknown>, line 1)",15 minutes,False,988.0,1632.0,28.761111974716187,0.0033672,orchestrated_evolve
+18875,2 hours and 15 minutes,2 hours and 15 minutes,True,1838.0,1952.0,32.41899490356445,0.0044212,orchestrated_evolve
+7361,no,no,True,1074.0,300.0,8.045750379562378,0.0011544,orchestrated_evolve
+1566,7.0,7,True,1138.0,61.0,3.386120319366455,0.0007865,orchestrated_evolve
+17851,3,3,True,1187.0,267.0,7.944321155548096,0.0011661,orchestrated_evolve
+8363,-6,6,False,1162.0,406.0,10.922125577926636,0.0013873999999999998,orchestrated_evolve
+15076,1,14,False,1109.0,341.0,6.185514688491821,0.0012451,orchestrated_evolve
+17469,5,5,True,1151.0,795.0,16.769506216049194,0.0020421,orchestrated_evolve
+15561,no,yes,False,1075.0,1151.0,25.046437978744507,0.0026017,orchestrated_evolve
+30491,choir concert,student government meeting,False,1297.0,192.0,7.233572721481323,0.0011045999999999999,orchestrated_evolve
+31251,6.59,6.59,True,1146.0,258.0,8.442627906799316,0.0011262000000000002,orchestrated_evolve
+36795,7084,"56,672",False,1171.0,237.0,9.250514030456543,0.0011055000000000001,orchestrated_evolve
+13009,20,20,True,1098.0,181.0,8.297873973846436,0.0009664999999999999,orchestrated_evolve
+38312,White and Company,White and Company,True,1136.0,58.0,2.4587340354919434,0.0007802,orchestrated_evolve
+4640,medical research,medical research,True,1104.0,615.0,16.58790898323059,0.0017079,orchestrated_evolve
+6595,1,0,False,1131.0,282.0,7.042563438415527,0.0011580000000000002,orchestrated_evolve
+34172,17,17,True,1203.0,108.0,4.028543472290039,0.0009054,orchestrated_evolve
+16005,4,4,True,1164.0,204.0,5.806955099105835,0.0010452,orchestrated_evolve
+6561,9.0,9,True,1152.0,221.0,6.453526735305786,0.0010669,orchestrated_evolve
+27791,linear,linear,True,1049.0,175.0,5.340555906295776,0.0009269,orchestrated_evolve
+15992,"surplus
+</answer>
+
+Note: The output should be printed without quotes, as per instructions.
+```
+
+<answer>
+surplus",shortage,False,1186.0,741.0,19.32535696029663,0.0019713,orchestrated_evolve
+24000,0.2,10,False,1178.0,268.0,5.689796447753906,0.0011624,orchestrated_evolve
+4358,7,7,True,1144.0,190.0,4.448232889175415,0.0010094,orchestrated_evolve
+34634,10,10,True,1157.0,122.0,4.23883056640625,0.0009016,orchestrated_evolve
+13815,Spanish club,photography club,False,1100.0,43.0,2.6425883769989014,0.0007331,orchestrated_evolve
+25852,no,no,True,1149.0,440.0,11.416627407073975,0.0014374,orchestrated_evolve
+24111,shortage,surplus,False,1189.0,242.0,9.952208995819092,0.0011248,orchestrated_evolve
+22839,1,2,False,1103.0,206.0,10.12229871749878,0.0010119999999999999,orchestrated_evolve
+12419,5:25 P.M.,5:25 P.M.,True,1433.0,293.0,8.751624584197998,0.0013579,orchestrated_evolve
+1745,1,2,False,1165.0,290.0,6.771345615386963,0.001192,orchestrated_evolve
+34178,542.04,542.04,True,1169.0,497.0,13.384904861450195,0.0015463,orchestrated_evolve
+5722,0.56,0.56,True,1118.0,132.0,4.500162601470947,0.0008952,orchestrated_evolve
+21808,-424,424,False,1074.0,42.0,3.5829529762268066,0.0007158,orchestrated_evolve
+5739,7,7,True,1095.0,49.0,2.7329277992248535,0.0007402999999999999,orchestrated_evolve
+25152,11,11,True,1142.0,38.0,2.6143386363983154,0.0007497999999999999,orchestrated_evolve
+1476,5.38,32.28,False,1084.0,124.0,4.240123748779297,0.0008612,orchestrated_evolve
+16630,4,4,True,1146.0,470.0,11.122334718704224,0.0014866,orchestrated_evolve
+5205,?,50,False,1078.0,563.0,13.122984409332275,0.0016039,orchestrated_evolve
+36779,5,25,False,1079.0,472.0,8.41406798362732,0.0014498000000000002,orchestrated_evolve
+22196,other,7,False,1127.0,356.0,7.586144924163818,0.0012814,orchestrated_evolve
+16398,15.00,15,True,1189.0,357.0,7.102765321731567,0.0013203,orchestrated_evolve
+32595,9,9,True,1167.0,1744.0,37.000545263290405,0.003665,orchestrated_evolve
+16983,10,6,False,1162.0,337.0,7.647175073623657,0.0012701000000000001,orchestrated_evolve
+10512,bottom of the mine,bottom of the mine,True,1158.0,44.0,3.2953922748565674,0.0007696000000000001,orchestrated_evolve
+13114,0.863636,21/62,False,1117.0,54.0,3.5868964195251465,0.000762,orchestrated_evolve
+30150,1.47,5.88,False,1088.0,44.0,4.408935546875,0.0007275999999999999,orchestrated_evolve
+36141,linear,nonlinear,False,1049.0,44.0,2.719653606414795,0.0007042,orchestrated_evolve
+29538,rectangular erasers: $3 per lb,5.70,False,1132.0,465.0,13.624911308288574,0.0014697000000000002,orchestrated_evolve
+11213,"5,685","5,685",True,1118.0,165.0,8.212966918945312,0.0009512999999999999,orchestrated_evolve
+30897,8.0,8,True,1089.0,53.0,2.794713258743286,0.0007434999999999999,orchestrated_evolve
+29370,**exception raised**: malformed node or string on line 1: <ast.Name object at 0x11ec6a110>,Friday,False,612.0,18.0,1.3207697868347168,0.00039779999999999997,orchestrated_evolve
+2158,-23,23,False,1118.0,206.0,6.0550243854522705,0.001021,orchestrated_evolve
+22182,57,57,True,1110.0,200.0,5.704200744628906,0.001006,orchestrated_evolve
+13454,**exception raised**: malformed node or string on line 1: <ast.Name object at 0x11fb47fd0>,Saturday,False,592.0,18.0,2.261726140975952,0.00038579999999999995,orchestrated_evolve
+5246,6,6,True,1123.0,812.0,22.10440421104431,0.0020542,orchestrated_evolve
+1849,surplus,shortage,False,1210.0,900.0,24.035150051116943,0.002256,orchestrated_evolve
+11346,-3,3,False,1108.0,333.0,6.9425413608551025,0.0012309,orchestrated_evolve
+7466,yes,no,False,1116.0,396.0,14.035706520080566,0.0013428,orchestrated_evolve
+37476,no,yes,False,1117.0,851.0,17.287994623184204,0.0021169,orchestrated_evolve
+4624,2,3,False,1115.0,261.0,7.8501527309417725,0.0011126999999999999,orchestrated_evolve
+11025,Austria,Austria,True,1145.0,527.0,12.404558181762695,0.0015829000000000001,orchestrated_evolve
+36335,2:30 P.M.,2:30 P.M.,True,1343.0,218.0,11.364524841308594,0.0011764,orchestrated_evolve
+30876,linear,linear,True,1058.0,255.0,12.0155029296875,0.0010683,orchestrated_evolve
+24156,10,30,False,1052.0,1247.0,38.11167788505554,0.0027511,orchestrated_evolve
+35819,baseball stadium,baseball stadium,True,1265.0,91.0,3.8381879329681396,0.0009136999999999999,orchestrated_evolve
+7777,men's pommel horse event,men's pommel horse event,True,1476.0,671.0,22.09153389930725,0.0020263,orchestrated_evolve
+5381,football team,baseball team,False,1106.0,48.0,2.562166690826416,0.0007451999999999999,orchestrated_evolve
+4418,33,33,True,1113.0,127.0,5.276870965957642,0.0008837000000000001,orchestrated_evolve
+30919,no,no,True,1128.0,228.0,3.9889187812805176,0.0010644,orchestrated_evolve
+4791,linear,nonlinear,False,1049.0,409.0,11.823661088943481,0.0013247,orchestrated_evolve
+20635,2,-2,False,1126.0,40.0,1.9790525436401367,0.0007435999999999999,orchestrated_evolve
+416,no,no,True,1111.0,175.0,7.868840932846069,0.0009641000000000001,orchestrated_evolve
+12210,130,130,True,1078.0,157.0,5.028444528579712,0.0009136999999999999,orchestrated_evolve
+23482,lookup operation requires a list of values but got int,17,False,1123.0,134.0,6.9612226486206055,0.0009016,orchestrated_evolve
+27697,no,no,True,1129.0,263.0,10.820598840713501,0.0011245,orchestrated_evolve
+11497,5,5,True,1138.0,235.0,8.103924989700317,0.0010823,orchestrated_evolve
+33530,2,17,False,1106.0,40.0,2.0215578079223633,0.0007316,orchestrated_evolve
+14421,unknown operation,16.80,False,1100.0,152.0,7.162111520767212,0.0009184,orchestrated_evolve
+22849,90,90,True,1173.0,153.0,4.773979187011719,0.0009639,orchestrated_evolve
+13603,City Apartments,City Apartments,True,1184.0,182.0,5.039426803588867,0.0010198,orchestrated_evolve
+19305,KeyError: 6,60,False,1090.0,45.0,2.5718111991882324,0.0007304999999999999,orchestrated_evolve
+23387,75,75,True,1222.0,202.0,6.135103464126587,0.0010766,orchestrated_evolve
+37133,930,93/517,False,1144.0,829.0,26.30431342124939,0.0020957,orchestrated_evolve
+24590,824,"2,758",False,1068.0,216.0,8.051711082458496,0.001008,orchestrated_evolve
+26621,Sunday,Saturday,False,1106.0,578.0,15.084743976593018,0.0016462,orchestrated_evolve
+12090,yes,yes,True,1044.0,1453.0,34.926244258880615,0.0030965,orchestrated_evolve
+4162,90,90,True,1133.0,424.0,9.355227947235107,0.0014006000000000001,orchestrated_evolve
+418,8,8,True,1112.0,144.0,3.418079376220703,0.000912,orchestrated_evolve
+2772,shortage,surplus,False,1202.0,53.0,3.003643035888672,0.0008113,orchestrated_evolve
+32341,64,64,True,1135.0,278.0,7.5271570682525635,0.0011535999999999999,orchestrated_evolve
+17409,adding an upgrade,buying a used phone,False,1188.0,722.0,14.052788257598877,0.0019402,orchestrated_evolve
+20590,Northside Zoo,Northside Zoo,True,1190.0,762.0,19.47254180908203,0.0020093999999999997,orchestrated_evolve
+36241,"**exception raised**: invalid syntax (<unknown>, line 1)",1.80,False,626.0,270.0,5.384674787521362,0.0008346,orchestrated_evolve
+2800,"**exception raised**: unterminated string literal (detected at line 9) (<unknown>, line 9)",0,False,658.0,932.0,22.900251865386963,0.0019792,orchestrated_evolve
+12137,invalid operation,-2,False,1123.0,231.0,8.341754913330078,0.0010665,orchestrated_evolve
+9401,yes,no,False,1073.0,217.0,11.449797630310059,0.0010126999999999998,orchestrated_evolve
+33356,6,9,False,1105.0,468.0,16.827919244766235,0.0014586,orchestrated_evolve
+5269,surplus,surplus,True,1189.0,521.0,19.638298988342285,0.0015991,orchestrated_evolve
+23672,no,no,True,1056.0,343.0,12.234438419342041,0.0012167,orchestrated_evolve
+7488,5,5,True,1143.0,215.0,5.858394384384155,0.0010513,orchestrated_evolve
+21347,8,8,True,1130.0,58.0,2.7459604740142822,0.0007766000000000001,orchestrated_evolve
+32804,7.24,14.48,False,1087.0,153.0,4.987884759902954,0.0009122999999999999,orchestrated_evolve
+10489,6,4,False,1146.0,297.0,8.30622410774231,0.0011925000000000002,orchestrated_evolve
+21315,15,15,True,1235.0,1360.0,37.288811683654785,0.003053,orchestrated_evolve
+32529,Golden Gate,Golden Gate,True,1129.0,887.0,26.309865951538086,0.0021853000000000003,orchestrated_evolve
+31973,20,18,False,1093.0,196.0,5.082057952880859,0.000989,orchestrated_evolve
+3258,Brendan,Brendan,True,1094.0,117.0,3.0613582134246826,0.0008552999999999999,orchestrated_evolve
+21897,8.8,9,True,1112.0,55.0,2.107806444168091,0.0007606999999999999,orchestrated_evolve
+1592,2,2,True,1096.0,149.0,4.6342689990997314,0.0009109000000000001,orchestrated_evolve
+21435,10,10,True,1126.0,92.0,3.3588626384735107,0.0008320000000000001,orchestrated_evolve
+22464,69,90,False,1224.0,173.0,5.39526891708374,0.0010285,orchestrated_evolve
+4988,"**exception raised**: invalid syntax (<unknown>, line 1)",Pebble Town,False,944.0,116.0,3.6273603439331055,0.0007636,orchestrated_evolve
+37085,cafeteria,cafeteria,True,1141.0,579.0,11.059141397476196,0.0016689,orchestrated_evolve
+15751,December,January,False,1081.0,37.0,2.7090816497802734,0.0007114999999999999,orchestrated_evolve
+32143,2,6,False,1072.0,194.0,5.913904905319214,0.000973,orchestrated_evolve
+9076,6,6,True,1123.0,165.0,6.108790159225464,0.0009542999999999999,orchestrated_evolve
+22496,5.12,32.20,False,1115.0,158.0,3.8489906787872314,0.0009375999999999999,orchestrated_evolve
+19870,Sunday,Thursday,False,1106.0,795.0,19.848271131515503,0.0020150999999999997,orchestrated_evolve
+28665,1.58,7.90,False,1102.0,217.0,5.2575719356536865,0.0010301,orchestrated_evolve
+27096,2,2,True,1193.0,283.0,7.701479911804199,0.0011969,orchestrated_evolve
+19321,7.0,7,True,1121.0,233.0,4.615646600723267,0.0010687000000000001,orchestrated_evolve
+33013,surplus,surplus,True,1183.0,311.0,6.690455436706543,0.0012385,orchestrated_evolve
+6770,"**exception raised**: invalid syntax (<unknown>, line 1)",20,False,574.0,493.0,10.773131847381592,0.0011825,orchestrated_evolve
+3111,no,yes,False,1211.0,427.0,10.204041481018066,0.0014525000000000002,orchestrated_evolve
+31997,5,5,True,1116.0,52.0,4.028548002243042,0.000758,orchestrated_evolve
+19115,4.59,4.59,True,1148.0,186.0,7.918226003646851,0.001005,orchestrated_evolve
+25069,0.03,0.03,True,1114.0,48.0,4.013742208480835,0.0007499999999999999,orchestrated_evolve
+30199,6,3/10,False,1193.0,452.0,14.839393377304077,0.0014842,orchestrated_evolve
+12516,4912,"4,912",True,1097.0,123.0,3.5770790576934814,0.0008672999999999999,orchestrated_evolve
+25579,7,7,True,1118.0,70.0,2.911156415939331,0.0007898,orchestrated_evolve
+2274,no,no,True,1122.0,231.0,7.581016302108765,0.0010658999999999998,orchestrated_evolve
+29449,Thursday,Sunday,False,1120.0,492.0,16.44498872756958,0.0015084,orchestrated_evolve
+18212,48,48,True,1196.0,305.0,12.461156129837036,0.0012361,orchestrated_evolve
+31403,743,743,True,1088.0,40.0,2.6512722969055176,0.0007208,orchestrated_evolve
+11966,0.20,0.20,True,1162.0,41.0,2.4955551624298096,0.0007668999999999999,orchestrated_evolve
+8202,5.0,5,True,1114.0,56.0,2.4627597332000732,0.0007635999999999999,orchestrated_evolve
+20628,3.4,6.80,False,1120.0,250.0,7.045405626296997,0.0010969999999999999,orchestrated_evolve
+5932,6,6,True,1156.0,130.0,7.273310661315918,0.0009146,orchestrated_evolve
+26857,other,8,False,1097.0,226.0,10.000415086746216,0.0010424,orchestrated_evolve
+33854,1,4,False,1211.0,170.0,8.995048761367798,0.0010156,orchestrated_evolve
+21925,August,October,False,1079.0,487.0,16.500377893447876,0.0014753000000000001,orchestrated_evolve
+38057,23520,"23,520",True,1184.0,55.0,2.857041358947754,0.0008039,orchestrated_evolve
+11524,65,65,True,1119.0,293.0,8.926754474639893,0.0011695,orchestrated_evolve
+17345,4,4,True,1136.0,324.0,9.219301462173462,0.0012324,orchestrated_evolve
+82,-3,3,False,1118.0,42.0,2.99521541595459,0.0007422,orchestrated_evolve
+18727,December,February,False,1108.0,672.0,21.99966835975647,0.0018072000000000001,orchestrated_evolve
+33435,1129,"8,535",False,1139.0,217.0,6.8006508350372314,0.0010523,orchestrated_evolve
+6202,38,38,True,1097.0,147.0,7.345412731170654,0.0009081,orchestrated_evolve
+7945,69.0,69,True,1099.0,53.0,6.099615097045898,0.0007495,orchestrated_evolve
+27141,12503,"65,845",False,1161.0,284.0,13.602972507476807,0.0011794000000000002,orchestrated_evolve
+26764,9.0,9,True,1103.0,53.0,2.586413621902466,0.0007518999999999999,orchestrated_evolve
+32764,4.0,4,True,1127.0,211.0,11.27461552619934,0.0010349,orchestrated_evolve
+18457,no,no,True,1127.0,218.0,8.72776198387146,0.0010468,orchestrated_evolve
+6221,11,11,True,1164.0,127.0,3.1838130950927734,0.0009143,orchestrated_evolve
+21163,Patrick,Patrick,True,1094.0,1055.0,34.88441205024719,0.0024499,orchestrated_evolve
+15334,"**exception raised**: invalid syntax (<unknown>, line 1)",49.93,False,648.0,994.0,25.830158233642578,0.0020786,orchestrated_evolve
+20608,202,202,True,1098.0,40.0,2.7678942680358887,0.0007267999999999999,orchestrated_evolve
+27949,Fast heart rate (>100 bpm),2/15,False,1202.0,285.0,6.714892387390137,0.0012057,orchestrated_evolve
+37647,3,3,True,1151.0,171.0,4.662957668304443,0.0009813,orchestrated_evolve
+9353,0.10,0.10,True,1126.0,240.0,6.792649507522583,0.0010835999999999999,orchestrated_evolve
+24776,2,-2,False,1100.0,40.0,2.145185708999634,0.0007279999999999999,orchestrated_evolve
+38091,**exception raised**: malformed node or string on line 1: <ast.Name object at 0x11e90a890>,Madelyn,False,592.0,19.0,1.2288720607757568,0.0003875,orchestrated_evolve
+620,no,yes,False,1114.0,235.0,6.149896621704102,0.0010678999999999999,orchestrated_evolve
+2139,other,3,False,1136.0,258.0,6.298131704330444,0.0011202,orchestrated_evolve
+34433,34,-34,False,1122.0,247.0,5.260805130004883,0.0010931,orchestrated_evolve
+20898,Concorde pears $2/lb,1.60,False,1152.0,399.0,7.72224497795105,0.0013695000000000003,orchestrated_evolve
+26889,unknown operation,3,False,1157.0,219.0,6.228953838348389,0.0010665,orchestrated_evolve
+31103,14.00,14,True,1125.0,148.0,3.799617290496826,0.0009266,orchestrated_evolve
+9888,yes,yes,True,1148.0,554.0,11.845775365829468,0.0016305999999999998,orchestrated_evolve
+5511,"**exception raised**: invalid syntax (<unknown>, line 1)",25,False,602.0,31.0,1.4857282638549805,0.0004139,orchestrated_evolve
+17005,16,16,True,1252.0,1017.0,15.813912153244019,0.0024801000000000003,orchestrated_evolve
+26156,486,486,True,1098.0,137.0,2.629894495010376,0.0008917,orchestrated_evolve
+2940,69,69,True,1183.0,943.0,15.499205112457275,0.0023129,orchestrated_evolve
+4676,other,24,False,1097.0,49.0,2.4252495765686035,0.0007415,orchestrated_evolve
+9866,indoor soccer,fitness class,False,1312.0,49.0,2.3201444149017334,0.0008705,orchestrated_evolve
+30694,linear,linear,True,1049.0,269.0,6.345130205154419,0.0010867000000000001,orchestrated_evolve
+34780,0,0,True,1087.0,248.0,7.076812028884888,0.0010738,orchestrated_evolve
+6723,no,no,True,1142.0,604.0,14.068046808242798,0.001712,orchestrated_evolve
+13383,517.00,517,True,1106.0,101.0,3.2212679386138916,0.0008352999999999999,orchestrated_evolve
+37028,Irma,Rose,False,1086.0,478.0,11.05131220817566,0.0014642000000000001,orchestrated_evolve
+15683,6,4,False,1128.0,292.0,7.030489683151245,0.0011732000000000001,orchestrated_evolve
+2367,3412,3/10,False,1154.0,215.0,5.976689577102661,0.0010579,orchestrated_evolve
+24579,14.00,14,True,1112.0,130.0,5.603315353393555,0.0008881999999999999,orchestrated_evolve
+2191,7,7,True,1136.0,40.0,2.2251944541931152,0.0007496,orchestrated_evolve
+25533,"9,504","9,504",True,1104.0,279.0,6.329118013381958,0.0011366999999999998,orchestrated_evolve
+4091,1,1,True,1137.0,497.0,10.520386695861816,0.0015271000000000002,orchestrated_evolve
+17701,45,34,False,1132.0,238.0,5.442029714584351,0.0010838,orchestrated_evolve
+24786,lap swim,lap swim,True,1243.0,466.0,10.07868504524231,0.0015379999999999999,orchestrated_evolve
+16683,57,57,True,1132.0,164.0,3.74910831451416,0.0009579999999999999,orchestrated_evolve
+25104,2,2,True,1105.0,200.0,4.1324052810668945,0.001003,orchestrated_evolve
+28130,1635,1/15,False,1165.0,493.0,8.145244121551514,0.0015371,orchestrated_evolve
+13679,0,0,True,1093.0,608.0,10.093163013458252,0.0016894,orchestrated_evolve
+3943,3.76,8.04,False,1122.0,221.0,4.8597729206085205,0.0010489,orchestrated_evolve
+15968,November,April,False,1100.0,804.0,12.105658769607544,0.0020267999999999996,orchestrated_evolve
+15857,linear,linear,True,1058.0,172.0,4.243612766265869,0.0009272,orchestrated_evolve
+35979,"**exception raised**: invalid syntax (<unknown>, line 1)",40,False,588.0,624.0,10.333527088165283,0.0014136,orchestrated_evolve
+18051,0.4525,20/179,False,1123.0,166.0,3.45369029045105,0.000956,orchestrated_evolve
+21820,1,0,False,1181.0,171.0,3.871356248855591,0.0009993,orchestrated_evolve
+9611,3,3,True,1213.0,277.0,4.440781593322754,0.0011987,orchestrated_evolve
+21458,34,34,True,1106.0,40.0,1.8300721645355225,0.0007316,orchestrated_evolve
+6944,76,76,True,1151.0,609.0,10.562636613845825,0.0017259000000000003,orchestrated_evolve
+5274,10,10,True,1103.0,126.0,3.492432117462158,0.000876,orchestrated_evolve
+8018,831,"4,727",False,1108.0,104.0,3.3515586853027344,0.0008415999999999999,orchestrated_evolve
+28765,None,85,False,1099.0,120.0,3.4079391956329346,0.0008634,orchestrated_evolve
+26469,102030,40,False,1072.0,696.0,11.399038314819336,0.0018264000000000002,orchestrated_evolve
+25413,9,9,True,1146.0,125.0,3.8915998935699463,0.0009001,orchestrated_evolve
+11228,10,10,True,1097.0,144.0,4.518576622009277,0.0009029999999999999,orchestrated_evolve
+19582,yes,no,False,1144.0,151.0,3.602210283279419,0.0009431,orchestrated_evolve
+9395,red thumbtack,1.35,False,1106.0,278.0,5.86287260055542,0.0011362,orchestrated_evolve
+27981,surplus,shortage,False,1196.0,687.0,14.457539081573486,0.0018855,orchestrated_evolve
+12979,9,9,True,1121.0,358.0,8.909665822982788,0.0012812000000000001,orchestrated_evolve
+27236,no,yes,False,1052.0,445.0,9.569754600524902,0.0013876999999999997,orchestrated_evolve
+2652,34,34,True,1143.0,365.0,8.227729082107544,0.0013063,orchestrated_evolve
+32960,88,88,True,1211.0,293.0,6.558532953262329,0.0012247,orchestrated_evolve
+32897,5,1/3,False,1188.0,436.0,9.834852457046509,0.001454,orchestrated_evolve
+27112,"**exception raised**: invalid syntax (<unknown>, line 1)",12:35 P.M.,False,754.0,113.0,2.1348397731781006,0.0006445,orchestrated_evolve
+2357,9,9,True,1125.0,207.0,4.6128880977630615,0.0010268999999999999,orchestrated_evolve
+23795,other,11,False,1131.0,157.0,4.445428848266602,0.0009454999999999999,orchestrated_evolve
+385,10,10,True,1145.0,42.0,2.6293179988861084,0.0007584,orchestrated_evolve
+8802,yes,yes,True,1104.0,46.0,2.3028907775878906,0.0007405999999999999,orchestrated_evolve
+37059,7,7,True,1123.0,140.0,4.558126449584961,0.0009117999999999999,orchestrated_evolve
+940,11.43,11.43,True,1117.0,46.0,1.9231376647949219,0.0007483999999999999,orchestrated_evolve
+2754,90,90,True,1125.0,413.0,9.624789476394653,0.0013771,orchestrated_evolve
+13380,swing dance class,swing dance class,True,1281.0,153.0,3.993530750274658,0.0010287,orchestrated_evolve
+31085,invalid operation,60,False,1092.0,193.0,5.559114694595337,0.0009833,orchestrated_evolve
+8653,5678,"2,543",False,1133.0,133.0,3.9166135787963867,0.0009058999999999998,orchestrated_evolve
+9820,garbanzo beans,2,False,1134.0,66.0,2.2551395893096924,0.0007926,orchestrated_evolve
+27407,unsupported operation,4,False,1122.0,631.0,12.647837162017822,0.0017458999999999999,orchestrated_evolve
+19689,71,71,True,1143.0,55.0,3.0253655910491943,0.0007792999999999999,orchestrated_evolve
+17274,14.29,65.63,False,1122.0,358.0,6.639750003814697,0.0012818,orchestrated_evolve
+5013,6,6,True,1145.0,361.0,7.49996542930603,0.0013007000000000001,orchestrated_evolve
+22198,yes,no,False,1152.0,1141.0,18.329425573349,0.0026309000000000003,orchestrated_evolve
+31232,7.44,15.87,False,1096.0,248.0,4.942648649215698,0.0010792,orchestrated_evolve
+21082,14,14,True,1194.0,1226.0,19.44799566268921,0.0028006000000000003,orchestrated_evolve
+25472,2.47,2.47,True,1105.0,46.0,2.111752510070801,0.0007411999999999999,orchestrated_evolve
+31804,"**exception raised**: leading zeros in decimal integer literals are not permitted; use an 0o prefix for octal integers (<unknown>, line 2)","40,851",False,676.0,26.0,1.3569366931915283,0.0004498,orchestrated_evolve
+26191,4,8,False,1075.0,41.0,2.504856824874878,0.0007147,orchestrated_evolve
+27268,88.00,88,True,1106.0,134.0,3.876333475112915,0.0008914,orchestrated_evolve
+16816,1,23,False,1209.0,896.0,15.365036487579346,0.0022486,orchestrated_evolve
+29535,"**exception raised**: invalid syntax (<unknown>, line 1)",25,False,596.0,254.0,3.9937050342559814,0.0007894,orchestrated_evolve
+35704,2.72,6.20,False,1177.0,269.0,5.512779235839844,0.0011635,orchestrated_evolve
+7376,11:30 A.M.,11:30 A.M.,True,1543.0,596.0,10.138007879257202,0.001939,orchestrated_evolve
+20174,"**exception raised**: invalid syntax (<unknown>, line 1)","6,220",False,592.0,24.0,1.4468967914581299,0.000396,orchestrated_evolve
+32285,2,29,False,1094.0,40.0,1.851015567779541,0.0007244,orchestrated_evolve
+32731,no,no,True,1192.0,542.0,9.344487190246582,0.0016366,orchestrated_evolve
+20891,4,40,False,1063.0,41.0,2.0065033435821533,0.0007075,orchestrated_evolve
+16259,4,4/17,False,1130.0,554.0,9.57102346420288,0.0016198000000000002,orchestrated_evolve
+6207,22,22,True,1132.0,260.0,5.060953140258789,0.0011212,orchestrated_evolve
+25105,9,-9,False,1154.0,251.0,5.2249062061309814,0.0011191,orchestrated_evolve
+5216,no,yes,False,1157.0,239.0,5.041140794754028,0.0011005,orchestrated_evolve
+5181,46,46,True,1091.0,41.0,1.989051103591919,0.0007243,orchestrated_evolve
+37115,Each term in pattern B can be found by multiplying the corresponding term in pattern A by 4 and then subtracting 2.,Each term in pattern B can be found by multiplying the corresponding term in pattern A by 4 and then subtracting 2.,True,1149.0,1637.0,28.194254159927368,0.0034723,orchestrated_evolve
+18091,425,Thursday,False,1087.0,566.0,11.183405876159668,0.0016143999999999998,orchestrated_evolve
+20317,linear,nonlinear,False,1049.0,141.0,4.021005153656006,0.0008691,orchestrated_evolve
+18704,7.0,7,True,1116.0,206.0,4.622777223587036,0.0010198,orchestrated_evolve
+27936,2.84,2.84,True,1114.0,53.0,2.0790998935699463,0.0007585,orchestrated_evolve
+12500,"1 hour
+</answer>
+```
+
+Note: This is a guess based on the vague documentation. In a real implementation, the function should probably be more robust.
+```xml
+<answer>
+1 hour",1 hour,False,1531.0,2028.0,34.21099090576172,0.0043662,orchestrated_evolve
+3611,-1279,"7,342",False,1105.0,244.0,4.665230989456177,0.0010778,orchestrated_evolve
+2674,76,76,True,1101.0,525.0,9.675579071044922,0.0015531,orchestrated_evolve
+35382,bromine mixture,bromine mixture,True,1109.0,135.0,4.003459215164185,0.0008949,orchestrated_evolve
+9438,8,8,True,1114.0,116.0,2.803426504135132,0.0008656,orchestrated_evolve
+14041,other,1/6,False,1177.0,434.0,16.276434659957886,0.001444,orchestrated_evolve
+12373,1.70,1.70,True,1114.0,158.0,4.128046274185181,0.000937,orchestrated_evolve
+32649,no,yes,False,1061.0,473.0,7.829085826873779,0.0014407000000000003,orchestrated_evolve
+30294,18,8,False,1117.0,37.0,2.5898847579956055,0.0007331,orchestrated_evolve
+2307,nonlinear,nonlinear,True,1049.0,336.0,7.142505884170532,0.0012006,orchestrated_evolve
+9539,false,true,False,1332.0,505.0,9.861116886138916,0.0016577,orchestrated_evolve
+12804,35,20,False,1112.0,190.0,3.6129369735717773,0.0009901999999999999,orchestrated_evolve
+22714,Tuesday,Thursday,False,1086.0,144.0,4.351187705993652,0.0008963999999999999,orchestrated_evolve
+20243,"12,276","12,276",True,1128.0,41.0,3.1666085720062256,0.0007464999999999999,orchestrated_evolve
+22907,2 hours and 45 minutes,2 hours and 45 minutes,True,1667.0,2270.0,39.9369478225708,0.0048592,orchestrated_evolve
+16,84.0,84,True,1134.0,162.0,4.171319007873535,0.0009557999999999999,orchestrated_evolve
+759,unsupported operation,20,False,1070.0,485.0,9.568032503128052,0.0014665,orchestrated_evolve
+6107,1189,"8,899",False,1081.0,35.0,1.9813671112060547,0.0007080999999999999,orchestrated_evolve
+20601,7.80,7.80,True,1185.0,162.0,4.3568079471588135,0.0009864,orchestrated_evolve
+31334,6,6,True,1182.0,52.0,2.0042881965637207,0.0007975999999999999,orchestrated_evolve
+18789,surplus,surplus,True,1185.0,568.0,10.7377188205719,0.0016765999999999999,orchestrated_evolve
+29968,21,21,True,1123.0,144.0,4.9482810497283936,0.0009186000000000001,orchestrated_evolve
+14520,other,9,False,1101.0,196.0,5.415038585662842,0.0009938,orchestrated_evolve
+37214,3,8,False,1115.0,43.0,3.064424514770508,0.0007421000000000001,orchestrated_evolve
+38417,-2,2,False,1172.0,43.0,3.1569530963897705,0.0007763,orchestrated_evolve
+29898,3.48,3.48,True,1078.0,166.0,3.9096875190734863,0.000929,orchestrated_evolve
+33809,3,3,True,1122.0,159.0,4.468589544296265,0.0009434999999999999,orchestrated_evolve
+4546,bromine mixture,bromine mixture,True,1107.0,135.0,3.712902069091797,0.0008937,orchestrated_evolve
+23637,"**exception raised**: invalid syntax (<unknown>, line 2)",1,False,660.0,138.0,2.9496912956237793,0.0006306,orchestrated_evolve
+29430,6,-6,False,1098.0,39.0,2.018480062484741,0.0007251,orchestrated_evolve
+6575,**exception raised**: malformed node or string on line 1: <ast.Name object at 0x11eb15e40>,Sunday,False,600.0,82.0,2.0671753883361816,0.0004994,orchestrated_evolve
+19313,164.00,164,True,1126.0,61.0,2.558720111846924,0.0007793,orchestrated_evolve
+19073,12,12,True,1198.0,208.0,4.741771936416626,0.0010724,orchestrated_evolve
+27437,15.0,15,True,1155.0,59.0,3.0906121730804443,0.0007932999999999999,orchestrated_evolve
+34325,212,212,True,1082.0,40.0,1.8863000869750977,0.0007171999999999999,orchestrated_evolve
+12051,Friday,Thursday,False,1097.0,527.0,11.484859704971313,0.0015540999999999999,orchestrated_evolve
+35296,4.42,13.26,False,1146.0,204.0,5.924057245254517,0.0010344,orchestrated_evolve
+123,714.00,"4,656",False,1144.0,227.0,5.785114049911499,0.0010723,orchestrated_evolve
+6026,3,12,False,1105.0,43.0,2.6611499786376953,0.0007361,orchestrated_evolve
+27504,10,10,True,1183.0,379.0,8.292901754379272,0.0013541,orchestrated_evolve
+36417,3,36,False,1109.0,89.0,2.579557180404663,0.0008167000000000001,orchestrated_evolve
+16785,unsupported operation,30,False,1054.0,256.0,5.501996040344238,0.0010676,orchestrated_evolve
+24281,"**exception raised**: leading zeros in decimal integer literals are not permitted; use an 0o prefix for octal integers (<unknown>, line 3)",false,False,688.0,256.0,4.610427141189575,0.000848,orchestrated_evolve
+29592,5,7,False,1173.0,391.0,5.673164129257202,0.0013685,orchestrated_evolve
+28771,linear,linear,True,1064.0,186.0,3.53147292137146,0.0009546000000000001,orchestrated_evolve
+34025,linear,nonlinear,False,1049.0,265.0,5.786394119262695,0.0010799,orchestrated_evolve
+35321,"**exception raised**: invalid syntax (<unknown>, line 1)",6,False,582.0,666.0,9.989160299301147,0.0014814,orchestrated_evolve
+25760,5,-5,False,1126.0,74.0,3.014218807220459,0.0008014000000000001,orchestrated_evolve
+4766,169,169,True,1107.0,114.0,3.678438186645508,0.000858,orchestrated_evolve
+38385,"**exception raised**: invalid syntax (<unknown>, line 1)",1:15 P.M.,False,916.0,1214.0,15.041869640350342,0.0026134,orchestrated_evolve
+35535,"**exception raised**: invalid syntax (<unknown>, line 1)",5:45 P.M.,False,1170.0,589.0,10.565807819366455,0.0017033,orchestrated_evolve
+31213,3,0.90,False,1144.0,329.0,7.509009599685669,0.0012457,orchestrated_evolve
+17774,**exception raised**: malformed node or string on line 1: <ast.Name object at 0x11e908310>,September,False,600.0,19.0,1.5328848361968994,0.0003923,orchestrated_evolve
+9999,Vijay,Colette,False,1092.0,127.0,4.193350076675415,0.0008710999999999999,orchestrated_evolve
+20212,6,6,True,1106.0,133.0,3.9296486377716064,0.0008897,orchestrated_evolve
+27454,4761,"38,088",False,1132.0,438.0,9.7195463180542,0.0014238,orchestrated_evolve
+529,Sprinkles,Champ,False,1128.0,983.0,27.69433283805847,0.0023479,orchestrated_evolve
+21051,1.89,11.34,False,1095.0,472.0,10.878418922424316,0.0014594,orchestrated_evolve
+2492,linear,linear,True,1049.0,236.0,5.493046045303345,0.0010306,orchestrated_evolve
+15135,12,12,True,1198.0,690.0,6.626932382583618,0.0018918,orchestrated_evolve
+25704,-1836,"1,836",False,1090.0,49.0,1.8774683475494385,0.0007373,orchestrated_evolve
+15042,4,1/5,False,1158.0,411.0,9.090462684631348,0.0013935,orchestrated_evolve
+22564,870,61/364,False,1119.0,485.0,9.602986097335815,0.0014958999999999999,orchestrated_evolve
+36467,16,16,True,1246.0,387.0,8.601745128631592,0.0014055,orchestrated_evolve
+23728,11,11,True,1114.0,121.0,3.15356707572937,0.0008741,orchestrated_evolve
+30486,35,35,True,1116.0,316.0,6.805522441864014,0.0012068,orchestrated_evolve
+36559,adding an upgrade,buying a used phone,False,1186.0,785.0,16.042611360549927,0.0020461000000000003,orchestrated_evolve
+3856,"**exception raised**: invalid syntax (<unknown>, line 1)",7,False,598.0,20.0,0.6775591373443604,0.0003928,orchestrated_evolve
+36836,3,1/5,False,1158.0,891.0,16.731058359146118,0.0022095,orchestrated_evolve
+5823,3,3,True,1123.0,328.0,6.498461484909058,0.0012314000000000001,orchestrated_evolve
+18947,210.00,210,True,1135.0,161.0,3.5571258068084717,0.0009546999999999998,orchestrated_evolve
+29081,34,34,True,1085.0,368.0,7.116506338119507,0.0012766000000000001,orchestrated_evolve
+33186,red,green,False,1139.0,41.0,2.134265422821045,0.0007531,orchestrated_evolve
+4723,Green,2/11,False,1112.0,455.0,9.961203336715698,0.0014407,orchestrated_evolve
+35021,15.0,15,True,1129.0,59.0,2.4250361919403076,0.0007776999999999999,orchestrated_evolve
+19374,3,3,True,1104.0,248.0,6.383803129196167,0.001084,orchestrated_evolve
+16577,14,14,True,1099.0,114.0,2.7471110820770264,0.0008531999999999999,orchestrated_evolve
+15572,11.09,50.31,False,1204.0,162.0,4.326599359512329,0.0009978,orchestrated_evolve
+5485,6.0,6,True,1132.0,806.0,10.337898015975952,0.0020494,orchestrated_evolve
+22164,52.64,52.64,True,1090.0,185.0,4.627683162689209,0.0009684999999999999,orchestrated_evolve
+10596,2,18,False,1088.0,40.0,1.966418743133545,0.0007208,orchestrated_evolve
+22070,yes,no,False,1137.0,395.0,6.903956174850464,0.0013537,orchestrated_evolve
+28527,no,yes,False,1094.0,220.0,4.721156120300293,0.0010304,orchestrated_evolve
+9765,4,4,True,1131.0,163.0,3.6488349437713623,0.0009557000000000001,orchestrated_evolve
+20591,no,yes,False,1176.0,293.0,5.976552963256836,0.0012037,orchestrated_evolve
+28338,55,25,False,1091.0,413.0,7.537100076675415,0.0013567000000000002,orchestrated_evolve
+10731,-2597,"2,597",False,1118.0,50.0,2.3023629188537598,0.0007557999999999999,orchestrated_evolve
+37271,0.42,2.10,False,1081.0,405.0,7.804658889770508,0.0013371,orchestrated_evolve
+1971,"**exception raised**: invalid syntax (<unknown>, line 1)",20,False,708.0,1685.0,24.786319732666016,0.0032893,orchestrated_evolve
+5583,"**exception raised**: invalid syntax (<unknown>, line 1)",14.80,False,632.0,136.0,3.632695198059082,0.0006104,orchestrated_evolve
+38235,no,yes,False,1125.0,236.0,5.984277963638306,0.0010761999999999998,orchestrated_evolve
+7928,10,10,True,1070.0,33.0,2.1643168926239014,0.0006980999999999999,orchestrated_evolve
+24514,clarinet,clarinet,True,1155.0,156.0,4.311877727508545,0.0009582,orchestrated_evolve
+25051,0.97,0.97,True,1096.0,138.0,3.94589900970459,0.0008921999999999998,orchestrated_evolve
+19042,6.00,6,True,1108.0,235.0,5.904416084289551,0.0010643,orchestrated_evolve
+12522,40,40,True,1117.0,140.0,6.120807886123657,0.0009082000000000001,orchestrated_evolve
+7905,shortage,surplus,False,1188.0,152.0,3.6453864574432373,0.0009712,orchestrated_evolve
+27410,0.5,0.50,True,1098.0,243.0,6.050853252410889,0.0010719,orchestrated_evolve
+2643,3.13,3.13,True,1118.0,173.0,4.247853755950928,0.0009649,orchestrated_evolve
+15646,yes,no,False,1085.0,87.0,2.8638789653778076,0.0007989,orchestrated_evolve
+15536,1120,5/28,False,1115.0,778.0,15.392318725585938,0.0019916,orchestrated_evolve
+17425,11,11,True,1184.0,895.0,16.38981604576111,0.0022319,orchestrated_evolve
+12549,1190,"1,190",True,1116.0,50.0,3.398428440093994,0.0007546,orchestrated_evolve
+10862,6,6,True,1122.0,216.0,6.153567314147949,0.0010404,orchestrated_evolve
+2250,"**exception raised**: invalid syntax (<unknown>, line 1)",1,False,614.0,109.0,2.5688581466674805,0.0005537,orchestrated_evolve
+21356,6,6,True,1250.0,673.0,13.45048713684082,0.0018941000000000001,orchestrated_evolve
+8736,nonlinear,nonlinear,True,1049.0,852.0,14.450569868087769,0.0020778,orchestrated_evolve
+29581,"**exception raised**: invalid syntax (<unknown>, line 1)",yes,False,594.0,33.0,1.2282252311706543,0.0004125,orchestrated_evolve
+37708,shortage,shortage,True,1185.0,231.0,4.821528196334839,0.0011037,orchestrated_evolve
+31605,80.17,80.17,True,1162.0,264.0,5.616865158081055,0.001146,orchestrated_evolve
+29886,no,no,True,1075.0,120.0,3.309361696243286,0.0008489999999999999,orchestrated_evolve
+32607,**exception raised**: malformed node or string on line 1: <ast.Name object at 0x11ea24220>,Sunday,False,592.0,122.0,3.6907801628112793,0.0005626,orchestrated_evolve
+25931,linear,nonlinear,False,1049.0,44.0,2.950726270675659,0.0007042,orchestrated_evolve
+30979,?,12,False,1085.0,658.0,10.928551435470581,0.0017695999999999999,orchestrated_evolve
+12809,"**exception raised**: invalid syntax (<unknown>, line 1)",yes,False,630.0,250.0,5.251888990402222,0.000803,orchestrated_evolve
+24280,1,1,True,1101.0,115.0,2.855684518814087,0.0008561,orchestrated_evolve
+21180,other,67,False,1107.0,224.0,4.306608200073242,0.001045,orchestrated_evolve
+26134,"**exception raised**: invalid syntax (<unknown>, line 1)",6:55 P.M.,False,880.0,220.0,3.6796462535858154,0.000902,orchestrated_evolve
+17491,8.0,8,True,1107.0,53.0,2.854221820831299,0.0007543,orchestrated_evolve
+14908,808,808,True,1080.0,175.0,5.280179262161255,0.0009454999999999999,orchestrated_evolve
+8269,130980410880,41/240,False,1115.0,532.0,10.613779306411743,0.0015733999999999998,orchestrated_evolve
+27797,4,55,False,1088.0,106.0,2.996237277984619,0.000833,orchestrated_evolve
+10972,other,9,False,1133.0,622.0,10.304978609085083,0.0017372000000000002,orchestrated_evolve
+6375,1.82,1.82,True,1155.0,272.0,5.995476484298706,0.0011554,orchestrated_evolve
+2766,1 hour,1 hour,True,1876.0,1500.0,46.19487547874451,0.0036756000000000002,orchestrated_evolve
+34232,Lee Avenue,Lee Avenue,True,1206.0,301.0,6.725976228713989,0.0012353000000000002,orchestrated_evolve
+6184,"**exception raised**: invalid syntax (<unknown>, line 2)",8,False,610.0,629.0,12.789798021316528,0.0014353,orchestrated_evolve
+24604,linear,nonlinear,False,1049.0,166.0,6.8527281284332275,0.0009116,orchestrated_evolve
+20385,14,3,False,1218.0,410.0,17.064427852630615,0.0014278000000000001,orchestrated_evolve
+38277,64569465,6,False,1168.0,874.0,23.057714223861694,0.0021866,orchestrated_evolve
+25427,5,5,True,1110.0,52.0,2.5065500736236572,0.0007543999999999999,orchestrated_evolve
+10755,5.0,5,True,1121.0,59.0,4.9965972900390625,0.0007728999999999999,orchestrated_evolve
+13686,4.09,12.78,False,1130.0,48.0,3.9409072399139404,0.0007595999999999999,orchestrated_evolve
+14443,1,4,False,1213.0,143.0,4.149954557418823,0.0009709,orchestrated_evolve
+37113,8,10.40,False,1096.0,344.0,18.450422286987305,0.0012423999999999998,orchestrated_evolve
+6149,26.88,26.88,True,1123.0,80.0,3.0501630306243896,0.0008098,orchestrated_evolve
+7772,0.15,0.15,True,1118.0,199.0,9.358442306518555,0.0010091,orchestrated_evolve
+25815,14,14,True,1128.0,574.0,22.41538667678833,0.0016526000000000002,orchestrated_evolve
+32284,Mr. Watson,Mr. Watson,True,1109.0,43.0,3.0386898517608643,0.0007384999999999999,orchestrated_evolve
+14090,Waves versus Alligators game,Waves versus Alligators game,True,1449.0,182.0,6.0658628940582275,0.0011788,orchestrated_evolve
+24053,maple,maple,True,1148.0,47.0,3.2670319080352783,0.0007687,orchestrated_evolve
+36134,47,47,True,1090.0,40.0,2.4643056392669678,0.000722,orchestrated_evolve
+17318,90,90,True,1256.0,148.0,6.521575927734375,0.0010052,orchestrated_evolve
+33502,-2,2,False,1140.0,296.0,5.62492823600769,0.0011872,orchestrated_evolve
+33001,70.0,70,True,1142.0,62.0,3.3252241611480713,0.0007905999999999999,orchestrated_evolve
+37491,other,53/201,False,1082.0,216.0,12.949475049972534,0.0010164,orchestrated_evolve
+3015,unsupported operation,20,False,1068.0,182.0,10.880542278289795,0.0009501999999999999,orchestrated_evolve
+36348,yes,no,False,1123.0,353.0,18.544775009155273,0.0012739,orchestrated_evolve
+22979,4,4,True,1206.0,1072.0,49.529475927352905,0.0025460000000000005,orchestrated_evolve
+4287,linear,nonlinear,False,1049.0,487.0,22.52972173690796,0.0014573,orchestrated_evolve
+29814,11,11,True,1159.0,495.0,8.172649383544922,0.0015369,orchestrated_evolve
+2721,6,6,True,1097.0,129.0,3.977041244506836,0.0008775,orchestrated_evolve
+8707,0.5,5/19,False,1158.0,206.0,10.164525985717773,0.001045,orchestrated_evolve
+25173,?,50,False,1084.0,189.0,10.939545631408691,0.0009717,orchestrated_evolve
+27079,16,17,False,1254.0,223.0,6.209242105484009,0.0011315,orchestrated_evolve
+1857,32,32,True,1118.0,218.0,10.570730447769165,0.0010414,orchestrated_evolve
+7145,7,-7,False,1118.0,344.0,6.795739412307739,0.0012556,orchestrated_evolve
+21861,4,7,False,1109.0,254.0,6.462555408477783,0.0010972,orchestrated_evolve
+14033,74.0,74,True,1118.0,56.0,4.19469428062439,0.0007659999999999999,orchestrated_evolve
+33190,May,April,False,1140.0,47.0,5.1865363121032715,0.0007639,orchestrated_evolve
+11663,4,4,True,1204.0,538.0,27.97985005378723,0.001637,orchestrated_evolve
+34187,4,8,False,1081.0,41.0,2.791734457015991,0.0007183000000000001,orchestrated_evolve
+23449,Brazil,Finland,False,1120.0,41.0,2.6432998180389404,0.0007417,orchestrated_evolve
+20947,adding an upgrade,buying a used phone,False,1186.0,704.0,14.113430261611938,0.0019084,orchestrated_evolve
+32007,1.40,7,False,1096.0,44.0,2.9855778217315674,0.0007323999999999999,orchestrated_evolve
+23749,3,3,True,1117.0,315.0,6.193197727203369,0.0012057,orchestrated_evolve
+20488,-0.41,0.41,False,1088.0,51.0,2.4764811992645264,0.0007394999999999999,orchestrated_evolve
+14820,13802,"13,802",True,1075.0,156.0,4.162858247756958,0.0009102000000000001,orchestrated_evolve
+5179,16/9,48/103,False,1104.0,237.0,5.721959829330444,0.0010653,orchestrated_evolve
+27929,57,57,True,1197.0,257.0,5.861647844314575,0.0011551,orchestrated_evolve
+3011,4.0,4,True,1267.0,919.0,12.397400856018066,0.0023225,orchestrated_evolve
+11712,7,7,True,1140.0,518.0,16.366783380508423,0.0015646000000000002,orchestrated_evolve
+10639,8,8,True,1095.0,49.0,3.382046699523926,0.0007402999999999999,orchestrated_evolve
+31032,27,27,True,1099.0,179.0,7.563737392425537,0.0009637000000000001,orchestrated_evolve
+17459,4,4/15,False,1143.0,618.0,11.028834342956543,0.0017364,orchestrated_evolve
+22825,tap dance class,tap dance class,True,1351.0,184.0,5.055540561676025,0.0011234,orchestrated_evolve
+13492,5,51,False,1131.0,289.0,11.428628921508789,0.0011699,orchestrated_evolve
+32732,30,70,False,1216.0,257.0,12.330972671508789,0.0011665,orchestrated_evolve
+14977,7 per pound,17,False,1130.0,265.0,12.065527200698853,0.0011285,orchestrated_evolve
+1847,Monday,Wednesday,False,1108.0,648.0,25.11241626739502,0.0017664,orchestrated_evolve
+4039,Acorns to Oaks,Acorns to Oaks,True,1112.0,648.0,18.671438932418823,0.0017688,orchestrated_evolve
+29437,"8,824","8,824",True,1112.0,172.0,4.943094968795776,0.0009595999999999998,orchestrated_evolve
+13285,5.00,35,False,1128.0,255.0,7.826081037521362,0.0011103,orchestrated_evolve
+13861,surplus,surplus,True,1189.0,875.0,26.09862732887268,0.0022009,orchestrated_evolve
+3933,Unsupported operation,3.60,False,1097.0,508.0,16.397807598114014,0.0015218000000000002,orchestrated_evolve
+8058,89,89,True,1140.0,206.0,6.899404764175415,0.0010342,orchestrated_evolve
+13392,75,75,True,1207.0,139.0,4.733835935592651,0.0009605,orchestrated_evolve
+36923,22,22,True,1177.0,275.0,6.5517449378967285,0.0011737,orchestrated_evolve
+30988,4,20,False,1067.0,41.0,2.8367886543273926,0.0007099000000000001,orchestrated_evolve
+37722,no,yes,False,1139.0,273.0,6.931220054626465,0.0011474999999999999,orchestrated_evolve
+26720,29,29,True,1118.0,188.0,7.122864484786987,0.0009904,orchestrated_evolve
+6067,Russia,Germany,False,1150.0,209.0,5.360940456390381,0.0010453,orchestrated_evolve
+31094,1,1,True,1089.0,37.0,2.741020441055298,0.0007163,orchestrated_evolve
+38099,"**exception raised**: unterminated string literal (detected at line 9) (<unknown>, line 9)",5.86,False,654.0,1165.0,29.40159773826599,0.0023729,orchestrated_evolve
+29268,6,26,False,1157.0,380.0,7.0756425857543945,0.0013402,orchestrated_evolve
+17177,18,18,True,1135.0,135.0,4.790893077850342,0.0009104999999999999,orchestrated_evolve
+22248,4,4,True,1156.0,290.0,7.706697225570679,0.0011866,orchestrated_evolve
+11214,3840,7/41,False,1125.0,674.0,10.179309606552124,0.0018208000000000002,orchestrated_evolve
+6009,19,19,True,1249.0,1219.0,30.062960624694824,0.0028217,orchestrated_evolve
+333,94.0,94,True,1140.0,683.0,18.300116777420044,0.0018451000000000001,orchestrated_evolve
+8293,7985,"7,985",True,1166.0,163.0,7.561554670333862,0.0009767,orchestrated_evolve
+24653,4,4,True,1114.0,311.0,6.31359338760376,0.0011971,orchestrated_evolve
+16146,10,5,False,1184.0,549.0,12.916481971740723,0.0016437,orchestrated_evolve
+37889,3,3,True,1123.0,348.0,10.865819215774536,0.0012654,orchestrated_evolve
+33549,yes,no,False,1196.0,1036.0,27.856613636016846,0.0024787999999999998,orchestrated_evolve
+21246,**exception raised**: litellm.ServiceUnavailableError: ServiceUnavailableError: Together_aiException - Service unavailable,Meg,False,832.0,31.0,3.7023682594299316,0.0005518999999999999,orchestrated_evolve
+22772,**exception raised**: litellm.ServiceUnavailableError: ServiceUnavailableError: Together_aiException - Service unavailable,Katie,False,586.0,82.0,2.642050266265869,0.000491,orchestrated_evolve
+27013,"**exception raised**: invalid syntax (<unknown>, line 2)",90,False,634.0,976.0,39.43017792701721,0.0020396,orchestrated_evolve
+7321,5.0,5,True,1148.0,991.0,45.15011286735535,0.0023735,orchestrated_evolve
+27332,"**exception raised**: unterminated string literal (detected at line 5) (<unknown>, line 5)",12,False,702.0,1376.0,51.881036043167114,0.0027603999999999997,orchestrated_evolve
+8231,"**exception raised**: invalid syntax (<unknown>, line 1)",6,False,630.0,120.0,18.428345680236816,0.000582,orchestrated_evolve
+1206,11.17,11.17,True,1084.0,202.0,6.63789439201355,0.0009938,orchestrated_evolve
+9064,shortage,surplus,False,1205.0,416.0,34.306971073150635,0.0014302,orchestrated_evolve
+1247,**exception raised**: malformed node or string on line 1: <ast.BinOp object at 0x11ea44070>,Luna,False,578.0,22.0,10.879286050796509,0.0003842,orchestrated_evolve
+1117,4,8,False,1063.0,1125.0,64.13325881958008,0.0025503,orchestrated_evolve
+22264,"**exception raised**: invalid syntax (<unknown>, line 1)",1,False,666.0,119.0,9.022205114364624,0.0006019,orchestrated_evolve
+3936,0.0,"8,696",False,1220.0,138.0,23.418505907058716,0.0009666,orchestrated_evolve
+16254,69,69,True,1130.0,118.0,20.27354860305786,0.0008786,orchestrated_evolve
+19297,44,2/7,False,1144.0,828.0,54.26873254776001,0.002094,orchestrated_evolve
+28229,386.00,386,True,1088.0,48.0,8.800421714782715,0.0007344,orchestrated_evolve
+20684,21,21,True,1124.0,127.0,15.109691381454468,0.0008902999999999999,orchestrated_evolve
+25620,19,19,True,1118.0,144.0,10.330291271209717,0.0009155999999999999,orchestrated_evolve
+28120,12,12,True,1111.0,109.0,5.707454204559326,0.0008519,orchestrated_evolve
+4345,81.0,81,True,1164.0,118.0,10.432064533233643,0.000899,orchestrated_evolve
+9752,3.00,3,True,1083.0,144.0,5.996941328048706,0.0008946,orchestrated_evolve
+5509,no,no,True,1057.0,370.0,14.87917709350586,0.0012632,orchestrated_evolve
+34461,Eastern Zoo,Atlantic Zoo,False,1147.0,453.0,26.492412090301514,0.0014583,orchestrated_evolve
+979,8,8,True,1114.0,40.0,7.7338316440582275,0.0007363999999999999,orchestrated_evolve
+8608,Tina,Robert,False,1075.0,420.0,24.167622089385986,0.001359,orchestrated_evolve
+4734,0.5,5/13,False,1150.0,131.0,13.682671308517456,0.0009126999999999999,orchestrated_evolve
+28241,74,74,True,1115.0,333.0,21.33652424812317,0.0012351,orchestrated_evolve
+24251,9,8,False,1127.0,167.0,10.901613235473633,0.0009601,orchestrated_evolve
+11204,5,5,True,1161.0,1127.0,47.190505266189575,0.0026125000000000002,orchestrated_evolve
+3671,1:15 P.M.,3:15 P.M.,False,1570.0,2091.0,95.35085701942444,0.0044967,orchestrated_evolve
