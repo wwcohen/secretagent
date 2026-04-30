@@ -2,7 +2,7 @@
 
 ## 0. Artifact Map and Git Status
 
-This report is the index for the MedCalc induction/orchestration artifacts in this repository. The report file itself is listed in `.gitignore`, so updates to this file must be force-added when committing.
+This report is the index for the MedCalc induction/orchestration artifacts in this repository. A shorter browseable index also lives at `benchmarks/medcalc/results/README.md` for people starting from the results tree. The report file itself is listed in `.gitignore`, so updates to this file must be force-added when committing.
 
 ### Read this first: where to find the main artifacts
 
