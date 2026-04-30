@@ -1,0 +1,39 @@
+llm:
+  model: together_ai/deepseek-ai/DeepSeek-V3.1
+orchestrate:
+  model: together_ai/deepseek-ai/DeepSeek-V3.1
+  max_retries: 3
+  evolve:
+    population_size: 2
+    n_generations: 1
+    stratify_key: ques_type
+    train_n: 100
+cachier:
+  cache_dir: /Users/lauhityareddy/secretagent/benchmarks/tabmwp/llm_cache
+echo:
+  orchestrate: true
+evaluate:
+  expt_name: orchestrated_evolve
+  result_dir: /Users/lauhityareddy/secretagent/benchmarks/tabmwp/results
+  record_details: true
+  max_workers: 6
+dataset:
+  split: test1k
+  shuffle_seed: 42
+ptools:
+  identify_operation:
+    method: simulate
+  extract_relevant_values:
+    method: simulate
+  compute_answer:
+    method: simulate
+  format_answer:
+    method: simulate
+  tabmwp_solve:
+    method: orchestrate
+    task_description: 'Solve a tabular math word problem. You receive a question,
+      a pipe-delimited table, and optionally a list of answer choices. Identify the
+      operation, extract relevant values from the table, compute the answer, and format
+      it. Return the answer as a string.
+
+      '

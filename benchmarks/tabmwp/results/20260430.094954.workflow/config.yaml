@@ -1,0 +1,21 @@
+llm:
+  model: together_ai/deepseek-ai/DeepSeek-V3.1
+cachier:
+  cache_dir: /home/rafacabrera7/DesktopUbuntu/secretagent/benchmarks/tabmwp/llm_cache
+evaluate:
+  expt_name: workflow
+  result_dir: /home/rafacabrera7/DesktopUbuntu/secretagent/benchmarks/tabmwp/results
+  record_details: true
+dataset:
+  split: test
+  shuffle_seed: 42
+  'n': 100
+ptools:
+  extract_and_compute:
+    method: simulate
+  format_answer:
+    method: simulate
+  tabmwp_solve:
+    method: direct
+    fn: ptools.broad_workflow
+root: /home/rafacabrera7/DesktopUbuntu/secretagent/benchmarks/tabmwp

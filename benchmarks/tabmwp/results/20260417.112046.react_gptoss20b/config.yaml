@@ -1,0 +1,42 @@
+llm:
+  model: together_ai/openai/gpt-oss-20b
+cachier:
+  cache_dir: /home/rafacabrera7/DesktopUbuntu/secretagent/benchmarks/tabmwp/llm_cache
+evaluate:
+  expt_name: react_gptoss20b
+  result_dir: /home/rafacabrera7/DesktopUbuntu/secretagent/benchmarks/tabmwp/results
+  record_details: true
+  entry_point: tabmwp_react
+dataset:
+  split: dev1k
+  shuffle_seed: 42
+  'n': 50
+ptools:
+  identify_operation:
+    method: simulate
+  compute_answer:
+    method: simulate
+  format_answer:
+    method: simulate
+  extract_answer:
+    method: simulate
+  get_table_schema:
+    method: direct
+  lookup_value:
+    method: direct
+  query_column:
+    method: direct
+  query_table:
+    method: direct
+  tabmwp_solve:
+    method: simulate_pydantic
+    tools:
+    - ptools.identify_operation
+    - ptools.compute_answer
+    - ptools.format_answer
+    - ptools.get_table_schema
+    - ptools.lookup_value
+    - ptools.query_column
+    - ptools.query_table
+  tabmwp_react:
+    method: direct

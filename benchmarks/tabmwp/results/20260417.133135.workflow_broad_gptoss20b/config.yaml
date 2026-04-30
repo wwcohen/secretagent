@@ -1,0 +1,20 @@
+llm:
+  model: together_ai/openai/gpt-oss-20b
+cachier:
+  cache_dir: /home/rafacabrera7/DesktopUbuntu/secretagent/benchmarks/tabmwp/llm_cache
+evaluate:
+  expt_name: workflow_broad_gptoss20b
+  result_dir: /home/rafacabrera7/DesktopUbuntu/secretagent/benchmarks/tabmwp/results
+  record_details: true
+dataset:
+  split: test1k
+  shuffle_seed: 42
+  'n': 50
+ptools:
+  extract_and_compute:
+    method: simulate
+  format_answer:
+    method: simulate
+  tabmwp_solve:
+    method: direct
+    fn: ptools.broad_workflow

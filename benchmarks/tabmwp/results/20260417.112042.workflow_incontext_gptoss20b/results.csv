@@ -1,0 +1,70 @@
+case_name,predicted_output,expected_output,correct,input_tokens,output_tokens,latency,cost,expt_name
+29227,"0.24
+FINAL ANSWER",0.24,False,1320.0,1544.0,12.296608924865723,0.0008592,workflow_incontext_gptoss20b
+18986,Unknown operation: lookup,7,False,1316.0,1164.0,6.5235466957092285,0.000744,workflow_incontext_gptoss20b
+33817,"1
+FINAL ANSWER",19,False,1330.0,1269.0,10.480946779251099,0.0007796999999999999,workflow_incontext_gptoss20b
+34752,85,85,True,1369.0,1589.0,13.039788722991943,0.0008873999999999999,workflow_incontext_gptoss20b
+1288,5,5,True,1300.0,1201.0,9.572292566299438,0.0007503,workflow_incontext_gptoss20b
+18048,"Unsupported operation
+FINAL ANSWER",51.45,False,1300.0,1683.0,12.428731918334961,0.0008948999999999999,workflow_incontext_gptoss20b
+3527,"**exception raised**: invalid syntax (<unknown>, line 2)",109.53,False,710.0,421.0,3.715733051300049,0.00033929999999999995,workflow_incontext_gptoss20b
+27944,"1
+FINAL ANSWER",23,False,1359.0,1749.0,9.037441492080688,0.0009323999999999999,workflow_incontext_gptoss20b
+13497,9,9,True,1373.0,2057.0,14.987334966659546,0.001029,workflow_incontext_gptoss20b
+19411,"**exception raised**: invalid syntax (<unknown>, line 2)",7,False,694.0,566.0,4.490543842315674,0.00037799999999999997,workflow_incontext_gptoss20b
+6626,"-8
+FINAL ANSWER",-2,False,1341.0,1627.0,10.817880153656006,0.0008904,workflow_incontext_gptoss20b
+30432,"1
+FINAL ANSWER",4,False,1321.0,1929.0,14.639142513275146,0.000975,workflow_incontext_gptoss20b
+15918,"linear
+FINAL ANSWER",nonlinear,False,1272.0,1317.0,6.618521690368652,0.0007767,workflow_incontext_gptoss20b
+22746,"1
+FINAL ANSWER",22,False,1325.0,1211.0,8.295583486557007,0.0007607999999999998,workflow_incontext_gptoss20b
+25289,9,9,True,1296.0,1712.0,12.249903440475464,0.0009024,workflow_incontext_gptoss20b
+18822,"**exception raised**: invalid syntax (<unknown>, line 2)",1,False,705.0,856.0,5.999871253967285,0.0004683,workflow_incontext_gptoss20b
+28247,6.76,6.76,True,1332.0,2080.0,12.145941257476807,0.0010236,workflow_incontext_gptoss20b
+2085,"1
+FINAL ANSWER",-1,False,1335.0,789.0,6.540912628173828,0.0006371999999999999,workflow_incontext_gptoss20b
+27287,FINAL ANSWER,10,False,1334.0,1209.0,8.3895423412323,0.0007629000000000001,workflow_incontext_gptoss20b
+12914,"4
+FINAL ANSWER",20,False,1299.0,1392.0,7.789105653762817,0.0008072999999999999,workflow_incontext_gptoss20b
+16900,"3
+FINAL ANSWER",2/7,False,1362.0,1597.0,9.56249475479126,0.0008877,workflow_incontext_gptoss20b
+29793,1,0,False,1323.0,895.0,5.896930694580078,0.0006653999999999999,workflow_incontext_gptoss20b
+13426,"**exception raised**: invalid syntax (<unknown>, line 2)",11,False,773.0,1158.0,5.825408935546875,0.0005793,workflow_incontext_gptoss20b
+17353,11,11,True,1359.0,1161.0,8.51444411277771,0.0007559999999999999,workflow_incontext_gptoss20b
+22927,"1
+FINAL ANSWER",2,False,1344.0,1079.0,7.415125846862793,0.0007268999999999999,workflow_incontext_gptoss20b
+17651,Unknown operation: lookup,7,False,1333.0,995.0,4.99181056022644,0.0006984,workflow_incontext_gptoss20b
+22739,1,3,False,1368.0,1251.0,7.9051384925842285,0.0007857,workflow_incontext_gptoss20b
+20615,11,11,True,1317.0,1080.0,7.437108516693115,0.0007191,workflow_incontext_gptoss20b
+13790,"176.28
+FINAL ANSWER",176.28,False,1313.0,1200.0,8.46968388557434,0.0007539000000000001,workflow_incontext_gptoss20b
+28918,"**exception raised**: invalid syntax (<unknown>, line 2)",1.06,False,691.0,530.0,3.26114559173584,0.00036629999999999996,workflow_incontext_gptoss20b
+23399,"**exception raised**: invalid syntax (<unknown>, line 2)",19.27,False,710.0,345.0,2.3545591831207275,0.0003165,workflow_incontext_gptoss20b
+35781,yes,no,False,1328.0,1546.0,8.250685214996338,0.0008622,workflow_incontext_gptoss20b
+29944,"**exception raised**: invalid syntax (<unknown>, line 2)",6,False,684.0,1309.0,7.525447845458984,0.0005979,workflow_incontext_gptoss20b
+18621,**exception raised**: malformed node or string on line 1: <ast.BinOp object at 0x72c8eee1c370>,69/127,False,716.0,777.0,5.709618091583252,0.0004479,workflow_incontext_gptoss20b
+34882,"yes
+FINAL ANSWER",yes,False,1319.0,1765.0,13.248568296432495,0.0009252,workflow_incontext_gptoss20b
+13889,1,3,False,1357.0,1434.0,8.456557989120483,0.0008372999999999999,workflow_incontext_gptoss20b
+21997,"**exception raised**: invalid syntax (<unknown>, line 2)",25,False,682.0,1628.0,13.3948392868042,0.000693,workflow_incontext_gptoss20b
+27062,FINAL ANSWER,10,False,1357.0,930.0,8.658692359924316,0.0006860999999999999,workflow_incontext_gptoss20b
+2178,2,2,True,1334.0,1592.0,8.908797264099121,0.0008778,workflow_incontext_gptoss20b
+16080,26626,6,False,1320.0,1350.0,9.498841762542725,0.0008010000000000001,workflow_incontext_gptoss20b
+2198,"**exception raised**: invalid syntax (<unknown>, line 2)",18,False,713.0,323.0,2.759544610977173,0.00031079999999999997,workflow_incontext_gptoss20b
+10348,"30
+FINAL ANSWER",25,False,1295.0,1388.0,9.784870862960815,0.0008049,workflow_incontext_gptoss20b
+29011,380,19/124,False,1312.0,1921.0,10.916987419128418,0.0009698999999999999,workflow_incontext_gptoss20b
+6681,"0.00
+FINAL ANSWER","1,522.81",False,1373.0,2633.0,14.934618949890137,0.0012018,workflow_incontext_gptoss20b
+17351,5,5,True,1347.0,1920.0,10.072919607162476,0.0009801,workflow_incontext_gptoss20b
+29691,"**exception raised**: invalid syntax (<unknown>, line 2)",8,False,742.0,860.0,6.810478448867798,0.00048059999999999997,workflow_incontext_gptoss20b
+6310,"3
+FINAL ANSWER",3,False,1324.0,817.0,5.859670400619507,0.0006423,workflow_incontext_gptoss20b
+5717,"Unsupported operation
+FINAL ANSWER",5/17,False,1376.0,1210.0,8.270129442214966,0.0007758000000000001,workflow_incontext_gptoss20b
+27569,"**exception raised**: invalid syntax (<unknown>, line 2)",9:00 P.M.,False,926.0,1465.0,7.641211748123169,0.0007173,workflow_incontext_gptoss20b
+4730,"yes
+FINAL ANSWER",yes,False,1354.0,2331.0,13.966031789779663,0.0011055,workflow_incontext_gptoss20b

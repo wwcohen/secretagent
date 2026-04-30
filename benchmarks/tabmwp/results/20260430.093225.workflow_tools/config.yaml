@@ -1,0 +1,33 @@
+llm:
+  model: together_ai/deepseek-ai/DeepSeek-V3.1
+cachier:
+  cache_dir: /home/rafacabrera7/DesktopUbuntu/secretagent/benchmarks/tabmwp/llm_cache
+evaluate:
+  expt_name: workflow_tools
+  result_dir: /home/rafacabrera7/DesktopUbuntu/secretagent/benchmarks/tabmwp/results
+  record_details: true
+dataset:
+  split: train
+  shuffle_seed: 42
+  'n': 100
+ptools:
+  identify_operation:
+    method: simulate
+  extract_relevant_values:
+    method: simulate
+  compute_answer:
+    method: simulate
+  format_answer:
+    method: simulate
+  get_table_schema:
+    method: direct
+  lookup_value:
+    method: direct
+  query_column:
+    method: direct
+  query_table:
+    method: direct
+  tabmwp_solve:
+    method: direct
+    fn: ptools.tools_workflow
+root: /home/rafacabrera7/DesktopUbuntu/secretagent/benchmarks/tabmwp
