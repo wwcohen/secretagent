@@ -289,3 +289,9 @@ def compute_tax_answer_react(params: TaxParams) -> float:
     Returns the amount owed (positive) or refund (negative) in dollars.
     """
     ...
+
+
+@interface
+def compute_tax_answer_orchestrated(forms_text: str) -> float:
+    """Compute total federal tax owed from filled IRS forms."""
+    ...
