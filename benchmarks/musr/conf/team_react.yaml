@@ -2,7 +2,7 @@
 # Tools: search(query), lookup(string), finish(answer_index)
 # Test split (seed-42 partition: train=75 / val=75 / test=remainder=100)
 llm:
-  model: together_ai/deepseek-ai/DeepSeek-V3
+  model: together_ai/deepseek-ai/DeepSeek-V3.1
 
 cachier:
   cache_dir: llm_cache
