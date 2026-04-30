@@ -205,6 +205,13 @@ class SimulateFactory(Implementation.Factory):
         if return_type is str:
             return text.strip()
 
+        # Numeric fallback: entire output is a bare number (no <answer> tags)
+        if return_type in (int, float):
+            try:
+                return _coerce_numeric(text.strip(), return_type)
+            except (ValueError, TypeError):
+                pass
+
         # Fence-fallback: model emitted ```python\nClassName(...)\n``` or
         # ```json\n{...}\n``` without <answer> tags.
         fence_match = re.search(r'```(?:python|json)?\s*\n?(.*?)\n?```', text, re.DOTALL)
@@ -500,6 +507,8 @@ class PoTFactory(ToolUsingFactory):
     def __call__(self, *args, **kw):
         interface = self.bound_interface
         with config.configuration(**self.prompt_kw):
+            saved_custom_tools = dict(self.python_executor.custom_tools)
+            self.python_executor.state = {}
             # Inject input arg values into sandbox so LLM can reference
             # them as variables without copying large strings into code.
             if self.inject_args:
@@ -526,6 +535,8 @@ class PoTFactory(ToolUsingFactory):
                     output=f'**exception**: {ex}', stats=stats,
                     step_info=dict(generated_code=llm_output))
                 raise
+            finally:
+                self.python_executor.custom_tools = saved_custom_tools
             if config.get('echo.code_eval_output'):
                 llm_util.echo_boxed(str(answer), 'code_eval_output')
             record.record(
@@ -546,10 +557,15 @@ class PoTFactory(ToolUsingFactory):
             input_args = interface.format_args(*args, **kw)
         if (not input_args.strip()):
             raise ValueError(f'input_args null for {interface.name} on {args=} {kw=}')
-        tool_stub_src_listing = '\n\n'.join([
-            tool_interface.src
-            for tool_interface in tool_interfaces
-            ])
+        tool_stubs = []
+        for tool_interface in tool_interfaces:
+            stub = tool_interface.src
+            return_type = tool_interface.annotations.get('return', str)
+            schema = _format_pydantic_schema(return_type)
+            if schema:
+                stub += '\n' + schema
+            tool_stubs.append(stub)
+        tool_stub_src_listing = '\n\n'.join(tool_stubs)
         if additional_authorized_imports:
             imports = '\n' + '\n'.join(
                 ['You may use these packages:\n'] + 
