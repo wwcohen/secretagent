@@ -144,6 +144,45 @@ def _extract_number(value: Any) -> Optional[float]:
 # Dataset loading
 # =============================================================================
 
+EQUATION_CATEGORIES = {'physical', 'lab test', 'dosage'}
+RULE_CATEGORIES = {'risk', 'diagnosis', 'severity'}
+
+
+def _category_filter_set(value: Any) -> set[str] | None:
+    """Resolve dataset.category_filter into MedCalc category labels."""
+    if value is None or value == '':
+        return None
+    if isinstance(value, str):
+        key = value.strip().lower()
+        if key in {'equation', 'equations', 'equation-based'}:
+            return set(EQUATION_CATEGORIES)
+        if key in {'rule', 'rules', 'rule-based'}:
+            return set(RULE_CATEGORIES)
+        if key == 'date':
+            return {'date'}
+        values = [part.strip().lower() for part in value.split(',')]
+        return {part for part in values if part}
+    if isinstance(value, (list, tuple, set)):
+        return {str(part).strip().lower() for part in value if str(part).strip()}
+    raise ValueError(f'Unsupported dataset.category_filter={value!r}')
+
+
+def _apply_dataset_filters(cases: list[Case]) -> list[Case]:
+    category_filter = _category_filter_set(config.get('dataset.category_filter'))
+    if not category_filter:
+        return cases
+    filtered = [
+        case for case in cases
+        if str((case.metadata or {}).get('category', '')).lower()
+        in category_filter
+    ]
+    print(
+        f'Category filter {sorted(category_filter)}: '
+        f'{len(filtered)} / {len(cases)} cases'
+    )
+    return filtered
+
+
 def load_dataset(split: str) -> Dataset:
     """Load MedCalc-Bench from HuggingFace and convert to secretagent Dataset."""
     from datasets import load_dataset as hf_load
@@ -157,6 +196,7 @@ def load_dataset(split: str) -> Dataset:
         if case is not None:
             cases.append(case)
 
+    cases = _apply_dataset_filters(cases)
     print(f"Loaded {len(cases)} cases from {split} split")
     return Dataset(name='medcalc', split=split, cases=cases)
 
@@ -288,6 +328,34 @@ def stratified_sample(cases: list[Case], n: int, seed: int = 42) -> list[Case]:
     return selected
 
 
+def per_calculator_sample(
+    cases: list[Case],
+    per_calculator_n: int,
+    seed: int = 42,
+    skip_per_calculator: int = 0,
+) -> list[Case]:
+    """Balanced sample with up to N cases per calculator.
+
+    skip_per_calculator lets a second sample use the next cases from the same
+    seeded per-calculator ordering, giving a simple disjoint eval slice.
+    """
+    rng = random.Random(seed)
+    groups: dict[str, list[Case]] = {}
+    for case in cases:
+        calc = (case.metadata or {}).get('calculator_name', 'unknown')
+        groups.setdefault(calc, []).append(case)
+
+    selected: list[Case] = []
+    for items in groups.values():
+        rng.shuffle(items)
+        start = max(0, skip_per_calculator)
+        stop = start + per_calculator_n
+        selected.extend(items[start:stop])
+
+    rng.shuffle(selected)
+    return selected
+
+
 def stratified_split(cases: list[Case], n_train: int, n_eval: int,
                      seed: int = 42) -> tuple[list[Case], list[Case]]:
     """Split cases into disjoint train/eval sets, stratified by calculator_name.
@@ -348,7 +416,21 @@ def setup(ctx: typer.Context, config_file: Path | None = None):
     n = config.get('dataset.n')
     shuffle_seed = config.get('dataset.shuffle_seed', 42)
 
-    if stratified and n:
+    per_calc_n = config.get('dataset.per_calculator_n')
+    per_calc_skip = int(config.get('dataset.per_calculator_skip', 0) or 0)
+
+    if per_calc_n:
+        dataset.cases = per_calculator_sample(
+            dataset.cases,
+            int(per_calc_n),
+            seed=shuffle_seed,
+            skip_per_calculator=per_calc_skip,
+        )
+        print(
+            f'Per-calculator sample: {len(dataset.cases)} cases '
+            f'({per_calc_n}/calc, skip={per_calc_skip})'
+        )
+    elif stratified and n:
         dataset.cases = stratified_sample(dataset.cases, int(n), seed=shuffle_seed)
         print(f'Stratified sample: {len(dataset.cases)} cases')
     elif stratified and not n:
