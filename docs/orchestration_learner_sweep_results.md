@@ -3,6 +3,25 @@
 Interactive curves: [orchestration_learner_sweep_curves.html](orchestration_learner_sweep_curves.html).
 Research questions and findings: [orchestration_learner_research_findings.html](orchestration_learner_research_findings.html).
 
+## Checked-In Artifact Locations
+
+- Run scripts: `scripts/orchestrator_learner/`
+- Sweep report: `docs/orchestration_learner_sweep_results.md`
+- Interactive curves: `docs/orchestration_learner_sweep_curves.html`
+- Research findings dashboard: `docs/orchestration_learner_research_findings.html`
+- Checked-in result roots referenced by this report:
+  - `benchmarks/finqa/results/orchestration_learner/`
+  - `benchmarks/medcalc/results/orchestration_learner/`
+  - `benchmarks/musr/results/orchestration_learner/`
+  - `benchmarks/natural_plan/results/orchestration_learner/`
+  - `benchmarks/rulearena/results/orchestration_learner/`
+  - `benchmarks/tabmwp/results/orchestration_learner/`
+  - `benchmarks/bbh/sports_understanding/results/orchestration_learner/`
+  - `benchmarks/bbh/geometric_shapes/results/orchestration_learner/`
+  - `benchmarks/bbh/penguins_in_a_table/results/orchestration_learner/`
+
+Each timestamped `*.orch_learner/` directory listed in the table contains the checked-in learner artifacts for that run, including `run_metadata.json`, `report.json`, `implementation.yaml`, evolved ptools such as `ptools_evolved.py`, iteration snapshots, and `final_eval/*/results.csv`.
+
 ## Summary
 
 - Runs: 30
@@ -13,6 +32,8 @@ Research questions and findings: [orchestration_learner_research_findings.html](
 - No-op learner attempts: 33 across 9 runs
 
 RuleArena airline, NBA, and tax each ran both experiment classes with baseline plus five learner attempts. Their post-baseline attempts made no code changes (`ptools_before.py` equals `ptools_after.py`), so those attempts have no new train/eval result directories. The HTML shows them as gray carried-forward markers, and best T/E is selected only from actually evaluated points.
+
+TabMWP's final-eval `0.0%` entries should be treated as an instrumentation issue, not as evidence that the learned workflow lost all capability. The per-iteration evals were `50.0%`, but final eval reloads the evolved ptools after the one-time setup hook has already populated the benchmark table store; that reload clears the in-memory `_TABLE_STORE`, so later examples cannot recover their tables.
 
 ## Table
 
