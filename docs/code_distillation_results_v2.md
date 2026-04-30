@@ -443,72 +443,94 @@ Legend for table cells:
 - **c2_vN**: Class 2 (workflow distill on hand-written tools) version N — replaces top-level workflow with Python that calls existing ptools
 - **c3_v4**: Class 3 (workflow distill on LLM-induced ptools) v4
 
-Cells marked `🏃` are currently being produced by a running master:
-  - musr_object / musr_team class 1/2/3 v4 → `/tmp/musr_obj_team_full.sh` (PID 7010)
-  - tabmwp class 1/2/3 v4 → `/tmp/tabmwp_full.sh` (PID 8536)
-  - musr_murder class 2 v4 was queued in fill master (now killed), needs explicit re-launch
+Cells marked `🏃` are pending re-run (Class 3 v4 vals for musr_object/team and
+tabmwp errored on missing induced ptools — needs the `induced_ptools=simulate` fix).
 
-Cells marked `—` are not planned. Empty class 1/3 columns (v1, v3) and class 2 v3 dropped entirely.
+Cells marked `—` in **c1_v4** mean Class 1 distillation **ran but enabled 0 ptools** at the
+`val_wrong_rate ≤ 20%` gate (i.e. equivalent to baseline). Per-benchmark reasons:
+- `bbh_geometric` (6 ptools), `bbh_date` (2 ptools), `rulearena_nba/tax/airline` (1 ptool each):
+  **code-generation failure** — LLM produced None-returning stubs (train_acc 0% on all ptools),
+  most likely because the ptool output types are complex (pydantic BaseModel, SVG paths, etc.)
+  and the case format was hard for the LLM to learn from.
+- `medcalc` (3 ptools): **gate failure** — `identify_calculator` reached train 90%/val 40%,
+  `extract_calculator_values` train 68%/val 13%; both got skipped because val_wrong_rate
+  exceeded 20% (val sample n≈10-20 so even 3-4 wrong tipped the gate).
+- `natplan_meeting` and `natplan_trip`: **data-sparsity gate failure**. Train recording
+  was n=100, but `only_correct=True` filter collapses the case pool to whichever
+  rollouts had the correct final answer — and DS-V3.1 baseline only solves
+  19% of meeting / 21% of trip train rollouts. Per-ptool case pool drops to ~19-21,
+  so the 80/20 split gives **n_val ≈ 3-4 per ptool**. Single error = 33% wrong-rate >
+  20% gate threshold. Test: meeting `force-enable` (bypass gate, use train_acc=88%
+  ptools directly) achieves 55% — confirming the code is fine, the gate was the issue.
+  Fixable in two ways: (a) drop `only_correct=True` so wrong rollouts contribute
+  intermediate ptool i/o (gives ~80 train + 20 val); (b) record more train cases.
+- The `force-enable` test on `meeting` (manually enabling 2 ptools that had train 88% but
+  failed val gate) achieves **55%** vs baseline 29% — confirming the gate, not the code,
+  was the issue for several of these.
+
+Empty class columns dropped from this table for legibility (kept in raw CSV scan):
+  c1_v1 (never run), c1_v2/c2_v2 (mini n=30, superseded by v4 full-size),
+  c1_v3/c2_v3 (deprecated mid-iteration snapshot), c3_v1/v3 (no successful runs).
 
 ## Accuracy (%)
 
-| sub_bench                |   baseline_full | archived_workflow   | v1_baseline   | v1_ptool   | v1_e2e   | c1_v2   | c1_v4   | c2_v2   |   c2_v4 | c3_v4   |
-|:-------------------------|----------------:|:--------------------|:--------------|:-----------|:---------|:--------|:--------|:--------|--------:|:--------|
-| natplan_calendar         |              55 | 49                  | 54            | 84         | 90       | —       | 55      | 93      |      87 | 64      |
-| natplan_meeting          |              29 | 30                  | 0             | —          | 0        | —       | 55      | 0       |      98 | —       |
-| natplan_trip             |              21 | 15                  | —             | —          | —        | 20      | 21      | 33      |      21 | —       |
-| musr_murder              |              68 | 61                  | 70            | 70         | 0        | 70      | 68      | —       |      60 | 85      |
-| musr_object              |              61 | 53                  | —             | —          | —        | —       | 61      | —       |      68 | 🏃      |
-| musr_team                |              53 | 59                  | —             | —          | —        | —       | 33      | —       |      60 | 🏃      |
-| bbh_sports_understanding |              99 | 97                  | 97            | 97         | 63       | 93      | 99      | 70      |      99 | —       |
-| bbh_penguins_in_a_table  |              72 | 63                  | 70            | 53         | 58       | 73      | 67      | 93      |      88 | —       |
-| bbh_geometric_shapes     |              37 | 32                  | 75            | 73         | —        | 47      | —       | 87      |     100 | —       |
-| bbh_date_understanding   |              83 | 84                  | 39            | —          | 59       | —       | —       | 63      |      88 | —       |
-| medcalc                  |              61 | 79                  | 38            | 44         | 42       | —       | —       | —       |      62 | —       |
-| finqa                    |              67 | 66                  | 62            | 61         | 35       | 0       | 67      | —       |      67 | 25      |
-| rulearena_nba            |              74 | —                   | —             | —          | —        | —       | —       | —       |     100 | —       |
-| rulearena_tax            |              78 | —                   | —             | —          | —        | —       | —       | —       |     100 | —       |
-| rulearena_airline        |              46 | —                   | 90            | —          | —        | —       | —       | 100     |     100 | —       |
-| tabmwp                   |              36 | 95                  | —             | —          | —        | —       | 39      | —       |      45 | 🏃      |
+| sub_bench                |   baseline_full | archived_workflow   | v1_baseline   | v1_ptool   | v1_e2e   | c1_v4   |   c2_v4 | c3_v4   |
+|:-------------------------|----------------:|:--------------------|:--------------|:-----------|:---------|:--------|--------:|:--------|
+| natplan_calendar         |              55 | 49                  | 54            | 84         | 90       | 55      |      87 | 64      |
+| natplan_meeting          |              29 | 30                  | 0             | —          | 0        | 55      |      98 | —       |
+| natplan_trip             |              21 | 15                  | —             | —          | —        | 21      |      21 | —       |
+| musr_murder              |              68 | 61                  | 70            | 70         | 0        | 68      |      60 | 85      |
+| musr_object              |              61 | 53                  | —             | —          | —        | 61      |      68 | 🏃      |
+| musr_team                |              53 | 59                  | —             | —          | —        | 33      |      60 | 🏃      |
+| bbh_sports_understanding |              99 | 97                  | 97            | 97         | 63       | 99      |      99 | —       |
+| bbh_penguins_in_a_table  |              72 | 63                  | 70            | 53         | 58       | 67      |      88 | —       |
+| bbh_geometric_shapes     |              37 | 32                  | 75            | 73         | —        | —       |     100 | —       |
+| bbh_date_understanding   |              83 | 84                  | 39            | —          | 59       | —       |      88 | —       |
+| medcalc                  |              61 | 79                  | 38            | 44         | 42       | —       |      62 | —       |
+| finqa                    |              67 | 66                  | 62            | 61         | 35       | 67      |      67 | 25      |
+| rulearena_nba            |              74 | —                   | —             | —          | —        | —       |     100 | —       |
+| rulearena_tax            |              78 | —                   | —             | —          | —        | —       |     100 | —       |
+| rulearena_airline        |              46 | —                   | 90            | —          | —        | —       |     100 | —       |
+| tabmwp                   |              36 | 95                  | —             | —          | —        | 39      |      45 | 🏃      |
 
 ## Cost (total USD over val set)
 
-| sub_bench                | baseline_full   | archived_workflow   | v1_baseline   | v1_ptool   | v1_e2e   | c1_v2   | c1_v4   | c2_v2   | c2_v4   | c3_v4   |
-|:-------------------------|:----------------|:--------------------|:--------------|:-----------|:---------|:--------|:--------|:--------|:--------|:--------|
-| natplan_calendar         | $0.3            | $0.3                | $0.2          | $0.09      | $0       | —       | $0.3    | —       | —       | —       |
-| natplan_meeting          | $0.5            | $0.5                | $0.2          | —          | $0       | —       | $0.2    | —       | —       | —       |
-| natplan_trip             | $0.4            | $0.4                | —             | —          | —        | $0.1    | $0.4    | $0.09   | $0.4    | —       |
-| musr_murder              | $0.6            | $0.6                | $0.8          | $0.8       | $0       | $0.2    | $0.6    | —       | $0.2    | $0.2    |
-| musr_object              | $0.5            | $0.2                | —             | —          | —        | —       | $0.5    | —       | $0.5    | 🏃      |
-| musr_team                | $0.3            | $0.1                | —             | —          | —        | —       | $0.3    | —       | $0.4    | 🏃      |
-| bbh_sports_understanding | $0.1            | $0.1                | $0.1          | $0.09      | $0       | $0.04   | $0.06   | $0.04   | $0.1    | —       |
-| bbh_penguins_in_a_table  | $0.09           | $0.1                | $0.04         | $0.03      | $0       | $0.04   | $0.04   | $0      | $0.01   | —       |
-| bbh_geometric_shapes     | $0.4            | $0.4                | $1.6          | $0.9       | —        | $0.10   | —       | —       | —       | —       |
-| bbh_date_understanding   | $0.07           | $0.3                | $0.3          | —          | $0       | —       | —       | $0.02   | $0.09   | —       |
-| medcalc                  | $0.3            | $0.1                | $0.1          | $0.01      | $0       | —       | —       | —       | $0.08   | —       |
-| finqa                    | $0.1            | $0.4                | $0.1          | $0.1       | $0       | —       | $0.1    | —       | $0.2    | $0.3    |
-| rulearena_nba            | $1.2            | —                   | —             | —          | —        | —       | —       | —       | —       | —       |
-| rulearena_tax            | $0.9            | —                   | —             | —          | —        | —       | —       | —       | —       | —       |
-| rulearena_airline        | $0.9            | —                   | $0.5          | —          | —        | —       | —       | —       | —       | —       |
-| tabmwp                   | $0.1            | $0.2                | —             | —          | —        | —       | $0.09   | —       | $0.1    | 🏃      |
+| sub_bench                | baseline_full   | archived_workflow   | v1_baseline   | v1_ptool   | v1_e2e   | c1_v4   | c2_v4   | c3_v4   |
+|:-------------------------|:----------------|:--------------------|:--------------|:-----------|:---------|:--------|:--------|:--------|
+| natplan_calendar         | $0.3            | $0.3                | $0.2          | $0.09      | $0       | $0.3    | —       | —       |
+| natplan_meeting          | $0.5            | $0.5                | $0.2          | —          | $0       | $0.2    | —       | —       |
+| natplan_trip             | $0.4            | $0.4                | —             | —          | —        | $0.4    | $0.4    | —       |
+| musr_murder              | $0.6            | $0.6                | $0.8          | $0.8       | $0       | $0.6    | $0.2    | $0.2    |
+| musr_object              | $0.5            | $0.2                | —             | —          | —        | $0.5    | $0.5    | 🏃      |
+| musr_team                | $0.3            | $0.1                | —             | —          | —        | $0.3    | $0.4    | 🏃      |
+| bbh_sports_understanding | $0.1            | $0.1                | $0.1          | $0.09      | $0       | $0.06   | $0.1    | —       |
+| bbh_penguins_in_a_table  | $0.09           | $0.1                | $0.04         | $0.03      | $0       | $0.04   | $0.01   | —       |
+| bbh_geometric_shapes     | $0.4            | $0.4                | $1.6          | $0.9       | —        | —       | —       | —       |
+| bbh_date_understanding   | $0.07           | $0.3                | $0.3          | —          | $0       | —       | $0.09   | —       |
+| medcalc                  | $0.3            | $0.1                | $0.1          | $0.01      | $0       | —       | $0.08   | —       |
+| finqa                    | $0.1            | $0.4                | $0.1          | $0.1       | $0       | $0.1    | $0.2    | $0.3    |
+| rulearena_nba            | $1.2            | —                   | —             | —          | —        | —       | —       | —       |
+| rulearena_tax            | $0.9            | —                   | —             | —          | —        | —       | —       | —       |
+| rulearena_airline        | $0.9            | —                   | $0.5          | —          | —        | —       | —       | —       |
+| tabmwp                   | $0.1            | $0.2                | —             | —          | —        | $0.09   | $0.1    | 🏃      |
 
 ## N (val size)
 
-| sub_bench                |   baseline_full | archived_workflow   | v1_baseline   | v1_ptool   | v1_e2e   | c1_v2   | c1_v4   | c2_v2   |   c2_v4 | c3_v4   |
-|:-------------------------|----------------:|:--------------------|:--------------|:-----------|:---------|:--------|:--------|:--------|--------:|:--------|
-| natplan_calendar         |             100 | 100                 | —             | —          | —        | —       | 100     | 30      |     100 | 100     |
-| natplan_meeting          |             100 | 100                 | —             | —          | —        | —       | 100     | 30      |     100 | —       |
-| natplan_trip             |             100 | 100                 | —             | —          | —        | 30      | 100     | 30      |     100 | —       |
-| musr_murder              |              75 | 75                  | —             | —          | —        | 30      | 75      | —       |      75 | 20      |
-| musr_object              |              75 | 75                  | —             | —          | —        | —       | 75      | —       |      75 | 🏃      |
-| musr_team                |              75 | 75                  | —             | —          | —        | —       | 75      | —       |      75 | 🏃      |
-| bbh_sports_understanding |              75 | 75                  | —             | —          | —        | 30      | 75      | 30      |      75 | —       |
-| bbh_penguins_in_a_table  |              43 | 60                  | —             | —          | —        | 30      | 43      | 30      |      43 | —       |
-| bbh_geometric_shapes     |              75 | 75                  | —             | —          | —        | 30      | —       | 30      |      75 | —       |
-| bbh_date_understanding   |              75 | 100                 | —             | —          | —        | —       | —       | 30      |      75 | —       |
-| medcalc                  |             100 | 275                 | —             | —          | —        | —       | —       | —       |     100 | —       |
-| finqa                    |             100 | 300                 | —             | —          | —        | 100     | 100     | —       |     100 | 100     |
-| rulearena_nba            |              42 | —                   | —             | —          | —        | —       | —       | —       |      42 | —       |
-| rulearena_tax            |              50 | —                   | —             | —          | —        | —       | —       | —       |      50 | —       |
-| rulearena_airline        |              50 | —                   | —             | —          | —        | —       | —       | 30      |      50 | —       |
-| tabmwp                   |             100 | 100                 | —             | —          | —        | —       | 100     | —       |     100 | 🏃      |
+| sub_bench                |   baseline_full | archived_workflow   | v1_baseline   | v1_ptool   | v1_e2e   | c1_v4   |   c2_v4 | c3_v4   |
+|:-------------------------|----------------:|:--------------------|:--------------|:-----------|:---------|:--------|--------:|:--------|
+| natplan_calendar         |             100 | 100                 | —             | —          | —        | 100     |     100 | 100     |
+| natplan_meeting          |             100 | 100                 | —             | —          | —        | 100     |     100 | —       |
+| natplan_trip             |             100 | 100                 | —             | —          | —        | 100     |     100 | —       |
+| musr_murder              |              75 | 75                  | —             | —          | —        | 75      |      75 | 20      |
+| musr_object              |              75 | 75                  | —             | —          | —        | 75      |      75 | 🏃      |
+| musr_team                |              75 | 75                  | —             | —          | —        | 75      |      75 | 🏃      |
+| bbh_sports_understanding |              75 | 75                  | —             | —          | —        | 75      |      75 | —       |
+| bbh_penguins_in_a_table  |              43 | 60                  | —             | —          | —        | 43      |      43 | —       |
+| bbh_geometric_shapes     |              75 | 75                  | —             | —          | —        | —       |      75 | —       |
+| bbh_date_understanding   |              75 | 100                 | —             | —          | —        | —       |      75 | —       |
+| medcalc                  |             100 | 275                 | —             | —          | —        | —       |     100 | —       |
+| finqa                    |             100 | 300                 | —             | —          | —        | 100     |     100 | 100     |
+| rulearena_nba            |              42 | —                   | —             | —          | —        | —       |      42 | —       |
+| rulearena_tax            |              50 | —                   | —             | —          | —        | —       |      50 | —       |
+| rulearena_airline        |              50 | —                   | —             | —          | —        | —       |      50 | —       |
+| tabmwp                   |             100 | 100                 | —             | —          | —        | 100     |     100 | 🏃      |

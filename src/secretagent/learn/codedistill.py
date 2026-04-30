@@ -572,7 +572,7 @@ def distill_all(
     latest: int = 1,
     check: Optional[list[str]] = None,
     gate_metric: str = 'val',
-    only_correct: bool = False,
+    only_correct: bool = True,
 ) -> dict:
     """Auto-distill all interfaces found in recordings.
 
