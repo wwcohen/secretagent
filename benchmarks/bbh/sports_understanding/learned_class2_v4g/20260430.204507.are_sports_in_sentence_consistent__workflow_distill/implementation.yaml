@@ -1,0 +1,4 @@
+are_sports_in_sentence_consistent:
+  backoff: true
+  learner: workflow_distill
+  method: learned_code

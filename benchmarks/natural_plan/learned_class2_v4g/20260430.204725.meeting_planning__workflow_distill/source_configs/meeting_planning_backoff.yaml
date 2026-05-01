@@ -1,0 +1,3 @@
+ptools:
+  meeting_planning:
+    method: simulate
