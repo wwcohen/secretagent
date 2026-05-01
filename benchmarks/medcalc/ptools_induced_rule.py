@@ -73,7 +73,7 @@ def calculate_clinical_score(focus: str) -> str:
     - Provide a step-by-step list of each parameter evaluated.
     - Note the extracted patient value for each parameter.
     - State the points assigned based on the specific scoring criteria.
-    - Provide a final summation equation yielding the total score.
+    - Provide a final summation formula yielding the total score.
 
     What the agent should pay attention to:
     - Accurately apply clinical thresholds, age brackets, and unit conversions.

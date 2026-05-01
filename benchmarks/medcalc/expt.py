@@ -81,7 +81,7 @@ class MedCalcEvaluator(Evaluator):
             lower_limit=meta.get('lower_limit'),
             upper_limit=meta.get('upper_limit'),
             output_type=output_type,
-            category=meta.get('category', 'equation-based'),
+            category=meta.get('category', 'formula-based'),
         )
 
         result = dict(
@@ -144,8 +144,11 @@ def _extract_number(value: Any) -> Optional[float]:
 # Dataset loading
 # =============================================================================
 
-EQUATION_CATEGORIES = {'physical', 'lab test', 'dosage'}
+FORMULA_CATEGORIES = {'physical', 'lab test', 'dosage'}
 RULE_CATEGORIES = {'risk', 'diagnosis', 'severity'}
+
+# Backward-compatible alias for older configs and checked-in run artifacts.
+EQUATION_CATEGORIES = FORMULA_CATEGORIES
 
 
 def _category_filter_set(value: Any) -> set[str] | None:
@@ -154,8 +157,10 @@ def _category_filter_set(value: Any) -> set[str] | None:
         return None
     if isinstance(value, str):
         key = value.strip().lower()
+        if key in {'formula', 'formulas', 'formula-based'}:
+            return set(FORMULA_CATEGORIES)
         if key in {'equation', 'equations', 'equation-based'}:
-            return set(EQUATION_CATEGORIES)
+            return set(FORMULA_CATEGORIES)
         if key in {'rule', 'rules', 'rule-based'}:
             return set(RULE_CATEGORIES)
         if key == 'date':
@@ -524,7 +529,7 @@ def quick_test(ctx: typer.Context,
         predicted=predicted_num,
         ground_truth=example.expected_output,
         output_type=(example.metadata or {}).get('output_type', 'numeric'),
-        category=(example.metadata or {}).get('category', 'equation-based'),
+        category=(example.metadata or {}).get('category', 'formula-based'),
     )
     print(f'Correct (tolerance): {acc.is_within_tolerance}')
     print(f'Exact match: {acc.is_exact_match}')

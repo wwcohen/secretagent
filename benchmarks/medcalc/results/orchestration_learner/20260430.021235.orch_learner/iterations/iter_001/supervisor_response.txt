@@ -8,7 +8,7 @@
 <ptools_file>
 """Self-contained ptools module wrapping induced helpers.
 
-Hand-derived from the winning induction variant in learned/equation-4pc-pro-mp3.
+Hand-derived from the winning induction variant in learned/formula-4pc-pro-mp3.
 Designed to be ingested by OrchestrationLearner via inspect.getsource:
 the file MUST have no indirection — every symbol the supervisor sees
 lives here.
@@ -26,7 +26,7 @@ import calculators
 
 
 # =============================================================================
-# Induced ptools (inlined from learned/equation-4pc-pro-mp3)
+# Induced ptools (inlined from learned/formula-4pc-pro-mp3)
 # =============================================================================
 
 @implement_via('simulate')

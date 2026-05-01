@@ -1,4 +1,4 @@
-# OrchestrationLearner config for equation-only MedCalc induced ptools.
+# OrchestrationLearner config for formula-only MedCalc induced ptools.
 llm:
   model: gemini/gemini-3.1-flash-lite-preview
   max_tokens: 65536
@@ -14,13 +14,13 @@ cachier:
 
 evaluate:
   result_dir: results
-  expt_name: induced_orch_equation
+  expt_name: induced_orch_formula
   entry_point: calculate_medical_value
   record_details: true
 
 dataset:
   split: train
-  category_filter: equation
+  category_filter: formula
   stratified: true
   n: null
   shuffle_seed: 42
@@ -29,4 +29,4 @@ ptools:
   calculate_medical_value:
     method: simulate_pydantic
     tools: __all__
-    tool_module: ptools_induced_equation
+    tool_module: ptools_induced_formula

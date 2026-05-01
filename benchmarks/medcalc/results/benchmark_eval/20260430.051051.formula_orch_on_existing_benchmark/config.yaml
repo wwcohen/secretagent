@@ -9,31 +9,20 @@ cachier:
   cache_dir: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/medcalc/llm_cache
   enable_caching: true
 evaluate:
-  result_dir: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/medcalc/results
-  expt_name: react_train_equation_4pc
+  result_dir: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/medcalc/results/benchmark_eval
+  expt_name: formula_orch_on_existing_benchmark
   entry_point: calculate_medical_value
   record_details: true
   max_workers: 4
 dataset:
   split: train
+  category_filter: formula
   stratified: true
-  'n': 110
+  'n': null
   shuffle_seed: 42
-  category_filter: equation
-  per_calculator_n: 4
-  per_calculator_skip: 0
 ptools:
-  identify_calculator:
-    method: simulate
-  extract_clinical_values:
-    method: simulate
-  compute_calculation:
-    method: direct
-    fn: ptools.compute_calculation_impl
   calculate_medical_value:
     method: simulate_pydantic
-    tools:
-    - ptools.identify_calculator
-    - ptools.extract_clinical_values
-    - ptools.compute_calculation
+    tools: __all__
+    tool_module: ptools_induced_formula_evolved
 root: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/medcalc

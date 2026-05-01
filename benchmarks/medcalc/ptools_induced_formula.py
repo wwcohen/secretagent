@@ -1,6 +1,6 @@
 """Self-contained ptools module wrapping induced helpers.
 
-Hand-derived from the winning induction variant in learned/equation-4pc-pro-mp3.
+Hand-derived from the winning induction variant in learned/formula-4pc-pro-mp3.
 Designed to be ingested by OrchestrationLearner via inspect.getsource:
 the file MUST have no indirection — every symbol the supervisor sees
 lives here.
@@ -18,7 +18,7 @@ import calculators
 
 
 # =============================================================================
-# Induced ptools (inlined from learned/equation-4pc-pro-mp3)
+# Induced ptools (inlined from learned/formula-4pc-pro-mp3)
 # =============================================================================
 
 @implement_via('simulate')
@@ -53,14 +53,14 @@ def perform_fallback_manual_calculation(focus: str) -> str:
     """
     Use this tool to structure a fallback manual calculation when an automated clinical calculator fails or is unavailable.
 
-    In your `focus`, specify the clinical score or equation you need to calculate.
+    In your `focus`, specify the clinical score or formula you need to calculate.
 
     You should extract and reason about:
     - The exact mathematical formula(s) required to compute the clinical score.
     - The specific clinical parameters and their values extracted from the patient note.
 
     Structure your response as follows:
-    - Formula: [Mathematical equation]
+    - Formula: [Mathematical expression]
     - Variables: [Extracted clinical parameters and their units]
     - Steps: [Step-by-step arithmetic substitution and resolution]
     - Final Result: [The manually calculated final value]
@@ -85,7 +85,7 @@ def report_final_calculation_result(focus: str) -> str:
 
     What to reason about:
     - The specific clinical values extracted from the patient note (e.g., age, sex, creatinine level, blood pressure, etc.).
-    - The specific medical calculator or equation being applied (e.g., CKD-EPI, MELD-Na, Framingham Risk Score).
+    - The specific medical calculator or formula being applied (e.g., CKD-EPI, MELD-Na, Framingham Risk Score).
     - The final computed numerical value.
 
     How the response should be structured:
