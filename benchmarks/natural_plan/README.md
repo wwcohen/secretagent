@@ -36,7 +36,7 @@ make run_all_15_trace
 ```bash
 make report          # → report.md
 make plot            # → plot_calendar.png, plot_meeting.png, plot_trip.png
-make export          # copy to benchmarks/results/natural_plan/
+make export          # copy to benchmarks/COMMON/results/natural_plan/
 ```
 
 ## Test

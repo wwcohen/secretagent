@@ -4,7 +4,6 @@ cachier:
   cache_dir: /Users/lexl/Research_group/secretagent/benchmarks/musr/llm_cache
   enable_caching: false
 evaluate:
-<<<<<<<< HEAD:benchmarks/musr/object/results/20260416.202938.unstructured_baseline/config.yaml
   expt_name: unstructured_baseline
   result_dir: /Users/lexl/Research_group/secretagent/benchmarks/musr/results
   entry_point: answer_question
@@ -12,15 +11,6 @@ dataset:
   split: object_placements_test
   shuffle_seed: 42
   'n': null
-========
-  expt_name: workflow
-  result_dir: /Users/lexl/Research_group/secretagent/benchmarks/musr/results
-  entry_point: answer_question_workflow
-  record_details: true
-dataset:
-  split: team_allocation_test
-  shuffle_seed: 42
->>>>>>>> origin/main:benchmarks/results/musr/team/20260409.011610.workflow/config.yaml
 ptools:
   raw_answer:
     method: simulate

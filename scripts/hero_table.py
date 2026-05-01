@@ -34,7 +34,7 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO_ROOT / "scripts"))
 from benchmark_status import TASKS, STRATEGIES, RESULT_DIR_RE, TASK_TO_LATEX
 
-RESULTS_DIR = REPO_ROOT / "benchmarks" / "results"
+RESULTS_DIR = REPO_ROOT / "benchmarks" / "COMMON" / "results"
 
 STRATEGY_ORDER = ["workflow", "react", "pot", "structured_baseline", "unstructured_baseline"]
 

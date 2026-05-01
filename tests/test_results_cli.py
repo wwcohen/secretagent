@@ -354,7 +354,7 @@ def test_plot_with_pareto(three_expts, tmp_path):
 # --- export tests ---
 
 def test_export_copies_dirs(tmp_path, monkeypatch):
-    """Export copies filtered result dirs to benchmarks/results/<rel_path>."""
+    """Export copies filtered result dirs to benchmarks/COMMON/results/<rel_path>."""
     bench_dir = tmp_path / 'benchmarks' / 'mybench'
     bench_dir.mkdir(parents=True)
     d1 = _make_expt(bench_dir, 'results/20260101.120000.alpha', 'alpha',
@@ -367,7 +367,7 @@ def test_export_copies_dirs(tmp_path, monkeypatch):
     result = runner.invoke(app, ['export', '--latest', '0']
                            + _dirs_as_args([d1, d2]))
     assert result.exit_code == 0
-    export_base = tmp_path / 'benchmarks' / 'results' / 'mybench'
+    export_base = tmp_path / 'benchmarks' / 'COMMON' / 'results' / 'mybench'
     assert (export_base / '20260101.120000.alpha' / 'results.csv').exists()
     assert (export_base / '20260102.120000.beta' / 'results.csv').exists()
 
@@ -379,7 +379,7 @@ def test_export_skips_existing(tmp_path, monkeypatch):
     d1 = _make_expt(bench_dir, 'results/20260101.120000.alpha', 'alpha',
                     {'llm': {'model': 'a'}},
                     [{'correct': 1, 'cost': 0.01}])
-    dest = tmp_path / 'benchmarks' / 'results' / 'mybench' / '20260101.120000.alpha'
+    dest = tmp_path / 'benchmarks' / 'COMMON' / 'results' / 'mybench' / '20260101.120000.alpha'
     dest.mkdir(parents=True)
     monkeypatch.chdir(bench_dir)
     result = runner.invoke(app, ['export', '--latest', '0'] + _dirs_as_args([d1]))
@@ -388,7 +388,7 @@ def test_export_skips_existing(tmp_path, monkeypatch):
 
 
 def test_export_as_path(tmp_path, monkeypatch):
-    """--as overrides the relative path under benchmarks/results/."""
+    """--as overrides the relative path under benchmarks/COMMON/results/."""
     bench_dir = tmp_path / 'benchmarks' / 'mybench'
     bench_dir.mkdir(parents=True)
     d1 = _make_expt(bench_dir, 'results/20260101.120000.alpha', 'alpha',
@@ -399,7 +399,7 @@ def test_export_as_path(tmp_path, monkeypatch):
                                   '--as', 'custom/path']
                            + _dirs_as_args([d1]))
     assert result.exit_code == 0
-    export_dest = tmp_path / 'benchmarks' / 'results' / 'custom' / 'path'
+    export_dest = tmp_path / 'benchmarks' / 'COMMON' / 'results' / 'custom' / 'path'
     assert (export_dest / '20260101.120000.alpha' / 'results.csv').exists()
 
 

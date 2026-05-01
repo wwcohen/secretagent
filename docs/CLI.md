@@ -133,17 +133,17 @@ Lists directories to keep and delete, then prompts for confirmation.
 
 ### export
 
-Copy filtered result directories to `benchmarks/results/<relative_path>`.
+Copy filtered result directories to `benchmarks/COMMON/results/<relative_path>`.
 
 ```
 uv run -m secretagent.cli.results export [--latest K] [--check KEY=VALUE] [--as RELATIVE_PATH] DIRS...
 ```
 
-Run from a benchmark directory (e.g. `benchmarks/bbh/sports_understanding`). Copies each filtered result directory to `benchmarks/results/<path_from_benchmarks>/`. Use `--as` to override the relative path.
+Run from a benchmark directory (e.g. `benchmarks/bbh/sports_understanding`). Copies each filtered result directory to `benchmarks/COMMON/results/<path_from_benchmarks>/`. Use `--as` to override the relative path.
 
 | Option | Default | Description |
 |---|---|---|
-| `--as` | auto-detected from cwd | Override relative path under `benchmarks/results/` |
+| `--as` | auto-detected from cwd | Override relative path under `benchmarks/COMMON/results/` |
 
 Existing directories at the destination are skipped.
 

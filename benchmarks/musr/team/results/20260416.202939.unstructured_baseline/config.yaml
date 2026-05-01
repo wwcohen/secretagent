@@ -4,25 +4,13 @@ cachier:
   cache_dir: /Users/lexl/Research_group/secretagent/benchmarks/musr/llm_cache
   enable_caching: false
 evaluate:
-<<<<<<<< HEAD:benchmarks/musr/team/results/20260416.202939.unstructured_baseline/config.yaml
   expt_name: unstructured_baseline
-========
-  expt_name: structured_baseline
->>>>>>>> origin/main:benchmarks/results/musr/team/20260409.001544.structured_baseline/config.yaml
   result_dir: /Users/lexl/Research_group/secretagent/benchmarks/musr/results
   entry_point: answer_question
 dataset:
   split: team_allocation_test
   shuffle_seed: 42
-<<<<<<<< HEAD:benchmarks/musr/team/results/20260416.202939.unstructured_baseline/config.yaml
   'n': null
-========
->>>>>>>> origin/main:benchmarks/results/musr/team/20260409.001544.structured_baseline/config.yaml
 ptools:
   answer_question:
-<<<<<<<< HEAD:benchmarks/musr/team/results/20260416.202939.unstructured_baseline/config.yaml
     method: simulate
-========
-    method: prompt_llm
-    prompt_template_file: /Users/lexl/Research_group/secretagent/benchmarks/musr/prompt_templates/zero_shot_cot.txt
->>>>>>>> origin/main:benchmarks/results/musr/team/20260409.001544.structured_baseline/config.yaml
