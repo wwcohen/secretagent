@@ -48,51 +48,14 @@ that passed Gemini's c1_v4g gate was `build_trip_plan` — which lives in
 
 ---
 
-## Plots — accuracy (3 plots, same style as v4 doc)
+## Plot — Cost vs accuracy (v4g)
 
-### Plot 1 (v4g) — Cost vs accuracy
 ![](plots/plot1_v4g_cost_vs_acc.png)
 
-X = USD cost per case (symlog). Y = val accuracy. 3 points per benchmark
-connected by gray arrows: ● baseline, ■ c1_v4g, ▲ c2_v4g. Up-and-left =
-better. Same layout as `plot1_cost_vs_acc.png` in the Opus doc, with
-v4g data.
-
-### Plot 2A (v4g) — ptool replacement effect (Class 1)
-![](plots/plot2a_v4g_ptool_replacement.png)
-
-X = baseline acc, Y = `c1_v4g` acc (Gemini-distilled ptool inside hand
-workflow). Diagonal = parity. Above diagonal = ptool distillation helped.
-
-### Plot 2B (v4g) — workflow replacement effect (Class 2)
-![](plots/plot2b_v4g_workflow_replacement.png)
-
-X = baseline acc, Y = `c2_v4g` acc (Gemini-distilled top-level workflow,
-hand ptools as backoff). Above diagonal = workflow distillation helped.
-
----
-
-## Plots — cost (4 plots: ptool/workflow × Opus/Gemini)
-
-Below diagonal in each = cost reduced vs baseline. Both axes symlog
-(per-case USD).
-
-### Plot 2A (v4) — Class 1 cost reduction (Opus learner)
-![](plots/plot2a_v4_cost_ptool_replacement.png)
-
-### Plot 2A (v4g) — Class 1 cost reduction (Gemini learner)
-![](plots/plot2a_v4g_cost_ptool_replacement.png)
-
-### Plot 2B (v4) — Class 2 cost reduction (Opus learner)
-![](plots/plot2b_v4_cost_workflow_replacement.png)
-
-### Plot 2B (v4g) — Class 2 cost reduction (Gemini learner)
-![](plots/plot2b_v4g_cost_workflow_replacement.png)
-
-Both Opus and Gemini achieve **near-zero cost** on Class 2 for benchmarks
-where the generated workflow uses pure-Python (rulearena_airline/tax/nba,
-geometric, calendar going from $0.005-0.029 → $0). Gemini's geometric
-class 2 stays at low cost but loses accuracy (35% vs Opus 100%).
+X = USD cost per case (symlog). Y = val accuracy. Up to 3 points per
+benchmark connected by gray arrows: ● baseline, ■ c1_v4g, ▲ c2_v4g.
+Up-and-left = better. Same layout as `plot1_cost_vs_acc.png` in the
+Opus doc, with v4g data.
 
 ---
 
