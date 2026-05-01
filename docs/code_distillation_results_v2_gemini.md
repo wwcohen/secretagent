@@ -21,10 +21,9 @@ Pipeline:
 
 ## Headline result table — v4 (Opus) vs v4g (Gemini Pro)
 
-Full-size val acc on each benchmark's `valid` split (or `test` for medcalc /
-`dev1k` for tabmwp). Cells marked `—` mean **distill ran but the gate
-enabled 0 applicable ptools** (or the ENABLED ptools live in a different
-sub-benchmark's ptool module). Effectively `c1 ≡ baseline` for those cells.
+Cells marked `—` mean **distill ran but the gate enabled 0 applicable
+ptools** (or the ENABLED ptools live in a different sub-benchmark's ptool
+module). Effectively `c1 ≡ baseline` for those cells.
 
 | benchmark | n | baseline | c1_v4 | c1_v4g | c2_v4 | c2_v4g | Δ c2 (v4g − v4) |
 |---|---|---|---|---|---|---|---|
@@ -44,33 +43,56 @@ sub-benchmark's ptool module). Effectively `c1 ≡ baseline` for those cells.
 | tabmwp | 100 | 36% | 39% | 40% | 45% | **51%** | +6pp |
 
 **(a)** natplan_calendar/meeting c1_v4g are blank because the ONLY ptool
-that passed Gemini's c1 v4g gate was `build_trip_plan` — which lives in
-`ptools_trip` only, doesn't apply to calendar or meeting. So those c1_v4g
-cells effectively == baseline (no ptool replacement happened).
+that passed Gemini's c1_v4g gate was `build_trip_plan` — which lives in
+`ptools_trip` only, doesn't apply to calendar or meeting.
 
 ---
 
-## Plots — v4 vs v4g
+## Plots — accuracy (3 plots, same style as v4 doc)
 
-### Plot G1 — Class 2 val acc per benchmark
-![](plots/plotG1_c2_v4_vs_v4g_bar.png)
+### Plot 1 (v4g) — Cost vs accuracy
+![](plots/plot1_v4g_cost_vs_acc.png)
 
-3 bars per benchmark: gray = baseline, blue = `c2_v4` (Opus learner),
-orange = `c2_v4g` (Gemini Pro learner). The orange/blue gap shows where
-the LLM-author choice matters most.
+X = USD cost per case (symlog). Y = val accuracy. 3 points per benchmark
+connected by gray arrows: ● baseline, ■ c1_v4g, ▲ c2_v4g. Up-and-left =
+better. Same layout as `plot1_cost_vs_acc.png` in the Opus doc, with
+v4g data.
 
-### Plot G2 — Class 2 scatter (Opus vs Gemini per benchmark)
-![](plots/plotG2_c2_v4_vs_v4g_scatter.png)
+### Plot 2A (v4g) — ptool replacement effect (Class 1)
+![](plots/plot2a_v4g_ptool_replacement.png)
 
-Each benchmark = 1 point. X = Opus c2_v4 acc, Y = Gemini c2_v4g acc.
-Diagonal = parity. Above diagonal = Gemini wins; below = Opus wins.
+X = baseline acc, Y = `c1_v4g` acc (Gemini-distilled ptool inside hand
+workflow). Diagonal = parity. Above diagonal = ptool distillation helped.
 
-### Plot G3 — Δacc (Gemini − Opus), sorted
-![](plots/plotG3_delta_v4g_minus_v4.png)
+### Plot 2B (v4g) — workflow replacement effect (Class 2)
+![](plots/plot2b_v4g_workflow_replacement.png)
 
-Per-benchmark Δacc = `c2_v4g − c2_v4`, sorted descending. Green bars =
-Gemini wins, red = Opus wins. The trip outlier (+70pp) and the
-geometric/meeting/calendar outliers (-65 to -69 pp) define the spread.
+X = baseline acc, Y = `c2_v4g` acc (Gemini-distilled top-level workflow,
+hand ptools as backoff). Above diagonal = workflow distillation helped.
+
+---
+
+## Plots — cost (4 plots: ptool/workflow × Opus/Gemini)
+
+Below diagonal in each = cost reduced vs baseline. Both axes symlog
+(per-case USD).
+
+### Plot 2A (v4) — Class 1 cost reduction (Opus learner)
+![](plots/plot2a_v4_cost_ptool_replacement.png)
+
+### Plot 2A (v4g) — Class 1 cost reduction (Gemini learner)
+![](plots/plot2a_v4g_cost_ptool_replacement.png)
+
+### Plot 2B (v4) — Class 2 cost reduction (Opus learner)
+![](plots/plot2b_v4_cost_workflow_replacement.png)
+
+### Plot 2B (v4g) — Class 2 cost reduction (Gemini learner)
+![](plots/plot2b_v4g_cost_workflow_replacement.png)
+
+Both Opus and Gemini achieve **near-zero cost** on Class 2 for benchmarks
+where the generated workflow uses pure-Python (rulearena_airline/tax/nba,
+geometric, calendar going from $0.005-0.029 → $0). Gemini's geometric
+class 2 stays at low cost but loses accuracy (35% vs Opus 100%).
 
 ---
 
@@ -87,11 +109,10 @@ with day-window constraints. End-to-end val acc = **91%** on n=100
 disjoint val split.
 
 Class 1 v4g also: `build_trip_plan` was the only ENABLED ptool, and it
-got 82% on val (vs Opus 21% with same ptool unenabled).
+got 82% on val (vs Opus 21%).
 
 **Verified non-leak**: train (n=100) and valid (n=100) have 0 overlap on
-both case names AND input prompts. Trip is a codeable task; Gemini just
-chose to actually code it.
+both case names AND input prompts.
 
 ### 2. Geometric / meeting / calendar — Gemini's biggest losses (−28 to −69 pp)
 
@@ -103,8 +124,8 @@ chose to actually code it.
 
 Gemini consistently **delegates to existing simulate ptools** (LLM calls)
 where Opus rewrites in pure Python. When the underlying LLM ptool is
-weak (e.g. shape classification, schedule reasoning), Gemini's wrapper
-inherits the weakness; Opus's pure-Python solution doesn't.
+weak (e.g. shape classification), Gemini's wrapper inherits the
+weakness; Opus's pure-Python solution doesn't.
 
 ### 3. Style finding — code length correlates with win
 
@@ -131,8 +152,7 @@ Loss for Gemini c1: **finqa 53% (vs 67%, -14pp)**.
 
 `bbh_geometric` / `bbh_date` / `medcalc` / `rulearena_*` — both Opus and
 Gemini distilled these but **0 ENABLED** ptools made it through the
-`val_wrong_rate ≤ 20%` gate (small holdout n=3-15, single error tips the
-gate). Effectively c1 = baseline for both versions.
+`val_wrong_rate ≤ 20%` gate. Effectively c1 = baseline for both versions.
 
 ---
 
@@ -147,4 +167,4 @@ gate). Effectively c1 = baseline for both versions.
 
 The natural follow-up: **prompt Gemini explicitly to prefer pure-Python
 over LLM ptool delegation** — likely closes most of the gap on geometric
-/ meeting / calendar. Not done yet in this run.
+/ meeting / calendar.
