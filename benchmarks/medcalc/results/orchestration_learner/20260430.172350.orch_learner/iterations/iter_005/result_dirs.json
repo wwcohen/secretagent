@@ -1,0 +1,5 @@
+{
+  "train_result_dir": "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/medcalc/results/orchestration_learner/20260501.023838.rc_iter5",
+  "eval_result_dir": "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/medcalc/results/orchestration_learner/20260501.030810.rc_iter5_eval",
+  "kept": true
+}

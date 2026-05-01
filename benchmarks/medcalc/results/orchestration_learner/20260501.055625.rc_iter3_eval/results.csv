@@ -1,0 +1,39 @@
+case_name,predicted_output,predicted_numeric,expected_output,correct,exact_match,within_limits,absolute_error,calculator_name,category,output_type,input_tokens,output_tokens,latency,cost,expt_name
+train.4381,0.0,0.0,0.0,1.0,1.0,1.0,0.0,Centor Score (Modified/McIsaac) for Strep Pharyngitis,severity,integer,3604.0,252.0,1.7933614253997803,0.001279,rc_iter3_eval
+train.6587,1.0,1.0,1.0,1.0,1.0,1.0,0.0,PERC Rule for Pulmonary Embolism,diagnosis,integer,8988.0,199.0,22.439140558242798,0.0025455,rc_iter3_eval
+train.9605,5.0,5.0,5.0,1.0,1.0,1.0,0.0,Sequential Organ Failure Assessment (SOFA) Score,risk,integer,8916.0,207.0,31.60952877998352,0.0025395,rc_iter3_eval
+train.9697,10.0,10.0,6.0,0.0,0.0,0.0,4.0,Glasgow-Blatchford Bleeding Score (GBS),risk,integer,8564.0,255.0,35.761250019073486,0.0025235,rc_iter3_eval
+train.9928,186.0,186.0,186.0,1.0,1.0,1.0,0.0,PSI Score: Pneumonia Severity Index for CAP,severity,integer,9341.0,1099.0,46.39252328872681,0.00398375,rc_iter3_eval
+train.6591,2.0,2.0,2.0,1.0,1.0,1.0,0.0,PERC Rule for Pulmonary Embolism,diagnosis,integer,6624.0,352.0,25.19430685043335,0.002184,rc_iter3_eval
+train.10353,2.0,2.0,3.0,0.0,0.0,0.0,1.0,HAS-BLED Score for Major Bleeding Risk,risk,integer,8690.0,297.0,35.53520059585571,0.002618,rc_iter3_eval
+train.4116,8.0,8.0,8.0,1.0,1.0,1.0,0.0,HEART Score for Major Cardiac Events,risk,integer,3459.0,283.0,1.442579984664917,0.00128925,rc_iter3_eval
+train.10069,10.0,10.0,10.0,1.0,1.0,1.0,0.0,Glasgow Coma Score (GCS),severity,integer,8206.0,183.0,30.568079710006714,0.002326,rc_iter3_eval
+train.9621,1.0,1.0,1.0,1.0,1.0,1.0,0.0,Sequential Organ Failure Assessment (SOFA) Score,risk,integer,8400.0,262.0,25.50609517097473,0.002493,rc_iter3_eval
+train.4375,-1.0,-1.0,-1.0,1.0,1.0,1.0,0.0,Centor Score (Modified/McIsaac) for Strep Pharyngitis,severity,integer,8728.0,341.0,29.19946551322937,0.0026934999999999997,rc_iter3_eval
+train.10312,10.0,10.0,9.0,0.0,0.0,0.0,1.0,Charlson Comorbidity Index (CCI),risk,integer,10352.0,1414.0,51.383102893829346,0.004709,rc_iter3_eval
+train.9467,12.0,12.0,12.0,1.0,1.0,1.0,0.0,Child-Pugh Score for Cirrhosis Mortality,severity,integer,8249.0,173.0,25.419358253479004,0.00232175,rc_iter3_eval
+train.10090,13.0,13.0,13.0,1.0,1.0,1.0,0.0,Glasgow Coma Score (GCS),severity,integer,8757.0,233.0,31.89603090286255,0.0025387499999999998,rc_iter3_eval
+train.5884,3.0,3.0,2.0,0.0,0.0,0.0,1.0,FeverPAIN Score for Strep Pharyngitis,diagnosis,integer,7612.0,577.0,37.214682817459106,0.0027685,rc_iter3_eval
+train.10352,2.0,2.0,3.0,0.0,0.0,0.0,1.0,HAS-BLED Score for Major Bleeding Risk,risk,integer,10099.0,1731.0,44.84766387939453,0.00512125,rc_iter3_eval
+train.6647,1.0,1.0,1.0,1.0,1.0,1.0,0.0,SIRS Criteria,diagnosis,integer,7783.0,346.0,13.648483037948608,0.00246475,rc_iter3_eval
+train.6395,2.0,2.0,2.0,1.0,1.0,1.0,0.0,CURB-65 Score for Pneumonia Severity,risk,integer,8833.0,608.0,15.574085235595703,0.0031202499999999998,rc_iter3_eval
+train.9454,10.0,10.0,9.0,0.0,0.0,0.0,1.0,Child-Pugh Score for Cirrhosis Mortality,severity,integer,8344.0,250.0,41.05725383758545,0.0024609999999999996,rc_iter3_eval
+train.10004,6.0,6.0,8.0,0.0,0.0,0.0,2.0,Caprini Score for Venous Thromboembolism (2005),risk,integer,8942.0,239.0,40.368489265441895,0.002594,rc_iter3_eval
+train.2862,0.0,0.0,1.0,0.0,0.0,0.0,1.0,Wells' Criteria for Pulmonary Embolism,risk,integer,8696.0,415.0,37.79423546791077,0.0027964999999999995,rc_iter3_eval
+train.9518,0.0,0.0,0.0,1.0,1.0,1.0,0.0,Wells' Criteria for DVT,risk,decimal,9662.0,1251.0,32.27514600753784,0.004292,rc_iter3_eval
+train.10521,7.0,7.0,7.0,1.0,1.0,1.0,0.0,APACHE II Score,risk,integer,8601.0,196.0,30.25336718559265,0.00244425,rc_iter3_eval
+train.9509,3.0,3.0,3.0,1.0,1.0,1.0,0.0,Wells' Criteria for DVT,risk,decimal,9496.0,1298.0,53.97363066673279,0.004321,rc_iter3_eval
+train.0687,1.0,1.0,1.0,1.0,1.0,1.0,0.0,CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk,risk,integer,6657.0,303.0,36.1465106010437,0.00211875,rc_iter3_eval
+train.0668,3.0,3.0,4.0,0.0,0.0,0.0,1.0,CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk,risk,integer,7496.0,597.0,42.16300630569458,0.0027695000000000003,rc_iter3_eval
+train.5895,0.0,0.0,2.0,0.0,0.0,0.0,2.0,FeverPAIN Score for Strep Pharyngitis,diagnosis,integer,7150.0,252.0,49.613481283187866,0.0021655,rc_iter3_eval
+train.9709,17.0,17.0,17.0,1.0,1.0,1.0,0.0,Glasgow-Blatchford Bleeding Score (GBS),risk,integer,8618.0,202.0,68.79014563560486,0.0024574999999999996,rc_iter3_eval
+train.6663,1.0,1.0,1.0,1.0,1.0,1.0,0.0,SIRS Criteria,diagnosis,integer,8194.0,253.0,33.45243859291077,0.002428,rc_iter3_eval
+train.4275,2.0,2.0,2.0,1.0,1.0,1.0,0.0,HEART Score for Major Cardiac Events,risk,integer,6740.0,274.0,47.78497052192688,0.0020959999999999998,rc_iter3_eval
+train.9924,139.0,139.0,139.0,1.0,1.0,1.0,0.0,PSI Score: Pneumonia Severity Index for CAP,severity,integer,8626.0,256.0,35.58271932601929,0.0025405000000000002,rc_iter3_eval
+train.10416,3.0,3.0,2.0,0.0,0.0,0.0,1.0,Revised Cardiac Risk Index for Pre-Operative Risk,risk,integer,8803.0,228.0,27.200620651245117,0.00254275,rc_iter3_eval
+train.10481,13.0,13.0,16.0,0.0,0.0,0.0,3.0,APACHE II Score,risk,integer,8504.0,188.0,42.58341097831726,0.002408,rc_iter3_eval
+train.10335,2.0,2.0,3.0,0.0,0.0,0.0,1.0,Charlson Comorbidity Index (CCI),risk,integer,9707.0,189.0,77.42697262763977,0.00271025,rc_iter3_eval
+train.6388,4.0,4.0,4.0,1.0,1.0,1.0,0.0,CURB-65 Score for Pneumonia Severity,risk,integer,8552.0,296.0,42.307475328445435,0.0025819999999999997,rc_iter3_eval
+train.10022,5.0,5.0,8.0,0.0,0.0,0.0,3.0,Caprini Score for Venous Thromboembolism (2005),risk,integer,8651.0,238.0,53.62897777557373,0.00251975,rc_iter3_eval
+train.2910,0.0,0.0,0.0,1.0,1.0,1.0,0.0,Wells' Criteria for Pulmonary Embolism,risk,integer,3283.0,207.0,1.5000336170196533,0.0011312499999999999,rc_iter3_eval
+train.10444,1.0,1.0,1.0,1.0,1.0,1.0,0.0,Revised Cardiac Risk Index for Pre-Operative Risk,risk,integer,9002.0,236.0,20.98914098739624,0.0026045,rc_iter3_eval
