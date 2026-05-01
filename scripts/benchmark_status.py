@@ -43,8 +43,8 @@ TASKS = [
     "designbench/angular",
     "finqa/finqa",
     "medagentbench/medagentbench",
-    "medcalc/equation",
-    "medcalc/rule",
+    "medcalc/formulas",
+    "medcalc/rules",
     "medcalc/test",
     "musr/murder",
     "musr/object",
@@ -69,8 +69,8 @@ TASK_TO_LATEX = {
     "designbench/angular": "DesignBench Angular",
     "finqa/finqa": "FinQA",
     "medagentbench/medagentbench": "MedAgentBench",
-    "medcalc/equation": "MedCalc Formulas",
-    "medcalc/rule": "MedCalc Rules",
+    "medcalc/formulas": "MedCalc Formulas",
+    "medcalc/rules": "MedCalc Rules",
     "musr/murder": "MUSR Murder",
     "musr/object": "MUSR Objects",
     "musr/team": "MUSR Teams",
@@ -156,7 +156,7 @@ def _dataset_split_from_config(config_text: str) -> str | None:
 
 def expected_dataset_split(task: str, subtask: str) -> str | None:
     """Return a required dataset.split substring for status checks."""
-    if task == "medcalc" and subtask == "test":
+    if task == "medcalc" and subtask in {"formulas", "rules", "test"}:
         return "test"
     return None
 
