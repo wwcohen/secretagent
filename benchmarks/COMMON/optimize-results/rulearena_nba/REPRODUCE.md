@@ -10,6 +10,7 @@ This directory is a frozen snapshot of one NSGA-II sweep on RuleArena NBA, the c
 | `nsga2_summary.csv` | One row per evaluated config — `correct`, `cost`, `frontier`, `valid` |
 | `nsga2_generations.csv` | Per-generation stats — frontier size, new evals, cache hits, elapsed |
 | `nsga2.png` | Cost-vs-accuracy scatter with Pareto frontier highlighted |
+| `plot.py` | Regenerates `nsga2.png` from `nsga2_summary.csv` (uses shared `secretagent.optimize.viz`) |
 | `nsga_runs/nsga_001/ … nsga_043/` | Per-config result dirs — `config.yaml`, `results.csv`, `results.jsonl` |
 | `baselines/baseline_*/` | Six-model baseline runs (Pareto reference for the sweep) |
 
@@ -52,6 +53,11 @@ print(f'NOCACHE = \${total:.4f}  ({len(csvs)} configs)')
 # 3. Per-generation cache-hit trend (config-level)
 cat nsga2_generations.csv
 # expected: hit_pct rises 0% -> 9% -> 30% -> 55% -> 58% -> 56%
+
+# 4. Regenerate the Pareto plot
+uv run plot.py
+# writes nsga2.png alongside this file; uses log-x scale for the
+# 100x cost range and dedupes identical (config, acc, cost) rows.
 ```
 
 CACHE_BEFORE_NSGA2 ($21.53) is recorded in `CACHE_FINDINGS.md`. It cannot be re-derived from the current cache state alone — the cache has grown since. To re-derive: revert the two cache files to their state at the post-baseline commit and run `cli.costs` again. (Bit-exact reproduction below uses the values as-recorded.)
