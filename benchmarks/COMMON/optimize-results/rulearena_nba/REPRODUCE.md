@@ -52,6 +52,22 @@ print(f'NOCACHE = \${total:.4f}  ({len(csvs)} configs)')
 # 3. Per-generation cache-hit trend (config-level)
 cat nsga2_generations.csv
 # expected: hit_pct rises 0% -> 9% -> 30% -> 55% -> 58% -> 56%
+
+# 4. Regenerate the Pareto plot from nsga2_summary.csv
+uv run python -c "
+import pandas as pd
+from secretagent.optimize.viz import plot_pareto_frontier
+df = pd.read_csv('nsga2_summary.csv')
+df = df[df['valid']]
+plot_pareto_frontier(
+    results=[(r['config'], r['correct'], r['cost']) for _, r in df.iterrows()],
+    title='Cost vs correct (NSGA-II) -- RuleArena NBA',
+    output_path='nsga2.png', metric_name='correct', show=False,
+)"
+# Plot uses log-x for the 100x cost range and dedupes identical
+# (config, acc, cost) rows. Styling lives in secretagent.optimize.viz
+# and is shared with every NSGA-II run, so the same script reproduces
+# any sibling benchmark's plot from its own nsga2_summary.csv.
 ```
 
 CACHE_BEFORE_NSGA2 ($21.53) is recorded in `CACHE_FINDINGS.md`. It cannot be re-derived from the current cache state alone — the cache has grown since. To re-derive: revert the two cache files to their state at the post-baseline commit and run `cli.costs` again. (Bit-exact reproduction below uses the values as-recorded.)
