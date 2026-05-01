@@ -1,0 +1,32 @@
+command: uv run python expt.py run --config-file conf/conf.yaml
+
+models:
+  - together_ai/deepseek-ai/DeepSeek-V3.1
+  - together_ai/deepseek-ai/DeepSeek-V3
+  - together_ai/openai/gpt-oss-20b
+  - together_ai/openai/gpt-oss-120b
+  - gemini/gemini-2.5-flash
+  - gemini/gemini-2.5-flash-lite
+
+methods:
+  structured_baseline:
+    - ptools.calculate_medical_value.method=simulate
+  workflow:
+    - ptools.calculate_medical_value.method=direct
+    - ptools.calculate_medical_value.fn=ptools.workflow
+  pot:
+    - ptools.calculate_medical_value.method=direct
+    - ptools.calculate_medical_value.fn=ptools.pot_workflow
+    - ptools.pot_medical_value.method=program_of_thought
+    - ptools.pot_medical_value.tools=[ptools.extract_clinical_values,ptools.compute_calculation]
+  react:
+    - ptools.calculate_medical_value.method=simulate_pydantic
+    - ptools.calculate_medical_value.tools=[ptools.identify_calculator,ptools.extract_clinical_values,ptools.compute_calculation]
+
+sub_interfaces:
+  ptools.identify_calculator:
+    methods: [simulate]
+  ptools.extract_clinical_values:
+    methods: [simulate]
+  ptools.compute_calculation:
+    methods: [direct]

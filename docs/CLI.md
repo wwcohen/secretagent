@@ -188,7 +188,7 @@ uv run python -m secretagent.cli.expt quick-test --interface MODULE.NAME [DOTLIS
 
 ## secretagent.cli.optimize
 
-Grid search over a discrete space of configuration overrides. See [optimizer.md](optimizer.md) for full documentation.
+Grid search and multi-objective optimization over configuration spaces. See [optimizer.md](optimizer.md) for full documentation.
 
 ### sweep
 
@@ -211,6 +211,41 @@ uv run -m secretagent.cli.optimize sweep \
 | `--timeout` | `1800` | Timeout per config in seconds |
 | `--metric` | `correct` | Metric column to optimize |
 | `--output` | `sweep_summary.csv` | Output summary CSV |
+
+### nsga2
+
+Run NSGA-II multi-objective search over a modular config space. See [optimizer.md](optimizer.md#nsga-ii-multi-objective-search) for details.
+
+```
+uv run -m secretagent.cli.optimize nsga2 \
+  --space-file nsga2.yaml [--cwd DIR] [--pop-size N] [--n-gen N] \
+  [--timeout SECS] [--metric NAME] [--dry-run] [DOTLIST_OVERRIDES...]
+```
+
+### run-all
+
+Run NSGA-II across multiple benchmarks sequentially.
+
+```
+uv run -m secretagent.cli.optimize run-all [-b BENCHMARK] [--pop-size N] [--n-gen N] [DOTLIST_OVERRIDES...]
+```
+
+Registered benchmarks: `airline`, `nba`, `tax`, `finqa`, `medcalc`, `tabmwp`, `sports`. Defaults to all. Auto-runs `cross-summary` on completion.
+
+### cross-summary
+
+Cross-benchmark comparison from multiple NSGA-II runs.
+
+```
+uv run -m secretagent.cli.optimize cross-summary \
+  airline/results/nsga2_summary.csv nba/results/nsga2_summary.csv [--metric NAME] [--output FILE]
+```
+
+| Option | Default | Description |
+|---|---|---|
+| `--metric` | `correct` | Metric column name |
+| `--ref-cost` | auto | Reference cost for hypervolume |
+| `--output` | none | Save markdown table to file |
 
 ### summary
 
