@@ -103,6 +103,6 @@ make basics
 make avg
 make plot
 
-# Export to benchmarks/results/finqa/finqa/
+# Export to benchmarks/COMMON/results/finqa/finqa/
 make export
 ```

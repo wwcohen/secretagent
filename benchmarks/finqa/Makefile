@@ -28,7 +28,7 @@ help:
 	@echo "  unstructured_baseline = ablation: drop everything (zero-shot prompt)"
 	@echo ""
 	@echo "  basics = run all five"
-	@echo "  export = copy latest results to benchmarks/results/finqa/finqa/"
+	@echo "  export = copy latest results to benchmarks/COMMON/results/finqa/finqa/"
 	@echo "  test   = run pytest suite"
 	@echo "  plot   = generate results_plot.png"
 	@echo ""
