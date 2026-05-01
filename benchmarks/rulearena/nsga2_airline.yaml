@@ -1,0 +1,40 @@
+interface: ptools.compute_airline_answer
+evaluator: evaluator.AirlineEvaluator
+
+models:
+  - together_ai/deepseek-ai/DeepSeek-V3.1
+  - together_ai/deepseek-ai/DeepSeek-V3
+  - together_ai/openai/gpt-oss-20b
+  - together_ai/openai/gpt-oss-120b
+  - gemini/gemini-2.5-flash
+  - gemini/gemini-2.5-flash-lite
+
+methods:
+  structured_baseline:
+    - ptools.compute_airline_answer.method=simulate
+  unstructured_baseline:
+    - ptools.compute_airline_answer.method=direct
+    - ptools.compute_airline_answer.fn=ptools.unstructured_workflow
+  workflow:
+    - ptools.compute_airline_answer.method=direct
+    - ptools.compute_airline_answer.fn=ptools.airline_workflow
+  pot:
+    - ptools.compute_airline_answer.method=program_of_thought
+    - ptools.compute_airline_answer.tools=[ptools.extract_airline_params,ptools.compute_airline_calculator]
+    - ptools.compute_airline_answer.inject_args=true
+    - llm.max_tokens=16384
+  react:
+    - ptools.compute_airline_answer.method=simulate_pydantic
+    - ptools.compute_airline_answer.tools=[ptools.extract_airline_params,ptools.compute_airline_calculator]
+  react_learned:
+    - ptools.compute_airline_answer.method=simulate_pydantic
+    - ptools.compute_airline_answer.tool_module=__learned__
+    - ptools.compute_airline_answer.learner=ptool_inducer
+    - ptools.compute_airline_answer.tools=__all__
+    - learn.train_dir=learned
+
+sub_interfaces:
+  ptools.extract_airline_params:
+    methods: [simulate_pydantic, simulate]
+  ptools.compute_airline_calculator:
+    methods: [direct]

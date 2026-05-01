@@ -1,0 +1,30 @@
+command: uv run python expt.py run --config-file conf/conf.yaml
+
+models:
+  - together_ai/deepseek-ai/DeepSeek-V3.1
+  - together_ai/deepseek-ai/DeepSeek-V3
+  - together_ai/openai/gpt-oss-20b
+  - together_ai/openai/gpt-oss-120b
+  - gemini/gemini-2.5-flash
+  - gemini/gemini-2.5-flash-lite
+
+methods:
+  structured_baseline:
+    - ptools.tabmwp_solve.method=simulate
+  workflow:
+    - ptools.tabmwp_solve.method=direct
+    - ptools.tabmwp_solve.fn=ptools.tabmwp_workflow
+  pot:
+    - evaluate.entry_point=tabmwp_solve_pot
+    - ptools.tabmwp_solve_pot.method=program_of_thought
+    - ptools.tabmwp_solve_pot.additional_imports=[pandas]
+  react:
+    - evaluate.entry_point=tabmwp_react
+    - ptools.tabmwp_react.method=simulate_pydantic
+    - ptools.tabmwp_react.tools=[ptools.get_table_schema,ptools.lookup_value,ptools.query_column,ptools.query_table,ptools.extract_answer]
+
+sub_interfaces:
+  ptools.identify_operation:
+    methods: [simulate]
+  ptools.compute_answer:
+    methods: [simulate]

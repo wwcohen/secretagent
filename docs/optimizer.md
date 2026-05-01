@@ -1,8 +1,276 @@
+# Optimizer
+
+Two search strategies for finding good configurations:
+
+- **Grid search** (`sweep`): exhaustive enumeration over a YAML-defined space.
+  Best for small, flat spaces (e.g., 2 methods × 3 models = 6 configs).
+- **NSGA-II** (`nsga2`): evolutionary multi-objective search over a modular
+  space. Finds Pareto-optimal tradeoffs between accuracy and cost. Best for
+  large compositional spaces (thousands of configs).
+
+Both evaluate each config as a subprocess to ensure clean module state.
+
+---
+
+# NSGA-II Multi-Objective Search
+
+## Concept
+
+In a modular agentic system, each sub-interface (e.g., `extract_params`,
+`compute_calculator`) can use a different method and model. An NSGA-II
+*individual* encodes a complete workflow configuration as an integer
+vector — one gene per decision. The algorithm searches for configurations
+that are **Pareto-optimal**: no other config is both more accurate and
+cheaper.
+
+## Modular Search Space
+
+Each domain defines a search space in `benchmarks/rulearena/search_spaces.py`.
+A space function returns `(dims, compound_overrides)`:
+
+- **dims**: list of `SearchDimension`, each with a key and list of values.
+  One integer gene per dimension.
+- **compound_overrides**: dimensions where one gene value expands to
+  multiple dotlist overrides (e.g., `toplevel_method="pot"` → 4 overrides).
+
+### Example: Airline (6 genes, 4,320 configs)
+
+| Gene | Key | Values | Type |
+|------|-----|--------|------|
+| 0 | `toplevel_method` | structured_baseline, unstructured_baseline, workflow, pot, react | compound |
+| 1 | `llm.model` | DSv3, DSv3.1, GPToss20B, GPToss120B, Qwen9B, Gemma3n | simple |
+| 2 | `extract_airline_params.method` | simulate_pydantic, simulate | simple |
+| 3 | `extract_airline_params.model` | (same 6 models) | simple |
+| 4 | `compute_airline_calculator.method` | direct, simulate | simple |
+| 5 | `compute_airline_calculator.model` | (same 6 models) | simple |
+
+Chromosome `[4, 1, 1, 3, 0, 5]` means: react top-level with DSv3.1 globally,
+extract via simulate with GPToss120B, calculator via direct with Gemma3n.
+
+### Domain Summary
+
+| Domain | Sub-interfaces | Methods | Genes | Space |
+|--------|---------------|---------|-------|-------|
+| airline | extract + calculator | 5 | 6 | 4,320 |
+| nba | extract only | 5 | 4 | 360 |
+| tax | extract + calculator | 6 | 6 | 5,184 |
+
+## Defining a Search Space (YAML)
+
+Create a YAML file with three sections:
+
+```yaml
+# nsga2_airline.yaml
+interface: ptools.compute_airline_answer    # used to build subprocess command
+evaluator: evaluator.AirlineEvaluator       # optional
+
+models:                                     # shared model pool
+  - together_ai/deepseek-ai/DeepSeek-V3
+  - together_ai/openai/gpt-oss-20b
+  - together_ai/google/gemma-3n-E4B-it
+
+methods:                                    # top-level method → dotlist overrides
+  structured_baseline:
+    - ptools.compute_airline_answer.method=simulate
+  workflow:
+    - ptools.compute_airline_answer.method=direct
+    - ptools.compute_airline_answer.fn=ptools.airline_workflow
+  pot:
+    - ptools.compute_airline_answer.method=program_of_thought
+    - ptools.compute_airline_answer.tools=[ptools.extract_airline_params,ptools.compute_airline_calculator]
+    - ptools.compute_airline_answer.inject_args=true
+    - llm.max_tokens=16384
+
+sub_interfaces:                             # per-interface method + model genes
+  ptools.extract_airline_params:
+    methods: [simulate_pydantic, simulate]
+  ptools.compute_airline_calculator:
+    methods: [direct, simulate]
+```
+
+The builder auto-generates genes: `toplevel_method` (compound) + `llm.model` +
+per-sub-interface method and model genes.
+
+## Running NSGA-II
+
+### YAML mode (recommended)
+
+```bash
+# Dry run — verify commands, no API calls
+uv run -m secretagent.cli.optimize nsga2 \
+    --space-file nsga2_airline.yaml --cwd airline --dry-run dataset.n=10
+
+# Real run
+uv run -m secretagent.cli.optimize nsga2 \
+    --space-file nsga2_airline.yaml --cwd airline \
+    --pop-size 12 --n-gen 5 --timeout 600 dataset.n=20
+```
+
+### RuleArena examples (from `benchmarks/rulearena/`)
+
+```bash
+# Airline (6 genes, 4,320 configs)
+uv run -m secretagent.cli.optimize nsga2 \
+    --space-file nsga2_airline.yaml --cwd airline \
+    --pop-size 12 --n-gen 5 dataset.n=20
+
+# NBA (4 genes, 360 configs)
+uv run -m secretagent.cli.optimize nsga2 \
+    --space-file nsga2_nba.yaml --cwd nba \
+    --pop-size 12 --n-gen 5 dataset.n=20
+
+# Tax (6 genes, 5,184 configs)
+uv run -m secretagent.cli.optimize nsga2 \
+    --space-file nsga2_tax.yaml --cwd tax \
+    --pop-size 12 --n-gen 5 dataset.n=20
+```
+
+### FinQA example (from `benchmarks/finqa/`)
+
+```bash
+uv run -m secretagent.cli.optimize nsga2 \
+    --space-file nsga2.yaml --pop-size 12 --n-gen 5 dataset.n=50
+```
+
+### Python mode (alternative)
+
+If you need programmatic control, use `--space` with a Python function:
+
+```bash
+uv run -m secretagent.cli.optimize nsga2 \
+    --interface ptools.compute_airline_answer \
+    --evaluator evaluator.AirlineEvaluator \
+    --space search_spaces.airline_modular_space \
+    --cwd airline dataset.n=20
+```
+
+### Key options
+
+| Option | Default | Description |
+|--------|---------|-------------|
+| `--space-file` | none | YAML space definition (recommended) |
+| `--space` | none | Python space function as `module.func` |
+| `--interface` | from YAML | Top-level interface |
+| `--evaluator` | from YAML | Evaluator class |
+| `--cwd` | `.` | Working directory for subprocesses |
+| `--pop-size` | 12 | Population size (rounded up to multiple of 4) |
+| `--n-gen` | 5 | Number of generations |
+| `--timeout` | 600 | Timeout per config (seconds) |
+| `--metric` | `correct` | Metric to maximize |
+| `--seed` | 42 | Random seed |
+| `--dry-run` | false | Print sample commands without running |
+| `--no-plot` | false | Skip Pareto plot |
+
+Extra positional args are dotlist config overrides applied to every config.
+
+### Adding a new benchmark
+
+1. Create `nsga2.yaml` in the benchmark directory
+2. List models, methods (with dotlist overrides), and sub-interfaces
+3. Run with `--space-file nsga2.yaml`
+
+No Python code needed.
+
+## Interpreting Results
+
+### Pareto frontier
+
+The output reports which configs are non-dominated:
+
+```
+PARETO FRONTIER (27 valid / 39 evaluated)
+  Config                              correct     Cost/q
+  workflow/GPToss20B                  100.0% $   0.0042
+  structured_baseline/Gemma3n           0.0% $   0.0013
+```
+
+A config is Pareto-optimal if no other config has both higher accuracy
+and lower cost. Failed configs (timeout, NaN, crash) are scored as
+(0% accuracy, infinite cost) and excluded.
+
+### Hypervolume
+
+Compare frontier quality across runs using the hypervolume indicator:
+
+```bash
+cd benchmarks/rulearena/airline
+uv run -m secretagent.cli.results hypervolume --latest 0 \
+    --metric correct --metric cost- results/*nsga*
+```
+
+Larger hypervolume = better frontier. Use `--ref` with a fixed reference
+point to compare across different result sets.
+
+### Running all benchmarks at once
+
+```bash
+# All registered benchmarks
+uv run -m secretagent.cli.optimize run-all --pop-size 12 --n-gen 5 dataset.n=20
+
+# Specific benchmarks only
+uv run -m secretagent.cli.optimize run-all -b airline -b nba dataset.n=20
+
+# Dry run to verify commands
+uv run -m secretagent.cli.optimize run-all --dry-run
+```
+
+This runs NSGA-II sequentially for each benchmark and auto-generates a
+cross-benchmark summary at the end.
+
+### Cross-benchmark comparison
+
+After running NSGA-II on multiple benchmarks, compare them side by side:
+
+```bash
+cd benchmarks/rulearena
+uv run -m secretagent.cli.optimize cross-summary \
+    airline/results/nsga2_summary.csv \
+    nba/results/nsga2_summary.csv \
+    tax/results/nsga2_summary.csv
+```
+
+This reports per-benchmark frontier size, best accuracy, cheapest cost,
+and hypervolume, plus method/model frequency across all frontiers.
+Use `--output table.md` to save a markdown table for the paper.
+
+## How It Works
+
+1. **Encode**: each config = integer vector (one index per dimension)
+2. **Decode**: `decode_modular()` expands compound dimensions, produces
+   dotlist overrides
+3. **Evaluate**: subprocess runs `secretagent.cli.expt run` with overrides;
+   results cached by chromosome
+4. **Evolve**: NSGA-II with uniform crossover + random reset mutation
+   over categorical genes; `selNSGA2` for survivor selection
+5. **Report**: Pareto frontier + cost-vs-accuracy plot
+
+The search auto-selects exhaustive enumeration when the space has
+≤20 configs, NSGA-II otherwise.
+
+## Module Structure
+
+```
+src/secretagent/
+    optimize/
+        encoder.py        # SearchDimension, decode, decode_modular,
+                          #   modular_space_from_yaml
+        pareto.py          # EvalCache, run_exhaustive, run_nsga2
+        metrics.py         # compute_hypervolume, compare_hypervolumes
+        viz.py             # plot_pareto_frontier
+    cli/
+        optimize.py        # CLI: sweep, nsga2, cross-summary, summary
+
+benchmarks/<name>/
+    nsga2.yaml             # YAML space definition (portable)
+    search_spaces.py       # Python space functions (optional)
+```
+
+---
+
 # Grid Search Optimizer
 
-The optimizer searches over a discrete space of configuration overrides
-to find the best-performing config for a benchmark. Each config is
-evaluated as a subprocess to ensure clean state.
+The grid search (`sweep`) exhaustively enumerates a YAML-defined space.
+Best for small, flat spaces.
 
 ## Architecture
 

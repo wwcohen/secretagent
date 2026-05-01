@@ -1,0 +1,39 @@
+interface: ptools.compute_tax_answer
+evaluator: evaluator.TaxEvaluator
+
+models:
+  - together_ai/deepseek-ai/DeepSeek-V3.1
+  - together_ai/deepseek-ai/DeepSeek-V3
+  - together_ai/openai/gpt-oss-20b
+  - together_ai/openai/gpt-oss-120b
+  - gemini/gemini-2.5-flash
+  - gemini/gemini-2.5-flash-lite
+
+methods:
+  structured_baseline:
+    - ptools.compute_tax_answer.method=simulate
+  unstructured_baseline:
+    - ptools.compute_tax_answer.method=direct
+    - ptools.compute_tax_answer.fn=ptools.unstructured_workflow
+  workflow:
+    - ptools.compute_tax_answer.method=direct
+    - ptools.compute_tax_answer.fn=ptools.tax_workflow
+  pot:
+    - ptools.compute_tax_answer.method=program_of_thought
+    - ptools.compute_tax_answer.tools=[ptools.extract_tax_params,ptools.compute_tax_calculator]
+    - ptools.compute_tax_answer.inject_args=true
+    - llm.max_tokens=16384
+  react:
+    - ptools.compute_tax_answer.method=simulate_pydantic
+    - ptools.compute_tax_answer.tools=[ptools.extract_tax_params,ptools.compute_tax_calculator]
+  react_two_phase:
+    - ptools.compute_tax_answer.method=direct
+    - ptools.compute_tax_answer.fn=ptools.two_phase_react_workflow
+    - ptools.compute_tax_answer_react.method=simulate_pydantic
+    - ptools.compute_tax_answer_react.tools=[ptools.compute_tax_calculator]
+
+sub_interfaces:
+  ptools.extract_tax_params:
+    methods: [simulate_pydantic, simulate]
+  ptools.compute_tax_calculator:
+    methods: [direct]

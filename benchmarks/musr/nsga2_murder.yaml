@@ -1,0 +1,51 @@
+# NSGA-II search space for MUSR Murder.
+# Run from repo root:
+#   uv run -m secretagent.cli.optimize nsga2 \
+#     --space-file benchmarks/musr/nsga2_murder.yaml \
+#     --cwd benchmarks/musr \
+#     --pop-size 12 --n-gen 5 --timeout 600 \
+#     dataset.split=murder_mysteries_test dataset.n=50
+#
+# Note: react_learned (using Lex's induced ptools at
+# src/secretagent/learn/inducer_results/musr/induced_ptools_seed42_correct_murder.py)
+# is NOT included here — it requires resolving the `_REACT_STATE` import path
+# (Lex's module imports `from ptools.ptools_common import _REACT_STATE`, but
+# MUSR's module is `ptools_common`, no `ptools.` prefix). Add as a separate
+# method block once that import is patched.
+
+command: uv run python expt.py run --config-file conf/murder.yaml
+
+models:
+  - together_ai/deepseek-ai/DeepSeek-V3.1
+  - together_ai/deepseek-ai/DeepSeek-V3
+  - together_ai/openai/gpt-oss-20b
+  - together_ai/openai/gpt-oss-120b
+  - gemini/gemini-2.5-flash
+  - gemini/gemini-2.5-flash-lite
+
+methods:
+  structured_baseline:
+    - ptools.answer_question.method=simulate
+  zs_cot:
+    - ptools.answer_question.method=prompt_llm
+    - ptools.answer_question.prompt_template_file=prompt_templates/zero_shot_cot.txt
+  workflow:
+    - evaluate.entry_point=answer_question_workflow
+    - ptools.answer_question_workflow.method=direct
+  pot:
+    - ptools.answer_question.method=program_of_thought
+    - ptools.answer_question.tools=__all__
+    - llm.max_tokens=16384
+  react:
+    - ptools.answer_question.method=direct
+    - ptools.answer_question.fn=ptools_common.react_answer_impl
+    - ptools.react_solve.method=simulate_pydantic
+    - ptools.react_solve.tools=[ptools_common.search,ptools_common.lookup,ptools_common.finish]
+
+sub_interfaces:
+  ptools.extract_suspects_and_evidence:
+    methods: [simulate]
+  ptools.verify_alibis:
+    methods: [simulate]
+  ptools.deduce_murderer:
+    methods: [simulate]

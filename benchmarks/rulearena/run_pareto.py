@@ -9,7 +9,7 @@ import time
 
 import typer
 
-from search_spaces import DOMAIN_METHODS, DOMAIN_SPACES, MODELS
+from search_spaces import DOMAIN_METHODS, FLAT_SPACES, MODELS
 from secretagent.optimize.pareto import EvalCache
 from secretagent.optimize.viz import plot_pareto_frontier
 
@@ -50,7 +50,7 @@ def main(
         )
 
     methods = DOMAIN_METHODS[domain]
-    dims, fixed = DOMAIN_SPACES[domain]()
+    dims, fixed = FLAT_SPACES[domain]()
     total = len(methods) * len(MODELS)
 
     print(f"RuleArena Pareto search ({domain}): {len(methods)} methods x {len(MODELS)} models = {total} configs")
