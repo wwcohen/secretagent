@@ -48,6 +48,38 @@ that passed Gemini's c1_v4g gate was `build_trip_plan` — which lives in
 
 ---
 
+## Same numbers on the held-out TEST split (no re-distill)
+
+Re-ran each cached distill (`learned_v4/`, `learned_v4g/`,
+`learned_class2_v4/`, `learned_class2_v4g/`) on each benchmark's held-out
+**test split** (`dataset.split=test` / `dataset.partition=test` /
+`dataset.split=test1k` for tabmwp). No new training — just inference, with
+`backoff=true` → DeepSeek when generated code returns None. Most rankings
+hold; trip and penguins **widen** their Gemini margins, geometric/meeting
+keep collapsing for v4g.
+
+| benchmark | n | baseline | c1_v4 | c1_v4g | c2_v4 | c2_v4g | Δ c2 (v4g − v4) |
+|---|---|---|---|---|---|---|---|
+| natplan_calendar | 100 | 55% | 55% | — (a) | **90%** | 53% | -37pp ❌ |
+| natplan_meeting | 100 | 25% | — | — (a) | **99%** | 27% | -72pp ❌ |
+| **natplan_trip** | 100 | 8% | 24% | **90%** ⭐ | 10% | **97%** | **+87pp** ⭐⭐⭐ |
+| musr_murder | 75 | 52% | 64% | **67%** | **69%** | 64% | -5pp |
+| musr_object | 75 | 56% | 60% | 59% | 60% | 61% | +1pp |
+| musr_team | 75 | 57% | 40% | 61% | 64% | **67%** | +3pp |
+| bbh_sports | 75 | 76% | 81% | 79% | 84% | 83% | -1pp |
+| bbh_penguins | 43 | 56% | 58% | 63% | 81% | **93%** | +12pp ⭐ |
+| bbh_geometric | 75 | 31% | — | — | **100%** | 25% | -75pp ❌ |
+| bbh_date | 75 | 89% | — | — | 91% | 89% | -2pp |
+| medcalc | 100 | 61% | — | — | 62% | 61% | -1pp |
+| rulearena_nba | 46 | 65% | — | — | — | — | n/a |
+| rulearena_tax | 50 | 64% | — | — | — | — | n/a |
+| rulearena_airline | 50 | 38% | — | — | **100%** | **100%** | 0 (saturated) |
+| tabmwp | 100 | 47% | 51% | 48% | **59%** | 57% | -2pp |
+
+**finqa** has no test split (only train + valid) so it's not in this table.
+
+---
+
 ## Plot — Cost vs accuracy (v4g)
 
 ![](plots/plot1_v4g_cost_vs_acc.png)
