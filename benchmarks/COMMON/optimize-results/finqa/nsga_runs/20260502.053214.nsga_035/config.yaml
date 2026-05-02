@@ -1,0 +1,28 @@
+llm:
+  model: together_ai/openai/gpt-oss-20b
+cachier:
+  cache_dir: C:\Users\STUDENT\OneDrive\Documents\Projects\AI Research\secretagent\benchmarks\finqa\llm_cache
+evaluate:
+  result_dir: C:\Users\STUDENT\OneDrive\Documents\Projects\AI Research\secretagent\benchmarks\finqa\results
+  expt_name: nsga_035
+dataset:
+  split: valid
+  shuffle_seed: null
+  'n': 50
+ptools:
+  parse_table:
+    method: direct
+  lookup_cell:
+    method: direct
+  compute:
+    method: direct
+  extract_reasoning_plan:
+    method: simulate
+    model: together_ai/deepseek-ai/DeepSeek-V3
+  extract_final_number:
+    method: simulate
+    model: together_ai/deepseek-ai/DeepSeek-V3
+  answer_finqa:
+    method: direct
+    fn: ptools.answer_finqa_workflow
+root: C:\Users\STUDENT\OneDrive\Documents\Projects\AI Research\secretagent\benchmarks\finqa
