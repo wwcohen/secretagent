@@ -30,6 +30,9 @@ wc:
 prechecks: test lint typehints
 
 
+srctree:
+	tree -d -I '*results*' -I llm_cache -I 'learned*' -I 'recordings*' -I __pycache__  -I logs -I data
+
 #
 # examples
 #
