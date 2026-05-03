@@ -2,7 +2,7 @@
 
 ## Models
 
-| role | v4 | v4g |
+| role | opus | gemini |
 |---|---|---|
 | Learner (writes workflow Python) | `claude-opus-4-6` | `gemini/gemini-3.1-pro-preview` |
 | Baseline simulate ptool | `together_ai/deepseek-ai/DeepSeek-V3.1` (V3 for musr/rulearena) | unchanged |
@@ -30,16 +30,16 @@ uv run -m secretagent.cli.learn workflow-codedistill \
   --tool-module <ptools_module> --conf-file conf/<bench>.yaml \
   --reference-file ../<sibling_bench>/ptools.py \
   --trace-dir recordings_full/<latest>.<bench>_train_full \
-  --learned-dir learned_class2_v4 --model claude-opus-4-6 \
+  --learned-dir learned_class2_opus --model claude-opus-4-6 \
   --backoff true --backoff-method simulate
 ```
 
-For Gemini variant, `--model gemini/gemini-3.1-pro-preview --learned-dir learned_class2_v4g`.
+For Gemini variant, `--model gemini/gemini-3.1-pro-preview --learned-dir learned_class2_gemini`.
 
 After distill, move outputs to COMMON:
 
 ```bash
-git mv learned_class2_v4 ../COMMON/codedistill-workflow-results/<bench>/
+git mv learned_class2_opus ../COMMON/codedistill-workflow-results/<bench>/
 ```
 
 ## Step 2.5: meeting golden_plan list→str hack
@@ -65,20 +65,20 @@ json.dump(src if 'cases' in src else cases, open('/tmp/meeting_train_v4g.json', 
 # Then point --dataset-file at /tmp/meeting_train_v4g.json
 ```
 
-This bumped meeting class2 v4 from 3% → 98%.
+This bumped meeting class2 opus from 3% → 98%.
 
 ## Step 3: end-to-end val (Class 2)
 
 ```bash
 uv run python expt.py run --config-file conf/<bench>.yaml \
   dataset.partition=valid dataset.n=100 \
-  evaluate.expt_name=<bench>_val_full_class2v4 \
+  evaluate.expt_name=<bench>_val_full_class2_opus \
   evaluate.record_details=true evaluate.result_dir=val_results_full \
   llm.model=together_ai/deepseek-ai/DeepSeek-V3.1 \
   ptools.<top_iface>.method=learned_code \
   ptools.<top_iface>.learner=workflow_distill \
   ptools.<top_iface>.backoff=true \
-  learn.train_dir=$ROOT/benchmarks/COMMON/codedistill-workflow-results/<bench>/learned_class2_v4
+  learn.train_dir=$ROOT/benchmarks/COMMON/codedistill-workflow-results/<bench>/learned_class2_opus
 ```
 
 ## Step 4: test split eval
@@ -89,8 +89,8 @@ runs. With `backoff=true`, ptools that return None fall back to baseline DS.
 
 ## Full orchestration scripts
 
-- `benchmarks/jerry/class2_iters/run_class2_v4_full_workflow.sh` (v4 Opus)
-- `benchmarks/jerry/class2_iters/run_class2_v4g_gemini.sh` (v4g Gemini)
+- `benchmarks/jerry/class2_iters/run_class2_v4_full_workflow.sh` (opus Opus)
+- `benchmarks/jerry/class2_iters/run_class2_v4g_gemini.sh` (gemini Gemini)
 - `benchmarks/jerry/class2_iters/run_v4g_vals_watcher.sh` (poll-based val auto-launch)
 - `benchmarks/jerry/class2_iters/run_test_split_vals_all.sh` (test-split eval orchestrator)
 

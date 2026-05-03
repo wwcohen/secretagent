@@ -1,0 +1,7 @@
+{
+  "reproduce_cmd": "uv run python expt.py run --config-file conf/calendar.yaml dataset.n=100 dataset.partition=test evaluate.result_dir=results-test evaluate.expt_name=unstructured_baseline ptools.calendar_scheduling.method=prompt_llm ptools.calendar_scheduling.prompt_template_file=prompt_templates/zeroshot_calendar.txt",
+  "accuracy": 0.7,
+  "total_cost_usd": 0.255224,
+  "total_time_sec": 3422.0,
+  "n_samples": 100
+}

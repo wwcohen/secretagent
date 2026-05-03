@@ -17,7 +17,7 @@ BENCHES = [
     "tabmwp",
 ]
 
-# Post-COMMON-reorg, the v4/v4g class1/class2 results live in:
+# Post-COMMON-reorg, the opus/gemini class1/class2 results live in:
 #   benchmarks/COMMON/codedistill-ptools-results/<dst>/{val,test}_results_full/
 #   benchmarks/COMMON/codedistill-workflow-results/<dst>/{val,test}_results_full/
 # Mapping bench → dst (some bbh names get flattened to bbh_<sub>):

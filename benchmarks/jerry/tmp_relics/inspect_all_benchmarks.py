@@ -4,8 +4,8 @@ For each of our 16 sub-benchmarks, report:
   - Data: train/valid/test sizes
   - Conf files (which workflow.yaml etc.)
   - Recordings: train_full + val_baseline_full done?
-  - Class 1/2/3 v4 distill outputs?
-  - Class 1/2/3 v4 vals done?
+  - Class 1/2/3 opus distill outputs?
+  - Class 1/2/3 opus vals done?
   - Misc issues (FHIR-required, agent-only, etc.)
 """
 import json
@@ -75,34 +75,34 @@ for label, bench_dir, sub in BENCHES:
     val_baseline = check_dir_for_sub(bench / "val_results_full", sub)
     val_baseline = [x for x in val_baseline if "baseline" in x.lower()]
 
-    # learned dirs (class 1 v4 = codedistill_config.yaml; class 2/3 v4 = workflow_distill subdirs)
-    c1v4_cfg = bench / "learned_v4" / "codedistill_config.yaml"
+    # learned dirs (class 1 opus = codedistill_config.yaml; class 2/3 opus = workflow_distill subdirs)
+    c1v4_cfg = bench / "learned_opus" / "codedistill_config.yaml"
     if c1v4_cfg.exists():
         n_enabled = len(yaml.safe_load(c1v4_cfg.read_text()).get('ptools', {}) or {})
         c1v4_status = f"{n_enabled} EN"
     else:
-        # See if learned_v4 dir exists with any ptool subdirs
-        if (bench / "learned_v4").exists():
-            n_subdirs = sum(1 for x in (bench / "learned_v4").iterdir() if x.is_dir())
+        # See if learned_opus dir exists with any ptool subdirs
+        if (bench / "learned_opus").exists():
+            n_subdirs = sum(1 for x in (bench / "learned_opus").iterdir() if x.is_dir())
             c1v4_status = f"0 EN ({n_subdirs}d)" if n_subdirs > 0 else "no dist"
         else:
             c1v4_status = "no dir"
 
-    c2v4_dirs = check_dir_for_sub(bench / "learned_class2_v4", sub)
+    c2v4_dirs = check_dir_for_sub(bench / "learned_class2_opus", sub)
     c2v4_dirs = [x for x in c2v4_dirs if 'workflow_distill' in x]
     c2v4_status = f"{len(c2v4_dirs)} dist" if c2v4_dirs else "no"
 
-    c3v4_dirs = check_dir_for_sub(bench / "learned_class3_v4", sub)
+    c3v4_dirs = check_dir_for_sub(bench / "learned_class3_opus", sub)
     c3v4_dirs = [x for x in c3v4_dirs if 'workflow_distill' in x]
     c3v4_status = f"{len(c3v4_dirs)} dist" if c3v4_dirs else "no"
 
     # vals for c1/c2/c3
     val_c1 = check_dir_for_sub(bench / "val_results_full", sub)
-    val_c1 = [x for x in val_c1 if 'class1v4' in x.lower()]
+    val_c1 = [x for x in val_c1 if 'class1_opus' in x.lower()]
     val_c2 = check_dir_for_sub(bench / "val_results_full", sub)
-    val_c2 = [x for x in val_c2 if 'class2v4' in x.lower()]
+    val_c2 = [x for x in val_c2 if 'class2_opus' in x.lower()]
     val_c3 = check_dir_for_sub(bench / "val_results_full", sub)
-    val_c3 = [x for x in val_c3 if 'class3v4' in x.lower()]
+    val_c3 = [x for x in val_c3 if 'class3_opus' in x.lower()]
 
     issues = []
     if not rec_train: issues.append("no train_rec")

@@ -1,6 +1,6 @@
 #!/bin/bash
 # E: Full-size val eval for all classes.
-# Runs baseline + Class1 v4 + Class2 v4 + Class3 v4 on val splits with proper sizes.
+# Runs baseline + Class1 opus + Class2 opus + Class3 opus on val splits with proper sizes.
 set +e
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 LOG_DIR="$ROOT/benchmarks/full_size_val_logs"
@@ -29,25 +29,25 @@ natplan_eval() {
         ptools.${iface}.method=direct ptools.${iface}.fn=${wf} \
         dataset.partition=valid "dataset.n=$n" \
         evaluate.expt_name=${sub}_val_full_baseline evaluate.result_dir=val_results_full
-    # class1 v4 if config exists
-    if [ -f learned_v4/codedistill_config.yaml ]; then
-      run_eval "natplan_${sub}_class1v4_full" \
-        uv run python expt.py run --config-file learned_v4/codedistill_config.yaml \
+    # class1 opus if config exists
+    if [ -f learned_opus/codedistill_config.yaml ]; then
+      run_eval "natplan_${sub}_class1_opus_full" \
+        uv run python expt.py run --config-file learned_opus/codedistill_config.yaml \
           --config-file conf/${sub}.yaml \
           ptools.${iface}.method=direct ptools.${iface}.fn=${wf} \
-          learn.train_dir=learned_v4 dataset.partition=valid "dataset.n=$n" \
-          evaluate.expt_name=${sub}_val_full_class1v4 evaluate.result_dir=val_results_full
+          learn.train_dir=learned_opus dataset.partition=valid "dataset.n=$n" \
+          evaluate.expt_name=${sub}_val_full_class1_opus evaluate.result_dir=val_results_full
     fi
-    # class2 v4 if exists
-    C2DIR=$(ls -td "$PWD/learned_class2_v4"/*${iface}__workflow_distill 2>/dev/null | head -1)
+    # class2 opus if exists
+    C2DIR=$(ls -td "$PWD/learned_class2_opus"/*${iface}__workflow_distill 2>/dev/null | head -1)
     if [ -n "$C2DIR" ]; then
-      run_eval "natplan_${sub}_class2v4_full" \
+      run_eval "natplan_${sub}_class2_opus_full" \
         uv run python expt.py run --config-file conf/${sub}.yaml \
           ptools.${iface}.method=learned_code ptools.${iface}.learner=workflow_distill \
           ptools.${iface}.backoff=true \
           learn.train_dir="$(dirname $C2DIR)" \
           dataset.partition=valid "dataset.n=$n" \
-          evaluate.expt_name=${sub}_val_full_class2v4 evaluate.result_dir=val_results_full
+          evaluate.expt_name=${sub}_val_full_class2_opus evaluate.result_dir=val_results_full
     fi
   done
 }
@@ -58,13 +58,13 @@ musr_eval() {
     uv run python expt.py run --config-file conf/murder_workflow.yaml \
       dataset.split=murder_mysteries_val dataset.n=75 \
       evaluate.expt_name=murder_val_full_baseline evaluate.result_dir=val_results_full
-  if [ -f learned_v4/codedistill_config.yaml ]; then
-    run_eval "musr_class1v4_full" \
-      uv run python expt.py run --config-file learned_v4/codedistill_config.yaml \
+  if [ -f learned_opus/codedistill_config.yaml ]; then
+    run_eval "musr_class1_opus_full" \
+      uv run python expt.py run --config-file learned_opus/codedistill_config.yaml \
         --config-file conf/murder_workflow.yaml \
         dataset.split=murder_mysteries_val dataset.n=75 \
-        learn.train_dir=learned_v4 \
-        evaluate.expt_name=murder_val_full_class1v4 evaluate.result_dir=val_results_full
+        learn.train_dir=learned_opus \
+        evaluate.expt_name=murder_val_full_class1_opus evaluate.result_dir=val_results_full
   fi
   # Class 3 v3 induced existed for murder
   if [ -f learned_class3_v3/induced_codedistill_config.yaml ]; then
@@ -91,31 +91,31 @@ bbh_eval() {
         ptools.${iface}.method=direct ptools.${iface}.fn=ptools.${wf} \
         $EXTRA "llm.model=$DS" dataset.split=valid "dataset.n=$n" \
         evaluate.expt_name=${sub}_val_full_baseline evaluate.result_dir=val_results_full
-    if [ -f learned_v4/codedistill_config.yaml ]; then
+    if [ -f learned_opus/codedistill_config.yaml ]; then
       PTOOL_DOTS=$(uv run python -c "
 import yaml
-cfg = yaml.safe_load(open('learned_v4/codedistill_config.yaml'))
+cfg = yaml.safe_load(open('learned_opus/codedistill_config.yaml'))
 for n, kvs in (cfg.get('ptools', {}) or {}).items():
     for k, v in (kvs or {}).items():
         v = repr(v) if isinstance(v, bool) else v
         print(f'ptools.{n}.{k}={v}')
 " 2>/dev/null)
-      run_eval "bbh_${sub}_class1v4_full" \
+      run_eval "bbh_${sub}_class1_opus_full" \
         uv run python -m secretagent.cli.expt run --interface ptools.${iface} \
           ptools.${iface}.method=direct ptools.${iface}.fn=ptools.${wf} \
           $PTOOL_DOTS $EXTRA "llm.model=$DS" \
-          learn.train_dir=learned_v4 dataset.split=valid "dataset.n=$n" \
-          evaluate.expt_name=${sub}_val_full_class1v4 evaluate.result_dir=val_results_full
+          learn.train_dir=learned_opus dataset.split=valid "dataset.n=$n" \
+          evaluate.expt_name=${sub}_val_full_class1_opus evaluate.result_dir=val_results_full
     fi
-    C2DIR=$(ls -td "$PWD/learned_class2_v4"/*${iface}__workflow_distill 2>/dev/null | head -1)
+    C2DIR=$(ls -td "$PWD/learned_class2_opus"/*${iface}__workflow_distill 2>/dev/null | head -1)
     if [ -n "$C2DIR" ]; then
-      run_eval "bbh_${sub}_class2v4_full" \
+      run_eval "bbh_${sub}_class2_opus_full" \
         uv run python -m secretagent.cli.expt run --interface ptools.${iface} \
           ptools.${iface}.method=learned_code ptools.${iface}.learner=workflow_distill \
           ptools.${iface}.backoff=true $EXTRA "llm.model=$DS" \
           learn.train_dir="$(dirname $C2DIR)" \
           dataset.split=valid "dataset.n=$n" \
-          evaluate.expt_name=${sub}_val_full_class2v4 evaluate.result_dir=val_results_full
+          evaluate.expt_name=${sub}_val_full_class2_opus evaluate.result_dir=val_results_full
     fi
   done
 }

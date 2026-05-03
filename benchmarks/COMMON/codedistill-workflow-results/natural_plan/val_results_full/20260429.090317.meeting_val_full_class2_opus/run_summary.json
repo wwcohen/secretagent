@@ -1,0 +1,7 @@
+{
+  "reproduce_cmd": "uv run python expt.py run --config-file conf/meeting.yaml ptools.meeting_planning.method=learned_code ptools.meeting_planning.learner=workflow_distill ptools.meeting_planning.backoff=true learn.train_dir=/Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/natural_plan/learned_class2_opus dataset.partition=valid dataset.n=100 evaluate.expt_name=meeting_val_full_class2_opus evaluate.result_dir=val_results_full",
+  "accuracy": 0.03,
+  "total_cost_usd": 0.008133,
+  "total_time_sec": 63.36,
+  "n_samples": 100
+}

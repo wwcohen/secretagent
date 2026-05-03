@@ -39,28 +39,28 @@ uv run -m secretagent.cli.learn workflow-codedistill \
   ${MEET_TRACE:+--trace-dir "$MEET_TRACE"} \
   ${CAL_TRACE:+--cross-trace-dir "$CAL_TRACE"} \
   ${TRIP_TRACE:+--cross-trace-dir "$TRIP_TRACE"} \
-  --learned-dir learned_class2_v4 --model "$CD_MODEL" \
+  --learned-dir learned_class2_opus --model "$CD_MODEL" \
   --backoff true --backoff-method simulate \
-  > "$LOG_DIR/class2v4_natplan_meeting_v3.log" 2>&1
+  > "$LOG_DIR/class2_opus_natplan_meeting_v3.log" 2>&1
 echo "[$(date)] meeting class 2 distill v3 rc=$?"
 
 # Step 3: val
 echo "[$(date)] === Step 3: meeting class 2 val (post-distill v3) ==="
 uv run python expt.py run --config-file conf/meeting.yaml \
   "dataset.partition=valid" "dataset.n=100" \
-  "evaluate.expt_name=meeting_val_full_class2v4_v3" \
+  "evaluate.expt_name=meeting_val_full_class2_opus_v3" \
   evaluate.record_details=true evaluate.result_dir=val_results_full \
   "llm.model=$DS_V31" \
   "ptools.meeting_planning.method=learned_code" \
   "ptools.meeting_planning.learner=workflow_distill" \
   "ptools.meeting_planning.backoff=true" \
-  "learn.train_dir=$ROOT/benchmarks/natural_plan/learned_class2_v4" \
+  "learn.train_dir=$ROOT/benchmarks/natural_plan/learned_class2_opus" \
   > "$LOG_DIR/meeting_class2_val_v3.log" 2>&1
 echo "[$(date)] meeting class 2 val v3 rc=$?"
 
 uv run python -c "
 import pandas as pd, glob
-files = sorted(glob.glob('val_results_full/*meeting_val_full_class2v4_v3*/results.csv'))
+files = sorted(glob.glob('val_results_full/*meeting_val_full_class2_opus_v3*/results.csv'))
 if files:
     df = pd.read_csv(files[-1])
     print(f'meeting class2 v3 val: rows={len(df)} acc={df.correct.mean():.3f}')

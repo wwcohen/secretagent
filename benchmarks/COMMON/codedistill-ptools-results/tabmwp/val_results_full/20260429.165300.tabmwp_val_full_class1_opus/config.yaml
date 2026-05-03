@@ -1,0 +1,29 @@
+llm:
+  model: together_ai/deepseek-ai/DeepSeek-V3.1
+cachier:
+  cache_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/tabmwp/llm_cache
+evaluate:
+  expt_name: tabmwp_val_full_class1_opus
+  result_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/tabmwp/val_results_full
+  record_details: true
+dataset:
+  split: dev1k
+  shuffle_seed: 42
+  'n': 100
+ptools:
+  identify_operation:
+    method: simulate
+  extract_relevant_values:
+    method: simulate
+  compute_answer:
+    method: simulate
+  format_answer:
+    method: learned_code
+    backoff: true
+    learner: codedistill
+  tabmwp_solve:
+    method: direct
+    fn: ptools.incontext_workflow
+learn:
+  train_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/tabmwp/learned_opus
+root: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/tabmwp
