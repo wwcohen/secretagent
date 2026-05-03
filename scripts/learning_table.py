@@ -6,8 +6,6 @@
 
 import os
 import glob
-import csv
-import math
 
 import pandas as pd
 
@@ -26,33 +24,14 @@ RESULTS_DIR = os.path.join(BASE, "results")
 CODEDISTILL_DIR = os.path.join(BASE, "codedistill-workflow-results")
 
 
-def read_correct_column(csv_path):
-    """Read the 'correct' column from a results CSV, returning list of floats."""
-    values = []
-    with open(csv_path, newline="") as f:
-        reader = csv.DictReader(f)
-        for row in reader:
-            val = row["correct"]
-            if val in ("True", "true"):
-                values.append(1.0)
-            elif val in ("False", "false"):
-                values.append(0.0)
-            else:
-                values.append(float(val))
-    return values
-
-
-def mean_sem(values):
-    """Return (mean, standard error of mean) for a list of values."""
-    n = len(values)
-    if n == 0:
-        return None, None
-    mean = sum(values) / n
-    if n == 1:
-        return mean, 0.0
-    variance = sum((x - mean) ** 2 for x in values) / (n - 1)
-    sem = math.sqrt(variance / n)
-    return mean, sem
+def read_correct_series(csv_path):
+    """Read the 'correct' column from a results CSV as a numeric pandas Series."""
+    df = pd.read_csv(csv_path)
+    col = df["correct"]
+    # Handle True/False strings
+    if col.dtype == object:
+        col = col.map({"True": 1.0, "true": 1.0, "False": 0.0, "false": 0.0})
+    return col.astype(float)
 
 
 def find_latest_dir(directory, pattern):
@@ -94,11 +73,13 @@ def find_codedistill_csv(task, subtask, learner_llm="opus", ptool_class="class2"
     return None
 
 
-def format_cell(mean, sem):
-    """Format a mean +/- sem value for display."""
-    if mean is None:
+def format_cell(series):
+    """Format mean +/- sem from a pandas Series."""
+    if series is None or series.empty:
         return "—"
-    return f"{mean:.3f}+/-{sem:.3f}"
+    m = series.mean()
+    s = series.sem()
+    return f"{m:.2f}+/-{s:.2f}"
 
 
 def build_dataframe():
@@ -110,31 +91,26 @@ def build_dataframe():
     rows = []
 
     # Row 1: engineered workflow
-    row = {"Method": "engineered workflow"}
+    row = {"workflow": "human", "model": "-", "toolkit": "human"}
     for keytask, col in zip(KEYTASKS, col_names):
         task, subtask = keytask.split("/")
         csv_path = find_workflow_csv(task, subtask)
         if csv_path:
-            values = read_correct_column(csv_path)
-            m, s = mean_sem(values)
-            row[col] = format_cell(m, s)
+            row[col] = format_cell(read_correct_series(csv_path))
         else:
             row[col] = "—"
     rows.append(row)
 
     # Codedistill rows: learner_llm x ptool_class
-    toolkit_labels = {"class2": "eng toolkit", "class3": "learned toolkit"}
+    toolkit_labels = {"class2": "human", "class3": "learned"}
     for learner_llm in ("opus", "gemini"):
         for ptool_class in ("class2", "class3"):
-            toolfit = toolkit_labels[ptool_class]
-            row = {"Method": f"codedist {learner_llm} {toolfit}"}
+            row = {"workflow": "codedist", "model": learner_llm, "toolkit": toolkit_labels[ptool_class]}
             for keytask, col in zip(KEYTASKS, col_names):
                 task, subtask = keytask.split("/")
                 csv_path = find_codedistill_csv(task, subtask, learner_llm=learner_llm, ptool_class=ptool_class)
                 if csv_path:
-                    values = read_correct_column(csv_path)
-                    m, s = mean_sem(values)
-                    row[col] = format_cell(m, s)
+                    row[col] = format_cell(read_correct_series(csv_path))
                 else:
                     row[col] = "—"
             rows.append(row)
