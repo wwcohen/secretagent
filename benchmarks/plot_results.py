@@ -21,54 +21,91 @@ ROOT = Path(__file__).resolve().parent.parent
 BENCHMARKS_DIR = ROOT / 'benchmarks'
 
 # Map of benchmark name → (full path, label, color)
-BENCHMARKS = {
-    'natplan_calendar': BENCHMARKS_DIR / 'natural_plan',
-    'natplan_meeting':  BENCHMARKS_DIR / 'natural_plan',
-    'natplan_trip':     BENCHMARKS_DIR / 'natural_plan',
-    'musr_murder':      BENCHMARKS_DIR / 'musr',
-    'musr_object':      BENCHMARKS_DIR / 'musr',
-    'musr_team':        BENCHMARKS_DIR / 'musr',
-    'bbh_sports':       BENCHMARKS_DIR / 'bbh' / 'sports_understanding',
-    'bbh_penguins':     BENCHMARKS_DIR / 'bbh' / 'penguins_in_a_table',
-    'bbh_geometric':    BENCHMARKS_DIR / 'bbh' / 'geometric_shapes',
-    'bbh_date':         BENCHMARKS_DIR / 'bbh' / 'date_understanding',
-    'medcalc':          BENCHMARKS_DIR / 'medcalc',
-    'finqa':            BENCHMARKS_DIR / 'finqa',
-    'rulearena_nba':    BENCHMARKS_DIR / 'rulearena',
-    'rulearena_tax':    BENCHMARKS_DIR / 'rulearena',
-    'rulearena_airline': BENCHMARKS_DIR / 'rulearena',
-    'tabmwp':           BENCHMARKS_DIR / 'tabmwp',
+# NEW path layout (post-COMMON reorg):
+#   - baseline val_results_full + recordings_full live in benchmarks/<bench>/ (per-bench)
+#   - class1 val/test/learned live in benchmarks/COMMON/codedistill-ptools-results/<bench>/
+#   - class2 val/test/learned live in benchmarks/COMMON/codedistill-workflow-results/<bench>/
+# The plot reader needs to look in BOTH the per-bench dir (for baseline) and the
+# COMMON dirs (for class1/2 results).
+COMMON_PT  = BENCHMARKS_DIR / 'COMMON' / 'codedistill-ptools-results'
+COMMON_WF  = BENCHMARKS_DIR / 'COMMON' / 'codedistill-workflow-results'
+
+# (label, per-bench-dir for baseline, COMMON-dir-name for ptools, COMMON-dir-name for workflow)
+BENCHMARKS_INFO = {
+    'natplan_calendar':  (BENCHMARKS_DIR / 'natural_plan',                'natural_plan'),
+    'natplan_meeting':   (BENCHMARKS_DIR / 'natural_plan',                'natural_plan'),
+    'natplan_trip':      (BENCHMARKS_DIR / 'natural_plan',                'natural_plan'),
+    'musr_murder':       (BENCHMARKS_DIR / 'musr',                        'musr'),
+    'musr_object':       (BENCHMARKS_DIR / 'musr',                        'musr'),
+    'musr_team':         (BENCHMARKS_DIR / 'musr',                        'musr'),
+    'bbh_sports':        (BENCHMARKS_DIR / 'bbh' / 'sports_understanding', 'bbh_sports_understanding'),
+    'bbh_penguins':      (BENCHMARKS_DIR / 'bbh' / 'penguins_in_a_table',  'bbh_penguins_in_a_table'),
+    'bbh_geometric':     (BENCHMARKS_DIR / 'bbh' / 'geometric_shapes',     'bbh_geometric_shapes'),
+    'bbh_date':          (BENCHMARKS_DIR / 'bbh' / 'date_understanding',   'bbh_date_understanding'),
+    'medcalc':           (BENCHMARKS_DIR / 'medcalc',                     'medcalc'),
+    'finqa':             (BENCHMARKS_DIR / 'finqa',                       'finqa'),
+    'rulearena_nba':     (BENCHMARKS_DIR / 'rulearena',                   'rulearena'),
+    'rulearena_tax':     (BENCHMARKS_DIR / 'rulearena',                   'rulearena'),
+    'rulearena_airline': (BENCHMARKS_DIR / 'rulearena',                   'rulearena'),
+    'tabmwp':            (BENCHMARKS_DIR / 'tabmwp',                      'tabmwp'),
 }
+# Back-compat alias kept for any caller still using BENCHMARKS as just per-bench path:
+BENCHMARKS = {k: v[0] for k, v in BENCHMARKS_INFO.items()}
 
 
-def find_val_csv(benchdir: Path, expt_pat: str, strict_v4: bool = False):
+def find_val_csv(benchdir: Path, expt_pat: str, strict_v4: bool = False,
+                 common_subdir: str = None):
     """Find the most recent results.csv matching an expt name pattern.
-    Prefers val_results_full/ (full-size n; suffix class2v4 etc) over
-    val_results/ (n=30 mini).
 
-    If strict_v4=True, only return v4 full-size matches (no fallback to v2 / mini).
-    Used for plot 1 where we want exactly 3 points per bench (baseline + c1_v4 + c2_v4).
+    Searches three locations (in order of priority):
+      1. benchdir/val_results_full/<ts>.<expt_pat>/results.csv  (per-bench, baseline + legacy)
+      2. COMMON/codedistill-ptools-results/<common_subdir>/{val,test}_results_full/...   (Class 1 outputs)
+      3. COMMON/codedistill-workflow-results/<common_subdir>/{val,test}_results_full/... (Class 2 outputs)
+
+    If strict_v4=True, only return v4 full-size matches.
     """
-    method = expt_pat.split('_')[-1]  # baseline / class1 / class2 / class3
+    method_token = expt_pat.split('_')[-1]  # baseline / class1 / class2 / class3 / class1v4g / etc
     pre = '_'.join(expt_pat.split('_')[:-1])
+
+    # Decide which COMMON subtree to search based on method
+    common_dirs = []
+    if common_subdir:
+        if 'class1' in method_token:
+            common_dirs = [COMMON_PT / common_subdir]
+        elif 'class2' in method_token:
+            common_dirs = [COMMON_WF / common_subdir]
+        elif 'class3' in method_token:
+            common_dirs = [COMMON_WF / common_subdir]
+        # baseline has no COMMON dir — stays per-bench
+    method = method_token  # alias for back-compat
+
     if strict_v4:
-        # match v4 with optional suffix (e.g. _force, _v3) to pick the latest re-run
         priority = [('val_results_full', f'_full_{method}v4_*'),
-                    ('val_results_full', f'_full_{method}v4')]
-        # baseline is special — no v4 suffix (just _full_baseline)
+                    ('val_results_full', f'_full_{method}v4'),
+                    ('test_results_full', f'_full_{method}v4_*'),
+                    ('test_results_full', f'_full_{method}v4')]
         if method == 'baseline':
-            priority = [('val_results_full', f'_full_{method}')]
+            priority = [('val_results_full', f'_full_{method}'),
+                        ('test_results_full', f'_full_{method}')]
     else:
         priority = [('val_results_full', f'_full_{method}v4_*'),
                     ('val_results_full', f'_full_{method}v4'),
                     ('val_results_full', f'_full_{method}'),
+                    ('test_results_full', f'_full_{method}v4_*'),
+                    ('test_results_full', f'_full_{method}v4'),
                     ('val_results', f'_{method}v4'),
                     ('val_results', f'_{method}v2'),
                     ('val_results', f'_{method}')]
-    for sub, suffix in priority:
-        cands = sorted(benchdir.glob(f'{sub}/*.{pre}{suffix}/results.csv'))
-        if cands:
-            return cands[-1]
+
+    # Search COMMON dirs first (paper-frozen v4/v4g results); per-bench last
+    # (used only for baseline + legacy mini). This ordering avoids picking up
+    # stale n=30 mini vals when v4/v4g full-size results exist in COMMON.
+    search_roots = common_dirs + [benchdir]
+    for root in search_roots:
+        for sub, suffix in priority:
+            cands = sorted(root.glob(f'{sub}/*.{pre}{suffix}/results.csv'))
+            if cands:
+                return cands[-1]
     return None
 
 
@@ -214,16 +251,19 @@ def collect_all():
         # plot1 will use these strict_v4 cells; other plots use the loose ones
         cells_v4 = {'baseline': None, 'class1': None, 'class2': None}
         train_rec = find_train_rec(bench)
+        # COMMON subdir name for this benchmark (post-reorg)
+        common_subdir = BENCHMARKS_INFO[bench][1] if bench in BENCHMARKS_INFO else None
         for pref in prefixes:
             for method in cells_v4:
-                csv = find_val_csv(benchdir, f'{pref}_{method}', strict_v4=True)
+                csv = find_val_csv(benchdir, f'{pref}_{method}', strict_v4=True,
+                                   common_subdir=common_subdir)
                 if csv:
                     cells_v4[method] = csv_metrics(csv, train_rec if method == 'baseline' else None)
                     if method != 'baseline' and cells_v4[method]['cost_per_case'] > 0.001:
                         m2 = csv_metrics(csv, train_rec)
                         cells_v4[method]['calls_per_case'] = m2['calls_per_case']
             for method in cells:
-                csv = find_val_csv(benchdir, f'{pref}_{method}')
+                csv = find_val_csv(benchdir, f'{pref}_{method}', common_subdir=common_subdir)
                 if csv:
                     # Only count calls/case for baseline (uses train rollout);
                     # for distilled methods, infer from cost: if near-zero cost,
