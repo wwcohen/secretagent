@@ -1,5 +1,5 @@
 #!/bin/bash
-# D': Class 3 v4 — workflow_distill on induced ptools, full-size data.
+# D': Class 3 opus — workflow_distill on induced ptools, full-size data.
 # Only benchmarks with usable React/CoT recordings (musr, finqa, calendar).
 set +e
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
@@ -18,7 +18,7 @@ run_v4() {
   echo "[$(date)] class3_v4 $label END rc=$?"
 }
 
-echo "=== Class 3 v4 (workflow_distill on induced, full-size) — start at $(date) ==="
+echo "=== Class 3 opus (workflow_distill on induced, full-size) — start at $(date) ==="
 
 # musr_murder
 cd "$ROOT/benchmarks/musr"
@@ -27,7 +27,7 @@ INDUCED=$(ls "$ROOT/benchmarks/musr/learned_class3_v3"/*answer_question__ptool_i
 STAGE_B=$(ls -d "$ROOT/benchmarks/musr/learned_class3_v3/induced_recordings"/*answer_question_induced_record 2>/dev/null | tail -1)
 [ -z "$STAGE_B" ] && STAGE_B=$(ls -d "$ROOT/benchmarks/musr/learned_class3/induced_recordings"/*answer_question_induced_record 2>/dev/null | tail -1)
 if [ -n "$INDUCED" ]; then
-  SYNTH="$LOG_DIR/musr_class3v4_synth.yaml"
+  SYNTH="$LOG_DIR/musr_class3_opus_synth.yaml"
   cat > "$SYNTH" <<EOF
 llm:
   model: together_ai/deepseek-ai/DeepSeek-V3.1
@@ -48,9 +48,9 @@ EOF
       --interface answer_question --dataset-file data_train_50.json \
       --tool-module "$INDUCED" --conf-file "$SYNTH" \
       ${STAGE_B:+--trace-dir "$STAGE_B"} \
-      --learned-dir learned_class3_v4 --model "$CD_MODEL" \
+      --learned-dir learned_class3_opus --model "$CD_MODEL" \
       --backoff true \
-    > "$LOG_DIR/class3v4_musr_murder.log" 2>&1
+    > "$LOG_DIR/class3_opus_musr_murder.log" 2>&1
 fi
 
 # finqa
@@ -63,9 +63,9 @@ if [ -n "$INDUCED" ]; then
       --interface answer_finqa --dataset-file data/train.json \
       --tool-module "$INDUCED" --conf-file conf/workflow.yaml \
       ${STAGE_B:+--trace-dir "$STAGE_B"} \
-      --learned-dir learned_class3_v4 --model "$CD_MODEL" \
+      --learned-dir learned_class3_opus --model "$CD_MODEL" \
       --backoff true \
-    > "$LOG_DIR/class3v4_finqa.log" 2>&1
+    > "$LOG_DIR/class3_opus_finqa.log" 2>&1
 fi
 
 # natplan_calendar
@@ -78,10 +78,10 @@ if [ -n "$INDUCED" ]; then
       --interface calendar_scheduling --dataset-file data/calendar_train.json --output-field golden_plan \
       --tool-module "$INDUCED" --conf-file conf/calendar.yaml \
       ${STAGE_B:+--trace-dir "$STAGE_B"} \
-      --learned-dir learned_class3_v4 --model "$CD_MODEL" \
+      --learned-dir learned_class3_opus --model "$CD_MODEL" \
       --backoff true \
-    > "$LOG_DIR/class3v4_natplan_calendar.log" 2>&1
+    > "$LOG_DIR/class3_opus_natplan_calendar.log" 2>&1
 fi
 
 cd "$ROOT"
-echo "=== Class 3 v4 — DONE at $(date) ==="
+echo "=== Class 3 opus — DONE at $(date) ==="

@@ -1,0 +1,24 @@
+llm:
+  model: together_ai/deepseek-ai/DeepSeek-V3
+  max_tokens: 8192
+  timeout: 600
+cachier:
+  cache_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/rulearena/nba/llm_cache
+evaluate:
+  result_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/rulearena/nba/test_results_full
+  expt_name: rulearena_nba_test_full_class3_gemini_cache
+  record_details: true
+dataset:
+  split: test
+  shuffle_seed: 137
+  'n': 46
+ptools:
+  extract_nba_params:
+    method: simulate_pydantic
+  compute_nba_answer:
+    method: learned_code
+    learner: workflow_distill
+    backoff: true
+learn:
+  train_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/COMMON/codedistill-workflow-results/rulearena/learned_class3_gemini_nba
+root: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/rulearena/nba

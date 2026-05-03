@@ -2,7 +2,7 @@
 
 ## Models used
 
-| role | v4 | v4g |
+| role | opus | gemini |
 |---|---|---|
 | Learner (writes Python code) | `claude-opus-4-6` | `gemini/gemini-3.1-pro-preview` |
 | Baseline simulate ptool (LLM in workflow) | `together_ai/deepseek-ai/DeepSeek-V3.1` (V3 for musr/rulearena) | unchanged |
@@ -32,41 +32,41 @@ uv run python expt.py run --config-file conf/<bench>.yaml \
   llm.model=together_ai/deepseek-ai/DeepSeek-V3.1
 ```
 
-### Step 2: distill with Opus (v4) OR Gemini (v4g)
+### Step 2: distill with Opus (opus) OR Gemini (gemini)
 
 ```bash
 # Opus version
 uv run -m secretagent.cli.learn codedistill-all \
-  --learned-dir learned_v4 --model claude-opus-4-6 \
+  --learned-dir learned_opus --model claude-opus-4-6 \
   --max-wrong-rate 0.20 \
   recordings_full/<latest>.<bench>_train_full
 
 # Gemini version
 uv run -m secretagent.cli.learn codedistill-all \
-  --learned-dir learned_v4g --model gemini/gemini-3.1-pro-preview \
+  --learned-dir learned_gemini --model gemini/gemini-3.1-pro-preview \
   --max-wrong-rate 0.20 \
   recordings_full/<latest>.<bench>_train_full
 ```
 
-Both write `learned_<v4|v4g>/codedistill_config.yaml` listing ENABLED ptools.
+Both write `learned_<opus|gemini>/codedistill_config.yaml` listing ENABLED ptools.
 After distill, `mv` outputs to this COMMON dir:
 
 ```bash
-git mv learned_v4 ../COMMON/codedistill-ptools-results/<bench>/learned_v4
+git mv learned_opus ../COMMON/codedistill-ptools-results/<bench>/learned_opus
 ```
 
 ### Step 3: end-to-end val on val split (Class 1)
 
 ```bash
-PT_ARGS=$(python -c "import yaml; cfg=yaml.safe_load(open('learned_v4/codedistill_config.yaml')); [print(f'ptools.{n}.{k}={repr(v) if isinstance(v,bool) else v}') for n,kvs in cfg['ptools'].items() for k,v in kvs.items()]")
+PT_ARGS=$(python -c "import yaml; cfg=yaml.safe_load(open('learned_opus/codedistill_config.yaml')); [print(f'ptools.{n}.{k}={repr(v) if isinstance(v,bool) else v}') for n,kvs in cfg['ptools'].items() for k,v in kvs.items()]")
 
 uv run python expt.py run --config-file conf/<bench>.yaml \
   dataset.partition=valid dataset.n=100 \
-  evaluate.expt_name=<bench>_val_full_class1v4 \
+  evaluate.expt_name=<bench>_val_full_class1_opus \
   evaluate.record_details=true evaluate.result_dir=val_results_full \
   llm.model=together_ai/deepseek-ai/DeepSeek-V3.1 \
   $PT_ARGS \
-  learn.train_dir=$PWD/learned_v4
+  learn.train_dir=$PWD/learned_opus
 ```
 
 ### Step 4: end-to-end on test split
@@ -79,8 +79,8 @@ musr/bbh/medcalc/tabmwp; per-benchmark conventions vary).
 The full multi-benchmark orchestration scripts (used to produce the
 paper-frozen results in this directory) live at:
 
-- `benchmarks/jerry/class1_iters/run_class1_v4_full_codedistill.sh` (v4 / Opus)
-- `benchmarks/jerry/class1_iters/run_class1_v4g_gemini.sh` (v4g / Gemini)
+- `benchmarks/jerry/class1_iters/run_class1_v4_full_codedistill.sh` (opus / Opus)
+- `benchmarks/jerry/class1_iters/run_class1_v4g_gemini.sh` (gemini / Gemini)
 - `benchmarks/jerry/class2_iters/run_v4g_vals_watcher.sh` (post-distill val watcher)
 - `benchmarks/jerry/class2_iters/run_test_split_vals_all.sh` (test-split eval)
 
@@ -88,7 +88,7 @@ paper-frozen results in this directory) live at:
 
 | flag | default | what it does |
 |---|---|---|
-| `--max-wrong-rate` | 0.20 (was 0.05 in v2) | Max `val_wrong_rate` to ENABLE a ptool. v4 raised from v2's 0.05 to capture more ptools |
+| `--max-wrong-rate` | 0.20 (was 0.05 in v2) | Max `val_wrong_rate` to ENABLE a ptool. opus raised from v2's 0.05 to capture more ptools |
 | `--max-rounds` | 3 | LLM rewrite iterations per ptool |
 | `--n-candidates` | 9 | Ensemble size per round |
 | `--only-correct` | True | Only train from rollouts whose top-level answer was correct |

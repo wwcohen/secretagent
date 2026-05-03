@@ -1,0 +1,7 @@
+{
+  "reproduce_cmd": "uv run python expt.py run --config-file conf/calendar.yaml dataset.partition=valid dataset.n=100 llm.model=together_ai/deepseek-ai/DeepSeek-V3.1 evaluate.expt_name=calendar_val_full_class3_opus evaluate.record_details=true evaluate.result_dir=val_results_full ptools.calendar_scheduling.method=learned_code ptools.calendar_scheduling.learner=workflow_distill ptools.calendar_scheduling.backoff=true learn.train_dir=/Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/natural_plan/learned_class3_opus",
+  "accuracy": 0.64,
+  "total_cost_usd": 0,
+  "total_time_sec": 0,
+  "n_samples": 100
+}

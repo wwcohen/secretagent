@@ -56,12 +56,12 @@ phaseA_one() {
 # ---------- Phase B: class 1 codedistill-all ----------
 phaseB_one() {
   local task="$1"
-  local log="$LOG_DIR/class1v4_musr_${task}.log"
+  local log="$LOG_DIR/class1_opus_musr_${task}.log"
   local rec=$(ls -d "$MUSR/recordings_full/"*."musr_${task}_train_full" 2>/dev/null | sort | tail -1)
   if [ -z "$rec" ]; then echo "[$task] phaseB: no train recording — skip" | tee -a "$log"; return; fi
   echo "[$(date)] $task class1 distill rec=$rec" | tee -a "$log"
   uv run -m secretagent.cli.learn codedistill-all \
-    --learned-dir learned_v4 --model "$CD_MODEL" \
+    --learned-dir learned_opus --model "$CD_MODEL" \
     --max-wrong-rate 0.20 "$rec" >> "$log" 2>&1
   echo "[$(date)] $task class1 done rc=$?" | tee -a "$log"
 }
@@ -69,7 +69,7 @@ phaseB_one() {
 # ---------- Phase C: class 2 workflow-codedistill ----------
 phaseC_one() {
   local task="$1"
-  local log="$LOG_DIR/class2v4_musr_${task}.log"
+  local log="$LOG_DIR/class2_opus_musr_${task}.log"
   local trace=$(ls -d "$MUSR/recordings_full/"*."musr_${task}_train_full" 2>/dev/null | sort | tail -1)
   local cross_trace=$(ls -d "$MUSR/recordings_full/"*."musr_murder_train_train_full" 2>/dev/null | sort | tail -1)
   local data_train="data/${task}_placements_train.json"
@@ -88,7 +88,7 @@ phaseC_one() {
     "${refs[@]}" \
     ${trace:+--trace-dir "$trace"} \
     ${cross_trace:+--cross-trace-dir "$cross_trace"} \
-    --learned-dir learned_class2_v4 --model "$CD_MODEL" \
+    --learned-dir learned_class2_opus --model "$CD_MODEL" \
     --backoff true --backoff-method simulate >> "$log" 2>&1
   echo "[$(date)] $task class2 done rc=$?" | tee -a "$log"
 }
@@ -96,7 +96,7 @@ phaseC_one() {
 # ---------- Phase D: class 3 codedistill-induced-ptools ----------
 phaseD_one() {
   local task="$1"
-  local log="$LOG_DIR/class3v4_musr_${task}.log"
+  local log="$LOG_DIR/class3_opus_musr_${task}.log"
   local rec_react=$(ls -d "$MUSR/recordings_full/"*."musr_${task}_react_train_full" 2>/dev/null | sort | tail -1)
   if [ -z "$rec_react" ]; then echo "[$task] phaseD: no react recording — skip" | tee -a "$log"; return; fi
   local desc
@@ -108,7 +108,7 @@ phaseD_one() {
     --task-desc "$desc" \
     --trace-mode react --only-correct \
     --state-module ptools_common --state-expr '_REACT_STATE["narrative"]' \
-    --learned-dir learned_class3_v4 --model "$CD_MODEL" \
+    --learned-dir learned_class3_opus --model "$CD_MODEL" \
     --expt-cmd "uv run python expt.py run --config-file conf/${task}_react_train.yaml dataset.n=$N_TRAIN" \
     --cwd "$MUSR" \
     "$rec_react" >> "$log" 2>&1
@@ -123,8 +123,8 @@ phaseE_one() {
   [ "$task" = "team" ] && split_val=team_allocation_val
   local conf="conf/${task}_workflow.yaml"
 
-  # Class 1 val: read learned_v4 ptool config; pass each enabled override
-  local class1_cfg="$MUSR/learned_v4/codedistill_config.yaml"
+  # Class 1 val: read learned_opus ptool config; pass each enabled override
+  local class1_cfg="$MUSR/learned_opus/codedistill_config.yaml"
   if [ -f "$class1_cfg" ]; then
     declare -a PT=()
     while IFS= read -r line; do PT+=("$line"); done < <(uv run python -c "
@@ -138,10 +138,10 @@ for n, kvs in (cfg.get('ptools', {}) or {}).items():
     echo "[$(date)] $task class1 val PT=${PT[@]}" | tee "$log"
     uv run python expt.py run --config-file "$conf" \
       "dataset.split=$split_val" "dataset.n=$N_VAL" \
-      "evaluate.expt_name=${task}_val_full_class1v4" \
+      "evaluate.expt_name=${task}_val_full_class1_opus" \
       evaluate.record_details=true evaluate.result_dir=val_results_full \
       "llm.model=$DS" \
-      "${PT[@]}" learn.train_dir=learned_v4 >> "$log" 2>&1
+      "${PT[@]}" learn.train_dir=learned_opus >> "$log" 2>&1
     echo "[$(date)] $task class1 val rc=$?" | tee -a "$log"
   fi
 
@@ -149,19 +149,19 @@ for n, kvs in (cfg.get('ptools', {}) or {}).items():
   echo "[$(date)] $task class2 val" | tee -a "$log"
   uv run python expt.py run --config-file "$conf" \
     "dataset.split=$split_val" "dataset.n=$N_VAL" \
-    "evaluate.expt_name=${task}_val_full_class2v4" \
+    "evaluate.expt_name=${task}_val_full_class2_opus" \
     evaluate.record_details=true evaluate.result_dir=val_results_full \
     "llm.model=$DS" \
     "ptools.answer_question_workflow.method=learned_code" \
     "ptools.answer_question_workflow.learner=workflow_distill" \
     "ptools.answer_question_workflow.backoff=true" \
-    learn.train_dir=learned_class2_v4 >> "$log" 2>&1
+    learn.train_dir=learned_class2_opus >> "$log" 2>&1
   echo "[$(date)] $task class2 val rc=$?" | tee -a "$log"
 
   # Class 3 val: workflow_distill on answer_question (induced) + sub-ptools as simulate
-  local class3_dir=$(ls -d "$MUSR/learned_class3_v4/"*"answer_question__workflow_distill" 2>/dev/null | tail -1)
+  local class3_dir=$(ls -d "$MUSR/learned_class3_opus/"*"answer_question__workflow_distill" 2>/dev/null | tail -1)
   if [ -n "$class3_dir" ]; then
-    local merged="$MUSR/learned_class3_v4/codedistill_config.yaml"
+    local merged="$MUSR/learned_class3_opus/codedistill_config.yaml"
     declare -a PT3=()
     if [ -f "$merged" ]; then
       while IFS= read -r line; do PT3+=("$line"); done < <(uv run python -c "
@@ -176,17 +176,17 @@ for n, kvs in (cfg.get('ptools', {}) or {}).items():
     echo "[$(date)] $task class3 val class3_dir=$class3_dir PT3=${PT3[@]}" | tee -a "$log"
     uv run python expt.py run --config-file "$conf" \
       "dataset.split=$split_val" "dataset.n=$N_VAL" \
-      "evaluate.expt_name=${task}_val_full_class3v4" \
+      "evaluate.expt_name=${task}_val_full_class3_opus" \
       evaluate.record_details=true evaluate.result_dir=val_results_full \
       "llm.model=$DS" \
       "${PT3[@]}" \
       "ptools.answer_question.method=learned_code" \
       "ptools.answer_question.learner=workflow_distill" \
       "ptools.answer_question.backoff=true" \
-      learn.train_dir=learned_class3_v4 >> "$log" 2>&1
+      learn.train_dir=learned_class3_opus >> "$log" 2>&1
     echo "[$(date)] $task class3 val rc=$?" | tee -a "$log"
   else
-    echo "[$task] class3 val: no learned_class3_v4 answer_question dir — skip" | tee -a "$log"
+    echo "[$task] class3 val: no learned_class3_opus answer_question dir — skip" | tee -a "$log"
   fi
 }
 

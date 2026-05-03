@@ -55,7 +55,7 @@ REC=$(ls -d recordings_full/*."tabmwp_train_full" 2>/dev/null | sort | tail -1)
 if [ -n "$REC" ]; then
   echo "[$(date)] === Phase B (class 1) on $REC ==="
   uv run -m secretagent.cli.learn codedistill-all \
-    --learned-dir learned_v4 --model "$CD_MODEL" \
+    --learned-dir learned_opus --model "$CD_MODEL" \
     --max-wrong-rate 0.20 "$REC"
   echo "[$(date)] === Phase B rc=$? ==="
 fi
@@ -70,7 +70,7 @@ uv run -m secretagent.cli.learn workflow-codedistill \
   --tool-module ptools \
   --conf-file conf/workflow_incontext.yaml \
   ${REC:+--trace-dir "$REC"} \
-  --learned-dir learned_class2_v4 --model "$CD_MODEL" \
+  --learned-dir learned_class2_opus --model "$CD_MODEL" \
   --backoff true --backoff-method simulate
 echo "[$(date)] === Phase C rc=$? ==="
 
@@ -82,7 +82,7 @@ if [ -n "$REC_REACT" ]; then
     --interface tabmwp_solve \
     --task-desc "Solve a tabular math word problem given a question, a pipe-delimited table, and optional answer choices" \
     --trace-mode react --only-correct \
-    --learned-dir learned_class3_v4 --model "$CD_MODEL" \
+    --learned-dir learned_class3_opus --model "$CD_MODEL" \
     --expt-cmd "uv run python expt.py run --config-file conf/react.yaml dataset.n=$N_TRAIN" \
     --cwd "$TM" \
     "$REC_REACT"
@@ -95,11 +95,11 @@ fi
 echo "[$(date)] === Phase E vals ==="
 
 # Class 1 val
-if [ -f learned_v4/codedistill_config.yaml ]; then
+if [ -f learned_opus/codedistill_config.yaml ]; then
   declare -a PT=()
   while IFS= read -r line; do PT+=("$line"); done < <(uv run python -c "
 import yaml
-cfg = yaml.safe_load(open('learned_v4/codedistill_config.yaml'))
+cfg = yaml.safe_load(open('learned_opus/codedistill_config.yaml'))
 for n, kvs in (cfg.get('ptools', {}) or {}).items():
     for k, v in (kvs or {}).items():
         v = repr(v) if isinstance(v, bool) else v
@@ -107,31 +107,31 @@ for n, kvs in (cfg.get('ptools', {}) or {}).items():
 ")
   uv run python expt.py run --config-file conf/workflow_incontext.yaml \
     "dataset.split=dev1k" "dataset.n=$N_VAL" \
-    "evaluate.expt_name=tabmwp_val_full_class1v4" \
+    "evaluate.expt_name=tabmwp_val_full_class1_opus" \
     evaluate.record_details=true evaluate.result_dir=val_results_full \
     "llm.model=$DS" \
-    "${PT[@]}" learn.train_dir=learned_v4
+    "${PT[@]}" learn.train_dir=learned_opus
   echo "[$(date)] class 1 val rc=$?"
 fi
 
 # Class 2 val
 uv run python expt.py run --config-file conf/workflow_incontext.yaml \
   "dataset.split=dev1k" "dataset.n=$N_VAL" \
-  "evaluate.expt_name=tabmwp_val_full_class2v4" \
+  "evaluate.expt_name=tabmwp_val_full_class2_opus" \
   evaluate.record_details=true evaluate.result_dir=val_results_full \
   "llm.model=$DS" \
   "ptools.tabmwp_solve.method=learned_code" \
   "ptools.tabmwp_solve.learner=workflow_distill" \
   "ptools.tabmwp_solve.backoff=true" \
-  learn.train_dir=learned_class2_v4
+  learn.train_dir=learned_class2_opus
 echo "[$(date)] class 2 val rc=$?"
 
 # Class 3 val
-if [ -f learned_class3_v4/codedistill_config.yaml ]; then
+if [ -f learned_class3_opus/codedistill_config.yaml ]; then
   declare -a PT3=()
   while IFS= read -r line; do PT3+=("$line"); done < <(uv run python -c "
 import yaml
-cfg = yaml.safe_load(open('learned_class3_v4/codedistill_config.yaml'))
+cfg = yaml.safe_load(open('learned_class3_opus/codedistill_config.yaml'))
 for n, kvs in (cfg.get('ptools', {}) or {}).items():
     for k, v in (kvs or {}).items():
         v = repr(v) if isinstance(v, bool) else v
@@ -139,14 +139,14 @@ for n, kvs in (cfg.get('ptools', {}) or {}).items():
 ")
   uv run python expt.py run --config-file conf/workflow_incontext.yaml \
     "dataset.split=dev1k" "dataset.n=$N_VAL" \
-    "evaluate.expt_name=tabmwp_val_full_class3v4" \
+    "evaluate.expt_name=tabmwp_val_full_class3_opus" \
     evaluate.record_details=true evaluate.result_dir=val_results_full \
     "llm.model=$DS" \
     "${PT3[@]}" \
     "ptools.tabmwp_solve.method=learned_code" \
     "ptools.tabmwp_solve.learner=workflow_distill" \
     "ptools.tabmwp_solve.backoff=true" \
-    learn.train_dir=learned_class3_v4
+    learn.train_dir=learned_class3_opus
   echo "[$(date)] class 3 val rc=$?"
 fi
 

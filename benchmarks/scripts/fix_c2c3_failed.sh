@@ -71,9 +71,9 @@ uv run -m secretagent.cli.learn workflow-codedistill \
   --reference-file ptools_team.py --reference-file ptools_murder.py \
   ${TRACE_OBJ:+--trace-dir "$TRACE_OBJ"} \
   ${TRACE_MURDER:+--cross-trace-dir "$TRACE_MURDER"} \
-  --learned-dir learned_class2_v4_object --model "$CD_MODEL" \
+  --learned-dir learned_class2_opus_object --model "$CD_MODEL" \
   --backoff true --backoff-method simulate \
-  > "$LOG_DIR/class2v4_musr_object_v2.log" 2>&1
+  > "$LOG_DIR/class2_opus_musr_object_v2.log" 2>&1
 echo "[$(date)] musr_object class2 done rc=$?"
 
 # musr team
@@ -88,9 +88,9 @@ uv run -m secretagent.cli.learn workflow-codedistill \
   --reference-file ptools_object.py --reference-file ptools_murder.py \
   ${TRACE_TEAM:+--trace-dir "$TRACE_TEAM"} \
   ${TRACE_MURDER:+--cross-trace-dir "$TRACE_MURDER"} \
-  --learned-dir learned_class2_v4_team --model "$CD_MODEL" \
+  --learned-dir learned_class2_opus_team --model "$CD_MODEL" \
   --backoff true --backoff-method simulate \
-  > "$LOG_DIR/class2v4_musr_team_v2.log" 2>&1
+  > "$LOG_DIR/class2_opus_musr_team_v2.log" 2>&1
 echo "[$(date)] musr_team class2 done rc=$?"
 
 # tabmwp
@@ -104,9 +104,9 @@ uv run -m secretagent.cli.learn workflow-codedistill \
   --tool-module ptools \
   --conf-file conf/workflow_incontext.yaml \
   ${TRACE_TM:+--trace-dir "$TRACE_TM"} \
-  --learned-dir learned_class2_v4 --model "$CD_MODEL" \
+  --learned-dir learned_class2_opus --model "$CD_MODEL" \
   --backoff true --backoff-method simulate \
-  > "$LOG_DIR/class2v4_tabmwp_v2.log" 2>&1
+  > "$LOG_DIR/class2_opus_tabmwp_v2.log" 2>&1
 echo "[$(date)] tabmwp class2 done rc=$?"
 
 # ========== STEP 3: re-run Class 2 vals ==========
@@ -116,26 +116,26 @@ echo "[$(date)] === STEP 3: Class 2 vals ==="
 cd "$ROOT/benchmarks/musr"
 uv run python expt.py run --config-file conf/object_workflow.yaml \
   "dataset.split=object_placements_val" "dataset.n=75" \
-  "evaluate.expt_name=object_val_full_class2v4" \
+  "evaluate.expt_name=object_val_full_class2_opus" \
   evaluate.record_details=true evaluate.result_dir=val_results_full \
   "llm.model=$DS_V3" \
   "ptools.answer_question_workflow.method=learned_code" \
   "ptools.answer_question_workflow.learner=workflow_distill" \
   "ptools.answer_question_workflow.backoff=true" \
-  "learn.train_dir=$ROOT/benchmarks/musr/learned_class2_v4_object" \
+  "learn.train_dir=$ROOT/benchmarks/musr/learned_class2_opus_object" \
   > "$LOG_DIR/musr_object_class2_val_v2.log" 2>&1
 echo "[$(date)] musr_object class2 val rc=$?"
 
 # musr team class2 val
 uv run python expt.py run --config-file conf/team_workflow.yaml \
   "dataset.split=team_allocation_val" "dataset.n=75" \
-  "evaluate.expt_name=team_val_full_class2v4" \
+  "evaluate.expt_name=team_val_full_class2_opus" \
   evaluate.record_details=true evaluate.result_dir=val_results_full \
   "llm.model=$DS_V3" \
   "ptools.answer_question_workflow.method=learned_code" \
   "ptools.answer_question_workflow.learner=workflow_distill" \
   "ptools.answer_question_workflow.backoff=true" \
-  "learn.train_dir=$ROOT/benchmarks/musr/learned_class2_v4_team" \
+  "learn.train_dir=$ROOT/benchmarks/musr/learned_class2_opus_team" \
   > "$LOG_DIR/musr_team_class2_val_v2.log" 2>&1
 echo "[$(date)] musr_team class2 val rc=$?"
 
@@ -143,13 +143,13 @@ echo "[$(date)] musr_team class2 val rc=$?"
 cd "$ROOT/benchmarks/tabmwp"
 uv run python expt.py run --config-file conf/workflow_incontext.yaml \
   "dataset.split=dev1k" "dataset.n=100" \
-  "evaluate.expt_name=tabmwp_val_full_class2v4" \
+  "evaluate.expt_name=tabmwp_val_full_class2_opus" \
   evaluate.record_details=true evaluate.result_dir=val_results_full \
   "llm.model=$DS_V31" \
   "ptools.tabmwp_solve.method=learned_code" \
   "ptools.tabmwp_solve.learner=workflow_distill" \
   "ptools.tabmwp_solve.backoff=true" \
-  "learn.train_dir=$ROOT/benchmarks/tabmwp/learned_class2_v4" \
+  "learn.train_dir=$ROOT/benchmarks/tabmwp/learned_class2_opus" \
   > "$LOG_DIR/tabmwp_class2_val_v2.log" 2>&1
 echo "[$(date)] tabmwp class2 val rc=$?"
 
@@ -158,7 +158,7 @@ echo "[$(date)] === STEP 4: Class 3 vals (induced ptools = simulate, not learned
 
 # musr object class3 val — find induced ptools and set them to simulate
 cd "$ROOT/benchmarks/musr"
-INDUCED_OBJ_DIR=$(ls -d "$ROOT/benchmarks/musr/learned_class3_v4/"*"answer_question__ptool_inducer" 2>/dev/null | tail -1)
+INDUCED_OBJ_DIR=$(ls -d "$ROOT/benchmarks/musr/learned_class3_opus/"*"answer_question__ptool_inducer" 2>/dev/null | tail -1)
 if [ -n "$INDUCED_OBJ_DIR" ] && [ -f "$INDUCED_OBJ_DIR/learned_ptools.py" ]; then
   declare -a OBJ_PT_OVERRIDES=()
   while IFS= read -r name; do
@@ -168,20 +168,20 @@ if [ -n "$INDUCED_OBJ_DIR" ] && [ -f "$INDUCED_OBJ_DIR/learned_ptools.py" ]; the
   echo "[$(date)] musr_object class3 val (${#OBJ_PT_OVERRIDES[@]} induced ptools as simulate)"
   uv run python expt.py run --config-file conf/object_workflow.yaml \
     "dataset.split=object_placements_val" "dataset.n=75" \
-    "evaluate.expt_name=object_val_full_class3v4" \
+    "evaluate.expt_name=object_val_full_class3_opus" \
     evaluate.record_details=true evaluate.result_dir=val_results_full \
     "llm.model=$DS_V3" \
     "${OBJ_PT_OVERRIDES[@]}" \
     "ptools.answer_question.method=learned_code" \
     "ptools.answer_question.learner=workflow_distill" \
     "ptools.answer_question.backoff=true" \
-    "learn.train_dir=$ROOT/benchmarks/musr/learned_class3_v4" \
+    "learn.train_dir=$ROOT/benchmarks/musr/learned_class3_opus" \
     > "$LOG_DIR/musr_object_class3_val_v2.log" 2>&1
   echo "[$(date)] musr_object class3 val rc=$?"
 fi
 
 # musr team class3 val
-INDUCED_TEAM_DIR=$(ls -d "$ROOT/benchmarks/musr/learned_class3_v4/"*"answer_question__ptool_inducer" 2>/dev/null | tail -1)
+INDUCED_TEAM_DIR=$(ls -d "$ROOT/benchmarks/musr/learned_class3_opus/"*"answer_question__ptool_inducer" 2>/dev/null | tail -1)
 if [ -n "$INDUCED_TEAM_DIR" ] && [ -f "$INDUCED_TEAM_DIR/learned_ptools.py" ]; then
   declare -a TEAM_PT_OVERRIDES=()
   while IFS= read -r name; do
@@ -191,21 +191,21 @@ if [ -n "$INDUCED_TEAM_DIR" ] && [ -f "$INDUCED_TEAM_DIR/learned_ptools.py" ]; t
   echo "[$(date)] musr_team class3 val (${#TEAM_PT_OVERRIDES[@]} induced ptools as simulate)"
   uv run python expt.py run --config-file conf/team_workflow.yaml \
     "dataset.split=team_allocation_val" "dataset.n=75" \
-    "evaluate.expt_name=team_val_full_class3v4" \
+    "evaluate.expt_name=team_val_full_class3_opus" \
     evaluate.record_details=true evaluate.result_dir=val_results_full \
     "llm.model=$DS_V3" \
     "${TEAM_PT_OVERRIDES[@]}" \
     "ptools.answer_question.method=learned_code" \
     "ptools.answer_question.learner=workflow_distill" \
     "ptools.answer_question.backoff=true" \
-    "learn.train_dir=$ROOT/benchmarks/musr/learned_class3_v4" \
+    "learn.train_dir=$ROOT/benchmarks/musr/learned_class3_opus" \
     > "$LOG_DIR/musr_team_class3_val_v2.log" 2>&1
   echo "[$(date)] musr_team class3 val rc=$?"
 fi
 
 # tabmwp class3 val
 cd "$ROOT/benchmarks/tabmwp"
-INDUCED_TM_DIR=$(ls -d "$ROOT/benchmarks/tabmwp/learned_class3_v4/"*"tabmwp_solve__ptool_inducer" 2>/dev/null | tail -1)
+INDUCED_TM_DIR=$(ls -d "$ROOT/benchmarks/tabmwp/learned_class3_opus/"*"tabmwp_solve__ptool_inducer" 2>/dev/null | tail -1)
 if [ -n "$INDUCED_TM_DIR" ] && [ -f "$INDUCED_TM_DIR/learned_ptools.py" ]; then
   declare -a TM_PT_OVERRIDES=()
   while IFS= read -r name; do
@@ -215,14 +215,14 @@ if [ -n "$INDUCED_TM_DIR" ] && [ -f "$INDUCED_TM_DIR/learned_ptools.py" ]; then
   echo "[$(date)] tabmwp class3 val (${#TM_PT_OVERRIDES[@]} induced ptools as simulate)"
   uv run python expt.py run --config-file conf/workflow_incontext.yaml \
     "dataset.split=dev1k" "dataset.n=100" \
-    "evaluate.expt_name=tabmwp_val_full_class3v4" \
+    "evaluate.expt_name=tabmwp_val_full_class3_opus" \
     evaluate.record_details=true evaluate.result_dir=val_results_full \
     "llm.model=$DS_V31" \
     "${TM_PT_OVERRIDES[@]}" \
     "ptools.tabmwp_solve.method=learned_code" \
     "ptools.tabmwp_solve.learner=workflow_distill" \
     "ptools.tabmwp_solve.backoff=true" \
-    "learn.train_dir=$ROOT/benchmarks/tabmwp/learned_class3_v4" \
+    "learn.train_dir=$ROOT/benchmarks/tabmwp/learned_class3_opus" \
     > "$LOG_DIR/tabmwp_class3_val_v2.log" 2>&1
   echo "[$(date)] tabmwp class3 val rc=$?"
 fi

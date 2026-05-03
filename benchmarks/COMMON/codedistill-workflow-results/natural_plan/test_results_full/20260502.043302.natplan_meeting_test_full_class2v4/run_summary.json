@@ -1,7 +1,0 @@
-{
-  "reproduce_cmd": "uv run python expt.py run --config-file conf/meeting.yaml dataset.partition=test dataset.n=100 evaluate.expt_name=natplan_meeting_test_full_class2v4 evaluate.record_details=true evaluate.result_dir=test_results_full llm.model=together_ai/deepseek-ai/DeepSeek-V3.1 ptools.meeting_planning.method=learned_code ptools.meeting_planning.learner=workflow_distill ptools.meeting_planning.backoff=true learn.train_dir=/Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/natural_plan/learned_class2_v4",
-  "accuracy": 0.99,
-  "total_cost_usd": 0,
-  "total_time_sec": 0,
-  "n_samples": 100
-}

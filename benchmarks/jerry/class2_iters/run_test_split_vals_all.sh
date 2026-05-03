@@ -1,6 +1,6 @@
 #!/bin/bash
-# Re-run all 4 cached distills (c1_v4, c1_v4g, c2_v4, c2_v4g) on TEST split.
-# No re-training: uses existing learned_v4/ + learned_v4g/ + learned_class2_v4*/ dirs.
+# Re-run all 4 cached distills (c1_v4, c1_gemini, c2_v4, c2_gemini) on TEST split.
+# No re-training: uses existing learned_opus/ + learned_gemini/ + learned_class2_opus*/ dirs.
 # At inference: backoff is to baseline simulate model = DeepSeek (V3.1 / V3).
 set +e
 ROOT="$(cd "$(dirname "$0")/../../.." && pwd)"
@@ -115,10 +115,10 @@ famA() {
         evaluate.record_details=true evaluate.result_dir=test_results_full \
         "llm.model=$DS_V31" \
         "ptools.${iface}.method=direct" "ptools.${iface}.fn=${workflow_fn}"
-    launch_natplan_c1 "$sub" learned_v4 v4
-    launch_natplan_c1 "$sub" learned_v4g v4g
-    launch_natplan_c2 "$sub" learned_class2_v4 v4
-    launch_natplan_c2 "$sub" learned_class2_v4g v4g
+    launch_natplan_c1 "$sub" learned_opus opus
+    launch_natplan_c1 "$sub" learned_gemini gemini
+    launch_natplan_c2 "$sub" learned_class2_opus opus
+    launch_natplan_c2 "$sub" learned_class2_gemini gemini
   done
 }
 
@@ -139,8 +139,8 @@ famB() {
         "evaluate.expt_name=musr_${task}_test_full_baseline" \
         evaluate.record_details=true evaluate.result_dir=test_results_full \
         "llm.model=$DS_V3"
-    # c1 v4 / v4g
-    for tag in v4 v4g; do
+    # c1 opus / gemini
+    for tag in opus gemini; do
       local cfg="$MUSR/learned_${tag}/codedistill_config.yaml"
       [ ! -f "$cfg" ] && continue
       local pt_args=$(read_pt "$cfg")
@@ -152,16 +152,16 @@ famB() {
           "llm.model=$DS_V3" \
           $pt_args "learn.train_dir=$MUSR/learned_${tag}"
     done
-    # c2 v4 / v4g — separate dirs per task
-    for tag in v4 v4g; do
+    # c2 opus / gemini — separate dirs per task
+    for tag in opus gemini; do
       local ldir
-      if [ "$tag" = "v4" ]; then
-        # v4: shared learned_class2_v4, per-task answer_question_workflow distill
-        ldir="learned_class2_v4_${task}"
-        [ ! -d "$MUSR/$ldir" ] && ldir="learned_class2_v4"
+      if [ "$tag" = "opus" ]; then
+        # opus: shared learned_class2_opus, per-task answer_question_workflow distill
+        ldir="learned_class2_opus_${task}"
+        [ ! -d "$MUSR/$ldir" ] && ldir="learned_class2_opus"
       else
-        ldir="learned_class2_v4g_${task}"
-        [ ! -d "$MUSR/$ldir" ] && ldir="learned_class2_v4g"
+        ldir="learned_class2_gemini_${task}"
+        [ ! -d "$MUSR/$ldir" ] && ldir="learned_class2_gemini"
       fi
       local d=$(ls -dt "$MUSR/$ldir"/*answer_question_workflow__workflow_distill 2>/dev/null | head -1)
       [ -z "$d" ] || [ ! -f "$d/learned.py" ] && continue
@@ -204,8 +204,8 @@ famC() {
         "llm.model=$DS_V31" dataset.split=test "dataset.n=$n" \
         "evaluate.expt_name=${label}_test_full_baseline" \
         evaluate.record_details=true evaluate.result_dir=test_results_full
-    # c1 v4 / v4g
-    for tag in v4 v4g; do
+    # c1 opus / gemini
+    for tag in opus gemini; do
       local cfg="$CWD/learned_${tag}/codedistill_config.yaml"
       [ ! -f "$cfg" ] && continue
       local pt_args=$(read_pt "$cfg")
@@ -218,8 +218,8 @@ famC() {
           evaluate.record_details=true evaluate.result_dir=test_results_full \
           $pt_args "learn.train_dir=$CWD/learned_${tag}"
     done
-    # c2 v4 / v4g
-    for tag in v4 v4g; do
+    # c2 opus / gemini
+    for tag in opus gemini; do
       local ldir="learned_class2_${tag}"
       local d=$(ls -dt "$CWD/$ldir"/*"${iface}__workflow_distill" 2>/dev/null | head -1)
       [ -z "$d" ] || [ ! -f "$d/learned.py" ] && continue
@@ -247,7 +247,7 @@ famD() {
       "evaluate.expt_name=medcalc_test_full_baseline" \
       evaluate.record_details=true evaluate.result_dir=test_results_full \
       "llm.model=$DS_V31"
-  for tag in v4 v4g; do
+  for tag in opus gemini; do
     local cfg="$MED/learned_${tag}/codedistill_config.yaml"
     if [ -f "$cfg" ]; then
       local pt_args=$(read_pt "$cfg")
@@ -281,7 +281,7 @@ famD() {
       "evaluate.expt_name=tabmwp_test_full_baseline" \
       evaluate.record_details=true evaluate.result_dir=test_results_full \
       "llm.model=$DS_V31"
-  for tag in v4 v4g; do
+  for tag in opus gemini; do
     local cfg="$TM/learned_${tag}/codedistill_config.yaml"
     if [ -f "$cfg" ]; then
       local pt_args=$(read_pt "$cfg")
@@ -321,7 +321,7 @@ famD() {
         evaluate.record_details=true evaluate.result_dir=test_results_full
   done
   # Only airline has a c2 distill at top-level; nba/tax don't
-  for tag in v4 v4g; do
+  for tag in opus gemini; do
     local ldir="learned_class2_${tag}"
     local d=$(ls -dt "$RA/$ldir"/*compute_rulearena_answer__workflow_distill 2>/dev/null | head -1)
     [ -n "$d" ] && [ -f "$d/learned.py" ] && launch "$RA" "rulearena_airline_test_full_class2${tag}" \

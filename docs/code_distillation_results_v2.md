@@ -93,16 +93,16 @@ uv run -m secretagent.cli.learn workflow-codedistill \
 Master chain `/tmp/master_chain.sh` completed at 09:39 EDT. All 5 phases:
 - A — full-size baseline re-record (n=43-100 per benchmark, depending on
   available data) → DONE 07:11
-- B' — class1 v4 codedistill-all max_wrong_rate=0.20 on full-size →
+- B' — class1 opus codedistill-all max_wrong_rate=0.20 on full-size →
   DONE (initially produced no output due to recording-name mismatch
   bug; re-launched after fix)
-- C' — class2 v4 workflow-codedistill backoff=True on full-size → DONE
+- C' — class2 opus workflow-codedistill backoff=True on full-size → DONE
   09:01 (10 benchmarks)
-- D' — class3 v4 workflow-distill on induced (musr/finqa/calendar) →
+- D' — class3 opus workflow-distill on induced (musr/finqa/calendar) →
   DONE 09:02 (musr OK, finqa/calendar failed due to ptool-binding bug
   trying to bind benchmark ptools that aren't in induced module;
   re-launched after fix)
-- E — full-size val eval baseline + class2v4 → DONE 09:39
+- E — full-size val eval baseline + class2_opus → DONE 09:39
 
 ## Master result table (val full-size, see val_results_full/)
 
@@ -111,12 +111,12 @@ Master chain `/tmp/master_chain.sh` completed at 09:39 EDT. All 5 phases:
 > Numbers below have been **post-hoc corrected** by re-applying paren-strip
 > normalisation to BBH benchmarks (others unaffected).
 
-| Benchmark | n | Baseline (DS-V3.1) | Class 1 v2 (n=30 mini) | Class 2 v4 (full, backoff=simulate) |
+| Benchmark | n | Baseline (DS-V3.1) | Class 1 v2 (n=30 mini) | Class 2 opus (full, backoff=simulate) |
 |---|---|---|---|---|
 | natplan_calendar | 100 | 55% / $0.329 | n/a | **87% / $0.000** ⭐ +32pp |
 | natplan_meeting | 100 | 29% / $0.526 | n/a (1 ENABLED; trip-only config conflict) | 3% / $0.008 ❌ (overfit train) |
 | natplan_trip | 100 | 21% / $0.388 | 20% / $0.116 ❌ pipeline regression | 21% / $0.388 (parity via backoff) |
-| musr_murder | 75 | 68% / $0.604 | **70% / $0.239** ⭐ -60% cost | n/a (Class 3 v4 instead, 102-line workflow) |
+| musr_murder | 75 | 68% / $0.604 | **70% / $0.239** ⭐ -60% cost | n/a (Class 3 opus instead, 102-line workflow) |
 | bbh_sports | 75 | 99% / $0.105 | 93% / $0.037 ❌ -6pp | 99% / $0.107 (parity) |
 | bbh_penguins | 43 | 72% / $0.088 | 73% / $0.036 (parity, -59% cost) | **88% / $0.015** ⭐ +16pp |
 | bbh_geometric | 75 | 37% / $0.382 | 47% / $0.098 ⭐ +10pp | **100% / $0.000** ⭐⭐⭐ +63pp |
@@ -129,9 +129,9 @@ Master chain `/tmp/master_chain.sh` completed at 09:39 EDT. All 5 phases:
 
 Note: rulearena_airline 46% baseline (my run, simulate_pydantic agent for L1 extract) ≠ existing 90% (their structured_baseline with simulate). Different methods. Their structured_baseline is a stronger baseline. Even so, Class 2 100% beats both.
 
-Class 2 v4 highlights (full-size n=43-100, backoff=simulate):
+Class 2 opus highlights (full-size n=43-100, backoff=simulate):
 - ⭐⭐⭐ **bbh_geometric 100% / $0** (vs 37% baseline, +63pp, $0.382 → $0)
-- ⭐⭐ **rulearena_airline 100% / $0** (vs 46% baseline). Verified at both n=30 mini and n=50 full splits — 100% on both. (`val_results/20260428.213758.airline_val_class2`, `val_results_full/20260429.114154.airline_val_full_class2v4`.)
+- ⭐⭐ **rulearena_airline 100% / $0** (vs 46% baseline). Verified at both n=30 mini and n=50 full splits — 100% on both. (`val_results/20260428.213758.airline_val_class2`, `val_results_full/20260429.114154.airline_val_full_class2_opus`.)
 - ⭐⭐ **natplan_calendar 87% / $0** (vs 55% baseline, +32pp)
 - ⭐ **bbh_penguins 88% / $0.015** (vs 72% baseline, +16pp, -83% cost)
 - bbh_date 88% / $0.089 (modest)
@@ -157,44 +157,44 @@ Class 2 v4 highlights (full-size n=43-100, backoff=simulate):
 | rulearena_tax n=50 val | 78% / $0.927 | (no comparable existing) | n/a | new |
 | medcalc n=100 train | 75% / $0.188 (val not run) | workflow 79% (n=275 val) | -4 | ✓ aligned |
 
-### Why class 1 calendar v4 (55%) ≠ v1 doc (84%)
+### Why class 1 calendar opus (55%) ≠ v1 doc (84%)
 
 The v1 doc ([docs/code_distillation_results.md](code_distillation_results.md))
-recorded **ptool codedistill (opus) calendar = 84%**. My v4 = 55% (= baseline).
+recorded **ptool codedistill (opus) calendar = 84%**. My opus = 55% (= baseline).
 **This is not a regression in the new pipeline — the v1 84% likely had
 methodological inflation**:
 
 1. **Different recording dataset (pre-swap vs post-swap train)** — v1 used
    `recordings/20260410.010744.cal_workflow` (50 cases, baseline acc 48%,
-   ~24 correct rollouts). v4 used `recordings_full/...natplan_calendar_train_train_full`
+   ~24 correct rollouts). opus used `recordings_full/...natplan_calendar_train_train_full`
    (100 cases, baseline acc 34%, 34 correct rollouts). The Apr 27 commit
    `02e8e60` swapped train↔test labels, so the 50 vs 34 case count gap and
    the disjoint train sets (overlap=2) are not fault of distillation —
    they're different data. v1's pre-swap train also overlaps the current
    valid set by 6 cases (mild leakage, ≤6pp upper bound).
-2. **`_format_cases` / `_format_traces` rewrite (v1 → v4)** — v1 prompt:
-   max_cases=50, no truncate, no top-level i/o header. v4 prompt: max_cases=20,
+2. **`_format_cases` / `_format_traces` rewrite (v1 → opus)** — v1 prompt:
+   max_cases=50, no truncate, no top-level i/o header. opus prompt: max_cases=20,
    truncate args/output to 500/2000 (cases) and 200/500 (traces), inject
-   top-level task header. v4 LLM sees less coverage of cases, more global
+   top-level task header. opus LLM sees less coverage of cases, more global
    context per case → writes complex "general solver" code (calendar parse
    246 lines, finqa 121 lines with `eval()`). v1 LLM sees full local ptool
    I/O of 50 cases → writes tight regex/parsing code. This is the largest
    single contributor to the −29pp gap (verified in v6 reversion experiment).
-3. **`train_wrong_rate` gate (v1) vs `val_wrong_rate` gate (v4)** — v1 enabled
+3. **`train_wrong_rate` gate (v1) vs `val_wrong_rate` gate (opus)** — v1 enabled
    ptools by their train accuracy after fit (which sees ensemble + multi-round
-   selection of the best candidate, so train_acc is high). v4 holds out 20%
+   selection of the best candidate, so train_acc is high). opus holds out 20%
    of cases as val and gates on `val_wrong_rate`, exposing overfit. For
-   calendar: `find_available_slots` train 54% but val 17% → SKIPPED at v4
+   calendar: `find_available_slots` train 54% but val 17% → SKIPPED at opus
    threshold (val_wrong 83% > 20%). Under v1's train gate, it would have
    passed.
 4. **`only_correct` is the *same* in both (True default)** — earlier draft
    of this section claimed v1 had `only_correct=False`; that was wrong. Both
-   v1 (commit 34e3179) and v4 default `CodeDistillLearner.only_correct=True`,
+   v1 (commit 34e3179) and opus default `CodeDistillLearner.only_correct=True`,
    meaning both filter out ptool I/O from rollouts that produced an incorrect
    final answer. Only v5 (the gate-comparison experiment) flipped this to
    False.
 
-Conclusion: **v4 55% is the more honest "what does ptool-only distillation
+Conclusion: **opus 55% is the more honest "what does ptool-only distillation
 actually buy on unseen calendar data with this baseline" number**. If you want
 to recover something near 84%, set `only_correct=False` and revert to
 train-acc gating — but that risks overfitting and inflating reported numbers.
@@ -330,7 +330,7 @@ for this run.
 
 ### (c) Adaptive wrong_rate threshold — DESIGNED, NOT IMPLEMENTED
 
-Currently fixed at 0.05 (v2) or 0.20 (v3/v4). Better: per-benchmark
+Currently fixed at 0.05 (v2) or 0.20 (v3/opus). Better: per-benchmark
 based on baseline acc. High-baseline benchmarks (sports 99%) need strict
 gate; low-baseline (date 2-83%) can be lax.
 
@@ -342,7 +342,7 @@ this state but the LLM doesn't always realise.
 
 Mitigation: prompt hint added to `WorkflowDistillLearner._build_prompt`
 explicitly warning the LLM to init the state at function start. Some
-generated workflows (e.g. musr Class 3 v4) do set it correctly; still
+generated workflows (e.g. musr Class 3 opus) do set it correctly; still
 returning all-None at fit-time eval, suggesting deeper issue (the
 simulate ptools may be cached across cases and contaminate state).
 
@@ -432,8 +432,8 @@ All versions are MY own runs, not someone else's. They are snapshots of the code
 |---|---|---|
 | **v1** | early April | Original. `only_correct=False` (learned from wrong rollouts too). Gate: `train_wrong_rate <= 10%`, no held-out val split. `_format_traces` showed only the local ptool i/o (no top-level task context). `Learner.validate()` re-ran `fit()` 3× per ptool. Numbers preserved in [v1 doc](code_distillation_results.md). |
 | **v2** | 2026-04-28 (1st rerun) | First val gate. 80/20 case split inside the learner, `val_wrong_rate <= 5%` gate, `only_correct=True`. Top-level task i/o injected into `_format_traces`. Single-fit (skip Learner.validate re-fit). Round-1 early stop at <10%. Case-output truncation (`_truncate_repr`). Mostly run at mini sizes (n=30 train, n=30 val) so numbers are sample-noisy. |
-| **v3** | 2026-04-28 (2nd) | Mid-iteration snapshot — mostly mirrored v2 with bug fixes (e.g. `'backoff': 'true'`→`True`, pydantic-ai recursion fix). Many cells stayed empty because the rerun was abandoned in favor of v4. Effectively deprecated. |
-| **v4** | 2026-04-29 (full-size) | Full-size rerun. `max_wrong_rate=0.20` (relaxed from v2's 0.05). Train/val recordings at full benchmark sizes (n=43-100 instead of 30-50). Class 2 with `backoff=simulate` (LLM fallback when generated code returns None). Class 3 uses `_REACT_STATE` for musr induced-ptool state injection. Same fit-time 80/20 holdout as v2. **This is the headline version for the v2 doc.** |
+| **v3** | 2026-04-28 (2nd) | Mid-iteration snapshot — mostly mirrored v2 with bug fixes (e.g. `'backoff': 'true'`→`True`, pydantic-ai recursion fix). Many cells stayed empty because the rerun was abandoned in favor of opus. Effectively deprecated. |
+| **opus** | 2026-04-29 (full-size) | Full-size rerun. `max_wrong_rate=0.20` (relaxed from v2's 0.05). Train/val recordings at full benchmark sizes (n=43-100 instead of 30-50). Class 2 with `backoff=simulate` (LLM fallback when generated code returns None). Class 3 uses `_REACT_STATE` for musr induced-ptool state injection. Same fit-time 80/20 holdout as v2. **This is the headline version for the v2 doc.** |
 
 Legend for table cells:
 - **baseline_full**: my fresh DS-V3.1 baseline (full-size val)
@@ -441,12 +441,12 @@ Legend for table cells:
 - **v1_baseline / v1_ptool / v1_e2e**: numbers from [v1 doc](code_distillation_results.md)
 - **c1_vN**: Class 1 (ptool codedistill) version N — replaces individual simulate ptools with Python
 - **c2_vN**: Class 2 (workflow distill on hand-written tools) version N — replaces top-level workflow with Python that calls existing ptools
-- **c3_v4**: Class 3 (workflow distill on LLM-induced ptools) v4
+- **c3_opus**: Class 3 (workflow distill on LLM-induced ptools) opus
 
-Cells marked `🏃` are pending re-run (Class 3 v4 vals for musr_object/team and
+Cells marked `🏃` are pending re-run (Class 3 opus vals for musr_object/team and
 tabmwp errored on missing induced ptools — needs the `induced_ptools=simulate` fix).
 
-Cells marked `—` in **c1_v4** mean Class 1 distillation **ran but enabled 0 ptools** at the
+Cells marked `—` in **c1_opus** mean Class 1 distillation **ran but enabled 0 ptools** at the
 `val_wrong_rate ≤ 20%` gate (i.e. equivalent to baseline). Per-benchmark reasons:
 - `bbh_geometric` (6 ptools), `bbh_date` (2 ptools), `rulearena_nba/tax/airline` (1 ptool each):
   **code-generation failure** — LLM produced None-returning stubs (train_acc 0% on all ptools),
@@ -469,12 +469,12 @@ Cells marked `—` in **c1_v4** mean Class 1 distillation **ran but enabled 0 pt
   was the issue for several of these.
 
 Empty class columns dropped from this table for legibility (kept in raw CSV scan):
-  c1_v1 (never run), c1_v2/c2_v2 (mini n=30, superseded by v4 full-size),
+  c1_v1 (never run), c1_v2/c2_v2 (mini n=30, superseded by opus full-size),
   c1_v3/c2_v3 (deprecated mid-iteration snapshot), c3_v1/v3 (no successful runs).
 
 ## Accuracy (%)
 
-| sub_bench                |   baseline_full | archived_workflow   | v1_baseline   | v1_ptool   | v1_e2e   | c1_v4   | c1_v4g   |   c2_v4 | c2_v4g   | c3_v4   |
+| sub_bench                |   baseline_full | archived_workflow   | v1_baseline   | v1_ptool   | v1_e2e   | c1_opus   | c1_gemini   |   c2_opus | c2_gemini   | c3_opus   |
 |:-------------------------|----------------:|:--------------------|:--------------|:-----------|:---------|:--------|:---------|--------:|:---------|:--------|
 | natplan_calendar         |              55 | 49                  | 54            | 84         | 90       | 55      | —        |      87 | 59       | 64      |
 | natplan_meeting          |              29 | 30                  | 0             | —          | 0        | 55      | —        |      98 | 29       | —       |
@@ -495,7 +495,7 @@ Empty class columns dropped from this table for legibility (kept in raw CSV scan
 
 ## Cost (total USD over val set)
 
-| sub_bench                | baseline_full   | archived_workflow   | v1_baseline   | v1_ptool   | v1_e2e   | c1_v4   | c1_v4g   | c2_v4   | c2_v4g   | c3_v4   |
+| sub_bench                | baseline_full   | archived_workflow   | v1_baseline   | v1_ptool   | v1_e2e   | c1_opus   | c1_gemini   | c2_opus   | c2_gemini   | c3_opus   |
 |:-------------------------|:----------------|:--------------------|:--------------|:-----------|:---------|:--------|:---------|:--------|:---------|:--------|
 | natplan_calendar         | $0.3            | $0.3                | $0.2          | $0.09      | $0       | $0.3    | —        | —       | $0.4     | —       |
 | natplan_meeting          | $0.5            | $0.5                | $0.2          | —          | $0       | $0.2    | —        | —       | $0.5     | —       |
@@ -516,7 +516,7 @@ Empty class columns dropped from this table for legibility (kept in raw CSV scan
 
 ## N (val size)
 
-| sub_bench                |   baseline_full | archived_workflow   | v1_baseline   | v1_ptool   | v1_e2e   | c1_v4   | c1_v4g   |   c2_v4 | c2_v4g   | c3_v4   |
+| sub_bench                |   baseline_full | archived_workflow   | v1_baseline   | v1_ptool   | v1_e2e   | c1_opus   | c1_gemini   |   c2_opus | c2_gemini   | c3_opus   |
 |:-------------------------|----------------:|:--------------------|:--------------|:-----------|:---------|:--------|:---------|--------:|:---------|:--------|
 | natplan_calendar         |             100 | 100                 | —             | —          | —        | 100     | —        |     100 | 100      | 100     |
 | natplan_meeting          |             100 | 100                 | —             | —          | —        | 100     | —        |     100 | 100      | —       |

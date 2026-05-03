@@ -1,21 +1,17 @@
-"""Cleaner master comparison.
+"""Master comparison table builder.
 
-Columns kept (drop empty / sparse):
-  baseline_full   : my fresh DS-V3.1 baseline (val_full)
+Columns:
+  baseline_full   : fresh DS-V3.1 baseline (val_full), no distill
   archived_workflow: 1 archived workflow per bench (filtered to DS-V3*)
-  v1_baseline     : from v1 doc text
-  v1_ptool        : from v1 doc text (ptool codedistill)
-  v1_e2e          : from v1 doc text (e2e codedistill)
-  v1_oracle       : from v1 doc text (only rulearena_airline)
-  c1_v2           : my class 1 v2 (mostly mini n=30)
-  c1_v4           : my class 1 v4 (full n=full)
-  c2_v2           : my class 2 v2 (mostly mini)
-  c2_v4           : my class 2 v4 (full)
-  c3_v4           : my class 3 v4 (full)
+  v1_baseline / v1_ptool / v1_e2e: legacy v1 numbers from doc
+  c1_v2           : legacy mini Class 1
+  c1_opus / c1_gemini : Class 1 (ptool codedistill); suffix = learner LLM
+  c2_v2           : legacy mini Class 2
+  c2_opus / c2_gemini : Class 2 (workflow distill on hand-written ptools)
+  c3_opus / c3_gemini : Class 3 (workflow distill on **induced** ptools)
 
-Empty cells:
-  RUN  : currently being produced by a running master (musr_obj/team or tabmwp)
-  —    : not run, not planned
+Empty cell — = no run for that combination.
+Test/cache results are excluded; this table is val-only.
 """
 import re
 import pandas as pd
@@ -63,15 +59,22 @@ df['sub_bench'] = df.apply(sub_bench, axis=1)
 def categorize(row):
     name = (str(row.get('expt_name') or row.get('name') or '')).lower()
     scope = row['scope']
+    # Only val-scope rows make it into the master table; test (cache reuse)
+    # rows live in a separate test table.
+    if 'test' in scope: return None
+    if name.endswith('_cache'): return None  # extra guard
     if 'baseline' in name and scope == 'val_full': return 'baseline_full'
-    # Class 1
-    if 'class1v4' in name or 'class1_v4' in name: return 'c1_v4'
+    # Class 1 (ptool codedistill)
+    if 'class1_gemini' in name: return 'c1_gemini'
+    if 'class1_opus' in name: return 'c1_opus'
     if 'class1v2' in name: return 'c1_v2'
-    # Class 2
-    if 'class2v4' in name: return 'c2_v4'
-    if re.search(r'class2(?!v\d)', name) and scope.startswith('val'): return 'c2_v2'
-    # Class 3
-    if 'class3v4' in name: return 'c3_v4'
+    # Class 2 (workflow distill on hand-written ptools)
+    if 'class2_gemini' in name: return 'c2_gemini'
+    if 'class2_opus' in name: return 'c2_opus'
+    if re.search(r'class2(?!v\d|_(opus|gemini))', name) and scope.startswith('val'): return 'c2_v2'
+    # Class 3 (workflow distill on induced ptools)
+    if 'class3_gemini' in name: return 'c3_gemini'
+    if 'class3_opus' in name: return 'c3_opus'
     # archived: pick workflow only (DS-V3 model). Accept "workflow" or "<sub>_workflow"
     if scope == 'archived_inproject':
         is_wf = name == 'workflow' or re.fullmatch(r'(murder|object|team|calendar|meeting|trip)_workflow', name)
@@ -93,7 +96,7 @@ ROW_ORDER = ['natplan_calendar','natplan_meeting','natplan_trip',
              'tabmwp']
 COL_ORDER = ['baseline_full','archived_workflow',
              'v1_baseline','v1_ptool','v1_e2e',
-             'c1_v2','c1_v4','c2_v2','c2_v4','c3_v4']
+             'c1_v2','c1_opus','c1_gemini','c2_v2','c2_opus','c2_gemini','c3_opus','c3_gemini']
 
 acc = df_best.pivot(index='sub_bench', columns='cat', values='acc').reindex(index=ROW_ORDER)
 cost = df_best.pivot(index='sub_bench', columns='cat', values='cost').reindex(index=ROW_ORDER)
@@ -118,18 +121,9 @@ n = n.reindex(columns=COL_ORDER)
 keep_cols = [c for c in COL_ORDER if not acc[c].isna().all()]
 acc = acc[keep_cols]; cost = cost[keep_cols]; n = n[keep_cols]
 
-# Mark RUN cells (active masters' planned outputs)
-RUN_MAP = {
-    'musr_object':  ['c1_v4','c2_v4','c3_v4'],     # musr master 7010
-    'musr_team':    ['c1_v4','c2_v4','c3_v4'],     # musr master 7010
-    'tabmwp':       ['baseline_full','c1_v4','c2_v4','c3_v4'],  # tabmwp master 8536
-    'medcalc':      ['c2_v4'],   # manually kicked off
-    'finqa':        ['c2_v4','c3_v4'],  # fill_v2 master
-    'rulearena_nba': ['c2_v4'],
-    'rulearena_tax': ['c2_v4'],
-    'natplan_calendar': ['c3_v4'],   # fill_v2
-    # c1_v4 holes: medcalc/geometric/date/rulearena had 0 ENABLED → leave as — (= baseline)
-}
+# Mark RUN cells (active masters' planned outputs).
+# All opus/gemini masters have completed; left empty.
+RUN_MAP = {}
 
 def fmt_acc(sub, col, v):
     if pd.notna(v):
@@ -166,27 +160,19 @@ print("=== N (val size) ===")
 print(n_fmt.to_string())
 
 with open('/tmp/master_table.md','w') as f:
-    f.write('# Master comparison — all classes × all versions × all benchmarks\n\n')
-    f.write('## What each `vN` means\n\n')
-    f.write('All versions are MY own runs, not someone else\'s. They are snapshots of the codedistill pipeline as it evolved over April 2026.\n\n')
-    f.write('| Version | Date | Key behaviors |\n')
-    f.write('|---|---|---|\n')
-    f.write('| **v1** | early April | Original. `only_correct=False` (learned from wrong rollouts too). Gate: `train_wrong_rate <= 10%`, no held-out val split. `_format_traces` showed only the local ptool i/o (no top-level task context). `Learner.validate()` re-ran `fit()` 3× per ptool. Numbers preserved in [v1 doc](code_distillation_results.md). |\n')
-    f.write('| **v2** | 2026-04-28 (1st rerun) | First val gate. 80/20 case split inside the learner, `val_wrong_rate <= 5%` gate, `only_correct=True`. Top-level task i/o injected into `_format_traces`. Single-fit (skip Learner.validate re-fit). Round-1 early stop at <10%. Case-output truncation (`_truncate_repr`). Mostly run at mini sizes (n=30 train, n=30 val) so numbers are sample-noisy. |\n')
-    f.write('| **v3** | 2026-04-28 (2nd) | Mid-iteration snapshot — mostly mirrored v2 with bug fixes (e.g. `\'backoff\': \'true\'`→`True`, pydantic-ai recursion fix). Many cells stayed empty because the rerun was abandoned in favor of v4. Effectively deprecated. |\n')
-    f.write('| **v4** | 2026-04-29 (full-size) | Full-size rerun. `max_wrong_rate=0.20` (relaxed from v2\'s 0.05). Train/val recordings at full benchmark sizes (n=43-100 instead of 30-50). Class 2 with `backoff=simulate` (LLM fallback when generated code returns None). Class 3 uses `_REACT_STATE` for musr induced-ptool state injection. Same fit-time 80/20 holdout as v2. **This is the headline version for the v2 doc.** |\n\n')
+    f.write('# Master comparison — all classes × learners × all benchmarks\n\n')
+    f.write('There is one version of the codedistill pipeline. Cells are\n')
+    f.write('distinguished by **which class of distillation** and **which LLM\n')
+    f.write('was the learner** (Opus 4.6 vs Gemini 3.1 Pro Preview).\n\n')
     f.write('Legend for table cells:\n')
-    f.write('- **baseline_full**: my fresh DS-V3.1 baseline (full-size val)\n')
-    f.write('- **archived_workflow**: archived workflow run from `benchmarks/<bench>/results/` or `benchmarks/results/<bench>/`, filtered to DS-V3* model only\n')
-    f.write('- **v1_baseline / v1_ptool / v1_e2e**: numbers from [v1 doc](code_distillation_results.md)\n')
-    f.write('- **c1_vN**: Class 1 (ptool codedistill) version N — replaces individual simulate ptools with Python\n')
-    f.write('- **c2_vN**: Class 2 (workflow distill on hand-written tools) version N — replaces top-level workflow with Python that calls existing ptools\n')
-    f.write('- **c3_v4**: Class 3 (workflow distill on LLM-induced ptools) v4\n\n')
-    f.write('Cells marked `🏃` are currently being produced by a running master:\n')
-    f.write('  - musr_object / musr_team class 1/2/3 v4 → `/tmp/musr_obj_team_full.sh` (PID 7010)\n')
-    f.write('  - tabmwp class 1/2/3 v4 → `/tmp/tabmwp_full.sh` (PID 8536)\n')
-    f.write('  - musr_murder class 2 v4 was queued in fill master (now killed), needs explicit re-launch\n\n')
-    f.write('Cells marked `—` are not planned. Empty class 1/3 columns (v1, v3) and class 2 v3 dropped entirely.\n\n')
+    f.write('- **baseline_full**: fresh DS-V3.1 baseline (full-size val), no distillation\n')
+    f.write('- **archived_workflow**: archived hand-written workflow run filtered to DS-V3*\n')
+    f.write('- **v1_baseline / v1_ptool / v1_e2e**: legacy numbers from [v1 doc](code_distillation_results.md)\n')
+    f.write('- **c1_v2**: legacy Class 1 (mini sizes); kept for traceability\n')
+    f.write('- **c1_opus / c1_gemini**: Class 1 = ptool codedistill (replace each simulate ptool with Python). Suffix is the learner LLM.\n')
+    f.write('- **c2_opus / c2_gemini**: Class 2 = distill workflow (rewrite the top-level workflow to call hand-written ptools). Suffix is the learner LLM.\n')
+    f.write('- **c3_opus / c3_gemini**: Class 3 = distill workflow with **induced** ptools (same as Class 2 but the ptool toolbox comes from the prof\'s LLM-discovered induced_ptools seed=42 modules). Suffix is the learner LLM.\n\n')
+    f.write('Cells marked `—` had no run for that combination (no distill or 0 ENABLED ptools).\n\n')
     f.write('## Accuracy (%)\n\n')
     f.write(acc_fmt.to_markdown())
     f.write('\n\n## Cost (total USD over val set)\n\n')
