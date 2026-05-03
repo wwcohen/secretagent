@@ -112,3 +112,28 @@ def answer_question_workflow(narrative: str, question: str, choices: list) -> in
     requirements = extract_team_requirements(narrative)
     text = score_team_assignments(narrative, requirements, question, choices)
     return extract_index(text, choices)
+
+
+# Stub re-declared so wf_orch's seeded orch run can bind it via top-level
+# `ptools.holistic_think_and_solve.method=simulate`. The actual call site lives
+# in learned/team/<TS>.orch_learner/ptools_evolved.py; that module's own
+# @interface object is bound separately via DirectFactory's ptools propagation.
+@interface
+def holistic_think_and_solve(narrative: str, question: str, choices: list) -> str:
+    """Holistically analyze the narrative to choose the best team allocation.
+
+    You must think step-by-step:
+    1. Identify the tasks and how many people each requires.
+    2. Analyze the candidates' skills and weaknesses.
+    3. Critically analyze interpersonal dynamics:
+       - Identify any explicit conflicts (people who argue, dislike, blame, or have tension). NEVER pair them in the same multi-person task. This is a HARD RULE.
+       - Identify explicit synergies (people who work well together). Pair them if possible.
+       - If a candidate conflicts with both other people, isolate them in the 1-person task.
+
+    Format your response EXACTLY as follows:
+    THINKING:
+    (your step-by-step reasoning here)
+
+    CHOICE:
+    (the EXACT text of the correct assignment from the choices list)
+    """
