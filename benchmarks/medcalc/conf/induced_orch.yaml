@@ -1,0 +1,44 @@
+# Orchestrate-ready binding of the induced ptools (winner: stateless-oc0-mp3,
+# 0.664 acc on the 110-case held-out eval, beating the 0.582 baseline).
+#
+# To kick off OrchestrationLearner using these ptools as the starting point:
+#   uv run -m secretagent.cli.orchestration_learner run \
+#     --base-module ptools_induced \
+#     --eval-config conf/react_eval.yaml \
+#     --top-interface calculate_medical_value
+llm:
+  model: gemini/gemini-3.1-flash-lite-preview
+  max_tokens: 65536
+  thinking: true
+  reasoning_effort: high
+
+simulate_pydantic:
+  template: simulate_pydantic_thinking.txt
+
+cachier:
+  cache_dir: llm_cache
+  enable_caching: true
+
+evaluate:
+  result_dir: results
+  expt_name: induced_orch
+  entry_point: calculate_medical_value
+  record_details: true
+
+dataset:
+  split: train
+  stratified: true
+  n: 110
+  shuffle_seed: 43
+
+# The induced helpers (ptools_induced.calculate_clinical_score etc.) are
+# already @implement_via('simulate') at module-import time inside
+# ptools_induced.py — they self-bind on import and don't need to be
+# registered here. The agent only needs them in its tools list.
+ptools:
+  calculate_medical_value:
+    method: simulate_pydantic
+    tools:
+      - ptools_induced.calculate_clinical_score
+      - ptools_induced.compute_clinical_value
+      - ptools_induced.apply_clinical_score

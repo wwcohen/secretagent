@@ -1,0 +1,51 @@
+case_name,predicted_output,expected_output,correct,correct_tolerance,failure_mode,input_tokens,output_tokens,latency,cost,expt_name
+airline_0_6,1281.0,1131,0.0,0.0,calculation_error,12006.0,235.0,11.78240966796875,0.0076031,workflow
+airline_1_28,2296.0,2296,1.0,1.0,none,25556.0,1068.0,52.24868440628052,0.0171492,workflow
+airline_1_10,2427.0,2682,0.0,0.0,calculation_error,12067.0,420.0,24.84049153327942,0.0079542,workflow
+airline_2_30,"**exception raised**: status_code: 500, model_name: together_ai/deepseek-ai/DeepSeek-V3.1, body: litellm.InternalServerError: InternalServerError: Together_aiException - Internal server error",2658,0.0,0.0,extraction_failure,,,,,workflow
+airline_0_90,1457.0,1847,0.0,0.0,calculation_error,24567.0,480.0,34.06304383277893,0.015556200000000001,workflow
+airline_0_72,"**exception raised**: status_code: 503, model_name: together_ai/deepseek-ai/DeepSeek-V3.1, body: litellm.ServiceUnavailableError: ServiceUnavailableError: Together_aiException - Service unavailable",1279,0.0,0.0,extraction_failure,,,,,workflow
+airline_2_2,"**exception raised**: status_code: 503, model_name: together_ai/deepseek-ai/DeepSeek-V3.1, body: litellm.ServiceUnavailableError: ServiceUnavailableError: Together_aiException - Service unavailable",3332,0.0,0.0,extraction_failure,,,,,workflow
+airline_0_86,"**exception raised**: status_code: 500, model_name: together_ai/deepseek-ai/DeepSeek-V3.1, body: litellm.InternalServerError: InternalServerError: Together_aiException - Internal server error",1392,0.0,0.0,extraction_failure,,,,,workflow
+airline_0_40,2185.0,2735,0.0,0.0,calculation_error,12006.0,412.0,17.992029428482056,0.007904,workflow
+airline_0_79,"**exception raised**: status_code: 503, model_name: together_ai/deepseek-ai/DeepSeek-V3.1, body: litellm.ServiceUnavailableError: ServiceUnavailableError: Together_aiException - Service unavailable",1227,0.0,0.0,extraction_failure,,,,,workflow
+airline_2_40,3763.0,4293,0.0,0.0,calculation_error,12126.0,791.0,43.89669108390808,0.0086203,workflow
+airline_2_3,3103.0,3103,1.0,1.0,none,12128.0,479.0,20.88640332221985,0.0080911,workflow
+airline_2_1,3712.0,3762,0.0,0.0,calculation_error,12130.0,869.0,38.802817583084106,0.0087553,workflow
+airline_0_16,1300.0,1300,1.0,1.0,none,12005.0,435.0,28.24314045906067,0.0079425,workflow
+airline_1_52,2855.0,1896,0.0,0.0,calculation_error,12070.0,838.0,36.81608176231384,0.0086666,workflow
+airline_2_25,3728.0,4578,0.0,0.0,calculation_error,12128.0,826.0,37.6610541343689,0.008681,workflow
+airline_1_96,2085.0,2085,1.0,1.0,none,12066.0,710.0,39.83142828941345,0.0084466,workflow
+airline_1_46,1969.0,2019,0.0,0.0,calculation_error,12069.0,373.0,10.053941249847412,0.007875499999999999,workflow
+airline_0_74,1153.0,903,0.0,0.0,calculation_error,12003.0,543.0,19.401808261871338,0.0081249,workflow
+airline_2_73,3672.0,4812,0.0,0.0,calculation_error,12129.0,492.0,17.368185997009277,0.0081138,workflow
+airline_2_59,3234.0,3234,1.0,1.0,none,12127.0,1044.0,40.23369479179382,0.009051,workflow
+airline_0_35,**exception raised**: 'Main Cabin^',1098,0.0,0.0,extraction_failure,12005.0,562.0,15.355329036712646,0.0081584,workflow
+airline_1_37,2443.0,4458,0.0,0.0,calculation_error,12069.0,776.0,38.90490460395813,0.0085606,workflow
+airline_0_41,"**exception raised**: status_code: 503, model_name: together_ai/deepseek-ai/DeepSeek-V3.1, body: litellm.ServiceUnavailableError: ServiceUnavailableError: Together_aiException - Service unavailable",1838,0.0,0.0,extraction_failure,,,,,workflow
+airline_2_98,"**exception raised**: status_code: 503, model_name: together_ai/deepseek-ai/DeepSeek-V3.1, body: litellm.ServiceUnavailableError: ServiceUnavailableError: Together_aiException - Service unavailable",3028,0.0,0.0,extraction_failure,,,,,workflow
+airline_0_80,1165.0,1165,1.0,1.0,none,12007.0,508.0,23.71057653427124,0.0080678,workflow
+airline_2_69,3925.0,4475,0.0,0.0,calculation_error,12135.0,975.0,42.28013062477112,0.008938499999999999,workflow
+airline_2_88,3324.0,3324,1.0,1.0,none,25272.0,1341.0,86.13070821762085,0.0174429,workflow
+airline_2_62,"**exception raised**: status_code: 429, model_name: together_ai/deepseek-ai/DeepSeek-V3.1, body: litellm.RateLimitError: RateLimitError: Together_aiException - We noticed too many requests from your account. We do our best to serve all requests, but due to high load, some bursty requests may not succeed. In this situation, we use your ""dynamic"" rate limit to properly classify errors for failed requests. Your dynamic rate limit is 0.4 RPM, while your current request rate is 1 RPM. Please refer to https://docs.together.ai/docs/rate-limits for more details about dynamic rate limits. If your workload is truly bursty, we recommend using batch or dedicated inference. For any further questions, please contact our sales team at https://www.together.ai/contact-sales.",3749,0.0,0.0,extraction_failure,,,,,workflow
+airline_2_5,3758.0,4073,0.0,0.0,calculation_error,12131.0,550.0,25.256294012069702,0.0082136,workflow
+airline_1_45,2735.0,2535,0.0,0.0,calculation_error,12064.0,1073.0,43.59151101112366,0.0090625,workflow
+airline_2_87,3157.0,3157,1.0,1.0,none,12132.0,486.0,22.730644464492798,0.008105399999999999,workflow
+airline_1_71,2449.0,2449,1.0,1.0,none,24586.0,653.0,36.36375141143799,0.0158617,workflow
+airline_1_4,2207.0,2207,1.0,1.0,none,12068.0,643.0,36.03802561759949,0.0083339,workflow
+airline_0_99,1426.0,1421,0.0,1.0,calculation_error,12007.0,527.0,18.29038143157959,0.0081001,workflow
+airline_1_76,2203.0,2108,0.0,0.0,calculation_error,24605.0,705.0,21.284587383270264,0.0159615,workflow
+airline_2_67,3224.0,3029,0.0,0.0,calculation_error,12129.0,763.0,26.536471128463745,0.0085745,workflow
+airline_2_10,**exception raised**: Exceeded maximum retries (1) for output validation,3056,0.0,0.0,extraction_failure,,,,,workflow
+airline_2_43,**exception raised**: Exceeded maximum retries (1) for output validation,5181,0.0,0.0,extraction_failure,,,,,workflow
+airline_1_2,2575.0,2380,0.0,0.0,calculation_error,12067.0,415.0,14.935766220092773,0.0079457,workflow
+airline_1_92,2439.0,2254,0.0,0.0,calculation_error,12067.0,435.0,16.819332361221313,0.0079797,workflow
+airline_0_20,972.0,972,1.0,1.0,none,12004.0,497.0,15.626899003982544,0.0080473,workflow
+airline_1_1,2465.0,2375,0.0,0.0,calculation_error,12067.0,511.0,16.910002946853638,0.008108899999999999,workflow
+airline_1_84,2180.0,2205,0.0,0.0,calculation_error,12027.0,266.0,10.223108530044556,0.0076684,workflow
+airline_0_36,1192.0,1742,0.0,0.0,calculation_error,12008.0,689.0,26.281635761260986,0.008376100000000001,workflow
+airline_0_4,1479.0,1434,0.0,0.0,calculation_error,12009.0,238.0,8.187496900558472,0.00761,workflow
+airline_1_5,2380.0,2380,1.0,1.0,none,12066.0,537.0,17.547938585281372,0.0081525,workflow
+airline_1_65,"**exception raised**: status_code: 500, model_name: together_ai/deepseek-ai/DeepSeek-V3.1, body: litellm.InternalServerError: InternalServerError: Together_aiException - Internal server error",4808,0.0,0.0,extraction_failure,,,,,workflow
+airline_0_69,1124.0,1174,0.0,0.0,calculation_error,12008.0,531.0,17.559769868850708,0.0081075,workflow
+airline_0_37,1557.0,1857,0.0,0.0,calculation_error,12005.0,449.0,5.6282336711883545,0.007966299999999999,workflow

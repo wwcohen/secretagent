@@ -1,0 +1,101 @@
+case_name,predicted_output,expected_output,correct,input_tokens,output_tokens,latency,cost,expt_name
+ex042,2,2,True,623.0,411.0,26.271201133728027,0.0010725,team_zs_cot_prompt
+ex041,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',1,False,760.0,1174.0,45.01722431182861,0.0024517999999999996,team_zs_cot_prompt
+ex091,0,2,False,752.0,2004.0,77.66234683990479,0.0038580000000000003,team_zs_cot_prompt
+ex009,2,2,True,696.0,831.0,22.51743507385254,0.0018303,team_zs_cot_prompt
+ex065,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',1,False,714.0,1754.0,36.11625909805298,0.0034102000000000004,team_zs_cot_prompt
+ex050,2,2,True,690.0,553.0,25.589297771453857,0.0013541,team_zs_cot_prompt
+ex001,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',2,False,815.0,1636.0,66.43481302261353,0.0032702,team_zs_cot_prompt
+ex070,**exception raised**: litellm.InternalServerError: InternalServerError: Together_aiException - Internal server error,1,False,,,,,team_zs_cot_prompt
+ex015,2,2,True,791.0,524.0,22.886147022247314,0.0013654,team_zs_cot_prompt
+ex078,0,0,True,822.0,1010.0,40.46121907234192,0.0022102,team_zs_cot_prompt
+ex073,**exception raised**: litellm.InternalServerError: InternalServerError: Together_aiException - Internal server error,1,False,,,,,team_zs_cot_prompt
+ex010,2,2,True,788.0,975.0,39.00731301307678,0.0021303,team_zs_cot_prompt
+ex055,0,2,False,653.0,1223.0,42.2138888835907,0.0024709,team_zs_cot_prompt
+ex056,0,2,False,732.0,900.0,41.73084902763367,0.0019692,team_zs_cot_prompt
+ex072,0,0,True,718.0,583.0,23.130927801132202,0.0014218999999999998,team_zs_cot_prompt
+ex045,2,2,True,661.0,677.0,20.5286967754364,0.0015475,team_zs_cot_prompt
+ex048,1,0,False,796.0,421.0,14.276507139205933,0.0011933,team_zs_cot_prompt
+ex092,0,0,True,750.0,643.0,18.1461238861084,0.0015431,team_zs_cot_prompt
+ex076,1,1,True,634.0,1218.0,28.653884172439575,0.002451,team_zs_cot_prompt
+ex037,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',2,False,642.0,765.0,16.90226101875305,0.0016857,team_zs_cot_prompt
+ex030,1,1,True,770.0,919.0,25.235528230667114,0.0020242999999999997,team_zs_cot_prompt
+ex021,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',1,False,656.0,1232.0,66.2937982082367,0.002488,team_zs_cot_prompt
+ex032,**exception raised**: litellm.InternalServerError: InternalServerError: Together_aiException - Internal server error,1,False,,,,,team_zs_cot_prompt
+ex096,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',0,False,750.0,1510.0,56.425320863723755,0.0030169999999999997,team_zs_cot_prompt
+ex080,2,2,True,678.0,1218.0,57.166155099868774,0.0024774000000000003,team_zs_cot_prompt
+ex049,1,1,True,780.0,1087.0,11.634696960449219,0.0023159,team_zs_cot_prompt
+ex083,**exception raised**: litellm.InternalServerError: InternalServerError: Together_aiException - Internal server error,2,False,,,,,team_zs_cot_prompt
+ex026,2,2,True,722.0,647.0,31.871654987335205,0.0015331,team_zs_cot_prompt
+ex087,0,1,False,659.0,1155.0,41.52268695831299,0.0023588999999999997,team_zs_cot_prompt
+ex033,1,1,True,692.0,881.0,22.308043956756592,0.0019129,team_zs_cot_prompt
+ex008,1,1,True,802.0,464.0,12.417905807495117,0.0012699999999999999,team_zs_cot_prompt
+ex047,0,0,True,784.0,637.0,22.80061411857605,0.0015532999999999999,team_zs_cot_prompt
+ex059,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',2,False,710.0,1261.0,58.1681170463562,0.0025697000000000003,team_zs_cot_prompt
+ex063,1,1,True,760.0,559.0,29.103941917419434,0.0014063,team_zs_cot_prompt
+ex074,**exception raised**: litellm.ServiceUnavailableError: ServiceUnavailableError: Together_aiException - Service unavailable,2,False,,,,,team_zs_cot_prompt
+ex044,2,2,True,712.0,808.0,32.62751007080078,0.0018008,team_zs_cot_prompt
+ex098,1,2,False,801.0,1144.0,52.35058569908142,0.0024254,team_zs_cot_prompt
+ex052,2,1,False,816.0,1811.0,73.6755838394165,0.0035683,team_zs_cot_prompt
+ex085,0,0,True,763.0,608.0,24.996739149093628,0.0014914,team_zs_cot_prompt
+ex012,2,2,True,776.0,675.0,32.913365840911865,0.0016131000000000001,team_zs_cot_prompt
+ex036,2,2,True,756.0,630.0,25.301016092300415,0.0015246,team_zs_cot_prompt
+ex023,1,1,True,651.0,909.0,33.27772116661072,0.0019359000000000002,team_zs_cot_prompt
+ex039,**exception raised**: litellm.ServiceUnavailableError: ServiceUnavailableError: Together_aiException - Service unavailable,1,False,,,,,team_zs_cot_prompt
+ex040,2,2,True,750.0,1253.0,49.52396488189697,0.0025801,team_zs_cot_prompt
+ex018,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',2,False,722.0,1394.0,46.24047088623047,0.002803,team_zs_cot_prompt
+ex066,0,0,True,831.0,829.0,14.334625005722046,0.0019079000000000001,team_zs_cot_prompt
+ex061,1,1,True,720.0,554.0,7.953608274459839,0.0013738,team_zs_cot_prompt
+ex060,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',2,False,625.0,1224.0,14.914053916931152,0.0024557999999999997,team_zs_cot_prompt
+ex007,0,0,True,747.0,522.0,17.668915271759033,0.0013356,team_zs_cot_prompt
+ex034,0,2,False,691.0,1037.0,13.571500778198242,0.0021774999999999997,team_zs_cot_prompt
+ex099,2,2,True,612.0,599.0,6.067254066467285,0.0013855,team_zs_cot_prompt
+ex046,1,0,False,722.0,751.0,27.864679098129272,0.0017098999999999999,team_zs_cot_prompt
+ex002,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',0,False,751.0,720.0,9.887895822525024,0.0016746,team_zs_cot_prompt
+ex051,2,2,True,657.0,1430.0,46.97595405578613,0.0028252,team_zs_cot_prompt
+ex016,2,1,False,724.0,1219.0,31.00787878036499,0.0025067,team_zs_cot_prompt
+ex038,0,0,True,666.0,745.0,25.09266710281372,0.0016661,team_zs_cot_prompt
+ex058,2,2,True,713.0,718.0,18.845625162124634,0.0016484,team_zs_cot_prompt
+ex068,2,2,True,677.0,548.0,26.340081691741943,0.0013378,team_zs_cot_prompt
+ex022,0,2,False,624.0,1197.0,47.93531799316406,0.0024093,team_zs_cot_prompt
+ex062,2,2,True,670.0,560.0,25.736289024353027,0.001354,team_zs_cot_prompt
+ex024,1,1,True,766.0,454.0,11.001536846160889,0.0012314000000000001,team_zs_cot_prompt
+ex005,0,0,True,761.0,1275.0,27.198209047317505,0.0026241000000000003,team_zs_cot_prompt
+ex006,2,2,True,768.0,667.0,26.1768901348114,0.0015947,team_zs_cot_prompt
+ex067,0,0,True,718.0,1093.0,38.99274659156799,0.0022889,team_zs_cot_prompt
+ex082,1,1,True,748.0,701.0,12.210371255874634,0.0016405,team_zs_cot_prompt
+ex019,2,2,True,668.0,1153.0,38.686259031295776,0.0023609,team_zs_cot_prompt
+ex079,**exception raised**: litellm.InternalServerError: InternalServerError: Together_aiException - Internal server error,0,False,,,,,team_zs_cot_prompt
+ex043,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',2,False,742.0,1286.0,47.579314947128296,0.0026314,team_zs_cot_prompt
+ex090,0,0,True,701.0,1796.0,81.70736002922058,0.0034738,team_zs_cot_prompt
+ex020,2,0,False,748.0,1932.0,95.74411606788635,0.0037332000000000003,team_zs_cot_prompt
+ex000,2,1,False,831.0,783.0,29.674508094787598,0.0018297,team_zs_cot_prompt
+ex095,1,1,True,658.0,677.0,22.403838872909546,0.0015457000000000001,team_zs_cot_prompt
+ex057,1,1,True,709.0,1047.0,51.1655752658844,0.0022053,team_zs_cot_prompt
+ex093,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',1,False,837.0,898.0,46.41682577133179,0.0020288,team_zs_cot_prompt
+ex053,2,2,True,686.0,648.0,8.689196109771729,0.0015132000000000001,team_zs_cot_prompt
+ex089,0,0,True,747.0,1177.0,53.03547501564026,0.0024491,team_zs_cot_prompt
+ex025,0,0,True,793.0,1137.0,48.06635093688965,0.0024086999999999997,team_zs_cot_prompt
+ex071,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',0,False,728.0,1393.0,69.03506684303284,0.0028049,team_zs_cot_prompt
+ex084,1,1,True,745.0,1062.0,44.678446769714355,0.0022524,team_zs_cot_prompt
+ex077,1,1,True,774.0,1127.0,45.04420566558838,0.0023803,team_zs_cot_prompt
+ex064,0,1,False,797.0,634.0,18.01831078529358,0.001556,team_zs_cot_prompt
+ex029,0,2,False,778.0,1296.0,77.29777503013611,0.00267,team_zs_cot_prompt
+ex027,0,0,True,719.0,1240.0,13.156201124191284,0.0025394,team_zs_cot_prompt
+ex088,2,2,True,673.0,912.0,9.477665185928345,0.0019542,team_zs_cot_prompt
+ex097,**exception raised**: litellm.InternalServerError: InternalServerError: Together_aiException - Internal server error,0,False,,,,,team_zs_cot_prompt
+ex004,2,2,True,696.0,1024.0,11.334962844848633,0.0021584,team_zs_cot_prompt
+ex054,1,1,True,621.0,661.0,8.520388841629028,0.0014963,team_zs_cot_prompt
+ex075,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',1,False,721.0,441.0,16.447943210601807,0.0011823,team_zs_cot_prompt
+ex011,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',1,False,620.0,2048.0,77.67608499526978,0.0038536,team_zs_cot_prompt
+ex069,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',1,False,777.0,1560.0,28.382556915283203,0.0031182,team_zs_cot_prompt
+ex086,2,1,False,829.0,508.0,18.581095933914185,0.001361,team_zs_cot_prompt
+ex013,1,1,True,642.0,1034.0,38.885730028152466,0.002143,team_zs_cot_prompt
+ex017,1,1,True,858.0,840.0,25.602856874465942,0.0019428,team_zs_cot_prompt
+ex028,2,2,True,659.0,543.0,20.29882287979126,0.0013185,team_zs_cot_prompt
+ex031,2,2,True,660.0,946.0,33.04855012893677,0.0020042,team_zs_cot_prompt
+ex035,1,2,False,615.0,1728.0,70.52225995063782,0.0033066,team_zs_cot_prompt
+ex094,2,2,True,820.0,776.0,33.87517285346985,0.0018111999999999998,team_zs_cot_prompt
+ex003,1,1,True,664.0,1270.0,66.38801217079163,0.0025574,team_zs_cot_prompt
+ex014,0,0,True,762.0,432.0,8.213359117507935,0.0011916,team_zs_cot_prompt
+ex081,1,1,True,867.0,567.0,9.967489242553711,0.0014841,team_zs_cot_prompt

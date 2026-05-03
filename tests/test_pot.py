@@ -66,6 +66,33 @@ def test_create_prompt_includes_tool_stubs():
     _INTERFACES.remove(main_fn)
 
 
+def test_create_prompt_includes_pydantic_tool_schema():
+    from pydantic import BaseModel
+
+    class ToolResult(BaseModel):
+        verdict: bool
+        detail: str
+
+    @interface
+    def my_tool(q: str) -> ToolResult:
+        """A tool returning a pydantic model."""
+
+    my_tool.implement_via('direct')
+
+    @interface
+    def caller(q: str) -> str:
+        """Calls my_tool."""
+
+    factory = PoTFactory()
+    prompt = factory.create_prompt(caller, [my_tool], None, "test")
+    assert 'ToolResult' in prompt
+    assert '"verdict"' in prompt
+    assert '"type": "boolean"' in prompt
+    assert '"detail"' in prompt
+    _INTERFACES.remove(my_tool)
+    _INTERFACES.remove(caller)
+
+
 def test_create_prompt_mentions_final_answer():
     @interface
     def my_fn(x: int) -> int:
@@ -121,6 +148,56 @@ def test_executor_has_tool_functions():
     assert callable(impl.implementing_fn)
     _INTERFACES.remove(tool_a)
     _INTERFACES.remove(orchestrator)
+
+
+# --- state isolation ---
+
+def test_tool_redefinition_does_not_poison_custom_tools():
+    """Regression: LLM-generated code that redefines a tool as a stub must not
+    permanently overwrite the real tool in custom_tools (GitHub issue: PoT
+    scores 2.2% on NBA because tool wrappers get replaced with Ellipsis)."""
+    from smolagents.local_python_executor import LocalPythonExecutor, BASE_PYTHON_TOOLS
+
+    real_tool = lambda x: x * 2
+    executor = LocalPythonExecutor(additional_authorized_imports=[])
+    executor.static_tools = {**BASE_PYTHON_TOOLS, "final_answer": lambda x: x}
+    executor.custom_tools = {"my_tool": real_tool}
+
+    poisoning_code = (
+        "def my_tool(x):\n"
+        "    ...\n"
+        "result = my_tool(5)\n"
+        "final_answer(result)\n"
+    )
+
+    saved = dict(executor.custom_tools)
+    executor.state = {}
+    result1 = executor(poisoning_code)
+    assert result1.output is ...
+    executor.custom_tools = saved
+
+    clean_code = "result = my_tool(5)\nfinal_answer(result)\n"
+    executor.state = {}
+    result2 = executor(clean_code)
+    assert result2.output == 10, (
+        f"Tool was poisoned: expected 10 but got {result2.output}"
+    )
+
+
+def test_state_does_not_leak_between_calls():
+    """Variables assigned in one PoT execution must not be visible in the next."""
+    from smolagents.local_python_executor import LocalPythonExecutor, BASE_PYTHON_TOOLS
+
+    executor = LocalPythonExecutor(additional_authorized_imports=[])
+    executor.static_tools = {**BASE_PYTHON_TOOLS, "final_answer": lambda x: x}
+    executor.custom_tools = {}
+
+    executor.state = {}
+    executor("leaked_var = 42\nfinal_answer(leaked_var)\n")
+
+    executor.state = {}
+    with pytest.raises(Exception):
+        executor("final_answer(leaked_var)\n")
 
 
 # --- integration tests (require API key) ---

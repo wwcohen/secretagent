@@ -1,0 +1,12 @@
+Pipeline accuracy: 72.9%, avg cost: $0.0024/case, 70 cases
+
+Per-ptool breakdown:
+  deduce_murderer: cost_frac=19.9%, calls/case=1.0, avg_cost=$0.0005, lift=N/A, errors=0
+  extract_index: cost_frac=2.7%, calls/case=1.0, avg_cost=$0.0001, lift=N/A, errors=0
+  extract_suspects_and_evidence: cost_frac=38.8%, calls/case=1.0, avg_cost=$0.0009, lift=N/A, errors=0
+  verify_alibis: cost_frac=38.6%, calls/case=1.0, avg_cost=$0.0009, lift=N/A, errors=0
+
+Ptools called via LLM: ['deduce_murderer', 'extract_index', 'extract_suspects_and_evidence', 'verify_alibis']
+
+Held-out eval accuracy: 73.3% (train: 72.9%)
+A large train-eval gap means your changes are OVERFITTING. Prefer changes that generalize to unseen cases.

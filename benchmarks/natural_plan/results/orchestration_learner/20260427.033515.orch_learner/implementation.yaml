@@ -1,0 +1,4 @@
+calendar_scheduling:
+  method: direct
+  fn: __learned__.calendar_scheduling_orchestrated_seed
+  learner: orch_learner

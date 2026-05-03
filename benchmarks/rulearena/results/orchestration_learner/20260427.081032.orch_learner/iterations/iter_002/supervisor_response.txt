@@ -1,0 +1,17 @@
+ data
+    if result.get("has_student_loans_or_education_expenses") and not result["student_list"]:
+        result["has_student_loans_or_education_expenses"] = False
+        
+    if result.get("self_employed") and result.get("gross_receipts", 0) == 0 and result.get("total_expenses", 0) == 0:
+        result["self_employed"] = False
+
+    return result
+```
+
+Wait, `has_student_loans_or_education_expenses` might be True because of student loan interest deduction, not just Form 8863.
+If I set it to False, will the calculator skip the student loan interest deduction?
+Let's verify: In Schedule 1, Line 21 is `student_loan_interest_deduction`. This is independent of Form 8863 (which is for education credits like American Opportunity Credit).
+In the ground truth: `has_student_loans_or_education_expenses` is True for BOTH cases, and RuleArena's calculator uses this flag to determine whether to compute the Form 8863 credits.
+Actually, if the calculator returns None, it is definitely a bug in the RuleArena calculator that we can't patch directly except by massaging the input.
+Wait, let's look at `compute_tax_fee` from `calculators.tax`.
+If I massage the input so it doesn't crash, the predicted tax will still be

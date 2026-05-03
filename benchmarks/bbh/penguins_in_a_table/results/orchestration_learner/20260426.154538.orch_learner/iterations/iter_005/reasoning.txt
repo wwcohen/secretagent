@@ -1,0 +1,9 @@
+An analysis of the pipeline's behavior reveals that the large train-eval gap is driven by two main issues causing poor generalization to unseen cases:
+
+1. **Unconditional Row Counting (`answer_question`)**: The previous prompt literally instructed the LLM: `"If the question asks for a count... count the number of data rows"`. On unseen validation cases with conditional counts (e.g., *"How many penguins are older than 4?"*), the LLM obediently and blindly counts ALL rows instead of filtering them first, leading to predictably wrong answers.
+2. **Accidental Matches on Distractor Tables**: The pipeline perfectly extracts distractor actions (like replacing the penguin table with giraffes) and uses a backward iteration loop to recover the original table if the final table doesn't match an option. However, if the question is "How many penguins?" and the final table is giraffes, the LLM might answer "0". If "0" happens to be one of the multiple-choice options, the pipeline returns it immediately, *never falling back* to the correct previous table state.
+
+### Minimal, Targeted Fix:
+1. **Fix Conditional Counting**: We update the `answer_question` prompt to explicitly instruct the LLM to *filter* the rows according to any conditions in the question before counting. 
+2. **Safe Entity Rejection**: We add a `"MISMATCHED ENTITIES"` rule to `answer_question`, forcing it to return the exact string `"None"` if the question asks about one entity (penguins) but the table contains another (giraffes) instead of answering "0". 
+3. **Resilient Control Flow**: We update `penguins_workflow` to explicitly catch and skip over `"None"` answers, ensuring the backward iteration seamlessly skips distractor tables and safely reaches the correct table. We also add `try...except` blocks within the loops so that local LLM malformations don't crash the entire structured pipeline.

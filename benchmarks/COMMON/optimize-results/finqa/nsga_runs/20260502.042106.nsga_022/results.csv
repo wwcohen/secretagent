@@ -1,0 +1,109 @@
+case_name,predicted_output,expected_output,correct,scored,input_tokens,output_tokens,latency,cost,expt_name
+valid.00000,127.4,127.4,1.0,True,1544.0,719.0,9.584912061691284,0.000663,nsga_022
+valid.00001,93.5,0.935,0.0,True,1013.0,789.0,14.299091100692749,0.00062535,nsga_022
+valid.00002,24.69135802,24.69136,1.0,True,1653.0,1033.0,16.548967361450195,0.00086775,nsga_022
+valid.00003,"**exception raised**: Code execution failed at line 'for line in table_text.strip().splitlines()[1:]:  # skip header line
+    cols = line.split('\t')
+    if len(cols) < 2:
+        continue
+    label = cols[0].strip().lower()
+    amount_str = cols[1].strip()
+    # grab the first numeric token (removing $ and commas)
+    m = re.search(r'\$?\s*([-+]?[0-9,.]+)', amount_str)
+    if m:
+        num = m.group(1).replace(',', '')
+        values[label] = num' due to: InterpreterError: The variable `re` is not defined.",19.2,0.0,True,1255.0,726.0,10.89877724647522,0.00062385,nsga_022
+valid.00004,60.30612245,0.60306,0.0,True,1324.0,897.0,14.652453184127808,0.0007367999999999999,nsga_022
+valid.00005,"**exception raised**: Code execution failed at line 'for row in lines[1:]:
+    cols = row.split('\t')
+    if re.search(r'operating income', cols[0], re.I):
+        value_2017 = cols[col_2017]
+        value_2016 = cols[col_2016]
+        break' due to: InterpreterError: The variable `re` is not defined.",688.0,0.0,True,1615.0,1045.0,12.04745602607727,0.0008692499999999999,nsga_022
+valid.00006,"**exception raised**: Code execution failed at line 'for i, line in enumerate(table_text.strip().splitlines()):
+    parts = [p.strip() for p in line.split(""\t"")]
+    if i == 0:
+        # header line, keep the year columns
+        years = parts[1:]                     # e.g. ['2008', '2007']
+        continue
+    row_name = parts[0].lower()
+    for yr, val in zip(years, parts[1:]):
+        # clean numeric value (remove $ and commas)
+        clean_val = re.sub(r'[\$,]', '', val).strip()
+        # store as string; later we will use it in compute()
+        data.setdefault(row_name, {})[yr] = clean_val' due to: InterpreterError: The variable `re` is not defined.",0.10935,0.0,True,1875.0,1241.0,17.895402908325195,0.00102585,nsga_022
+valid.00007,"**exception raised**: Code execution failed at line 'if not match:
+    raise ValueError(""Target row not found"")' due to: ValueError: Target row not found",30.44323,0.0,True,1467.0,1770.0,21.415570497512817,0.00128205,nsga_022
+valid.00008,995,995.0,1.0,True,1560.0,756.0,12.323617458343506,0.0006876,nsga_022
+valid.00009,"1356, 2220",3576.0,0.0,True,1824.0,639.0,8.357303142547607,0.000657,nsga_022
+valid.00010,"ERROR: invalid syntax. Perhaps you forgot a comma? (<string>, line 1)%",0.2,0.0,True,1611.0,840.0,8.860140085220337,0.00074565,nsga_022
+valid.00011,56.20%,0.56197,1.0,True,1354.0,940.0,9.384233236312866,0.0007670999999999999,nsga_022
+valid.00012,"ERROR: invalid syntax (<string>, line 1)",-1.9,0.0,True,1694.0,773.0,9.303225994110107,0.0007179,nsga_022
+valid.00013,189,114.0,0.0,True,1642.0,242.0,5.290513515472412,0.0003915,nsga_022
+valid.00014,2057,2057.0,1.0,True,1184.0,983.0,16.071269750595093,0.0007674,nsga_022
+valid.00015,"**exception raised**: Code execution failed at line 'rows = [re.split(r'\t+', line) for line in lines]' due to: InterpreterError: The variable `re` is not defined.",0.34011,0.0,True,1924.0,1440.0,17.903478384017944,0.0011526,nsga_022
+valid.00016,-52.48484848,-0.52485,0.0,True,1312.0,1566.0,17.61589503288269,0.0011363999999999999,nsga_022
+valid.00017,35.09917755%,0.35099,1.0,True,1842.0,991.0,12.090938568115234,0.0008709,nsga_022
+valid.00018,"**exception raised**: Code execution failed at line 'for line in data_lines:
+    parts = line.split(""\t"")
+    # The total row has the label ""total future minimum lease payments""
+    if ""total future minimum lease payments"" in parts[0].lower():
+        # Extract numeric part, remove $ and commas
+        total_str = re.sub(r'[^0-9.\-]', '', parts[1])
+        total = float(total_str)
+    else:
+        # Yearly payment row
+        val_str = re.sub(r'[^0-9.\-]', '', parts[1])
+        sum_years += float(val_str)' due to: InterpreterError: The variable `re` is not defined.",0.19495,0.0,True,1469.0,981.0,10.330748319625854,0.00080895,nsga_022
+valid.00019,0.001,7.22222,0.0,True,1657.0,910.0,8.710571527481079,0.00079455,nsga_022
+valid.00020,44.8,44.8,1.0,True,1085.0,565.0,5.080041408538818,0.00050175,nsga_022
+valid.00021,1.106234097,1.15663,0.0,True,1892.0,800.0,4.860304117202759,0.0007638,nsga_022
+valid.00022,**exception raised**: Code execution failed at line 'finished_goods_2003 = data['finished goods']['2003']' due to: InterpreterError: Could not index {'2002': '$ 384.3'} with '2003': KeyError: '2003'. Maybe you meant one of these indexes instead: ['2002'],0.72825,0.0,True,1980.0,1249.0,11.252732992172241,0.0010464,nsga_022
+valid.00023,"ERROR: invalid syntax. Perhaps you forgot a comma? (<string>, line 1) billion",4575515.0,0.0,True,1556.0,1334.0,13.280325412750244,0.0010337999999999999,nsga_022
+valid.00024,275.57%,2.75566,1.0,True,1544.0,1378.0,15.971128702163696,0.0010584,nsga_022
+valid.00025,-1,-1.0,1.0,True,1894.0,924.0,12.835460662841797,0.0008384999999999998,nsga_022
+valid.00026,25%,0.02581,0.0,True,1606.0,770.0,6.468419551849365,0.0007029,nsga_022
+valid.00027,"**exception raised**: Code execution failed at line 'for line in table_txt.strip().splitlines()[1:]:  # skip header line
+    cols = line.split(""\t"")
+    if len(cols) >= 2:
+        year = cols[0].strip()
+        val_str = cols[1].strip()
+        # remove any non‑numeric characters (e.g., ""$"", commas)
+        num = re.sub(r""[^0-9\.]"", """", val_str)
+        if num:
+            data[year] = float(num)' due to: InterpreterError: The variable `re` is not defined.",-0.03024,0.0,True,1908.0,904.0,7.820344686508179,0.0008285999999999999,nsga_022
+valid.00028,33.33%,0.33333,1.0,True,1694.0,989.0,13.740397453308105,0.0008475,nsga_022
+valid.00029,"ERROR: invalid syntax. Perhaps you forgot a comma? (<string>, line 1)",0.14336,0.0,True,1376.0,910.0,11.87670636177063,0.0007524,nsga_022
+valid.00030,13.0,-11.33333,0.0,True,1852.0,1149.0,16.329078674316406,0.0009671999999999999,nsga_022
+valid.00031,"ERROR: invalid syntax. Perhaps you forgot a comma? (<string>, line 1)%",0.86847,0.0,True,1248.0,1304.0,17.70719861984253,0.0009695999999999999,nsga_022
+valid.00032,-20.65%,-0.20646,1.0,True,1743.0,1513.0,20.53788709640503,0.00116925,nsga_022
+valid.00033,778000,778000.0,1.0,True,1501.0,776.0,12.296778678894043,0.00069075,nsga_022
+valid.00034,2.62,2.62,1.0,True,1155.0,974.0,7.77450704574585,0.00075765,nsga_022
+valid.00035,5.19528329,4.85514,0.0,True,1628.0,1567.0,20.411400079727173,0.0011844,nsga_022
+valid.00036,-9.375%,-0.0339,0.0,True,2673.0,610.0,9.189292192459106,0.00076695,nsga_022
+valid.00037,"ERROR: invalid syntax. Perhaps you forgot a comma? (<string>, line 1)%",0.3781,0.0,True,913.0,993.0,12.81191086769104,0.0007327499999999999,nsga_022
+valid.00038,**exception raised**: Code execution failed at line 'val_2003 = float(clean_percent(val_2003_raw))' due to: ValueError: could not convert string to float: '51.251.2',3.8,0.0,True,2042.0,724.0,10.851400375366211,0.0007407,nsga_022
+valid.00039,"**exception raised**: Code execution failed at line 'for row in lines[1:]:
+    cells = row.split('\t')
+    row_name = cells[0].strip().lower()
+    if ""long-term debt"" in row_name:
+        val_2014 = cells[col_index[""2014""]].strip()
+        val_2012 = cells[col_index[""2012""]].strip()
+        break' due to: InterpreterError: Could not index {'2014 form 10-k': 0, '35 .': 1} with '2014': KeyError: '2014'",28987.0,0.0,True,1652.0,911.0,11.692137718200684,0.0007944,nsga_022
+valid.00040,"**exception raised**: Code execution failed at line 'for line in lines[1:]:
+    cols = line.split('\t')
+    year = cols[0].strip()
+    amount_str = cols[1].strip()
+    # Remove dollar sign, commas and whitespace
+    amount_clean = re.sub(r'[\$,\\s]', '', amount_str)
+    if year in (""2004"", ""2005"", ""2006""):
+        total_thousands += int(amount_clean)' due to: InterpreterError: The variable `re` is not defined.",1041.531,0.0,True,1591.0,781.0,10.071296691894531,0.00070725,nsga_022
+valid.00041,0.03203883495,0.03204,1.0,True,1668.0,711.0,7.232478141784668,0.0006768,nsga_022
+valid.00042,**exception raised**: Code execution failed at line 'val_2018 = clean_num(val_2018_raw)' due to: InterpreterError: The variable `re` is not defined.,0.01424,0.0,True,1654.0,1257.0,18.74754023551941,0.0010023,nsga_022
+valid.00043,**exception raised**: Code execution failed at line 'pct_2019 = to_float(val_2019)' due to: ValueError: could not convert string to float: '62 ( 62  )',0.0,0.0,True,1646.0,732.0,7.994256258010864,0.0006861,nsga_022
+valid.00044,"ERROR: invalid syntax. Perhaps you forgot a comma? (<string>, line 1)%",0.06354,0.0,True,1524.0,1683.0,18.93922519683838,0.0012384,nsga_022
+valid.00045,"ERROR: invalid syntax. Perhaps you forgot a comma? (<string>, line 1)%",1.04852,0.0,True,1979.0,879.0,17.552971363067627,0.00082425,nsga_022
+valid.00046,2.255657953e+10,22556579533.35,1.0,True,1198.0,550.0,4.399106502532959,0.0005097,nsga_022
+valid.00047,3098,3098.0,1.0,True,2213.0,868.0,6.85667610168457,0.00085275,nsga_022
+valid.00048,571%,0.57031,0.0,True,1417.0,581.0,4.174370050430298,0.00056115,nsga_022
+valid.00049,**exception raised**: Code execution failed at line 'vals = [clean_number(v) for v in raw_vals]' due to: InterpreterError: The variable `re` is not defined.,-4088.33333,0.0,True,1516.0,1002.0,6.896451950073242,0.0008286,nsga_022

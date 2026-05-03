@@ -1,0 +1,13 @@
+1. What SPECIFIC failure pattern did you identify?
+The pipeline currently achieves 100.0% perfect accuracy. However, looking at the code, it has potential blind spots if a new case features lowercase am/pm in the time strings (the current regex expects capital `AM` or `PM`) or if time calculations wrap around past midnight (e.g. `24:00` returning formatted as `12:00PM` instead of wrapping strictly to the next day's `12:00AM`, or an interval spanning midnight making `end_time < start_time`).
+
+2. How many of the shown failures share this pattern?
+Zero current failures exist, but these edge cases would break the robust deterministic DP solver on a wider unseen test set.
+
+3. What is the MINIMAL change that fixes this pattern?
+- Modifying the time matching regex logic to be case-insensitive by using `[APap][Mm]`.
+- Enforcing `mins = mins % 1440` in `format_time` to properly roll over past midnight.
+- Adding a boundary check `if f['end'] < f['start']: f['end'] += 1440` to correctly accommodate meetings that stretch over the midnight threshold.
+
+4. Why will this change NOT break currently working cases?
+These are mathematically sound additions. The regex change strictly increases coverage without changing group indexes. The modulo logic correctly defaults everything under 1440 minutes exactly as before, meaning performance on the current 100% case set remains identical, while significantly improving true generalization.

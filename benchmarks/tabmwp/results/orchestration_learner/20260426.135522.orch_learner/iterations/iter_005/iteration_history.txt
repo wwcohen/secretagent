@@ -1,0 +1,45 @@
+Iter 0: train=54.3%, eval=50.0% — KEPT
+Iter 1: train=0.0%, eval=0.0% — ROLLED BACK
+  What was tried: 1. **Specific failure pattern identified:** Many failures fall into three categories caused by a lack of context during computation: 
+   a) The calculation requires a quantity from the *question* (e.g. "1/5 of a pound", "4 tickets") but `compute_answer` only receives values from the table, causing it to return wrong values or fail entirely. 
+   b) Missing operations in `identify_operation`: "median", "multiply", "argmin" / "argmax" (finding the row label for min/max), and "probability" were completely absent from the operation list, causing the agent to guess. 
+   c) Stem-and-leaf plots are extracted as separate digits, causing computation to fail (e.g. stem 9, leaf 0 extracted as '9' and '0' instead of '90').
+2. **How many failures share this pattern?** Over 25 of the 32 failures shown fall into these exact patterns (multiply quantity from question: 28014, 7946, 22167, 16626, 27615, 29461, 7023, 28976; missing argmin/argmax: 17619, 29601, 12801, 6695, 35832; missing median/probability: 19617, 18050, 20103, 21189; comparison/shortage issues: 9055, 23843, 6282, 30575, 36693, 21148; stem-and-leaf: 22631).
+3. **Minimal change that fixes this pattern:** 
+   - Add `question` as the first argument to `compute_answer` and pass it in both `incontext_workflow` and `tools_workflow`. This gives the LLM the missing text quantities.
+   - Update `identify_operation` and `compute_answer` docstrings to support `multiply`, `median`, `argmin`, `argmax`, and `probability`, with specific formatting hints for comparisons (e.g., shortage/surplus).
+   - Add a brief note to `extract_relevant_values` instructing it to combine stem-and-leaf plots into actual numbers.
+4. **Why this will NOT break working cases:** Providing the `question` to `compute_answer` adds necessary context without taking anything away. The existing successful `sum` or `lookup` calls will continue working seamlessly because they just use the provided values as before. The changes directly target the missing operations and parsing quirks without overhauling any robust extraction or pipeline logic.
+  ⚠ This change HURT accuracy. Do NOT retry this approach.
+Iter 2: train=0.0%, eval=0.0% — ROLLED BACK
+  What was tried: An analysis of the failure cases and the rollback of Iteration 1 reveals the following:
+
+1. **The root cause of failures**: Most failures occur because `compute_answer` only receives a single word `operation` (like "sum" or "max") and a list of `values`, but it lacks the contextual quantities, entities, or rules defined in the original question. As a result, it fails on "argmin/argmax" questions (returning the value instead of the label), quantity questions (failing to multiply by quantities like "1/5 of a pound"), and multi-step logic (like shortage/surplus).
+2. **Why Iteration 1 crashed (0.0%)**: Iteration 1 attempted to fix this by modifying `compute_answer` to `def compute_answer(question: str, operation: str, values: list[str])`. Changing the positional order of arguments for a ptool without correctly updating every internal call—or if the evaluation framework tests ptools dynamically based on their old signature—causes a fatal `TypeError` across the board. 
+3. **The safe fix**: We will pass the question to `compute_answer` to provide the needed context, but we will do it by safely appending `question: str = ""` to the end of the signature. This is strictly backwards-compatible. We will update the explicit workflow logic to pass the question. We will also add explicit, targeted hints in the docstrings for the specific math errors seen in the traces (shortage vs. surplus, rate of change, stem-and-leaf parsing, and argmin/argmax extraction).
+
+Here is the full, syntax-safe code implementing these targeted improvements.
+  ⚠ This change HURT accuracy. Do NOT retry this approach.
+Iter 3: train=0.0%, eval=0.0% — ROLLED BACK
+  What was tried: An analysis of the previous rollbacks and failure cases reveals that changing the Python signature of `compute_answer` (e.g., adding a `question` argument) breaks the evaluation framework's positional calling expectations. 
+
+However, we can achieve the **exact same contextual capability safely** by slightly adjusting the prompting instructions for the pipeline's tools. Since the LLM uses the `operation` string output by `identify_operation` as an input to `compute_answer`, we can encourage `identify_operation` to act as a **descriptive plan** (e.g. outputting `"multiply price by 1/5"` or `"argmin"` instead of a simple `"sum"`). We can also instruct `extract_relevant_values` to fetch key numbers from the question itself, enabling `compute_answer` to compute the correct values without needing direct access to the question.
+
+### Targeted Improvements
+1. **`identify_operation`**: Encouraged to return a short descriptive phrase instead of a single word, injecting the necessary question intent (e.g. `"argmin"`, `"check if budget is enough"`, `"probability (target is X)"`) so `compute_answer` knows exactly what to do.
+2. **`extract_relevant_values`**: Explicitly instructed to extract necessary quantities/budgets from the *question* (e.g. `"1/5"`, `"4"`, `"$306"`) and to pull BOTH labels and values for "argmin/argmax" questions. It is also told to properly handle stem-and-leaf plot digits and shortage/surplus extractions.
+3. **`compute_answer`**: Provided explicit rules for handling descriptive operations like `argmin/argmax` (returning labels, not values), `multiply` (calculating exact fraction/price combinations), and comparisons (budgeting and shortage vs. surplus).
+  ⚠ This change HURT accuracy. Do NOT retry this approach.
+Iter 4: train=0.0%, eval=0.0% — ROLLED BACK
+  What was tried: 1. **Specific failure pattern identified:** The standard 4-step pipeline (`identify_operation` -> `extract_relevant_values` -> `compute_answer` -> `format_answer`) fails predictably on specific types of questions because `compute_answer` lacks the context of the original question. Specifically, it fails on:
+   a) Questions needing quantities from the text (e.g., "buys 1/5 of a pound", "4 tickets").
+   b) Missing complex operations (median, probability, rate of change, shortage/surplus).
+   c) Argmin/argmax questions with choices (e.g., "Which day...", returning the value `68` instead of the label `Thursday`).
+   d) Complex tabular formats (Stem & Leaf plots, frequency tables).
+2. **How many of the shown failures share this pattern?** Every single one of the 32 failures (except for one transient timeout) perfectly fits into these categories.
+3. **What is the MINIMAL change that fixes this pattern?** Instead of modifying prompts or signatures (which broke previous iterations), we use a purely Python-based routing logic in `tools_workflow` and `incontext_workflow`. We check if the question or table contains triggers for these known failure cases (e.g., keywords like "median", "most", "surplus", or money-related questions with numbers) and cleanly route those specific cases to the pre-existing, highly capable `pot_workflow` (Program of Thoughts / Pandas code generation). We also add a post-execution fallback: if the standard workflow returns `None`, an error string, or an answer that doesn't match multiple-choice options, we fall back to PoT.
+4. **Why will this change NOT break currently working cases?** 
+   - It leaves all `@interface` docstrings and function signatures 100% untouched, ensuring zero prompt regressions for the currently working 54.3% of cases. 
+   - The PoT routing is wrapped in `try...except`, so if it fails, it smoothly falls back to the original pipeline. 
+   - Simple, working extractions bypass the heuristical routing and execute identically to before.
+  ⚠ This change HURT accuracy. Do NOT retry this approach.

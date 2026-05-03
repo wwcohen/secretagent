@@ -63,6 +63,10 @@ def run(
         False,
         help='Generate an initial workflow from ptools before supervisor iteration',
     ),
+    scratch_evolved: bool = typer.Option(
+        False,
+        help='Evolve a timestamped scratch ptools copy instead of benchmark-local ptools_evolved.py',
+    ),
     orchestrate_task_description: str = typer.Option(
         '',
         help='Task description text, or @file, for --seed-orchestrate',
@@ -99,7 +103,9 @@ def run(
     )
 
     # Results root: where the .orch_learner directory will live.
-    results_base = benchmark_dir / 'results' / 'orchestration_learner'
+    # Benchmark runs may be launched from the repo root; put their outputs
+    # under the benchmark directory rather than the caller's cwd.
+    results_base = _results_base_for_run(benchmark_dir, benchmark)
 
     resume_path = Path(resume) if resume else None
 
@@ -119,6 +125,7 @@ def run(
         eval_split=eval_split,
         ptools_module=ptools_module,
         seed_orchestrate=seed_orchestrate,
+        scratch_evolved=scratch_evolved,
         orchestrate_task_description=orchestrate_task_description,
         debug=debug,
         resume=resume_path,
@@ -199,6 +206,17 @@ def _peek_entry_point(
                 pass
 
     return 'entry_point'
+
+
+def _results_base_for_run(benchmark_dir: Path, benchmark: str) -> Path:
+    if benchmark:
+        try:
+            from secretagent.orchestrate.benchmark_adapter import BenchmarkAdapter
+            adapter = BenchmarkAdapter(benchmark)
+            return adapter.benchmark_dir / 'results' / 'orchestration_learner'
+        except Exception:
+            pass
+    return benchmark_dir / 'results' / 'orchestration_learner'
 
 
 @app.command('view')

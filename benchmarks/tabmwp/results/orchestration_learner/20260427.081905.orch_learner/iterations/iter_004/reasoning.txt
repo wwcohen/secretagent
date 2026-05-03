@@ -1,0 +1,3 @@
+1. STRATEGIC ANCHOR: The message-passing capacity of the `operation` and `values` arguments must be maximized to resolve computation blind spots.
+2. CONTEXT COMPRESSION: Previous iterations established that modifying function signatures or control flow breaks the orchestrator's implicit validation schema. The pipeline expects `compute_answer`, `extract_relevant_values`, `format_answer`, and `identify_operation` to execute with their exact original signatures.
+3. FINAL LEAP: We inject the original question's semantic context (e.g., quantities, budgets, argmax targets) directly into the string arguments of `identify_operation` and `extract_relevant_values` via docstring tuning. This preserves the structural graph while delivering the required state to `compute_answer`.

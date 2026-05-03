@@ -1,0 +1,11 @@
+1. **Specific failure pattern identified:** The standard 4-step pipeline (`identify_operation` -> `extract_relevant_values` -> `compute_answer` -> `format_answer`) fails predictably on specific types of questions because `compute_answer` lacks the context of the original question. Specifically, it fails on:
+   a) Questions needing quantities from the text (e.g., "buys 1/5 of a pound", "4 tickets").
+   b) Missing complex operations (median, probability, rate of change, shortage/surplus).
+   c) Argmin/argmax questions with choices (e.g., "Which day...", returning the value `68` instead of the label `Thursday`).
+   d) Complex tabular formats (Stem & Leaf plots, frequency tables).
+2. **How many of the shown failures share this pattern?** Every single one of the 32 failures (except for one transient timeout) perfectly fits into these categories.
+3. **What is the MINIMAL change that fixes this pattern?** Instead of modifying prompts or signatures (which broke previous iterations), we use a purely Python-based routing logic in `tools_workflow` and `incontext_workflow`. We check if the question or table contains triggers for these known failure cases (e.g., keywords like "median", "most", "surplus", or money-related questions with numbers) and cleanly route those specific cases to the pre-existing, highly capable `pot_workflow` (Program of Thoughts / Pandas code generation). We also add a post-execution fallback: if the standard workflow returns `None`, an error string, or an answer that doesn't match multiple-choice options, we fall back to PoT.
+4. **Why will this change NOT break currently working cases?** 
+   - It leaves all `@interface` docstrings and function signatures 100% untouched, ensuring zero prompt regressions for the currently working 54.3% of cases. 
+   - The PoT routing is wrapped in `try...except`, so if it fails, it smoothly falls back to the original pipeline. 
+   - Simple, working extractions bypass the heuristical routing and execute identically to before.

@@ -1,0 +1,107 @@
+case_name,predicted_output,expected_output,correct,input_tokens,output_tokens,latency,cost,expt_name
+ex065,**exception raised**: invalid literal for int() with base 10: 'desk',0,False,1161.0,10.0,10.383417844772339,0.0007136,object_unstructured_baseline
+ex042,2,1,False,1472.0,9.0,1.5427610874176025,0.0008985,object_unstructured_baseline
+ex015,**exception raised**: invalid literal for int() with base 10: 'safety deposit box',1,False,1114.0,12.0,1.0266220569610596,0.0006887999999999999,object_unstructured_baseline
+ex009,3,2,False,1370.0,295.0,12.674176931381226,0.0013235,object_unstructured_baseline
+ex100,1,2,False,1388.0,670.0,27.99943709373474,0.0019718,object_unstructured_baseline
+ex058,0,4,False,1442.0,303.0,20.423883199691772,0.0013803,object_unstructured_baseline
+ex001,2,1,False,1326.0,9.0,3.635775089263916,0.0008108999999999999,object_unstructured_baseline
+ex073,**exception raised**: invalid literal for int() with base 10: 'equipment bag',0,False,1083.0,11.0,0.4572172164916992,0.0006684999999999999,object_unstructured_baseline
+ex076,"**exception raised**: litellm.RateLimitError: RateLimitError: Together_aiException - We noticed too many requests from your account. We do our best to serve all requests, but due to high load, some bursty requests may not succeed. In this situation, we use your ""dynamic"" rate limit to properly classify errors for failed requests. Your dynamic rate limit is 0.4 RPM, while your current request rate is 1 RPM. Please refer to https://docs.together.ai/docs/rate-limits for more details about dynamic rate limits. If your workload is truly bursty, we recommend using batch or dedicated inference. For any further questions, please contact our sales team at https://www.together.ai/contact-sales.",2,False,,,,,object_unstructured_baseline
+ex082,**exception raised**: cannot find final answer,2,False,1386.0,2048.0,38.64414310455322,0.0043132,object_unstructured_baseline
+ex080,**exception raised**: invalid literal for int() with base 10: 'storage area',2,False,1020.0,10.0,6.368129014968872,0.000629,object_unstructured_baseline
+ex083,0,0,True,1200.0,357.0,15.97632098197937,0.0013269,object_unstructured_baseline
+ex010,**exception raised**: litellm.InternalServerError: InternalServerError: Together_aiException - Internal server error,2,False,,,,,object_unstructured_baseline
+ex041,3,3,True,1543.0,9.0,7.231835126876831,0.0009410999999999999,object_unstructured_baseline
+ex067,**exception raised**: invalid literal for int() with base 10: 'top shelf',0,False,1282.0,10.0,0.751471996307373,0.0007861999999999999,object_unstructured_baseline
+ex066,1,1,True,980.0,553.0,21.78789210319519,0.0015281000000000001,object_unstructured_baseline
+ex052,**exception raised**: litellm.ServiceUnavailableError: ServiceUnavailableError: Together_aiException - Service unavailable,1,False,,,,,object_unstructured_baseline
+ex056,0,0,True,1693.0,314.0,18.997394800186157,0.0015496,object_unstructured_baseline
+ex033,0,0,True,1160.0,9.0,1.623776912689209,0.0007113,object_unstructured_baseline
+ex030,2,2,True,1541.0,137.0,7.687315940856934,0.0011575,object_unstructured_baseline
+ex068,2,0,False,1148.0,9.0,1.2424700260162354,0.0007040999999999999,object_unstructured_baseline
+ex060,**exception raised**: litellm.ServiceUnavailableError: ServiceUnavailableError: Together_aiException - Service unavailable,3,False,,,,,object_unstructured_baseline
+ex072,2,1,False,1315.0,456.0,17.235968112945557,0.0015642,object_unstructured_baseline
+ex026,**exception raised**: invalid literal for int() with base 10: 'top shelf',0,False,1282.0,10.0,6.796562910079956,0.0007861999999999999,object_unstructured_baseline
+ex059,**exception raised**: invalid literal for int() with base 10: 'storage room',3,False,1149.0,10.0,6.17659592628479,0.0007063999999999999,object_unstructured_baseline
+ex008,**exception raised**: invalid literal for int() with base 10: 'bedside table',0,False,1078.0,11.0,7.297510147094727,0.0006655,object_unstructured_baseline
+ex021,**exception raised**: invalid literal for int() with base 10: 'under the bed',3,False,979.0,11.0,2.783766031265259,0.0006060999999999999,object_unstructured_baseline
+ex063,**exception raised**: litellm.ServiceUnavailableError: ServiceUnavailableError: Together_aiException - Service unavailable,2,False,,,,,object_unstructured_baseline
+ex032,**exception raised**: litellm.ServiceUnavailableError: ServiceUnavailableError: Together_aiException - Service unavailable,0,False,,,,,object_unstructured_baseline
+ex084,1,1,True,1195.0,9.0,4.188835859298706,0.0007323,object_unstructured_baseline
+ex037,1,0,False,1326.0,87.0,4.4890570640563965,0.0009434999999999999,object_unstructured_baseline
+ex044,"**exception raised**: invalid literal for int() with base 10: ""veterinarian's office""",0,False,1281.0,14.0,4.269213914871216,0.0007924,object_unstructured_baseline
+ex078,**exception raised**: invalid literal for int() with base 10: 'cupboard',1,False,1284.0,10.0,0.8210511207580566,0.0007874,object_unstructured_baseline
+ex098,0,0,True,1032.0,310.0,18.609066009521484,0.0011462,object_unstructured_baseline
+ex050,**exception raised**: litellm.ServiceUnavailableError: ServiceUnavailableError: Together_aiException - Service unavailable,0,False,,,,,object_unstructured_baseline
+ex062,**exception raised**: invalid literal for int() with base 10: 'music stand',0,False,1214.0,10.0,0.7449684143066406,0.0007453999999999999,object_unstructured_baseline
+ex045,1,1,True,1068.0,9.0,0.8072531223297119,0.0006561,object_unstructured_baseline
+ex049,2,2,True,1652.0,9.0,0.9792749881744385,0.0010065,object_unstructured_baseline
+ex047,0,0,True,1078.0,63.0,4.43221116065979,0.0007539000000000001,object_unstructured_baseline
+ex104,**exception raised**: invalid literal for int() with base 10: 'storage',3,False,1084.0,9.0,0.7241342067718506,0.0006657,object_unstructured_baseline
+ex055,**exception raised**: invalid literal for int() with base 10: 'barn',0,False,1281.0,10.0,1.3950300216674805,0.0007855999999999999,object_unstructured_baseline
+ex089,2,0,False,1651.0,9.0,3.4924306869506836,0.0010059,object_unstructured_baseline
+ex012,2,2,True,980.0,466.0,32.25972390174866,0.0013802,object_unstructured_baseline
+ex036,1,1,True,1022.0,9.0,0.9989778995513916,0.0006284999999999999,object_unstructured_baseline
+ex023,0,0,True,1247.0,528.0,28.93855309486389,0.0016458,object_unstructured_baseline
+ex039,**exception raised**: litellm.ServiceUnavailableError: ServiceUnavailableError: Together_aiException - Service unavailable,3,False,,,,,object_unstructured_baseline
+ex040,0,1,False,1246.0,360.0,19.814338207244873,0.0013595999999999999,object_unstructured_baseline
+ex018,2,2,True,1380.0,98.0,4.508002996444702,0.0009946,object_unstructured_baseline
+ex079,**exception raised**: invalid literal for int() with base 10: 'storage closet',2,False,1326.0,10.0,1.0293171405792236,0.0008125999999999999,object_unstructured_baseline
+ex005,2,0,False,1471.0,9.0,3.1233301162719727,0.0008979,object_unstructured_baseline
+ex024,"**exception raised**: litellm.RateLimitError: RateLimitError: Together_aiException - We noticed too many requests from your account. We do our best to serve all requests, but due to high load, some bursty requests may not succeed. In this situation, we use your ""dynamic"" rate limit to properly classify errors for failed requests. Your dynamic rate limit is 0.4 RPM, while your current request rate is 1 RPM. Please refer to https://docs.together.ai/docs/rate-limits for more details about dynamic rate limits. If your workload is truly bursty, we recommend using batch or dedicated inference. For any further questions, please contact our sales team at https://www.together.ai/contact-sales.",2,False,,,,,object_unstructured_baseline
+ex007,1,1,True,1161.0,9.0,12.417968988418579,0.0007119,object_unstructured_baseline
+ex034,2,2,True,1114.0,306.0,12.336945056915283,0.0011886,object_unstructured_baseline
+ex085,4,4,True,1217.0,683.0,25.591413974761963,0.0018912999999999998,object_unstructured_baseline
+ex046,2,0,False,1234.0,140.0,4.216872930526733,0.0009784,object_unstructured_baseline
+ex002,2,3,False,1571.0,9.0,0.3865489959716797,0.0009578999999999999,object_unstructured_baseline
+ex051,**exception raised**: invalid literal for int() with base 10: 'storage closet',2,False,1152.0,10.0,0.40593624114990234,0.0007082,object_unstructured_baseline
+ex016,2,2,True,1284.0,9.0,0.434434175491333,0.0007857,object_unstructured_baseline
+ex038,0,0,True,1189.0,126.0,2.382351875305176,0.0009276,object_unstructured_baseline
+ex061,**exception raised**: invalid literal for int() with base 10: 'shelf',2,False,1274.0,10.0,0.48496007919311523,0.0007813999999999999,object_unstructured_baseline
+ex105,**exception raised**: invalid literal for int() with base 10: 'shelf',1,False,1217.0,10.0,0.5402319431304932,0.0007472,object_unstructured_baseline
+ex022,2,2,True,1190.0,373.0,11.664986848831177,0.0013481,object_unstructured_baseline
+ex006,0,0,True,1376.0,313.0,8.616420030593872,0.0013576999999999999,object_unstructured_baseline
+ex048,0,0,True,1113.0,465.0,16.314350128173828,0.0014583,object_unstructured_baseline
+ex087,2,2,True,1106.0,9.0,3.7663650512695312,0.0006789,object_unstructured_baseline
+ex096,0,0,True,1438.0,9.0,0.4431319236755371,0.0008780999999999999,object_unstructured_baseline
+ex070,**exception raised**: invalid literal for int() with base 10: 'top shelf',2,False,1282.0,10.0,0.5479590892791748,0.0007861999999999999,object_unstructured_baseline
+ex095,0,2,False,1386.0,9.0,1.049386978149414,0.0008468999999999999,object_unstructured_baseline
+ex019,1,0,False,1170.0,101.0,6.02608323097229,0.0008736999999999999,object_unstructured_baseline
+ex074,2,3,False,1218.0,75.0,2.097935914993286,0.0008583,object_unstructured_baseline
+ex043,**exception raised**: invalid literal for int() with base 10: 'storage compartment',3,False,1106.0,10.0,0.5775408744812012,0.0006806,object_unstructured_baseline
+ex090,**exception raised**: invalid literal for int() with base 10: 'shooting area',2,False,1148.0,313.0,9.098071098327637,0.0012209,object_unstructured_baseline
+ex020,0,0,True,1189.0,9.0,0.5920741558074951,0.0007287,object_unstructured_baseline
+ex000,0,0,True,1694.0,9.0,0.8357398509979248,0.0010317,object_unstructured_baseline
+ex101,2,3,False,1039.0,9.0,0.6981909275054932,0.0006387,object_unstructured_baseline
+ex091,1,1,True,1314.0,9.0,1.0474631786346436,0.0008037,object_unstructured_baseline
+ex057,0,0,True,1127.0,76.0,2.9324939250946045,0.0008054,object_unstructured_baseline
+ex099,0,2,False,1171.0,9.0,0.6037721633911133,0.0007178999999999999,object_unstructured_baseline
+ex053,2,3,False,1170.0,9.0,13.80246877670288,0.0007172999999999999,object_unstructured_baseline
+ex093,2,0,False,1234.0,253.0,11.724082946777344,0.0011705,object_unstructured_baseline
+ex025,2,1,False,1276.0,394.0,17.18581199645996,0.0014353999999999999,object_unstructured_baseline
+ex071,2,2,True,1375.0,85.0,3.5158731937408447,0.0009695,object_unstructured_baseline
+ex088,**exception raised**: invalid literal for int() with base 10: 'storage',3,False,1084.0,9.0,0.4145090579986572,0.0006657,object_unstructured_baseline
+ex077,**exception raised**: invalid literal for int() with base 10: 'shelf',0,False,1161.0,10.0,1.1495916843414307,0.0007136,object_unstructured_baseline
+ex064,**exception raised**: invalid literal for int() with base 10: 'storage box',4,False,1240.0,10.0,1.5353820323944092,0.000761,object_unstructured_baseline
+ex029,**exception raised**: invalid literal for int() with base 10: 'cabinets',2,False,1148.0,11.0,1.255727767944336,0.0007074999999999999,object_unstructured_baseline
+ex027,2,2,True,1266.0,9.0,1.6698741912841797,0.0007748999999999999,object_unstructured_baseline
+ex092,3,3,True,1106.0,66.0,3.1603498458862305,0.0007758,object_unstructured_baseline
+ex103,**exception raised**: invalid literal for int() with base 10: 'kitchen counter',1,False,1032.0,11.0,0.9636561870574951,0.0006379,object_unstructured_baseline
+ex004,1,1,True,1096.0,146.0,5.169976711273193,0.0009058,object_unstructured_baseline
+ex054,3,1,False,1265.0,98.0,4.67508602142334,0.0009256000000000001,object_unstructured_baseline
+ex075,1,3,False,1475.0,427.0,20.26504683494568,0.0016109,object_unstructured_baseline
+ex011,1,1,True,1235.0,274.0,3.2880289554595947,0.0012068,object_unstructured_baseline
+ex069,0,0,True,1359.0,276.0,3.0130093097686768,0.0012845999999999999,object_unstructured_baseline
+ex097,**exception raised**: invalid literal for int() with base 10: 'equipment rack',0,False,1265.0,11.0,1.0297372341156006,0.0007777,object_unstructured_baseline
+ex086,0,3,False,1380.0,122.0,5.3856446743011475,0.0010354,object_unstructured_baseline
+ex013,3,1,False,1126.0,166.0,9.580708026885986,0.0009578,object_unstructured_baseline
+ex102,2,0,False,1376.0,9.0,0.8338110446929932,0.0008409,object_unstructured_baseline
+ex017,**exception raised**: invalid literal for int() with base 10: 'storage room',2,False,1375.0,10.0,3.570823907852173,0.000842,object_unstructured_baseline
+ex028,2,3,False,1153.0,9.0,0.469257116317749,0.0007071,object_unstructured_baseline
+ex031,2,3,False,1218.0,9.0,5.6829071044921875,0.0007461,object_unstructured_baseline
+ex035,2,0,False,1326.0,471.0,4.816253185272217,0.0015963,object_unstructured_baseline
+ex094,**exception raised**: invalid literal for int() with base 10: 'yoga hall',2,False,1232.0,11.0,0.5145418643951416,0.0007578999999999999,object_unstructured_baseline
+ex003,3,3,True,1340.0,502.0,5.346125841140747,0.0016573999999999998,object_unstructured_baseline
+ex014,0,2,False,1199.0,97.0,4.460392951965332,0.0008843,object_unstructured_baseline
+ex081,1,1,True,1472.0,238.0,9.649144887924194,0.0012878,object_unstructured_baseline

@@ -1,0 +1,48 @@
+# L4 v2: deterministic calculator selection + question-aware extraction/refinement
+llm:
+  model: together_ai/deepseek-ai/DeepSeek-V3.1
+  max_tokens: 65536
+
+cachier:
+  cache_dir: llm_cache
+  enable_caching: true
+
+evaluate:
+  result_dir: results
+  expt_name: workflowv2
+  entry_point: calculate_medical_value
+
+dataset:
+  split: train
+  stratified: true
+  n: null
+  shuffle_seed: 42
+
+ptools:
+  select_calculator_from_question:
+    method: direct
+    fn: ptools.select_calculator_from_question_impl
+  identify_calculator:
+    method: simulate
+  extract_clinical_values:
+    method: simulate
+  analyze_scoring_conditions:
+    method: simulate
+  extract_calculator_values:
+    method: simulate
+  extract_calculator_values_v2:
+    method: simulate
+  refine_calculator_values_v2:
+    method: simulate
+  repair_missing_values:
+    method: simulate
+  compute_calculation:
+    method: direct
+    fn: ptools.compute_calculation_impl
+  simulate_medical_value:
+    method: simulate
+  simulate_medical_value_text:
+    method: simulate
+  calculate_medical_value:
+    method: direct
+    fn: ptools.workflow_v2

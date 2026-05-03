@@ -1,0 +1,111 @@
+case_name,predicted_output,predicted_numeric,expected_output,correct,exact_match,within_limits,absolute_error,calculator_name,category,output_type,input_tokens,output_tokens,latency,cost,expt_name
+train.10041,**exception raised**: Exceeded maximum retries (1) for output validation,,11.0,0.0,0.0,0.0,inf,Glasgow Coma Score (GCS),severity,integer,,,,,rc_iter6
+train.7540,2.01,2.01,2.00505,1.0,1.0,1.0,0.004949999999999566,Body Surface Area Calculator,physical,decimal,7323.0,151.0,23.314583778381348,0.00205725,rc_iter6
+train.3918,47.85,47.85,47.85442,1.0,1.0,1.0,0.004419999999996094,Ideal Body Weight,physical,decimal,6713.0,115.0,20.301438808441162,0.0018507499999999997,rc_iter6
+train.9633,4.0,4.0,4.0,1.0,1.0,1.0,0.0,Sequential Organ Failure Assessment (SOFA) Score,risk,integer,8043.0,225.0,22.422970294952393,0.00234825,rc_iter6
+train.6831,279.54,279.54,279.53562,1.0,1.0,1.0,0.00438000000002603,QTc Fridericia Calculator,physical,decimal,4504.0,140.0,23.065311670303345,0.001336,rc_iter6
+train.1016,2.0,2.0,2.0,1.0,1.0,1.0,0.0,CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk,risk,integer,7396.0,145.0,18.26873254776001,0.0020664999999999998,rc_iter6
+train.6383,171.31,171.31,227.2154,0.0,0.0,0.0,55.905399999999986,LDL Calculated,lab test,decimal,6696.0,139.0,19.399629831314087,0.0018824999999999998,rc_iter6
+train.6631,1.0,1.0,1.0,1.0,1.0,1.0,0.0,SIRS Criteria,diagnosis,integer,6515.0,176.0,17.78643298149109,0.00189275,rc_iter6
+train.10103,**exception raised**: Exceeded maximum retries (1) for output validation,,10.0,0.0,0.0,0.0,inf,Glasgow Coma Score (GCS),severity,integer,,,,,rc_iter6
+train.7024,375.25,375.25,375.25215,1.0,1.0,1.0,0.0021499999999718966,QTc Hodges Calculator,physical,decimal,4485.0,167.0,23.834962368011475,0.00137175,rc_iter6
+train.4050,786.0,786.0,786.03615,1.0,0.0,1.0,0.036150000000020555,QTc Bazett Calculator,physical,decimal,4534.0,131.0,17.98093032836914,0.00133,rc_iter6
+train.6594,1.0,1.0,1.0,1.0,1.0,1.0,0.0,PERC Rule for Pulmonary Embolism,diagnosis,integer,6636.0,218.0,25.184353351593018,0.001986,rc_iter6
+train.8995,-1.92,-1.92,1.1875,0.0,0.0,0.0,3.1075,Albumin Corrected Delta Ratio,lab test,decimal,12263.0,219.0,42.77902054786682,0.0033942499999999997,rc_iter6
+train.6085,3.0,3.0,-0.97198,0.0,0.0,0.0,3.97198,Free Water Deficit,lab test,decimal,7707.0,122.0,38.822407960891724,0.0021097499999999996,rc_iter6
+train.10024,6.0,6.0,9.0,0.0,0.0,0.0,3.0,Caprini Score for Venous Thromboembolism (2005),risk,integer,8883.0,181.0,20.90661644935608,0.00249225,rc_iter6
+train.9815,1.62,1.62,1.61975,1.0,1.0,1.0,0.0002500000000000835,HOMA-IR (Homeostatic Model Assessment for Insulin Resistance),lab test,decimal,7559.0,113.0,17.984164714813232,0.00205925,rc_iter6
+train.5894,2.0,2.0,2.0,1.0,1.0,1.0,0.0,FeverPAIN Score for Strep Pharyngitis,diagnosis,integer,8663.0,176.0,19.26872754096985,0.0024297499999999996,rc_iter6
+train.0053,69.32,69.32,69.13421,1.0,0.0,1.0,0.18578999999999724,Creatinine Clearance (Cockcroft-Gault Equation),lab test,decimal,10266.0,331.0,41.564302921295166,0.0030629999999999998,rc_iter6
+train.10371,5.0,5.0,5.0,1.0,1.0,1.0,0.0,HAS-BLED Score for Major Bleeding Risk,risk,integer,8665.0,245.0,22.43376398086548,0.0025337499999999995,rc_iter6
+train.5591,286.3,286.3,286.30159,1.0,1.0,1.0,0.0015899999999646752,Serum Osmolality,lab test,decimal,10716.0,285.0,39.15294885635376,0.0031065,rc_iter6
+train.4303,8.89,8.89,8.89383,1.0,1.0,1.0,0.00382999999999889,Fibrosis-4 (FIB-4) Index for Liver Fibrosis,lab test,decimal,6574.0,179.0,18.982258081436157,0.001912,rc_iter6
+train.5151,124.0,124.0,124.0,1.0,1.0,1.0,0.0,Maintenance Fluids Calculations,physical,decimal,5562.0,164.0,20.712627410888672,0.0016365,rc_iter6
+train.1387,88.0,88.0,88.0,1.0,1.0,1.0,0.0,Mean Arterial Pressure (MAP),physical,decimal,5687.0,124.0,20.109426975250244,0.0016077499999999998,rc_iter6
+train.8923,8.0,8.0,8.0,1.0,1.0,1.0,0.0,Albumin Corrected Anion Gap,lab test,decimal,10010.0,278.0,41.37400412559509,0.0029195,rc_iter6
+train.8324,72.54,72.54,72.54572,1.0,1.0,1.0,0.005719999999996617,Adjusted Body Weight,physical,decimal,8220.0,215.0,20.028480768203735,0.0023775,rc_iter6
+train.8486,**exception raised**: Exceeded maximum retries (1) for output validation,,-1.0,0.0,0.0,0.0,inf,Delta Gap,lab test,decimal,,,,,rc_iter6
+train.9685,**exception raised**: Exceeded maximum retries (1) for output validation,,9.0,0.0,0.0,0.0,inf,Glasgow-Blatchford Bleeding Score (GBS),risk,integer,,,,,rc_iter6
+train.10233,12.0,12.0,7.426,0.0,0.0,0.0,4.574,Framingham Risk Score for Hard Coronary Heart Disease,lab test,decimal,8157.0,193.0,21.899444580078125,0.0023287499999999997,rc_iter6
+train.8045,69.16,69.16,69.16472,1.0,1.0,1.0,0.004720000000006053,Target weight,physical,decimal,4390.0,153.0,18.987632036209106,0.001327,rc_iter6
+train.9201,82.0,82.0,104.0,0.0,0.0,0.0,22.0,Morphine Milligram Equivalents (MME) Calculator,dosage,integer,4551.0,169.0,15.20266604423523,0.00139125,rc_iter6
+train.8792,**exception raised**: Exceeded maximum retries (1) for output validation,,-2.26087,0.0,0.0,0.0,inf,Delta Ratio,lab test,decimal,,,,,rc_iter6
+train.8968,**exception raised**: Exceeded maximum retries (1) for output validation,,2.55,0.0,0.0,0.0,inf,Albumin Corrected Delta Gap,lab test,decimal,,,,,rc_iter6
+train.8628,18.7,18.7,18.7,1.0,1.0,1.0,0.0,Delta Gap,lab test,decimal,5497.0,217.0,21.275952339172363,0.00169975,rc_iter6
+train.8080,65.38,65.38,65.38064,1.0,1.0,1.0,0.0006400000000041928,Target weight,physical,decimal,4334.0,143.0,21.00969386100769,0.0012980000000000001,rc_iter6
+train.10246,**exception raised**: Exceeded maximum retries (1) for output validation,,0.589,0.0,0.0,0.0,inf,Framingham Risk Score for Hard Coronary Heart Disease,lab test,decimal,,,,,rc_iter6
+train.2058,17.94,17.94,17.94182,1.0,1.0,1.0,0.0018199999999986005,Body Mass Index (BMI),physical,decimal,6769.0,111.0,17.889132499694824,0.00185875,rc_iter6
+train.9082,11242005.0,11242005.0,11/24/2005,0.0,0.0,0.0,1.0,Estimated Due Date,date,date,4739.0,151.0,22.393100261688232,0.00141125,rc_iter6
+train.8148,53.288,53.288,53.28588,1.0,1.0,1.0,0.0021199999999979013,Adjusted Body Weight,physical,decimal,7288.0,235.0,21.533068418502808,0.0021745,rc_iter6
+train.9748,0.0994,0.0994,0.09944,1.0,1.0,1.0,3.999999999999837e-05,Fractional Excretion of Sodium (FENa),lab test,decimal,8147.0,191.0,18.8882474899292,0.00232325,rc_iter6
+train.10494,14.0,14.0,13.0,0.0,0.0,0.0,1.0,APACHE II Score,risk,integer,7487.0,235.0,32.60805344581604,0.00222425,rc_iter6
+train.9456,9.0,9.0,8.0,0.0,0.0,0.0,1.0,Child-Pugh Score for Cirrhosis Mortality,severity,integer,7688.0,187.0,22.17115306854248,0.0022025,rc_iter6
+train.10276,4.0,4.0,4.0,1.0,1.0,1.0,0.0,Charlson Comorbidity Index (CCI),risk,integer,8435.0,172.0,24.5828959941864,0.00236675,rc_iter6
+train.9295,0.07012015,0.07012015,07/01/2015,0.0,0.0,0.0,1.0,Estimated of Conception,date,date,4612.0,176.0,19.33355164527893,0.0014169999999999999,rc_iter6
+train.10172,18.0,18.0,27.0,0.0,0.0,0.0,9.0,MELD Na (UNOS/OPTN),lab test,decimal,8947.0,168.0,25.51194190979004,0.00248875,rc_iter6
+train.6919,449.09,449.09,449.08992,1.0,1.0,1.0,7.999999996854967e-05,QTc Framingham Calculator,physical,decimal,4431.0,128.0,22.607175827026367,0.0012997500000000001,rc_iter6
+train.9880,**exception raised**: Exceeded maximum retries (1) for output validation,,128.0,0.0,0.0,0.0,inf,PSI Score: Pneumonia Severity Index for CAP,severity,integer,,,,,rc_iter6
+train.9770,**exception raised**: Exceeded maximum retries (1) for output validation,,0.82351,0.0,0.0,0.0,inf,Fractional Excretion of Sodium (FENa),lab test,decimal,,,,,rc_iter6
+train.9405,6.0,6.0,"('6 weeks', '0 days')",0.0,0.0,0.0,1.0,Estimated Gestational Age,date,date,4789.0,170.0,19.577340126037598,0.00145225,rc_iter6
+train.9664,**exception raised**: Exceeded maximum retries (1) for output validation,,0.0,0.0,0.0,0.0,inf,Glasgow-Blatchford Bleeding Score (GBS),risk,integer,,,,,rc_iter6
+train.4799,110.0,110.0,110.0,1.0,1.0,1.0,0.0,Maintenance Fluids Calculations,physical,decimal,6556.0,160.0,20.4812912940979,0.0018789999999999998,rc_iter6
+train.5659,292.63,292.63,292.62698,1.0,1.0,1.0,0.003019999999992251,Serum Osmolality,lab test,decimal,5900.0,174.0,24.389878511428833,0.001736,rc_iter6
+train.10338,**exception raised**: Exceeded maximum retries (1) for output validation,,3.0,0.0,0.0,0.0,inf,HAS-BLED Score for Major Bleeding Risk,risk,integer,,,,,rc_iter6
+train.6956,378.71,378.71,378.71216,1.0,1.0,1.0,0.0021600000000034925,QTc Framingham Calculator,physical,decimal,4628.0,153.0,21.482614755630493,0.0013865000000000001,rc_iter6
+train.1122,99.67,99.67,99.66667,1.0,1.0,1.0,0.003330000000005384,Mean Arterial Pressure (MAP),physical,decimal,4780.0,128.0,17.652533292770386,0.0013869999999999998,rc_iter6
+train.4208,1.0,1.0,0.0,0.0,0.0,0.0,1.0,HEART Score for Major Cardiac Events,risk,integer,4767.0,187.0,20.291534662246704,0.0014722499999999998,rc_iter6
+train.4365,0.45,0.45,0.44977,1.0,1.0,1.0,0.00023000000000000798,Fibrosis-4 (FIB-4) Index for Liver Fibrosis,lab test,decimal,7111.0,177.0,22.654332160949707,0.00204325,rc_iter6
+train.4056,393.7,393.7,393.6776,1.0,0.0,1.0,0.02240000000000464,QTc Bazett Calculator,physical,decimal,4449.0,150.0,16.357419729232788,0.00133725,rc_iter6
+train.4425,0.0,0.0,0.0,1.0,1.0,1.0,0.0,Centor Score (Modified/McIsaac) for Strep Pharyngitis,severity,integer,8983.0,269.0,20.204573154449463,0.0026492499999999997,rc_iter6
+train.2968,**exception raised**: Exceeded maximum retries (1) for output validation,,0.0,0.0,0.0,0.0,inf,Wells' Criteria for Pulmonary Embolism,risk,integer,,,,,rc_iter6
+train.6593,0.0,0.0,1.0,0.0,0.0,0.0,1.0,PERC Rule for Pulmonary Embolism,diagnosis,integer,8507.0,232.0,20.47634792327881,0.0024747499999999995,rc_iter6
+train.9518,0.0,0.0,0.0,1.0,1.0,1.0,0.0,Wells' Criteria for DVT,risk,decimal,7905.0,203.0,18.929185390472412,0.00228075,rc_iter6
+train.8969,13.5,13.5,1.5,0.0,0.0,0.0,12.0,Albumin Corrected Delta Gap,lab test,decimal,11277.0,291.0,20.645562171936035,0.0032557499999999995,rc_iter6
+train.5892,2.0,2.0,3.0,0.0,0.0,0.0,1.0,FeverPAIN Score for Strep Pharyngitis,diagnosis,integer,7500.0,242.0,19.38113284111023,0.002238,rc_iter6
+train.6160,**exception raised**: Exceeded maximum retries (1) for output validation,,14.0,0.0,0.0,0.0,inf,Anion Gap,lab test,decimal,,,,,rc_iter6
+train.9346,77.857,77.857,"('35 weeks', '6 days')",0.0,0.0,0.0,1.0,Estimated Gestational Age,date,date,4763.0,139.0,19.847413539886475,0.0013992499999999999,rc_iter6
+train.5406,136.5,136.5,137.184,1.0,0.0,1.0,0.6839999999999975,Sodium Correction for Hyperglycemia,lab test,decimal,7248.0,182.0,20.140928268432617,0.002085,rc_iter6
+train.2558,13.5,13.5,13.5,1.0,1.0,1.0,0.0,Calcium Correction for Hypoalbuminemia,lab test,decimal,6246.0,145.0,19.257983446121216,0.001779,rc_iter6
+train.0924,2.0,2.0,2.0,1.0,1.0,1.0,0.0,CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk,risk,integer,4819.0,182.0,16.246081113815308,0.00147775,rc_iter6
+train.9016,3.5,3.5,3.5,1.0,1.0,1.0,0.0,Albumin Corrected Delta Ratio,lab test,decimal,10383.0,208.0,29.468005895614624,0.0029077499999999997,rc_iter6
+train.3731,**exception raised**: Exceeded maximum retries (1) for output validation,,48.75993,0.0,0.0,0.0,inf,Ideal Body Weight,physical,decimal,,,,,rc_iter6
+train.9999,0.0,0.0,11.0,0.0,0.0,0.0,11.0,Caprini Score for Venous Thromboembolism (2005),risk,integer,4675.0,186.0,28.71773600578308,0.0014477499999999998,rc_iter6
+train.9608,**exception raised**: Exceeded maximum retries (1) for output validation,,8.0,0.0,0.0,0.0,inf,Sequential Organ Failure Assessment (SOFA) Score,risk,integer,,,,,rc_iter6
+train.7107,344.17,344.17,344.16667,1.0,1.0,1.0,0.003330000000005384,QTc Rautaharju Calculator,physical,decimal,4410.0,136.0,16.554247617721558,0.0013065,rc_iter6
+train.3408,32.2,32.2,32.20125,1.0,1.0,1.0,0.0012499999999988631,MDRD GFR Equation,lab test,decimal,6941.0,154.0,25.078878164291382,0.0019662499999999997,rc_iter6
+train.10435,**exception raised**: Exceeded maximum retries (1) for output validation,,2.0,0.0,0.0,0.0,inf,Revised Cardiac Risk Index for Pre-Operative Risk,risk,integer,,,,,rc_iter6
+train.2226,18.0,18.0,17.99816,1.0,1.0,1.0,0.001840000000001396,Body Mass Index (BMI),physical,decimal,8001.0,114.0,19.835591554641724,0.00217125,rc_iter6
+train.6854,510.5,510.5,510.5417,1.0,0.0,1.0,0.04169999999999163,QTc Fridericia Calculator,physical,decimal,4516.0,129.0,24.318472623825073,0.0013225,rc_iter6
+train.9556,3.0,3.0,3.0,1.0,1.0,1.0,0.0,Wells' Criteria for DVT,risk,decimal,7730.0,199.0,19.27847981452942,0.002231,rc_iter6
+train.3017,**exception raised**: Exceeded maximum retries (1) for output validation,,9.0,0.0,0.0,0.0,inf,Wells' Criteria for Pulmonary Embolism,risk,integer,,,,,rc_iter6
+train.9309,0.0,0.0,05/12/2003,0.0,0.0,0.0,1.0,Estimated of Conception,date,date,3025.0,76.0,13.920060396194458,0.0008702499999999999,rc_iter6
+train.4429,**exception raised**: Exceeded maximum retries (1) for output validation,,2.0,0.0,0.0,0.0,inf,Centor Score (Modified/McIsaac) for Strep Pharyngitis,severity,integer,,,,,rc_iter6
+train.6037,0.0,0.0,-0.15,0.0,0.0,0.0,0.15,Free Water Deficit,lab test,decimal,8349.0,226.0,24.403047800064087,0.0024262499999999996,rc_iter6
+train.6413,**exception raised**: Exceeded maximum retries (1) for output validation,,2.0,0.0,0.0,0.0,inf,CURB-65 Score for Pneumonia Severity,risk,integer,,,,,rc_iter6
+train.10334,**exception raised**: Exceeded maximum retries (1) for output validation,,3.0,0.0,0.0,0.0,inf,Charlson Comorbidity Index (CCI),risk,integer,,,,,rc_iter6
+train.9798,8.33,8.33,8.33333,1.0,1.0,1.0,0.003330000000000055,HOMA-IR (Homeostatic Model Assessment for Insulin Resistance),lab test,decimal,6468.0,138.0,16.49320101737976,0.0018239999999999999,rc_iter6
+train.6382,**exception raised**: Exceeded maximum retries (1) for output validation,,111.6,0.0,0.0,0.0,inf,LDL Calculated,lab test,decimal,,,,,rc_iter6
+train.10410,**exception raised**: Exceeded maximum retries (1) for output validation,,1.0,0.0,0.0,0.0,inf,Revised Cardiac Risk Index for Pre-Operative Risk,risk,integer,,,,,rc_iter6
+train.2715,8.632,8.632,8.647,1.0,0.0,1.0,0.015000000000000568,Calcium Correction for Hypoalbuminemia,lab test,decimal,7897.0,263.0,27.1137113571167,0.0023687499999999998,rc_iter6
+train.10164,38.0,38.0,33.0,0.0,0.0,0.0,5.0,MELD Na (UNOS/OPTN),lab test,decimal,8894.0,180.0,32.22962188720703,0.0024934999999999996,rc_iter6
+train.8902,7.25,7.25,7.25,1.0,1.0,1.0,0.0,Albumin Corrected Anion Gap,lab test,decimal,10312.0,227.0,32.81955075263977,0.0029185,rc_iter6
+train.3241,35.87,35.87,35.86756,1.0,1.0,1.0,0.0024399999999999977,MDRD GFR Equation,lab test,decimal,8089.0,205.0,24.413421392440796,0.00232975,rc_iter6
+train.6213,15.0,15.0,15.0,1.0,1.0,1.0,0.0,Anion Gap,lab test,decimal,5719.0,188.0,18.91943597793579,0.0017117500000000002,rc_iter6
+train.6972,605.5,605.5,605.50145,1.0,1.0,1.0,0.0014499999999770807,QTc Hodges Calculator,physical,decimal,4417.0,106.0,19.956263065338135,0.00126325,rc_iter6
+train.0192,32.37,32.37,32.10919,1.0,0.0,1.0,0.2608099999999993,CKD-EPI Equations for Glomerular Filtration Rate,lab test,decimal,17162.0,290.0,59.26429605484009,0.0047255,rc_iter6
+train.9067,20120907.0,20120907.0,09/05/2012,0.0,0.0,0.0,1.0,Estimated Due Date,date,date,4839.0,205.0,16.507090091705322,0.00151725,rc_iter6
+train.0019,188.125,188.125,188.125,1.0,1.0,1.0,0.0,Creatinine Clearance (Cockcroft-Gault Equation),lab test,decimal,9981.0,253.0,20.835851907730103,0.00287475,rc_iter6
+train.0443,85.11,85.11,56.60281,0.0,0.0,0.0,28.50719,CKD-EPI Equations for Glomerular Filtration Rate,lab test,decimal,6337.0,141.0,22.71045160293579,0.00179575,rc_iter6
+train.9883,98.0,98.0,108.0,0.0,0.0,0.0,10.0,PSI Score: Pneumonia Severity Index for CAP,severity,integer,8219.0,290.0,23.340205907821655,0.0024897499999999998,rc_iter6
+train.7454,1.72,1.72,1.71949,1.0,1.0,1.0,0.0005100000000000104,Body Surface Area Calculator,physical,decimal,5487.0,133.0,16.466491222381592,0.00157125,rc_iter6
+train.6398,1.0,1.0,1.0,1.0,1.0,1.0,0.0,CURB-65 Score for Pneumonia Severity,risk,integer,7701.0,230.0,19.40240716934204,0.0022702499999999997,rc_iter6
+train.8836,**exception raised**: Exceeded maximum retries (1) for output validation,,-0.27273,0.0,0.0,0.0,inf,Delta Ratio,lab test,decimal,,,,,rc_iter6
+train.7090,694.6,694.6,694.6,1.0,1.0,1.0,0.0,QTc Rautaharju Calculator,physical,decimal,4489.0,143.0,18.09180474281311,0.00133675,rc_iter6
+train.6754,**exception raised**: Exceeded maximum retries (1) for output validation,,3.0,0.0,0.0,0.0,inf,SIRS Criteria,diagnosis,integer,,,,,rc_iter6
+train.9450,8.0,8.0,7.0,0.0,0.0,0.0,1.0,Child-Pugh Score for Cirrhosis Mortality,severity,integer,7839.0,220.0,17.89376735687256,0.00228975,rc_iter6
+train.4226,**exception raised**: Exceeded maximum retries (1) for output validation,,5.0,0.0,0.0,0.0,inf,HEART Score for Major Cardiac Events,risk,integer,,,,,rc_iter6
+train.9260,176.0,176.0,182.0,1.0,0.0,1.0,6.0,Morphine Milligram Equivalents (MME) Calculator,dosage,integer,4691.0,168.0,16.72727632522583,0.00142475,rc_iter6
+train.10524,30.0,30.0,35.0,0.0,0.0,0.0,5.0,APACHE II Score,risk,integer,8092.0,224.0,24.879419803619385,0.002359,rc_iter6
+train.5523,117.3,117.3,119.944,1.0,0.0,1.0,2.6440000000000055,Sodium Correction for Hyperglycemia,lab test,decimal,8359.0,191.0,19.88001012802124,0.00237625,rc_iter6
+train.9160,45.39,45.39,45.3583,1.0,0.0,1.0,0.03170000000000073,Steroid Conversion Calculator,dosage,integer,4391.0,133.0,3.115703582763672,0.00129725,rc_iter6
+train.9123,7.2,7.2,7.1955,1.0,1.0,1.0,0.0045000000000001705,Steroid Conversion Calculator,dosage,integer,4407.0,131.0,15.803481101989746,0.00129825,rc_iter6

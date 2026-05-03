@@ -1,0 +1,21 @@
+You should compute the total cost (including the flight ticket fee, checked bag fees, cost of special needs) according to the policies.
+
+The policies of American Airlines are as follows:
+
+$rules_text
+
+Here is an example for you to follow:
+<example>
+John is a Main Plus Class passenger flying from Orlando to Lima with the following items:
+1. A backpack: 21 x 11 x 7 inches, 9 lbs;
+2. A luggage box: 51 x 24 x 27 inches, 65 lbs;
+3. A backpack: 46 x 29 x 24 inches, 85 lbs;
+4. A luggage box: 35 x 12 x 11 inches, 44 lbs;
+5. A luggage box: 30 x 11 x 10 inches, 33 lbs;
+John's flight ticket is $$448. Compute the total cost for him step by step and end your response with "The total cost is $$xxx." (xxx is a number)
+Your response:
+<answer>1198</answer>
+</example>
+
+$problem_text Compute the total cost step by step (don't omit any bag) and end your response with <answer>xxx</answer> where xxx is the total cost as a number.
+Your response:

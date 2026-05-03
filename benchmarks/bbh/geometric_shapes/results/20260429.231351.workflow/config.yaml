@@ -1,0 +1,29 @@
+llm:
+  model: together_ai/deepseek-ai/DeepSeek-V3.1
+cachier:
+  cache_dir: C:\Users\Cassandra\Desktop\Work Projects\Secret Agent Project\secretagent\benchmarks\bbh\geometric_shapes\llm_cache
+evaluate:
+  result_dir: C:\Users\Cassandra\Desktop\Work Projects\Secret Agent Project\secretagent\benchmarks\bbh\geometric_shapes\results
+  expt_name: workflow
+dataset:
+  split: test
+  shuffle_seed: 137
+ptools:
+  extract_path:
+    method: simulate
+  extract_options:
+    method: simulate
+  decompose_path:
+    method: simulate
+  describe_command:
+    method: simulate
+  compute_angle:
+    method: simulate
+  describe_shape:
+    method: simulate
+  select_option:
+    method: simulate
+  identify_shape:
+    method: direct
+    fn: ptools.geometric_shapes_workflow
+root: C:\Users\Cassandra\Desktop\Work Projects\Secret Agent Project\secretagent\benchmarks\bbh\geometric_shapes

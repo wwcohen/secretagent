@@ -1,0 +1,39 @@
+```python
+"""RuleArena benchmark tools and workflows.
+
+Domains: airline (baggage fees), tax (US federal income tax), nba (CBA compliance).
+Experiment levels:
+  L0  - oracle: ground truth params fed directly to Python calculators
+  L0F - CoT: single LLM call per domain with chain-of-thought prompt
+  L1  - extract: LLM extracts structured params, Python computes answer
+  L3  - ReAct: autonomous agent with extraction and calculator tools
+
+Example CLI commands:
+    uv run expt.py run --help
+    uv run expt.py run evaluate.expt_name=l1_airline dataset.domain=airline \
+        ptools.compute_rulearena_answer.method=direct \
+        ptools.compute_rulearena_answer.fn=ptools.l1_extract_workflow
+"""
+
+import importlib.util
+import json
+# from math import e
+import re
+import sys
+from pathlib import Path
+from typing import Any
+from pydantic import BaseModel
+
+# from secretagent.benchmarks.rulearena.search_spaces import tax_space
+from secretagent.core import interface, implement_via
+
+_DATA_DIR = Path(__file__).parent / "data"
+
+class BagItem(BaseModel):
+    id: int
+    name: str
+    size: list[int]  # [length, width, height] in inches
+    weight: int       # pounds
+
+class AirlineParams(BaseModel):
+    

@@ -1,0 +1,30 @@
+interface: ptools.are_sports_in_sentence_consistent
+
+models:
+  - together_ai/deepseek-ai/DeepSeek-V3.1
+  - together_ai/deepseek-ai/DeepSeek-V3
+  - together_ai/openai/gpt-oss-20b
+  - together_ai/openai/gpt-oss-120b
+  - gemini/gemini-2.5-flash
+  - gemini/gemini-2.5-flash-lite
+
+methods:
+  structured_baseline:
+    - ptools.are_sports_in_sentence_consistent.method=simulate
+  unstructured_baseline:
+    - ptools.are_sports_in_sentence_consistent.method=direct
+    - ptools.are_sports_in_sentence_consistent.fn=ptools.zeroshot_unstructured_workflow
+  workflow:
+    - ptools.are_sports_in_sentence_consistent.method=direct
+    - ptools.are_sports_in_sentence_consistent.fn=ptools.sports_understanding_workflow
+  react:
+    - ptools.are_sports_in_sentence_consistent.method=simulate_pydantic
+    - ptools.are_sports_in_sentence_consistent.tools=[ptools.analyze_sentence,ptools.sport_for,ptools.consistent_sports]
+
+sub_interfaces:
+  ptools.analyze_sentence:
+    methods: [simulate]
+  ptools.sport_for:
+    methods: [simulate]
+  ptools.consistent_sports:
+    methods: [simulate]

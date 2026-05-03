@@ -76,7 +76,7 @@ class Interface(BaseModel):
         return f'{self.name}({arg_str}{sep}{kw_str}) -> {return_type}'
 
 
-def interface(func: Callable) -> Interface:
+def interface(func: Callable | None = None, **_kw) -> Interface | Callable:
     """Decorator to make a stub or function into an Interface.
 
     Example use:
@@ -86,7 +86,14 @@ def interface(func: Callable) -> Interface:
         ...
 
     translate.implement_via('simulate_from_stub', model="claude-haiku")
+
+    Generated ptools sometimes use ``@interface(method="...")``. Binding
+    methods are still supplied through config, so decorator keywords are
+    accepted and ignored for compatibility with generated code.
     """
+    if func is None:
+        return lambda f: interface(f)
+
     full_src = inspect.getsource(func)
     trimmed_src = full_src[full_src.find('\ndef')+1:]
     if not config.get('simulate.full_src'):

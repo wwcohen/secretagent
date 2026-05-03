@@ -1,0 +1,8 @@
+An analysis of the failure cases reveals three specific issues:
+1. **Unidentified Line Segments:** For `valid.051`, the pipeline accurately extracts a single line segment (`M 25.0,38.0 L 89.0,58.0`) but the LLM doesn't know how to classify a 1-sided shape, resulting in "unknown shape". Explicitly adding `1 side = line` to the rules fixes this instantly.
+2. **Parallelogram to Trapezoid Mapping:** For `valid.071`, the angles are `89.7` and `90.1`. The shape is a parallelogram, not a true rectangle (which must be exactly 90.0 degrees). Because `parallelogram` isn't an option in BIG-bench for this subset, the dataset falls back to its inclusive parent class `trapezoid`. We can explicitly instruct the LLM on this non-90 mapping.
+3. **Missing Z, H, and V Command Resolutions:** The previous `normalize_path` failed to parse implicit `Z` closures and 1-parameter `H` (horizontal) / `V` (vertical) lines, silently mapping them to 0-length segments. Explicitly converting them into standard `L` (line) commands ensures geometric completeness for shapes utilizing these SVGs.
+
+*(Note: `valid.037` has coordinates of a perfect, exactly 90.0 degree axis-aligned rectangle but expects 'trapezoid'. Overfitting the logic to classify perfect rectangles as trapezoids would cause severe regressions on standard rectangle questions. We handle the true parallelogram case and treat the perfect-rectangle-trapezoid as a dataset noise artifact).*
+
+Here is the targeted improvement.

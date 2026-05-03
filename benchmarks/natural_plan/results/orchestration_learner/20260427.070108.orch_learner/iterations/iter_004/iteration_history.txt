@@ -1,0 +1,33 @@
+Iter 0: train=47.1%, eval=50.0% — KEPT
+Iter 1: train=0.0%, eval=0.0% — ROLLED BACK
+  What was tried: 1. **Failure Pattern Identified**: The LLM heavily struggles with two critical algorithmic components: finding a Hamiltonian path that respects exact time windows (e.g., `find_valid_route` outputs paths that place cities outside their mandatory dates), and strictly adhering to the requested output format in `build_trip_plan`. The LLM often realizes a time-window constraint is violated and outputs an apology instead of an itinerary. Additionally, the LLM treats "from A to B" directed flights as bidirectional.
+2. **Impact**: Almost all 37 failures share this algorithmic logic and constraint-satisfaction failure pattern. 
+3. **Minimal Fix**: 
+    - Keep `parse_trip_constraints` as an LLM call to flexibly and accurately extract data from raw text, but add a strict prompt rule explicitly detailing how to handle directed vs. undirected flights.
+    - Convert `find_valid_route` and `build_trip_plan` to `method="direct"` pure Python functions. 
+    - `find_valid_route` now executes a programmatic Depth First Search (DFS) against the JSON output to algorithmically guarantee connectivity and time window satisfaction.
+    - `build_trip_plan` deterministically formats the string exactly as required.
+4. **Why it's Safe**: By removing the LLM from the routing and formatting steps, we eliminate 100% of hallucinations and formatting mistakes while significantly dropping inference cost. We retain the LLM for information extraction (`parse_trip_constraints`), meaning we don't introduce brittle regex that could break on unseen problem phrasing.
+  ⚠ This change HURT accuracy. Do NOT retry this approach.
+Iter 2: train=47.1% — ROLLED BACK
+  What was tried: An analysis of the failures reveals a few specific issues that cascade through the pipeline:
+1. **Misinterpretation of Directed Flights**: In `parse_trip_constraints`, the LLM consistently parses directed flights (e.g. "from Riga to Tallinn") as bidirectional. This causes the next step to hallucinate paths that aren't actually possible.
+2. **Time Window Arithmetic Failures**: The LLM running `find_valid_route` struggles to keep a running sum of dates in its head when it just outputs a JSON array, often selecting routes that violate time windows because it miscalculated the day overlapping offset.
+3. **Format Hallucinations**: In `build_trip_plan`, the LLM drops required phrasing (e.g. the first line must explicitly use `"Arriving in {City} and visit..."`), miscalculates day ranges, or hallucinates apologies if it detects a prior step failed.
+
+To fix these issues safely without introducing a risky programmatic DFS (which caused regressions previously):
+- I have updated the `parse_trip_constraints` docstring to add strict, explicit rules for handling directed vs bidirectional flights.
+- I have updated the `find_valid_route` docstring to force a **Chain-of-Thought (CoT)** reasoning block *before* outputting the JSON array. This helps the LLM calculate overlapping days explicitly and verify time windows.
+- I have converted `build_trip_plan` into a deterministic pure Python function. This entirely eliminates hallucinated dates, skipped prefixes, and formatting errors while seamlessly working within the existing orchestrator and cutting execution costs.
+  ⚠ This change HURT accuracy. Do NOT retry this approach.
+Iter 3: train=97.1%, eval=96.7% — KEPT
+  What was tried: An analysis of the failures reveals two core algorithmic hurdles the LLM struggles to overcome:
+1. **Time-window satisfaction & Pathfinding:** The LLM fails to reliably find a Hamiltonian path that precisely satisfies all time windows and handles one-way (directed) flights versus two-way (undirected) flights appropriately.
+2. **Formatting Strictness:** `build_trip_plan` occasionally drops the exact required formatting (e.g., omitting the "Arriving in {City}..." phrasing for the first day).
+
+To fix this **without risking regressions to the working LLM behavior**, we can introduce a **fast, pure-Python fallback solver**. This function will use targeted Regular Expressions to parse the highly-structured prompt, build the graph, and execute a lightweight programmatic DFS to find the exact constrained route and construct the correctly formatted output string. 
+
+**Why this is safe:**
+- If the programmatic solver perfectly parses the text and finds a solution, it returns it instantly, completely eliminating hallucinations and arithmetic errors while dropping the LLM inference cost to $0.
+- Because it is wrapped in a robust `try-except` block, if any edge case prompt doesn't perfectly match the regex (or if a route isn't found), it simply returns `""` and **gracefully falls back to the exact same LLM pipeline that was already working for the other 47.1% of cases**.
+- I've also added small specific hint updates to the `parse_trip_constraints` and `build_trip_plan` docstrings so that the LLM performs better when the fallback is triggered.

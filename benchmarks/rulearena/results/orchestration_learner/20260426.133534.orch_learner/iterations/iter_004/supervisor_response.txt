@@ -1,0 +1,10 @@
+An analysis of the failure cases reveals a critical pattern in how the LLM handles the NBA domain during L1 structured extraction. The core issue is **polarity confusion and strict JSON structuring constraints**:
+
+1. **Polarity Confusion**: In `nba_0_22`, the LLM successfully determines that the contract is "well within this limit" (i.e., legal), but it outputs `verdict=True`. The prompt simply asks for a boolean flag without clarifying what `True` means, leading the LLM to assume `True` means "Valid" rather than "Violates rules."
+2. **Contradictory Fields**: The LLM will often output `verdict=True` but set `illegal_operation='None'` and `problematic_team='None'`. 
+
+Because Pydantic schema field order modifications failed in previous iterations (likely due to token limits causing truncation of the `reasoning` field and dropping required fields), we need a safer approach.
+
+### Solution
+1. **Clarify the Definitions**: Add explicit instructions to the `NbaResult` Pydantic comments and the `extract_nba_params` docstring to definitively establish that `True = Illegal` and `False = Legal`.
+2. **Robust Python Post-Processing**: Implement a dual-layer heuristic in `l1_extract_workflow` that catches contradictions directly. If the LLM claims `verdict=True` but lists `"None"` for the violating operation and team, we safely override it to `False`. If it claims `verdict=False` but extracts a specific violating letter (e

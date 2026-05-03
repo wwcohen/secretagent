@@ -1,0 +1,24 @@
+llm:
+  model: together_ai/deepseek-ai/DeepSeek-V3.1
+  max_tokens: 16384
+cachier:
+  cache_dir: C:\Users\STUDENT\OneDrive\Documents\Projects\AI Research\secretagent\benchmarks\rulearena\airline\llm_cache
+evaluate:
+  result_dir: C:\Users\STUDENT\OneDrive\Documents\Projects\AI Research\secretagent\benchmarks\rulearena\airline\results
+  expt_name: pot
+dataset:
+  split: test
+  shuffle_seed: 137
+ptools:
+  extract_airline_params:
+    method: simulate_pydantic
+  compute_airline_calculator:
+    method: direct
+    fn: ptools._airline_calc_fn
+  compute_airline_answer:
+    method: program_of_thought
+    tools:
+    - ptools.extract_airline_params
+    - ptools.compute_airline_calculator
+    inject_args: true
+root: C:\Users\STUDENT\OneDrive\Documents\Projects\AI Research\secretagent\benchmarks\rulearena\airline

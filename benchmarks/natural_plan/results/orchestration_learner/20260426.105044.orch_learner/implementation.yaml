@@ -1,0 +1,4 @@
+calendar_scheduling:
+  method: direct
+  fn: __learned__.calendar_workflow
+  learner: orch_learner

@@ -1,0 +1,6 @@
+Final logic and parameters are validated.
+
+The pipeline improvements are isolated to the workflow orchestration and schedule extraction logic:
+1.  **Regex Preference Parsing:** The hardcoded "earliest" preference is replaced with a regex check targeting the implicit NaturalPlan "latest" rule. If the specific task contains `after HH:MM` in a negative constraint context, the pipeline dynamically passes `"latest"` to the selector.
+2.  **LLM Constraint Translation:** The `parse_schedules` docstring is surgically augmented to instruct the LLM to map negative constraints ("avoid after X", "cannot meet on Y") directly into explicit `[start, end]` busy blocks, ensuring `find_available_slots` never sees these times as valid.
+3.  **Direct Tool Fallback:** A safety net is established. If `select_and_format` throws an exception (e.g., from an empty slots list caused by strict filtering) or fails to output the required prefix, the workflow gracefully falls back to `calendar_scheduling` for a direct 5-shot LLM resolution.

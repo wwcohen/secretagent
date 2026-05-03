@@ -1,0 +1,330 @@
+An analysis of the failure cases indicates two primary issues causing regressions in the previous iteration:
+
+1. **Overfitted Prompt Instructions:** The previously added instruction `"DO NOT multiply by 100"` was overly restrictive. While it helped standard decimal cases, it broke many FinQA examples where the ground truth *expected* a percentage in absolute terms (e.g., `24.69` instead of `0.2469`). Removing this strict rule and letting the model adapt format to the question leads to much better generalization. 
+2. **Formula Extraction & Evaluation Brittleness:** 
+    - The LLM sometimes outputs formulas as assignments (e.g., `Formula: 5 + 3 = 8` or `Formula: x = 5 + 3`), causing syntax errors in `eval`.
+    - The LLM sometimes uses commas as thousands separators (e.g. `1,000 / 2,000`), which causes `eval` to treat them as invalid tuples instead of math.
+    - When `eval` fails, it currently poisons the extraction context by injecting `Calculated: ... = ERROR: invalid syntax`, tricking the final extractor into outputting the word `"ERROR"`.
+
+To address this conservatively without breaking working cases:
+1. **Loosen Formatting Rules:** Revert the overly rigid rule about percentages in both prompt docstrings and replace it with a rule to format numbers exactly as the question implies. 
+2. **Robust Comma Handling:** Update `compute()` to use a targeted regex that *only* removes commas acting as thousands separators (leaving function calls like `max(1, 2)` perfectly intact).
+3. **Robust Equation Parsing:** Update `_extract_formula()` to safely extract the actual math expression from assignments (e.g., pulling `5 + 3` out of `5 + 3 = 8`).
+4. **Graceful Fallback:** If `eval` throws an error or no formula is found, intercept the error and instead prompt the final `extract_final_number` LLM to manually calculate the answer based on the reasoning plan.
+
+<ptools_file>
+"""FinQA: numerical reasoning over financial text + tables.
+
+Top-level task: ``answer_finqa(problem)`` — one string built by
+``data/build_datasets.py``.
+
+Experiment mapping (see Makefile):
+  workflow              — hand-coded workflow + engineered ptools
+  pot                   — drop workflow, keep ptools (program of thought)
+  react                 — drop workflow, keep ptools (ReAct agent)
+  structured_baseline   — drop workflow and ptools (simulate)
+  unstructured_baseline — drop workflow, ptools, and structured prompt
+"""
+
+import re
+
+from secretagent.core import interface, implement_via
+
+
+# ---------------------------------------------------------------
+# Top-level interface
+# ---------------------------------------------------------------
+
+@interface
+def answer_finqa(problem: str) -> str:
+    """Answer a FinQA instance.
+
+    The problem string contains report context, a markdown table, and a question.
+    Return only the final answer (number, percent, or brief text), with no explanation.
+    """
+    ...
+
+
+# ---------------------------------------------------------------
+# Ptools: direct-implemented Python tools
+# ---------------------------------------------------------------
+
+@interface
+def parse_table(problem: str) -> str:
+    """Extract the markdown table from a FinQA problem and return it
+    as clean tab-separated text with column headers on the first line.
+    """
+    lines = problem.split('\n')
+    table_lines = [l for l in lines if l.strip().startswith('|') and '|' in l[1:]]
+    if not table_lines:
+        return "(no table found)"
+    rows = []
+    for line in table_lines:
+        cells = [c.strip() for c in line.strip().strip('|').split('|')]
+        rows.append('\t'.join(cells))
+    return '\n'.join(rows)
+
+
+@interface
+def lookup_cell(problem: str, row_label: str, column: str) -> str:
+    """Look up a cell value by row label and column name from the table
+    embedded in a FinQA problem.
+
+    The row_label is matched (case-insensitive substring) against the first
+    column. The column is matched (case-insensitive substring) against the
+    header row. Returns the cell value as a string, or 'NOT FOUND'.
+    """
+    lines = problem.split('\n')
+    table_lines = [l for l in lines if l.strip().startswith('|') and '|' in l[1:]]
+    if not table_lines:
+        return "NOT FOUND"
+    parsed = []
+    for line in table_lines:
+        cells = [c.strip() for c in line.strip().strip('|').split('|')]
+        parsed.append(cells)
+    if len(parsed) < 2:
+        return "NOT FOUND"
+    headers = [h.lower() for h in parsed[0]]
+    col_idx = None
+    col_lower = column.lower()
+    for i, h in enumerate(headers):
+        if not h:
+            continue
+        if col_lower in h or h in col_lower:
+            col_idx = i
+            break
+    if col_idx is None:
+        return f"NOT FOUND (no column matching '{column}')"
+    row_lower = row_label.lower()
+    for row in parsed[1:]:
+        if row and row_lower in row[0].lower():
+            if col_idx < len(row):
+                return row[col_idx]
+    return f"NOT FOUND (no row matching '{row_label}')"
+
+
+@interface
+def compute(expression: str) -> str:
+    """Evaluate a mathematical expression and return the numeric result as a string.
+
+    Supports standard arithmetic (+, -, *, /, **, %), abs(), round(),
+    min(), max(), and sum(). Input values may include dollar signs and
+    commas which are stripped before evaluation.
+
+    Examples:
+      compute("(637 / 5.0)")           → "127.4"
+      compute("(193.5 - 100) / 100")   → "0.935"
+      compute("60 / 243 * 100")        → "24.691358..."
+      compute("17.8 > 60.1")           → "no"
+    """
+    cleaned = expression.replace('$', '')
+    # Safely remove commas used as thousands separators (e.g., 1,000 -> 1000)
+    cleaned = re.sub(r'(?<=\d),(?=\d{3}\b)', '', cleaned)
+    cleaned = re.sub(r'(?<=\d),(?=\d{3}\b)', '', cleaned)
+    
+    # Safely convert percentage signs immediately following numbers to /100.0 
+    cleaned = re.sub(r'(\d+\.\d+|\d+|\.\d+)\s*%', r'(\1/100.0)', cleaned)
+    
+    safe_globals = {
+        "__builtins__": {},
+        "abs": abs, "round": round, "min": min, "max": max, "sum": sum,
+    }
+    try:
+        result = eval(cleaned, safe_globals)  # noqa: S307
+        if isinstance(result, bool):
+            return "yes" if result else "no"
+        if isinstance(result, float):
+            if result == int(result) and abs(result) < 1e15:
+                return str(int(result))
+            return f"{result:.10g}"
+        return str(result)
+    except Exception as e:
+        return f"ERROR: {e}"
+
+
+# ---------------------------------------------------------------
+# Ptools: LLM-implemented interfaces (bound to simulate via config)
+# ---------------------------------------------------------------
+
+@interface
+def extract_reasoning_plan(problem: str) -> str:
+    """Read the FinQA problem (context, table, and question) and produce a
+    short plan for computing the answer.
+
+    Your plan must include:
+    1. Target: Read the question carefully and state exactly what it is asking for (e.g., is it a percentage, a ratio, an average, a difference, or a boolean yes/no?).
+    2. Values: Which specific rows/columns or text values are needed.
+    3. Formula: The exact arithmetic formula using those values.
+
+    IMPORTANT RULES FOR THE FORMULA:
+    - The formula must be a single, valid mathematical expression that can be evaluated by Python's `eval()` (use standard operators: +, -, *, /).
+    - If the text or table provides values as percentages (e.g., "26%"), use their decimal equivalent in your formula (e.g., 0.26) or include the percent sign (e.g., 26%).
+    - If the question expects a "yes" or "no" answer, write a boolean expression (e.g., 17.84 > 60.15).
+    - Pay attention to units (e.g., thousands, millions). Ensure your formula scales the numbers appropriately if requested.
+
+    Be precise: name the row labels and column headers exactly as they appear. Write the formula with actual numbers substituted in.
+
+    Example output:
+      Target: percentage change in revenue from 2016 to 2017
+      Values: revenue_2016 = $10,815 from row "2016"; revenue_2017 = $11,503 from row "2017"
+      Formula: (11503 - 10815) / 10815
+    """
+    ...
+
+
+@interface
+def extract_final_number(verbose_output: str) -> str:
+    """Extract only the final numeric answer from verbose LLM output.
+
+    The input may contain reasoning, explanation, or prose around
+    the actual answer. Return ONLY the final numeric value as a clean
+    string — a plain number, optionally with a percent sign, or "yes"/"no".
+
+    CRITICAL RULES:
+    - Return the value formatted exactly as the question implies (e.g., as a decimal, a percentage, or an absolute number).
+    - Do not include units like "$", "million", or "dollars" unless they are explicitly requested.
+    - Return "yes" or "no" for boolean logic questions.
+
+    Examples:
+      "The answer is 127.4 million dollars." → "127.4"
+      "Calculated: (193.5 - 100)/100 = 0.935" → "0.935"
+      "Calculated: 17.8 > 60.1 = False" → "no"
+      "Calculated: 5 > 3 = True" → "yes"
+    """
+    ...
+
+
+# ---------------------------------------------------------------
+# Workflow implementation
+# ---------------------------------------------------------------
+
+def answer_finqa_workflow(problem: str) -> str:
+    """Hand-coded workflow for answer_finqa.
+
+    LLM extracts a reasoning plan with target, values, and formula.
+    Python evaluates the formula. Falls back to LLM extraction when
+    no clean formula is found.
+    """
+    plan = extract_reasoning_plan(problem)
+    formula = _extract_formula(plan)
+    if formula:
+        result = compute(formula)
+        if not result.startswith("ERROR"):
+            return result
+    return extract_final_number(plan)
+
+
+def _extract_formula(plan: str) -> str | None:
+    """Pull the arithmetic expression after 'Formula:' from a plan."""
+    m = re.search(r'[Ff]ormula:\s*(.+)', plan)
+    if not m:
+        return None
+    expr = m.group(1).strip()
+    
+    # Handle equations
+    if '=' in expr and not any(op in expr for op in ['==', '>=', '<=', '!=', '>', '<']):
+        parts = expr.split('=', 1)
+        if re.search(r'[\+\-\*/]', parts[0]):
+            expr = parts[0].strip()
+        elif re.search(r'[\+\-\*/]', parts[1]):
+            expr = parts[1].strip()
+        else:
+            expr = parts[1].strip() if not re.search(r'\d', parts[0]) else parts[0].strip()
+            
+    expr = re.sub(r'^[a-zA-Z_]+\s*=\s*', '', expr)
+    expr = expr.rstrip('.')
+    
+    if not re.search(r'\d', expr):
+        return None
+    return expr
+
+
+# ---------------------------------------------------------------
+# Tool callables for ReAct (wrappers around interfaces)
+# ---------------------------------------------------------------
+
+def call_parse_table(problem: str) -> str:
+    """Parse the markdown table from a FinQA problem into clean text."""
+    return parse_table(problem)
+
+
+def call_lookup_cell(problem: str, row_label: str, column: str) -> str:
+    """Look up a specific cell value by row and column name."""
+    return lookup_cell(problem, row_label, column)
+
+
+def call_compute(expression: str) -> str:
+    """Evaluate an arithmetic expression and return the result."""
+    return compute(expression)
+
+
+def call_extract_reasoning_plan(problem: str) -> str:
+    """Produce a reasoning plan with target, values, and formula."""
+    return extract_reasoning_plan(problem)
+
+
+# ---------------------------------------------------------------
+# Unstructured baseline: zero-shot prompt + answer coercion
+# ---------------------------------------------------------------
+
+@implement_via('prompt_llm', prompt_template_file='prompt_templates/zeroshot.txt', answer_pattern=None)
+def zeroshot_answer_finqa(problem: str) -> str:
+    """Zero-shot unstructured prompt for FinQA (returns raw LLM string)."""
+    ...
+
+
+_NUM_RE = re.compile(r'[$€£]?\s*-?\s*[\d,]+\.?\d*\s*%?')
+
+
+@implement_via('direct')
+def coerce_to_answer(llm_output: str) -> str:
+    """Extract the final numeric answer from raw LLM text.
+
+    Looks for ``<answer>`` tags first, then falls back to the last
+    number-like token in the text.
+    """
+    s = llm_output.strip()
+    m = re.search(r'<answer[^>]*>(.*?)</answer>', s, flags=re.DOTALL | re.IGNORECASE)
+    if m:
+        return m.group(1).strip()
+    matches = _NUM_RE.findall(s)
+    if matches:
+        return matches[-1].strip()
+    lines = [ln.strip() for ln in s.splitlines() if ln.strip()]
+    return lines[-1] if lines else s
+
+
+def unstructured_baseline_workflow(problem: str) -> str:
+    """Workflow for the unstructured baseline: zero-shot prompt then cleanup.
+
+    To run, bind answer_finqa to this function via:
+      ptools.answer_finqa.method=direct
+      ptools.answer_finqa.fn=ptools.unstructured_baseline_workflow
+    """
+    raw = zeroshot_answer_finqa(problem)
+    return coerce_to_answer(raw)
+
+# --- Auto-generated by orchestration_learner --seed-orchestrate ---
+def answer_finqa_orchestrated_seed(problem: str) -> str:
+    plan = extract_reasoning_plan(problem)
+
+    # Use the robust extraction regex instead of brittle string splits
+    formula = _extract_formula(plan)
+    
+    result = None
+    if formula:
+        # Evaluate the arithmetic formula
+        result = compute(formula)
+
+    # If Python evaluation succeeds, append the result
+    if result is not None and not str(result).startswith("ERROR"):
+        verbose_output = f"{plan}\nCalculated: {formula} = {result}"
+    else:
+        # Provide a graceful fallback to the LLM when eval fails
+        verbose_output = f"{plan}\n(Note: Python evaluation failed or no formula was provided. Please calculate the final numeric answer directly from the reasoning plan.)"
+
+    # Extract and format the final numeric answer
+    final_answer = extract_final_number(verbose_output)
+
+    return final_answer
+</ptools_file>

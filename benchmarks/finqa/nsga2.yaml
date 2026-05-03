@@ -1,0 +1,39 @@
+interface: ptools.answer_finqa
+evaluator: evaluator.FinQAEvaluator
+
+models:
+  - together_ai/deepseek-ai/DeepSeek-V3.1
+  - together_ai/deepseek-ai/DeepSeek-V3
+  - together_ai/openai/gpt-oss-20b
+  - together_ai/openai/gpt-oss-120b
+  - gemini/gemini-2.5-flash
+  - gemini/gemini-2.5-flash-lite
+
+methods:
+  structured_baseline:
+    - ptools.answer_finqa.method=simulate
+  unstructured_baseline:
+    - ptools.answer_finqa.method=direct
+    - ptools.answer_finqa.fn=ptools.unstructured_baseline_workflow
+  workflow:
+    - ptools.answer_finqa.method=direct
+    - ptools.answer_finqa.fn=ptools.answer_finqa_workflow
+  pot:
+    - ptools.answer_finqa.method=program_of_thought
+    - ptools.answer_finqa.tools=[ptools.parse_table,ptools.compute]
+    - ptools.answer_finqa.inject_args=true
+    - ptools.answer_finqa.additional_imports=[re]
+  react:
+    - ptools.answer_finqa.method=simulate_pydantic
+    - ptools.answer_finqa.tools=[ptools.call_parse_table,ptools.call_lookup_cell,ptools.call_compute,ptools.call_extract_reasoning_plan]
+  wf_orch:
+    - ptools.answer_finqa.method=direct
+    - ptools.answer_finqa.fn=__learned__.answer_finqa_orchestrated_seed
+    - ptools.answer_finqa.learner=orch_learner
+    - learn.train_dir=results/orchestration_learner
+
+sub_interfaces:
+  ptools.extract_reasoning_plan:
+    methods: [simulate]
+  ptools.extract_final_number:
+    methods: [simulate]

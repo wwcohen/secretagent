@@ -1,0 +1,101 @@
+case_name,predicted_output,expected_output,correct,correct_tolerance,failure_mode,input_tokens,output_tokens,latency,cost,expt_name
+tax_2_60,19222.36,6680.959999999999,0.0,0.0,calculation_error,87325.0,1222.0,150.7403495311737,0.0544724,react
+tax_2_89,"**exception raised**: invalid syntax. Perhaps you forgot a comma? (<unknown>, line 1)",8373.759999999998,0.0,0.0,extraction_failure,,,,,react
+tax_2_90,3242.35,15548.390598040001,0.0,0.0,calculation_error,49400.0,2007.0,68.16598749160767,0.0330519,react
+tax_1_77,1852.4,20627.202690880004,0.0,0.0,calculation_error,44790.0,801.0,33.30319428443909,0.0282357,react
+tax_1_28,26732.95,24335.1071382,0.0,0.0,calculation_error,62703.0,2050.0,106.3758192062378,0.0411068,react
+tax_0_41,-8523.0,-8523.0,1.0,1.0,none,32982.0,1676.0,69.73593759536743,0.0226384,react
+tax_0_73,26033.76,26033.760000000002,1.0,1.0,none,43021.0,1665.0,61.88245630264282,0.028643099999999998,react
+tax_2_53,"**exception raised**: invalid decimal literal (<unknown>, line 57)",-5550.5820415,0.0,0.0,extraction_failure,,,,,react
+tax_0_64,15581.08,13351.96,0.0,0.0,calculation_error,65673.0,1784.0,107.09421133995056,0.0424366,react
+tax_2_71,-11922.0,-9699.32468,0.0,0.0,calculation_error,55345.0,1194.0,49.61282157897949,0.0352368,react
+tax_0_71,12202.12,12202.119999999999,1.0,1.0,none,65955.0,1815.0,135.3943910598755,0.042658499999999995,react
+tax_2_15,20111.66,20111.66,1.0,1.0,none,54322.0,1418.0,153.48932480812073,0.035003799999999995,react
+tax_0_21,"**exception raised**: expression expected after dictionary key and ':' (<unknown>, line 1)",-7628.0,0.0,0.0,extraction_failure,,,,,react
+tax_2_47,-5315.42,-8714.782185885002,0.0,0.0,calculation_error,141694.0,2136.0,183.79860949516296,0.0886476,react
+tax_2_43,2710.53,210.53078199999982,0.0,0.0,calculation_error,98869.0,1751.0,142.32430982589722,0.062298099999999995,react
+tax_2_54,**exception raised**: Exceeded maximum retries (1) for output validation,-3945.4000000000005,0.0,0.0,extraction_failure,,,,,react
+tax_1_40,**exception raised**: malformed node or string on line 1: <ast.Name object at 0x000001CE88E1AFB0>,13505.96,0.0,0.0,extraction_failure,,,,,react
+tax_0_13,15349.4,15023.239999999998,0.0,0.0,calculation_error,31635.0,1025.0,55.461238861083984,0.0207235,react
+tax_2_55,5507.93,22266.366684839995,0.0,0.0,calculation_error,49543.0,2313.0,118.14033579826355,0.0336579,react
+tax_0_32,1215.64,6025.959999999999,0.0,0.0,calculation_error,32141.0,1942.0,76.86466813087463,0.022586,react
+tax_2_99,"**exception raised**: expression expected after dictionary key and ':' (<unknown>, line 1)",18344.73108176,0.0,0.0,extraction_failure,,,,,react
+tax_1_59,34024.32,33652.799999999996,0.0,0.0,calculation_error,45469.0,1405.0,65.06939482688904,0.0296699,react
+tax_2_91,0.0,14254.772507199996,0.0,0.0,calculation_error,37113.0,966.0,63.96138072013855,0.023909999999999997,react
+tax_2_3,**exception raised**: Exceeded maximum retries (1) for output validation,20961.905168585003,0.0,0.0,extraction_failure,,,,,react
+tax_0_89,"**exception raised**: expression expected after dictionary key and ':' (<unknown>, line 1)",4747.5,0.0,0.0,extraction_failure,,,,,react
+tax_1_29,**exception raised**: Tax calculator returned None,33098.58286112,0.0,0.0,extraction_failure,,,,,react
+tax_2_39,9926.89,21246.392322680003,0.0,0.0,calculation_error,57071.0,1000.0,63.16002154350281,0.0359426,react
+tax_1_15,-6090.5,2297.7747865650017,0.0,0.0,calculation_error,71992.0,826.0,86.78797149658203,0.0445994,react
+tax_2_33,"**exception raised**: expression expected after dictionary key and ':' (<unknown>, line 1)",-3580.128938500001,0.0,0.0,extraction_failure,,,,,react
+tax_2_97,13810.64,34832.906041145,0.0,0.0,calculation_error,70071.0,1728.0,96.70945429801941,0.0449802,react
+tax_1_12,4826.78,11016.34,0.0,0.0,calculation_error,34185.0,1633.0,72.97717523574829,0.023287099999999998,react
+tax_0_16,-2800.0,4671.860000000001,0.0,0.0,calculation_error,32238.0,1288.0,68.18234276771545,0.0215324,react
+tax_2_17,"**exception raised**: invalid syntax. Perhaps you forgot a comma? (<unknown>, line 1)",-1748.7799999999988,0.0,0.0,extraction_failure,,,,,react
+tax_0_87,-6785.0,-3771.0,0.0,0.0,calculation_error,44557.0,2087.0,95.52628374099731,0.0302821,react
+tax_1_30,"**exception raised**: expression expected after dictionary key and ':' (<unknown>, line 1)",5122.480000000003,0.0,0.0,extraction_failure,,,,,react
+tax_0_60,22859.2,25502.32,0.0,0.0,calculation_error,31380.0,669.0,43.544835567474365,0.0199653,react
+tax_1_62,**exception raised**: malformed node or string on line 1: <ast.Name object at 0x000001CE81717970>,-9423.317164419997,0.0,0.0,extraction_failure,,,,,react
+tax_0_68,8301.0,8301.0,1.0,1.0,none,41194.0,905.0,85.49323892593384,0.026254899999999998,react
+tax_2_0,9067.96,28517.603227734995,0.0,0.0,calculation_error,53177.0,950.0,69.84798264503479,0.033521199999999994,react
+tax_1_98,10838.68,8846.263199999996,0.0,0.0,calculation_error,48712.0,1290.0,88.80342936515808,0.031420199999999995,react
+tax_0_9,-4994.62,-5576.299999999999,0.0,0.0,calculation_error,42020.0,991.0,72.025475025177,0.0268967,react
+tax_2_9,**exception raised**: Tax calculator returned None,16821.236549114998,0.0,0.0,extraction_failure,,,,,react
+tax_1_46,-6314.45,-8741.0,0.0,0.0,calculation_error,45300.0,1525.0,97.76158118247986,0.0297725,react
+tax_2_72,11412.22,21040.045951074997,0.0,0.0,calculation_error,58182.0,1524.0,73.88556790351868,0.0375,react
+tax_0_52,4927.84,-3420.4000000000015,0.0,0.0,calculation_error,43081.0,1606.0,96.38590097427368,0.028578799999999998,react
+tax_2_36,"**exception raised**: expression expected after dictionary key and ':' (<unknown>, line 1)",-21040.6,0.0,0.0,extraction_failure,,,,,react
+tax_0_99,**exception raised**: Tax calculator returned None,12442.760000000002,0.0,0.0,extraction_failure,,,,,react
+tax_1_37,-7361.78,923.6399999999994,0.0,0.0,calculation_error,97466.0,1690.0,130.0185568332672,0.0613526,react
+tax_0_58,-10495.0,-12477.0,0.0,0.0,calculation_error,23897.0,1437.0,60.5343234539032,0.0167811,react
+tax_1_27,12518.84,12358.04,0.0,0.0,calculation_error,46410.0,1651.0,108.15777969360352,0.030652699999999998,react
+tax_1_49,-3055.85,2856.869999999999,0.0,0.0,calculation_error,34414.0,872.0,72.82698655128479,0.0221308,react
+tax_1_20,"**exception raised**: invalid decimal literal (<unknown>, line 53)",4627.999272454996,0.0,0.0,extraction_failure,,,,,react
+tax_1_88,3421.76,3421.759234639998,1.0,1.0,none,59781.0,1762.0,102.67929816246033,0.038864,react
+tax_1_38,"**exception raised**: invalid syntax. Perhaps you forgot a comma? (<unknown>, line 1)",22405.095565,0.0,0.0,extraction_failure,,,,,react
+tax_0_79,**exception raised**: Tax calculator returned None,11933.82,0.0,0.0,extraction_failure,,,,,react
+tax_1_34,-3828.0,1004.4400000000005,0.0,0.0,calculation_error,42722.0,1462.0,103.23319983482361,0.028118599999999997,react
+tax_0_36,-5029.0,-5029.0,1.0,1.0,none,31775.0,1152.0,58.80335021018982,0.021023399999999998,react
+tax_0_43,960.36,516.3600000000006,0.0,0.0,calculation_error,67663.0,4211.0,166.660062789917,0.04775649999999999,react
+tax_0_7,12186.96,12186.96,1.0,1.0,none,42706.0,1244.0,79.67547798156738,0.0277384,react
+tax_0_54,**exception raised**: Tax calculator returned None,11544.479999999996,0.0,0.0,extraction_failure,,,,,react
+tax_2_7,8835.43,20361.451841320002,0.0,0.0,calculation_error,55333.0,1192.0,82.08186221122742,0.0352262,react
+tax_2_21,23699.13,22817.086700235,0.0,0.0,calculation_error,104838.0,1540.0,119.53156280517578,0.06552079999999999,react
+tax_2_51,-2251.75,15124.590369045,0.0,0.0,calculation_error,59680.0,2335.0,85.82959032058716,0.0397775,react
+tax_0_38,**exception raised**: Tax calculator returned None,5437.5,0.0,0.0,extraction_failure,,,,,react
+tax_1_3,2672.5,8260.52,0.0,0.0,calculation_error,42792.0,1276.0,95.58134937286377,0.0278444,react
+tax_2_29,21256.59,24973.184087679994,0.0,0.0,calculation_error,70196.0,1634.0,105.41124987602234,0.044895399999999995,react
+tax_2_10,1938.8,11557.290771620002,0.0,0.0,calculation_error,101537.0,3291.0,206.57198452949524,0.06651689999999999,react
+tax_1_22,-8244.0,-9926.6,0.0,0.0,calculation_error,40086.0,1180.0,77.39201807975769,0.0260576,react
+tax_2_13,**exception raised**: malformed node or string on line 1: <ast.Name object at 0x000001CE89456F80>,7172.036948850004,0.0,0.0,extraction_failure,,,,,react
+tax_1_72,22087.16,24136.890000000003,0.0,0.0,calculation_error,66673.0,1758.0,146.91882920265198,0.0429924,react
+tax_2_24,"**exception raised**: expression expected after dictionary key and ':' (<unknown>, line 1)",-77.66253691999736,0.0,0.0,extraction_failure,,,,,react
+tax_0_14,18545.32,18545.32,1.0,1.0,none,46574.0,3102.0,175.1869239807129,0.0332178,react
+tax_2_96,"**exception raised**: invalid syntax. Perhaps you forgot a comma? (<unknown>, line 1)",10897.751683939998,0.0,0.0,extraction_failure,,,,,react
+tax_0_4,"**exception raised**: invalid syntax (<unknown>, line 31)",17470.72,0.0,0.0,extraction_failure,,,,,react
+tax_1_84,-1190.0,-1190.0,1.0,1.0,none,73150.0,1598.0,127.75838780403137,0.0466066,react
+tax_1_85,3460.53,3460.529699440005,1.0,1.0,none,58447.0,1842.0,117.69085192680359,0.0381996,react
+tax_0_23,18634.12,18218.92,0.0,0.0,calculation_error,32962.0,1642.0,69.25608563423157,0.022568599999999998,react
+tax_0_78,19910.68,19910.68,1.0,1.0,none,33149.0,1600.0,100.47255420684814,0.022609399999999998,react
+tax_2_18,-5817.0,23066.58010844,0.0,0.0,calculation_error,54913.0,1994.0,109.79920554161072,0.0363376,react
+tax_0_67,**exception raised**: Exceeded maximum retries (1) for output validation,15130.919999999998,0.0,0.0,extraction_failure,,,,,react
+tax_1_26,-5688.0,21486.085976799994,0.0,0.0,calculation_error,35953.0,1721.0,81.91410541534424,0.0244975,react
+tax_2_41,"**exception raised**: expression expected after dictionary key and ':' (<unknown>, line 1)",-12327.0,0.0,0.0,extraction_failure,,,,,react
+tax_1_70,"**exception raised**: expression expected after dictionary key and ':' (<unknown>, line 1)",2624.500000000001,0.0,0.0,extraction_failure,,,,,react
+tax_1_54,-7314.0,-8070.0,0.0,0.0,calculation_error,71630.0,3970.0,145.87666058540344,0.04972699999999999,react
+tax_0_34,-16552.0,-16552.0,1.0,1.0,none,33059.0,1571.0,71.8191876411438,0.0225061,react
+tax_1_11,4127.1,13755.895276079998,0.0,0.0,calculation_error,44698.0,696.0,46.2778377532959,0.028002,react
+tax_2_70,"**exception raised**: invalid decimal literal (<unknown>, line 42)",844.3999999999996,0.0,0.0,extraction_failure,,,,,react
+tax_1_90,"**exception raised**: expression expected after dictionary key and ':' (<unknown>, line 1)",38842.59913360001,0.0,0.0,extraction_failure,,,,,react
+tax_2_48,"**exception raised**: invalid syntax. Perhaps you forgot a comma? (<unknown>, line 1)",40920.08214276,0.0,0.0,extraction_failure,,,,,react
+tax_1_75,7661.626642045001,11576.291474849997,0.0,0.0,calculation_error,33944.0,1603.0,82.14229202270508,0.0230915,react
+tax_1_35,**exception raised**: Tax calculator returned None,14035.544905559997,0.0,0.0,extraction_failure,,,,,react
+tax_0_84,**exception raised**: malformed node or string on line 1: <ast.Name object at 0x000001CE89457220>,25100.64,0.0,0.0,extraction_failure,,,,,react
+tax_1_43,-7456.67,-11708.85,0.0,0.0,calculation_error,97865.0,1709.0,160.55827116966248,0.0616243,react
+tax_1_66,**exception raised**: Tax calculator returned None,-22560.0,0.0,0.0,extraction_failure,,,,,react
+tax_0_90,4507.34,6835.82,0.0,0.0,calculation_error,53548.0,1336.0,67.133455991745,0.0344,react
+tax_0_59,4635.68,4275.68,0.0,0.0,calculation_error,42001.0,1370.0,83.81427669525146,0.0275296,react
+tax_1_31,-5934.05,1522.9900000000016,0.0,0.0,calculation_error,69431.0,1386.0,109.14847922325134,0.0440148,react
+tax_1_55,-2344.96,-2034.880000000001,0.0,0.0,calculation_error,41972.0,854.0,46.59406542778015,0.026635,react
+tax_0_65,-5808.88,-5808.880000000001,1.0,1.0,none,31347.0,690.0,84.28117084503174,0.0199812,react
+tax_0_55,10124.0,10124.0,1.0,1.0,none,32847.0,1568.0,74.03093910217285,0.0223738,react

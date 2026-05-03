@@ -1,0 +1,19 @@
+{
+  "benchmark": "musr",
+  "benchmark_dir": "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/musr",
+  "config_file": "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/musr/conf/murder_orchestrated.yaml",
+  "entry_point": "answer_question_workflow",
+  "ptools_module": "ptools_murder",
+  "seed_orchestrate": false,
+  "scratch_evolved": true,
+  "evolved_path": "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/musr/.orchestration_learner/ptools_murder_20260426.080629_scratch.py",
+  "results_base": "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/musr/results/orchestration_learner",
+  "resume_from": null,
+  "train_split": "murder_mysteries_test",
+  "eval_split": "murder_mysteries_test",
+  "n_train": 70,
+  "n_eval": 30,
+  "max_iterations": 5,
+  "target_accuracy": null,
+  "supervisor_model": "gemini/gemini-3.1-pro-preview"
+}

@@ -1,0 +1,4 @@
+tabmwp_solve:
+  method: direct
+  fn: __learned__.tabmwp_solve_orchestrated_seed
+  learner: orch_learner

@@ -34,7 +34,7 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO_ROOT / "scripts"))
 from benchmark_status import TASKS, STRATEGIES, RESULT_DIR_RE, TASK_TO_LATEX
 
-RESULTS_DIR = REPO_ROOT / "benchmarks" / "results"
+RESULTS_DIR = REPO_ROOT / "benchmarks" / "COMMON" / "results"
 
 STRATEGY_ORDER = ["workflow", "react", "pot", "structured_baseline", "unstructured_baseline"]
 
@@ -145,43 +145,92 @@ def _parse_cell(cell: str) -> tuple[float, float] | None:
     return float(parts[0].strip()), float(parts[1].strip())
 
 
-def _plot_comparison(df: pd.DataFrame, metric: str, x_strategy: str = "react",
+_STRATEGY_MARKERS = ["o", "^", "s", "*", "D", "v", "P", "X"]
+
+
+def _plot_comparison(df: pd.DataFrame, metric: str,
+                     x_strategy: str | list[str] = "react",
                      y_strategy: str = "workflow", output: str = "hero_plot.png"):
-    """Plot workflow vs another strategy on a given metric with error boxes."""
+    """Plot y_strategy vs x_strategy(ies) on a given metric with error boxes.
+
+    When x_strategy is a list, each strategy gets a distinct marker shape
+    and benchmarks are distinguished by color.
+    """
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
     from matplotlib.patches import Rectangle
 
+    if isinstance(x_strategy, str):
+        x_strategy = [x_strategy]
+
     fig, ax = plt.subplots(figsize=(10, 7))
 
-    for task in df.index:
-        wf = _parse_cell(df.loc[task, y_strategy])
-        xs = _parse_cell(df.loc[task, x_strategy])
-        if wf is None or xs is None:
-            continue
+    # Assign a persistent color per task across all x strategies
+    task_colors = {}
+    color_cycle = plt.rcParams["axes.prop_cycle"].by_key()["color"]
 
-        x_mean, x_sem = xs
-        y_mean, y_sem = wf
+    for si, x_strat in enumerate(x_strategy):
+        marker = _STRATEGY_MARKERS[si % len(_STRATEGY_MARKERS)]
+        for task in df.index:
+            wf = _parse_cell(df.loc[task, y_strategy])
+            xs = _parse_cell(df.loc[task, x_strat])
+            if wf is None or xs is None:
+                continue
 
-        ax.plot(x_mean, y_mean, "o", markersize=6, label=task)
-        color = ax.lines[-1].get_color()
-        rect = Rectangle(
-            (x_mean - x_sem, y_mean - y_sem),
-            2 * x_sem, 2 * y_sem,
-            linewidth=1, edgecolor=color, facecolor=color, alpha=0.25,
-        )
-        ax.add_patch(rect)
+            x_mean, x_sem = xs
+            y_mean, y_sem = wf
+
+            if task not in task_colors:
+                task_colors[task] = color_cycle[len(task_colors) % len(color_cycle)]
+            color = task_colors[task]
+
+            # Label: show task name only for first strategy, strategy name only when multiple
+            if len(x_strategy) == 1:
+                label = task
+            elif si == 0:
+                label = f"{task} ({x_strat})"
+            else:
+                label = f"{task} ({x_strat})"
+
+            ax.plot(x_mean, y_mean, marker=marker, markersize=7,
+                    color=color, label=label)
+            rect = Rectangle(
+                (x_mean - x_sem, y_mean - y_sem),
+                2 * x_sem, 2 * y_sem,
+                linewidth=1, edgecolor=color, facecolor=color, alpha=0.15,
+            )
+            ax.add_patch(rect)
 
     # y=x reference line
     lo = min(ax.get_xlim()[0], ax.get_ylim()[0])
     hi = max(ax.get_xlim()[1], ax.get_ylim()[1])
     ax.plot([lo, hi], [lo, hi], "k--", linewidth=0.8, alpha=0.5)
 
-    ax.set_xlabel(f"{x_strategy} {metric}")
+    # Add marker legend entries for strategies when multiple x strategies
+    if len(x_strategy) > 1:
+        from matplotlib.lines import Line2D
+        strategy_handles = []
+        for si, x_strat in enumerate(x_strategy):
+            marker = _STRATEGY_MARKERS[si % len(_STRATEGY_MARKERS)]
+            strategy_handles.append(
+                Line2D([0], [0], marker=marker, color="gray", linestyle="None",
+                       markersize=7, label=x_strat))
+        # Task color handles
+        task_handles = [
+            Line2D([0], [0], marker="o", color=c, linestyle="None",
+                   markersize=7, label=t)
+            for t, c in task_colors.items()
+        ]
+        ax.legend(handles=strategy_handles + task_handles, fontsize=8, loc="best")
+        x_label = "/".join(x_strategy)
+    else:
+        ax.legend(fontsize=8, loc="best")
+        x_label = x_strategy[0]
+
+    ax.set_xlabel(f"{x_label} {metric}")
     ax.set_ylabel(f"{y_strategy} {metric}")
-    ax.set_title(f"{y_strategy} vs {x_strategy} {metric}")
-    ax.legend(fontsize=8, loc="best")
+    ax.set_title(f"{y_strategy} vs {x_label} {metric}")
     fig.tight_layout()
     fig.savefig(output, dpi=150)
     plt.close(fig)
@@ -236,24 +285,106 @@ def _print_latex(df: pd.DataFrame, caption: str, minimize: bool = False):
     print(r"\end{table*}")
 
 
+_COMPACT_STRATEGIES = ["workflow", "react", "structured_baseline"]
+
+
+def _print_latex_compact(correct_df: pd.DataFrame, cost_df: pd.DataFrame,
+                         caption: str = "Correctness and Cost (per 100 examples)"):
+    """Print a compact LaTeX table with correctness on the left and cost on the right."""
+    strats = _COMPACT_STRATEGIES
+    headers_correct = " & ".join(_LATEX_HEADERS.get(s, s.replace("_", r"\_")) for s in strats)
+    headers_cost = " & ".join(_LATEX_HEADERS.get(s, s.replace("_", r"\_")) for s in strats)
+
+    # Use cost_df index as it may have extra summary rows (e.g. AVERAGE_EXCL_TAU)
+    tasks = cost_df.index
+
+    col_spec = "l" + "c" * len(strats) + "|" + "c" * len(strats)
+    print(r"\begin{table*}[ht]")
+    print(r"\centering")
+    print(r"\small")
+    print(r"\begin{tabular}{" + col_spec + "}")
+    print(r"\toprule")
+    print(r" & \multicolumn{" + str(len(strats)) + r"}{c}{Correctness} & \multicolumn{"
+          + str(len(strats)) + r"}{c}{Cost (per 100 examples)} \\")
+    print(r"\cmidrule(lr){2-" + str(1 + len(strats)) + r"} \cmidrule(lr){"
+          + str(2 + len(strats)) + "-" + str(1 + 2 * len(strats)) + "}")
+    print(r"Task & " + headers_correct + " & " + headers_cost + r" \\")
+    print(r"\midrule")
+
+    for task in tasks:
+        # Correctness cells (bold = max)
+        parsed_correct = {s: _parse_cell(correct_df.loc[task, s]) for s in strats if s in correct_df.columns} if task in correct_df.index else {}
+        correct_means = [p[0] for p in parsed_correct.values() if p is not None]
+        best_correct = max(correct_means) if correct_means else None
+        cells_correct = []
+        for s in strats:
+            p = parsed_correct.get(s)
+            if p is None:
+                cells_correct.append("--")
+            else:
+                mean, sem = p
+                if mean == best_correct:
+                    cells_correct.append(f"$\\mathbf{{{mean:.2f}}}$")
+                else:
+                    cells_correct.append(f"${mean:.2f}$")
+
+        # Cost cells (bold = min)
+        parsed_cost = {s: _parse_cell(cost_df.loc[task, s]) for s in strats if s in cost_df.columns}
+        cost_means = [p[0] for p in parsed_cost.values() if p is not None]
+        best_cost = min(cost_means) if cost_means else None
+        cells_cost = []
+        for s in strats:
+            p = parsed_cost.get(s)
+            if p is None:
+                cells_cost.append("--")
+            else:
+                mean, sem = p
+                if mean == best_cost:
+                    cells_cost.append(f"$\\mathbf{{{mean:.2f}}}$")
+                else:
+                    cells_cost.append(f"${mean:.2f}$")
+
+        task_label = task.replace("_", r"\_")
+        if task == "AVERAGE":
+            print(r"\midrule")
+            task_label = r"\textrm{Average}"
+        elif task == "AVERAGE_EXCL_TAU":
+            task_label = r"\hspace{10pt}\textrm{without $\tau$ Bench}"
+            cells_correct = [""] * len(strats)
+        else:
+            task_label = TASK_TO_LATEX.get(task, task.replace("_", r"\_"))
+        print(task_label + " & " + " & ".join(cells_correct) + " & " + " & ".join(cells_cost) + r" \\")
+
+    print(r"\bottomrule")
+    print(r"\end{tabular}")
+    print(r"\caption{" + caption + "}")
+    print(r"\end{table*}")
+
+
 def main():
     import argparse
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--min-cols", type=int, default=0,
                         help="Suppress rows with fewer than K populated columns")
-    parser.add_argument("--format", choices=["table", "plot-correct", "plot-cost", "latex-correct", "latex-cost"], default="table",
-                        help="Output format: table (default), plot-correct, plot-cost, latex-correct, or latex-cost")
+    parser.add_argument("--format", choices=["table", "plot-correct", "plot-cost", "latex-correct", "latex-cost", "latex-compact"], default="table",
+                        help="Output format: table (default), plot-correct, plot-cost, latex-correct, latex-cost, or latex-compact")
     parser.add_argument("--output", default="hero_plot.png",
                         help="Output PNG file path (for plot-correct)")
-    parser.add_argument("--x", default="react",
-                        choices=STRATEGY_ORDER,
-                        help="Strategy for x-axis in plot modes (default: react)")
+    parser.add_argument("--x", nargs="+", default=["react"],
+                        help="Strategy(ies) for x-axis in plot modes (default: react)")
     parser.add_argument("--y", default="workflow",
                         choices=STRATEGY_ORDER,
                         help="Strategy for y-axis in plot modes (default: workflow)")
+    parser.add_argument("--suppress", nargs="+", default=[],
+                        metavar="TASK",
+                        help="Benchmarks to exclude (e.g. tau_bench/retail)")
     args = parser.parse_args()
 
     cost_df, correct_df = build_tables()
+
+    if args.suppress:
+        cost_df = cost_df[~cost_df.index.isin(args.suppress)]
+        correct_df = correct_df[~correct_df.index.isin(args.suppress)]
 
     if args.min_cols > 0:
         cost_df = _filter_min_cols(cost_df, args.min_cols)
@@ -262,6 +393,16 @@ def main():
     if args.format == "latex-correct":
         correct_df = pd.concat([correct_df, _avg_row(correct_df, "AVERAGE")])
         _print_latex(correct_df, "Correctness")
+        return
+
+    if args.format == "latex-compact":
+        correct_df = pd.concat([correct_df, _avg_row(correct_df, "AVERAGE")])
+        cost_df = pd.concat([
+            cost_df,
+            _avg_row(cost_df, "AVERAGE"),
+            _avg_row(cost_df, "AVERAGE_EXCL_TAU", exclude_prefix="tau_bench/"),
+        ])
+        _print_latex_compact(correct_df, cost_df)
         return
 
     if args.format == "latex-cost":

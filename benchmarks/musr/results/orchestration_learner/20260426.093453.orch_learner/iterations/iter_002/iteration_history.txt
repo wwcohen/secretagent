@@ -1,0 +1,14 @@
+Iter 0: train=55.4%, eval=46.9% — KEPT
+Iter 1: train=55.4%, eval=46.9% — ROLLED BACK
+  What was tried: An analysis of the pipeline and failure cases reveals a massive missed opportunity: the previous engineer designed a powerful, 4-step Theory of Mind (ToM) workflow (`answer_question_workflow`) specifically for this task, but **never wired it up**! The pipeline is currently just calling `raw_answer`, which struggles to implicitly track objects and beliefs over long paragraphs, yielding only ~55% accuracy.
+
+By wiring up this existing workflow, we can leverage explicit chronological tracking of object movements and observer presence. 
+
+However, before safely enabling it, we must fix a critical logical bug in its `infer_belief` prompt: the prompt previously assumed that if a person wasn't in the `present` list, they didn't know the new location. But the `present` list explicitly extracts "OTHER characters" — meaning the **actor who moved the object** would incorrectly be inferred as not knowing where they just put it! 
+
+I will:
+1. Wire up `answer_question` to use the powerful `answer_question_workflow`.
+2. Fix the `infer_belief` prompt so it correctly updates the belief state for the "actor" who moved the object.
+3. Enhance `extract_movements` to correctly categorize characters who are physically present but "distracted" as absent (a classic trick in ToM tasks).
+4. Add a seamless fallback to `raw_answer` just in case the workflow or index extraction fails.
+  ⚠ This change HURT accuracy. Do NOT retry this approach.

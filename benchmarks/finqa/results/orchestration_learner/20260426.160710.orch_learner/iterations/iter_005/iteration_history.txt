@@ -1,0 +1,41 @@
+Iter 0: train=66.2%, eval=63.3% — KEPT
+Iter 1: train=74.3%, eval=65.6% — KEPT
+  What was tried: An analysis of the failure cases reveals two major systematic issues that cause the current workflow to produce incorrect answers despite extracting the correct numbers:
+
+1. **Percentage formatting vs Decimal Fractions:** FinQA ground truth typically expects rates, proportions, and percent changes to be expressed as decimal fractions (e.g., `0.3385` instead of `33.85%`). The LLM often explicitly multiplied by 100 in its generated formula, which then failed exact matching.
+2. **Boolean / String Outputs:** Several questions require a `"yes"` or `"no"` boolean answer (e.g. "determine if the variance is greater..."). The `compute` function currently doesn't gracefully map `True`/`False` back to `"yes"`/`"no"`, and occasionally `eval()` fails when handling percentage signs (e.g., `26%` causes a modulo syntax error). 
+
+To fix this conservatively without breaking existing logic:
+1. **Refine `extract_reasoning_plan` docstring:** Add explicit strict rules to leave rate/ratio/percentage calculations as decimals (do NOT multiply by 100), and to substitute existing percentage values as decimals.
+2. **Refine `extract_final_number` docstring:** Clarify that "yes" / "no" are valid outputs, and explicitly tell it not to scale or append `%` to decimal percentages.
+3. **Enhance `compute`:** Add logic to safely convert trailing `%` signs to `/100` before evaluation to prevent modulo syntax errors. Map `True` / `False` results cleanly to `"yes"` and `"no"`.
+4. **Harden the active orchestrator:** The auto-generated `answer_finqa_orchestrated_seed` was relying on brittle string `split` logic to isolate the formula. I updated it to utilize the existing, well-tested `_extract_formula` function to ensure clean arithmetic strings are sent to Python's `eval()`.
+Iter 2: train=74.3% — ROLLED BACK
+  ⚠ This change HURT accuracy. Do NOT retry this approach.
+Iter 3: train=73.3%, eval=64.4% — ROLLED BACK
+  What was tried: An analysis of the failure cases indicates two primary issues causing regressions in the previous iteration:
+
+1. **Overfitted Prompt Instructions:** The previously added instruction `"DO NOT multiply by 100"` was overly restrictive. While it helped standard decimal cases, it broke many FinQA examples where the ground truth *expected* a percentage in absolute terms (e.g., `24.69` instead of `0.2469`). Removing this strict rule and letting the model adapt format to the question leads to much better generalization. 
+2. **Formula Extraction & Evaluation Brittleness:** 
+    - The LLM sometimes outputs formulas as assignments (e.g., `Formula: 5 + 3 = 8` or `Formula: x = 5 + 3`), causing syntax errors in `eval`.
+    - The LLM sometimes uses commas as thousands separators (e.g. `1,000 / 2,000`), which causes `eval` to treat them as invalid tuples instead of math.
+    - When `eval` fails, it currently poisons the extraction context by injecting `Calculated: ... = ERROR: invalid syntax`, tricking the final extractor into outputting the word `"ERROR"`.
+
+To address this conservatively without breaking working cases:
+1. **Loosen Formatting Rules:** Revert the overly rigid rule about percentages in both prompt docstrings and replace it with a rule to format numbers exactly as the question implies. 
+2. **Robust Comma Handling:** Update `compute()` to use a targeted regex that *only* removes commas acting as thousands separators (leaving function calls like `max(1, 2)` perfectly intact).
+3. **Robust Equation Parsing:** Update `_extract_formula()` to safely extract the actual math expression from assignments (e.g., pulling `5 + 3` out of `5 + 3 = 8`).
+4. **Graceful Fallback:** If `eval` throws an error or no formula is found, intercept the error and instead prompt the final `extract_final_number` LLM to manually calculate the answer based on the reasoning plan.
+  ⚠ This change HURT accuracy. Do NOT retry this approach.
+Iter 4: train=74.3%, eval=68.9% — KEPT
+  What was tried: An analysis of the failure cases indicates a recurring pattern where the pipeline fails due to brittleness in the formula evaluation steps, which then poisons the final extraction. Specifically:
+
+1. **Equal Signs in Formulas:** The LLM sometimes outputs an equation instead of a pure expression (e.g., `Formula: 1042661 - 170800 = 871861`). `_extract_formula` wasn't stripping the postfix, causing `eval()` to throw a `SyntaxError`.
+2. **Invalid Commas:** `compute()` was unconditionally stripping *all* commas. This broke valid tuples (e.g. `(1356, 2220)`) and multi-argument functions (e.g. `max(100, 200)`), causing them to evaluate incorrectly or raise syntax errors.
+3. **Hard Failures Poisoning Final Answer:** When `compute()` threw an error, it returned `"ERROR: invalid syntax"`. This was blindly passed to `extract_final_number()`, which obediently outputted "ERROR" instead of attempting to calculate the answer manually.
+
+To fix these conservatively and improve generalization without risking the performance drops seen in previous iterations:
+1. **Robust Formula Parsing:** Upgraded `_extract_formula` to safely parse out the actual mathematical expression if the LLM includes an equals sign (without breaking boolean conditionals like `==` or `>=`). 
+2. **Safe Thousands Separator Removal:** Upgraded `compute()` to only remove commas that act as thousands separators (using a safer regex lookahead), preserving valid Python tuples and function arguments.
+3. **Graceful Calculation Fallback:** Added logic to `answer_finqa_orchestrated_seed` (and the hand-coded workflow) to detect when python evaluation fails or returns an unhandled type (like a tuple). Instead of poisoning the final extraction with "ERROR", it inserts a helpful instruction asking the final LLM to calculate the answer manually using its reasoning plan.
+4. **Targeted Prompt Guardrail:** Added a gentle reminder to the `extract_reasoning_plan` docstring to ONLY output the expression itself without variable assignments.

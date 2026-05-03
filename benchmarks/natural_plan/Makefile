@@ -56,7 +56,7 @@ calendar_parallel:
 	@echo "launched 5 calendar jobs in background, logs in logs/cal_*.log"
 	@echo "monitor with: tail -f logs/cal_*.log  |  ps aux | grep expt.py"
 
-# Copy latest calendar results (filtered by dataset.split) to benchmarks/results/natural_plan/calendar/
+# Copy latest calendar results (filtered by dataset.split) to benchmarks/COMMON/results/natural_plan/calendar/
 calendar_export:
 	uv run python -m secretagent.cli.results export \
 	  --check dataset.split=calendar \
@@ -220,7 +220,7 @@ export:
 
 plot: plot_cal plot_meet plot_trip
 
-RESULTS_ROOT = ../../benchmarks/results/natural_plan
+RESULTS_ROOT = ../../benchmarks/COMMON/results/natural_plan
 
 plot_cal:
 	uv run python -m secretagent.cli.results plot --metric cost- --metric correct \

@@ -1,0 +1,21 @@
+llm:
+  model: together_ai/deepseek-ai/DeepSeek-V3.1
+  max_tokens: 8192
+cachier:
+  cache_dir: C:\Users\STUDENT\OneDrive\Documents\Projects\AI Research\secretagent\benchmarks\rulearena\airline\llm_cache
+evaluate:
+  result_dir: C:\Users\STUDENT\OneDrive\Documents\Projects\AI Research\secretagent\benchmarks\rulearena\airline\results
+  expt_name: workflow
+dataset:
+  split: valid
+  shuffle_seed: 137
+  'n': 3
+ptools:
+  extract_airline_params:
+    method: simulate_pydantic
+  compute_airline_calculator:
+    method: direct
+    fn: ptools._airline_calc_fn
+  compute_airline_answer:
+    method: direct
+    fn: ptools.airline_workflow

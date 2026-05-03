@@ -1,0 +1,22 @@
+An analysis of the execution traces reveals that a major source of failure is the hand-off between the LLM's generated reasoning plan and the Python `compute` tool. 
+
+The LLM is successfully extracting the correct values and forming the correct mathematical expressions, but Python's `eval` is throwing `SyntaxError`s because of common textual artifacts in the formula string. When `compute` crashes, the workflow falls back to the zero-shot unstructured LLM baseline (`extract_final_number`), which frequently guesses the wrong number from the reasoning text instead of performing the calculation.
+
+Specifically:
+1. **Trailing Equations & Text**: The LLM frequently writes `Formula: 100 / 5 = 20` or `Formula: 100 / 5 (in millions)`. The `=` and trailing words cause `eval` to crash.
+2. **Textual Scales**: Formulas containing units like `64 million / 549 million` throw syntax errors.
+3. **Percentages and Math Notation**: LLMs use `%` (which Python interprets as modulo) and `x` or `^` for multiplication and exponentiation.
+4. **Precision Glitches**: Python floating point math like `0.3 / 0.1` equals `2.9999999999999996` which misses the `int()` check and returns an ugly string.
+
+Instead of altering the prompt (which risks causing behavioral shifts in the LLM's extraction), we can make the Python parser and evaluator mathematically robust enough to execute the formulas the LLM naturally writes.
+
+### Changes Made
+1. **Robust Formula Extraction (`_extract_formula`)**:
+   - Safely strips leading variable assignments (e.g., `target = 10 / 5`).
+   - Safely drops trailing evaluations by taking only the left side of the first equals sign (e.g., `10 / 5 = 2` -> `10 / 5`).
+   - Removes purely descriptive trailing wrappers like `(in millions)`.
+2. **Robust Computation (`compute`)**:
+   - Replaces `x` (between numbers) with `*` and `^` with `**`.
+   - Safely converts textual scales following a number directly into scientific notation (`64 million` -> `64e6`), allowing them to be evaluated natively without disrupting fractions. 
+   - Replaces trailing `%` with `/100` so percent signs naturally execute correctly instead of triggering modulo errors.
+   - Cleans up floating-point inaccuracies by checking if a float is effectively an integer (within `1e-12`) before casting.

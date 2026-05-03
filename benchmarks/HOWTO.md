@@ -93,7 +93,7 @@ uv run -m secretagent.cli.results export [--latest K] [--check KEY=VALUE] [--as 
 
 When you run this from a directory like
 `benchmarks/bbh/sports_understanding` it will copy the results you
-specify into `benchmarks/results/bbh/sports_understanding`, where
-`benchmarks/results` will be tracked in git.  If you're not organizing
+specify into `benchmarks/COMMON/results/bbh/sports_understanding`, where
+`benchmarks/COMMON/results` will be tracked in git.  If you're not organizing
 your problems as `benchmarks/TASK/SUBTASK` then you can use `--as
 TASK/SUBTASK` to specify where they will be copied to.

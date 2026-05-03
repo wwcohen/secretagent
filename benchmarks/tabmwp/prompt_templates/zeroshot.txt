@@ -1,0 +1,18 @@
+Read the following table and answer the math word problem.
+
+Table:
+$table
+
+Question: $question
+
+Choices: $choices
+
+Give your final answer in the following format:
+
+<answer>
+FINAL ANSWER
+</answer>
+
+If your answer is a number, give just the number with no units, currency
+symbols, or extra text. If the question is multi-choice, give the chosen
+option exactly as it appears in the choices list.

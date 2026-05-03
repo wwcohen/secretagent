@@ -1,0 +1,51 @@
+case_name,predicted_output,expected_output,correct,correct_tolerance,failure_mode,input_tokens,output_tokens,latency,cost,expt_name
+airline_0_6,"**exception raised**: invalid syntax (<unknown>, line 1)",1131,0.0,0.0,extraction_failure,,,,,react
+airline_1_28,**exception raised**: malformed node or string on line 1: <ast.Call object at 0x0000026451DDF2E0>,2296,0.0,0.0,extraction_failure,,,,,react
+airline_1_10,**exception raised**: malformed node or string on line 1: <ast.Call object at 0x0000026451DF92A0>,2682,0.0,0.0,extraction_failure,,,,,react
+airline_2_30,**exception raised**: malformed node or string on line 1: <ast.Call object at 0x0000026451E9A890>,2658,0.0,0.0,extraction_failure,,,,,react
+airline_0_90,**exception raised**: malformed node or string on line 1: <ast.Call object at 0x0000026451E7D6F0>,1847,0.0,0.0,extraction_failure,,,,,react
+airline_0_72,**exception raised**: litellm.ServiceUnavailableError: ServiceUnavailableError: Together_aiException - Service unavailable,1279,0.0,0.0,extraction_failure,,,,,react
+airline_2_2,**exception raised**: malformed node or string on line 1: <ast.Call object at 0x0000026451DFA1D0>,3332,0.0,0.0,extraction_failure,,,,,react
+airline_0_86,**exception raised**: malformed node or string on line 1: <ast.Call object at 0x0000026451DDF7C0>,1392,0.0,0.0,extraction_failure,,,,,react
+airline_0_40,**exception raised**: malformed node or string on line 1: <ast.Call object at 0x0000026451DDCBE0>,2735,0.0,0.0,extraction_failure,,,,,react
+airline_0_79,**exception raised**: malformed node or string on line 1: <ast.Call object at 0x0000026451E990C0>,1227,0.0,0.0,extraction_failure,,,,,react
+airline_2_40,**exception raised**: malformed node or string on line 1: <ast.Call object at 0x0000026451E533D0>,4293,0.0,0.0,extraction_failure,,,,,react
+airline_2_3,**exception raised**: malformed node or string on line 1: <ast.Call object at 0x00000264552BFE80>,3103,0.0,0.0,extraction_failure,,,,,react
+airline_2_1,"**exception raised**: status_code: 503, model_name: together_ai/deepseek-ai/DeepSeek-V3.1, body: litellm.ServiceUnavailableError: ServiceUnavailableError: Together_aiException - Service unavailable",3762,0.0,0.0,extraction_failure,,,,,react
+airline_0_16,"**exception raised**: status_code: 503, model_name: together_ai/deepseek-ai/DeepSeek-V3.1, body: litellm.ServiceUnavailableError: ServiceUnavailableError: Together_aiException - Service unavailable",1300,0.0,0.0,extraction_failure,,,,,react
+airline_1_52,"**exception raised**: status_code: 503, model_name: together_ai/deepseek-ai/DeepSeek-V3.1, body: litellm.ServiceUnavailableError: ServiceUnavailableError: Together_aiException - Service unavailable",1896,0.0,0.0,extraction_failure,,,,,react
+airline_2_25,**exception raised**: litellm.InternalServerError: InternalServerError: Together_aiException - Internal server error,4578,0.0,0.0,extraction_failure,,,,,react
+airline_1_96,"**exception raised**: invalid decimal literal (<unknown>, line 1)",2085,0.0,0.0,extraction_failure,,,,,react
+airline_1_46,**exception raised**: malformed node or string on line 1: <ast.Call object at 0x0000026451DDF0A0>,2019,0.0,0.0,extraction_failure,,,,,react
+airline_0_74,**exception raised**: malformed node or string on line 1: <ast.Call object at 0x0000026451709F30>,903,0.0,0.0,extraction_failure,,,,,react
+airline_2_73,**exception raised**: malformed node or string on line 1: <ast.Call object at 0x0000026451164910>,4812,0.0,0.0,extraction_failure,,,,,react
+airline_2_59,**exception raised**: malformed node or string on line 1: <ast.Call object at 0x0000026451D77910>,3234,0.0,0.0,extraction_failure,,,,,react
+airline_0_35,**exception raised**: malformed node or string on line 1: <ast.Call object at 0x0000026451D75FF0>,1098,0.0,0.0,extraction_failure,,,,,react
+airline_1_37,**exception raised**: malformed node or string on line 1: <ast.Call object at 0x0000026451D74100>,4458,0.0,0.0,extraction_failure,,,,,react
+airline_0_41,**exception raised**: malformed node or string on line 1: <ast.Call object at 0x00000264552B07C0>,1838,0.0,0.0,extraction_failure,,,,,react
+airline_2_98,**exception raised**: litellm.ServiceUnavailableError: ServiceUnavailableError: Together_aiException - Service unavailable,3028,0.0,0.0,extraction_failure,,,,,react
+airline_0_80,"**exception raised**: status_code: 500, model_name: together_ai/deepseek-ai/DeepSeek-V3.1, body: litellm.InternalServerError: InternalServerError: Together_aiException - Internal server error",1165,0.0,0.0,extraction_failure,,,,,react
+airline_2_69,**exception raised**: malformed node or string on line 1: <ast.Call object at 0x00000264552BE7A0>,4475,0.0,0.0,extraction_failure,,,,,react
+airline_2_88,**exception raised**: malformed node or string on line 1: <ast.Call object at 0x0000026451DFAB00>,3324,0.0,0.0,extraction_failure,,,,,react
+airline_2_62,**exception raised**: malformed node or string on line 1: <ast.Call object at 0x00000264553FF9A0>,3749,0.0,0.0,extraction_failure,,,,,react
+airline_2_5,"**exception raised**: status_code: 500, model_name: together_ai/deepseek-ai/DeepSeek-V3.1, body: litellm.InternalServerError: InternalServerError: Together_aiException - Internal server error",4073,0.0,0.0,extraction_failure,,,,,react
+airline_1_45,**exception raised**: malformed node or string on line 1: <ast.Call object at 0x0000026455359420>,2535,0.0,0.0,extraction_failure,,,,,react
+airline_2_87,**exception raised**: malformed node or string on line 1: <ast.Call object at 0x0000026451D1BCD0>,3157,0.0,0.0,extraction_failure,,,,,react
+airline_1_71,**exception raised**: malformed node or string on line 1: <ast.Call object at 0x00000264553FD0C0>,2449,0.0,0.0,extraction_failure,,,,,react
+airline_1_4,**exception raised**: malformed node or string on line 1: <ast.Call object at 0x00000264552B37C0>,2207,0.0,0.0,extraction_failure,,,,,react
+airline_0_99,**exception raised**: litellm.ServiceUnavailableError: ServiceUnavailableError: Together_aiException - Service unavailable,1421,0.0,0.0,extraction_failure,,,,,react
+airline_1_76,**exception raised**: malformed node or string on line 1: <ast.Call object at 0x00000264553763B0>,2108,0.0,0.0,extraction_failure,,,,,react
+airline_2_67,**exception raised**: malformed node or string on line 1: <ast.Call object at 0x0000026451E51720>,3029,0.0,0.0,extraction_failure,,,,,react
+airline_2_10,**exception raised**: malformed node or string on line 1: <ast.Call object at 0x0000026451E987F0>,3056,0.0,0.0,extraction_failure,,,,,react
+airline_2_43,**exception raised**: malformed node or string on line 1: <ast.Call object at 0x0000026451E99C60>,5181,0.0,0.0,extraction_failure,,,,,react
+airline_1_2,**exception raised**: malformed node or string on line 1: <ast.Call object at 0x00000264553FFA00>,2380,0.0,0.0,extraction_failure,,,,,react
+airline_1_92,**exception raised**: malformed node or string on line 1: <ast.Call object at 0x0000026451E99900>,2254,0.0,0.0,extraction_failure,,,,,react
+airline_0_20,**exception raised**: malformed node or string on line 1: <ast.Call object at 0x000002645170A350>,972,0.0,0.0,extraction_failure,,,,,react
+airline_1_1,**exception raised**: malformed node or string on line 1: <ast.Call object at 0x00000264553591B0>,2375,0.0,0.0,extraction_failure,,,,,react
+airline_1_84,**exception raised**: malformed node or string on line 1: <ast.Call object at 0x0000026451D74F40>,2205,0.0,0.0,extraction_failure,,,,,react
+airline_0_36,**exception raised**: malformed node or string on line 1: <ast.Call object at 0x0000026451DF93F0>,1742,0.0,0.0,extraction_failure,,,,,react
+airline_0_4,**exception raised**: malformed node or string on line 1: <ast.Call object at 0x0000026451DFB310>,1434,0.0,0.0,extraction_failure,,,,,react
+airline_1_5,**exception raised**: malformed node or string on line 1: <ast.Call object at 0x0000026455377760>,2380,0.0,0.0,extraction_failure,,,,,react
+airline_1_65,**exception raised**: litellm.ServiceUnavailableError: ServiceUnavailableError: Together_aiException - Service unavailable,4808,0.0,0.0,extraction_failure,,,,,react
+airline_0_69,"**exception raised**: status_code: 500, model_name: together_ai/deepseek-ai/DeepSeek-V3.1, body: litellm.InternalServerError: InternalServerError: Together_aiException - Internal server error",1174,0.0,0.0,extraction_failure,,,,,react
+airline_0_37,**exception raised**: malformed node or string on line 1: <ast.Call object at 0x0000026455376170>,1857,0.0,0.0,extraction_failure,,,,,react

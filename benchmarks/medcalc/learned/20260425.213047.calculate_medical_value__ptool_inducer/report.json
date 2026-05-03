@@ -1,0 +1,53 @@
+{
+  "interface": "calculate_medical_value",
+  "trace_mode": "react",
+  "only_correct": false,
+  "model": "gemini/gemini-3.1-flash-lite-preview",
+  "n_thoughts": 12,
+  "n_labeled": 12,
+  "n_unique_categories": 6,
+  "ptools": [
+    {
+      "func_name": "define_calculation_task",
+      "display_name": "DefineCalculationTask",
+      "short_desc": "Identifies the required medical calculation and extracts the necessary clinical parameters from the patient note.",
+      "docstring": "Use this tool to formalize the clinical calculation task before performing any math. \n\nThis function helps you: \n1. Specify the clinical score or formula required based on the patient note. \n2. Extract the specific variables (e.g., sodium levels, weight, heart rate) needed for the calculation. \n3. Map these variables to their corresponding values found in the clinical text. \n\nReturns: \nA structured string summarizing the task: \n'TASK: [Calculation Name] \nREQUIRED_VARIABLES: [list of parameters] \nEXTRACTED_VALUES: [mapping of parameters to note values] \nSTATUS: Ready for computation'",
+      "source_category": "Define calculation task",
+      "count": 3
+    },
+    {
+      "func_name": "extract_clinical_data",
+      "display_name": "ExtractClinicalData",
+      "short_desc": "Extracts specific clinical variables from a patient note to support medical calculations or scoring.",
+      "docstring": "Identifies and retrieves clinical data points from the patient note relevant to a specific medical formula or decision rule.\n\nArgs:\n    focus: A string describing the medical tool or criteria (e.g., 'Wells' Criteria for PE', 'BMI', 'MELD score').\n\nInstructions:\n    - Scan the note for all required parameters defined by the medical formula.\n    - If a parameter is missing or ambiguous, state that it is 'not found' or 'unclear'.\n    - Be precise with units and temporal context provided in the note.\n\nReturns:\n    A structured string summarizing the extracted values:\n    'Extracted data for [focus]:\n    - [Parameter 1]: [Value]\n    - [Parameter 2]: [Value]\n    ...'",
+      "source_category": "Extract clinical data points",
+      "count": 3
+    }
+  ],
+  "categories": [
+    {
+      "category": "Define calculation task",
+      "count": 3
+    },
+    {
+      "category": "Extract clinical data points",
+      "count": 3
+    },
+    {
+      "category": "Verify and state result",
+      "count": 2
+    },
+    {
+      "category": "Perform scoring assessment",
+      "count": 2
+    },
+    {
+      "category": "Apply clinical formula",
+      "count": 1
+    },
+    {
+      "category": "Perform mathematical calculation",
+      "count": 1
+    }
+  ]
+}

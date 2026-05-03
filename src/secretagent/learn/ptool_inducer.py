@@ -284,11 +284,20 @@ class PtoolInducer(Learner):
         self._counts: list = []
         self._ptools: list[dict] = []
 
+    def learn(self, dirs, latest=1, check=None):
+        self.collect_distillation_data(dirs, latest, check)
+        print(f'collected {len(self._items)} thoughts in working directory {self.out_dir}')
+        self.fit()
+        output_file = self.save_implementation()
+        print(self.report())
+        print(f'saved output to {output_file}')
+
     # --- override data collection to extract thoughts, not IO pairs ---
 
     def collect_distillation_data(self, dirs, latest=1, check=None):
         """Collect thoughts from rollouts instead of input/output pairs."""
         from secretagent import savefile
+        from secretagent.dataset import Case, Dataset
         filtered = savefile.filter_paths(dirs, latest=latest, dotlist=check or [])
         if not filtered:
             raise ValueError(f'no directories after filtering: {dirs}')
@@ -321,6 +330,18 @@ class PtoolInducer(Learner):
                                                   'text': t.strip(),
                                                   'correct': correct})
         self._items = items
+        # Populate self.dataset so that base.Learner.learn()'s print of
+        # len(self.dataset.cases) reports the right count instead of
+        # crashing with AttributeError. Each thought becomes a Case with
+        # the thought text as the single input arg.
+        self.dataset = Dataset(
+            name='induced_thoughts', split='train',
+            cases=[Case(name=f"{it['case']}.{it['pos']}",
+                        input_args=(it['text'],),
+                        expected_output=None,
+                        metadata={'correct': it['correct']})
+                   for it in items],
+        )
         # Save provenance
         data_path = Path(self.created_files['data.json'])
         data_path.parent.mkdir(parents=True, exist_ok=True)

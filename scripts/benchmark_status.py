@@ -5,8 +5,8 @@ Usage:
     uv run scripts/benchmark_status.py [--task TASK] [--subtask SUBTASK]
 
 For every TASK/SUBTASK this code checks that there is a subdirectory D
-in the main branch of the repo called benchmarks/results/TASK/SUBTASK
-(eg benchmarks/results/musr/team). That subdirectory D should contain
+in the main branch of the repo called benchmarks/COMMON/results/TASK/SUBTASK
+(eg benchmarks/COMMON/results/musr/team). That subdirectory D should contain
 a valid "results directory" for the expt_name S, for each S in
 'workflow', 'pot', 'react', 'structured_baseline', and 'unstructured_baseline'.
 
@@ -45,13 +45,14 @@ TASKS = [
     "medagentbench/medagentbench",
     "medcalc/equation",
     "medcalc/rule",
+    "medcalc/test",
     "musr/murder",
     "musr/object",
     "musr/team",
     "natural_plan/calendar",
     "natural_plan/meeting",
     "natural_plan/trip",
-    "rulearena/airlines",
+    "rulearena/airline",
     "rulearena/tax",
     "rulearena/nba",
     "tabmwp/tabmwp",
@@ -76,7 +77,7 @@ TASK_TO_LATEX = {
     "natural_plan/calendar": "NaturalPlan Calendar",
     "natural_plan/meeting": "NaturalPlan Meeting",
     "natural_plan/trip": "NaturalPlan Trip",
-    "rulearena/airlines": "Rulearena Airlines",
+    "rulearena/airline": "Rulearena Airlines",
     "rulearena/tax": "Rulearena Tax",
     "rulearena/nba": "Rulearena NBA",
     "tabmwp/tabmwp": "Tabular Math WP",
@@ -120,6 +121,46 @@ def exists_on_branch(repo_relative_path: str, branch: str = "main") -> bool:
     return result.returncode == 0
 
 
+def _git_show_text(repo_relative_path: str, branch: str = "main") -> str | None:
+    """Read a committed text file from the given branch."""
+    result = subprocess.run(
+        ["git", "show", f"{branch}:{repo_relative_path}"],
+        capture_output=True, text=True, cwd=REPO_ROOT,
+    )
+    if result.returncode != 0:
+        return None
+    return result.stdout
+
+
+def _dataset_split_from_config(config_text: str) -> str | None:
+    """Extract dataset.split from simple YAML config text."""
+    in_dataset = False
+    dataset_indent = 0
+    for raw_line in config_text.splitlines():
+        if not raw_line.strip() or raw_line.lstrip().startswith("#"):
+            continue
+        indent = len(raw_line) - len(raw_line.lstrip())
+        stripped = raw_line.strip()
+        if re.match(r"^dataset\s*:\s*$", stripped):
+            in_dataset = True
+            dataset_indent = indent
+            continue
+        if in_dataset and indent <= dataset_indent:
+            in_dataset = False
+        if in_dataset:
+            match = re.match(r"^split\s*:\s*(.+?)\s*$", stripped)
+            if match:
+                return match.group(1).strip().strip("'\"")
+    return None
+
+
+def expected_dataset_split(task: str, subtask: str) -> str | None:
+    """Return a required dataset.split substring for status checks."""
+    if task == "medcalc" and subtask == "test":
+        return "test"
+    return None
+
+
 def find_result_dirs(parent_repo_path: str, strategy: str) -> list[str]:
     """Find all result directory names under parent matching the given strategy.
 
@@ -146,7 +187,7 @@ def find_all_result_dirs(parent_repo_path: str) -> list[tuple[str, str]]:
 def check_benchmark(task_subtask: str, full: bool = False) -> tuple[int, list[str]]:
     """Check a single TASK/SUBTASK and return (score, details)."""
     task, subtask = task_subtask.split("/")
-    results_repo_path = f"benchmarks/results/{task}/{subtask}"
+    results_repo_path = f"benchmarks/COMMON/results/{task}/{subtask}"
 
     if not exists_on_branch(results_repo_path):
         return 0, [f"  result directory {results_repo_path} not found on main"]
@@ -176,9 +217,22 @@ def check_benchmark(task_subtask: str, full: bool = False) -> tuple[int, list[st
         s_score = 0
         s_details = []
 
-        # Check config.yaml
-        if exists_on_branch(f"{result_repo_path}/config.yaml"):
-            s_score += 5
+        # Check config.yaml, and for explicit test-set subtasks verify
+        # dataset.split in that committed config really names the test split.
+        config_path = f"{result_repo_path}/config.yaml"
+        if exists_on_branch(config_path):
+            required_split = expected_dataset_split(task, subtask)
+            if required_split is None:
+                s_score += 5
+            else:
+                config_text = _git_show_text(config_path)
+                split = _dataset_split_from_config(config_text or "")
+                if split is not None and required_split in split:
+                    s_score += 5
+                else:
+                    s_details.append(
+                        f"dataset.split={split!r} does not contain {required_split!r}"
+                    )
         else:
             s_details.append("no config.yaml")
 

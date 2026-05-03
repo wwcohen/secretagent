@@ -1,0 +1,32 @@
+Iter 0: train=86.7%, eval=53.8% — KEPT
+Iter 1: train=93.3%, eval=53.8% — KEPT
+  What was tried: 1. **Specific failure patterns identified:**
+   - **Extraction overlap (`valid.026`)**: The LLM includes added items (like "James") in *both* the initial table extraction and the `actions` list, resulting in duplicates when the action is executed.
+   - **Counting failure (`valid.007`, `valid.012`)**: The LLM incorrectly returns '0' when asked "how many animals" are in the table because it doesn't recognize the rows as animals. This cascades into `choose_response` returning `None`, which causes a tuple unpack exception.
+   - **Missing multiple tables (`valid.023`)**: When a completely new table (like giraffes) is introduced in the text, it is ignored by the extraction, so the question refers to data that doesn't exist.
+
+2. **How many failures share this?** All 4 shown failures are direct manifestations of these three patterns.
+
+3. **Minimal changes that fix these patterns:**
+   - Refine the `analyze_input` docstring with specific critical extraction rules to strictly prevent adding modified rows to the initial table, and to handle secondary tables by framing their introduction as an `action`.
+   - Refine the `answer_question` docstring to explicitly state that "how many" questions should be answered by counting the data rows (excluding the header), directly guiding the math.
+   - Add a `try...except` block with a zero-shot fallback path in `penguins_workflow`. If `choose_response` still returns `None`, or an unpack exception occurs, the pipeline falls back to zero-shot (which sees the entire input context) rather than failing outright.
+
+4. **Why it won't break working cases:**
+   - The docstring changes act purely as guardrails for edge cases (new tables/counts) without altering how normal actions are executed or standard attributes are queried.
+   - The fallback path only triggers when the main workflow throws an exception, meaning it can only *rescue* failed cases, safely preserving the existing 86.7% accuracy of the working baseline.
+Iter 2: train=90.0%, eval=61.5% — ROLLED BACK
+  What was tried: 1. **Specific failure pattern identified**: In the previous iteration, a rule was added to `analyze_input` to represent newly introduced tables (e.g., giraffes) as actions that "replace the current table". While this helped when the question was *about* the new table, it catastrophically failed when a new table was simply a distractor and the question asked about the original table (penguins). The pipeline faithfully replaced the penguin table with giraffes, losing the target data entirely and leading to hallucinated answers (e.g., cases `valid.011` and `valid.034`). Additionally, when the LLM hallucinated, `choose_response` would guess randomly or return incorrectly formatted tuples, triggering fallback errors.
+
+2. **How many failures share this?**: Both of the 2 currently explicitly listed failures (`valid.011` and `valid.034`) directly trace to replacing the penguins table with the giraffe distractor table, and then returning random options or failing due to unpack constraints.
+
+3. **Minimal changes that fix this pattern**: 
+   - **Fix `analyze_input` docstring**: Refine the rule for "Multiple Tables" to explicitly instruct the LLM to ignore distractor tables if the question pertains to the original entities. It should only add a "replace table" action if the question is genuinely about the new entities.
+   - **Fix `choose_response` docstring**: Add an instruction to explicitly return `('None', 'None')` instead of randomly guessing when an answer doesn't partially match any options.
+   - **Robustify Python logic**: Update `penguins_workflow` to safely validate that `choose_response` returned a valid length-2 list/tuple containing an actual option letter (A, B, etc.). If it didn't, or if an exception occurs during list unpacking, fallback to the robust zero-shot unstructured LLM, which naturally sees all input context and avoids rigid extraction failures.
+
+4. **Why it won't break working cases**: 
+   - The original instruction for adding specific operations like "add a penguin" is unaffected.
+   - `penguins_workflow` handles the extraction precisely exactly as before for successful extractions, but is now strongly resilient to type errors or missing tuple elements, acting strictly as a safety net. 
+   - These fallback bounds are conservative Python implementations that protect the pipeline from ungraceful crashes.
+  ⚠ This change HURT accuracy. Do NOT retry this approach.

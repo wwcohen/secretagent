@@ -1,0 +1,17 @@
+airline_2_49) expected: "Australia".
+For Austin to Shenzhen (airline_0_73) expected: "China".
+
+So the region is usually the non-US country/continent. If both are US, it's "U.S.".
+My proposed docstring for `routine` covers this perfectly:
+`Destination region (e.g., "Europe", "U.S.", "Canada", "Mexico", "China", "Japan", "South America", "Australia", "India", "Hong Kong"). If international, use the non-US region. Map cities to their broad region.`
+
+Let's update `extract_airline_params` docstring slightly to enforce this:
+```python
+@interface
+def extract_airline_params(query: str) -> AirlineParams:
+    """Extract structured baggage parameters from an airline fee query.
+    
+    IMPORTANT:
+    - customer_class must NOT include the word "Class". Use exact names like "Main Cabin", "Basic Economy", "First", "Business", "Premium Economy", "Main Plus".
+    - routine is the generic destination region (e.g., "Europe", "China", "Japan", "U.S.", "Canada", "Mexico", "South America", "Australia", "India"). If the flight is international, output the non-US region. Map specific cities to their region (e.g. Brussels -> Europe, Munich -> Europe, Tokyo -> Japan).
+    - direction is 0 if departing the US to a foreign

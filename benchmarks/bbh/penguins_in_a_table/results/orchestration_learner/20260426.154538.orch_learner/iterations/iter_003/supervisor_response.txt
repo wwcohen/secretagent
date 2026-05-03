@@ -1,0 +1,200 @@
+An analysis of the failures reveals that the current pipeline becomes self-destructive when handling distractor tables (like the giraffes). 
+
+### Identified Failure Pattern:
+1. **Destructive Table Replacement (`valid.011`, `valid.034`)**: Due to the previously added "Multiple Tables" extraction rule, the LLM unconditionally issues a "replace the current table with the new giraffe table" action. 
+2. **Loss of Primary Data**: When `table_operation` executes this replacement, the primary penguin table is entirely destroyed. If the multiple-choice question subsequently asks about penguins, `answer_question` fails or hallucinates (returning names like "Marian" or "None"). 
+3. **Random Guessing on Failure**: Because the invalid/None answer isn't in the options, `choose_response` is forced to guess a random option or returns malformed output, bypassing any possible fallback.
+
+### The Fix:
+1. **Change Extraction Strategy to 'Single Table Focus'**: Instead of destructively replacing the table, we explicitly instruct `analyze_input` to ignore unrelated distractor tables. This preserves the primary table so that questions about it succeed normally.
+2. **Prevent Random Guessing**: We refine `choose_response` to explicitly return `('None', 'None')` when it encounters an answer that isn't among the options, preventing the LLM from hallucinating a choice.
+3. **Robust Zero-Shot Fallback**: We update `penguins_workflow` to intelligently short-circuit exact matches, strictly validate the option letter returned by `choose_response`, and trigger a fallback to the `zeroshot_unstructured_workflow` if the result is invalid or 'None'. The zero-shot workflow processes the entire raw text, naturally handling out-of-distribution queries (such as questions genuinely about the distractor tables).
+
+<ptools_file>
+"""Tools for the penguins_in_a_table benchmark.
+
+The task: given a question about a table of penguins (with possible
+table modifications), answer a multiple-choice question about the
+resulting table.
+
+Derived from the program trace mock in penguins_in_a_table.py
+(doctest-prompting project).
+"""
+
+from typing import Any, List, Tuple
+
+from secretagent.core import interface, implement_via
+from secretagent.evaluate import Evaluator
+
+
+class PenguinsEvaluator(Evaluator):
+    def compare_predictions(self, predicted_output, expected_output) -> dict[str, Any]:
+        def normalize(s):
+            return str(s).strip().strip('()')
+        return dict(correct=float(normalize(predicted_output) == normalize(expected_output)))
+
+# ── sub-tools ────────────────────────────────────────────────────────────────
+
+@interface
+def analyze_input(input_str: str) -> Tuple[List[List[str]], List[str], str, List[Tuple[str, str]]]:
+    """Accept an input and extract an information table, one or more actions
+    being performed on the table, a question being asked about the table,
+    and the possible answers to the question.
+
+    CRITICAL EXTRACTION RULES:
+    1. Initial Table Only: The extracted `table` must ONLY contain the initial rows described at the beginning. Do NOT include items that are added later via actions.
+    2. Single Table Focus: Focus ONLY on the primary table (e.g., penguins). If a completely different table (e.g., giraffes) is introduced, ignore it and DO NOT add actions to replace or modify the primary table.
+
+    Returns (table, actions, question, options) where:
+      - table is a list of rows, each row a list of string cell values
+        (first row is the header)
+      - actions is a list of natural-language action descriptions to apply
+        to the table (may be empty)
+      - question is the question string
+      - options is a list of (letter, answer_text) pairs,
+        e.g. [('A', '1'), ('B', '2'), ...]
+    """
+    ...
+
+@interface
+def table_operation(table: List[List[str]], action: str) -> List[List[str]]:
+    """Take a table and an action to perform on that table, and return a copy
+    of the table after performing the action.
+
+    Examples of actions: 'delete the penguin named Bernard',
+    'sort by age', 'add a penguin named Dave, age 3, height 55, weight 10'.
+    """
+    ...
+
+@interface
+def answer_question(table: List[List[str]], question: str) -> str:
+    """Take a table (provided as a list of lists where the first list is the header) and a question about information in that table, and return the answer as a plain string.
+    
+    IMPORTANT: 
+    - If the question asks for a count (e.g. "how many animals"), count the number of data rows (exclude the header row) and return just the number.
+    - If asked for an average, median, or sum, compute it accurately based on the data rows.
+    """
+    ...
+
+@interface
+def choose_response(answer: str, options: List[Tuple[str, str]]) -> Tuple[str, str]:
+    """Take an answer to a question and a list of multiple-choice options and
+    return the multiple-choice option best matching the answer.
+
+    IMPORTANT: If the answer clearly does not match any of the provided options, 
+    or if the answer is 'None' or empty, you MUST return ('None', 'None'). Do NOT guess.
+    Example: if answer is 'Marian' but options are [('A', 'Louis'), ('B', 'Gwen')], return ('None', 'None').
+
+    Returns the (letter, answer_text) pair, e.g. ('A', '1').
+    """
+    ...
+
+# ── top-level interface ───────────────────────────────────────────────────────
+
+@interface
+def answer_penguin_question(question: str) -> str:
+    """Given a penguins-in-a-table multiple-choice question, return the correct
+    option label, e.g. '(A)'.
+
+    The input includes the table, any modifications to apply, the question
+    text, and labeled answer options.
+    """
+    ...
+
+@interface
+def answer_penguin_question_orchestrated(input_str: str) -> str:
+    """Given a penguins-in-a-table multiple-choice question, return the correct
+    option label, e.g. '(A)'.
+    """
+    ...
+
+@interface
+def react_answer_penguin_question(question: str) -> str:
+    """Given a penguins-in-a-table multiple-choice question, return a freeform
+    answer string. Intended to be bound via simulate_pydantic with the sub-tools
+    as the tool list (ReAct); its output is post-processed by
+    extract_option_letter in penguins_react_workflow.
+    """
+    ...
+
+
+# ── hand-coded workflow ───────────────────────────────────────────────────────
+
+def penguins_workflow(input_str: str) -> str:
+    """Hand-coded workflow implementing answer_penguin_question.
+
+    To use:
+        ptools.answer_penguin_question.method=direct
+        ptools.answer_penguin_question.fn=ptools.penguins_workflow
+    """
+    try:
+        table, actions, question, options = analyze_input(input_str)
+        for action in actions:
+            table = table_operation(table, action)
+        answer = answer_question(table, question)
+        
+        # 1. Try exact match first (case-insensitive, stripped) to avoid LLM guessing
+        if answer is not None:
+            ans_str = str(answer).strip().lower()
+            if ans_str != '' and ans_str != 'none':
+                for letter, text in options:
+                    if str(text).strip().lower() == ans_str:
+                        clean_letter = str(letter).strip("() \n\t").upper()
+                        return f'({clean_letter})'
+                        
+        # 2. Use LLM to cleanly map the answer to an option
+        ans_input = str(answer).strip() if answer is not None else "None"
+        res = choose_response(ans_input, options)
+        
+        if res is not None and isinstance(res, (list, tuple)) and len(res) >= 2:
+            letter = str(res[0]).strip("() \n\t").upper()
+            if letter != 'NONE':
+                # Validate the returned letter is actually one of the real options
+                valid_letters = {str(opt[0]).strip("() \n\t").upper() for opt in options}
+                if letter in valid_letters:
+                    return f'({letter})'
+                    
+        # 3. Fallback to zero-shot if the answer is 'None' or doesn't map to any option
+        return zeroshot_unstructured_workflow(input_str)
+        
+    except Exception:
+        # Final fallback for any other exceptions (like unpack errors or extraction failures)
+        return zeroshot_unstructured_workflow(input_str)
+
+# ── zero-shot unstructured workflow ──────────────────────────────────────────
+
+@implement_via('prompt_llm', prompt_template_file='prompt_templates/zeroshot.txt')
+def zeroshot_answer_penguin_question(question: str) -> str:
+    ...
+
+@implement_via('simulate')
+def extract_option_letter(llm_output: str) -> str:
+    """Given raw LLM output, extract and return the multiple-choice letter
+    in parentheses, e.g. '(A)'.
+    """
+    ...
+
+def zeroshot_unstructured_workflow(input_str: str) -> str:
+    """Workflow for zero-shot prompt with letter extraction.
+
+    To use:
+        ptools.answer_penguin_question.method=direct
+        ptools.answer_penguin_question.fn=ptools.zeroshot_unstructured_workflow
+    """
+    llm_output = zeroshot_answer_penguin_question(input_str)
+    return extract_option_letter(llm_output)
+
+
+def penguins_react_workflow(input_str: str) -> str:
+    """Workflow that runs ReAct over the sub-tools and extracts the option
+    letter from its freeform final answer.
+
+    To use:
+        ptools.answer_penguin_question.method=direct
+        ptools.answer_penguin_question.fn=ptools.penguins_react_workflow
+        ptools.react_answer_penguin_question.method=simulate_pydantic
+        ptools.react_answer_penguin_question.tools=[...]
+    """
+    react_answer = react_answer_penguin_question(input_str)
+    return extract_option_letter(react_answer)
+</ptools_file>

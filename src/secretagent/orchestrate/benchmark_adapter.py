@@ -280,7 +280,7 @@ class BenchmarkAdapter:
     ) -> tuple[Dataset, Dataset | None]:
         expt = self._load_expt_module()
         full_ds = expt.load_dataset(split)
-        train_cases, eval_cases = expt.stratified_split(
+        train_cases, eval_cases = self._exact_medcalc_disjoint_split(
             full_ds.cases, n_train, n_eval, seed=self.shuffle_seed)
 
         train_ds = full_ds
@@ -292,6 +292,82 @@ class BenchmarkAdapter:
         print(f'Eval: {len(eval_cases)} cases (disjoint split from {split})')
         return train_ds, eval_ds
 
+    @staticmethod
+    def _exact_medcalc_disjoint_split(
+        cases: list[Any], n_train: int, n_eval: int, seed: int,
+    ) -> tuple[list[Any], list[Any]]:
+        """Draw exact-size disjoint splits, stratified when size permits."""
+        rng = random.Random(seed)
+        groups: dict[str, list[Any]] = {}
+        for case in cases:
+            calc = (case.metadata or {}).get('calculator_name', 'unknown')
+            groups.setdefault(calc, []).append(case)
+        for items in groups.values():
+            rng.shuffle(items)
+
+        def take(n: int) -> list[Any]:
+            total = sum(len(items) for items in groups.values())
+            n = max(0, min(n, total))
+            if n == 0:
+                return []
+
+            nonempty = [name for name, items in groups.items() if items]
+            if n < len(nonempty):
+                flat = [case for items in groups.values() for case in items]
+                rng.shuffle(flat)
+                selected = flat[:n]
+                selected_ids = {id(case) for case in selected}
+                for name, items in groups.items():
+                    groups[name] = [
+                        case for case in items
+                        if id(case) not in selected_ids
+                    ]
+                rng.shuffle(selected)
+                return selected
+
+            exact = {
+                name: len(items) * n / total
+                for name, items in groups.items()
+                if items
+            }
+            counts = {name: max(int(value), 1)
+                      for name, value in exact.items()}
+            allocated = sum(counts.values())
+            remaining = n - allocated
+
+            if remaining > 0:
+                remainders = sorted(
+                    exact,
+                    key=lambda name: exact[name] - counts[name],
+                    reverse=True,
+                )
+                for name in remainders:
+                    if remaining <= 0:
+                        break
+                    if counts[name] < len(groups[name]):
+                        counts[name] += 1
+                        remaining -= 1
+            elif remaining < 0:
+                trimmable = sorted(
+                    (name for name, count in counts.items() if count > 1),
+                    key=lambda name: counts[name],
+                    reverse=True,
+                )
+                for name in trimmable:
+                    if remaining >= 0:
+                        break
+                    counts[name] -= 1
+                    remaining += 1
+
+            selected = []
+            for name, count in counts.items():
+                selected.extend(groups[name][:count])
+                groups[name] = groups[name][count:]
+            rng.shuffle(selected)
+            return selected
+
+        return take(n_train), take(n_eval)
+
     def _load_musr(self, split: str, n: int | None, seed: int) -> Dataset:
         expt = self._load_expt_module()
         ds = expt.load_dataset(split)
@@ -301,9 +377,18 @@ class BenchmarkAdapter:
         self, split: str, n: int | None, loader_args: dict,
     ) -> Dataset:
         expt = self._load_expt_module()
-        task = loader_args.get('task', 'calendar')
+        if split in {'calendar', 'meeting', 'trip'}:
+            task = split
+            partition = None
+        elif split in {'train', 'valid', 'test'}:
+            task = loader_args.get('task', 'calendar')
+            partition = split
+        else:
+            task = loader_args.get('task', 'calendar')
+            partition = split
         prompt_mode = loader_args.get('prompt_mode', '0shot')
-        ds = expt.load_dataset(task=task, prompt_mode=prompt_mode, partition=split)
+        ds = expt.load_dataset(
+            task=task, prompt_mode=prompt_mode, partition=partition)
         return ds.configure(n=n)
 
     def _load_rulearena(

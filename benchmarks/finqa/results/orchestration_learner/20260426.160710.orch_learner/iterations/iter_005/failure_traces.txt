@@ -1,0 +1,1651 @@
+Total failures: 54 / showing 54:
+
+Failure counts by category:
+  unknown: 54 failures
+
+--- Case valid.00522: ---
+  Input arg 0: You are answering a numerical reasoning question over a financial report excerpt.
+
+## Context (text before table)
+material impact on the service cost and interest cost components of net periodic benefit costs for a 1% ( 1 % ) change in the assumed health care trend rate .
+for most of the participants in the u.s .
+plan , aon 2019s liability for future plan cost increases for pre-65 and medical supplement plan coverage is limited to 5% ( 5 % ) per annum .
+because of this cap , net employer trend rates for these plans are effectively limited to 5% ( 5 % ) per year in the future .
+during 2007 , aon recognized a plan amendment which phases out post-65 retiree coverage in its u.s .
+plan over the next three years .
+the impact of this amendment on net periodic benefit cost is being recognized over the average remaining service life of the employees .
+14 .
+stock compensation plans the following table summarizes stock-based compensation expense recognized in continuing operations in the consolidated statements of income in compensation and benefits ( in millions ) : .
+
+## Table
+| years ended december 31 | 2010 | 2009 | 2008 |
+| rsus | $ 138 | $ 124 | $ 132 |
+| performance plans | 62 | 60 | 67 |
+| stock options | 17 | 21 | 24 |
+| employee stock purchase plans | 4 | 4 | 3 |
+| total stock-based compensation expense | 221 | 209 | 226 |
+| tax benefit | 75 | 68 | 82 |
+| stock-based compensation expense net of tax | $ 146 | $ 141 | $ 144 |
+
+## Context (text after table)
+during 2009 , the company converted its stock administration system to a new service provider .
+in connection with this conversion , a reconciliation of the methodologies and estimates utilized was performed , which resulted in a $ 12 million reduction of expense for the year ended december 31 , 2009 .
+stock awards stock awards , in the form of rsus , are granted to certain employees and consist of both performance-based and service-based rsus .
+service-based awards generally vest between three and ten years from the
+  Execution trace (2 LLM calls):
+    extract_reasoning_plan(['You are answering a numerical reasoning question over a financial report excerpt.\n\n## Context (text before table)\nmaterial impact on the service cost and interest cost components of net periodic )
+      -> Target: average total stock-based compensation expense from 2008 to 2010
+Values: total_2008 = 226, total_2009 = 209, total_2010 = 221 from row "total stock-based compensation expense"
+Formula: (226 + 209 + 221) / 3 [$0.0006]
+    extract_final_number(['Target: average total stock-based compensation expense from 2008 to 2010\nValues: total_2008 = 226, total_2009 = 209, total_2010 = 221 from row "total stock-based compensation expense"\nFormula: (22)
+      -> 218.6666667 [$0.0002]
+  RESULT: predicted=218.6666667, expected=329.5
+
+--- Case valid.00609: ---
+  Input arg 0: You are answering a numerical reasoning question over a financial report excerpt.
+
+## Context (text before table)
+we have adequate access to capital markets to meet any foreseeable cash requirements , and we have sufficient financial capacity to satisfy our current liabilities .
+cash flows millions 2014 2013 2012 .
+
+## Table
+| cash flowsmillions | 2014 | 2013 | 2012 |
+| cash provided by operating activities | $ 7385 | $ 6823 | $ 6161 |
+| cash used in investing activities | -4249 ( 4249 ) | -3405 ( 3405 ) | -3633 ( 3633 ) |
+| cash used in financing activities | -2982 ( 2982 ) | -3049 ( 3049 ) | -2682 ( 2682 ) |
+| net change in cash and cashequivalents | $ 154 | $ 369 | $ -154 ( 154 ) |
+
+## Context (text after table)
+operating activities higher net income in 2014 increased cash provided by operating activities compared to 2013 , despite higher income tax payments .
+2014 income tax payments were higher than 2013 primarily due to higher income , but also because we paid taxes previously deferred by bonus depreciation ( discussed below ) .
+higher net income in 2013 increased cash provided by operating activities compared to 2012 .
+in addition , we made payments in 2012 for past wages as a result of national labor negotiations , which reduced cash provided by operating activities in 2012 .
+lower tax benefits from bonus depreciation ( as discussed below ) partially offset the increases .
+federal tax law provided for 100% ( 100 % ) bonus depreciation for qualified investments made during 2011 and 50% ( 50 % ) bonus depreciation for qualified investments made during 2012-2013 .
+as a result , the company deferred a substantial portion of its 2011-2013 income tax expense , contributing to the positive operating cash flow in those years .
+congress extended 50% ( 50 % ) bonus depreciation for 2014 , but this extension occurred in december and did not have a significant benefit on our income tax payments during 2014 .
+investing activities higher capital investments , including th
+  Execution trace (2 LLM calls):
+    extract_reasoning_plan(['You are answering a numerical reasoning question over a financial report excerpt.\n\n## Context (text before table)\nwe have adequate access to capital markets to meet any foreseeable cash requireme)
+      -> 3988 [$0.0005]
+    extract_final_number(['3988\n(Note: The python evaluation of the formula failed with ERROR: No formula found. Please carefully calculate the final answer yourself based on the Values and Formula.)'])
+      -> 3988 [$0.0001]
+  RESULT: predicted=3988, expected=4510.0
+
+--- Case valid.00383: ---
+  Input arg 0: You are answering a numerical reasoning question over a financial report excerpt.
+
+## Context (text before table)
+stockholder return performance graphs the following graph compares the cumulative 5-year total stockholder return on our common stock relative to the cumulative total return of the nasdaq composite index and the s&p 400 information technology index .
+the graph assumes that the value of the investment in our common stock and in each index ( including reinvestment of dividends ) was $ 100 on december 29 , 2007 and tracks it through december 29 , 2012 .
+comparison of 5 year cumulative total return* among cadence design systems , inc. , the nasdaq composite index , and s&p 400 information technology cadence design systems , inc .
+nasdaq composite s&p 400 information technology 12/29/1212/31/111/1/111/2/101/3/0912/29/07 *$ 100 invested on 12/29/07 in stock or 12/31/07 in index , including reinvestment of dividends .
+indexes calculated on month-end basis .
+copyright a9 2013 s&p , a division of the mcgraw-hill companies inc .
+all rights reserved. .
+
+## Table
+|  | 12/29/2007 | 1/3/2009 | 1/2/2010 | 1/1/2011 | 12/31/2011 | 12/29/2012 |
+| cadence design systems inc . | 100.00 | 22.55 | 35.17 | 48.50 | 61.07 | 78.92 |
+| nasdaq composite | 100.00 | 59.03 | 82.25 | 97.32 | 98.63 | 110.78 |
+| s&p 400 information technology | 100.00 | 54.60 | 82.76 | 108.11 | 95.48 | 109.88 |
+
+## Context (text after table)
+the stock price performance included in this graph is not necessarily indicative of future stock price performance .
+
+## Question
+what is the roi of nasdaq composite from 2008 to 2012?
+
+Reply with only the final answer (a number, percentage, or short phrase as appropriate). For rates or proportions you may answer as a decimal (e.g. 0.935) or as a percent (e.g. 93.5%). Do not use XML tags or labels—only the value.
+  Execution trace (2 LLM calls):
+    extract_reasoning_plan(['You are answering a numerical reasoning question over a financial report excerpt.\n\n## Context (text before table)\nstockholder return performance graphs the following graph compares the cumulative)
+      -> Target: return on investment (ROI) for nasdaq composite from the beginning of 2008 (represented by the 1/3/2009 value as the closest available data to the start of that period, relative to the 12/29/2007 baseline) to 12/29/2012.
+Values: nasdaq_2009 = 59.03 from row "nasdaq composite" and column "1/3/2009"; nasdaq_2012 = 110.78 from row "nasdaq composite" and column "12/29/2012"
+Formula: (110.78 - 59.03) / 59.03 [$0.0006]
+    extract_final_number(['Target: return on investment (ROI) for nasdaq composite from the beginning of 2008 (represented by the 1/3/2009 value as the closest available data to the start of that period, relative to the 12/29)
+      -> 0.8766728782 [$0.0002]
+  RESULT: predicted=0.8766728782, expected=0.1078
+
+--- Case valid.00177: ---
+  Input arg 0: You are answering a numerical reasoning question over a financial report excerpt.
+
+## Context (text before table)
+alexion pharmaceuticals , inc .
+notes to consolidated financial statements 2014 ( continued ) for the years ended december 31 , 2007 and 2006 , five month period ended december 31 , 2005 , and year ended july 31 , 2005 ( amounts in thousands , except share and per share amounts ) aggregate future minimum annual rental payments for the next five years and thereafter under non-cancellable operating leases ( including facilities and equipment ) as of december 31 , 2007 are: .
+
+## Table
+| 2008 | $ 4935 |
+| 2009 | 3144 |
+| 2010 | 3160 |
+| 2011 | 3200 |
+| 2012 | 2768 |
+| thereafter | 9934 |
+
+## Context (text after table)
+9 .
+commitments and contingencies legal proceedings on march 16 , 2007 , pdl biopharma , inc. , or pdl , filed a civil action against alexion in the u.s .
+district court for the district of delaware .
+pdl claims willful infringement by alexion of pdl patents due to sales of soliris .
+pdl seeks unspecified damages , but no less than a reasonable royalty , plus attorney 2019s fees .
+alexion has denied pdl's claims .
+in addition , we filed counterclaims seeking declarations of non-infringement and invalidity of certain u.s .
+patents held by pdl .
+alexion believes it has good and valid defenses to pdl's claims and intends to vigorously defend the case and pursue its counterclaims .
+on february 4 , 2008 , sb2 , inc .
+filed a civil action against alexion in the united states district court for the northern district of california .
+sb2 , inc .
+claims willfull infringement by alexion of sb2 , inc .
+patents due to sales of soliris .
+sb2 , inc .
+seeks unspecified monetary damages , equitable relief and attorneys fees .
+alexion believes it has good and valid defenses to sb2's claims and intends to vigorously defend the case and pursue its counterclaims .
+the results of such civil actions cannot be predicted with certainty due to their early stages .
+howe
+  Execution trace (2 LLM calls):
+    extract_reasoning_plan(["You are answering a numerical reasoning question over a financial report excerpt.\n\n## Context (text before table)\nalexion pharmaceuticals , inc .\nnotes to consolidated financial statements 2014 )
+      -> Target: average future minimum annual rental payment for the next five years
+Values: payment_2008 = 4935; payment_2009 = 3144; payment_2010 = 3160; payment_2011 = 3200; payment_2012 = 2768
+Formula: (4935 + 3144 + 3160 + 3200 + 2768) / 5 [$0.0006]
+    extract_final_number(['Target: average future minimum annual rental payment for the next five years\nValues: payment_2008 = 4935; payment_2009 = 3144; payment_2010 = 3160; payment_2011 = 3200; payment_2012 = 2768\nFormula)
+      -> 3441.4 [$0.0002]
+  RESULT: predicted=3441.4, expected=4441.2
+
+--- Case valid.00255: ---
+  Input arg 0: You are answering a numerical reasoning question over a financial report excerpt.
+
+## Context (text before table)
+entergy arkansas , inc .
+and subsidiaries management 2019s financial discussion and analysis results of operations net income 2017 compared to 2016 net income decreased $ 27.4 million primarily due to higher nuclear refueling outage expenses , higher depreciation and amortization expenses , higher taxes other than income taxes , and higher interest expense , partially offset by higher other income .
+2016 compared to 2015 net income increased $ 92.9 million primarily due to higher net revenue and lower other operation and maintenance expenses , partially offset by a higher effective income tax rate and higher depreciation and amortization expenses .
+net revenue 2017 compared to 2016 net revenue consists of operating revenues net of : 1 ) fuel , fuel-related expenses , and gas purchased for resale , 2 ) purchased power expenses , and 3 ) other regulatory charges ( credits ) . a0 a0following is an analysis of the change in net revenue comparing 2017 to 2016 .
+amount ( in millions ) .
+
+## Table
+|  | amount ( in millions ) |
+| 2016 net revenue | $ 1520.5 |
+| retail electric price | 33.8 |
+| opportunity sales | 5.6 |
+| asset retirement obligation | -14.8 ( 14.8 ) |
+| volume/weather | -29.0 ( 29.0 ) |
+| other | 6.5 |
+| 2017 net revenue | $ 1522.6 |
+
+## Context (text after table)
+the retail electric price variance is primarily due to the implementation of formula rate plan rates effective with the first billing cycle of january 2017 and an increase in base rates effective february 24 , 2016 , each as approved by the apsc .
+a significant portion of the base rate increase was related to the purchase of power block 2 of the union power station in march 2016 .
+the increase was partially offset by decreases in the energy efficiency rider , as approved by the apsc , effective april 2016 and january 2017 .
+see note 2 to the financial statements for further discussion o
+  Execution trace (2 LLM calls):
+    extract_reasoning_plan(['You are answering a numerical reasoning question over a financial report excerpt.\n\n## Context (text before table)\nentergy arkansas , inc .\nand subsidiaries management 2019s financial discussion )
+      -> Target: percentage increase in net income from 2015 to 2016
+Values: increase_in_net_income_2015_to_2016 = 92.9 million; net_income_2015 = 444.6 million (calculated as 2016 net income of 537.5 million minus 92.9 million)
+Formula: 92.9 / (537.5 - 92.9) [$0.0005]
+    extract_final_number(['Target: percentage increase in net income from 2015 to 2016\nValues: increase_in_net_income_2015_to_2016 = 92.9 million; net_income_2015 = 444.6 million (calculated as 2016 net income of 537.5 milli)
+      -> 0.2089518668 [$0.0002]
+  RESULT: predicted=0.2089518668, expected=0.06507
+
+--- Case valid.00165: ---
+  Input arg 0: You are answering a numerical reasoning question over a financial report excerpt.
+
+## Context (text before table)
+c o n s t e l l a t i o n b r a n d s , i n c .
+baroness philippine de rothschild announced an agree- ment to maintain equal ownership of opus one .
+opus one produces fine wines at its napa valley winery .
+the acquisition of robert mondavi supports the com- pany 2019s strategy of strengthening the breadth of its portfolio across price segments to capitalize on the overall growth in the premium , super-premium and fine wine categories .
+the company believes that the acquired robert mondavi brand names have strong brand recognition globally .
+the vast majority of sales from these brands are generated in the united states .
+the company is leveraging the robert mondavi brands in the united states through its selling , marketing and distribution infrastructure .
+the company also intends to further expand distribution for the robert mondavi brands in europe through its constellation europe infrastructure .
+the robert mondavi acquisition supports the com- pany 2019s strategy of growth and breadth across categories and geographies , and strengthens its competitive position in its core markets .
+the robert mondavi acquisition provides the company with a greater presence in the growing premium , super-premium and fine wine sectors within the united states and the ability to capitalize on the broader geographic distribution in strategic international markets .
+in particular , the company believes there are growth opportunities for premium , super-premium and fine wines in the united kingdom and other 201cnew world 201d wine markets .
+total con- sideration paid in cash to the robert mondavi shareholders was $ 1030.7 million .
+additionally , the company incurred direct acquisition costs of $ 12.0 million .
+the purchase price was financed with borrowings under the company 2019s 2004 credit agreement ( as defined in note 9 ) .
+in accordance with the purchase method of 
+  Execution trace (2 LLM calls):
+    extract_reasoning_plan(['You are answering a numerical reasoning question over a financial report excerpt.\n\n## Context (text before table)\nc o n s t e l l a t i o n b r a n d s , i n c .\nbaroness philippine de rothschil)
+      -> Target: remaining net assets acquired after the sale of certain assets
+Values: net_assets_acquired = 1042661 (in thousands) from row "net assets acquired"; proceeds_from_sale = 170800 (in thousands, converted from $170.8 million)
+Formula: 1042661 - 170800 [$0.0007]
+    extract_final_number(['Target: remaining net assets acquired after the sale of certain assets\nValues: net_assets_acquired = 1042661 (in thousands) from row "net assets acquired"; proceeds_from_sale = 170800 (in thousands)
+      -> 871861 [$0.0002]
+  RESULT: predicted=871861, expected=1042490.2
+
+--- Case valid.00311: ---
+  Input arg 0: You are answering a numerical reasoning question over a financial report excerpt.
+
+## Context (text before table)
+additionally , in october 2013 , our board of directors declared a quarterly cash dividend of $ 0.40 per share of class a common stock ( determined in the case of class b and c common stock , on an as-converted basis ) payable on december 3 , 2013 , to holders of record as of november 15 , 2013 of our class a , b and c common stock .
+subject to legally available funds , we expect to continue paying quarterly cash dividends on our outstanding class a , b and c common stock in the future .
+however , the declaration and payment of future dividends is at the sole discretion of our board of directors after taking into account various factors , including , but not limited to , our financial condition , settlement indemnifications , operating results , available cash and current and anticipated cash needs .
+issuer purchases of equity securities the table below sets forth the information with respect to purchases of the company 2019s common stock made by or on behalf of the company during the quarter ended september 30 , 2013 .
+period number of shares purchased ( 1 ) average price paid per share number of shares purchased as part of publicly announced plans or programs ( 2 ) approximate dollar value of shares that may yet be purchased under the plans or programs ( 2 ) .
+
+## Table
+| period | ( a ) totalnumber ofsharespurchased ( 1 ) | ( b ) averageprice paidper share | ( c ) totalnumber ofsharespurchasedas part ofpubliclyannouncedplans orprograms ( 2 ) | ( d ) approximatedollar valueof shares thatmay yet bepurchasedunder the plans orprograms ( 2 ) |
+| july 1-31 2013 | 745148 | $ 183.69 | 744500 | $ 1424252596 |
+| august 1-31 2013 | 6640563 | $ 176.78 | 6638189 | $ 250658812 |
+| september 1-30 2013 | 2014 | $ 2014 | 2014 | $ 250658812 |
+| total | 7385711 | $ 177.47 | 7382689 |  |
+
+## Context (text after table)
+( 1 ) includes 3022 shares of class a common stock wit
+  Execution trace (2 LLM calls):
+    extract_reasoning_plan(['You are answering a numerical reasoning question over a financial report excerpt.\n\n## Context (text before table)\nadditionally , in october 2013 , our board of directors declared a quarterly cash)
+      -> Target: total number of shares purchased in August 2013
+Values: august_shares = 6640563 from row "august 1-31 2013" and column "( a ) totalnumber ofsharespurchased ( 1 )"
+Formula: 6640563 [$0.0005]
+    extract_final_number(['Target: total number of shares purchased in August 2013\nValues: august_shares = 6640563 from row "august 1-31 2013" and column "( a ) totalnumber ofsharespurchased ( 1 )"\nFormula: 6640563\nCalcula)
+      -> 6640563 [$0.0002]
+  RESULT: predicted=6640563, expected=0.89911
+
+--- Case valid.00835: ---
+  Input arg 0: You are answering a numerical reasoning question over a financial report excerpt.
+
+## Context (text before table)
+long-term borrowings the carrying value and fair value of long-term borrowings estimated using market prices at december 31 , 2013 included the following : ( in millions ) maturity amount unamortized discount carrying value fair value .
+
+## Table
+| ( in millions ) | maturity amount | unamortized discount | carrying value | fair value |
+| 3.50% ( 3.50 % ) notes due 2014 | $ 1000 | $ 2014 | $ 1000 | $ 1029 |
+| 1.375% ( 1.375 % ) notes due 2015 | 750 | 2014 | 750 | 759 |
+| 6.25% ( 6.25 % ) notes due 2017 | 700 | -2 ( 2 ) | 698 | 812 |
+| 5.00% ( 5.00 % ) notes due 2019 | 1000 | -2 ( 2 ) | 998 | 1140 |
+| 4.25% ( 4.25 % ) notes due 2021 | 750 | -3 ( 3 ) | 747 | 799 |
+| 3.375% ( 3.375 % ) notes due 2022 | 750 | -4 ( 4 ) | 746 | 745 |
+| total long-term borrowings | $ 4950 | $ -11 ( 11 ) | $ 4939 | $ 5284 |
+
+## Context (text after table)
+long-term borrowings at december 31 , 2012 had a carrying value of $ 5.687 billion and a fair value of $ 6.275 billion determined using market prices at the end of december 2012 .
+2015 and 2022 notes .
+in may 2012 , the company issued $ 1.5 billion in aggregate principal amount of unsecured unsubordinated obligations .
+these notes were issued as two separate series of senior debt securities including $ 750 million of 1.375% ( 1.375 % ) notes maturing in june 2015 ( the 201c2015 notes 201d ) and $ 750 million of 3.375% ( 3.375 % ) notes maturing in june 2022 ( the 201c2022 notes 201d ) .
+net proceeds were used to fund the repurchase of blackrock 2019s common stock and series b preferred from barclays and affiliates and for general corporate purposes .
+interest on the 2015 notes and the 2022 notes of approximately $ 10 million and $ 25 million per year , respectively , is payable semi-annually on june 1 and december 1 of each year , which commenced december 1 , 2012 .
+the 2015 notes and 2022 notes may be redeemed prior to maturity 
+  Execution trace (2 LLM calls):
+    extract_reasoning_plan(["You are answering a numerical reasoning question over a financial report excerpt.\n\n## Context (text before table)\nlong-term borrowings the carrying value and fair value of long-term borrowings es)
+      -> Target: the annual interest expense for the '2022 notes' in millions
+Values: annual_interest_2022_notes = 25 from the context paragraph "interest on the 2015 notes and the 2022 notes of approximately $ 10 million and $ 25 million per year , respectively"
+Formula: 25 [$0.0009]
+    extract_final_number(['Target: the annual interest expense for the \'2022 notes\' in millions\nValues: annual_interest_2022_notes = 25 from the context paragraph "interest on the 2015 notes and the 2022 notes of approxima)
+      -> 25 [$0.0001]
+  RESULT: predicted=25, expected=25.3125
+
+--- Case valid.00363: ---
+  Input arg 0: You are answering a numerical reasoning question over a financial report excerpt.
+
+## Context (text before table)
+edwards lifesciences corporation notes to consolidated financial statements ( continued ) 7 .
+acquisitions ( continued ) was recorded to goodwill .
+the following table summarizes the fair values of the assets acquired and liabilities assumed ( in millions ) : .
+
+## Table
+| current assets | $ 28.1 |
+| property and equipment net | 0.2 |
+| goodwill | 258.9 |
+| ipr&d | 190.0 |
+| current liabilities assumed | -32.9 ( 32.9 ) |
+| deferred income taxes | -66.0 ( 66.0 ) |
+| contingent consideration | -30.3 ( 30.3 ) |
+| total cash purchase price | 348.0 |
+| less : cash acquired | -27.9 ( 27.9 ) |
+| total cash purchase price net of cash acquired | $ 320.1 |
+
+## Context (text after table)
+goodwill includes expected synergies and other benefits the company believes will result from the acquisition .
+goodwill was assigned to the company 2019s united states segment and is not deductible for tax purposes .
+ipr&d has been capitalized at fair value as an intangible asset with an indefinite life and will be assessed for impairment in subsequent periods .
+the fair value of the ipr&d was determined using the income approach .
+this approach determines fair value based on cash flow projections which are discounted to present value using a risk-adjusted rate of return .
+the discount rate used to determine the fair value of the ipr&d was 16.5% ( 16.5 % ) .
+completion of successful design developments , bench testing , pre-clinical studies and human clinical studies are required prior to selling any product .
+the risks and uncertainties associated with completing development within a reasonable period of time include those related to the design , development , and manufacturability of the product , the success of pre-clinical and clinical studies , and the timing of regulatory approvals .
+the valuation assumed $ 97.7 million of additional research and development expenditures wou
+  Execution trace (2 LLM calls):
+    extract_reasoning_plan(['You are answering a numerical reasoning question over a financial report excerpt.\n\n## Context (text before table)\nedwards lifesciences corporation notes to consolidated financial statements ( con)
+      -> Target: current ratio, which is calculated as current assets divided by current liabilities
+Values: current_assets = 28.1 from row "current assets"; current_liabilities = 32.9 from row "current liabilities assumed"
+Formula: 28.1 / 32.9 [$0.0005]
+    extract_final_number(['Target: current ratio, which is calculated as current assets divided by current liabilities\nValues: current_assets = 28.1 from row "current assets"; current_liabilities = 32.9 from row "current lia)
+      -> 0.8541033435 [$0.0002]
+  RESULT: predicted=0.8541033435, expected=-0.8541
+
+--- Case valid.00695: ---
+  Input arg 0: You are answering a numerical reasoning question over a financial report excerpt.
+
+## Context (text before table)
+stockholder return performance graphs the following graph compares the cumulative 5-year total stockholder return on our common stock relative to the cumulative total return of the nasdaq composite index and the s&p 400 information technology index .
+the graph assumes that the value of the investment in our common stock and in each index ( including reinvestment of dividends ) was $ 100 on december 29 , 2007 and tracks it through december 29 , 2012 .
+comparison of 5 year cumulative total return* among cadence design systems , inc. , the nasdaq composite index , and s&p 400 information technology cadence design systems , inc .
+nasdaq composite s&p 400 information technology 12/29/1212/31/111/1/111/2/101/3/0912/29/07 *$ 100 invested on 12/29/07 in stock or 12/31/07 in index , including reinvestment of dividends .
+indexes calculated on month-end basis .
+copyright a9 2013 s&p , a division of the mcgraw-hill companies inc .
+all rights reserved. .
+
+## Table
+|  | 12/29/2007 | 1/3/2009 | 1/2/2010 | 1/1/2011 | 12/31/2011 | 12/29/2012 |
+| cadence design systems inc . | 100.00 | 22.55 | 35.17 | 48.50 | 61.07 | 78.92 |
+| nasdaq composite | 100.00 | 59.03 | 82.25 | 97.32 | 98.63 | 110.78 |
+| s&p 400 information technology | 100.00 | 54.60 | 82.76 | 108.11 | 95.48 | 109.88 |
+
+## Context (text after table)
+the stock price performance included in this graph is not necessarily indicative of future stock price performance .
+
+## Question
+what was the difference in percentage cumulative 5-year total stockholder return for cadence design systems inc . compared to the nasdaq composite for the five years ended 12/29/2012?
+
+Reply with only the final answer (a number, percentage, or short phrase as appropriate). For rates or proportions you may answer as a decimal (e.g. 0.935) or as a percent (e.g. 93.5%). Do not use XML tags or labels—only the value.
+  Execution trace (2 LLM calls):
+    extract_reasoning_plan(['You are answering a numerical reasoning question over a financial report excerpt.\n\n## Context (text before table)\nstockholder return performance graphs the following graph compares the cumulative)
+      -> Target: difference in percentage cumulative 5-year total stockholder return between cadence design systems inc . and nasdaq composite
+Values: cadence_return = 78.92 from row "cadence design systems inc ." and column "12/29/2012"; nasdaq_return = 110.78 from row "nasdaq composite" and column "12/29/2012"
+Formula: (78.92 / 100) - (110.78 / 100) [$0.0005]
+    extract_final_number(['Target: difference in percentage cumulative 5-year total stockholder return between cadence design systems inc . and nasdaq composite\nValues: cadence_return = 78.92 from row "cadence design systems)
+      -> -0.3186 [$0.0002]
+  RESULT: predicted=-0.3186, expected=-31.86
+
+--- Case valid.00074: ---
+  Input arg 0: You are answering a numerical reasoning question over a financial report excerpt.
+
+## Context (text before table)
+in 2006 , our board of directors approved a projected $ 3.2 billion expansion of our garyville , louisiana refinery by 180 mbpd to 425 mbpd , which will increase our total refining capacity to 1.154 million barrels per day ( 2018 2018mmbpd 2019 2019 ) .
+we recently received air permit approval from the louisiana department of environmental quality for this project and construction is expected to begin in mid-2007 , with startup planned for the fourth quarter of 2009 .
+we have also commenced front-end engineering and design ( 2018 2018feed 2019 2019 ) for a potential heavy oil upgrading project at our detroit refinery , which would allow us to process increased volumes of canadian oil sands production , and are undertaking a feasibility study for a similar upgrading project at our catlettsburg refinery .
+marketing we are a supplier of gasoline and distillates to resellers and consumers within our market area in the midwest , the upper great plains and southeastern united states .
+in 2006 , our refined product sales volumes ( excluding matching buy/sell transactions ) totaled 21.5 billion gallons , or 1.401 mmbpd .
+the average sales price of our refined products in aggregate was $ 77.76 per barrel for 2006 .
+the following table sets forth our refined product sales by product group and our average sales price for each of the last three years .
+refined product sales ( thousands of barrels per day ) 2006 2005 2004 .
+
+## Table
+| ( thousands of barrels per day ) | 2006 | 2005 | 2004 |
+| gasoline | 804 | 836 | 807 |
+| distillates | 375 | 385 | 373 |
+| propane | 23 | 22 | 22 |
+| feedstocks and special products | 106 | 96 | 92 |
+| heavy fuel oil | 26 | 29 | 27 |
+| asphalt | 91 | 87 | 79 |
+| total ( a ) | 1425 | 1455 | 1400 |
+| average sales price ( $ per barrel ) | $ 77.76 | $ 66.42 | $ 49.53 |
+
+## Context (text after table)
+( a ) includes matching buy/sell volume
+  Execution trace (2 LLM calls):
+    extract_reasoning_plan(['You are answering a numerical reasoning question over a financial report excerpt.\n\n## Context (text before table)\nin 2006 , our board of directors approved a projected $ 3.2 billion expansion of )
+      -> Target: total refined product sales revenue for 2006 in dollars
+Values: total_mbpd_2006 = 1425 from row "total ( a )" column "2006"; price_per_barrel_2006 = 77.76 from row "average sales price ( $ per barrel )" column "2006"
+Formula: 1425 * 1000 * 365 * 77.76 [$0.0007]
+    extract_final_number(['Target: total refined product sales revenue for 2006 in dollars\nValues: total_mbpd_2006 = 1425 from row "total ( a )" column "2006"; price_per_barrel_2006 = 77.76 from row "average sales price ( $ )
+      -> 40444920000 [$0.0002]
+  RESULT: predicted=40444920000, expected=40444920.0
+
+--- Case valid.00627: ---
+  Input arg 0: You are answering a numerical reasoning question over a financial report excerpt.
+
+## Context (text before table)
+results of operations operating revenues millions 2014 2013 2012 % (  % ) change 2014 v 2013 % (  % ) change 2013 v 2012 .
+
+## Table
+| millions | 2014 | 2013 | 2012 | % (  % ) change 2014 v 2013 | % (  % ) change 2013 v 2012 |
+| freight revenues | $ 22560 | $ 20684 | $ 19686 | 9% ( 9 % ) | 5% ( 5 % ) |
+| other revenues | 1428 | 1279 | 1240 | 12% ( 12 % ) | 3% ( 3 % ) |
+| total | $ 23988 | $ 21963 | $ 20926 | 9% ( 9 % ) | 5% ( 5 % ) |
+
+## Context (text after table)
+we generate freight revenues by transporting freight or other materials from our six commodity groups .
+freight revenues vary with volume ( carloads ) and average revenue per car ( arc ) .
+changes in price , traffic mix and fuel surcharges drive arc .
+we provide some of our customers with contractual incentives for meeting or exceeding specified cumulative volumes or shipping to and from specific locations , which we record as reductions to freight revenues based on the actual or projected future shipments .
+we recognize freight revenues as shipments move from origin to destination .
+we allocate freight revenues between reporting periods based on the relative transit time in each reporting period and recognize expenses as we incur them .
+other revenues include revenues earned by our subsidiaries , revenues from our commuter rail operations , and accessorial revenues , which we earn when customers retain equipment owned or controlled by us or when we perform additional services such as switching or storage .
+we recognize other revenues as we perform services or meet contractual obligations .
+freight revenues from all six commodity groups increased during 2014 compared to 2013 driven by 7% ( 7 % ) volume growth and core pricing gains of 2.5% ( 2.5 % ) .
+volume growth from grain , frac sand , rock , and intermodal ( domestic and international ) shipments offset declines in crude oil .
+freight reve
+  Execution trace (2 LLM calls):
+    extract_reasoning_plan(['You are answering a numerical reasoning question over a financial report excerpt.\n\n## Context (text before table)\nresults of operations operating revenues millions 2014 2013 2012 % (  % ) change )
+      -> Target: expected 2015 fuel surcharge revenue in billions
+Values: fuel_surcharge_2014 = 2.8; growth_rate_2014 = 0.06
+Formula: 2.8 * (1 + 0.06) [$0.0005]
+    extract_final_number(['Target: expected 2015 fuel surcharge revenue in billions\nValues: fuel_surcharge_2014 = 2.8; growth_rate_2014 = 0.06\nFormula: 2.8 * (1 + 0.06)\nCalculated: 2.8 * (1 + 0.06) = 2.968'])
+      -> 2.968 [$0.0001]
+  RESULT: predicted=2.968, expected=3.01538
+
+--- Case valid.00018: ---
+  Input arg 0: You are answering a numerical reasoning question over a financial report excerpt.
+
+## Context (text before table)
+abiomed , inc .
+and subsidiaries notes to consolidated financial statements 2014 ( continued ) ( 7 ) commitments and contingencies the company applies the disclosure provisions of fin no .
+45 , guarantor 2019s accounting and disclosure requirements for guarantees , including guarantees of indebtedness of others , and interpretation of fasb statements no .
+5 , 57 and 107 and rescission of fasb interpretation no .
+34 ( fin no .
+45 ) to its agreements that contain guarantee or indemnification clauses .
+these disclosure provisions expand those required by sfas no .
+5 accounting for contingencies , by requiring that guarantors disclose certain types of guarantees , even if the likelihood of requiring the guarantor 2019s performance is remote .
+the following is a description of arrangements in which the company is a guarantor .
+product warranties 2014the company routinely accrues for estimated future warranty costs on its product sales at the time of sale .
+the ab5000 and bvs products are subject to rigorous regulation and quality standards .
+operating results could be adversely effected if the actual cost of product failures exceeds the estimated warranty provision .
+patent indemnifications 2014in many sales transactions , the company indemnifies customers against possible claims of patent infringement caused by the company 2019s products .
+the indemnifications contained within sales contracts usually do not include limits on the claims .
+the company has never incurred any material costs to defend lawsuits or settle patent infringement claims related to sales transactions .
+under the provisions of fin no .
+45 , intellectual property indemnifications require disclosure only .
+as of march 31 , 2006 , the company had entered into leases for its facilities , including its primary operating facility in danvers , massachusetts , with terms through fiscal 2010 .
+the
+  Execution trace (2 LLM calls):
+    extract_reasoning_plan(['You are answering a numerical reasoning question over a financial report excerpt.\n\n## Context (text before table)\nabiomed , inc .\nand subsidiaries notes to consolidated financial statements 2014)
+      -> Target: decrease in future minimum lease payments from fiscal year 2007 to 2008
+Values: operating_leases_2007 = 1703 from row "2007"; operating_leases_2008 = 1371 from row "2008"
+Formula: 1703 - 1371 [$0.0006]
+    extract_final_number(['Target: decrease in future minimum lease payments from fiscal year 2007 to 2008\nValues: operating_leases_2007 = 1703 from row "2007"; operating_leases_2008 = 1371 from row "2008"\nFormula: 1703 - 1)
+      -> 332 [$0.0001]
+  RESULT: predicted=332, expected=0.19495
+
+--- Case valid.00404: ---
+  Input arg 0: You are answering a numerical reasoning question over a financial report excerpt.
+
+## Context (text before table)
+jpmorgan chase & co .
+/ 2007 annual report 145 subprime adjustable-rate mortgage loan modifications see the glossary of terms on page 183 of this annual report for the firm 2019s definition of subprime loans .
+within the confines of the limited decision-making abilities of a qspe under sfas 140 , the operating doc- uments that govern existing subprime securitizations generally authorize the servicer to modify loans for which default is reasonably foreseeable , provided that the modification is in the best interests of the qspe 2019s ben- eficial interest holders , and would not result in a remic violation .
+in december 2007 , the american securitization forum ( 201casf 201d ) issued the 201cstreamlined foreclosure and loss avoidance framework for securitized subprime adjustable rate mortgage loans 201d ( 201cthe framework 201d ) .
+the framework provides guidance for servicers to stream- line evaluation procedures for borrowers with certain subprime adjustable rate mortgage ( 201carm 201d ) loans to more efficiently provide modifications of such loans with terms that are more appropriate for the individual needs of such borrowers .
+the framework applies to all first-lien subprime arm loans that have a fixed rate of interest for an initial period of 36 months or less , are included in securitized pools , were originated between january 1 , 2005 , and july 31 , 2007 , and have an initial interest rate reset date between january 1 , 2008 , and july 31 , 2010 ( 201casf framework loans 201d ) .
+the framework categorizes the population of asf framework loans into three segments .
+segment 1 includes loans where the borrower is current and is likely to be able to refinance into any available mortgage product .
+segment 2 includes loans where the borrower is current , is unlikely to be able to refinance into any readily available mortgage industry product and meets
+  Execution trace (2 LLM calls):
+    extract_reasoning_plan(['You are answering a numerical reasoning question over a financial report excerpt.\n\n## Context (text before table)\njpmorgan chase & co .\n/ 2007 annual report 145 subprime adjustable-rate mortgage)
+      -> Target: total amount of beneficial interests issued by third parties for securitizations holding ASF framework loans
+Values: third_party_amount = 19636 from row "third-party" in the table (in millions)
+Formula: 19636 [$0.0006]
+    extract_final_number(['Target: total amount of beneficial interests issued by third parties for securitizations holding ASF framework loans\nValues: third_party_amount = 19636 from row "third-party" in the table (in milli)
+      -> 19636 [$0.0001]
+  RESULT: predicted=19636, expected=0.97945
+
+--- Case valid.00073: ---
+  Input arg 0: You are answering a numerical reasoning question over a financial report excerpt.
+
+## Context (text before table)
+contingent consideration of up to $ 13.8 million .
+the contingent consideration arrangement requires additional cash payments to the former equity holders of lyric upon the achievement of certain technological and product development milestones payable during the period from june 2011 through june 2016 .
+the company estimated the fair value of the contingent consideration arrangement utilizing the income approach .
+changes in the fair value of the contingent consideration subsequent to the acquisition date primarily driven by assumptions pertaining to the achievement of the defined milestones will be recognized in operating income in the period of the estimated fair value change .
+as of october 29 , 2011 , no contingent payments have been made and the fair value of the contingent consideration was approximately $ 14.0 million .
+the company allocated the purchase price to the tangible and intangible assets acquired and liabilities assumed based on their estimated fair values at the date of acquisition , resulting in the recognition of $ 12.2 million of ipr&d , $ 18.9 million of goodwill and $ 3.3 million of net deferred tax liabilities .
+the goodwill recognized is attributable to future technologies that have yet to be determined as well as the assembled workforce of lyric .
+future technologies do not meet the criteria for recognition separately from goodwill because they are a part of future development and growth of the business .
+none of the goodwill is expected to be deductible for tax purposes .
+in addition , the company will be obligated to pay royalties to the former equity holders of lyric on revenue recognized from the sale of lyric products and licenses through the earlier of 20 years or the accrual of a maximum of $ 25 million .
+royalty payments to lyric employees require post-acquisition services to be rendered and , as such , the company will
+  Execution trace (2 LLM calls):
+    extract_reasoning_plan(['You are answering a numerical reasoning question over a financial report excerpt.\n\n## Context (text before table)\ncontingent consideration of up to $ 13.8 million .\nthe contingent consideration )
+      -> Target: proportion of total investment allocated to mutual funds in 2011
+Values: mutual_funds_2011 = 9223 from row "mutual funds" and column "2011"; total_2011 = 26410 from row "total deferred compensation plan investments" and column "2011"
+Formula: 9223 / 26410 [$0.0006]
+    extract_final_number(['Target: proportion of total investment allocated to mutual funds in 2011\nValues: mutual_funds_2011 = 9223 from row "mutual funds" and column "2011"; total_2011 = 26410 from row "total deferred comp)
+      -> 0.3492237789 [$0.0002]
+  RESULT: predicted=0.3492237789, expected=0.65078
+
+--- Case valid.00782: ---
+  Input arg 0: You are answering a numerical reasoning question over a financial report excerpt.
+
+## Context (text before table)
+amortized over a nine-year period beginning december 2015 .
+see note 2 to the financial statements for further discussion of the business combination and customer credits .
+the volume/weather variance is primarily due to the effect of more favorable weather during the unbilled period and an increase in industrial usage , partially offset by the effect of less favorable weather on residential sales .
+the increase in industrial usage is primarily due to expansion projects , primarily in the chemicals industry , and increased demand from new customers , primarily in the industrial gases industry .
+the louisiana act 55 financing savings obligation variance results from a regulatory charge for tax savings to be shared with customers per an agreement approved by the lpsc .
+the tax savings resulted from the 2010-2011 irs audit settlement on the treatment of the louisiana act 55 financing of storm costs for hurricane gustav and hurricane ike .
+see note 3 to the financial statements for additional discussion of the settlement and benefit sharing .
+included in other is a provision of $ 23 million recorded in 2016 related to the settlement of the waterford 3 replacement steam generator prudence review proceeding , offset by a provision of $ 32 million recorded in 2015 related to the uncertainty at that time associated with the resolution of the waterford 3 replacement steam generator prudence review proceeding . a0 see note 2 to the financial statements for a discussion of the waterford 3 replacement steam generator prudence review proceeding .
+entergy wholesale commodities following is an analysis of the change in net revenue comparing 2016 to 2015 .
+amount ( in millions ) .
+
+## Table
+|  | amount ( in millions ) |
+| 2015 net revenue | $ 1666 |
+| nuclear realized price changes | -149 ( 149 ) |
+| rhode island state energy center | -44 ( 44 ) |
+| nuclear volume | -36
+  Execution trace (2 LLM calls):
+    extract_reasoning_plan(['You are answering a numerical reasoning question over a financial report excerpt.\n\n## Context (text before table)\namortized over a nine-year period beginning december 2015 .\nsee note 2 to the fi)
+      -> Target: percent change in net revenue from 2015 to 2016
+Values: 2015_net_revenue = 1666; 2016_net_revenue = 1542
+Formula: (1542 - 1666) / 1666 [$0.0005]
+    extract_final_number(['Target: percent change in net revenue from 2015 to 2016\nValues: 2015_net_revenue = 1666; 2016_net_revenue = 1542\nFormula: (1542 - 1666) / 1666\nCalculated: (1542 - 1666) / 1666 = -0.07442977191'])
+      -> -0.07442977191 [$0.0002]
+  RESULT: predicted=-0.07442977191, expected=0.08042
+
+--- Case valid.00343: ---
+  Input arg 0: You are answering a numerical reasoning question over a financial report excerpt.
+
+## Context (text before table)
+our ability to restructure or refinance our debt will depend on the condition of the capital markets and our financial condition at such time .
+any refinancing of our debt could be at higher interest rates and may require us to comply with more onerous covenants , which could further restrict our business operations .
+in addition , any failure to make payments of interest and principal on our outstanding indebtedness on a timely basis would likely result in a reduction of our credit rating , which could harm our ability to incur additional indebtedness .
+if our cash flows and available cash are insufficient to meet our debt service obligations , we could face substantial liquidity problems and might be required to dispose of material assets or operations to meet our debt service and other obligations .
+we may not be able to consummate those dispositions or to obtain the proceeds that we could realize from them , and these proceeds may not be adequate to meet any debt service obligations then due .
+item 1b .
+unresolved staff comments item 2 .
+properties a summary of our significant locations at december 31 , 2013 is shown in the following table .
+all facilities are leased , except for 165000 square feet of our office in alpharetta , georgia .
+square footage amounts are net of space that has been sublet or part of a facility restructuring. .
+
+## Table
+| location | approximate square footage |
+| alpharetta georgia | 254000 |
+| jersey city new jersey | 107000 |
+| arlington virginia | 102000 |
+| sandy utah | 66000 |
+| menlo park california | 63000 |
+| new york new york | 39000 |
+| chicago illinois ( 1 ) | 36000 |
+
+## Context (text after table)
+chicago , illinois ( 1 ) 36000 ( 1 ) includes approximately 25000 square footage related to g1 execution services , llc .
+we entered into a definitive agreement to sell g1 execution services , llc to an affiliate of sus
+  Execution trace (2 LLM calls):
+    extract_reasoning_plan(['You are answering a numerical reasoning question over a financial report excerpt.\n\n## Context (text before table)\nour ability to restructure or refinance our debt will depend on the condition of )
+      -> Target: percentage of total square footage in Alpharetta, Georgia that is not leased
+Values: total_alpharetta = 254000 from row "alpharetta georgia"; owned_alpharetta = 165000 from text "165000 square feet of our office in alpharetta , georgia"
+Formula: (254000 - 165000) / 254000 [$0.0006]
+    extract_final_number(['Target: percentage of total square footage in Alpharetta, Georgia that is not leased\nValues: total_alpharetta = 254000 from row "alpharetta georgia"; owned_alpharetta = 165000 from text "165000 squ)
+      -> 0.3503937008 [$0.0002]
+  RESULT: predicted=0.3503937008, expected=0.64961
+
+--- Case valid.00794: ---
+  Input arg 0: You are answering a numerical reasoning question over a financial report excerpt.
+
+## Context (text before table)
+purchases of short-term marketable securities , net of sales of short-term marketable securities during the quarter .
+additionally , we incurred $ 3.8 million related to cash expenditures for property and equipment primarily on computer software projects and manufacturing equipment related to our expansion in ireland .
+our financing activities during the year ended march 31 , 2009 provided cash of $ 46.2 million as compared to $ 2.1 million during the same period in the prior year .
+cash provided by financing activities for the year ended march 31 , 2009 was primarily comprised of $ 42.0 million in net proceeds related to our august 2008 public offering and $ 5.0 million attributable to the exercise of stock options and proceeds from our employee stock purchase plan .
+capital expenditures for fiscal 2010 are estimated to be $ 2.5 to $ 3.0 million , which relate primarily to our planned manufacturing capacity increases for impella in germany , our expansion in ireland , and software development projects .
+our liquidity is influenced by our ability to sell our products in a competitive industry and our customers 2019 ability to pay for our products .
+factors that may affect liquidity include our ability to penetrate the market for our products , maintain or reduce the length of the selling cycle , and collect cash from clients after our products are sold .
+exclusive of activities involving any future acquisitions of products or companies that complement or augment our existing line of products , we believe that current available funds and cash generated from operations will provide sufficient liquidity to meet operating requirements for the foreseeable future .
+we believe that our existing cash balances and cash flow from operations will be sufficient to meet our projected capital expenditures , working capital , and other cash requirements at least throug
+  Execution trace (2 LLM calls):
+    extract_reasoning_plan(['You are answering a numerical reasoning question over a financial report excerpt.\n\n## Context (text before table)\npurchases of short-term marketable securities , net of sales of short-term market)
+      -> Target: proportion of total contractual obligations due within 1 year
+Values: payments_less_than_1_year = 6932 from row "total obligations", column "payments due by fiscal year ( in $ 000 2019s ) less than 1 year"; total_obligations = 20147 from row "total obligations", column "payments due by fiscal year ( in $ 000 2019s ) total"
+Formula: 6932 / 20147 [$0.0007]
+    extract_final_number(['Target: proportion of total contractual obligations due within 1 year\nValues: payments_less_than_1_year = 6932 from row "total obligations", column "payments due by fiscal year ( in $ 000 2019s ) l)
+      -> 0.3440710776 [$0.0002]
+  RESULT: predicted=0.3440710776, expected=0.48842
+
+--- Case valid.00397: ---
+  Input arg 0: You are answering a numerical reasoning question over a financial report excerpt.
+
+## Context (text before table)
+performance graph comparison of five-year cumulative total return the following graph and table compare the cumulative total return on citi 2019s common stock , which is listed on the nyse under the ticker symbol 201cc 201d and held by 65691 common stockholders of record as of january 31 , 2018 , with the cumulative total return of the s&p 500 index and the s&p financial index over the five-year period through december 31 , 2017 .
+the graph and table assume that $ 100 was invested on december 31 , 2012 in citi 2019s common stock , the s&p 500 index and the s&p financial index , and that all dividends were reinvested .
+comparison of five-year cumulative total return for the years ended date citi s&p 500 financials .
+
+## Table
+| date | citi | s&p 500 | s&p financials |
+| 31-dec-2012 | 100.0 | 100.0 | 100.0 |
+| 31-dec-2013 | 131.8 | 132.4 | 135.6 |
+| 31-dec-2014 | 137.0 | 150.5 | 156.2 |
+| 31-dec-2015 | 131.4 | 152.6 | 153.9 |
+| 31-dec-2016 | 152.3 | 170.8 | 188.9 |
+| 31-dec-2017 | 193.5 | 208.1 | 230.9 |
+
+## Context (text after table)
+.
+
+## Question
+as of 2017 what was the ratio of the overall five-year cumulative total return for s&p 500 compared to citi
+
+Reply with only the final answer (a number, percentage, or short phrase as appropriate). For rates or proportions you may answer as a decimal (e.g. 0.935) or as a percent (e.g. 93.5%). Do not use XML tags or labels—only the value.
+  Execution trace (2 LLM calls):
+    extract_reasoning_plan(['You are answering a numerical reasoning question over a financial report excerpt.\n\n## Context (text before table)\nperformance graph comparison of five-year cumulative total return the following g)
+      -> Target: ratio of s&p 500 cumulative total return to citi cumulative total return as of 2017
+Values: s&p 500_2017 = 208.1 from row "31-dec-2017", column "s&p 500"; citi_2017 = 193.5 from row "31-dec-2017", column "citi"
+Formula: 208.1 / 193.5 [$0.0005]
+    extract_final_number(['Target: ratio of s&p 500 cumulative total return to citi cumulative total return as of 2017\nValues: s&p 500_2017 = 208.1 from row "31-dec-2017", column "s&p 500"; citi_2017 = 193.5 from row "31-dec)
+      -> 1.075452196 [$0.0002]
+  RESULT: predicted=1.075452196, expected=1.15615
+
+--- Case valid.00776: ---
+  Input arg 0: You are answering a numerical reasoning question over a financial report excerpt.
+
+## Context (text before table)
+december 31 , 2009 , $ 397 million of the credit losses related to securities rated below investment grade .
+as of december 31 , 2009 , the noncredit portion of otti losses recorded in accumulated other comprehensive loss for non-agency residential mortgage-backed securities totaled $ 1.1 billion and the related securities had a fair value of $ 2.6 billion .
+the fair value of sub-investment grade investment securities for which we have not recorded an otti credit loss as of december 31 , 2009 totaled $ 2.6 billion , with unrealized net losses of $ 658 million .
+the results of our security-level assessments indicate that we will recover the entire cost basis of these securities .
+note 7 investment securities in the notes to consolidated financial statements of this report provides further detail regarding our process for assessing otti for these securities .
+commercial mortgage-backed securities the fair value of the non-agency commercial mortgage- backed securities portfolio was $ 6.1 billion at december 31 , 2009 and consisted of fixed-rate , private-issuer securities collateralized by non-residential properties , primarily retail properties , office buildings , and multi-family housing .
+the agency commercial mortgage-backed securities portfolio was $ 1.3 billion fair value at december 31 , 2009 consisting of multi-family housing .
+substantially all of the securities are the most senior tranches in the subordination structure .
+we recorded otti credit losses of $ 6 million on non-agency commercial mortgage-backed securities during 2009 .
+the remaining fair value of the securities for which otti was recorded approximates zero .
+all of the credit-impaired securities were rated below investment grade .
+asset-backed securities the fair value of the asset-backed securities portfolio was $ 4.8 billion at december 31 , 2009 and consisted of fixed-rate and flo
+  Execution trace (2 LLM calls):
+    extract_reasoning_plan(['You are answering a numerical reasoning question over a financial report excerpt.\n\n## Context (text before table)\ndecember 31 , 2009 , $ 397 million of the credit losses related to securities rat)
+      -> Target: percentage of total commercial mortgages that were at fair value as of December 31, 2009
+Values: commercial_mortgages_fair_value = 1050 from row "commercial mortgages at fair value"; total_commercial_mortgages = 1301 from row "total commercial mortgages"
+Formula: 1050 / 1301 [$0.0007]
+    extract_final_number(['Target: percentage of total commercial mortgages that were at fair value as of December 31, 2009\nValues: commercial_mortgages_fair_value = 1050 from row "commercial mortgages at fair value"; total_)
+      -> 0.8070714835 [$0.0002]
+  RESULT: predicted=0.8070714835, expected=0.71064
+
+--- Case valid.00414: ---
+  Input arg 0: You are answering a numerical reasoning question over a financial report excerpt.
+
+## Context (text before table)
+abiomed , inc .
+and subsidiaries notes to consolidated financial statements 2014 ( continued ) note 14 .
+income taxes ( continued ) on april 1 , 2007 , the company adopted financial interpretation fin no .
+48 , accounting for uncertainty in income taxes 2014an interpretation of fasb statement no .
+109 ( 201cfin no .
+48 201d ) , which clarifies the accounting for uncertainty in income taxes recognized in an enterprise 2019s financial statements in accordance with fasb statement no .
+109 , accounting for income taxes .
+fin no .
+48 prescribes a recognition threshold and measurement process for recording in the financial statements uncertain tax positions taken or expected to be taken in a tax return .
+fin no .
+48 also provides guidance on derecognition , classification , interest and penalties , accounting in interim periods , disclosure , and transition and defines the criteria that must be met for the benefits of a tax position to be recognized .
+as a result of its adoption of fin no .
+48 , the company recorded the cumulative effect of the change in accounting principle of $ 0.3 million as a decrease to opening retained earnings and an increase to other long-term liabilities as of april 1 , 2007 .
+this adjustment related to state nexus for failure to file tax returns in various states for the years ended march 31 , 2003 , 2004 , and 2005 .
+the company initiated a voluntary disclosure plan , which it completed in fiscal year 2009 .
+the company elected to recognize interest and/or penalties related to income tax matters in income tax expense in its consolidated statements of operations .
+as of march 31 , 2009 , the company had remitted all outstanding amounts owed to each of the states in connection with the outstanding taxes owed at march 31 , 2008 .
+as such , the company had no fin no .
+48 liability at march 31 , 2009 .
+on a quarterly basis , the company 
+  Execution trace (2 LLM calls):
+    extract_reasoning_plan(['You are answering a numerical reasoning question over a financial report excerpt.\n\n## Context (text before table)\nabiomed , inc .\nand subsidiaries notes to consolidated financial statements 2014)
+      -> Target: average payment per year for the state tax settlement in millions
+Values: total_settlement = 0.3 million; number_of_years = 3 (years ended march 31, 2003, 2004, and 2005)
+Formula: 0.3 / 3 [$0.0006]
+    extract_final_number(['Target: average payment per year for the state tax settlement in millions\nValues: total_settlement = 0.3 million; number_of_years = 3 (years ended march 31, 2003, 2004, and 2005)\nFormula: 0.3 / 3\)
+      -> 0.1 [$0.0001]
+  RESULT: predicted=0.1, expected=56.0
+
+--- Case valid.00003: ---
+  Input arg 0: You are answering a numerical reasoning question over a financial report excerpt.
+
+## Context (text before table)
+entergy mississippi , inc .
+management 2019s financial discussion and analysis 2010 compared to 2009 net revenue consists of operating revenues net of : 1 ) fuel , fuel-related expenses , and gas purchased for resale , 2 ) purchased power expenses , and 3 ) other regulatory charges ( credits ) .
+following is an analysis of the change in net revenue comparing 2010 to 2009 .
+amount ( in millions ) .
+
+## Table
+|  | amount ( in millions ) |
+| 2009 net revenue | $ 536.7 |
+| volume/weather | 18.9 |
+| other | -0.3 ( 0.3 ) |
+| 2010 net revenue | $ 555.3 |
+
+## Context (text after table)
+the volume/weather variance is primarily due to an increase of 1046 gwh , or 8% ( 8 % ) , in billed electricity usage in all sectors , primarily due to the effect of more favorable weather on the residential sector .
+gross operating revenues , fuel and purchased power expenses , and other regulatory charges ( credits ) gross operating revenues increased primarily due to an increase of $ 22 million in power management rider revenue as the result of higher rates , the volume/weather variance discussed above , and an increase in grand gulf rider revenue as a result of higher rates and increased usage , offset by a decrease of $ 23.5 million in fuel cost recovery revenues due to lower fuel rates .
+fuel and purchased power expenses decreased primarily due to a decrease in deferred fuel expense as a result of prior over-collections , offset by an increase in the average market price of purchased power coupled with increased net area demand .
+other regulatory charges increased primarily due to increased recovery of costs associated with the power management recovery rider .
+other income statement variances 2011 compared to 2010 other operation and maintenance expenses decreased primarily due to : a $ 5.4 million decrease in compensation and benefits costs primarily resulting from an incr
+  Execution trace (2 LLM calls):
+    extract_reasoning_plan(['You are answering a numerical reasoning question over a financial report excerpt.\n\n## Context (text before table)\nentergy mississippi , inc .\nmanagement 2019s financial discussion and analysis 2)
+      -> Target: net change in net revenue from 2009 to 2010
+Values: 2009 net revenue = 536.7 from row "2009 net revenue"; 2010 net revenue = 555.3 from row "2010 net revenue"
+Formula: 555.3 - 536.7 [$0.0005]
+    extract_final_number(['Target: net change in net revenue from 2009 to 2010\nValues: 2009 net revenue = 536.7 from row "2009 net revenue"; 2010 net revenue = 555.3 from row "2010 net revenue"\nFormula: 555.3 - 536.7\nCalcu)
+      -> 18.6 [$0.0002]
+  RESULT: predicted=18.6, expected=19.2
+
+--- Case valid.00374: ---
+  Input arg 0: You are answering a numerical reasoning question over a financial report excerpt.
+
+## Context (text before table)
+management 2019s discussion and analysis of financial condition and results of operations 2013 ( continued ) ( amounts in millions , except per share amounts ) liquidity and capital resources cash flow overview the following tables summarize key financial data relating to our liquidity , capital resources and uses of capital. .
+
+## Table
+| cash flow data | years ended december 31 , 2015 | years ended december 31 , 2014 | years ended december 31 , 2013 |
+| net income adjusted to reconcile net income to net cashprovided by operating activities1 | $ 848.2 | $ 831.2 | $ 598.4 |
+| net cash used in working capital2 | -117.5 ( 117.5 ) | -131.1 ( 131.1 ) | -9.6 ( 9.6 ) |
+| changes in other non-current assets and liabilities using cash | -56.7 ( 56.7 ) | -30.6 ( 30.6 ) | 4.1 |
+| net cash provided by operating activities | $ 674.0 | $ 669.5 | $ 592.9 |
+| net cash used in investing activities | -202.8 ( 202.8 ) | -200.8 ( 200.8 ) | -224.5 ( 224.5 ) |
+| net cash used in financing activities | -472.8 ( 472.8 ) | -343.9 ( 343.9 ) | -1212.3 ( 1212.3 ) |
+
+## Context (text after table)
+1 reflects net income adjusted primarily for depreciation and amortization of fixed assets and intangible assets , amortization of restricted stock and other non-cash compensation , non-cash ( gain ) loss related to early extinguishment of debt , losses on sales of businesses and deferred income taxes .
+2 reflects changes in accounts receivable , expenditures billable to clients , other current assets , accounts payable and accrued liabilities .
+operating activities net cash provided by operating activities during 2015 was $ 674.0 , which was an improvement of $ 4.5 as compared to 2014 , primarily as a result of an improvement in working capital usage of $ 13.6 .
+due to the seasonality of our business , we typically generate cash from working capital in the second half of a year and use ca
+  Execution trace (2 LLM calls):
+    extract_reasoning_plan(['You are answering a numerical reasoning question over a financial report excerpt.\n\n## Context (text before table)\nmanagement 2019s discussion and analysis of financial condition and results of op)
+      -> Target: percentage increase in net cash provided by operating activities from 2014 to 2015
+Values: cash_2014 = 669.5 from row "net cash provided by operating activities" for years ended december 31 , 2014; cash_2015 = 674.0 from row "net cash provided by operating activities" for years ended december 31 , 2015
+Formula: (674.0 - 669.5) / 669.5 [$0.0006]
+    extract_final_number(['Target: percentage increase in net cash provided by operating activities from 2014 to 2015\nValues: cash_2014 = 669.5 from row "net cash provided by operating activities" for years ended december 31)
+      -> 0.006721433906 [$0.0002]
+  RESULT: predicted=0.006721433906, expected=2.04524
+
+--- Case valid.00536: ---
+  Input arg 0: You are answering a numerical reasoning question over a financial report excerpt.
+
+## Context (text before table)
+results of operations operating revenues millions 2014 2013 2012 % (  % ) change 2014 v 2013 % (  % ) change 2013 v 2012 .
+
+## Table
+| millions | 2014 | 2013 | 2012 | % (  % ) change 2014 v 2013 | % (  % ) change 2013 v 2012 |
+| freight revenues | $ 22560 | $ 20684 | $ 19686 | 9% ( 9 % ) | 5% ( 5 % ) |
+| other revenues | 1428 | 1279 | 1240 | 12% ( 12 % ) | 3% ( 3 % ) |
+| total | $ 23988 | $ 21963 | $ 20926 | 9% ( 9 % ) | 5% ( 5 % ) |
+
+## Context (text after table)
+we generate freight revenues by transporting freight or other materials from our six commodity groups .
+freight revenues vary with volume ( carloads ) and average revenue per car ( arc ) .
+changes in price , traffic mix and fuel surcharges drive arc .
+we provide some of our customers with contractual incentives for meeting or exceeding specified cumulative volumes or shipping to and from specific locations , which we record as reductions to freight revenues based on the actual or projected future shipments .
+we recognize freight revenues as shipments move from origin to destination .
+we allocate freight revenues between reporting periods based on the relative transit time in each reporting period and recognize expenses as we incur them .
+other revenues include revenues earned by our subsidiaries , revenues from our commuter rail operations , and accessorial revenues , which we earn when customers retain equipment owned or controlled by us or when we perform additional services such as switching or storage .
+we recognize other revenues as we perform services or meet contractual obligations .
+freight revenues from all six commodity groups increased during 2014 compared to 2013 driven by 7% ( 7 % ) volume growth and core pricing gains of 2.5% ( 2.5 % ) .
+volume growth from grain , frac sand , rock , and intermodal ( domestic and international ) shipments offset declines in crude oil .
+freight reve
+  Execution trace (2 LLM calls):
+    extract_reasoning_plan(['You are answering a numerical reasoning question over a financial report excerpt.\n\n## Context (text before table)\nresults of operations operating revenues millions 2014 2013 2012 % (  % ) change )
+      -> 23688.0 [$0.0006]
+    extract_final_number(['23688.0\n(Note: The python evaluation of the formula failed with ERROR: No formula found. Please carefully calculate the final answer yourself based on the Values and Formula.)'])
+      -> 23688.0 [$0.0001]
+  RESULT: predicted=23688.0, expected=22560.05
+
+--- Case valid.00304: ---
+  Input arg 0: You are answering a numerical reasoning question over a financial report excerpt.
+
+## Context (text before table)
+part ii item 5 .
+market for registrant 2019s common equity , related stockholder matters and issuer purchases of equity securities the following table presents reported quarterly high and low per share sale prices of our common stock on the new york stock exchange ( 201cnyse 201d ) for the years 2008 and 2007. .
+
+## Table
+| 2008 | high | low |
+| quarter ended march 31 | $ 42.72 | $ 32.10 |
+| quarter ended june 30 | 46.10 | 38.53 |
+| quarter ended september 30 | 43.43 | 31.89 |
+| quarter ended december 31 | 37.28 | 19.35 |
+| 2007 | high | low |
+| quarter ended march 31 | $ 41.31 | $ 36.63 |
+| quarter ended june 30 | 43.84 | 37.64 |
+| quarter ended september 30 | 45.45 | 36.34 |
+| quarter ended december 31 | 46.53 | 40.08 |
+
+## Context (text after table)
+on february 13 , 2009 , the closing price of our common stock was $ 28.85 per share as reported on the nyse .
+as of february 13 , 2009 , we had 397097677 outstanding shares of common stock and 499 registered holders .
+dividends we have never paid a dividend on our common stock .
+we anticipate that we may retain future earnings , if any , to fund the development and growth of our business .
+the indentures governing our 7.50% ( 7.50 % ) senior notes due 2012 ( 201c7.50% ( 201c7.50 % ) notes 201d ) and our 7.125% ( 7.125 % ) senior notes due 2012 ( 201c7.125% ( 201c7.125 % ) notes 201d ) may prohibit us from paying dividends to our stockholders unless we satisfy certain financial covenants .
+the loan agreement for our revolving credit facility and term loan , and the indentures governing the terms of our 7.50% ( 7.50 % ) notes and 7.125% ( 7.125 % ) notes contain covenants that restrict our ability to pay dividends unless certain financial covenants are satisfied .
+in addition , while spectrasite and its subsidiaries are classified as unrestricted subsidiaries under the indentures for our 7.50% ( 7.50 % ) not
+  Execution trace (2 LLM calls):
+    extract_reasoning_plan(['You are answering a numerical reasoning question over a financial report excerpt.\n\n## Context (text before table)\npart ii item 5 .\nmarket for registrant 2019s common equity , related stockholder)
+      -> 11456267981.45 [$0.0005]
+    extract_final_number(['11456267981.45\n(Note: The python evaluation of the formula failed with ERROR: No formula found. Please carefully calculate the final answer yourself based on the Values and Formula.)'])
+      -> 11456267981.45 [$0.0002]
+  RESULT: predicted=11456267981.45, expected=13764217.57366
+
+--- Case valid.00256: ---
+  Input arg 0: You are answering a numerical reasoning question over a financial report excerpt.
+
+## Context (text before table)
+table of contents the table below sets forth statutory surplus for the company 2019s insurance companies .
+the statutory surplus amounts as of december 31 , 2007 in the table below are based on actual statutory filings with the applicable regulatory authorities .
+the statutory surplus amounts as of december 31 , 2008 are estimates , as the respective 2008 statutory filings have not yet been the company has received approval from the connecticut insurance department regarding the use of two permitted practices in the statutory financial statements of its connecticut-domiciled life insurance subsidiaries as of december 31 , 2008 .
+the first permitted practice relates to the statutory accounting for deferred income taxes .
+specifically , this permitted practice modifies the accounting for deferred income taxes prescribed by the naic by increasing the realization period for deferred tax assets from one year to three years and increasing the asset recognition limit from 10% ( 10 % ) to 15% ( 15 % ) of adjusted statutory capital and surplus .
+the benefits of this permitted practice may not be considered by the company when determining surplus available for dividends .
+the second permitted practice relates to the statutory reserving requirements for variable annuities with guaranteed living benefit riders .
+actuarial guidelines prescribed by the naic require a stand-alone asset adequacy analysis reflecting only benefits , expenses and charges that are associated with the riders for variable annuities with guaranteed living benefits .
+the permitted practice allows for all benefits , expenses and charges associated with the variable annuity contract to be reflected in the stand- alone asset adequacy test .
+these permitted practices resulted in an increase to life operations estimated statutory surplus of $ 987 as of december 31 , 2008 .
+the effects of these permi
+  Execution trace (2 LLM calls):
+    extract_reasoning_plan(['You are answering a numerical reasoning question over a financial report excerpt.\n\n## Context (text before table)\ntable of contents the table below sets forth statutory surplus for the company 20)
+      -> Target: percentage of the total GAAP stockholders' equity and aggregate statutory capital associated with life operations in 2008
+Values: life_operations_2008 = 6047; gaap_equity_2008 = 9300; stat_capital_2008 = 13800
+Formula: 6047 / (9300 + 13800) [$0.0007]
+    extract_final_number(["Target: percentage of the total GAAP stockholders' equity and aggregate statutory capital associated with life operations in 2008\nValues: life_operations_2008 = 6047; gaap_equity_2008 = 9300; stat_)
+      -> 0.2617748918 [$0.0002]
+  RESULT: predicted=0.2617748918, expected=0.43892
+
+--- Case valid.00093: ---
+  Input arg 0: You are answering a numerical reasoning question over a financial report excerpt.
+
+## Context (text before table)
+hologic , inc .
+notes to consolidated financial statements ( continued ) ( in thousands , except per share data ) acquisition and the adjustments did not have a material impact on the company 2019s financial position or results of operation .
+there have no other material changes to the purchase price allocation as disclosed in the company 2019s form 10-k for the year ended september 30 , 2006 .
+as part of the purchase price allocation , all intangible assets that were a part of the acquisition were identified and valued .
+it was determined that only customer relationship , trade name , developed technology and know how and in-process research and development had separately identifiable values .
+customer relationship represents r2 2019s strong active customer base , dominant market position and strong partnership with several large companies .
+trade name represents the r2 product names that the company intends to continue to use .
+order backlog consists of customer orders for which revenue has not yet been recognized .
+developed technology and know how represents currently marketable purchased products that the company continues to resell as well as utilize to enhance and incorporate into the company 2019s existing products .
+the estimated $ 10200 of purchase price allocated to in-process research and development projects primarily related to r2 2019s digital cad products .
+the projects added direct digital algorithm capabilities as well as a new platform technology to analyze images and breast density measurement .
+the projects were substantially completed as planned in fiscal 2007 .
+the deferred income tax asset relates to the tax effect of acquired net operating loss carry forwards that the company believes are realizable partially offset by acquired identifiable intangible assets , and fair value adjustments to acquired inventory as such amounts are n
+  Execution trace (2 LLM calls):
+    extract_reasoning_plan(['You are answering a numerical reasoning question over a financial report excerpt.\n\n## Context (text before table)\nhologic , inc .\nnotes to consolidated financial statements ( continued ) ( in th)
+      -> Target: fair value of hologic common stock used to acquire suros
+Values: value_of_common_stock = $106500 from text paragraph "The initial aggregate purchase price for suros ... consisted of 2300 shares of hologic common stock valued at $ 106500"
+Formula: 106500 [$0.0005]
+    extract_final_number(['Target: fair value of hologic common stock used to acquire suros\nValues: value_of_common_stock = $106500 from text paragraph "The initial aggregate purchase price for suros ... consisted of 2300 sh)
+      -> 106500 [$0.0002]
+  RESULT: predicted=106500, expected=46.30435
+
+--- Case valid.00482: ---
+  Input arg 0: You are answering a numerical reasoning question over a financial report excerpt.
+
+## Context (text before table)
+republic services , inc .
+notes to consolidated financial statements 2014 ( continued ) employee stock purchase plan republic employees are eligible to participate in an employee stock purchase plan .
+the plan allows participants to purchase our common stock for 95% ( 95 % ) of its quoted market price on the last day of each calendar quarter .
+for the years ended december 31 , 2017 , 2016 and 2015 , issuances under this plan totaled 113941 shares , 130085 shares and 141055 shares , respectively .
+as of december 31 , 2017 , shares reserved for issuance to employees under this plan totaled 0.4 million and republic held employee contributions of approximately $ 1.8 million for the purchase of common stock .
+12 .
+stock repurchases and dividends stock repurchases stock repurchase activity during the years ended december 31 , 2017 and 2016 follows ( in millions except per share amounts ) : .
+
+## Table
+|  | 2017 | 2016 |
+| number of shares repurchased | 9.6 | 8.4 |
+| amount paid | $ 610.7 | $ 403.8 |
+| weighted average cost per share | $ 63.84 | $ 48.56 |
+
+## Context (text after table)
+as of december 31 , 2017 , there were 0.5 million repurchased shares pending settlement and $ 33.8 million was unpaid and included within other accrued liabilities .
+in october 2017 , our board of directors added $ 2.0 billion to the existing share repurchase authorization that now extends through december 31 , 2020 .
+before this , $ 98.4 million remained under a prior authorization .
+share repurchases under the program may be made through open market purchases or privately negotiated transactions in accordance with applicable federal securities laws .
+while the board of directors has approved the program , the timing of any purchases , the prices and the number of shares of common stock to be purchased will be determined by our management , at its discretion , and will depend up
+  Execution trace (2 LLM calls):
+    extract_reasoning_plan(['You are answering a numerical reasoning question over a financial report excerpt.\n\n## Context (text before table)\nrepublic services , inc .\nnotes to consolidated financial statements 2014 ( cont)
+      -> Target: percent decline in employee stock purchase plan issuances from 2016 to 2017
+Values: issuances_2016 = 130085; issuances_2017 = 113941
+Formula: (130085 - 113941) / 130085 [$0.0006]
+    extract_final_number(['Target: percent decline in employee stock purchase plan issuances from 2016 to 2017\nValues: issuances_2016 = 130085; issuances_2017 = 113941\nFormula: (130085 - 113941) / 130085\nCalculated: (13008)
+      -> 0.1241034708 [$0.0002]
+  RESULT: predicted=0.1241034708, expected=-0.1241
+
+--- Case valid.00108: ---
+  Input arg 0: You are answering a numerical reasoning question over a financial report excerpt.
+
+## Context (text before table)
+part ii item 5 .
+market for registrant 2019s common equity , related stockholder matters and issuer purchases of equity securities the following table presents reported quarterly high and low per share sale prices of our common stock on the new york stock exchange ( 201cnyse 201d ) for the years 2008 and 2007. .
+
+## Table
+| 2008 | high | low |
+| quarter ended march 31 | $ 42.72 | $ 32.10 |
+| quarter ended june 30 | 46.10 | 38.53 |
+| quarter ended september 30 | 43.43 | 31.89 |
+| quarter ended december 31 | 37.28 | 19.35 |
+| 2007 | high | low |
+| quarter ended march 31 | $ 41.31 | $ 36.63 |
+| quarter ended june 30 | 43.84 | 37.64 |
+| quarter ended september 30 | 45.45 | 36.34 |
+| quarter ended december 31 | 46.53 | 40.08 |
+
+## Context (text after table)
+on february 13 , 2009 , the closing price of our common stock was $ 28.85 per share as reported on the nyse .
+as of february 13 , 2009 , we had 397097677 outstanding shares of common stock and 499 registered holders .
+dividends we have never paid a dividend on our common stock .
+we anticipate that we may retain future earnings , if any , to fund the development and growth of our business .
+the indentures governing our 7.50% ( 7.50 % ) senior notes due 2012 ( 201c7.50% ( 201c7.50 % ) notes 201d ) and our 7.125% ( 7.125 % ) senior notes due 2012 ( 201c7.125% ( 201c7.125 % ) notes 201d ) may prohibit us from paying dividends to our stockholders unless we satisfy certain financial covenants .
+the loan agreement for our revolving credit facility and term loan , and the indentures governing the terms of our 7.50% ( 7.50 % ) notes and 7.125% ( 7.125 % ) notes contain covenants that restrict our ability to pay dividends unless certain financial covenants are satisfied .
+in addition , while spectrasite and its subsidiaries are classified as unrestricted subsidiaries under the indentures for our 7.50% ( 7.50 % ) not
+  Execution trace (2 LLM calls):
+    extract_reasoning_plan(['You are answering a numerical reasoning question over a financial report excerpt.\n\n## Context (text before table)\npart ii item 5 .\nmarket for registrant 2019s common equity , related stockholder)
+      -> Target: percentage change from the highest to the lowest per share sale price for the quarter ended March 31 2008
+Values: high_price = 42.72 from row "quarter ended march 31" under "2008"; low_price = 32.10 from row "quarter ended march 31" under "2008"
+Formula: (32.10 - 42.72) / 42.72 [$0.0006]
+    extract_final_number(['Target: percentage change from the highest to the lowest per share sale price for the quarter ended March 31 2008\nValues: high_price = 42.72 from row "quarter ended march 31" under "2008"; low_pric)
+      -> -0.2485955056 [$0.0002]
+  RESULT: predicted=-0.2485955056, expected=0.33084
+
+--- Case valid.00157: ---
+  Input arg 0: You are answering a numerical reasoning question over a financial report excerpt.
+
+## Context (text before table)
+the acquisition date is on or after the beginning of the first annual reporting period beginning on or after december 15 , 2008 .
+we will evaluate how the new requirements of statement no .
+141 ( r ) would impact any business combinations completed in 2009 or thereafter .
+in december 2007 , the fasb also issued statement of financial accounting standards no .
+160 , noncontrolling interests in consolidated financial statements 2014an amendment of accounting research bulletin no .
+51 .
+a noncontrolling interest , sometimes called a minority interest , is the portion of equity in a subsidiary not attributable , directly or indirectly , to a parent .
+statement no .
+160 establishes accounting and reporting standards for the noncontrolling interest in a subsidiary and for the deconsolidation of a subsidiary .
+under statement no .
+160 , noncontrolling interests in a subsidiary must be reported as a component of consolidated equity separate from the parent 2019s equity .
+additionally , the amounts of consolidated net income attributable to both the parent and the noncontrolling interest must be reported separately on the face of the income statement .
+statement no .
+160 is effective for fiscal years beginning on or after december 15 , 2008 and earlier adoption is prohibited .
+we do not expect the adoption of statement no .
+160 to have a material impact on our financial statements and related disclosures .
+2008 estimates the forward-looking statements provided in this discussion are based on our examination of historical operating trends , the information that was used to prepare the december 31 , 2007 reserve reports and other data in our possession or available from third parties .
+these forward-looking statements were prepared assuming demand , curtailment , producibility and general market conditions for our oil , natural gas and ngls during 2008 will be subs
+  Execution trace (2 LLM calls):
+    extract_reasoning_plan(['You are answering a numerical reasoning question over a financial report excerpt.\n\n## Context (text before table)\nthe acquisition date is on or after the beginning of the first annual reporting p)
+      -> Target: percentage of the total production (mmboe) that comes from Canada
+Values: Canada_mmboe = 60 from row "canada" column "total ( mmboe )"; Total_mmboe = 243 from row "total" column "total ( mmboe )"
+Formula: 60 / 243 [$0.0006]
+    extract_final_number(['Target: percentage of the total production (mmboe) that comes from Canada\nValues: Canada_mmboe = 60 from row "canada" column "total ( mmboe )"; Total_mmboe = 243 from row "total" column "total ( mm)
+      -> 0.2469135802 [$0.0002]
+  RESULT: predicted=0.2469135802, expected=24.69136
+
+--- Case valid.00030: ---
+  Input arg 0: You are answering a numerical reasoning question over a financial report excerpt.
+
+## Context (text before table)
+the aes corporation notes to consolidated financial statements 2014 ( continued ) december 31 , 2016 , 2015 , and 2014 the following is a reconciliation of the beginning and ending amounts of unrecognized tax benefits for the periods indicated ( in millions ) : .
+
+## Table
+| december 31, | 2016 | 2015 | 2014 |
+| balance at january 1 | $ 373 | $ 394 | $ 392 |
+| additions for current year tax positions | 8 | 7 | 7 |
+| additions for tax positions of prior years | 1 | 12 | 14 |
+| reductions for tax positions of prior years | -1 ( 1 ) | -7 ( 7 ) | -2 ( 2 ) |
+| effects of foreign currency translation | 2 | -7 ( 7 ) | -3 ( 3 ) |
+| settlements | -13 ( 13 ) | -19 ( 19 ) | -2 ( 2 ) |
+| lapse of statute of limitations | -1 ( 1 ) | -7 ( 7 ) | -12 ( 12 ) |
+| balance at december 31 | $ 369 | $ 373 | $ 394 |
+
+## Context (text after table)
+the company and certain of its subsidiaries are currently under examination by the relevant taxing authorities for various tax years .
+the company regularly assesses the potential outcome of these examinations in each of the taxing jurisdictions when determining the adequacy of the amount of unrecognized tax benefit recorded .
+while it is often difficult to predict the final outcome or the timing of resolution of any particular uncertain tax position , we believe we have appropriately accrued for our uncertain tax benefits .
+however , audit outcomes and the timing of audit settlements and future events that would impact our previously recorded unrecognized tax benefits and the range of anticipated increases or decreases in unrecognized tax benefits are subject to significant uncertainty .
+it is possible that the ultimate outcome of current or future examinations may exceed our provision for current unrecognized tax benefits in amounts that could be material , but cannot be estimated as of december 31 , 2016 .
+our effective tax rate an
+  Execution trace (2 LLM calls):
+    extract_reasoning_plan(['You are answering a numerical reasoning question over a financial report excerpt.\n\n## Context (text before table)\nthe aes corporation notes to consolidated financial statements 2014 ( continued ))
+      -> Target: average amount of settlements in 2016
+Values: settlements_2016 = -13 from row "settlements" and column "2016"
+Formula: -13 [$0.0006]
+    extract_final_number(['Target: average amount of settlements in 2016\nValues: settlements_2016 = -13 from row "settlements" and column "2016"\nFormula: -13\nCalculated: -13 = -13'])
+      -> -13 [$0.0001]
+  RESULT: predicted=-13, expected=-11.33333
+
+--- Case valid.00562: ---
+  Input arg 0: You are answering a numerical reasoning question over a financial report excerpt.
+
+## Context (text before table)
+market price and dividends d u k e r e a l t y c o r p o r a t i o n 3 8 2 0 0 2 a n n u a l r e p o r t the company 2019s common shares are listed for trading on the new york stock exchange , symbol dre .
+the following table sets forth the high and low sales prices of the common stock for the periods indicated and the dividend paid per share during each such period .
+comparable cash dividends are expected in the future .
+on january 29 , 2003 , the company declared a quarterly cash dividend of $ .455 per share , payable on february 28 , 2003 , to common shareholders of record on february 14 , 2003. .
+
+## Table
+| quarter ended | 2002 high | 2002 low | 2002 dividend | 2002 high | 2002 low | dividend |
+| december 31 | $ 25.84 | $ 21.50 | $ .455 | $ 24.80 | $ 22.00 | $ .45 |
+| september 30 | 28.88 | 21.40 | .455 | 26.17 | 21.60 | .45 |
+| june 30 | 28.95 | 25.46 | .450 | 24.99 | 22.00 | .43 |
+| march 31 | 26.50 | 22.92 | .450 | 25.44 | 21.85 | .43 |
+
+## Context (text after table)
+.
+
+## Question
+what is the percent change in quarterly cash dividend for the period ended march 31 2002 to the period ended december 31 2002?
+
+Reply with only the final answer (a number, percentage, or short phrase as appropriate). For rates or proportions you may answer as a decimal (e.g. 0.935) or as a percent (e.g. 93.5%). Do not use XML tags or labels—only the value.
+  Execution trace (2 LLM calls):
+    extract_reasoning_plan(['You are answering a numerical reasoning question over a financial report excerpt.\n\n## Context (text before table)\nmarket price and dividends d u k e r e a l t y c o r p o r a t i o n 3 8 2 0 0 2 )
+      -> Target: percentage change in quarterly cash dividend from the period ended march 31 2002 to the period ended december 31 2002
+Values: dividend_march_31_2002 = 0.450 from row "march 31" column "2002 dividend"; dividend_december_31_2002 = 0.455 from row "december 31" column "2002 dividend"
+Formula: (0.455 - 0.450) / 0.450 [$0.0005]
+    extract_final_number(['Target: percentage change in quarterly cash dividend from the period ended march 31 2002 to the period ended december 31 2002\nValues: dividend_march_31_2002 = 0.450 from row "march 31" column "2002)
+      -> 0.01111111111 [$0.0002]
+  RESULT: predicted=0.01111111111, expected=1.11111
+
+--- Case valid.00458: ---
+  Input arg 0: You are answering a numerical reasoning question over a financial report excerpt.
+
+## Context (text before table)
+shareowner return performance graph the following performance graph and related information shall not be deemed 201csoliciting material 201d or to be 201cfiled 201d with the securities and exchange commission , nor shall such information be incorporated by reference into any future filing under the securities act of 1933 or securities exchange act of 1934 , each as amended , except to the extent that the company specifically incorporates it by reference into such filing .
+the following graph shows a five-year comparison of cumulative total shareowners 2019 returns for our class b common stock , the s&p 500 index , and the dow jones transportation average .
+the comparison of the total cumulative return on investment , which is the change in the quarterly stock price plus reinvested dividends for each of the quarterly periods , assumes that $ 100 was invested on december 31 , 2001 in the s&p 500 index , the dow jones transportation average , and the class b common stock of united parcel service , inc .
+comparison of five year cumulative total return $ 40.00 $ 60.00 $ 80.00 $ 100.00 $ 120.00 $ 140.00 $ 160.00 $ 180.00 $ 200.00 2001 2002 2003 2004 2005 2006 s&p 500 ups dj transport .
+
+## Table
+|  | 12/31/01 | 12/31/02 | 12/31/03 | 12/31/04 | 12/31/05 | 12/31/06 |
+| united parcel service inc . | $ 100.00 | $ 117.19 | $ 140.49 | $ 163.54 | $ 146.35 | $ 148.92 |
+| s&p 500 index | $ 100.00 | $ 77.90 | $ 100.24 | $ 111.15 | $ 116.61 | $ 135.02 |
+| dow jones transportation average | $ 100.00 | $ 88.52 | $ 116.70 | $ 149.06 | $ 166.42 | $ 182.76 |
+
+## Context (text after table)
+securities authorized for issuance under equity compensation plans the following table provides information as of december 31 , 2006 regarding compensation plans under which our class a common stock is authorized for issuance .
+these plans do not authorize the issuance of our class b common 
+  Execution trace (2 LLM calls):
+    extract_reasoning_plan(['You are answering a numerical reasoning question over a financial report excerpt.\n\n## Context (text before table)\nshareowner return performance graph the following performance graph and related i)
+      -> Target: difference in percentage total cumulative return on investment between united parcel service inc . and s&p 500 index for the five years ended 12/31/06
+Values: ups_return = 148.92 from row "united parcel service inc ." and column "12/31/06"; sp500_return = 135.02 from row "s&p 500 index" and column "12/31/06"
+Formula: (148.92 - 135.02) / 135.02 [$0.0006]
+    extract_final_number(['Target: difference in percentage total cumulative return on investment between united parcel service inc . and s&p 500 index for the five years ended 12/31/06\nValues: ups_return = 148.92 from row ")
+      -> 0.1029477115 [$0.0002]
+  RESULT: predicted=0.1029477115, expected=0.139
+
+--- Case valid.00272: ---
+  Input arg 0: You are answering a numerical reasoning question over a financial report excerpt.
+
+## Context (text before table)
+note 17 .
+accumulated other comprehensive losses : pmi's accumulated other comprehensive losses , net of taxes , consisted of the following: .
+
+## Table
+| ( losses ) earnings ( in millions ) | ( losses ) earnings 2015 | ( losses ) earnings 2014 | 2013 |
+| currency translation adjustments | $ -6129 ( 6129 ) | $ -3929 ( 3929 ) | $ -2207 ( 2207 ) |
+| pension and other benefits | -3332 ( 3332 ) | -3020 ( 3020 ) | -2046 ( 2046 ) |
+| derivatives accounted for as hedges | 59 | 123 | 63 |
+| total accumulated other comprehensive losses | $ -9402 ( 9402 ) | $ -6826 ( 6826 ) | $ -4190 ( 4190 ) |
+
+## Context (text after table)
+reclassifications from other comprehensive earnings the movements in accumulated other comprehensive losses and the related tax impact , for each of the components above , that are due to current period activity and reclassifications to the income statement are shown on the consolidated statements of comprehensive earnings for the years ended december 31 , 2015 , 2014 , and 2013 .
+the movement in currency translation adjustments for the year ended december 31 , 2013 , was also impacted by the purchase of the remaining shares of the mexican tobacco business .
+in addition , $ 1 million , $ 5 million and $ 12 million of net currency translation adjustment gains were transferred from other comprehensive earnings to marketing , administration and research costs in the consolidated statements of earnings for the years ended december 31 , 2015 , 2014 and 2013 , respectively , upon liquidation of subsidiaries .
+for additional information , see note 13 .
+benefit plans and note 15 .
+financial instruments for disclosures related to pmi's pension and other benefits and derivative financial instruments .
+note 18 .
+colombian investment and cooperation agreement : on june 19 , 2009 , pmi announced that it had signed an agreement with the republic of colombia
+  Execution trace (2 LLM calls):
+    extract_reasoning_plan(['You are answering a numerical reasoning question over a financial report excerpt.\n\n## Context (text before table)\nnote 17 .\naccumulated other comprehensive losses : pmi\'s accumulated other comp)
+      -> Target: percentage increase in total accumulated other comprehensive losses from 2013 to 2014
+Values: losses_2013 = -4190 from row "total accumulated other comprehensive losses" in column "2013"; losses_2014 = -6826 from row "total accumulated other comprehensive losses" in column "2014"
+Formula: (-6826 - (-4190)) / abs(-4190) [$0.0006]
+    extract_final_number(['Target: percentage increase in total accumulated other comprehensive losses from 2013 to 2014\nValues: losses_2013 = -4190 from row "total accumulated other comprehensive losses" in column "2013"; l)
+      -> -0.6291169451 [$0.0002]
+  RESULT: predicted=-0.6291169451, expected=0.62912
+
+--- Case valid.00795: ---
+  Input arg 0: You are answering a numerical reasoning question over a financial report excerpt.
+
+## Context (text before table)
+64 | 2017 form 10-k notes to consolidated financial statements 1 .
+operations and summary of significant accounting policies a .
+nature of operations information in our financial statements and related commentary are presented in the following categories : machinery , energy & transportation ( me&t ) 2013 represents the aggregate total of construction industries , resource industries , energy & transportation and all other operating segments and related corporate items and eliminations .
+financial products 2013 primarily includes the company 2019s financial products segment .
+this category includes caterpillar financial services corporation ( cat financial ) , caterpillar insurance holdings inc .
+( insurance services ) and their respective subsidiaries .
+our products are sold primarily under the brands 201ccaterpillar , 201d 201ccat , 201d design versions of 201ccat 201d and 201ccaterpillar , 201d 201cemd , 201d 201cfg wilson , 201d 201cmak , 201d 201cmwm , 201d 201cperkins , 201d 201cprogress rail , 201d 201csem 201d and 201csolar turbines 201d .
+we conduct operations in our machinery , energy & transportation lines of business under highly competitive conditions , including intense price competition .
+we place great emphasis on the high quality and performance of our products and our dealers 2019 service support .
+although no one competitor is believed to produce all of the same types of equipment that we do , there are numerous companies , large and small , which compete with us in the sale of each of our products .
+our machines are distributed principally through a worldwide organization of dealers ( dealer network ) , 48 located in the united states and 123 located outside the united states , serving 192 countries .
+reciprocating engines are sold principally through the dealer network and to other manufacturers for use in products .
+some of the reci
+  Execution trace (2 LLM calls):
+    extract_reasoning_plan(['You are answering a numerical reasoning question over a financial report excerpt.\n\n## Context (text before table)\n64 | 2017 form 10-k notes to consolidated financial statements 1 .\noperations an)
+      -> Target: the portion of the maximum exposure to loss related to guarantees in 2018
+Values: N/A
+Formula: "The provided table only contains data for 2017 and 2016; therefore, the value for 2018 cannot be determined." [$0.0006]
+    extract_final_number(['Target: the portion of the maximum exposure to loss related to guarantees in 2018\nValues: N/A\nFormula: "The provided table only contains data for 2017 and 2016; therefore, the value for 2018 canno)
+      -> not determined [$0.0001]
+  RESULT: predicted=not determined, expected=0.2933
+
+--- Case valid.00229: ---
+  Input arg 0: You are answering a numerical reasoning question over a financial report excerpt.
+
+## Context (text before table)
+notes to the consolidated financial statements union pacific corporation and subsidiary companies for purposes of this report , unless the context otherwise requires , all references herein to the 201ccorporation 201d , 201ccompany 201d , 201cupc 201d , 201cwe 201d , 201cus 201d , and 201cour 201d mean union pacific corporation and its subsidiaries , including union pacific railroad company , which will be separately referred to herein as 201cuprr 201d or the 201crailroad 201d .
+1 .
+nature of operations operations and segmentation 2013 we are a class i railroad operating in the u.s .
+our network includes 31838 route miles , linking pacific coast and gulf coast ports with the midwest and eastern u.s .
+gateways and providing several corridors to key mexican gateways .
+we own 26009 miles and operate on the remainder pursuant to trackage rights or leases .
+we serve the western two-thirds of the country and maintain coordinated schedules with other rail carriers for the handling of freight to and from the atlantic coast , the pacific coast , the southeast , the southwest , canada , and mexico .
+export and import traffic is moved through gulf coast and pacific coast ports and across the mexican and canadian borders .
+the railroad , along with its subsidiaries and rail affiliates , is our one reportable operating segment .
+although we provide and review revenue by commodity group , we analyze the net financial results of the railroad as one segment due to the integrated nature of our rail network .
+the following table provides freight revenue by commodity group : millions 2013 2012 2011 .
+
+## Table
+| millions | 2013 | 2012 | 2011 |
+| agricultural | $ 3276 | $ 3280 | $ 3324 |
+| automotive | 2077 | 1807 | 1510 |
+| chemicals | 3501 | 3238 | 2815 |
+| coal | 3978 | 3912 | 4084 |
+| industrial products | 3822 | 3494 | 3166 |
+| intermodal | 4030 | 3955 | 3609 |
+| total
+  Execution trace (2 LLM calls):
+    extract_reasoning_plan(['You are answering a numerical reasoning question over a financial report excerpt.\n\n## Context (text before table)\nnotes to the consolidated financial statements union pacific corporation and subs)
+      -> Target: percentage of total operating revenues from Mexico in 2013
+Values: mexico_revenue_2013 = 2100 (from $2.1 billion text); total_operating_revenues_2013 = 21963 (from table row "total operatingrevenues" column "2013")
+Formula: 2100 / 21963 [$0.0006]
+    extract_final_number(['Target: percentage of total operating revenues from Mexico in 2013\nValues: mexico_revenue_2013 = 2100 (from $2.1 billion text); total_operating_revenues_2013 = 21963 (from table row "total operatin)
+      -> 0.09561535309 [$0.0002]
+  RESULT: predicted=0.09561535309, expected=0.0001
+
+--- Case valid.00575: ---
+  Input arg 0: You are answering a numerical reasoning question over a financial report excerpt.
+
+## Context (text before table)
+item 7a .
+quantitative and qualitative disclosures about market risk ( amounts in millions ) in the normal course of business , we are exposed to market risks related to interest rates , foreign currency rates and certain balance sheet items .
+from time to time , we use derivative instruments , pursuant to established guidelines and policies , to manage some portion of these risks .
+derivative instruments utilized in our hedging activities are viewed as risk management tools and are not used for trading or speculative purposes .
+interest rates our exposure to market risk for changes in interest rates relates primarily to the fair market value and cash flows of our debt obligations .
+the majority of our debt ( approximately 89% ( 89 % ) and 91% ( 91 % ) as of december 31 , 2015 and 2014 , respectively ) bears interest at fixed rates .
+we do have debt with variable interest rates , but a 10% ( 10 % ) increase or decrease in interest rates would not be material to our interest expense or cash flows .
+the fair market value of our debt is sensitive to changes in interest rates , and the impact of a 10% ( 10 % ) change in interest rates is summarized below .
+increase/ ( decrease ) in fair market value as of december 31 , 10% ( 10 % ) increase in interest rates 10% ( 10 % ) decrease in interest rates .
+
+## Table
+| as of december 31, | increase/ ( decrease ) in fair market value 10% ( 10 % ) increasein interest rates | increase/ ( decrease ) in fair market value 10% ( 10 % ) decreasein interest rates |
+| 2015 | $ -33.7 ( 33.7 ) | $ 34.7 |
+| 2014 | -35.5 ( 35.5 ) | 36.6 |
+
+## Context (text after table)
+we have used interest rate swaps for risk management purposes to manage our exposure to changes in interest rates .
+we do not have any interest rate swaps outstanding as of december 31 , 2015 .
+we had $ 1509.7 of cash , cash equivalents and marketable securities as
+  Execution trace (2 LLM calls):
+    extract_reasoning_plan(['You are answering a numerical reasoning question over a financial report excerpt.\n\n## Context (text before table)\nitem 7a .\nquantitative and qualitative disclosures about market risk ( amounts i)
+      -> Target: percentage decrease in interest income from 2014 to 2015
+Values: interest_income_2014 = $27.4; interest_income_2015 = $22.8
+Formula: (27.4 - 22.8) / 27.4 [$0.0006]
+    extract_final_number(['Target: percentage decrease in interest income from 2014 to 2015\nValues: interest_income_2014 = $27.4; interest_income_2015 = $22.8\nFormula: (27.4 - 22.8) / 27.4\nCalculated: (27.4 - 22.8) / 27.4 )
+      -> 0.1678832117 [$0.0002]
+  RESULT: predicted=0.1678832117, expected=16.78832
+
+--- Case valid.00563: ---
+  Input arg 0: You are answering a numerical reasoning question over a financial report excerpt.
+
+## Context (text before table)
+15 .
+debt the tables below summarize our outstanding debt at 30 september 2016 and 2015 : total debt .
+
+## Table
+| 30 september | 2016 | 2015 |
+| short-term borrowings | $ 935.8 | $ 1494.3 |
+| current portion of long-term debt | 371.3 | 435.6 |
+| long-term debt | 4918.1 | 3949.1 |
+| total debt | $ 6225.2 | $ 5879.0 |
+| short-term borrowings |  |  |
+| 30 september | 2016 | 2015 |
+| bank obligations | $ 133.1 | $ 234.3 |
+| commercial paper | 802.7 | 1260.0 |
+| total short-term borrowings | $ 935.8 | $ 1494.3 |
+
+## Context (text after table)
+the weighted average interest rate of short-term borrowings outstanding at 30 september 2016 and 2015 was 1.1% ( 1.1 % ) and .8% ( .8 % ) , respectively .
+cash paid for interest , net of amounts capitalized , was $ 121.1 in 2016 , $ 97.5 in 2015 , and $ 132.4 in 2014. .
+
+## Question
+considering the year 2016 , what is the short-term debt as a percent of total debt?
+
+Reply with only the final answer (a number, percentage, or short phrase as appropriate). For rates or proportions you may answer as a decimal (e.g. 0.935) or as a percent (e.g. 93.5%). Do not use XML tags or labels—only the value.
+  Execution trace (2 LLM calls):
+    extract_reasoning_plan(['You are answering a numerical reasoning question over a financial report excerpt.\n\n## Context (text before table)\n15 .\ndebt the tables below summarize our outstanding debt at 30 september 2016 a)
+      -> Target: short-term debt as a proportion of total debt for the year 2016
+Values: short-term borrowings_2016 = 935.8 from row "total short-term borrowings"; total debt_2016 = 6225.2 from row "total debt"
+Formula: 935.8 / 6225.2 [$0.0004]
+    extract_final_number(['Target: short-term debt as a proportion of total debt for the year 2016\nValues: short-term borrowings_2016 = 935.8 from row "total short-term borrowings"; total debt_2016 = 6225.2 from row "total d)
+      -> 0.1503244876 [$0.0002]
+  RESULT: predicted=0.1503244876, expected=0.20997
+
+--- Case valid.00644: ---
+  Input arg 0: You are answering a numerical reasoning question over a financial report excerpt.
+
+## Context (text before table)
+investment advisory revenues earned on the other investment portfolios that we manage decreased $ 44 million , or 8.5% ( 8.5 % ) , to $ 477.8 million in 2009 .
+average assets in these portfolios were $ 129.5 billion during 2009 , down $ 12.6 billion or 9% ( 9 % ) from 2008 .
+other investment portfolio assets under management increased $ 46.7 billion during 2009 , including $ 36.5 billion in market gains and income and $ 10.2 billion of net inflows , primarily from institutional investors .
+net inflows include $ 1.3 billion transferred from the stock and blended asset mutual funds during 2009 .
+administrative fees decreased $ 35 million , or 10% ( 10 % ) , to $ 319 million in 2009 .
+this change includes a $ 4 million decrease in 12b-1 distribution and service fees recognized on lower average assets under management in the advisor and r classes of our sponsored mutual funds and a $ 31 million reduction in our mutual fund servicing revenue , which is primarily attributable to our cost reduction efforts in the mutual fund and retirement plan servicing functions .
+changes in administrative fees are generally offset by similar changes in related operating expenses that are incurred to provide services to the funds and their investors .
+our largest expense , compensation and related costs , decreased $ 42 million , or 5% ( 5 % ) , from 2008 to $ 773 million in 2009 .
+the largest part of this decrease is attributable to a $ 19 million reduction in our annual bonus program .
+reductions in the use of outside contractors lowered 2009 costs $ 14 million with the remainder of the cost savings primarily attributable to the workforce reduction and lower employee benefits and other employment expenses .
+average headcount in 2009 was down 5.4% ( 5.4 % ) from 2008 due to attrition , retirements and our workforce reduction in april 2009 .
+advertising and promotion expendit
+  Execution trace (2 LLM calls):
+    extract_reasoning_plan(['You are answering a numerical reasoning question over a financial report excerpt.\n\n## Context (text before table)\ninvestment advisory revenues earned on the other investment portfolios that we ma)
+      -> Target: percent change in capital gain distributions from 2008 to 2009
+Values: capital_gain_2008 = 5.6 from row "capital gain distributions received"; capital_gain_2009 = 2.0 from row "capital gain distributions received"
+Formula: (2.0 - 5.6) / 5.6 [$0.0007]
+    extract_final_number(['Target: percent change in capital gain distributions from 2008 to 2009\nValues: capital_gain_2008 = 5.6 from row "capital gain distributions received"; capital_gain_2009 = 2.0 from row "capital gain)
+      -> -0.6428571429 [$0.0002]
+  RESULT: predicted=-0.6428571429, expected=-0.48214
+
+--- Case valid.00745: ---
+  Input arg 0: You are answering a numerical reasoning question over a financial report excerpt.
+
+## Context (text before table)
+$ 70 million .
+since that time , we have continued to experience issues related to customer requirements and the implementation of this contract and have periodically accrued additional reserves .
+consequently , we are continuing to monitor the scope , estimated costs , and viability of the program and the possibility of additional customer funding .
+it is possible that we may have to record additional loss reserves in future periods , which could be material to our operating results .
+however , we cannot make an estimate of the total expected costs at this time due to uncertainties inherent in the estimation process .
+our consolidated net adjustments not related to volume , including net profit booking rate adjustments and other matters , net of state income taxes , increased segment operating profit by approximately $ 1.5 billion , $ 1.7 billion and $ 1.6 billion for 2016 , 2015 and 2014 .
+the decrease in our consolidated net adjustments in 2016 compared to 2015 was primarily due to a decrease in profit booking rate adjustments at our mfc and space systems business segments , partially offset by an increase at our rms business segment .
+the increase in our consolidated net adjustments in 2015 compared to 2014 was primarily due to an increase in profit booking rate adjustments at our space systems and aeronautics business segments , offset by a decrease in profit booking rate adjustments at our rms and mfc business segments .
+the consolidated net adjustments for 2016 are inclusive of approximately $ 530 million in unfavorable items , which include reserves for performance matters on an international program at rms .
+the consolidated net adjustments for 2015 are inclusive of approximately $ 550 million in unfavorable items , which include reserves for performance matters on an international program at rms and on commercial satellite programs at space sys
+  Execution trace (2 LLM calls):
+    extract_reasoning_plan(['You are answering a numerical reasoning question over a financial report excerpt.\n\n## Context (text before table)\n$ 70 million .\nsince that time , we have continued to experience issues related )
+      -> Target: ratio of the increasing factor to the offsetting factors for net sales in 2016
+Values: increasing_factor = 1.7 + 0.29 + 0.25 = 2.24 billion; offsetting_factor = 0.055 billion
+Formula: 2.24 / 0.055 [$0.0006]
+    extract_final_number(['Target: ratio of the increasing factor to the offsetting factors for net sales in 2016\nValues: increasing_factor = 1.7 + 0.29 + 0.25 = 2.24 billion; offsetting_factor = 0.055 billion\nFormula: 2.24)
+      -> 40.72727273 [$0.0002]
+  RESULT: predicted=40.72727273, expected=0.98491
+
+--- Case valid.00806: ---
+  Input arg 0: You are answering a numerical reasoning question over a financial report excerpt.
+
+## Context (text before table)
+at december 31 , 2012 , total future minimum commitments under existing non-cancelable operat- ing leases and purchase obligations were as follows: .
+
+## Table
+| in millions | 2013 | 2014 | 2015 | 2016 | 2017 | thereafter |
+| lease obligations | $ 198 | $ 136 | $ 106 | $ 70 | $ 50 | $ 141 |
+| purchase obligations ( a ) | 3213 | 828 | 722 | 620 | 808 | 2654 |
+| total | $ 3411 | $ 964 | $ 828 | $ 690 | $ 858 | $ 2795 |
+
+## Context (text after table)
+( a ) includes $ 3.6 billion relating to fiber supply agreements entered into at the time of the company 2019s 2006 transformation plan forestland sales and in conjunction with the 2008 acquis- ition of weyerhaeuser company 2019s containerboard , packaging and recycling business .
+rent expense was $ 231 million , $ 205 million and $ 210 million for 2012 , 2011 and 2010 , respectively .
+guarantees in connection with sales of businesses , property , equipment , forestlands and other assets , interna- tional paper commonly makes representations and warranties relating to such businesses or assets , and may agree to indemnify buyers with respect to tax and environmental liabilities , breaches of representations and warranties , and other matters .
+where liabilities for such matters are determined to be probable and subject to reasonable estimation , accrued liabilities are recorded at the time of sale as a cost of the transaction .
+environmental proceedings international paper has been named as a potentially responsible party in environmental remediation actions under various federal and state laws , includ- ing the comprehensive environmental response , compensation and liability act ( cercla ) .
+many of these proceedings involve the cleanup of hazardous substances at large commercial landfills that received waste from many different sources .
+while joint and several liability is authorized under cercla and equiva
+  Execution trace (2 LLM calls):
+    extract_reasoning_plan(['You are answering a numerical reasoning question over a financial report excerpt.\n\n## Context (text before table)\nat december 31 , 2012 , total future minimum commitments under existing non-cance)
+      -> Target: average rent expense from 2010 to 2012
+Values: rent_2012 = 231; rent_2011 = 205; rent_2010 = 210
+Formula: (231 + 205 + 210) / 3 [$0.0006]
+    extract_final_number(['Target: average rent expense from 2010 to 2012\nValues: rent_2012 = 231; rent_2011 = 205; rent_2010 = 210\nFormula: (231 + 205 + 210) / 3\nCalculated: (231 + 205 + 210) / 3 = 215.3333333'])
+      -> 215.3333333 [$0.0002]
+  RESULT: predicted=215.3333333, expected=324.5
+
+--- Case valid.00071: ---
+  Input arg 0: You are answering a numerical reasoning question over a financial report excerpt.
+
+## Context (text before table)
+item 5 .
+market for the registrant 2019s common equity , related stockholder matters and issuer purchases of equity securities the following graph compares annual total return of our common stock , the standard & poor 2019s 500 composite stock index ( 201cs&p 500 index 201d ) and our peer group ( 201cloews peer group 201d ) for the five years ended december 31 , 2015 .
+the graph assumes that the value of the investment in our common stock , the s&p 500 index and the loews peer group was $ 100 on december 31 , 2010 and that all dividends were reinvested. .
+
+## Table
+|  | 2010 | 2011 | 2012 | 2013 | 2014 | 2015 |
+| loews common stock | 100.0 | 97.37 | 106.04 | 126.23 | 110.59 | 101.72 |
+| s&p 500 index | 100.0 | 102.11 | 118.45 | 156.82 | 178.29 | 180.75 |
+| loews peer group ( a ) | 100.0 | 101.59 | 115.19 | 145.12 | 152.84 | 144.70 |
+
+## Context (text after table)
+( a ) the loews peer group consists of the following companies that are industry competitors of our principal operating subsidiaries : ace limited , w.r .
+berkley corporation , the chubb corporation , energy transfer partners l.p. , ensco plc , the hartford financial services group , inc. , kinder morgan energy partners , l.p .
+( included through november 26 , 2014 when it was acquired by kinder morgan inc. ) , noble corporation , spectra energy corp , transocean ltd .
+and the travelers companies , inc .
+dividend information we have paid quarterly cash dividends on loews common stock in each year since 1967 .
+regular dividends of $ 0.0625 per share of loews common stock were paid in each calendar quarter of 2015 and 2014. .
+
+## Question
+what is the percentage reduction in the loews common stock from 2013 to 2014
+
+Reply with only the final answer (a number, percentage, or short phrase as appropriate). For rates or proportions you may answer as a decimal (e.g. 0.935) or as a percent (e.g. 93.5%). 
+  Execution trace (2 LLM calls):
+    extract_reasoning_plan(['You are answering a numerical reasoning question over a financial report excerpt.\n\n## Context (text before table)\nitem 5 .\nmarket for the registrant 2019s common equity , related stockholder mat)
+      -> Target: percentage reduction in loews common stock from 2013 to 2014
+Values: loews_common_stock_2013 = 126.23 from row "loews common stock" column "2013"; loews_common_stock_2014 = 110.59 from row "loews common stock" column "2014"
+Formula: (126.23 - 110.59) / 126.23 [$0.0005]
+    extract_final_number(['Target: percentage reduction in loews common stock from 2013 to 2014\nValues: loews_common_stock_2013 = 126.23 from row "loews common stock" column "2013"; loews_common_stock_2014 = 110.59 from row )
+      -> 0.123900816 [$0.0002]
+  RESULT: predicted=0.123900816, expected=-0.1239
+
+--- Case valid.00500: ---
+  Input arg 0: You are answering a numerical reasoning question over a financial report excerpt.
+
+## Context (text before table)
+material impact on the service cost and interest cost components of net periodic benefit costs for a 1% ( 1 % ) change in the assumed health care trend rate .
+for most of the participants in the u.s .
+plan , aon 2019s liability for future plan cost increases for pre-65 and medical supplement plan coverage is limited to 5% ( 5 % ) per annum .
+because of this cap , net employer trend rates for these plans are effectively limited to 5% ( 5 % ) per year in the future .
+during 2007 , aon recognized a plan amendment which phases out post-65 retiree coverage in its u.s .
+plan over the next three years .
+the impact of this amendment on net periodic benefit cost is being recognized over the average remaining service life of the employees .
+14 .
+stock compensation plans the following table summarizes stock-based compensation expense recognized in continuing operations in the consolidated statements of income in compensation and benefits ( in millions ) : .
+
+## Table
+| years ended december 31 | 2010 | 2009 | 2008 |
+| rsus | $ 138 | $ 124 | $ 132 |
+| performance plans | 62 | 60 | 67 |
+| stock options | 17 | 21 | 24 |
+| employee stock purchase plans | 4 | 4 | 3 |
+| total stock-based compensation expense | 221 | 209 | 226 |
+| tax benefit | 75 | 68 | 82 |
+| stock-based compensation expense net of tax | $ 146 | $ 141 | $ 144 |
+
+## Context (text after table)
+during 2009 , the company converted its stock administration system to a new service provider .
+in connection with this conversion , a reconciliation of the methodologies and estimates utilized was performed , which resulted in a $ 12 million reduction of expense for the year ended december 31 , 2009 .
+stock awards stock awards , in the form of rsus , are granted to certain employees and consist of both performance-based and service-based rsus .
+service-based awards generally vest between three and ten years from the
+  Execution trace (2 LLM calls):
+    extract_reasoning_plan(['You are answering a numerical reasoning question over a financial report excerpt.\n\n## Context (text before table)\nmaterial impact on the service cost and interest cost components of net periodic )
+      -> Target: percentage change in the expenses related to stock options from 2008 to 2009
+Values: stock_options_2008 = $24 from row "stock options" in column "2008"; stock_options_2009 = $21 from row "stock options" in column "2009"
+Formula: (21 - 24) / 24 [$0.0006]
+    extract_final_number(['Target: percentage change in the expenses related to stock options from 2008 to 2009\nValues: stock_options_2008 = $24 from row "stock options" in column "2008"; stock_options_2009 = $21 from row "s)
+      -> -0.125 [$0.0002]
+  RESULT: predicted=-0.125, expected=0.05742
+
+--- Case valid.00570: ---
+  Input arg 0: You are answering a numerical reasoning question over a financial report excerpt.
+
+## Context (text before table)
+international networks international networks generated revenues of $ 1637 million during 2012 , which represented 37% ( 37 % ) of our total consolidated revenues .
+our international networks segment principally consists of national and pan-regional television networks .
+this segment generates revenue from operations in virtually every pay-television market in the world through an infrastructure that includes operational centers in london , singapore and miami .
+discovery channel , animal planet and tlc lead the international networks 2019 portfolio of television networks .
+international networks has one of the largest international distribution platforms of networks with as many as fourteen networks in more than 200 countries and territories around the world .
+at december 31 , 2012 , international networks operated over 180 unique distribution feeds in over 40 languages with channel feeds customized according to language needs and advertising sales opportunities .
+international networks also has free-to-air networks in the u.k. , germany , italy and spain and continues to pursue international expansion .
+our international networks segment owns and operates the following television networks which reached the following number of subscribers as of december 31 , 2012 : global networks international subscribers ( millions ) regional networks international subscribers ( millions ) .
+
+## Table
+| global networks discovery channel | internationalsubscribers ( millions ) 246 | regional networks dmax | internationalsubscribers ( millions ) 90 |
+| animal planet | 183 | discovery kids | 61 |
+| tlc real time and travel & living | 174 | quest | 26 |
+| discovery science | 75 | discovery history | 13 |
+| investigation discovery | 63 | shed | 12 |
+| discovery home & health | 57 | discovery en espanol ( u.s. ) | 5 |
+| turbo | 42 | discovery familia ( u.s ) | 4 |
+| discove
+  Execution trace (2 LLM calls):
+    extract_reasoning_plan(["You are answering a numerical reasoning question over a financial report excerpt.\n\n## Context (text before table)\ninternational networks international networks generated revenues of $ 1637 millio)
+      -> Target: total consolidated revenues in 2012
+Values: international_networks_revenue = $1637 million; international_networks_pct = 0.37
+Formula: 1637 / 0.37 [$0.0005]
+    extract_final_number(['Target: total consolidated revenues in 2012\nValues: international_networks_revenue = $1637 million; international_networks_pct = 0.37\nFormula: 1637 / 0.37\nCalculated: 1637 / 0.37 = 4424.324324'])
+      -> 4424.324324 [$0.0002]
+  RESULT: predicted=4424.324324, expected=5250.0
+
+--- Case valid.00511: ---
+  Input arg 0: You are answering a numerical reasoning question over a financial report excerpt.
+
+## Context (text before table)
+the aes corporation notes to consolidated financial statements 2014 ( continued ) december 31 , 2017 , 2016 , and 2015 was dispatched starting in february 2018 .
+aes puerto rico continues to be the lowest cost and epa compliant energy provider in puerto rico .
+therefore , we expect aes puerto rico to continue to be a critical supplier to prepa .
+starting prior to the hurricanes , prepa has been facing economic challenges that could impact the company , and on july 2 , 2017 , filed for bankruptcy under title iii .
+as a result of the bankruptcy filing , aes puerto rico and aes ilumina 2019s non-recourse debt of $ 365 million and $ 36 million , respectively , is in default and has been classified as current as of december 31 , 2017 .
+in november 2017 , aes puerto rico signed a forbearance and standstill agreement with its lenders to prevent the lenders from taking any action against the company due to the default events .
+this agreement will expire on march 22 , 2018 .
+the company's receivable balances in puerto rico as of december 31 , 2017 totaled $ 86 million , of which $ 53 million was overdue .
+after the filing of title iii protection , and up until the disruption caused by the hurricanes , aes in puerto rico was collecting the overdue amounts from prepa in line with historic payment patterns .
+considering the information available as of the filing date , management believes the carrying amount of our assets in puerto rico of $ 627 million is recoverable as of december 31 , 2017 and no reserve on the receivables is required .
+foreign currency risks 2014 aes operates businesses in many foreign countries and such operations could be impacted by significant fluctuations in foreign currency exchange rates .
+fluctuations in currency exchange rate between u.s .
+dollar and the following currencies could create significant fluctuations in earnings and cash flo
+  Execution trace (2 LLM calls):
+    extract_reasoning_plan(["You are answering a numerical reasoning question over a financial report excerpt.\n\n## Context (text before table)\nthe aes corporation notes to consolidated financial statements 2014 ( continued ))
+      -> Target: net interest expense with related parties for 2017 in millions
+Values: interest_expense_2017 = 36 from row "interest expense"; interest_income_2017 = 8 from row "interest income"
+Formula: 36 - 8 [$0.0006]
+    extract_final_number(['Target: net interest expense with related parties for 2017 in millions\nValues: interest_expense_2017 = 36 from row "interest expense"; interest_income_2017 = 8 from row "interest income"\nFormula: )
+      -> 28 [$0.0001]
+  RESULT: predicted=28, expected=-28.0
+
+--- Case valid.00189: ---
+  Input arg 0: You are answering a numerical reasoning question over a financial report excerpt.
+
+## Context (text before table)
+reinsurance commissions , fees and other revenue decreased 2% ( 2 % ) in 2014 reflecting a 1% ( 1 % ) unfavorable impact from foreign currency exchange rates and 1% ( 1 % ) decline in organic revenue growth due primarily to a significant unfavorable market impact in treaty , partially offset by net new business growth in treaty placements globally and growth in capital markets transactions and advisory business , as well as facultative placements .
+operating income operating income increased $ 108 million , or 7% ( 7 % ) , from 2013 to $ 1.6 billion in 2014 .
+in 2014 , operating income margins in this segment were 21.0% ( 21.0 % ) , an increase of 120 basis points from 19.8% ( 19.8 % ) in 2013 .
+operating margin improvement was driven by solid organic revenue growth , return on investments , expense discipline and savings related to the restructuring programs , partially offset by a $ 61 million unfavorable impact from foreign currency exchange rates .
+hr solutions .
+
+## Table
+| years ended december 31 | 2014 | 2013 | 2012 |
+| revenue | $ 4264 | $ 4057 | $ 3925 |
+| operating income | 485 | 318 | 289 |
+| operating margin | 11.4% ( 11.4 % ) | 7.8% ( 7.8 % ) | 7.4% ( 7.4 % ) |
+
+## Context (text after table)
+our hr solutions segment generated approximately 35% ( 35 % ) of our consolidated total revenues in 2014 and provides a broad range of human capital services , as follows : 2022 retirement specializes in global actuarial services , defined contribution consulting , tax and erisa consulting , and pension administration .
+2022 compensation focuses on compensatory advisory/counsel including : compensation planning design , executive reward strategies , salary survey and benchmarking , market share studies and sales force effectiveness , with special expertise in the financial services and technology industries .
+2022 strategic human capital delivers advice 
+  Execution trace (2 LLM calls):
+    extract_reasoning_plan(["You are answering a numerical reasoning question over a financial report excerpt.\n\n## Context (text before table)\nreinsurance commissions , fees and other revenue decreased 2% ( 2 % ) in 2014 ref)
+      -> Target: the total operating income in 2013 in millions
+Values: operating_income_2013 = 318 from table row "operating income" and column "2013"
+Formula: 318 [$0.0005]
+    extract_final_number(['Target: the total operating income in 2013 in millions\nValues: operating_income_2013 = 318 from table row "operating income" and column "2013"\nFormula: 318\nCalculated: 318 = 318'])
+      -> 318 [$0.0001]
+  RESULT: predicted=318, expected=1492.0
+
+--- Case valid.00708: ---
+  Input arg 0: You are answering a numerical reasoning question over a financial report excerpt.
+
+## Context (text before table)
+marathon oil corporation notes to consolidated financial statements of the $ 446 million present value of net minimum capital lease payments , $ 53 million was related to obligations assumed by united states steel under the financial matters agreement .
+operating lease rental expense was : ( in millions ) 2009 2008 2007 minimum rental ( a ) $ 238 $ 245 $ 209 .
+
+## Table
+| ( in millions ) | 2009 | 2008 | 2007 |
+| minimum rental ( a ) | $ 238 | $ 245 | $ 209 |
+| contingent rental | 19 | 22 | 33 |
+| net rental expense | $ 257 | $ 267 | $ 242 |
+
+## Context (text after table)
+( a ) excludes $ 3 million , $ 5 million and $ 8 million paid by united states steel in 2009 , 2008 and 2007 on assumed leases .
+26 .
+commitments and contingencies we are the subject of , or party to , a number of pending or threatened legal actions , contingencies and commitments involving a variety of matters , including laws and regulations relating to the environment .
+certain of these matters are discussed below .
+the ultimate resolution of these contingencies could , individually or in the aggregate , be material to our consolidated financial statements .
+however , management believes that we will remain a viable and competitive enterprise even though it is possible that these contingencies could be resolved unfavorably .
+environmental matters 2013 we are subject to federal , state , local and foreign laws and regulations relating to the environment .
+these laws generally provide for control of pollutants released into the environment and require responsible parties to undertake remediation of hazardous waste disposal sites .
+penalties may be imposed for noncompliance .
+at december 31 , 2009 and 2008 , accrued liabilities for remediation totaled $ 116 million and $ 111 million .
+it is not presently possible to estimate the ultimate amount of all remediation costs that might be incu
+  Execution trace (2 LLM calls):
+    extract_reasoning_plan(['You are answering a numerical reasoning question over a financial report excerpt.\n\n## Context (text before table)\nmarathon oil corporation notes to consolidated financial statements of the $ 446 )
+      -> Target: the increase in net rental expense from 2007 to 2009
+Values: net_rental_expense_2007 = $242 million from row "net rental expense" column "2007"; net_rental_expense_2009 = $257 million from row "net rental expense" column "2009"
+Formula: 257 - 242 [$0.0006]
+    extract_final_number(['Target: the increase in net rental expense from 2007 to 2009\nValues: net_rental_expense_2007 = $242 million from row "net rental expense" column "2007"; net_rental_expense_2009 = $257 million from )
+      -> 15 [$0.0002]
+  RESULT: predicted=15, expected=0.06198
+
+--- Case valid.00299: ---
+  Input arg 0: You are answering a numerical reasoning question over a financial report excerpt.
+
+## Context (text before table)
+shutdown .
+the customer , which primarily received products from the tonnage gases segment , filed for bankruptcy in may 2012 and announced the mill shutdown in august 2012 .
+pension settlement loss our u.s .
+supplemental pension plan provides for a lump sum benefit payment option at the time of retirement , or for corporate officers , six months after the retirement date .
+pension settlements are recognized when cash payments exceed the sum of the service and interest cost components of net periodic pension cost of the plan for the fiscal year .
+the participant 2019s vested benefit is considered fully settled upon cash payment of the lump sum .
+we recognized $ 12.4 of settlement charges in 2013 .
+advisory costs during the fourth quarter of 2013 , we incurred legal and other advisory fees of $ 10.1 ( $ 6.4 after-tax , or $ .03 per share ) in connection with our response to the rapid acquisition of a large position in shares of our common stock by pershing square capital management llc and its affiliates ( pershing square ) .
+these fees , which are reflected on the consolidated income statements as 201cadvisory costs , 201d include costs incurred before and after pershing square 2019s disclosure of its holdings and cover advisory services related to the adoption of the shareholders rights plan , preparation for a potential proxy solicitation campaign , and entering into an agreement with pershing square .
+other income ( expense ) , net items recorded to other income ( expense ) , net arise from transactions and events not directly related to our principal income earning activities .
+the detail of other income ( expense ) , net is presented in note 23 , supplemental information , to the consolidated financial statements .
+2013 vs .
+2012 other income ( expense ) , net of $ 70.2 increased $ 23.1 , primarily due to higher gains from the sale of a number of sm
+  Execution trace (2 LLM calls):
+    extract_reasoning_plan(['You are answering a numerical reasoning question over a financial report excerpt.\n\n## Context (text before table)\nshutdown .\nthe customer , which primarily received products from the tonnage gas)
+      -> Target: percentual increase of other income due to favorable foreign exchange and reimbursements in 2012 compared to 2011 (the question asks for the increase *in* 2011, but the context provides the *2012 vs 2011* increase, so the target is the 2012 increase over the 2011 base)
+Values: 2012 vs 2011 increase = $5.4; 2011 other income (expense), net = $47.1 - $5.4 = $41.7
+Formula: 5.4 / 41.7 [$0.0007]
+    extract_final_number(['Target: percentual increase of other income due to favorable foreign exchange and reimbursements in 2012 compared to 2011 (the question asks for the increase *in* 2011, but the context provides the )
+      -> 0.1294964029 [$0.0002]
+  RESULT: predicted=0.1294964029, expected=0.11465
+
+--- Case valid.00103: ---
+  Input arg 0: You are answering a numerical reasoning question over a financial report excerpt.
+
+## Context (text before table)
+dish network corporation notes to consolidated financial statements - continued 9 .
+acquisitions dbsd north america and terrestar transactions on march 2 , 2012 , the fcc approved the transfer of 40 mhz of aws-4 wireless spectrum licenses held by dbsd north america and terrestar to us .
+on march 9 , 2012 , we completed the dbsd transaction and the terrestar transaction , pursuant to which we acquired , among other things , certain satellite assets and wireless spectrum licenses held by dbsd north america and terrestar .
+in addition , during the fourth quarter 2011 , we and sprint entered into a mutual release and settlement agreement ( the 201csprint settlement agreement 201d ) pursuant to which all issues then being disputed relating to the dbsd transaction and the terrestar transaction were resolved between us and sprint , including , but not limited to , issues relating to costs allegedly incurred by sprint to relocate users from the spectrum then licensed to dbsd north america and terrestar .
+the total consideration to acquire the dbsd north america and terrestar assets was approximately $ 2.860 billion .
+this amount includes $ 1.364 billion for the dbsd transaction , $ 1.382 billion for the terrestar transaction , and the net payment of $ 114 million to sprint pursuant to the sprint settlement agreement .
+see note 16 for further information .
+as a result of these acquisitions , we recognized the acquired assets and assumed liabilities based on our estimates of fair value at their acquisition date , including $ 102 million in an uncertain tax position in 201clong-term deferred revenue , distribution and carriage payments and other long-term liabilities 201d on our consolidated balance sheets .
+subsequently , in the third quarter 2013 , this uncertain tax position was resolved and $ 102 million was reversed and recorded as a decrease in 201cincome tax
+  Execution trace (2 LLM calls):
+    extract_reasoning_plan(['You are answering a numerical reasoning question over a financial report excerpt.\n\n## Context (text before table)\ndish network corporation notes to consolidated financial statements - continued 9)
+      -> Target: tax expense related to discontinued operations in 2013
+Values: income_loss_before_tax_2013 = -54 million (from text); income_loss_net_of_tax_2013 = -47 million (from text)
+Formula: -54 - (-47) [$0.0005]
+    extract_final_number(['Target: tax expense related to discontinued operations in 2013\nValues: income_loss_before_tax_2013 = -54 million (from text); income_loss_net_of_tax_2013 = -47 million (from text)\nFormula: -54 - ()
+      -> -7 [$0.0001]
+  RESULT: predicted=-7, expected=7.0
+
+--- Case valid.00664: ---
+  Input arg 0: You are answering a numerical reasoning question over a financial report excerpt.
+
+## Context (text before table)
+jpmorgan chase & co .
+/ 2007 annual report 145 subprime adjustable-rate mortgage loan modifications see the glossary of terms on page 183 of this annual report for the firm 2019s definition of subprime loans .
+within the confines of the limited decision-making abilities of a qspe under sfas 140 , the operating doc- uments that govern existing subprime securitizations generally authorize the servicer to modify loans for which default is reasonably foreseeable , provided that the modification is in the best interests of the qspe 2019s ben- eficial interest holders , and would not result in a remic violation .
+in december 2007 , the american securitization forum ( 201casf 201d ) issued the 201cstreamlined foreclosure and loss avoidance framework for securitized subprime adjustable rate mortgage loans 201d ( 201cthe framework 201d ) .
+the framework provides guidance for servicers to stream- line evaluation procedures for borrowers with certain subprime adjustable rate mortgage ( 201carm 201d ) loans to more efficiently provide modifications of such loans with terms that are more appropriate for the individual needs of such borrowers .
+the framework applies to all first-lien subprime arm loans that have a fixed rate of interest for an initial period of 36 months or less , are included in securitized pools , were originated between january 1 , 2005 , and july 31 , 2007 , and have an initial interest rate reset date between january 1 , 2008 , and july 31 , 2010 ( 201casf framework loans 201d ) .
+the framework categorizes the population of asf framework loans into three segments .
+segment 1 includes loans where the borrower is current and is likely to be able to refinance into any available mortgage product .
+segment 2 includes loans where the borrower is current , is unlikely to be able to refinance into any readily available mortgage industry product and meets
+  Execution trace (2 LLM calls):
+    extract_reasoning_plan(['You are answering a numerical reasoning question over a financial report excerpt.\n\n## Context (text before table)\njpmorgan chase & co .\n/ 2007 annual report 145 subprime adjustable-rate mortgage)
+      -> Target: the total amount of assets owned by firm-sponsored QSPEs that are serviced by the firm
+Values: total_assets = $20.0 billion; portion_serviced = $9.7 billion
+Formula: 9.7 [$0.0005]
+    extract_final_number(['Target: the total amount of assets owned by firm-sponsored QSPEs that are serviced by the firm\nValues: total_assets = $20.0 billion; portion_serviced = $9.7 billion\nFormula: 9.7\nCalculated: 9.7 =)
+      -> 9.7 [$0.0001]
+  RESULT: predicted=9.7, expected=10.3
+
+--- Case valid.00007: ---
+  Input arg 0: You are answering a numerical reasoning question over a financial report excerpt.
+
+## Context (text before table)
+note 17 financial derivatives we use derivative financial instruments ( derivatives ) primarily to help manage exposure to interest rate , market and credit risk and reduce the effects that changes in interest rates may have on net income , fair value of assets and liabilities , and cash flows .
+we also enter into derivatives with customers to facilitate their risk management activities .
+derivatives represent contracts between parties that usually require little or no initial net investment and result in one party delivering cash or another type of asset to the other party based on a notional amount and an underlying as specified in the contract .
+derivative transactions are often measured in terms of notional amount , but this amount is generally not exchanged and it is not recorded on the balance sheet .
+the notional amount is the basis to which the underlying is applied to determine required payments under the derivative contract .
+the underlying is a referenced interest rate ( commonly libor ) , security price , credit spread or other index .
+residential and commercial real estate loan commitments associated with loans to be sold also qualify as derivative instruments .
+the following table presents the notional amounts and gross fair values of all derivative assets and liabilities held by pnc : table 127 : total gross derivatives .
+
+## Table
+| in millions | december 31 2013 notional/contractamount | december 31 2013 assetfairvalue ( a ) | december 31 2013 liabilityfairvalue ( b ) | december 31 2013 notional/contractamount | december 31 2013 assetfairvalue ( a ) | liabilityfairvalue ( b ) |
+| derivatives designated as hedging instruments under gaap | $ 36197 | $ 1189 | $ 364 | $ 29270 | $ 1872 | $ 152 |
+| derivatives not designated as hedging instruments under gaap | 345059 | 3604 | 3570 | 337086 | 6696 | 6458 |
+| total gross derivatives | $ 381256 |
+  Execution trace (2 LLM calls):
+    extract_reasoning_plan(['You are answering a numerical reasoning question over a financial report excerpt.\n\n## Context (text before table)\nnote 17 financial derivatives we use derivative financial instruments ( derivativ)
+      -> Target: percentage of the notional amount of derivatives designated as hedging instruments under GAAP relative to their asset fair value at the end of 2014. Note: The provided table only contains data for 2013. Assuming the question refers to the second set of columns (which appear to be for a subsequent period or mislabeled 2013 data in the source), we use the values from the second "december 31 2013 notional/contractamount" column ($29270) and "december 31 2013 assetfairvalue ( a )" column ($1872) for the row "derivatives designated as hedging instruments under gaap".
+Values: notional_amount = 29270; asset_fair_value = 1872
+Formula: 29270 / 1872 [$0.0007]
+    extract_final_number(['Target: percentage of the notional amount of derivatives designated as hedging instruments under GAAP relative to their asset fair value at the end of 2014. Note: The provided table only contains da)
+      -> 15.63568376 [$0.0002]
+  RESULT: predicted=15.63568376, expected=30.44323
+
+--- Case valid.00207: ---
+  Input arg 0: You are answering a numerical reasoning question over a financial report excerpt.
+
+## Context (text before table)
+notes to the consolidated financial statements unrealized currency translation adjustments related to translation of foreign denominated balance sheets are not presented net of tax given that no deferred u.s .
+income taxes have been provided on undistributed earnings of non- u.s .
+subsidiaries because they are deemed to be reinvested for an indefinite period of time .
+the tax ( cost ) benefit related to unrealized currency translation adjustments other than translation of foreign denominated balance sheets , for the years ended december 31 , 2011 , 2010 and 2009 was $ ( 7 ) million , $ 8 million and $ 62 million , respectively .
+the tax benefit related to the adjustment for pension and other postretirement benefits for the years ended december 31 , 2011 , 2010 and 2009 was $ 98 million , $ 65 million and $ 18 million , respectively .
+the cumulative tax benefit related to the adjustment for pension and other postretirement benefits at december 31 , 2011 and 2010 was $ 990 million and $ 889 million , respectively .
+the tax ( cost ) benefit related to the change in the unrealized gain ( loss ) on marketable securities for the years ended december 31 , 2011 , 2010 and 2009 was $ ( 0.2 ) million , $ 0.6 million and $ 0.1 million , respectively .
+the tax benefit ( cost ) related to the change in the unrealized gain ( loss ) on derivatives for the years ended december 31 , 2011 , 2010 and 2009 was $ 19 million , $ 1 million and $ ( 16 ) million , respectively .
+18 .
+employee savings plan ppg 2019s employee savings plan ( 201csavings plan 201d ) covers substantially all u.s .
+employees .
+the company makes matching contributions to the savings plan based upon participants 2019 savings , subject to certain limitations .
+for most participants not covered by a collective bargaining agreement , company-matching contributions are established each year at the discretio
+  Execution trace (2 LLM calls):
+    extract_reasoning_plan(['You are answering a numerical reasoning question over a financial report excerpt.\n\n## Context (text before table)\nnotes to the consolidated financial statements unrealized currency translation ad)
+      -> Target: percentage point increase in the maximum company-matching contribution rate on January 1, 2011
+Values: match_rate_pre_2011 = 50% (0.50); match_rate_post_2011 = 75% (0.75)
+Formula: 0.75 - 0.50 [$0.0007]
+    extract_final_number(['Target: percentage point increase in the maximum company-matching contribution rate on January 1, 2011\nValues: match_rate_pre_2011 = 50% (0.50); match_rate_post_2011 = 75% (0.75)\nFormula: 0.75 - 0)
+      -> 0.25 [$0.0002]
+  RESULT: predicted=0.25, expected=0.015
+
+--- Case valid.00332: ---
+  Input arg 0: You are answering a numerical reasoning question over a financial report excerpt.
+
+## Context (text before table)
+the table below reflects the estimated effects on pension expense of certain changes in annual assumptions , using 2012 estimated expense as a baseline .
+change in assumption ( a ) estimated increase to 2012 pension expense ( in millions ) .
+
+## Table
+| change in assumption ( a ) | estimatedincrease to 2012pensionexpense ( in millions ) |
+| .5% ( .5 % ) decrease in discount rate | $ 23 |
+| .5% ( .5 % ) decrease in expected long-term return on assets | $ 18 |
+| .5% ( .5 % ) increase in compensation rate | $ 2 |
+
+## Context (text after table)
+( a ) the impact is the effect of changing the specified assumption while holding all other assumptions constant .
+our pension plan contribution requirements are not particularly sensitive to actuarial assumptions .
+investment performance has the most impact on contribution requirements and will drive the amount of permitted contributions in future years .
+also , current law , including the provisions of the pension protection act of 2006 , sets limits as to both minimum and maximum contributions to the plan .
+we do not expect to be required by law to make any contributions to the plan during 2012 .
+we maintain other defined benefit plans that have a less significant effect on financial results , including various nonqualified supplemental retirement plans for certain employees .
+recourse and repurchase obligations as discussed in note 3 loan sale and servicing activities and variable interest entities in the notes to consolidated financial statements in item 8 of this report , pnc has sold commercial mortgage and residential mortgage loans directly or indirectly in securitizations and whole-loan sale transactions with continuing involvement .
+one form of continuing involvement includes certain recourse and loan repurchase obligations associated with the transferred assets in these transactions .
+commercial mortgage l
+  Execution trace (2 LLM calls):
+    extract_reasoning_plan(['You are answering a numerical reasoning question over a financial report excerpt.\n\n## Context (text before table)\nthe table below reflects the estimated effects on pension expense of certain chan)
+      -> Target: the change in the unpaid principal balance outstanding of loans sold as a participant in these programs between December 31, 2011 and December 31, 2010
+Values: balance_2011 = 13.0 billion; balance_2010 = 13.2 billion
+Formula: 13.0 - 13.2 [$0.0006]
+    extract_final_number(['Target: the change in the unpaid principal balance outstanding of loans sold as a participant in these programs between December 31, 2011 and December 31, 2010\nValues: balance_2011 = 13.0 billion; )
+      -> -0.2 [$0.0002]
+  RESULT: predicted=-0.2, expected=0.2
+
+--- Case valid.00331: ---
+  Input arg 0: You are answering a numerical reasoning question over a financial report excerpt.
+
+## Context (text before table)
+management 2019s discussion and analysis 78 jpmorgan chase & co./2018 form 10-k treasury and cio overview treasury and cio is predominantly responsible for measuring , monitoring , reporting and managing the firm 2019s liquidity , funding , capital , structural interest rate and foreign exchange risks .
+the risks managed by treasury and cio arise from the activities undertaken by the firm 2019s four major reportable business segments to serve their respective client bases , which generate both on- and off- balance sheet assets and liabilities .
+treasury and cio seek to achieve the firm 2019s asset-liability management objectives generally by investing in high- quality securities that are managed for the longer-term as part of the firm 2019s investment securities portfolio .
+treasury and cio also use derivatives to meet the firm 2019s asset- liability management objectives .
+for further information on derivatives , refer to note 5 .
+in addition , treasury and cio manage the firm 2019s cash position primarily through depositing at central banks and investing in short-term instruments .
+for further information on liquidity and funding risk , refer to liquidity risk management on pages 95 2013100 .
+for information on interest rate , foreign exchange and other risks , refer to market risk management on pages 124 2013131 .
+the investment securities portfolio primarily consists of agency and nonagency mortgage-backed securities , u.s .
+and non-u.s .
+government securities , obligations of u.s .
+states and municipalities , other abs and corporate debt securities .
+at december 31 , 2018 , the investment securities portfolio was $ 260.1 billion , and the average credit rating of the securities comprising the portfolio was aa+ ( based upon external ratings where available and , where not available , based primarily upon internal ratings that correspond to ratings as
+  Execution trace (2 LLM calls):
+    extract_reasoning_plan(['You are answering a numerical reasoning question over a financial report excerpt.\n\n## Context (text before table)\nmanagement 2019s discussion and analysis 78 jpmorgan chase & co./2018 form 10-k t)
+      -> Target: the average of the available-for-sale (afs) investment securities over the years 2016, 2017, and 2018
+Values: afs_2016 = 226892 from row "available-for-sale ( 201cafs 201d ) investment securities ( average )" for column "2016"; afs_2017 = 219345 from row "available-for-sale ( 201cafs 201d ) investment securities ( average )" for column "2017"; afs_2018 = 203449 from row "available-for-sale ( 201cafs 201d ) investment securities ( average )" for column "2018"
+Formula: (226892 + 219345 + 203449) / 3 [$0.0010]
+    extract_final_number(['Target: the average of the available-for-sale (afs) investment securities over the years 2016, 2017, and 2018\nValues: afs_2016 = 226892 from row "available-for-sale ( 201cafs 201d ) investment secu)
+      -> 216562 [$0.0002]
+  RESULT: predicted=216562, expected=221866.0

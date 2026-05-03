@@ -17,7 +17,7 @@ import pandas as pd
 from deap import base, creator, tools
 
 from secretagent.optimize.encoder import (
-    SearchDimension, decode, dim_sizes, space_size,
+    SearchDimension, decode, decode_modular, decode_dict, dim_sizes, space_size,
 )
 
 # ---------------------------------------------------------------------------
@@ -58,6 +58,7 @@ class EvalCache:
         metric: str = "correct",
         expt_prefix: str = "nsga",
         label_fn=None,
+        compound_overrides: dict | None = None,
     ):
         self.dims = dims
         self.fixed_overrides = fixed_overrides
@@ -71,13 +72,23 @@ class EvalCache:
         self.metric = metric
         self.expt_prefix = expt_prefix
         self.label_fn = label_fn
+        self.compound_overrides = compound_overrides
         self.cache: dict[tuple, tuple[float, float]] = {}
         self.eval_count = 0
         self.cache_hits = 0
 
+    def _decode(self, individual) -> list[str]:
+        vec = list(individual)
+        if self.compound_overrides:
+            return decode_modular(self.dims, vec, self.compound_overrides)
+        return decode(self.dims, vec)
+
     def _label(self, individual):
         if self.label_fn:
             return self.label_fn(self.dims, list(individual))
+        if self.compound_overrides:
+            d = decode_dict(self.dims, list(individual))
+            return ", ".join(f"{k}={v}" for k, v in d.items())
         return ", ".join(decode(self.dims, list(individual)))
 
     def __call__(self, individual) -> tuple[float, float]:
@@ -87,7 +98,7 @@ class EvalCache:
             return self.cache[key]
 
         self.eval_count += 1
-        dotlist = decode(self.dims, list(individual))
+        dotlist = self._decode(individual)
         all_overrides = dotlist + self.fixed_overrides
         expt_name = f"{self.expt_prefix}_{self.eval_count:03d}"
 
@@ -129,7 +140,10 @@ class EvalCache:
                     df = pd.read_csv(csv_path)
                     accuracy = df[self.metric].mean()
                     raw_cost = df["cost"].mean() if "cost" in df.columns else 0.0
-                    if accuracy == 0.0 and raw_cost < 1e-9:
+                    if math.isnan(raw_cost) or math.isnan(accuracy):
+                        cost_per_q = math.inf
+                        print(f"    NaN in results — treating as failed ({elapsed:.0f}s)")
+                    elif accuracy == 0.0 and raw_cost < 1e-9:
                         cost_per_q = math.inf
                         print(f"    0.0% accuracy, $0.00/q — treating as failed ({elapsed:.0f}s)")
                     else:
@@ -167,10 +181,11 @@ def run_exhaustive(
     metric: str = "correct",
     expt_prefix: str = "exhaust",
     label_fn=None,
-) -> tuple[list[tuple[list[int], float, float]], list[tuple[list[int], float, float]]]:
+    compound_overrides: dict | None = None,
+) -> tuple[list[tuple[list[int], float, float]], list[tuple[list[int], float, float]], list[dict]]:
     """Enumerate and evaluate every config in the space.
 
-    Returns (frontier, all_evaluated) same as run_nsga2.
+    Returns (frontier, all_evaluated, gen_log) same as run_nsga2.
     """
     dsizes = dim_sizes(dims)
     total = space_size(dims)
@@ -190,6 +205,7 @@ def run_exhaustive(
         metric=metric,
         expt_prefix=expt_prefix,
         label_fn=label_fn,
+        compound_overrides=compound_overrides,
     )
 
     all_evaluated = []
@@ -197,8 +213,9 @@ def run_exhaustive(
         acc, cost = eval_cache(list(vec))
         all_evaluated.append((list(vec), acc, cost))
 
-    # Compute Pareto frontier
+    # Compute Pareto frontier (deduplicated by fitness)
     frontier = []
+    seen_fitness = set()
     for i, (chrom_i, acc_i, cost_i) in enumerate(all_evaluated):
         dominated = False
         for j, (chrom_j, acc_j, cost_j) in enumerate(all_evaluated):
@@ -206,10 +223,23 @@ def run_exhaustive(
                 dominated = True
                 break
         if not dominated and cost_i < math.inf:
-            frontier.append((chrom_i, acc_i, cost_i))
+            fkey = (acc_i, cost_i)
+            if fkey not in seen_fitness:
+                seen_fitness.add(fkey)
+                frontier.append((chrom_i, acc_i, cost_i))
 
     frontier.sort(key=lambda x: -x[1])
-    return frontier, all_evaluated
+    gen_log = [{
+        "generation": 0,
+        "frontier_size": len(frontier),
+        "new_evals": len(all_evaluated),
+        "cache_hits": 0,
+        "total_evals": len(all_evaluated),
+        "best_accuracy": max((a for _, a, _ in frontier), default=0.0),
+        "cheapest_cost": min((c for _, _, c in frontier if c < math.inf), default=math.inf),
+        "elapsed_s": 0.0,
+    }]
+    return frontier, all_evaluated, gen_log
 
 
 # ---------------------------------------------------------------------------
@@ -239,13 +269,14 @@ def _run_nsga2_inner(
     mutpb: float = 0.4,
     seed: int = 42,
     label_fn=None,
-) -> tuple[list[tuple[list[int], float, float]], list[tuple[list[int], float, float]]]:
+    compound_overrides: dict | None = None,
+) -> tuple[list[tuple[list[int], float, float]], list[tuple[list[int], float, float]], list[dict]]:
     """Run NSGA-II over a categorical config space.
 
     Returns:
-        (frontier, all_evaluated) where each is a list of
-        (chromosome, accuracy, cost_per_q) tuples.
-        frontier is sorted by accuracy descending.
+        (frontier, all_evaluated, gen_log) where frontier and all_evaluated
+        are lists of (chromosome, accuracy, cost_per_q) tuples, and gen_log
+        is a list of per-generation stat dicts.
     """
     random.seed(seed)
     dsizes = dim_sizes(dims)
@@ -292,12 +323,14 @@ def _run_nsga2_inner(
         metric=metric,
         expt_prefix=expt_prefix,
         label_fn=label_fn,
+        compound_overrides=compound_overrides,
     )
 
     # Initialize population
     pop = toolbox.population(n=pop_size)
 
     print("--- Initial population ---")
+    gen0_t0 = time.time()
     for ind in pop:
         ind.fitness.values = eval_cache(ind)
 
@@ -306,8 +339,27 @@ def _run_nsga2_inner(
 
     prev_cache_hits = eval_cache.cache_hits
     prev_eval_count = eval_cache.eval_count
+    gen_log = []
+
+    # Log generation 0 (initial population)
+    init_front = tools.sortNondominated(pop, len(pop), first_front_only=True)[0]
+    init_accs = [ind.fitness.values[0] for ind in init_front]
+    init_costs = [ind.fitness.values[1] for ind in init_front if ind.fitness.values[1] < math.inf]
+    gen0_elapsed = time.time() - gen0_t0
+    gen_log.append({
+        "generation": 0,
+        "frontier_size": _unique_front_size(init_front),
+        "new_evals": eval_cache.eval_count,
+        "cache_hits": 0,
+        "total_evals": eval_cache.eval_count,
+        "best_accuracy": max(init_accs) if init_accs else 0.0,
+        "cheapest_cost": min(init_costs) if init_costs else math.inf,
+        "elapsed_s": gen0_elapsed,
+    })
 
     for gen in range(1, n_gen + 1):
+        gen_t0 = time.time()
+
         # Parent selection
         offspring = tools.selTournamentDCD(pop, len(pop))
         offspring = list(map(toolbox.clone, offspring))
@@ -339,19 +391,44 @@ def _run_nsga2_inner(
         gen_evals = eval_cache.eval_count - prev_eval_count
         prev_cache_hits = eval_cache.cache_hits
         prev_eval_count = eval_cache.eval_count
-        print(f"  Gen {gen}/{n_gen}: {unique_front} unique frontier configs, "
-              f"{gen_evals} new evals, {gen_cache_hits} cache hits")
 
-    # Extract final frontier (deduplicated)
+        front_accs = [ind.fitness.values[0] for ind in front]
+        front_costs = [ind.fitness.values[1] for ind in front if ind.fitness.values[1] < math.inf]
+        best_acc = max(front_accs) if front_accs else 0.0
+        cheapest = min(front_costs) if front_costs else math.inf
+        gen_elapsed = time.time() - gen_t0
+
+        gen_log.append({
+            "generation": gen,
+            "frontier_size": unique_front,
+            "new_evals": gen_evals,
+            "cache_hits": gen_cache_hits,
+            "total_evals": eval_cache.eval_count,
+            "best_accuracy": best_acc,
+            "cheapest_cost": cheapest,
+            "elapsed_s": gen_elapsed,
+        })
+
+        cost_str = f"${cheapest:.4f}" if cheapest < math.inf else "n/a"
+        print(f"  Gen {gen}/{n_gen}: {unique_front} frontier, "
+              f"{gen_evals} new evals, {gen_cache_hits} cache hits | "
+              f"best {best_acc:.1%}, cheapest {cost_str} ({gen_elapsed:.0f}s)")
+
+    # Extract final frontier (deduplicated by chromosome AND by fitness)
     front = tools.sortNondominated(pop, len(pop), first_front_only=True)[0]
-    seen = set()
+    seen_chroms = set()
+    seen_fitness = set()
     results = []
     for ind in front:
         key = tuple(ind)
-        if key in seen:
+        if key in seen_chroms:
             continue
-        seen.add(key)
+        seen_chroms.add(key)
         acc, cost = ind.fitness.values
+        fkey = (acc, cost)
+        if fkey in seen_fitness:
+            continue
+        seen_fitness.add(fkey)
         results.append((list(ind), acc, cost))
 
     results.sort(key=lambda x: -x[1])  # sort by accuracy descending
@@ -362,7 +439,7 @@ def _run_nsga2_inner(
         for chrom, (acc, cost) in eval_cache.cache.items()
     ]
 
-    return results, all_evaluated
+    return results, all_evaluated, gen_log
 
 
 # ---------------------------------------------------------------------------
@@ -387,16 +464,22 @@ def run_nsga2(
     mutpb: float = 0.4,
     seed: int = 42,
     label_fn=None,
-) -> tuple[list[tuple[list[int], float, float]], list[tuple[list[int], float, float]]]:
+    compound_overrides: dict | None = None,
+) -> tuple[list[tuple[list[int], float, float]], list[tuple[list[int], float, float]], list[dict]]:
     """Search for the Pareto frontier over a categorical config space.
 
     Automatically uses exhaustive enumeration when the space has
     <= EXHAUSTIVE_THRESHOLD configs, NSGA-II otherwise.
 
+    Args:
+        compound_overrides: optional dict mapping dim key to
+            {value: [dotlist_override, ...]} for compound dimensions
+            whose single gene value expands to multiple overrides.
+
     Returns:
-        (frontier, all_evaluated) where each is a list of
-        (chromosome, accuracy, cost_per_q) tuples.
-        frontier is sorted by accuracy descending.
+        (frontier, all_evaluated, gen_log) where frontier and all_evaluated
+        are lists of (chromosome, accuracy, cost_per_q) tuples, and gen_log
+        is a list of per-generation stat dicts.
     """
     total = space_size(dims)
 
@@ -413,6 +496,7 @@ def run_nsga2(
             metric=metric,
             expt_prefix=expt_prefix,
             label_fn=label_fn,
+            compound_overrides=compound_overrides,
         )
     else:
         print(f"Space has {total} configs (> {EXHAUSTIVE_THRESHOLD}): using NSGA-II")
@@ -432,4 +516,5 @@ def run_nsga2(
             mutpb=mutpb,
             seed=seed,
             label_fn=label_fn,
+            compound_overrides=compound_overrides,
         )

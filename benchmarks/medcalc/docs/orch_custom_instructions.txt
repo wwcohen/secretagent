@@ -1,0 +1,36 @@
+This pipeline was produced by ptool induction — an automated process that
+watched a react agent solve 110 medical calculation problems and extracted
+recurring reasoning patterns into 3 tools.
+
+The induced tools currently achieve 66.4% within-tolerance accuracy on medcalc.
+The hand-written baseline was 58.2%.
+
+Strengths of the current pipeline:
+- Very low token usage (848K input for 110 cases, vs 2.1M for baseline)
+- Strong on equation-based problems (physical: 88.9%, lab test: 65.6%)
+
+Weaknesses to focus on:
+- Scoring/rule-based problems lag (risk: 45.0%, severity: 25.0%)
+- The `apply_clinical_score` tool handles scoring systems but its docstring
+  may not cover all scoring criteria. Consider adding examples or expanding
+  its instructions for specific scoring systems (CHA2DS2-VASc, HEART, Wells,
+  CURB-65, Child-Pugh, SOFA, etc.)
+- Date calculations (3 cases) always fail. The tools have no date-handling
+  capability. Consider whether to add one or handle dates as a special case.
+- When `compute_clinical_value` or `calculate_clinical_score` gets the
+  arithmetic wrong, there is no fallback — the hand-written baseline had a
+  deterministic Python calculator. Consider re-introducing
+  `ptools.compute_calculation_impl` as a fourth tool.
+
+Things NOT to change:
+- The entry point signature: calculate_medical_value(patient_note: str, question: str) -> float
+- The model (gemini/gemini-3.1-flash-lite-preview) — the orchestrator controls
+  this via config, not source code changes
+- The simulate_pydantic.template=simulate_pydantic_thinking.txt config — this
+  is what makes gemini emit reasoning text
+
+Things to try:
+- Adding the deterministic calculator back as a tool alongside the induced tools
+- Improving the docstrings to include more worked examples
+- Adding a fourth tool specifically for clinical scoring criteria evaluation
+- Adding a verification/checking step after the main calculation

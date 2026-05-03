@@ -1,0 +1,3 @@
+1. **Target Identification:** Add `1 side = line` to Rule 1 and correct the geometric definition of rectangles in Rule 2.
+2. **Established Context:** Extraction logic, standard SVG conversions, and unstructured traces are validated. Procedural validation and path normalization mechanisms function optimally within defined bounds.
+3. **Transformation Leap:** Injecting 1-sided and pure parallelogram mappings directly into `describe_shape` resolves valid.051 and valid.071 classifications immediately. Adjusting the "rectangle" definition explicitly bypasses quadrilateral confusion without disrupting existing edge cases.

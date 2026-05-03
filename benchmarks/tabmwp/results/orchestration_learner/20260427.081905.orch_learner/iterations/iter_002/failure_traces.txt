@@ -1,0 +1,641 @@
+Total failures: 31 / showing 31:
+
+Failure counts by category:
+  unknown: 31 failures
+
+--- Case 2819: ---
+  Input arg 0: While working as a summer camp counselor, Eva monitored how many candy necklaces each child made. How many children did not make any candy necklaces?
+  Input arg 1: Candy necklaces made | Frequency
+0 | 6
+1 | 2
+2 | 12
+3 | 13
+4 | 0
+  Input arg 2: 2819
+  Input arg 3: None
+  Execution trace (4 LLM calls):
+    identify_operation(['While working as a summer camp counselor, Eva monitored how many candy necklaces each child made. How many children did not make any candy necklaces?', 'Title: Making candy necklaces\nColumns: Candy)
+      -> count [$0.0001]
+    extract_relevant_values(['While working as a summer camp counselor, Eva monitored how many candy necklaces each child made. How many children did not make any candy necklaces?', 'Candy necklaces made | Frequency\n0 | 6\n1 | )
+      -> ['6'] [$0.0001]
+    compute_answer(['count', ['6']])
+      -> 1 [$0.0001]
+    format_answer(['1', None])
+      -> 1 [$0.0001]
+  RESULT: predicted=1, expected=6
+
+--- Case 28014: ---
+  Input arg 0: Wanda buys 1/5 of a pound of tortillas. How much does she spend?
+  Input arg 1: spelt rolls | $8/pound
+tortillas | $8/pound
+French rolls | $18/pound
+rye rolls | $15/pound
+  Input arg 2: 28014
+  Input arg 3: None
+  Execution trace (4 LLM calls):
+    identify_operation(['Wanda buys 1/5 of a pound of tortillas. How much does she spend?', 'Title: (no title)\nColumns: Column 1, Column 2\nRows: 4'])
+      -> lookup [$0.0001]
+    extract_relevant_values(['Wanda buys 1/5 of a pound of tortillas. How much does she spend?', 'spelt rolls | $8/pound\ntortillas | $8/pound\nFrench rolls | $18/pound\nrye rolls | $15/pound'])
+      -> ['$8/pound'] [$0.0001]
+    compute_answer(['lookup', ['$8/pound']])
+      -> $8 [$0.0001]
+    format_answer(['$8', None])
+      -> 8 [$0.0001]
+  RESULT: predicted=8, expected=1.60
+
+--- Case 19617: ---
+  Input arg 0: A pumpkin patch monitored the number of pumpkins sold each day. What is the median of the numbers?
+  Input arg 1: Day | Number of pumpkins
+Sunday | 36
+Monday | 44
+Tuesday | 34
+Wednesday | 59
+Thursday | 39
+  Input arg 2: 19617
+  Input arg 3: None
+  Execution trace (4 LLM calls):
+    identify_operation(['A pumpkin patch monitored the number of pumpkins sold each day. What is the median of the numbers?', 'Title: Pumpkins sold\nColumns: Day, Number of pumpkins\nRows: 5'])
+      -> other [$0.0001]
+    extract_relevant_values(['A pumpkin patch monitored the number of pumpkins sold each day. What is the median of the numbers?', 'Day | Number of pumpkins\nSunday | 36\nMonday | 44\nTuesday | 34\nWednesday | 59\nThursday | 39')
+      -> ['36', '44', '34', '59', '39'] [$0.0001]
+    compute_answer(['other', ['36', '44', '34', '59', '39']])
+      -> Error: unknown operation [$0.0001]
+    format_answer(['Error: unknown operation', None])
+      -> Error: unknown operation [$0.0001]
+  RESULT: predicted=Error: unknown operation, expected=39
+
+--- Case 17619: ---
+  Input arg 0: The bird-watching club recorded how many birds its members saw each month. In which month did the club see the fewest birds?
+  Input arg 1: Month | Number of birds
+December | 632
+January | 656
+February | 668
+March | 653
+  Input arg 2: 17619
+  Input arg 3: ['December', 'January', 'February', 'March']
+  Execution trace (4 LLM calls):
+    identify_operation(['The bird-watching club recorded how many birds its members saw each month. In which month did the club see the fewest birds?', 'Title: Number of birds seen\nColumns: Month, Number of birds\nRows: 4')
+      -> min [$0.0001]
+    extract_relevant_values(['The bird-watching club recorded how many birds its members saw each month. In which month did the club see the fewest birds?', 'Month | Number of birds\nDecember | 632\nJanuary | 656\nFebruary | 668)
+      -> ['December', '632'] [$0.0001]
+    compute_answer(['min', ['December', '632']])
+      -> 632 [$0.0001]
+    format_answer(['632', ['December', 'January', 'February', 'March']])
+      -> None [$0.0001]
+  RESULT: predicted=None, expected=December
+
+--- Case 29601: ---
+  Input arg 0: Jon jotted down how many minutes he spent practicing golf in the past 4 days. On which day did Jon practice the most?
+  Input arg 1: Day | Minutes
+Tuesday | 61
+Wednesday | 63
+Thursday | 68
+Friday | 64
+  Input arg 2: 29601
+  Input arg 3: ['Tuesday', 'Wednesday', 'Thursday', 'Friday']
+  Execution trace (4 LLM calls):
+    identify_operation(['Jon jotted down how many minutes he spent practicing golf in the past 4 days. On which day did Jon practice the most?', 'Title: Minutes spent practicing\nColumns: Day, Minutes\nRows: 4'])
+      -> max [$0.0001]
+    extract_relevant_values(['Jon jotted down how many minutes he spent practicing golf in the past 4 days. On which day did Jon practice the most?', 'Day | Minutes\nTuesday | 61\nWednesday | 63\nThursday | 68\nFriday | 64'])
+      -> ['Tuesday', '61', 'Wednesday', '63', 'Thursday', '68', 'Friday', '64'] [$0.0001]
+    compute_answer(['max', ['Tuesday', '61', 'Wednesday', '63', 'Thursday', '68', 'Friday', '64']])
+      -> 68 [$0.0001]
+    format_answer(['68', ['Tuesday', 'Wednesday', 'Thursday', 'Friday']])
+      -> None [$0.0001]
+  RESULT: predicted=None, expected=Thursday
+
+--- Case 7946: ---
+  Input arg 0: Darnel bought 4+4/5 kilograms of coriander. How much did he spend?
+  Input arg 1: cumin | $3 per kg
+turmeric | $2 per kg
+paprika | $4 per kg
+coriander | $3 per kg
+pepper | $3 per kg
+cinnamon | $3 per kg
+  Input arg 2: 7946
+  Input arg 3: None
+  Execution trace (4 LLM calls):
+    identify_operation(['Darnel bought 4+4/5 kilograms of coriander. How much did he spend?', 'Title: (no title)\nColumns: Column 1, Column 2\nRows: 6'])
+      -> other [$0.0001]
+    extract_relevant_values(['Darnel bought 4+4/5 kilograms of coriander. How much did he spend?', 'cumin | $3 per kg\nturmeric | $2 per kg\npaprika | $4 per kg\ncoriander | $3 per kg\npepper | $3 per kg\ncinnamon | $3 per kg'])
+      -> ['4+4/5', '3'] [$0.0001]
+    compute_answer(['other', ['4+4/5', '3']])
+      -> Error: Unknown operation [$0.0001]
+    format_answer(['Error: Unknown operation', None])
+      -> Error: Unknown operation [$0.0001]
+  RESULT: predicted=Error: Unknown operation, expected=14.40
+
+--- Case 16757: ---
+  Input arg 0: The parks department compared how many basketball hoops there are at each park. What is the range of the numbers?
+  Input arg 1: Park | Number of basketball hoops
+Mooreland Park | 5
+Otter Park | 4
+Westfield Park | 3
+Pinehurst Park | 4
+Linden Park | 5
+Riverfront Park | 8
+Crestview Park | 6
+  Input arg 2: 16757
+  Input arg 3: None
+  Execution trace (4 LLM calls):
+    identify_operation(['The parks department compared how many basketball hoops there are at each park. What is the range of the numbers?', 'Title: Basketball hoops\nColumns: Park, Number of basketball hoops\nRows: 7'])
+      -> range [$0.0001]
+    extract_relevant_values(['The parks department compared how many basketball hoops there are at each park. What is the range of the numbers?', 'Park | Number of basketball hoops\nMooreland Park | 5\nOtter Park | 4\nWestfield )
+      -> ['5', '4', '3', '4', '5', '8', '6'] [$0.0001]
+    compute_answer(['range', ['5', '4', '3', '4', '5', '8', '6']])
+      -> 4 [$0.0001]
+    format_answer(['4', None])
+      -> 4 [$0.0001]
+  RESULT: predicted=4, expected=5
+
+--- Case 12801: ---
+  Input arg 0: Sasha jotted down how many baskets she made during basketball practice each day. On which day did Sasha make the most baskets?
+  Input arg 1: Day | Number of baskets
+Wednesday | 84
+Thursday | 87
+Friday | 85
+Saturday | 86
+  Input arg 2: 12801
+  Input arg 3: ['Wednesday', 'Thursday', 'Friday', 'Saturday']
+  Execution trace (4 LLM calls):
+    identify_operation(['Sasha jotted down how many baskets she made during basketball practice each day. On which day did Sasha make the most baskets?', 'Title: Baskets made\nColumns: Day, Number of baskets\nRows: 4'])
+      -> max [$0.0001]
+    extract_relevant_values(['Sasha jotted down how many baskets she made during basketball practice each day. On which day did Sasha make the most baskets?', 'Day | Number of baskets\nWednesday | 84\nThursday | 87\nFriday | 85\)
+      -> ['Thursday', '87'] [$0.0001]
+    compute_answer(['max', ['Thursday', '87']])
+      -> 87 [$0.0001]
+    format_answer(['87', ['Wednesday', 'Thursday', 'Friday', 'Saturday']])
+      -> None [$0.0001]
+  RESULT: predicted=None, expected=Thursday
+
+--- Case 36693: ---
+  Input arg 0: Shelby has $306. Does she have enough to buy a rabbit and a finch?
+  Input arg 1: chameleon | $264
+finch | $192
+rabbit | $118
+cockatoo | $221
+bearded dragon | $392
+  Input arg 2: 36693
+  Input arg 3: ['yes', 'no']
+  Execution trace (4 LLM calls):
+    identify_operation(['Shelby has $306. Does she have enough to buy a rabbit and a finch?', 'Title: (no title)\nColumns: Column 1, Column 2\nRows: 5'])
+      -> comparison [$0.0001]
+    extract_relevant_values(['Shelby has $306. Does she have enough to buy a rabbit and a finch?', 'chameleon | $264\nfinch | $192\nrabbit | $118\ncockatoo | $221\nbearded dragon | $392'])
+      -> ['$192', '$118'] [$0.0001]
+    compute_answer(['comparison', ['$192', '$118']])
+      -> $192 > $118 [$0.0001]
+    format_answer(['$192 > $118', ['yes', 'no']])
+      -> yes [$0.0001]
+  RESULT: predicted=yes, expected=no
+
+--- Case 22631: ---
+  Input arg 0: A Technical Assistance Manager monitored his customers' wait times. What is the longest wait time?
+  Input arg 1: Stem | Leaf 
+5 | 1, 2, 4, 5, 6
+6 | 1, 2, 3, 5, 7, 8
+7 | 1, 1, 2, 5, 9
+8 | 1, 7, 9
+9 | 0
+  Input arg 2: 22631
+  Input arg 3: None
+  Execution trace (4 LLM calls):
+    identify_operation(["A Technical Assistance Manager monitored his customers' wait times. What is the longest wait time?", 'Title: Technical assistance wait times (minutes)\nColumns: Stem, Leaf \nRows: 5'])
+      -> max [$0.0001]
+    extract_relevant_values(["A Technical Assistance Manager monitored his customers' wait times. What is the longest wait time?", 'Stem | Leaf \n5 | 1, 2, 4, 5, 6\n6 | 1, 2, 3, 5, 7, 8\n7 | 1, 1, 2, 5, 9\n8 | 1, 7, 9\n9 | 0'])
+      -> ['9', '0'] [$0.0001]
+    compute_answer(['max', ['9', '0']])
+      -> 9 [$0.0001]
+    format_answer(['9', None])
+      -> 9 [$0.0001]
+  RESULT: predicted=9, expected=90
+
+--- Case 5326: ---
+  Input arg 0: In order to complete their model of a futuristic highway, students in Ms. Becky's design class find out how many toy cars each student can bring to class. How many students have more than 2 toy cars?
+  Input arg 1: Number of toy cars | Frequency
+0 | 9
+1 | 7
+2 | 3
+3 | 0
+4 | 20
+  Input arg 2: 5326
+  Input arg 3: None
+  Execution trace (4 LLM calls):
+    identify_operation(["In order to complete their model of a futuristic highway, students in Ms. Becky's design class find out how many toy cars each student can bring to class. How many students have more than 2 toy cars)
+      -> count [$0.0001]
+    extract_relevant_values(["In order to complete their model of a futuristic highway, students in Ms. Becky's design class find out how many toy cars each student can bring to class. How many students have more than 2 toy cars)
+      -> ['20'] [$0.0001]
+    compute_answer(['count', ['20']])
+      -> 1 [$0.0001]
+    format_answer(['1', None])
+      -> 1 [$0.0001]
+  RESULT: predicted=1, expected=20
+
+--- Case 22167: ---
+  Input arg 0: What is the total cost for 1/5 of a pound of dried berries?
+  Input arg 1: nuts | $7 per lb
+trail mix | $3 per lb
+cookie bites | $6 per lb
+gummy bears | $4 per lb
+granola bars | $6 per lb
+dried berries | $6 per lb
+  Input arg 2: 22167
+  Input arg 3: None
+  Execution trace (4 LLM calls):
+    identify_operation(['What is the total cost for 1/5 of a pound of dried berries?', 'Title: (no title)\nColumns: Column 1, Column 2\nRows: 6'])
+      -> sum [$0.0001]
+    extract_relevant_values(['What is the total cost for 1/5 of a pound of dried berries?', 'nuts | $7 per lb\ntrail mix | $3 per lb\ncookie bites | $6 per lb\ngummy bears | $4 per lb\ngranola bars | $6 per lb\ndried berries | $)
+      -> ['6', '1/5'] [$0.0001]
+    compute_answer(['sum', ['6', '1/5']])
+      -> 6.2 [$0.0001]
+    format_answer(['6.2', None])
+      -> 6.2 [$0.0001]
+  RESULT: predicted=6.2, expected=1.20
+
+--- Case 9055: ---
+  Input arg 0: Look at the table. Then answer the question. At a price of $685, is there a shortage or a surplus?
+  Input arg 1: Price | Quantity demanded | Quantity supplied
+$285 | 18,200 | 5,800
+$385 | 14,700 | 6,400
+$485 | 11,200 | 7,000
+$585 | 7,700 | 7,600
+$685 | 4,200 | 8,200
+  Input arg 2: 9055
+  Input arg 3: ['shortage', 'surplus']
+  Execution trace (4 LLM calls):
+    identify_operation(['Look at the table. Then answer the question. At a price of $685, is there a shortage or a surplus?', 'Title: (no title)\nColumns: Price, Quantity demanded, Quantity supplied\nRows: 5'])
+      -> comparison [$0.0001]
+    extract_relevant_values(['Look at the table. Then answer the question. At a price of $685, is there a shortage or a surplus?', 'Price | Quantity demanded | Quantity supplied\n$285 | 18,200 | 5,800\n$385 | 14,700 | 6,400\n$48)
+      -> ['$685', '4,200', '8,200'] [$0.0001]
+    compute_answer(['comparison', ['$685', '4,200', '8,200']])
+      -> $685 < 4,200 < 8,200 [$0.0001]
+    format_answer(['$685 < 4,200 < 8,200', ['shortage', 'surplus']])
+      -> shortage [$0.0001]
+  RESULT: predicted=shortage, expected=surplus
+
+--- Case 16626: ---
+  Input arg 0: How much money does Abby need to buy 6 pig key chains and a puppy key chain?
+  Input arg 1: pig key chain | $0.55
+soccer ball key chain | $0.93
+horse key chain | $0.99
+basketball key chain | $0.71
+puppy key chain | $0.70
+cat key chain | $0.77
+  Input arg 2: 16626
+  Input arg 3: None
+  Execution trace (4 LLM calls):
+    identify_operation(['How much money does Abby need to buy 6 pig key chains and a puppy key chain?', 'Title: (no title)\nColumns: Column 1, Column 2\nRows: 6'])
+      -> sum [$0.0001]
+    extract_relevant_values(['How much money does Abby need to buy 6 pig key chains and a puppy key chain?', 'pig key chain | $0.55\nsoccer ball key chain | $0.93\nhorse key chain | $0.99\nbasketball key chain | $0.71\npuppy key)
+      -> ['$0.55', '$0.70'] [$0.0001]
+    compute_answer(['sum', ['$0.55', '$0.70']])
+      -> $1.25 [$0.0001]
+    format_answer(['$1.25', None])
+      -> 1.25 [$0.0001]
+  RESULT: predicted=1.25, expected=4
+
+--- Case 35832: ---
+  Input arg 0: Megan went on a bird watching trip and jotted down the number of birds she saw each day. On which day did Megan see the most birds?
+  Input arg 1: Day | Number of birds
+Saturday | 61
+Sunday | 67
+Monday | 65
+Tuesday | 69
+  Input arg 2: 35832
+  Input arg 3: ['Saturday', 'Sunday', 'Monday', 'Tuesday']
+  Execution trace (4 LLM calls):
+    identify_operation(['Megan went on a bird watching trip and jotted down the number of birds she saw each day. On which day did Megan see the most birds?', 'Title: Number of birds\nColumns: Day, Number of birds\nRows: 4')
+      -> max [$0.0001]
+    extract_relevant_values(['Megan went on a bird watching trip and jotted down the number of birds she saw each day. On which day did Megan see the most birds?', 'Day | Number of birds\nSaturday | 61\nSunday | 67\nMonday | 65\)
+      -> ['Tuesday', '69'] [$0.0001]
+    compute_answer(['max', ['Tuesday', '69']])
+      -> 69 [$0.0001]
+    format_answer(['69', ['Saturday', 'Sunday', 'Monday', 'Tuesday']])
+      -> Saturday [$0.0001]
+  RESULT: predicted=Saturday, expected=Tuesday
+
+--- Case 27615: ---
+  Input arg 0: Hanson went to the store and bought 2 kilograms of cucumbers. How much did he spend?
+  Input arg 1: potatoes | $0.75 per kilogram
+zucchini | $0.60 per kilogram
+beets | $0.29 per kilogram
+cucumbers | $0.96 per kilogram
+carrots | $0.62 per kilogram
+  Input arg 2: 27615
+  Input arg 3: None
+  Execution trace (4 LLM calls):
+    identify_operation(['Hanson went to the store and bought 2 kilograms of cucumbers. How much did he spend?', 'Title: (no title)\nColumns: Column 1, Column 2\nRows: 5'])
+      -> other [$0.0001]
+    extract_relevant_values(['Hanson went to the store and bought 2 kilograms of cucumbers. How much did he spend?', 'potatoes | $0.75 per kilogram\nzucchini | $0.60 per kilogram\nbeets | $0.29 per kilogram\ncucumbers | $0.96 pe)
+      -> ['cucumbers', '$0.96 per kilogram'] [$0.0001]
+    compute_answer(['other', ['cucumbers', '$0.96 per kilogram']])
+      -> cucumbers $0.96 per kilogram [$0.0001]
+    format_answer(['cucumbers $0.96 per kilogram', None])
+      -> 0.96 [$0.0001]
+  RESULT: predicted=0.96, expected=1.92
+
+--- Case 30575: ---
+  Input arg 0: Dominic has $24. Does he have enough to buy a book about art and a book about snakes?
+  Input arg 1: book about snakes | $10
+book about art | $15
+book about Australia | $19
+book about soccer | $21
+book about cars | $18
+book about Antarctica | $22
+  Input arg 2: 30575
+  Input arg 3: ['yes', 'no']
+  Execution trace (4 LLM calls):
+    identify_operation(['Dominic has $24. Does he have enough to buy a book about art and a book about snakes?', 'Title: (no title)\nColumns: Column 1, Column 2\nRows: 6'])
+      -> comparison [$0.0001]
+    extract_relevant_values(['Dominic has $24. Does he have enough to buy a book about art and a book about snakes?', 'book about snakes | $10\nbook about art | $15\nbook about Australia | $19\nbook about soccer | $21\nbook abou)
+      -> ['$10', '$15'] [$0.0001]
+    compute_answer(['comparison', ['$10', '$15']])
+      -> $15 > $10 [$0.0001]
+    format_answer(['$15 > $10', ['yes', 'no']])
+      -> yes [$0.0001]
+  RESULT: predicted=yes, expected=no
+
+--- Case 21189: ---
+  Input arg 0: Jada joined a book club to spend more quality time with her cousin. At the first meeting, club members recorded how many hours a week they typically read and whether they preferred e-readers or paperback books. What is the probability that a randomly selected club member prefers e-readers and reads about 1 hour per week? Simplify any fractions.
+  Input arg 1:  | About 1 hour per week | About 3 hours per week
+E-readers | 5 | 4
+Paperback books | 4 | 3
+  Input arg 2: 21189
+  Input arg 3: None
+  Execution trace (4 LLM calls):
+    identify_operation(['Jada joined a book club to spend more quality time with her cousin. At the first meeting, club members recorded how many hours a week they typically read and whether they preferred e-readers or pape)
+      -> other [$0.0001]
+    extract_relevant_values(['Jada joined a book club to spend more quality time with her cousin. At the first meeting, club members recorded how many hours a week they typically read and whether they preferred e-readers or pape)
+      -> ['5', '4', '4', '3'] [$0.0001]
+    compute_answer(['other', ['5', '4', '4', '3']])
+      -> 5 [$0.0001]
+    format_answer(['5', None])
+      -> 5 [$0.0001]
+  RESULT: predicted=5, expected=5/16
+
+--- Case 7023: ---
+  Input arg 0: Scott wants to buy 1.6 pounds of banana chips. How much will he spend?
+  Input arg 1: dried apple | $6/lb
+dried pear | $3/lb
+raisins | $4/lb
+banana chips | $5/lb
+dried pineapple | $6/lb
+  Input arg 2: 7023
+  Input arg 3: None
+  Execution trace (4 LLM calls):
+    identify_operation(['Scott wants to buy 1.6 pounds of banana chips. How much will he spend?', 'Title: (no title)\nColumns: Column 1, Column 2\nRows: 5'])
+      -> lookup [$0.0001]
+    extract_relevant_values(['Scott wants to buy 1.6 pounds of banana chips. How much will he spend?', 'dried apple | $6/lb\ndried pear | $3/lb\nraisins | $4/lb\nbanana chips | $5/lb\ndried pineapple | $6/lb'])
+      -> ['banana chips', '$5/lb'] [$0.0001]
+    compute_answer(['lookup', ['banana chips', '$5/lb']])
+      -> $5/lb [$0.0001]
+    format_answer(['$5/lb', None])
+      -> 5 [$0.0001]
+  RESULT: predicted=5, expected=8
+
+--- Case 6695: ---
+  Input arg 0: Several students participated in a race. Which runner took the longest?
+  Input arg 1: Runner | Time (minutes)
+Ruth | 20
+Heather | 29
+Mitch | 23
+Norma | 22
+  Input arg 2: 6695
+  Input arg 3: ['Ruth', 'Heather', 'Mitch', 'Norma']
+  Execution trace (4 LLM calls):
+    identify_operation(['Several students participated in a race. Which runner took the longest?', 'Title: Race results\nColumns: Runner, Time (minutes)\nRows: 4'])
+      -> max [$0.0001]
+    extract_relevant_values(['Several students participated in a race. Which runner took the longest?', 'Runner | Time (minutes)\nRuth | 20\nHeather | 29\nMitch | 23\nNorma | 22'])
+      -> ['Heather', '29'] [$0.0001]
+    compute_answer(['max', ['Heather', '29']])
+      -> 29 [$0.0001]
+    format_answer(['29', ['Ruth', 'Heather', 'Mitch', 'Norma']])
+      -> None [$0.0001]
+  RESULT: predicted=None, expected=Heather
+
+--- Case 6915: ---
+  Input arg 0: How much money does Seth need to buy 3 Pinto horses?
+  Input arg 1: Hanoverian horse | $5,038
+Pinto horse | $1,675
+Thoroughbred horse | $7,304
+Palomino horse | $4,837
+Clydesdale horse | $1,294
+  Input arg 2: 6915
+  Input arg 3: None
+  Execution trace (4 LLM calls):
+    identify_operation(['How much money does Seth need to buy 3 Pinto horses?', 'Title: (no title)\nColumns: Column 1, Column 2\nRows: 5'])
+      -> lookup [$0.0001]
+    extract_relevant_values(['How much money does Seth need to buy 3 Pinto horses?', 'Hanoverian horse | $5,038\nPinto horse | $1,675\nThoroughbred horse | $7,304\nPalomino horse | $4,837\nClydesdale horse | $1,294'])
+      -> ['$1,675'] [$0.0001]
+    compute_answer(['lookup', ['$1,675']])
+      -> $1,675 [$0.0001]
+    format_answer(['$1,675', None])
+      -> 1675 [$0.0001]
+  RESULT: predicted=1675, expected=5,025
+
+--- Case 9580: ---
+  Input arg 0: How much money does Madelyn need to buy 4 tickets for a Mexican cruise and 4 tickets for an Atlantic cruise?
+  Input arg 1: ticket for an Atlantic cruise | $199.00
+ticket for a Mexican cruise | $796.00
+ticket for an Australian cruise | $351.00
+ticket for a South American cruise | $232.00
+ticket for an Alaskan cruise | $941.00
+  Input arg 2: 9580
+  Input arg 3: None
+  Execution trace (4 LLM calls):
+    identify_operation(['How much money does Madelyn need to buy 4 tickets for a Mexican cruise and 4 tickets for an Atlantic cruise?', 'Title: (no title)\nColumns: Column 1, Column 2\nRows: 5'])
+      -> sum [$0.0001]
+    extract_relevant_values(['How much money does Madelyn need to buy 4 tickets for a Mexican cruise and 4 tickets for an Atlantic cruise?', 'ticket for an Atlantic cruise | $199.00\nticket for a Mexican cruise | $796.00\nticket)
+      -> ['$199.00', '$796.00'] [$0.0001]
+    compute_answer(['sum', ['$199.00', '$796.00']])
+      -> $995.00 [$0.0001]
+    format_answer(['$995.00', None])
+      -> 995.00 [$0.0001]
+  RESULT: predicted=995.00, expected=3,980
+
+--- Case 28976: ---
+  Input arg 0: How much would it cost to buy 3+1/2 pounds of whole wheat pancake mix?
+  Input arg 1: plain pancake mix | $2 per pound
+raspberry pancake mix | $3 per pound
+blueberry pancake mix | $3 per pound
+whole wheat pancake mix | $3 per pound
+buttermilk pancake mix | $3 per pound
+  Input arg 2: 28976
+  Input arg 3: None
+  Execution trace (4 LLM calls):
+    identify_operation(['How much would it cost to buy 3+1/2 pounds of whole wheat pancake mix?', 'Title: (no title)\nColumns: Column 1, Column 2\nRows: 5'])
+      -> lookup [$0.0001]
+    extract_relevant_values(['How much would it cost to buy 3+1/2 pounds of whole wheat pancake mix?', 'plain pancake mix | $2 per pound\nraspberry pancake mix | $3 per pound\nblueberry pancake mix | $3 per pound\nwhole wheat pa)
+      -> ['whole wheat pancake mix', '$3 per pound'] [$0.0001]
+    compute_answer(['lookup', ['whole wheat pancake mix', '$3 per pound']])
+      -> $3 per pound [$0.0001]
+    format_answer(['$3 per pound', None])
+      -> 3 [$0.0001]
+  RESULT: predicted=3, expected=10.50
+
+--- Case 18050: ---
+  Input arg 0: Bryce jotted down how many baskets he made during basketball practice each day. What is the median of the numbers?
+  Input arg 1: Day | Number of baskets
+Friday | 9
+Saturday | 7
+Sunday | 6
+Monday | 5
+Tuesday | 2
+  Input arg 2: 18050
+  Input arg 3: None
+  Execution trace (4 LLM calls):
+    identify_operation(['Bryce jotted down how many baskets he made during basketball practice each day. What is the median of the numbers?', 'Title: Baskets made\nColumns: Day, Number of baskets\nRows: 5'])
+      -> other [$0.0001]
+    extract_relevant_values(['Bryce jotted down how many baskets he made during basketball practice each day. What is the median of the numbers?', 'Day | Number of baskets\nFriday | 9\nSaturday | 7\nSunday | 6\nMonday | 5\nTuesd)
+      -> ['9', '7', '6', '5', '2'] [$0.0001]
+    compute_answer(['other', ['9', '7', '6', '5', '2']])
+      -> 97652 [$0.0001]
+    format_answer(['97652', None])
+      -> 97652 [$0.0001]
+  RESULT: predicted=97652, expected=6
+
+--- Case 23843: ---
+  Input arg 0: Look at the table. Then answer the question. At a price of $730, is there a shortage or a surplus?
+  Input arg 1: Price | Quantity demanded | Quantity supplied
+$630 | 20,200 | 10,200
+$680 | 15,600 | 13,000
+$730 | 11,000 | 15,800
+$780 | 6,400 | 18,600
+$830 | 1,800 | 21,400
+  Input arg 2: 23843
+  Input arg 3: ['shortage', 'surplus']
+  Execution trace (4 LLM calls):
+    identify_operation(['Look at the table. Then answer the question. At a price of $730, is there a shortage or a surplus?', 'Title: (no title)\nColumns: Price, Quantity demanded, Quantity supplied\nRows: 5'])
+      -> comparison [$0.0001]
+    extract_relevant_values(['Look at the table. Then answer the question. At a price of $730, is there a shortage or a surplus?', 'Price | Quantity demanded | Quantity supplied\n$630 | 20,200 | 10,200\n$680 | 15,600 | 13,000\n$)
+      -> ['$730', '11,000', '15,800'] [$0.0001]
+    compute_answer(['comparison', ['$730', '11,000', '15,800']])
+      -> $730 < 11,000 < 15,800 [$0.0001]
+    format_answer(['$730 < 11,000 < 15,800', ['shortage', 'surplus']])
+      -> shortage [$0.0001]
+  RESULT: predicted=shortage, expected=surplus
+
+--- Case 28474: ---
+  Input arg 0: At Newport Consulting, the head of human resources examined how the number of employees with health care benefits varied in response to policy changes. According to the table, what was the rate of change between 2011 and 2012?
+  Input arg 1: Year | Employees
+2008 | 14
+2009 | 18
+2010 | 24
+2011 | 26
+2012 | 21
+  Input arg 2: 28474
+  Input arg 3: None
+  Execution trace (4 LLM calls):
+    identify_operation(['At Newport Consulting, the head of human resources examined how the number of employees with health care benefits varied in response to policy changes. According to the table, what was the rate of c)
+      -> difference [$0.0001]
+    extract_relevant_values(['At Newport Consulting, the head of human resources examined how the number of employees with health care benefits varied in response to policy changes. According to the table, what was the rate of c)
+      -> ['26', '21'] [$0.0001]
+    compute_answer(['difference', ['26', '21']])
+      -> 5 [$0.0001]
+    format_answer(['5', None])
+      -> 5 [$0.0001]
+  RESULT: predicted=5, expected=-5
+
+--- Case 6282: ---
+  Input arg 0: Mitch has $1,155. Does he have enough to buy an antique wicker chair and an antique maplewood rocking chair?
+  Input arg 1: antique pine chest of drawers | $582
+antique teak wood end table | $414
+antique hand-painted trunk | $753
+antique maplewood rocking chair | $285
+antique birchwood dining table | $763
+antique wicker chair | $862
+  Input arg 2: 6282
+  Input arg 3: ['yes', 'no']
+  Execution trace (4 LLM calls):
+    identify_operation(['Mitch has $1,155. Does he have enough to buy an antique wicker chair and an antique maplewood rocking chair?', 'Title: (no title)\nColumns: Column 1, Column 2\nRows: 6'])
+      -> comparison [$0.0001]
+    extract_relevant_values(['Mitch has $1,155. Does he have enough to buy an antique wicker chair and an antique maplewood rocking chair?', 'antique pine chest of drawers | $582\nantique teak wood end table | $414\nantique hand)
+      -> ['$285', '$862'] [$0.0001]
+    compute_answer(['comparison', ['$285', '$862']])
+      -> $862 is greater than $285 [$0.0001]
+    format_answer(['$862 is greater than $285', ['yes', 'no']])
+      -> no [$0.0001]
+  RESULT: predicted=no, expected=yes
+
+--- Case 21148: ---
+  Input arg 0: A bagel wholesaler examined the bagel sales of each of the retail stores that it served. Which shop sold fewer bagels, Tina's Bagels or New York Bagels?
+  Input arg 1: Shop | Blueberry bagels | Onion bagels
+New York Bagels | 9 | 18
+Super Bagel | 13 | 12
+Tina's Bagels | 3 | 1
+Bagel Town Cafe | 8 | 8
+  Input arg 2: 21148
+  Input arg 3: ["Tina's Bagels", 'New York Bagels']
+  Execution trace (4 LLM calls):
+    identify_operation(["A bagel wholesaler examined the bagel sales of each of the retail stores that it served. Which shop sold fewer bagels, Tina's Bagels or New York Bagels?", 'Title: Bagel sales\nColumns: Shop, Blueber)
+      -> comparison [$0.0001]
+    extract_relevant_values(["A bagel wholesaler examined the bagel sales of each of the retail stores that it served. Which shop sold fewer bagels, Tina's Bagels or New York Bagels?", "Shop | Blueberry bagels | Onion bagels\nNe)
+      -> ['New York Bagels', '9', '18', "Tina's Bagels", '3', '1'] [$0.0001]
+    compute_answer(['comparison', ['New York Bagels', '9', '18', "Tina's Bagels", '3', '1']])
+      -> New York Bagels (18) > Tina's Bagels (3) [$0.0001]
+    format_answer(["New York Bagels (18) > Tina's Bagels (3)", ["Tina's Bagels", 'New York Bagels']])
+      -> New York Bagels [$0.0001]
+  RESULT: predicted=New York Bagels, expected=Tina's Bagels
+
+--- Case 15318: ---
+  Input arg 0: Mike has $55.00. How much money will Mike have left if he buys a book about Antarctica and a book about soccer?
+  Input arg 1: book about Antarctica | $13.00
+book about soccer | $23.00
+book about sharks | $20.00
+book about dinosaurs | $22.00
+book about hiking | $24.00
+  Input arg 2: 15318
+  Input arg 3: None
+  Execution trace (4 LLM calls):
+    identify_operation(['Mike has $55.00. How much money will Mike have left if he buys a book about Antarctica and a book about soccer?', 'Title: (no title)\nColumns: Column 1, Column 2\nRows: 5'])
+      -> difference [$0.0001]
+    extract_relevant_values(['Mike has $55.00. How much money will Mike have left if he buys a book about Antarctica and a book about soccer?', 'book about Antarctica | $13.00\nbook about soccer | $23.00\nbook about sharks | $20)
+      -> ['$13.00', '$23.00'] [$0.0001]
+    compute_answer(['difference', ['$13.00', '$23.00']])
+      -> -$10.00 [$0.0001]
+    format_answer(['-$10.00', None])
+      -> 10.00 [$0.0001]
+  RESULT: predicted=10.00, expected=19
+
+--- Case 29461: ---
+  Input arg 0: Jayce wants to buy 2 pounds of straw mushrooms. How much will he spend?
+  Input arg 1: oyster mushrooms | $17.07 per lb
+portobello mushrooms | $9.34 per lb
+chanterelle mushrooms | $29.43 per lb
+straw mushrooms | $10.28 per lb
+porcini mushrooms | $21.80 per lb
+enoki mushrooms | $17.91 per lb
+  Input arg 2: 29461
+  Input arg 3: None
+  Execution trace (4 LLM calls):
+    identify_operation(['Jayce wants to buy 2 pounds of straw mushrooms. How much will he spend?', 'Title: (no title)\nColumns: Column 1, Column 2\nRows: 6'])
+      -> lookup [$0.0001]
+    extract_relevant_values(['Jayce wants to buy 2 pounds of straw mushrooms. How much will he spend?', 'oyster mushrooms | $17.07 per lb\nportobello mushrooms | $9.34 per lb\nchanterelle mushrooms | $29.43 per lb\nstraw mushroo)
+      -> ['2', 'straw mushrooms', '$10.28'] [$0.0001]
+    compute_answer(['lookup', ['2', 'straw mushrooms', '$10.28']])
+      -> $10.28 [$0.0001]
+    format_answer(['$10.28', None])
+      -> 10.28 [$0.0001]
+  RESULT: predicted=10.28, expected=20.56
+
+--- Case 20103: ---
+  Input arg 0: Robert graphed the daily low temperature for 7 days. What is the median of the numbers?
+  Input arg 1: Day | Temperature (Â°C)
+Friday | 5
+Saturday | 8
+Sunday | 5
+Monday | 8
+Tuesday | 8
+Wednesday | 6
+Thursday | 6
+  Input arg 2: 20103
+  Input arg 3: None
+  Execution trace (4 LLM calls):
+    identify_operation(['Robert graphed the daily low temperature for 7 days. What is the median of the numbers?', 'Title: Daily low temperature\nColumns: Day, Temperature (Â°C)\nRows: 7'])
+      -> other [$0.0001]
+    extract_relevant_values(['Robert graphed the daily low temperature for 7 days. What is the median of the numbers?', 'Day | Temperature (Â°C)\nFriday | 5\nSaturday | 8\nSunday | 5\nMonday | 8\nTuesday | 8\nWednesday | 6\nThur)
+      -> ['5', '8', '5', '8', '8', '6', '6'] [$0.0001]
+    compute_answer(['other', ['5', '8', '5', '8', '8', '6', '6']])
+      -> 8 [$0.0001]
+    format_answer(['8', None])
+      -> 8 [$0.0001]
+  RESULT: predicted=8, expected=6

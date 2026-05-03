@@ -1,0 +1,4 @@
+case_name,predicted_output,expected_output,correct,correct_tolerance,failure_mode,input_tokens,output_tokens,latency,cost,expt_name
+airline_0_6,**exception raised**: _airline_calc_fn() takes 1 positional argument but 5 were given,1131,0.0,0.0,extraction_failure,0.0,0.0,0.0,0.0,react
+airline_1_28,2296.0,2296,1.0,1.0,none,12916.0,8000.0,35.35677719116211,0.0238748,react
+airline_1_10,2682.0,2682,1.0,1.0,none,12911.0,7443.0,31.541301727294922,0.022480800000000002,react

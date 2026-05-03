@@ -1,0 +1,2418 @@
+You are an expert ML engineer making a TARGETED improvement to an existing
+pipeline. The pipeline already works at a certain accuracy — your job is to
+make it BETTER, not blow it up.
+
+You have FULL CONTROL over the ptools module. You can modify ANY function,
+ANY docstring, ANY logic. Your changes will be written to ptools_evolved.py
+and evaluated.
+
+## Current ptools_evolved.py (FULL SOURCE — you own this file)
+
+```python
+"""RuleArena benchmark tools and workflows.
+
+Domains: airline (baggage fees), tax (US federal income tax), nba (CBA compliance).
+Experiment levels:
+  L0  - oracle: ground truth params fed directly to Python calculators
+  L0F - CoT: single LLM call per domain with chain-of-thought prompt
+  L1  - extract: LLM extracts structured params, Python computes answer
+  L3  - ReAct: autonomous agent with extraction and calculator tools
+
+Example CLI commands:
+    uv run expt.py run --help
+    uv run expt.py run evaluate.expt_name=l1_airline dataset.domain=airline \
+        ptools.compute_rulearena_answer.method=direct \
+        ptools.compute_rulearena_answer.fn=ptools.l1_extract_workflow
+"""
+
+import importlib.util
+import json
+# from math import e
+import re
+import sys
+from pathlib import Path
+from typing import Any
+from pydantic import BaseModel
+
+# from secretagent.benchmarks.rulearena.search_spaces import tax_space
+from secretagent.core import interface, implement_via
+
+_DATA_DIR = Path(__file__).parent / "data"
+
+class BagItem(BaseModel):
+    id: int
+    name: str
+    size: list[int]  # [length, width, height] in inches
+    weight: int       # pounds
+
+class AirlineParams(BaseModel):
+    base_price: int         # ticket price in USD
+    customer_class: str     # e.g "Main Cabin", "Business"
+    routine: str            # destination region, e.g. "U.S", "Japan"
+    direction: int          # 0 for departing from US, 1 for arriving to US
+    bag_list: list[BagItem] 
+
+class StudentRecord(BaseModel):
+    qualified_student_expenses: int = 0
+    f8863_part_iii_23: str = "No"
+    f8863_part_iii_24: str = "No"
+    f8863_part_iii_25: str = "No"
+    f8863_part_iii_26: str = "No"
+
+class TaxParams(BaseModel):
+    # Basic Info
+    name: str = ""
+    age: int = 0
+    spouse_age: int = 0
+    filing_status: str = "single"  # single/married filing jointly/married filing separately/head of household/qualifying surviving spouse
+    blind: bool = False
+    spouse_blind: bool = False
+    itemized: bool = False
+    self_employed: bool = False
+    has_student_loans_or_education_expenses: bool = False
+    num_qualifying_children: int = 0
+    num_other_dependents: int = 0
+
+    # Form 1040
+    wage_tip_compensation: float = 0.0             # Line 1a
+    household_employee_wage: float = 0.0           # Line 1b
+    unreported_tip: float = 0.0                    # Line 1c
+    nontaxable_combat_pay: float = 0.0             # Line 1d
+    tax_exempt_interest: float = 0.0               # Line 2a
+    taxable_interest: float = 0.0                  # Line 2b
+    qualified_dividends: float = 0.0               # Line 3a
+    ordinary_dividends: float = 0.0                # Line 3b
+    ira_distributions: float = 0.0                 # Line 4a
+    taxable_ira_distributions: float = 0.0         # Line 4b
+    all_pensions: float = 0.0                      # Line 5a
+    taxable_pensions: float = 0.0                  # Line 5b
+    social_security_benefits: float = 0.0          # Line 6a
+    taxable_social_security_benefits: float = 0.0  # Line 6b
+    qualified_business_income: float = 0.0         # Line 13
+    federal_income_tax_withheld: float = 0.0       # Line 25
+    earned_income_credit: float = 0.0              # Line 27
+
+    # Schedule 1
+    taxable_state_refunds: float = 0.0                 # Line 1
+    alimony_income: float = 0.0                        # Line 2a
+    sale_of_business: float = 0.0                      # Line 4
+    rental_real_estate_sch1: float = 0.0               # Line 5
+    farm_income: float = 0.0                           # Line 6
+    unemployment_compensation: float = 0.0             # Line 7
+    other_income: float = 0.0                          # Line 8
+    educator_expenses: float = 0.0                     # Line 11
+    hsa_deduction: float = 0.0                         # Line 13
+    ira_deduction: float = 0.0                         # Line 20
+    student_loan_interest_deduction: float = 0.0       # Line 21
+    other_adjustments: float = 0.0                     # Line 24
+
+    # Schedule 2
+    amt_f6251: float = 0.0                            # Line 1
+    credit_repayment: float = 0.0                     # Line 2
+    other_additional_taxes: float = 0.0               # Line 17
+
+    # Schedule 3
+    foreign_tax_credit: float = 0.0                  # Line 1
+    dependent_care: float = 0.0                     # Line 2
+    retirement_savings: float = 0.0                 # Line 4
+    elderly_disabled_credits: float = 0.0           # Line 6d
+    plug_in_motor_vehicle: float = 0.0              # Line 6i
+    alt_motor_vehicle: float = 0.0                 # Line 6j
+
+    # Schedule A (when itemized=true) 
+    medical_dental_expenses: float = 0.0            # Line 1
+    state_local_income_or_sales_tax: float = 0.0   # Line 5a
+    state_local_real_estate_tax: float = 0.0       # Line 5b
+    state_local_personal_property_tax: float = 0.0 # Line 5c
+    other_taxes_paid: float = 0.0                    # Line 5d
+    home_mortgage_interest_and_points: float = 0.0 # Line 8a
+    home_mortgage_interest_unreported: float = 0.0 # Line 8b
+    home_mortgage_points_unreported: float = 0.0   # Line 8c
+    investment_interest: float = 0.0                # Line 9
+    charity_cash: float = 0.0                      # Line 11
+    charity_non_cash: float = 0.0                  # Line 12
+    casualty_and_theft_loss: float = 0.0           # Line 15
+    other_itemized_deductions: float = 0.0        # Line 16
+
+    # Schedule C (when self_employed=true)
+    gross_receipts: float = 0.0                   # Line 1
+    returns_and_allowances: float = 0.0           # Line 2
+    cost_of_goods_sold: float = 0.0              # Line 4
+    other_inc_sched_c: float = 0.0               # Line 5
+    total_expenses: float = 0.0                          # Line 10
+    expenses_of_home: float = 0.0                         # Line 30
+    total_social_security_wages: float = 0.0              # Line 31
+
+    # Form 8863 (when has_student_loans_or_education_expenses=true)
+    student_list: list[StudentRecord] = []
+
+class NbaResult(BaseModel):
+    verdict: bool = False          # true if any operation violates rules
+    illegal_operation: str = ""    # letter of the violating operation
+    problematic_team: str = ""     # letter of the violating team
+    reasoning: str = ""            # brief explanation
+
+
+# ---------------------------------------------------------------------------
+# LLM extraction interfaces
+# ---------------------------------------------------------------------------
+
+@interface
+def extract_airline_params(query: str) -> AirlineParams:
+    """Extract structured baggage parameters from an airline fee query."""
+    ...
+
+
+@interface
+def extract_tax_params(query: str) -> TaxParams:
+    """Extract taxpayer parameters from filled IRS forms.
+
+    Extract the filled-in INPUT values from IRS forms. Skip computed
+    fields marked [__]. Dollar values like "$1,234" become numeric (1234.0).
+    """
+    ...
+
+
+@interface
+def extract_nba_params(query: str) -> NbaResult:
+    """Determine whether any NBA team operation violates CBA salary cap rules."""
+    ...
+# ---------------------------------------------------------------------------
+# Calculator interfaces (always Python via direct method)
+# ---------------------------------------------------------------------------
+
+@interface
+def compute_airline_calculator(params: dict) -> int:
+    """Compute airline baggage fee and total ticket cost.
+
+    Pass the dict returned by extract_airline_params directly as params.
+    Required keys: base_price, customer_class, routine, direction, bag_list.
+
+    Returns:
+        Total cost (ticket price + baggage fees) as integer dollars.
+
+    Examples:
+    >>> compute_airline_calculator({"base_price": 500, "customer_class": "Main Cabin", "routine": "U.S.", "direction": 0, "bag_list": [{"id": 1, "name": "carry-on", "size": [22, 14, 9], "weight": 10}]})
+    500
+    """
+
+
+@interface
+def compute_tax_calculator(params: dict) -> float:
+    """Compute federal tax amount from extracted TaxPayer fields.
+
+    Pass the dict returned by extract_tax_params directly as params.
+    Optional schedule fields are defaulted to 0 if absent.
+
+    Returns:
+        Amount owed (positive) or overpaid/refund (negative) as float.
+
+    Examples:
+    >>> compute_tax_calculator({"filing_status": "single", "age": 35, "wage_tip_compensation": 50000.0})
+    5000.0
+    """
+
+
+# ---------------------------------------------------------------------------
+# CoT prompt interfaces (always prompt_llm, bound at definition time)
+# ---------------------------------------------------------------------------
+
+@implement_via('prompt_llm', prompt_template_file='prompt_templates/airline_cot.txt')
+def _cot_airline(problem_text: str, rules_text: str) -> str:
+    ...
+
+
+@implement_via('prompt_llm', prompt_template_file='prompt_templates/tax_cot.txt')
+def _cot_tax(forms_text: str) -> str:
+    ...
+
+
+@implement_via('prompt_llm', prompt_template_file='prompt_templates/nba_cot.txt')
+def _cot_nba(problem_text: str, rules_text: str) -> str:
+    ...
+
+
+
+@implement_via('simulate')
+def _parse_numeric_answer(llm_output: str) -> float:
+    """Extract the numeric dollar amount from LLM text output.
+
+    The output may contain "The total cost is $1,234." or
+    "The total tax owed is $567." or "The total tax overpaid is $89."
+    For overpaid amounts, return the value as negative.
+    """
+    ...
+
+
+@implement_via('simulate')
+def _parse_bool_answer(llm_output: str) -> bool:
+    """Extract True or False from LLM text output.
+
+    The output contains either "Answer: True." or "Answer: False."
+    """
+    ...
+
+
+# ---------------------------------------------------------------------------
+# Python calculator implementations (called from workflows, not interfaces)
+# ---------------------------------------------------------------------------
+
+# Region normalization for airline extraction
+_VALID_REGIONS = {
+    "U.S.", "Puerto Rico", "Canada", "Mexico", "Cuba", "Haiti", "Panama",
+    "Colombia", "Ecuador", "Peru", "South America", "Israel", "Qatar",
+    "Europe", "India", "China", "Japan", "South Korea", "Hong Kong",
+    "Australia", "New Zealand",
+}
+
+_REGION_FIXES = {
+    "asia": "China",
+    "north america": "U.S.",
+    "us": "U.S.",
+    "usa": "U.S.",
+    "united states": "U.S.",
+    "domestic": "U.S.",
+    "tokyo": "Japan",
+    "beijing": "China",
+    "shanghai": "China",
+    "seoul": "South Korea",
+    "sydney": "Australia",
+    "london": "Europe",
+    "paris": "Europe",
+    "berlin": "Europe",
+}
+
+
+def _normalize_region(routine: str) -> str:
+    if routine in _VALID_REGIONS:
+        return routine
+    fixed = _REGION_FIXES.get(routine.lower().strip())
+    return fixed if fixed else "U.S."
+
+
+def _airline_calc_fn(params: dict) -> int:
+    from calculators.airline import compute_airline_fee
+    p = dict(params)
+    p["routine"] = _normalize_region(p.get("routine", "U.S."))
+    return compute_airline_fee(p)
+
+
+_SCHED_C_DEFAULTS = {
+    "gross_receipts": 0.0, "returns_and_allowances": 0.0,
+    "cost_of_goods_sold": 0.0, "other_inc_sched_c": 0.0,
+    "total_expenses": 0.0, "expenses_of_home": 0.0,
+    "total_social_security_wages": 0.0,
+}
+_SCHED_A_DEFAULTS = {
+    "medical_dental_expenses": 0.0, "state_local_income_or_sales_tax": 0.0,
+    "state_local_real_estate_tax": 0.0, "state_local_personal_property_tax": 0.0,
+    "other_taxes_paid": 0.0, "home_mortgage_interest_and_points": 0.0,
+    "home_mortgage_interest_unreported": 0.0, "home_mortgage_points_unreported": 0.0,
+    "investment_interest": 0.0, "charity_cash": 0.0, "charity_non_cash": 0.0,
+    "casualty_and_theft_loss": 0.0, "other_itemized_deductions": 0.0,
+}
+_EDU_DEFAULTS = {"student_list": []}
+
+
+def _apply_tax_defaults(params: dict) -> dict:
+    result = dict(params)
+    for defaults in (_SCHED_C_DEFAULTS, _SCHED_A_DEFAULTS, _EDU_DEFAULTS):
+        for k, v in defaults.items():
+            result.setdefault(k, v)
+    # Ensure student_list is always a list (LLM may return 0, false, etc.)
+    if not isinstance(result.get("student_list"), list):
+        result["student_list"] = []
+    return result
+
+
+def _tax_calc_fn(params: dict) -> float:
+    from calculators.tax import compute_tax_fee
+    result = compute_tax_fee({"pydantic": _apply_tax_defaults(params)})
+    if result is None:
+        raise RuntimeError("Tax calculator returned None")
+    return result
+
+
+# ---------------------------------------------------------------------------
+# Tax forms query builder (needed for L0F and L1 tax domain)
+# ---------------------------------------------------------------------------
+
+_tax_prompt_module = None
+
+
+def _get_tax_prompt_module():
+    global _tax_prompt_module
+    if _tax_prompt_module is not None:
+        return _tax_prompt_module
+    prompt_path = _DATA_DIR / "tax" / "prompt.py"
+    spec = importlib.util.spec_from_file_location("tax_prompt", prompt_path)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    _tax_prompt_module = mod
+    return mod
+
+
+_TAX_PROMPT_TEMPLATE = (
+    "\nYou are given several forms used to report US income tax and the instructions "
+    "or rules about how to fill the forms. Then you will be given the income and/or "
+    "payment information about a tax payer According to the given information. You "
+    "should calculate the income tax owed by this payer.\n\nIRS Forms for the tax "
+    "payer:\n$forms\nCalculate the tax owed by the payer step-by-step according to "
+    "the information provided by the forms. You should calculate all fields marked "
+    "with [__]. DO NOT round numbers without explicit instructions. End your response "
+    "with <answer>xxx</answer> where xxx is the total tax amount as a number "
+    "(negative if overpaid/refunded).\nYour response:\n"
+)
+
+
+def build_tax_forms_query(metadata: dict) -> str:
+    """Build the filled IRS forms prompt from taxpayer metadata dict.
+
+    Replicates the logic from external/RuleArena/tax/auto_test.py.
+    """
+    mod = _get_tax_prompt_module()
+    tax_payer = metadata["dict"]
+
+    forms = [mod.basic_forms]
+    if tax_payer["itemized"]:
+        forms.append(mod.itemized_forms)
+    if tax_payer["self_employed"]:
+        forms.append(mod.self_employ_forms)
+    if tax_payer["has_student_loans_or_education_expenses"]:
+        forms.append(mod.edu_forms)
+    if tax_payer["child_and_dependent"]:
+        forms.append(mod.schedule_8812)
+    forms = "".join(forms)
+
+    for k, v in tax_payer["data"].items():
+        if isinstance(v, str):
+            forms = forms.replace("$" + k, v)
+        else:
+            forms = forms.replace("$" + k, "$" + f"{v:,}")
+
+    forms = forms.replace("$TBD", "[__]")
+
+    prompt = _TAX_PROMPT_TEMPLATE.replace("$forms", forms)
+    prompt = prompt.replace("$name", tax_payer["name"])
+    prompt = prompt.replace("$age", str(tax_payer["age"]))
+    prompt = prompt.replace("$spouse_age", str(tax_payer["spouse_age"]))
+    prompt = prompt.replace("$blind", str(tax_payer["blind"]))
+    prompt = prompt.replace("$spouse_blind", str(tax_payer["spouse_blind"]))
+    prompt = prompt.replace("$filing_status", tax_payer["filing_status"])
+    prompt = prompt.replace("$itemized", str(tax_payer["itemized"]))
+    prompt = prompt.replace("$num_qualifying_children", str(tax_payer["num_qualifying_children"]))
+    prompt = prompt.replace("$num_other_dependents", str(tax_payer["num_other_dependents"]))
+    return prompt
+
+
+# ---------------------------------------------------------------------------
+# NBA query builder
+# ---------------------------------------------------------------------------
+
+_NBA_ASSUMPTIONS = (
+    "Assume:\n"
+    "* the Salary Cap for the prior (2023-24) Salary Cap Year is $136,000,000;\n"
+    "* the Average Player Salary for the prior (2023-24) Salary Cap Year is $9,700,000;\n"
+    "* the Salary Cap for the current (2024-25) NBA Salary Cap Year is $140,588,000;\n"
+    "* the Luxury Tax is $170,814,000;\n"
+    "* the First Apron Level is $178,132,000;\n"
+    "* the Second Apron Level is $188,931,000;\n"
+    "* the Team Salary of each team listed under \"Team Situations:\" do not "
+    "include the amount of contracts that expire at the end of 2023-2024 Salary Cap Year.\n"
+)
+
+
+def _build_nba_query(problem_text: str, rules_text: str, metadata: dict) -> str:
+    team_info = "Team Situations:\n" + "\n".join(metadata.get("team_situations", []))
+    player_info = "Player Situations:\n" + "\n".join(metadata.get("player_situations", []))
+    operations = "Operations:\n" + "\n".join(metadata.get("operations", []))
+    question = team_info + "\n\n" + player_info + "\n\n" + operations
+
+    return (
+        f"Reference Rules in NBA Collective Bargaining Agreement:\n\n"
+        f"{rules_text}\n\n"
+        f"{_NBA_ASSUMPTIONS}\n"
+        f"Decide whether any operation by any team violates the rules:\n\n"
+        f"{question}"
+    )
+
+
+# ---------------------------------------------------------------------------
+# PoT interfaces (program_of_thought, bound at runtime via config)
+# ---------------------------------------------------------------------------
+
+@interface
+def pot_airline(problem_text: str, rules_text: str) -> float:
+    """Given a passenger's itinerary and baggage details, and the airline's
+    fee rules, compute the total cost (ticket price + baggage fees) in dollars.
+    """
+
+
+@interface
+def pot_nba(problem_text: str, rules_text: str) -> float:
+    """Given NBA team situations, player situations, proposed operations, and
+    CBA salary cap rules, determine if any operation violates the rules.
+    Return 1.0 if any violation exists, 0.0 if all operations are compliant.
+    """
+
+
+@interface
+def pot_tax(forms_text: str) -> float:
+    """Given filled IRS forms with some fields marked [__] for computation,
+    calculate all tax fields step by step and return the total tax owed
+    (positive) or overpaid/refund (negative) as a dollar amount.
+    """
+
+
+# ---------------------------------------------------------------------------
+# PoT workflow dispatcher
+# ---------------------------------------------------------------------------
+
+def pot_workflow(
+    problem_text: str, domain: str, rules_text: str,
+    metadata_json: str, forms_text: str
+) -> float:
+    """PoT workflow: LLM generates Python code, interpreter executes it."""
+    if domain == "airline":
+        return pot_airline(problem_text=problem_text, rules_text=rules_text)
+    if domain == "nba":
+        metadata = json.loads(metadata_json)
+        nba_query = _build_nba_query(problem_text, rules_text, metadata)
+        return pot_nba(problem_text=nba_query, rules_text="")
+    if domain == "tax":
+        return pot_tax(forms_text=forms_text)
+    raise ValueError(f"PoT not yet implemented for domain: {domain!r}")
+
+
+# ---------------------------------------------------------------------------
+# Workflow functions
+# ---------------------------------------------------------------------------
+
+def l0_oracle_workflow(
+    problem_text: str, domain: str, rules_text: str,
+    metadata_json: str, forms_text: str
+) -> float:
+    """Oracle workflow: feed ground-truth params directly to Python calculators.
+
+    Zero LLM calls. Establishes the accuracy ceiling for each domain.
+    NBA returns 1.0 for violation, 0.0 for compliant.
+    """
+    metadata = json.loads(metadata_json)
+    if domain == "airline":
+        return float(_airline_calc_fn(metadata))
+    if domain == "tax":
+        return _tax_calc_fn(metadata.get("pydantic", metadata))
+    if domain == "nba":
+        return float(bool(metadata.get("answer", False)))
+    raise ValueError(f"Unknown domain: {domain!r}")
+
+
+def l0f_cot_workflow(
+    problem_text: str, domain: str, rules_text: str,
+    metadata_json: str, forms_text: str
+) -> float:
+    """CoT baseline: single LLM call per domain with structured prompt, then parse answer.
+
+    Replicates the original RuleArena paper's CoT evaluation methodology.
+    """
+    if domain == "airline":
+        raw = _cot_airline(problem_text=problem_text, rules_text=rules_text)
+        return _parse_numeric_answer(raw)
+    if domain == "tax":
+        raw = _cot_tax(forms_text=forms_text)
+        return _parse_numeric_answer(raw)
+    if domain == "nba":
+        metadata = json.loads(metadata_json)
+        nba_query = _build_nba_query(problem_text, rules_text, metadata)
+        raw = _cot_nba(problem_text=nba_query, rules_text="")
+        return float(_parse_bool_answer(raw))
+    raise ValueError(f"Unknown domain: {domain!r}")
+
+
+def l1_extract_workflow(
+    problem_text: str, domain: str, rules_text: str,
+    metadata_json: str, forms_text: str
+) -> float:
+    """L1 PTool workflow: LLM extracts structured params, Python computes answer.
+
+    LLM extracts structured params via simulate_pydantic, Python computes answer.
+    """
+    metadata = json.loads(metadata_json)
+    if domain == "airline":
+        query = f"RULES:\n{rules_text}\n\nQUERY:\n{problem_text}"
+        params = extract_airline_params(query=query)
+        return float(_airline_calc_fn(params.model_dump()))
+
+    if domain == "tax":
+        params = extract_tax_params(query=forms_text)
+        return _tax_calc_fn(params.model_dump())
+
+    if domain == "nba":
+        query = _build_nba_query(problem_text, rules_text, metadata)
+        result = extract_nba_params(query=query)
+        return float(result.verdict)
+
+    raise ValueError(f"Unknown domain: {domain!r}")
+
+
+# ---------------------------------------------------------------------------
+# Top-level interface
+# ---------------------------------------------------------------------------
+
+@interface
+def compute_rulearena_answer(
+    problem_text: str,
+    domain: str,
+    rules_text: str,
+    metadata_json: str,
+    forms_text: str,
+) -> float:
+    """Compute the answer for a RuleArena benchmark problem.
+
+    Returns the numeric answer: dollar amount for airline and tax domains,
+    or 1.0 (violation) / 0.0 (compliant) for the NBA domain.
+
+    Args:
+        problem_text: Natural language problem statement.
+        domain: One of "airline", "tax", "nba".
+        rules_text: Domain rules text provided to the model.
+        metadata_json: JSON-encoded ground truth metadata (used by L0 oracle).
+        forms_text: Pre-built IRS forms text for tax domain; empty for others.
+    """
+    ...
+
+
+
+```
+
+## Performance on training set
+
+Pipeline accuracy: 28.6%, avg cost: $0.0039/case, 42 cases
+
+Per-ptool breakdown:
+  extract_airline_params: cost_frac=100.0%, calls/case=1.0, avg_cost=$0.0039, lift=N/A, errors=0
+
+Ptools called via LLM: ['extract_airline_params']
+
+Held-out eval accuracy: 16.7% (train: 28.6%)
+A large train-eval gap means your changes are OVERFITTING. Prefer changes that generalize to unseen cases.
+
+## Failure cases with full context
+
+Total failures: 30 / showing 30:
+
+Failure counts by category:
+  unknown: 30 failures
+
+--- Case airline_1_73: ---
+  Input arg 0: Susan is a First Class passenger flying from Philadelphia to Dallas with the following items:
+1. A backpack: 22 x 11 x 9 inches, 6 lbs;
+2. A luggage box: 45 x 20 x 20 inches, 52 lbs;
+3. A luggage box: 52 x 34 x 25 inches, 86 lbs;
+4. A luggage box: 35 x 18 x 11 inches, 54 lbs;
+5. A backpack: 41 x 21 x 16 inches, 51 lbs;
+6. A luggage box: 38 x 13 x 14 inches, 67 lbs;
+7. A backpack: 37 x 13 x 13 inches, 52 lbs;
+8. A backpack: 33 x 18 x 14 inches, 51 lbs;
+
+Susan's flight ticket is $187.
+  Input arg 1: airline
+  Input arg 2: # Bag fees
+All published bag fees apply at each check-in location and are base rates according to travel dates and destination; applicable taxes are not shown.
+
+## Carry-on bags
+You're allowed 1 carry-on bag and 1 personal item in all cabins.
+
+### Personal items
+Your personal item like a purse or small handbag must fit under the seat in front of you. Dimensions should not exceed 18 x 14 x 8 inches (45 x 35 x 20 cm).
+
+These don't count as your personal item or carry-on:
+* Diaper bags (1 per child)
+* Breast pump
+* Small, soft-sided cooler of breast milk
+* Child safety seats, strollers and medical or mobility devices
+
+### Carry-on items
+You can bring only one carry-on item along with your personal item. Your carry-on must fit in in the overhead bin or under the seat in front of you. If it doesn't fit, it will need to be checked. Be sure all your carry-on items are labeled in case they are checked.
+
+#### Carry-on bag
+The total size of your carry-on, including the handles and wheels, cannot exceed 22 x 14 x 9 inches (56 x 36 x 23 cm) and must fit in the sizer at the airport.
+
+#### Soft-sided garment bag
+Your soft-sided garment bag cannot exceed 51 inches / 130 cm (length + width + height).
+
+## Checked bags
+Bag fees have been updated effective for tickets issued on / after February 20, 2024.
+
+Travel within / between the U.S., Puerto Rico, and U.S. Virgin Islands – 1st checked bag fee is $40 and the 2nd checked bag fee is $45.
+
+Travel to / from Canada, Caribbean, Mexico, Central America, and Guyana – 1st checked bag fee is $35 and the 2nd checked bag fee is $45.
+
+All bag fees are non-refundable and apply per person, each way, even if you buy or get an upgrade that includes free checked bags. If you believe you were incorrectly charged for bag fees, contact an American representative for help or file a refund claim within 45 days.
+
+### First Bag
+
+Decide the fee of your first checked bag according to the following:
+* If your flight is Within and between U.S., Puerto Rico and
+  Input arg 3: {"base_price": 187, "customer_class": "First", "routine": "U.S.", "direction": 1, "bag_list": [{"id": 1, "name": "backpack", "size": [22, 11, 9], "weight": 6}, {"id": 2, "name": "luggage box", "size": [45, 20, 20], "weight": 52}, {"id": 3, "name": "luggage box", "size": [52, 34, 25], "weight": 86}, {"id": 4, "name": "luggage box", "size": [35, 18, 11], "weight": 54}, {"id": 5, "name": "backpack", "size": [41, 21, 16], "weight": 51}, {"id": 6, "name": "luggage box", "size": [38, 13, 14], "weight": 67}, {"id": 7, "name": "backpack", "size": [37, 13, 13], "weight": 52}, {"id": 8, "name": "backpack", "size": [33, 18, 14], "weight": 51}]}
+  Input arg 4: 
+  Execution trace (1 LLM calls):
+    extract_airline_params([])
+      -> base_price=187 customer_class='First Class' routine='Philadelphia to Dallas' direction=0 bag_list=[BagItem(id=1, name='backpack', size=[22, 11, 9], weight=6), BagItem(id=2, name='luggage box', size=[45, 20, 20], weight=52), BagItem(id=3, name='luggage box', size=[52, 34, 25], weight=86), BagItem(id=4, name='luggage box', size=[35, 18, 11], weight=54), BagItem(id=5, name='backpack', size=[41, 21, 16], weight=51), BagItem(id=6, name='luggage box', size=[38, 13, 14], weight=67), BagItem(id=7, name='backpack', size=[37, 13, 13], weight=52), BagItem(id=8, name='backpack', size=[33, 18, 14], weight=51)] [$0.0036]
+  RESULT: predicted=**exception raised**: 'First Class', expected=1857
+
+--- Case airline_1_92: ---
+  Input arg 0: Jennifer is a Main Cabin Class passenger flying from New Orleans to Amsterdam with the following items:
+1. A backpack: 22 x 14 x 6 inches, 8 lbs;
+2. A backpack: 48 x 32 x 26 inches, 52 lbs;
+3. A backpack: 44 x 26 x 22 inches, 66 lbs;
+4. A backpack: 36 x 16 x 11 inches, 52 lbs;
+5. A luggage box: 48 x 33 x 25 inches, 69 lbs;
+6. A backpack: 50 x 32 x 25 inches, 68 lbs;
+7. A backpack: 53 x 34 x 27 inches, 54 lbs;
+8. A luggage box: 35 x 17 x 12 inches, 52 lbs;
+
+Jennifer's flight ticket is $344.
+  Input arg 1: airline
+  Input arg 2: # Bag fees
+All published bag fees apply at each check-in location and are base rates according to travel dates and destination; applicable taxes are not shown.
+
+## Carry-on bags
+You're allowed 1 carry-on bag and 1 personal item in all cabins.
+
+### Personal items
+Your personal item like a purse or small handbag must fit under the seat in front of you. Dimensions should not exceed 18 x 14 x 8 inches (45 x 35 x 20 cm).
+
+These don't count as your personal item or carry-on:
+* Diaper bags (1 per child)
+* Breast pump
+* Small, soft-sided cooler of breast milk
+* Child safety seats, strollers and medical or mobility devices
+
+### Carry-on items
+You can bring only one carry-on item along with your personal item. Your carry-on must fit in in the overhead bin or under the seat in front of you. If it doesn't fit, it will need to be checked. Be sure all your carry-on items are labeled in case they are checked.
+
+#### Carry-on bag
+The total size of your carry-on, including the handles and wheels, cannot exceed 22 x 14 x 9 inches (56 x 36 x 23 cm) and must fit in the sizer at the airport.
+
+#### Soft-sided garment bag
+Your soft-sided garment bag cannot exceed 51 inches / 130 cm (length + width + height).
+
+## Checked bags
+Bag fees have been updated effective for tickets issued on / after February 20, 2024.
+
+Travel within / between the U.S., Puerto Rico, and U.S. Virgin Islands – 1st checked bag fee is $40 and the 2nd checked bag fee is $45.
+
+Travel to / from Canada, Caribbean, Mexico, Central America, and Guyana – 1st checked bag fee is $35 and the 2nd checked bag fee is $45.
+
+All bag fees are non-refundable and apply per person, each way, even if you buy or get an upgrade that includes free checked bags. If you believe you were incorrectly charged for bag fees, contact an American representative for help or file a refund claim within 45 days.
+
+### First Bag
+
+Decide the fee of your first checked bag according to the following:
+* If your flight is Within and between U.S., Puerto Rico and
+  Input arg 3: {"base_price": 344, "customer_class": "Main Cabin", "routine": "Europe", "direction": 0, "bag_list": [{"id": 1, "name": "backpack", "size": [22, 14, 6], "weight": 8}, {"id": 2, "name": "backpack", "size": [48, 32, 26], "weight": 52}, {"id": 3, "name": "backpack", "size": [44, 26, 22], "weight": 66}, {"id": 4, "name": "backpack", "size": [36, 16, 11], "weight": 52}, {"id": 5, "name": "luggage box", "size": [48, 33, 25], "weight": 69}, {"id": 6, "name": "backpack", "size": [50, 32, 25], "weight": 68}, {"id": 7, "name": "backpack", "size": [53, 34, 27], "weight": 54}, {"id": 8, "name": "luggage box", "size": [35, 17, 12], "weight": 52}]}
+  Input arg 4: 
+  Execution trace (1 LLM calls):
+    extract_airline_params([])
+      -> base_price=344 customer_class='Main Cabin' routine='New Orleans to Amsterdam' direction=1 bag_list=[BagItem(id=1, name='backpack', size=[22, 14, 6], weight=8), BagItem(id=2, name='backpack', size=[48, 32, 26], weight=52), BagItem(id=3, name='backpack', size=[44, 26, 22], weight=66), BagItem(id=4, name='backpack', size=[36, 16, 11], weight=52), BagItem(id=5, name='luggage box', size=[48, 33, 25], weight=69), BagItem(id=6, name='backpack', size=[50, 32, 25], weight=68), BagItem(id=7, name='backpack', size=[53, 34, 27], weight=54), BagItem(id=8, name='luggage box', size=[35, 17, 12], weight=52)] [$0.0036]
+  RESULT: predicted=2439.0, expected=2254
+
+--- Case airline_1_0: ---
+  Input arg 0: Daniel is a First Class passenger flying from Atlanta to Chicago with the following items:
+1. A backpack: 19 x 12 x 6 inches, 11 lbs;
+2. A backpack: 40 x 17 x 15 inches, 73 lbs;
+3. A luggage box: 45 x 21 x 22 inches, 84 lbs;
+4. A luggage box: 44 x 26 x 23 inches, 81 lbs;
+5. A backpack: 39 x 21 x 16 inches, 83 lbs;
+6. A luggage box: 40 x 18 x 16 inches, 68 lbs;
+7. A backpack: 38 x 22 x 14 inches, 63 lbs;
+8. A backpack: 37 x 20 x 18 inches, 53 lbs;
+
+Daniel's flight ticket is $245.
+  Input arg 1: airline
+  Input arg 2: # Bag fees
+All published bag fees apply at each check-in location and are base rates according to travel dates and destination; applicable taxes are not shown.
+
+## Carry-on bags
+You're allowed 1 carry-on bag and 1 personal item in all cabins.
+
+### Personal items
+Your personal item like a purse or small handbag must fit under the seat in front of you. Dimensions should not exceed 18 x 14 x 8 inches (45 x 35 x 20 cm).
+
+These don't count as your personal item or carry-on:
+* Diaper bags (1 per child)
+* Breast pump
+* Small, soft-sided cooler of breast milk
+* Child safety seats, strollers and medical or mobility devices
+
+### Carry-on items
+You can bring only one carry-on item along with your personal item. Your carry-on must fit in in the overhead bin or under the seat in front of you. If it doesn't fit, it will need to be checked. Be sure all your carry-on items are labeled in case they are checked.
+
+#### Carry-on bag
+The total size of your carry-on, including the handles and wheels, cannot exceed 22 x 14 x 9 inches (56 x 36 x 23 cm) and must fit in the sizer at the airport.
+
+#### Soft-sided garment bag
+Your soft-sided garment bag cannot exceed 51 inches / 130 cm (length + width + height).
+
+## Checked bags
+Bag fees have been updated effective for tickets issued on / after February 20, 2024.
+
+Travel within / between the U.S., Puerto Rico, and U.S. Virgin Islands – 1st checked bag fee is $40 and the 2nd checked bag fee is $45.
+
+Travel to / from Canada, Caribbean, Mexico, Central America, and Guyana – 1st checked bag fee is $35 and the 2nd checked bag fee is $45.
+
+All bag fees are non-refundable and apply per person, each way, even if you buy or get an upgrade that includes free checked bags. If you believe you were incorrectly charged for bag fees, contact an American representative for help or file a refund claim within 45 days.
+
+### First Bag
+
+Decide the fee of your first checked bag according to the following:
+* If your flight is Within and between U.S., Puerto Rico and
+  Input arg 3: {"base_price": 245, "customer_class": "First", "routine": "U.S.", "direction": 0, "bag_list": [{"id": 1, "name": "backpack", "size": [19, 12, 6], "weight": 11}, {"id": 2, "name": "backpack", "size": [40, 17, 15], "weight": 73}, {"id": 3, "name": "luggage box", "size": [45, 21, 22], "weight": 84}, {"id": 4, "name": "luggage box", "size": [44, 26, 23], "weight": 81}, {"id": 5, "name": "backpack", "size": [39, 21, 16], "weight": 83}, {"id": 6, "name": "luggage box", "size": [40, 18, 16], "weight": 68}, {"id": 7, "name": "backpack", "size": [38, 22, 14], "weight": 63}, {"id": 8, "name": "backpack", "size": [37, 20, 18], "weight": 53}]}
+  Input arg 4: 
+  Execution trace (1 LLM calls):
+    extract_airline_params([])
+      -> base_price=245 customer_class='First Class' routine='extract_airline_params' direction=0 bag_list=[BagItem(id=1, name='backpack', size=[19, 12, 6], weight=11), BagItem(id=2, name='backpack', size=[40, 17, 15], weight=73), BagItem(id=3, name='luggage box', size=[45, 21, 22], weight=84), BagItem(id=4, name='luggage box', size=[44, 26, 23], weight=81), BagItem(id=5, name='backpack', size=[39, 21, 16], weight=83), BagItem(id=6, name='luggage box', size=[40, 18, 16], weight=68), BagItem(id=7, name='backpack', size=[38, 22, 14], weight=63), BagItem(id=8, name='backpack', size=[37, 20, 18], weight=53)] [$0.0036]
+  RESULT: predicted=**exception raised**: 'First Class', expected=2595
+
+--- Case airline_0_90: ---
+  Input arg 0: Michael is a Basic Economy Class passenger flying from Busan to Philadelphia with the following items:
+1. A backpack: 19 x 13 x 7 inches, 10 lbs;
+2. A luggage box: 40 x 22 x 17 inches, 71 lbs;
+3. A luggage box: 36 x 17 x 11 inches, 59 lbs;
+4. A luggage box: 35 x 14 x 14 inches, 56 lbs;
+5. A backpack: 35 x 21 x 9 inches, 59 lbs;
+
+Michael's flight ticket is $522.
+  Input arg 1: airline
+  Input arg 2: # Bag fees
+All published bag fees apply at each check-in location and are base rates according to travel dates and destination; applicable taxes are not shown.
+
+## Carry-on bags
+You're allowed 1 carry-on bag and 1 personal item in all cabins.
+
+### Personal items
+Your personal item like a purse or small handbag must fit under the seat in front of you. Dimensions should not exceed 18 x 14 x 8 inches (45 x 35 x 20 cm).
+
+These don't count as your personal item or carry-on:
+* Diaper bags (1 per child)
+* Breast pump
+* Small, soft-sided cooler of breast milk
+* Child safety seats, strollers and medical or mobility devices
+
+### Carry-on items
+You can bring only one carry-on item along with your personal item. Your carry-on must fit in in the overhead bin or under the seat in front of you. If it doesn't fit, it will need to be checked. Be sure all your carry-on items are labeled in case they are checked.
+
+#### Carry-on bag
+The total size of your carry-on, including the handles and wheels, cannot exceed 22 x 14 x 9 inches (56 x 36 x 23 cm) and must fit in the sizer at the airport.
+
+#### Soft-sided garment bag
+Your soft-sided garment bag cannot exceed 51 inches / 130 cm (length + width + height).
+
+## Checked bags
+Bag fees have been updated effective for tickets issued on / after February 20, 2024.
+
+Travel within / between the U.S., Puerto Rico, and U.S. Virgin Islands – 1st checked bag fee is $40 and the 2nd checked bag fee is $45.
+
+Travel to / from Canada, Caribbean, Mexico, Central America, and Guyana – 1st checked bag fee is $35 and the 2nd checked bag fee is $45.
+
+All bag fees are non-refundable and apply per person, each way, even if you buy or get an upgrade that includes free checked bags. If you believe you were incorrectly charged for bag fees, contact an American representative for help or file a refund claim within 45 days.
+
+### First Bag
+
+Decide the fee of your first checked bag according to the following:
+* If your flight is Within and between U.S., Puerto Rico and
+  Input arg 3: {"base_price": 522, "customer_class": "Basic Economy", "routine": "South Korea", "direction": 1, "bag_list": [{"id": 1, "name": "backpack", "size": [19, 13, 7], "weight": 10}, {"id": 2, "name": "luggage box", "size": [40, 22, 17], "weight": 71}, {"id": 3, "name": "luggage box", "size": [36, 17, 11], "weight": 59}, {"id": 4, "name": "luggage box", "size": [35, 14, 14], "weight": 56}, {"id": 5, "name": "backpack", "size": [35, 21, 9], "weight": 59}]}
+  Input arg 4: 
+  Execution trace (1 LLM calls):
+    extract_airline_params([])
+      -> base_price=522 customer_class='Basic Economy' routine='Busan to Philadelphia' direction=0 bag_list=[BagItem(id=1, name='backpack', size=[19, 13, 7], weight=10), BagItem(id=2, name='luggage box', size=[40, 22, 17], weight=71), BagItem(id=3, name='luggage box', size=[36, 17, 11], weight=59), BagItem(id=4, name='luggage box', size=[35, 14, 14], weight=56), BagItem(id=5, name='backpack', size=[35, 21, 9], weight=59)] [$0.0035]
+  RESULT: predicted=1457.0, expected=1847
+
+--- Case airline_1_46: ---
+  Input arg 0: Daniel is a Premium Economy Class passenger flying from Charlotte to Port-au-Prince with the following items:
+1. A backpack: 21 x 12 x 9 inches, 11 lbs;
+2. A luggage box: 35 x 20 x 9 inches, 86 lbs;
+3. A backpack: 38 x 15 x 12 inches, 51 lbs;
+4. A backpack: 34 x 18 x 13 inches, 65 lbs;
+5. A backpack: 34 x 17 x 12 inches, 78 lbs;
+6. A backpack: 35 x 16 x 12 inches, 93 lbs;
+7. A backpack: 35 x 15 x 13 inches, 51 lbs;
+8. A luggage box: 36 x 17 x 11 inches, 84 lbs;
+
+Daniel's flight ticket is $59.
+  Input arg 1: airline
+  Input arg 2: # Bag fees
+All published bag fees apply at each check-in location and are base rates according to travel dates and destination; applicable taxes are not shown.
+
+## Carry-on bags
+You're allowed 1 carry-on bag and 1 personal item in all cabins.
+
+### Personal items
+Your personal item like a purse or small handbag must fit under the seat in front of you. Dimensions should not exceed 18 x 14 x 8 inches (45 x 35 x 20 cm).
+
+These don't count as your personal item or carry-on:
+* Diaper bags (1 per child)
+* Breast pump
+* Small, soft-sided cooler of breast milk
+* Child safety seats, strollers and medical or mobility devices
+
+### Carry-on items
+You can bring only one carry-on item along with your personal item. Your carry-on must fit in in the overhead bin or under the seat in front of you. If it doesn't fit, it will need to be checked. Be sure all your carry-on items are labeled in case they are checked.
+
+#### Carry-on bag
+The total size of your carry-on, including the handles and wheels, cannot exceed 22 x 14 x 9 inches (56 x 36 x 23 cm) and must fit in the sizer at the airport.
+
+#### Soft-sided garment bag
+Your soft-sided garment bag cannot exceed 51 inches / 130 cm (length + width + height).
+
+## Checked bags
+Bag fees have been updated effective for tickets issued on / after February 20, 2024.
+
+Travel within / between the U.S., Puerto Rico, and U.S. Virgin Islands – 1st checked bag fee is $40 and the 2nd checked bag fee is $45.
+
+Travel to / from Canada, Caribbean, Mexico, Central America, and Guyana – 1st checked bag fee is $35 and the 2nd checked bag fee is $45.
+
+All bag fees are non-refundable and apply per person, each way, even if you buy or get an upgrade that includes free checked bags. If you believe you were incorrectly charged for bag fees, contact an American representative for help or file a refund claim within 45 days.
+
+### First Bag
+
+Decide the fee of your first checked bag according to the following:
+* If your flight is Within and between U.S., Puerto Rico and
+  Input arg 3: {"base_price": 59, "customer_class": "Premium Economy", "routine": "Haiti", "direction": 0, "bag_list": [{"id": 1, "name": "backpack", "size": [21, 12, 9], "weight": 11}, {"id": 2, "name": "luggage box", "size": [35, 20, 9], "weight": 86}, {"id": 3, "name": "backpack", "size": [38, 15, 12], "weight": 51}, {"id": 4, "name": "backpack", "size": [34, 18, 13], "weight": 65}, {"id": 5, "name": "backpack", "size": [34, 17, 12], "weight": 78}, {"id": 6, "name": "backpack", "size": [35, 16, 12], "weight": 93}, {"id": 7, "name": "backpack", "size": [35, 15, 13], "weight": 51}, {"id": 8, "name": "luggage box", "size": [36, 17, 11], "weight": 84}]}
+  Input arg 4: 
+  Execution trace (1 LLM calls):
+    extract_airline_params([])
+      -> base_price=59 customer_class='Premium Economy' routine='Charlotte to Port-au-Prince' direction=1 bag_list=[BagItem(id=1, name='backpack', size=[21, 12, 9], weight=11), BagItem(id=2, name='luggage box', size=[35, 20, 9], weight=86), BagItem(id=3, name='backpack', size=[38, 15, 12], weight=51), BagItem(id=4, name='backpack', size=[34, 18, 13], weight=65), BagItem(id=5, name='backpack', size=[34, 17, 12], weight=78), BagItem(id=6, name='backpack', size=[35, 16, 12], weight=93), BagItem(id=7, name='backpack', size=[35, 15, 13], weight=51), BagItem(id=8, name='luggage box', size=[36, 17, 11], weight=84)] [$0.0036]
+  RESULT: predicted=1969.0, expected=2019
+
+--- Case airline_1_8: ---
+  Input arg 0: William is a Main Plus Class passenger flying from Nagoya to Boston with the following items:
+1. A backpack: 19 x 14 x 8 inches, 5 lbs;
+2. A backpack: 38 x 12 x 14 inches, 80 lbs;
+3. A backpack: 37 x 15 x 12 inches, 64 lbs;
+4. A luggage box: 36 x 25 x 12 inches, 51 lbs;
+5. A backpack: 33 x 19 x 12 inches, 53 lbs;
+6. A backpack: 46 x 21 x 22 inches, 68 lbs;
+7. A luggage box: 36 x 16 x 11 inches, 51 lbs;
+8. A luggage box: 45 x 27 x 24 inches, 52 lbs;
+
+William's flight ticket is $501.
+  Input arg 1: airline
+  Input arg 2: # Bag fees
+All published bag fees apply at each check-in location and are base rates according to travel dates and destination; applicable taxes are not shown.
+
+## Carry-on bags
+You're allowed 1 carry-on bag and 1 personal item in all cabins.
+
+### Personal items
+Your personal item like a purse or small handbag must fit under the seat in front of you. Dimensions should not exceed 18 x 14 x 8 inches (45 x 35 x 20 cm).
+
+These don't count as your personal item or carry-on:
+* Diaper bags (1 per child)
+* Breast pump
+* Small, soft-sided cooler of breast milk
+* Child safety seats, strollers and medical or mobility devices
+
+### Carry-on items
+You can bring only one carry-on item along with your personal item. Your carry-on must fit in in the overhead bin or under the seat in front of you. If it doesn't fit, it will need to be checked. Be sure all your carry-on items are labeled in case they are checked.
+
+#### Carry-on bag
+The total size of your carry-on, including the handles and wheels, cannot exceed 22 x 14 x 9 inches (56 x 36 x 23 cm) and must fit in the sizer at the airport.
+
+#### Soft-sided garment bag
+Your soft-sided garment bag cannot exceed 51 inches / 130 cm (length + width + height).
+
+## Checked bags
+Bag fees have been updated effective for tickets issued on / after February 20, 2024.
+
+Travel within / between the U.S., Puerto Rico, and U.S. Virgin Islands – 1st checked bag fee is $40 and the 2nd checked bag fee is $45.
+
+Travel to / from Canada, Caribbean, Mexico, Central America, and Guyana – 1st checked bag fee is $35 and the 2nd checked bag fee is $45.
+
+All bag fees are non-refundable and apply per person, each way, even if you buy or get an upgrade that includes free checked bags. If you believe you were incorrectly charged for bag fees, contact an American representative for help or file a refund claim within 45 days.
+
+### First Bag
+
+Decide the fee of your first checked bag according to the following:
+* If your flight is Within and between U.S., Puerto Rico and
+  Input arg 3: {"base_price": 501, "customer_class": "Main Plus", "routine": "Japan", "direction": 1, "bag_list": [{"id": 1, "name": "backpack", "size": [19, 14, 8], "weight": 5}, {"id": 2, "name": "backpack", "size": [38, 12, 14], "weight": 80}, {"id": 3, "name": "backpack", "size": [37, 15, 12], "weight": 64}, {"id": 4, "name": "luggage box", "size": [36, 25, 12], "weight": 51}, {"id": 5, "name": "backpack", "size": [33, 19, 12], "weight": 53}, {"id": 6, "name": "backpack", "size": [46, 21, 22], "weight": 68}, {"id": 7, "name": "luggage box", "size": [36, 16, 11], "weight": 51}, {"id": 8, "name": "luggage box", "size": [45, 27, 24], "weight": 52}]}
+  Input arg 4: 
+  Execution trace (1 LLM calls):
+    extract_airline_params([])
+      -> base_price=501 customer_class='Main Plus' routine='Nagoya to Boston' direction=1 bag_list=[BagItem(id=1, name='backpack', size=[19, 14, 8], weight=5), BagItem(id=2, name='backpack', size=[38, 12, 14], weight=80), BagItem(id=3, name='backpack', size=[37, 15, 12], weight=64), BagItem(id=4, name='luggage box', size=[36, 25, 12], weight=51), BagItem(id=5, name='backpack', size=[33, 19, 12], weight=53), BagItem(id=6, name='backpack', size=[46, 21, 22], weight=68), BagItem(id=7, name='luggage box', size=[36, 16, 11], weight=51), BagItem(id=8, name='luggage box', size=[45, 27, 24], weight=52)] [$0.0074]
+  RESULT: predicted=2456.0, expected=2711
+
+--- Case airline_0_46: ---
+  Input arg 0: Michael is a Main Cabin Class passenger flying from Jerusalem to Phoenix with the following items:
+1. A backpack: 19 x 12 x 8 inches, 9 lbs;
+2. A backpack: 53 x 31 x 28 inches, 62 lbs;
+3. A backpack: 37 x 24 x 12 inches, 52 lbs;
+4. A luggage box: 37 x 20 x 11 inches, 58 lbs;
+5. A backpack: 36 x 23 x 13 inches, 53 lbs;
+
+Michael's flight ticket is $1111.
+  Input arg 1: airline
+  Input arg 2: # Bag fees
+All published bag fees apply at each check-in location and are base rates according to travel dates and destination; applicable taxes are not shown.
+
+## Carry-on bags
+You're allowed 1 carry-on bag and 1 personal item in all cabins.
+
+### Personal items
+Your personal item like a purse or small handbag must fit under the seat in front of you. Dimensions should not exceed 18 x 14 x 8 inches (45 x 35 x 20 cm).
+
+These don't count as your personal item or carry-on:
+* Diaper bags (1 per child)
+* Breast pump
+* Small, soft-sided cooler of breast milk
+* Child safety seats, strollers and medical or mobility devices
+
+### Carry-on items
+You can bring only one carry-on item along with your personal item. Your carry-on must fit in in the overhead bin or under the seat in front of you. If it doesn't fit, it will need to be checked. Be sure all your carry-on items are labeled in case they are checked.
+
+#### Carry-on bag
+The total size of your carry-on, including the handles and wheels, cannot exceed 22 x 14 x 9 inches (56 x 36 x 23 cm) and must fit in the sizer at the airport.
+
+#### Soft-sided garment bag
+Your soft-sided garment bag cannot exceed 51 inches / 130 cm (length + width + height).
+
+## Checked bags
+Bag fees have been updated effective for tickets issued on / after February 20, 2024.
+
+Travel within / between the U.S., Puerto Rico, and U.S. Virgin Islands – 1st checked bag fee is $40 and the 2nd checked bag fee is $45.
+
+Travel to / from Canada, Caribbean, Mexico, Central America, and Guyana – 1st checked bag fee is $35 and the 2nd checked bag fee is $45.
+
+All bag fees are non-refundable and apply per person, each way, even if you buy or get an upgrade that includes free checked bags. If you believe you were incorrectly charged for bag fees, contact an American representative for help or file a refund claim within 45 days.
+
+### First Bag
+
+Decide the fee of your first checked bag according to the following:
+* If your flight is Within and between U.S., Puerto Rico and
+  Input arg 3: {"base_price": 1111, "customer_class": "Main Cabin", "routine": "Israel", "direction": 1, "bag_list": [{"id": 1, "name": "backpack", "size": [19, 12, 8], "weight": 9}, {"id": 2, "name": "backpack", "size": [53, 31, 28], "weight": 62}, {"id": 3, "name": "backpack", "size": [37, 24, 12], "weight": 52}, {"id": 4, "name": "luggage box", "size": [37, 20, 11], "weight": 58}, {"id": 5, "name": "backpack", "size": [36, 23, 13], "weight": 53}]}
+  Input arg 4: 
+  Execution trace (1 LLM calls):
+    extract_airline_params([])
+      -> base_price=1111 customer_class='Main Cabin Class passenger' routine='extract_airline_params' direction=1 bag_list=[BagItem(id=1, name='backpack', size=[19, 12, 8], weight=9), BagItem(id=2, name='backpack', size=[53, 31, 28], weight=62), BagItem(id=3, name='backpack', size=[37, 24, 12], weight=52), BagItem(id=4, name='luggage box', size=[37, 20, 11], weight=58), BagItem(id=5, name='backpack', size=[36, 23, 13], weight=53)] [$0.0035]
+  RESULT: predicted=**exception raised**: 'Main Cabin Class passenger', expected=2211
+
+--- Case airline_0_88: ---
+  Input arg 0: Jessica is a Business Class passenger flying from Orlando to Philadelphia with the following items:
+1. A backpack: 22 x 14 x 9 inches, 9 lbs;
+2. A backpack: 46 x 33 x 23 inches, 52 lbs;
+3. A luggage box: 37 x 16 x 11 inches, 82 lbs;
+4. A luggage box: 48 x 36 x 26 inches, 93 lbs;
+5. A backpack: 33 x 21 x 9 inches, 93 lbs;
+
+Jessica's flight ticket is $244.
+  Input arg 1: airline
+  Input arg 2: # Bag fees
+All published bag fees apply at each check-in location and are base rates according to travel dates and destination; applicable taxes are not shown.
+
+## Carry-on bags
+You're allowed 1 carry-on bag and 1 personal item in all cabins.
+
+### Personal items
+Your personal item like a purse or small handbag must fit under the seat in front of you. Dimensions should not exceed 18 x 14 x 8 inches (45 x 35 x 20 cm).
+
+These don't count as your personal item or carry-on:
+* Diaper bags (1 per child)
+* Breast pump
+* Small, soft-sided cooler of breast milk
+* Child safety seats, strollers and medical or mobility devices
+
+### Carry-on items
+You can bring only one carry-on item along with your personal item. Your carry-on must fit in in the overhead bin or under the seat in front of you. If it doesn't fit, it will need to be checked. Be sure all your carry-on items are labeled in case they are checked.
+
+#### Carry-on bag
+The total size of your carry-on, including the handles and wheels, cannot exceed 22 x 14 x 9 inches (56 x 36 x 23 cm) and must fit in the sizer at the airport.
+
+#### Soft-sided garment bag
+Your soft-sided garment bag cannot exceed 51 inches / 130 cm (length + width + height).
+
+## Checked bags
+Bag fees have been updated effective for tickets issued on / after February 20, 2024.
+
+Travel within / between the U.S., Puerto Rico, and U.S. Virgin Islands – 1st checked bag fee is $40 and the 2nd checked bag fee is $45.
+
+Travel to / from Canada, Caribbean, Mexico, Central America, and Guyana – 1st checked bag fee is $35 and the 2nd checked bag fee is $45.
+
+All bag fees are non-refundable and apply per person, each way, even if you buy or get an upgrade that includes free checked bags. If you believe you were incorrectly charged for bag fees, contact an American representative for help or file a refund claim within 45 days.
+
+### First Bag
+
+Decide the fee of your first checked bag according to the following:
+* If your flight is Within and between U.S., Puerto Rico and
+  Input arg 3: {"base_price": 244, "customer_class": "Business", "routine": "U.S.", "direction": 0, "bag_list": [{"id": 1, "name": "backpack", "size": [22, 14, 9], "weight": 9}, {"id": 2, "name": "backpack", "size": [46, 33, 23], "weight": 52}, {"id": 3, "name": "luggage box", "size": [37, 16, 11], "weight": 82}, {"id": 4, "name": "luggage box", "size": [48, 36, 26], "weight": 93}, {"id": 5, "name": "backpack", "size": [33, 21, 9], "weight": 93}]}
+  Input arg 4: 
+  Execution trace (1 LLM calls):
+    extract_airline_params([])
+      -> base_price=244 customer_class='Business class' routine='Within and between U.S., Canada, Puerto Rico and U.S. Virgin Islands' direction=0 bag_list=[BagItem(id=1, name='backpack', size=[22, 14, 9], weight=9), BagItem(id=2, name='backpack', size=[46, 33, 23], weight=52), BagItem(id=3, name='luggage box', size=[37, 16, 11], weight=82), BagItem(id=4, name='luggage box', size=[48, 36, 26], weight=93), BagItem(id=5, name='backpack', size=[33, 21, 9], weight=93)] [$0.0035]
+  RESULT: predicted=**exception raised**: 'Business class', expected=1394
+
+--- Case airline_2_0: ---
+  Input arg 0: Thomas is a First Class passenger flying from Montreal to Portland with the following items:
+1. A backpack: 19 x 11 x 7 inches, 6 lbs;
+2. A luggage box: 36 x 22 x 14 inches, 55 lbs;
+3. A luggage box: 37 x 18 x 9 inches, 80 lbs;
+4. A backpack: 34 x 20 x 10 inches, 61 lbs;
+5. A backpack: 36 x 20 x 9 inches, 95 lbs;
+6. A backpack: 44 x 28 x 21 inches, 78 lbs;
+7. A backpack: 33 x 20 x 10 inches, 83 lbs;
+8. A luggage box: 38 x 16 x 9 inches, 68 lbs;
+9. A luggage box: 34 x 21 x 9 inches, 99 lbs;
+10. A backpack: 33 x 21 x 10 inches, 81 lbs;
+11. A backpack: 44 x 31 x 21 inches, 72 lbs;
+
+Thomas's flight ticket is $235.
+  Input arg 1: airline
+  Input arg 2: # Bag fees
+All published bag fees apply at each check-in location and are base rates according to travel dates and destination; applicable taxes are not shown.
+
+## Carry-on bags
+You're allowed 1 carry-on bag and 1 personal item in all cabins.
+
+### Personal items
+Your personal item like a purse or small handbag must fit under the seat in front of you. Dimensions should not exceed 18 x 14 x 8 inches (45 x 35 x 20 cm).
+
+These don't count as your personal item or carry-on:
+* Diaper bags (1 per child)
+* Breast pump
+* Small, soft-sided cooler of breast milk
+* Child safety seats, strollers and medical or mobility devices
+
+### Carry-on items
+You can bring only one carry-on item along with your personal item. Your carry-on must fit in in the overhead bin or under the seat in front of you. If it doesn't fit, it will need to be checked. Be sure all your carry-on items are labeled in case they are checked.
+
+#### Carry-on bag
+The total size of your carry-on, including the handles and wheels, cannot exceed 22 x 14 x 9 inches (56 x 36 x 23 cm) and must fit in the sizer at the airport.
+
+#### Soft-sided garment bag
+Your soft-sided garment bag cannot exceed 51 inches / 130 cm (length + width + height).
+
+## Checked bags
+Bag fees have been updated effective for tickets issued on / after February 20, 2024.
+
+Travel within / between the U.S., Puerto Rico, and U.S. Virgin Islands – 1st checked bag fee is $40 and the 2nd checked bag fee is $45.
+
+Travel to / from Canada, Caribbean, Mexico, Central America, and Guyana – 1st checked bag fee is $35 and the 2nd checked bag fee is $45.
+
+All bag fees are non-refundable and apply per person, each way, even if you buy or get an upgrade that includes free checked bags. If you believe you were incorrectly charged for bag fees, contact an American representative for help or file a refund claim within 45 days.
+
+### First Bag
+
+Decide the fee of your first checked bag according to the following:
+* If your flight is Within and between U.S., Puerto Rico and
+  Input arg 3: {"base_price": 235, "customer_class": "First", "routine": "Canada", "direction": 1, "bag_list": [{"id": 1, "name": "backpack", "size": [19, 11, 7], "weight": 6}, {"id": 2, "name": "luggage box", "size": [36, 22, 14], "weight": 55}, {"id": 3, "name": "luggage box", "size": [37, 18, 9], "weight": 80}, {"id": 4, "name": "backpack", "size": [34, 20, 10], "weight": 61}, {"id": 5, "name": "backpack", "size": [36, 20, 9], "weight": 95}, {"id": 6, "name": "backpack", "size": [44, 28, 21], "weight": 78}, {"id": 7, "name": "backpack", "size": [33, 20, 10], "weight": 83}, {"id": 8, "name": "luggage box", "size": [38, 16, 9], "weight": 68}, {"id": 9, "name": "luggage box", "size": [34, 21, 9], "weight": 99}, {"id": 10, "name": "backpack", "size": [33, 21, 10], "weight": 81}, {"id": 11, "name": "backpack", "size": [44, 31, 21], "weight": 72}]}
+  Input arg 4: 
+  Execution trace (1 LLM calls):
+    extract_airline_params([])
+      -> base_price=235 customer_class='First Class' routine='Montreal to Portland' direction=1 bag_list=[BagItem(id=1, name='backpack', size=[19, 11, 7], weight=6), BagItem(id=2, name='luggage box', size=[36, 22, 14], weight=55), BagItem(id=3, name='luggage box', size=[37, 18, 9], weight=80), BagItem(id=4, name='backpack', size=[34, 20, 10], weight=61), BagItem(id=5, name='backpack', size=[36, 20, 9], weight=95), BagItem(id=6, name='backpack', size=[44, 28, 21], weight=78), BagItem(id=7, name='backpack', size=[33, 20, 10], weight=83), BagItem(id=8, name='luggage box', size=[38, 16, 9], weight=68), BagItem(id=9, name='luggage box', size=[34, 21, 9], weight=99), BagItem(id=10, name='backpack', size=[33, 21, 10], weight=81), BagItem(id=11, name='backpack', size=[44, 31, 21], weight=72)] [$0.0037]
+  RESULT: predicted=**exception raised**: 'First Class', expected=3445
+
+--- Case airline_0_73: ---
+  Input arg 0: Sarah is a Premium Economy Class passenger flying from Austin to Shenzhen with the following items:
+1. A backpack: 20 x 14 x 8 inches, 7 lbs;
+2. A backpack: 45 x 32 x 23 inches, 70 lbs;
+3. A luggage box: 42 x 24 x 14 inches, 90 lbs;
+4. A backpack: 41 x 22 x 14 inches, 53 lbs;
+5. A backpack: 37 x 23 x 17 inches, 51 lbs;
+
+Sarah's flight ticket is $1096.
+  Input arg 1: airline
+  Input arg 2: # Bag fees
+All published bag fees apply at each check-in location and are base rates according to travel dates and destination; applicable taxes are not shown.
+
+## Carry-on bags
+You're allowed 1 carry-on bag and 1 personal item in all cabins.
+
+### Personal items
+Your personal item like a purse or small handbag must fit under the seat in front of you. Dimensions should not exceed 18 x 14 x 8 inches (45 x 35 x 20 cm).
+
+These don't count as your personal item or carry-on:
+* Diaper bags (1 per child)
+* Breast pump
+* Small, soft-sided cooler of breast milk
+* Child safety seats, strollers and medical or mobility devices
+
+### Carry-on items
+You can bring only one carry-on item along with your personal item. Your carry-on must fit in in the overhead bin or under the seat in front of you. If it doesn't fit, it will need to be checked. Be sure all your carry-on items are labeled in case they are checked.
+
+#### Carry-on bag
+The total size of your carry-on, including the handles and wheels, cannot exceed 22 x 14 x 9 inches (56 x 36 x 23 cm) and must fit in the sizer at the airport.
+
+#### Soft-sided garment bag
+Your soft-sided garment bag cannot exceed 51 inches / 130 cm (length + width + height).
+
+## Checked bags
+Bag fees have been updated effective for tickets issued on / after February 20, 2024.
+
+Travel within / between the U.S., Puerto Rico, and U.S. Virgin Islands – 1st checked bag fee is $40 and the 2nd checked bag fee is $45.
+
+Travel to / from Canada, Caribbean, Mexico, Central America, and Guyana – 1st checked bag fee is $35 and the 2nd checked bag fee is $45.
+
+All bag fees are non-refundable and apply per person, each way, even if you buy or get an upgrade that includes free checked bags. If you believe you were incorrectly charged for bag fees, contact an American representative for help or file a refund claim within 45 days.
+
+### First Bag
+
+Decide the fee of your first checked bag according to the following:
+* If your flight is Within and between U.S., Puerto Rico and
+  Input arg 3: {"base_price": 1096, "customer_class": "Premium Economy", "routine": "China", "direction": 0, "bag_list": [{"id": 1, "name": "backpack", "size": [20, 14, 8], "weight": 7}, {"id": 2, "name": "backpack", "size": [45, 32, 23], "weight": 70}, {"id": 3, "name": "luggage box", "size": [42, 24, 14], "weight": 90}, {"id": 4, "name": "backpack", "size": [41, 22, 14], "weight": 53}, {"id": 5, "name": "backpack", "size": [37, 23, 17], "weight": 51}]}
+  Input arg 4: 
+  Execution trace (1 LLM calls):
+    extract_airline_params([])
+      -> base_price=1096 customer_class='Premium Economy' routine='Austin to Shenzhen' direction=1 bag_list=[BagItem(id=1, name='backpack', size=[20, 14, 8], weight=7), BagItem(id=2, name='backpack', size=[45, 32, 23], weight=70), BagItem(id=3, name='luggage box', size=[42, 24, 14], weight=90), BagItem(id=4, name='backpack', size=[41, 22, 14], weight=53), BagItem(id=5, name='backpack', size=[37, 23, 17], weight=51)] [$0.0035]
+  RESULT: predicted=2246.0, expected=2546
+
+--- Case airline_2_49: ---
+  Input arg 0: Patricia is a Main Cabin Class passenger flying from San Francisco to Melbourne with the following items:
+1. A backpack: 18 x 13 x 8 inches, 5 lbs;
+2. A backpack: 40 x 25 x 14 inches, 57 lbs;
+3. A luggage box: 33 x 21 x 10 inches, 66 lbs;
+4. A luggage box: 38 x 13 x 12 inches, 52 lbs;
+5. A luggage box: 43 x 20 x 18 inches, 52 lbs;
+6. A backpack: 52 x 26 x 28 inches, 52 lbs;
+7. A luggage box: 36 x 16 x 13 inches, 53 lbs;
+8. A backpack: 38 x 15 x 12 inches, 67 lbs;
+9. A backpack: 39 x 21 x 13 inches, 51 lbs;
+10. A luggage box: 49 x 28 x 28 inches, 55 lbs;
+11. A backpack: 48 x 33 x 28 inches, 68 lbs;
+
+Patricia's flight ticket is $744.
+  Input arg 1: airline
+  Input arg 2: # Bag fees
+All published bag fees apply at each check-in location and are base rates according to travel dates and destination; applicable taxes are not shown.
+
+## Carry-on bags
+You're allowed 1 carry-on bag and 1 personal item in all cabins.
+
+### Personal items
+Your personal item like a purse or small handbag must fit under the seat in front of you. Dimensions should not exceed 18 x 14 x 8 inches (45 x 35 x 20 cm).
+
+These don't count as your personal item or carry-on:
+* Diaper bags (1 per child)
+* Breast pump
+* Small, soft-sided cooler of breast milk
+* Child safety seats, strollers and medical or mobility devices
+
+### Carry-on items
+You can bring only one carry-on item along with your personal item. Your carry-on must fit in in the overhead bin or under the seat in front of you. If it doesn't fit, it will need to be checked. Be sure all your carry-on items are labeled in case they are checked.
+
+#### Carry-on bag
+The total size of your carry-on, including the handles and wheels, cannot exceed 22 x 14 x 9 inches (56 x 36 x 23 cm) and must fit in the sizer at the airport.
+
+#### Soft-sided garment bag
+Your soft-sided garment bag cannot exceed 51 inches / 130 cm (length + width + height).
+
+## Checked bags
+Bag fees have been updated effective for tickets issued on / after February 20, 2024.
+
+Travel within / between the U.S., Puerto Rico, and U.S. Virgin Islands – 1st checked bag fee is $40 and the 2nd checked bag fee is $45.
+
+Travel to / from Canada, Caribbean, Mexico, Central America, and Guyana – 1st checked bag fee is $35 and the 2nd checked bag fee is $45.
+
+All bag fees are non-refundable and apply per person, each way, even if you buy or get an upgrade that includes free checked bags. If you believe you were incorrectly charged for bag fees, contact an American representative for help or file a refund claim within 45 days.
+
+### First Bag
+
+Decide the fee of your first checked bag according to the following:
+* If your flight is Within and between U.S., Puerto Rico and
+  Input arg 3: {"base_price": 744, "customer_class": "Main Cabin", "routine": "Australia", "direction": 0, "bag_list": [{"id": 1, "name": "backpack", "size": [18, 13, 8], "weight": 5}, {"id": 2, "name": "backpack", "size": [40, 25, 14], "weight": 57}, {"id": 3, "name": "luggage box", "size": [33, 21, 10], "weight": 66}, {"id": 4, "name": "luggage box", "size": [38, 13, 12], "weight": 52}, {"id": 5, "name": "luggage box", "size": [43, 20, 18], "weight": 52}, {"id": 6, "name": "backpack", "size": [52, 26, 28], "weight": 52}, {"id": 7, "name": "luggage box", "size": [36, 16, 13], "weight": 53}, {"id": 8, "name": "backpack", "size": [38, 15, 12], "weight": 67}, {"id": 9, "name": "backpack", "size": [39, 21, 13], "weight": 51}, {"id": 10, "name": "luggage box", "size": [49, 28, 28], "weight": 55}, {"id": 11, "name": "backpack", "size": [48, 33, 28], "weight": 68}]}
+  Input arg 4: 
+  Execution trace (1 LLM calls):
+    extract_airline_params([])
+      -> base_price=744 customer_class='Main Cabin Class' routine='extract_airline_params' direction=1 bag_list=[BagItem(id=1, name='backpack', size=[18, 13, 8], weight=5), BagItem(id=2, name='backpack', size=[40, 25, 14], weight=57), BagItem(id=3, name='luggage box', size=[33, 21, 10], weight=66), BagItem(id=4, name='luggage box', size=[38, 13, 12], weight=52), BagItem(id=5, name='luggage box', size=[43, 20, 18], weight=52), BagItem(id=6, name='backpack', size=[52, 26, 28], weight=52), BagItem(id=7, name='luggage box', size=[36, 16, 13], weight=53), BagItem(id=8, name='backpack', size=[38, 15, 12], weight=67), BagItem(id=9, name='backpack', size=[39, 21, 13], weight=51), BagItem(id=10, name='luggage box', size=[49, 28, 28], weight=55), BagItem(id=11, name='backpack', size=[48, 33, 28], weight=68)] [$0.0038]
+  RESULT: predicted=**exception raised**: 'Main Cabin Class', expected=3834
+
+--- Case airline_0_91: ---
+  Input arg 0: Karen is a Basic Economy Class passenger flying from Phoenix to Rio de Janeiro with the following items:
+1. A backpack: 19 x 13 x 6 inches, 10 lbs;
+2. A luggage box: 38 x 18 x 9 inches, 64 lbs;
+3. A backpack: 35 x 15 x 14 inches, 53 lbs;
+4. A backpack: 43 x 24 x 20 inches, 53 lbs;
+5. A luggage box: 36 x 18 x 10 inches, 52 lbs;
+
+Karen's flight ticket is $563.
+  Input arg 1: airline
+  Input arg 2: # Bag fees
+All published bag fees apply at each check-in location and are base rates according to travel dates and destination; applicable taxes are not shown.
+
+## Carry-on bags
+You're allowed 1 carry-on bag and 1 personal item in all cabins.
+
+### Personal items
+Your personal item like a purse or small handbag must fit under the seat in front of you. Dimensions should not exceed 18 x 14 x 8 inches (45 x 35 x 20 cm).
+
+These don't count as your personal item or carry-on:
+* Diaper bags (1 per child)
+* Breast pump
+* Small, soft-sided cooler of breast milk
+* Child safety seats, strollers and medical or mobility devices
+
+### Carry-on items
+You can bring only one carry-on item along with your personal item. Your carry-on must fit in in the overhead bin or under the seat in front of you. If it doesn't fit, it will need to be checked. Be sure all your carry-on items are labeled in case they are checked.
+
+#### Carry-on bag
+The total size of your carry-on, including the handles and wheels, cannot exceed 22 x 14 x 9 inches (56 x 36 x 23 cm) and must fit in the sizer at the airport.
+
+#### Soft-sided garment bag
+Your soft-sided garment bag cannot exceed 51 inches / 130 cm (length + width + height).
+
+## Checked bags
+Bag fees have been updated effective for tickets issued on / after February 20, 2024.
+
+Travel within / between the U.S., Puerto Rico, and U.S. Virgin Islands – 1st checked bag fee is $40 and the 2nd checked bag fee is $45.
+
+Travel to / from Canada, Caribbean, Mexico, Central America, and Guyana – 1st checked bag fee is $35 and the 2nd checked bag fee is $45.
+
+All bag fees are non-refundable and apply per person, each way, even if you buy or get an upgrade that includes free checked bags. If you believe you were incorrectly charged for bag fees, contact an American representative for help or file a refund claim within 45 days.
+
+### First Bag
+
+Decide the fee of your first checked bag according to the following:
+* If your flight is Within and between U.S., Puerto Rico and
+  Input arg 3: {"base_price": 563, "customer_class": "Basic Economy", "routine": "South America", "direction": 0, "bag_list": [{"id": 1, "name": "backpack", "size": [19, 13, 6], "weight": 10}, {"id": 2, "name": "luggage box", "size": [38, 18, 9], "weight": 64}, {"id": 3, "name": "backpack", "size": [35, 15, 14], "weight": 53}, {"id": 4, "name": "backpack", "size": [43, 24, 20], "weight": 53}, {"id": 5, "name": "luggage box", "size": [36, 18, 10], "weight": 52}]}
+  Input arg 4: 
+  Execution trace (1 LLM calls):
+    extract_airline_params([])
+      -> base_price=563 customer_class='Basic Economy' routine='Phoenix to Rio de Janeiro' direction=1 bag_list=[BagItem(id=1, name='backpack', size=[19, 13, 6], weight=10), BagItem(id=2, name='luggage box', size=[38, 18, 9], weight=64), BagItem(id=3, name='backpack', size=[35, 15, 14], weight=53), BagItem(id=4, name='backpack', size=[43, 24, 20], weight=53), BagItem(id=5, name='luggage box', size=[36, 18, 10], weight=52)] [$0.0071]
+  RESULT: predicted=1358.0, expected=1433
+
+--- Case airline_2_78: ---
+  Input arg 0: Susan is a Main Cabin Class passenger flying from Minneapolis to Mexico City with the following items:
+1. A backpack: 21 x 13 x 8 inches, 10 lbs;
+2. A luggage box: 35 x 16 x 13 inches, 58 lbs;
+3. A luggage box: 35 x 18 x 12 inches, 96 lbs;
+4. A luggage box: 34 x 18 x 11 inches, 52 lbs;
+5. A luggage box: 34 x 19 x 12 inches, 77 lbs;
+6. A luggage box: 46 x 24 x 24 inches, 84 lbs;
+
+Susan's flight ticket is $150.
+  Input arg 1: airline
+  Input arg 2: # Bag fees
+All published bag fees apply at each check-in location and are base rates according to travel dates and destination; applicable taxes are not shown.
+
+## Carry-on bags
+You're allowed 1 carry-on bag and 1 personal item in all cabins.
+
+### Personal items
+Your personal item like a purse or small handbag must fit under the seat in front of you. Dimensions should not exceed 18 x 14 x 8 inches (45 x 35 x 20 cm).
+
+These don't count as your personal item or carry-on:
+* Diaper bags (1 per child)
+* Breast pump
+* Small, soft-sided cooler of breast milk
+* Child safety seats, strollers and medical or mobility devices
+
+### Carry-on items
+You can bring only one carry-on item along with your personal item. Your carry-on must fit in in the overhead bin or under the seat in front of you. If it doesn't fit, it will need to be checked. Be sure all your carry-on items are labeled in case they are checked.
+
+#### Carry-on bag
+The total size of your carry-on, including the handles and wheels, cannot exceed 22 x 14 x 9 inches (56 x 36 x 23 cm) and must fit in the sizer at the airport.
+
+#### Soft-sided garment bag
+Your soft-sided garment bag cannot exceed 51 inches / 130 cm (length + width + height).
+
+## Checked bags
+Bag fees have been updated effective for tickets issued on / after February 20, 2024.
+
+Travel within / between the U.S., Puerto Rico, and U.S. Virgin Islands – 1st checked bag fee is $40 and the 2nd checked bag fee is $45.
+
+Travel to / from Canada, Caribbean, Mexico, Central America, and Guyana – 1st checked bag fee is $35 and the 2nd checked bag fee is $45.
+
+All bag fees are non-refundable and apply per person, each way, even if you buy or get an upgrade that includes free checked bags. If you believe you were incorrectly charged for bag fees, contact an American representative for help or file a refund claim within 45 days.
+
+### First Bag
+
+Decide the fee of your first checked bag according to the following:
+* If your flight is Within and between U.S., Puerto Rico and
+  Input arg 3: {"base_price": 150, "customer_class": "Main Cabin", "routine": "Mexico", "direction": 0, "bag_list": [{"id": 1, "name": "backpack", "size": [21, 13, 8], "weight": 10}, {"id": 2, "name": "luggage box", "size": [35, 16, 13], "weight": 58}, {"id": 3, "name": "luggage box", "size": [35, 18, 12], "weight": 96}, {"id": 4, "name": "luggage box", "size": [34, 18, 11], "weight": 52}, {"id": 5, "name": "luggage box", "size": [34, 19, 12], "weight": 77}, {"id": 6, "name": "luggage box", "size": [46, 24, 24], "weight": 84}]}
+  Input arg 4: 
+  Execution trace (1 LLM calls):
+    extract_airline_params([])
+      -> base_price=150 customer_class='Main Cabin' routine='EXTRACT_BAG_FEES' direction=0 bag_list=[BagItem(id=1, name='backpack', size=[21, 13, 8], weight=10), BagItem(id=2, name='luggage box', size=[35, 16, 13], weight=58), BagItem(id=3, name='luggage box', size=[35, 18, 12], weight=96), BagItem(id=4, name='luggage box', size=[34, 18, 11], weight=52), BagItem(id=5, name='luggage box', size=[34, 19, 12], weight=77), BagItem(id=6, name='luggage box', size=[46, 24, 24], weight=84)] [$0.0035]
+  RESULT: predicted=1515.0, expected=1560
+
+--- Case airline_2_88: ---
+  Input arg 0: Elizabeth is a First Class passenger flying from Ottawa to Orlando with the following items:
+1. A backpack: 21 x 14 x 8 inches, 5 lbs;
+2. A luggage box: 44 x 28 x 17 inches, 95 lbs;
+3. A backpack: 33 x 17 x 14 inches, 51 lbs;
+4. A luggage box: 38 x 22 x 14 inches, 52 lbs;
+5. A luggage box: 40 x 22 x 14 inches, 97 lbs;
+6. A backpack: 36 x 20 x 10 inches, 63 lbs;
+7. A luggage box: 36 x 21 x 10 inches, 58 lbs;
+8. A backpack: 51 x 30 x 30 inches, 76 lbs;
+9. A backpack: 50 x 25 x 25 inches, 80 lbs;
+10. A backpack: 37 x 15 x 13 inches, 51 lbs;
+11. A luggage box: 33 x 18 x 13 inches, 89 lbs;
+
+Elizabeth's flight ticket is $114.
+  Input arg 1: airline
+  Input arg 2: # Bag fees
+All published bag fees apply at each check-in location and are base rates according to travel dates and destination; applicable taxes are not shown.
+
+## Carry-on bags
+You're allowed 1 carry-on bag and 1 personal item in all cabins.
+
+### Personal items
+Your personal item like a purse or small handbag must fit under the seat in front of you. Dimensions should not exceed 18 x 14 x 8 inches (45 x 35 x 20 cm).
+
+These don't count as your personal item or carry-on:
+* Diaper bags (1 per child)
+* Breast pump
+* Small, soft-sided cooler of breast milk
+* Child safety seats, strollers and medical or mobility devices
+
+### Carry-on items
+You can bring only one carry-on item along with your personal item. Your carry-on must fit in in the overhead bin or under the seat in front of you. If it doesn't fit, it will need to be checked. Be sure all your carry-on items are labeled in case they are checked.
+
+#### Carry-on bag
+The total size of your carry-on, including the handles and wheels, cannot exceed 22 x 14 x 9 inches (56 x 36 x 23 cm) and must fit in the sizer at the airport.
+
+#### Soft-sided garment bag
+Your soft-sided garment bag cannot exceed 51 inches / 130 cm (length + width + height).
+
+## Checked bags
+Bag fees have been updated effective for tickets issued on / after February 20, 2024.
+
+Travel within / between the U.S., Puerto Rico, and U.S. Virgin Islands – 1st checked bag fee is $40 and the 2nd checked bag fee is $45.
+
+Travel to / from Canada, Caribbean, Mexico, Central America, and Guyana – 1st checked bag fee is $35 and the 2nd checked bag fee is $45.
+
+All bag fees are non-refundable and apply per person, each way, even if you buy or get an upgrade that includes free checked bags. If you believe you were incorrectly charged for bag fees, contact an American representative for help or file a refund claim within 45 days.
+
+### First Bag
+
+Decide the fee of your first checked bag according to the following:
+* If your flight is Within and between U.S., Puerto Rico and
+  Input arg 3: {"base_price": 114, "customer_class": "First", "routine": "Canada", "direction": 1, "bag_list": [{"id": 1, "name": "backpack", "size": [21, 14, 8], "weight": 5}, {"id": 2, "name": "luggage box", "size": [44, 28, 17], "weight": 95}, {"id": 3, "name": "backpack", "size": [33, 17, 14], "weight": 51}, {"id": 4, "name": "luggage box", "size": [38, 22, 14], "weight": 52}, {"id": 5, "name": "luggage box", "size": [40, 22, 14], "weight": 97}, {"id": 6, "name": "backpack", "size": [36, 20, 10], "weight": 63}, {"id": 7, "name": "luggage box", "size": [36, 21, 10], "weight": 58}, {"id": 8, "name": "backpack", "size": [51, 30, 30], "weight": 76}, {"id": 9, "name": "backpack", "size": [50, 25, 25], "weight": 80}, {"id": 10, "name": "backpack", "size": [37, 15, 13], "weight": 51}, {"id": 11, "name": "luggage box", "size": [33, 18, 13], "weight": 89}]}
+  Input arg 4: 
+  Execution trace (1 LLM calls):
+    extract_airline_params([])
+      -> base_price=114 customer_class='First Class' routine='extract_airline_params' direction=1 bag_list=[BagItem(id=1, name='backpack', size=[21, 14, 8], weight=5), BagItem(id=2, name='luggage box', size=[44, 28, 17], weight=95), BagItem(id=3, name='backpack', size=[33, 17, 14], weight=51), BagItem(id=4, name='luggage box', size=[38, 22, 14], weight=52), BagItem(id=5, name='luggage box', size=[40, 22, 14], weight=97), BagItem(id=6, name='backpack', size=[36, 20, 10], weight=63), BagItem(id=7, name='luggage box', size=[36, 21, 10], weight=58), BagItem(id=8, name='backpack', size=[51, 30, 30], weight=76), BagItem(id=9, name='backpack', size=[50, 25, 25], weight=80), BagItem(id=10, name='backpack', size=[37, 15, 13], weight=51), BagItem(id=11, name='luggage box', size=[33, 18, 13], weight=89)] [$0.0038]
+  RESULT: predicted=**exception raised**: 'First Class', expected=3324
+
+--- Case airline_1_91: ---
+  Input arg 0: Robert is a Premium Economy Class passenger flying from Zurich to Charlotte with the following items:
+1. A backpack: 21 x 14 x 6 inches, 8 lbs;
+2. A backpack: 52 x 30 x 30 inches, 53 lbs;
+3. A backpack: 34 x 17 x 13 inches, 51 lbs;
+4. A luggage box: 34 x 17 x 12 inches, 56 lbs;
+5. A luggage box: 33 x 20 x 10 inches, 53 lbs;
+6. A backpack: 42 x 26 x 21 inches, 68 lbs;
+7. A backpack: 45 x 22 x 21 inches, 66 lbs;
+8. A backpack: 38 x 13 x 14 inches, 52 lbs;
+
+Robert's flight ticket is $409.
+  Input arg 1: airline
+  Input arg 2: # Bag fees
+All published bag fees apply at each check-in location and are base rates according to travel dates and destination; applicable taxes are not shown.
+
+## Carry-on bags
+You're allowed 1 carry-on bag and 1 personal item in all cabins.
+
+### Personal items
+Your personal item like a purse or small handbag must fit under the seat in front of you. Dimensions should not exceed 18 x 14 x 8 inches (45 x 35 x 20 cm).
+
+These don't count as your personal item or carry-on:
+* Diaper bags (1 per child)
+* Breast pump
+* Small, soft-sided cooler of breast milk
+* Child safety seats, strollers and medical or mobility devices
+
+### Carry-on items
+You can bring only one carry-on item along with your personal item. Your carry-on must fit in in the overhead bin or under the seat in front of you. If it doesn't fit, it will need to be checked. Be sure all your carry-on items are labeled in case they are checked.
+
+#### Carry-on bag
+The total size of your carry-on, including the handles and wheels, cannot exceed 22 x 14 x 9 inches (56 x 36 x 23 cm) and must fit in the sizer at the airport.
+
+#### Soft-sided garment bag
+Your soft-sided garment bag cannot exceed 51 inches / 130 cm (length + width + height).
+
+## Checked bags
+Bag fees have been updated effective for tickets issued on / after February 20, 2024.
+
+Travel within / between the U.S., Puerto Rico, and U.S. Virgin Islands – 1st checked bag fee is $40 and the 2nd checked bag fee is $45.
+
+Travel to / from Canada, Caribbean, Mexico, Central America, and Guyana – 1st checked bag fee is $35 and the 2nd checked bag fee is $45.
+
+All bag fees are non-refundable and apply per person, each way, even if you buy or get an upgrade that includes free checked bags. If you believe you were incorrectly charged for bag fees, contact an American representative for help or file a refund claim within 45 days.
+
+### First Bag
+
+Decide the fee of your first checked bag according to the following:
+* If your flight is Within and between U.S., Puerto Rico and
+  Input arg 3: {"base_price": 409, "customer_class": "Premium Economy", "routine": "Europe", "direction": 1, "bag_list": [{"id": 1, "name": "backpack", "size": [21, 14, 6], "weight": 8}, {"id": 2, "name": "backpack", "size": [52, 30, 30], "weight": 53}, {"id": 3, "name": "backpack", "size": [34, 17, 13], "weight": 51}, {"id": 4, "name": "luggage box", "size": [34, 17, 12], "weight": 56}, {"id": 5, "name": "luggage box", "size": [33, 20, 10], "weight": 53}, {"id": 6, "name": "backpack", "size": [42, 26, 21], "weight": 68}, {"id": 7, "name": "backpack", "size": [45, 22, 21], "weight": 66}, {"id": 8, "name": "backpack", "size": [38, 13, 14], "weight": 52}]}
+  Input arg 4: 
+  Execution trace (1 LLM calls):
+    extract_airline_params([])
+      -> base_price=409 customer_class='Premium Economy' routine='Zurich to Charlotte' direction=0 bag_list=[BagItem(id=1, name='backpack', size=[21, 14, 6], weight=8), BagItem(id=2, name='backpack', size=[52, 30, 30], weight=53), BagItem(id=3, name='backpack', size=[34, 17, 13], weight=51), BagItem(id=4, name='luggage box', size=[34, 17, 12], weight=56), BagItem(id=5, name='luggage box', size=[33, 20, 10], weight=53), BagItem(id=6, name='backpack', size=[42, 26, 21], weight=68), BagItem(id=7, name='backpack', size=[45, 22, 21], weight=66), BagItem(id=8, name='backpack', size=[38, 13, 14], weight=52)] [$0.0036]
+  RESULT: predicted=2149.0, expected=2049
+
+--- Case airline_2_61: ---
+  Input arg 0: James is a Business Class passenger flying from Munich to Portland with the following items:
+1. A backpack: 18 x 13 x 9 inches, 12 lbs;
+2. A luggage box: 54 x 32 x 28 inches, 52 lbs;
+3. A luggage box: 39 x 18 x 13 inches, 51 lbs;
+4. A luggage box: 45 x 24 x 22 inches, 51 lbs;
+5. A luggage box: 35 x 14 x 14 inches, 51 lbs;
+6. A luggage box: 36 x 14 x 14 inches, 53 lbs;
+7. A luggage box: 42 x 18 x 18 inches, 65 lbs;
+8. A luggage box: 34 x 18 x 11 inches, 51 lbs;
+9. A luggage box: 46 x 26 x 18 inches, 51 lbs;
+10. A backpack: 38 x 13 x 12 inches, 51 lbs;
+11. A luggage box: 49 x 36 x 26 inches, 67 lbs;
+
+James's flight ticket is $599.
+  Input arg 1: airline
+  Input arg 2: # Bag fees
+All published bag fees apply at each check-in location and are base rates according to travel dates and destination; applicable taxes are not shown.
+
+## Carry-on bags
+You're allowed 1 carry-on bag and 1 personal item in all cabins.
+
+### Personal items
+Your personal item like a purse or small handbag must fit under the seat in front of you. Dimensions should not exceed 18 x 14 x 8 inches (45 x 35 x 20 cm).
+
+These don't count as your personal item or carry-on:
+* Diaper bags (1 per child)
+* Breast pump
+* Small, soft-sided cooler of breast milk
+* Child safety seats, strollers and medical or mobility devices
+
+### Carry-on items
+You can bring only one carry-on item along with your personal item. Your carry-on must fit in in the overhead bin or under the seat in front of you. If it doesn't fit, it will need to be checked. Be sure all your carry-on items are labeled in case they are checked.
+
+#### Carry-on bag
+The total size of your carry-on, including the handles and wheels, cannot exceed 22 x 14 x 9 inches (56 x 36 x 23 cm) and must fit in the sizer at the airport.
+
+#### Soft-sided garment bag
+Your soft-sided garment bag cannot exceed 51 inches / 130 cm (length + width + height).
+
+## Checked bags
+Bag fees have been updated effective for tickets issued on / after February 20, 2024.
+
+Travel within / between the U.S., Puerto Rico, and U.S. Virgin Islands – 1st checked bag fee is $40 and the 2nd checked bag fee is $45.
+
+Travel to / from Canada, Caribbean, Mexico, Central America, and Guyana – 1st checked bag fee is $35 and the 2nd checked bag fee is $45.
+
+All bag fees are non-refundable and apply per person, each way, even if you buy or get an upgrade that includes free checked bags. If you believe you were incorrectly charged for bag fees, contact an American representative for help or file a refund claim within 45 days.
+
+### First Bag
+
+Decide the fee of your first checked bag according to the following:
+* If your flight is Within and between U.S., Puerto Rico and
+  Input arg 3: {"base_price": 599, "customer_class": "Business", "routine": "Europe", "direction": 1, "bag_list": [{"id": 1, "name": "backpack", "size": [18, 13, 9], "weight": 12}, {"id": 2, "name": "luggage box", "size": [54, 32, 28], "weight": 52}, {"id": 3, "name": "luggage box", "size": [39, 18, 13], "weight": 51}, {"id": 4, "name": "luggage box", "size": [45, 24, 22], "weight": 51}, {"id": 5, "name": "luggage box", "size": [35, 14, 14], "weight": 51}, {"id": 6, "name": "luggage box", "size": [36, 14, 14], "weight": 53}, {"id": 7, "name": "luggage box", "size": [42, 18, 18], "weight": 65}, {"id": 8, "name": "luggage box", "size": [34, 18, 11], "weight": 51}, {"id": 9, "name": "luggage box", "size": [46, 26, 18], "weight": 51}, {"id": 10, "name": "backpack", "size": [38, 13, 12], "weight": 51}, {"id": 11, "name": "luggage box", "size": [49, 36, 26], "weight": 67}]}
+  Input arg 4: 
+  Execution trace (1 LLM calls):
+    extract_airline_params([])
+      -> base_price=599 customer_class='Business' routine='Munich to Portland' direction=0 bag_list=[BagItem(id=1, name='backpack', size=[18, 13, 9], weight=12), BagItem(id=2, name='luggage box', size=[54, 32, 28], weight=52), BagItem(id=3, name='luggage box', size=[39, 18, 13], weight=51), BagItem(id=4, name='luggage box', size=[45, 24, 22], weight=51), BagItem(id=5, name='luggage box', size=[35, 14, 14], weight=51), BagItem(id=6, name='luggage box', size=[36, 14, 14], weight=53), BagItem(id=7, name='luggage box', size=[42, 18, 18], weight=65), BagItem(id=8, name='luggage box', size=[34, 18, 11], weight=51), BagItem(id=9, name='luggage box', size=[46, 26, 18], weight=51), BagItem(id=10, name='backpack', size=[38, 13, 12], weight=51), BagItem(id=11, name='luggage box', size=[49, 36, 26], weight=67)] [$0.0038]
+  RESULT: predicted=3469.0, expected=3219
+
+--- Case airline_2_40: ---
+  Input arg 0: Elizabeth is a First Class passenger flying from Chengdu to Minneapolis with the following items:
+1. A backpack: 18 x 11 x 6 inches, 5 lbs;
+2. A backpack: 33 x 16 x 14 inches, 57 lbs;
+3. A luggage box: 34 x 20 x 10 inches, 54 lbs;
+4. A backpack: 34 x 18 x 13 inches, 51 lbs;
+5. A backpack: 37 x 17 x 10 inches, 85 lbs;
+6. A luggage box: 48 x 22 x 24 inches, 94 lbs;
+7. A backpack: 43 x 23 x 17 inches, 59 lbs;
+8. A backpack: 34 x 16 x 13 inches, 65 lbs;
+9. A backpack: 38 x 12 x 13 inches, 61 lbs;
+10. A backpack: 34 x 20 x 14 inches, 85 lbs;
+11. A backpack: 45 x 26 x 17 inches, 53 lbs;
+
+Elizabeth's flight ticket is $923.
+  Input arg 1: airline
+  Input arg 2: # Bag fees
+All published bag fees apply at each check-in location and are base rates according to travel dates and destination; applicable taxes are not shown.
+
+## Carry-on bags
+You're allowed 1 carry-on bag and 1 personal item in all cabins.
+
+### Personal items
+Your personal item like a purse or small handbag must fit under the seat in front of you. Dimensions should not exceed 18 x 14 x 8 inches (45 x 35 x 20 cm).
+
+These don't count as your personal item or carry-on:
+* Diaper bags (1 per child)
+* Breast pump
+* Small, soft-sided cooler of breast milk
+* Child safety seats, strollers and medical or mobility devices
+
+### Carry-on items
+You can bring only one carry-on item along with your personal item. Your carry-on must fit in in the overhead bin or under the seat in front of you. If it doesn't fit, it will need to be checked. Be sure all your carry-on items are labeled in case they are checked.
+
+#### Carry-on bag
+The total size of your carry-on, including the handles and wheels, cannot exceed 22 x 14 x 9 inches (56 x 36 x 23 cm) and must fit in the sizer at the airport.
+
+#### Soft-sided garment bag
+Your soft-sided garment bag cannot exceed 51 inches / 130 cm (length + width + height).
+
+## Checked bags
+Bag fees have been updated effective for tickets issued on / after February 20, 2024.
+
+Travel within / between the U.S., Puerto Rico, and U.S. Virgin Islands – 1st checked bag fee is $40 and the 2nd checked bag fee is $45.
+
+Travel to / from Canada, Caribbean, Mexico, Central America, and Guyana – 1st checked bag fee is $35 and the 2nd checked bag fee is $45.
+
+All bag fees are non-refundable and apply per person, each way, even if you buy or get an upgrade that includes free checked bags. If you believe you were incorrectly charged for bag fees, contact an American representative for help or file a refund claim within 45 days.
+
+### First Bag
+
+Decide the fee of your first checked bag according to the following:
+* If your flight is Within and between U.S., Puerto Rico and
+  Input arg 3: {"base_price": 923, "customer_class": "First", "routine": "China", "direction": 1, "bag_list": [{"id": 1, "name": "backpack", "size": [18, 11, 6], "weight": 5}, {"id": 2, "name": "backpack", "size": [33, 16, 14], "weight": 57}, {"id": 3, "name": "luggage box", "size": [34, 20, 10], "weight": 54}, {"id": 4, "name": "backpack", "size": [34, 18, 13], "weight": 51}, {"id": 5, "name": "backpack", "size": [37, 17, 10], "weight": 85}, {"id": 6, "name": "luggage box", "size": [48, 22, 24], "weight": 94}, {"id": 7, "name": "backpack", "size": [43, 23, 17], "weight": 59}, {"id": 8, "name": "backpack", "size": [34, 16, 13], "weight": 65}, {"id": 9, "name": "backpack", "size": [38, 12, 13], "weight": 61}, {"id": 10, "name": "backpack", "size": [34, 20, 14], "weight": 85}, {"id": 11, "name": "backpack", "size": [45, 26, 17], "weight": 53}]}
+  Input arg 4: 
+  Execution trace (1 LLM calls):
+    extract_airline_params([])
+      -> base_price=923 customer_class='First Class' routine='Chengdu to Minneapolis' direction=1 bag_list=[BagItem(id=1, name='backpack 1', size=[18, 11, 6], weight=5), BagItem(id=2, name='backpack 2', size=[33, 16, 14], weight=57), BagItem(id=3, name='luggage box 1', size=[34, 20, 10], weight=54), BagItem(id=4, name='backpack 3', size=[34, 18, 13], weight=51), BagItem(id=5, name='backpack 4', size=[37, 17, 10], weight=85), BagItem(id=6, name='luggage box 2', size=[48, 22, 24], weight=94), BagItem(id=7, name='backpack 5', size=[43, 23, 17], weight=59), BagItem(id=8, name='backpack 6', size=[34, 16, 13], weight=65), BagItem(id=9, name='backpack 7', size=[38, 12, 13], weight=61), BagItem(id=10, name='backpack 8', size=[34, 20, 14], weight=85), BagItem(id=11, name='backpack 9', size=[45, 26, 17], weight=53)] [$0.0078]
+  RESULT: predicted=**exception raised**: 'First Class', expected=4293
+
+--- Case airline_2_74: ---
+  Input arg 0: Linda is a Business Class passenger flying from Kyoto to Sacramento with the following items:
+1. A backpack: 22 x 13 x 9 inches, 6 lbs;
+2. A backpack: 41 x 22 x 21 inches, 63 lbs;
+3. A luggage box: 47 x 23 x 20 inches, 96 lbs;
+4. A backpack: 36 x 20 x 9 inches, 53 lbs;
+5. A backpack: 48 x 27 x 23 inches, 69 lbs;
+6. A backpack: 38 x 13 x 12 inches, 100 lbs;
+7. A backpack: 38 x 11 x 14 inches, 53 lbs;
+8. A backpack: 36 x 18 x 11 inches, 68 lbs;
+9. A luggage box: 41 x 29 x 18 inches, 90 lbs;
+10. A luggage box: 49 x 34 x 29 inches, 91 lbs;
+11. A luggage box: 45 x 27 x 20 inches, 73 lbs;
+
+Linda's flight ticket is $598.
+  Input arg 1: airline
+  Input arg 2: # Bag fees
+All published bag fees apply at each check-in location and are base rates according to travel dates and destination; applicable taxes are not shown.
+
+## Carry-on bags
+You're allowed 1 carry-on bag and 1 personal item in all cabins.
+
+### Personal items
+Your personal item like a purse or small handbag must fit under the seat in front of you. Dimensions should not exceed 18 x 14 x 8 inches (45 x 35 x 20 cm).
+
+These don't count as your personal item or carry-on:
+* Diaper bags (1 per child)
+* Breast pump
+* Small, soft-sided cooler of breast milk
+* Child safety seats, strollers and medical or mobility devices
+
+### Carry-on items
+You can bring only one carry-on item along with your personal item. Your carry-on must fit in in the overhead bin or under the seat in front of you. If it doesn't fit, it will need to be checked. Be sure all your carry-on items are labeled in case they are checked.
+
+#### Carry-on bag
+The total size of your carry-on, including the handles and wheels, cannot exceed 22 x 14 x 9 inches (56 x 36 x 23 cm) and must fit in the sizer at the airport.
+
+#### Soft-sided garment bag
+Your soft-sided garment bag cannot exceed 51 inches / 130 cm (length + width + height).
+
+## Checked bags
+Bag fees have been updated effective for tickets issued on / after February 20, 2024.
+
+Travel within / between the U.S., Puerto Rico, and U.S. Virgin Islands – 1st checked bag fee is $40 and the 2nd checked bag fee is $45.
+
+Travel to / from Canada, Caribbean, Mexico, Central America, and Guyana – 1st checked bag fee is $35 and the 2nd checked bag fee is $45.
+
+All bag fees are non-refundable and apply per person, each way, even if you buy or get an upgrade that includes free checked bags. If you believe you were incorrectly charged for bag fees, contact an American representative for help or file a refund claim within 45 days.
+
+### First Bag
+
+Decide the fee of your first checked bag according to the following:
+* If your flight is Within and between U.S., Puerto Rico and
+  Input arg 3: {"base_price": 598, "customer_class": "Business", "routine": "Japan", "direction": 1, "bag_list": [{"id": 1, "name": "backpack", "size": [22, 13, 9], "weight": 6}, {"id": 2, "name": "backpack", "size": [41, 22, 21], "weight": 63}, {"id": 3, "name": "luggage box", "size": [47, 23, 20], "weight": 96}, {"id": 4, "name": "backpack", "size": [36, 20, 9], "weight": 53}, {"id": 5, "name": "backpack", "size": [48, 27, 23], "weight": 69}, {"id": 6, "name": "backpack", "size": [38, 13, 12], "weight": 100}, {"id": 7, "name": "backpack", "size": [38, 11, 14], "weight": 53}, {"id": 8, "name": "backpack", "size": [36, 18, 11], "weight": 68}, {"id": 9, "name": "luggage box", "size": [41, 29, 18], "weight": 90}, {"id": 10, "name": "luggage box", "size": [49, 34, 29], "weight": 91}, {"id": 11, "name": "luggage box", "size": [45, 27, 20], "weight": 73}]}
+  Input arg 4: 
+  Execution trace (1 LLM calls):
+    extract_airline_params([])
+      -> base_price=598 customer_class='Business Class' routine='extract_airline_params' direction=0 bag_list=[BagItem(id=1, name='backpack', size=[22, 13, 9], weight=6), BagItem(id=2, name='backpack', size=[41, 22, 21], weight=63), BagItem(id=3, name='luggage box', size=[47, 23, 20], weight=96), BagItem(id=4, name='backpack', size=[36, 20, 9], weight=53), BagItem(id=5, name='backpack', size=[48, 27, 23], weight=69), BagItem(id=6, name='backpack', size=[38, 13, 12], weight=100), BagItem(id=7, name='backpack', size=[38, 11, 14], weight=53), BagItem(id=8, name='backpack', size=[36, 18, 11], weight=68), BagItem(id=9, name='luggage box', size=[41, 29, 18], weight=90), BagItem(id=10, name='luggage box', size=[49, 34, 29], weight=91), BagItem(id=11, name='luggage box', size=[45, 27, 20], weight=73)] [$0.0038]
+  RESULT: predicted=**exception raised**: 'Business Class', expected=4938
+
+--- Case airline_1_40: ---
+  Input arg 0: Elizabeth is a Basic Economy Class passenger flying from Tokyo to Sacramento with the following items:
+1. A backpack: 21 x 12 x 8 inches, 10 lbs;
+2. A backpack: 34 x 18 x 12 inches, 56 lbs;
+3. A backpack: 36 x 19 x 9 inches, 76 lbs;
+4. A luggage box: 34 x 17 x 13 inches, 73 lbs;
+5. A luggage box: 41 x 26 x 17 inches, 90 lbs;
+6. A luggage box: 35 x 19 x 16 inches, 86 lbs;
+7. A backpack: 33 x 23 x 9 inches, 53 lbs;
+8. A backpack: 34 x 21 x 10 inches, 58 lbs;
+
+Elizabeth's flight ticket is $395.
+  Input arg 1: airline
+  Input arg 2: # Bag fees
+All published bag fees apply at each check-in location and are base rates according to travel dates and destination; applicable taxes are not shown.
+
+## Carry-on bags
+You're allowed 1 carry-on bag and 1 personal item in all cabins.
+
+### Personal items
+Your personal item like a purse or small handbag must fit under the seat in front of you. Dimensions should not exceed 18 x 14 x 8 inches (45 x 35 x 20 cm).
+
+These don't count as your personal item or carry-on:
+* Diaper bags (1 per child)
+* Breast pump
+* Small, soft-sided cooler of breast milk
+* Child safety seats, strollers and medical or mobility devices
+
+### Carry-on items
+You can bring only one carry-on item along with your personal item. Your carry-on must fit in in the overhead bin or under the seat in front of you. If it doesn't fit, it will need to be checked. Be sure all your carry-on items are labeled in case they are checked.
+
+#### Carry-on bag
+The total size of your carry-on, including the handles and wheels, cannot exceed 22 x 14 x 9 inches (56 x 36 x 23 cm) and must fit in the sizer at the airport.
+
+#### Soft-sided garment bag
+Your soft-sided garment bag cannot exceed 51 inches / 130 cm (length + width + height).
+
+## Checked bags
+Bag fees have been updated effective for tickets issued on / after February 20, 2024.
+
+Travel within / between the U.S., Puerto Rico, and U.S. Virgin Islands – 1st checked bag fee is $40 and the 2nd checked bag fee is $45.
+
+Travel to / from Canada, Caribbean, Mexico, Central America, and Guyana – 1st checked bag fee is $35 and the 2nd checked bag fee is $45.
+
+All bag fees are non-refundable and apply per person, each way, even if you buy or get an upgrade that includes free checked bags. If you believe you were incorrectly charged for bag fees, contact an American representative for help or file a refund claim within 45 days.
+
+### First Bag
+
+Decide the fee of your first checked bag according to the following:
+* If your flight is Within and between U.S., Puerto Rico and
+  Input arg 3: {"base_price": 395, "customer_class": "Basic Economy", "routine": "Japan", "direction": 1, "bag_list": [{"id": 1, "name": "backpack", "size": [21, 12, 8], "weight": 10}, {"id": 2, "name": "backpack", "size": [34, 18, 12], "weight": 56}, {"id": 3, "name": "backpack", "size": [36, 19, 9], "weight": 76}, {"id": 4, "name": "luggage box", "size": [34, 17, 13], "weight": 73}, {"id": 5, "name": "luggage box", "size": [41, 26, 17], "weight": 90}, {"id": 6, "name": "luggage box", "size": [35, 19, 16], "weight": 86}, {"id": 7, "name": "backpack", "size": [33, 23, 9], "weight": 53}, {"id": 8, "name": "backpack", "size": [34, 21, 10], "weight": 58}]}
+  Input arg 4: 
+  Execution trace (1 LLM calls):
+    extract_airline_params([])
+      -> base_price=395 customer_class='Basic Economy' routine='Tokyo to Sacramento' direction=0 bag_list=[BagItem(id=1, name='backpack', size=[21, 12, 8], weight=10), BagItem(id=2, name='backpack', size=[34, 18, 12], weight=56), BagItem(id=3, name='backpack', size=[36, 19, 9], weight=76), BagItem(id=4, name='luggage box', size=[34, 17, 13], weight=73), BagItem(id=5, name='luggage box', size=[41, 26, 17], weight=90), BagItem(id=6, name='luggage box', size=[35, 19, 16], weight=86), BagItem(id=7, name='backpack', size=[33, 23, 9], weight=53), BagItem(id=8, name='backpack', size=[34, 21, 10], weight=58)] [$0.0036]
+  RESULT: predicted=2460.0, expected=3600
+
+--- Case airline_2_93: ---
+  Input arg 0: Sarah is a Basic Economy Class passenger flying from Munich to Austin with the following items:
+1. A backpack: 21 x 12 x 8 inches, 12 lbs;
+2. A luggage box: 38 x 17 x 16 inches, 60 lbs;
+3. A backpack: 36 x 20 x 9 inches, 51 lbs;
+4. A luggage box: 45 x 31 x 20 inches, 57 lbs;
+5. A luggage box: 35 x 20 x 9 inches, 53 lbs;
+6. A backpack: 39 x 19 x 11 inches, 57 lbs;
+7. A backpack: 51 x 29 x 22 inches, 52 lbs;
+8. A luggage box: 46 x 33 x 23 inches, 64 lbs;
+9. A luggage box: 48 x 28 x 26 inches, 52 lbs;
+10. A backpack: 49 x 33 x 26 inches, 52 lbs;
+11. A luggage box: 37 x 15 x 13 inches, 53 lbs;
+
+Sarah's flight ticket is $289.
+  Input arg 1: airline
+  Input arg 2: # Bag fees
+All published bag fees apply at each check-in location and are base rates according to travel dates and destination; applicable taxes are not shown.
+
+## Carry-on bags
+You're allowed 1 carry-on bag and 1 personal item in all cabins.
+
+### Personal items
+Your personal item like a purse or small handbag must fit under the seat in front of you. Dimensions should not exceed 18 x 14 x 8 inches (45 x 35 x 20 cm).
+
+These don't count as your personal item or carry-on:
+* Diaper bags (1 per child)
+* Breast pump
+* Small, soft-sided cooler of breast milk
+* Child safety seats, strollers and medical or mobility devices
+
+### Carry-on items
+You can bring only one carry-on item along with your personal item. Your carry-on must fit in in the overhead bin or under the seat in front of you. If it doesn't fit, it will need to be checked. Be sure all your carry-on items are labeled in case they are checked.
+
+#### Carry-on bag
+The total size of your carry-on, including the handles and wheels, cannot exceed 22 x 14 x 9 inches (56 x 36 x 23 cm) and must fit in the sizer at the airport.
+
+#### Soft-sided garment bag
+Your soft-sided garment bag cannot exceed 51 inches / 130 cm (length + width + height).
+
+## Checked bags
+Bag fees have been updated effective for tickets issued on / after February 20, 2024.
+
+Travel within / between the U.S., Puerto Rico, and U.S. Virgin Islands – 1st checked bag fee is $40 and the 2nd checked bag fee is $45.
+
+Travel to / from Canada, Caribbean, Mexico, Central America, and Guyana – 1st checked bag fee is $35 and the 2nd checked bag fee is $45.
+
+All bag fees are non-refundable and apply per person, each way, even if you buy or get an upgrade that includes free checked bags. If you believe you were incorrectly charged for bag fees, contact an American representative for help or file a refund claim within 45 days.
+
+### First Bag
+
+Decide the fee of your first checked bag according to the following:
+* If your flight is Within and between U.S., Puerto Rico and
+  Input arg 3: {"base_price": 289, "customer_class": "Basic Economy", "routine": "Europe", "direction": 1, "bag_list": [{"id": 1, "name": "backpack", "size": [21, 12, 8], "weight": 12}, {"id": 2, "name": "luggage box", "size": [38, 17, 16], "weight": 60}, {"id": 3, "name": "backpack", "size": [36, 20, 9], "weight": 51}, {"id": 4, "name": "luggage box", "size": [45, 31, 20], "weight": 57}, {"id": 5, "name": "luggage box", "size": [35, 20, 9], "weight": 53}, {"id": 6, "name": "backpack", "size": [39, 19, 11], "weight": 57}, {"id": 7, "name": "backpack", "size": [51, 29, 22], "weight": 52}, {"id": 8, "name": "luggage box", "size": [46, 33, 23], "weight": 64}, {"id": 9, "name": "luggage box", "size": [48, 28, 26], "weight": 52}, {"id": 10, "name": "backpack", "size": [49, 33, 26], "weight": 52}, {"id": 11, "name": "luggage box", "size": [37, 15, 13], "weight": 53}]}
+  Input arg 4: 
+  Execution trace (1 LLM calls):
+    extract_airline_params([])
+      -> base_price=289 customer_class='Basic Economy' routine='Munich to Austin' direction=1 bag_list=[BagItem(id=1, name='backpack', size=[21, 12, 8], weight=12), BagItem(id=2, name='luggage box', size=[38, 17, 16], weight=60), BagItem(id=3, name='backpack', size=[36, 20, 9], weight=51), BagItem(id=4, name='luggage box', size=[45, 31, 20], weight=57), BagItem(id=5, name='luggage box', size=[35, 20, 9], weight=53), BagItem(id=6, name='backpack', size=[39, 19, 11], weight=57), BagItem(id=7, name='backpack', size=[51, 29, 22], weight=52), BagItem(id=8, name='luggage box', size=[46, 33, 23], weight=64), BagItem(id=9, name='luggage box', size=[48, 28, 26], weight=52), BagItem(id=10, name='backpack', size=[49, 33, 26], weight=52), BagItem(id=11, name='luggage box', size=[37, 15, 13], weight=53)] [$0.0038]
+  RESULT: predicted=3414.0, expected=3204
+
+--- Case airline_0_92: ---
+  Input arg 0: James is a Main Cabin Class passenger flying from New Delhi to Miami with the following items:
+1. A backpack: 19 x 11 x 7 inches, 9 lbs;
+2. A luggage box: 41 x 19 x 14 inches, 98 lbs;
+3. A backpack: 38 x 16 x 11 inches, 67 lbs;
+4. A luggage box: 42 x 28 x 16 inches, 64 lbs;
+5. A backpack: 36 x 14 x 13 inches, 64 lbs;
+
+James's flight ticket is $430.
+  Input arg 1: airline
+  Input arg 2: # Bag fees
+All published bag fees apply at each check-in location and are base rates according to travel dates and destination; applicable taxes are not shown.
+
+## Carry-on bags
+You're allowed 1 carry-on bag and 1 personal item in all cabins.
+
+### Personal items
+Your personal item like a purse or small handbag must fit under the seat in front of you. Dimensions should not exceed 18 x 14 x 8 inches (45 x 35 x 20 cm).
+
+These don't count as your personal item or carry-on:
+* Diaper bags (1 per child)
+* Breast pump
+* Small, soft-sided cooler of breast milk
+* Child safety seats, strollers and medical or mobility devices
+
+### Carry-on items
+You can bring only one carry-on item along with your personal item. Your carry-on must fit in in the overhead bin or under the seat in front of you. If it doesn't fit, it will need to be checked. Be sure all your carry-on items are labeled in case they are checked.
+
+#### Carry-on bag
+The total size of your carry-on, including the handles and wheels, cannot exceed 22 x 14 x 9 inches (56 x 36 x 23 cm) and must fit in the sizer at the airport.
+
+#### Soft-sided garment bag
+Your soft-sided garment bag cannot exceed 51 inches / 130 cm (length + width + height).
+
+## Checked bags
+Bag fees have been updated effective for tickets issued on / after February 20, 2024.
+
+Travel within / between the U.S., Puerto Rico, and U.S. Virgin Islands – 1st checked bag fee is $40 and the 2nd checked bag fee is $45.
+
+Travel to / from Canada, Caribbean, Mexico, Central America, and Guyana – 1st checked bag fee is $35 and the 2nd checked bag fee is $45.
+
+All bag fees are non-refundable and apply per person, each way, even if you buy or get an upgrade that includes free checked bags. If you believe you were incorrectly charged for bag fees, contact an American representative for help or file a refund claim within 45 days.
+
+### First Bag
+
+Decide the fee of your first checked bag according to the following:
+* If your flight is Within and between U.S., Puerto Rico and
+  Input arg 3: {"base_price": 430, "customer_class": "Main Cabin", "routine": "India", "direction": 1, "bag_list": [{"id": 1, "name": "backpack", "size": [19, 11, 7], "weight": 9}, {"id": 2, "name": "luggage box", "size": [41, 19, 14], "weight": 98}, {"id": 3, "name": "backpack", "size": [38, 16, 11], "weight": 67}, {"id": 4, "name": "luggage box", "size": [42, 28, 16], "weight": 64}, {"id": 5, "name": "backpack", "size": [36, 14, 13], "weight": 64}]}
+  Input arg 4: 
+  Execution trace (1 LLM calls):
+    extract_airline_params([])
+      -> base_price=430 customer_class='Main Cabin' routine='extract_airline_params' direction=1 bag_list=[BagItem(id=1, name='backpack', size=[19, 11, 7], weight=9), BagItem(id=2, name='luggage box', size=[41, 19, 14], weight=98), BagItem(id=3, name='backpack', size=[38, 16, 11], weight=67), BagItem(id=4, name='luggage box', size=[42, 28, 16], weight=64), BagItem(id=5, name='backpack', size=[36, 14, 13], weight=64)] [$0.0035]
+  RESULT: predicted=1465.0, expected=1780
+
+--- Case airline_2_90: ---
+  Input arg 0: Thomas is a Basic Economy Class passenger flying from Miami to Stockholm with the following items:
+1. A backpack: 21 x 14 x 7 inches, 7 lbs;
+2. A backpack: 44 x 24 x 19 inches, 51 lbs;
+3. A backpack: 51 x 29 x 26 inches, 53 lbs;
+4. A luggage box: 35 x 21 x 9 inches, 51 lbs;
+5. A backpack: 38 x 21 x 15 inches, 51 lbs;
+6. A luggage box: 37 x 14 x 13 inches, 53 lbs;
+7. A luggage box: 50 x 28 x 27 inches, 53 lbs;
+8. A luggage box: 52 x 26 x 27 inches, 62 lbs;
+9. A backpack: 50 x 24 x 25 inches, 65 lbs;
+10. A backpack: 37 x 17 x 9 inches, 70 lbs;
+11. A backpack: 47 x 28 x 22 inches, 56 lbs;
+
+Thomas's flight ticket is $341.
+  Input arg 1: airline
+  Input arg 2: # Bag fees
+All published bag fees apply at each check-in location and are base rates according to travel dates and destination; applicable taxes are not shown.
+
+## Carry-on bags
+You're allowed 1 carry-on bag and 1 personal item in all cabins.
+
+### Personal items
+Your personal item like a purse or small handbag must fit under the seat in front of you. Dimensions should not exceed 18 x 14 x 8 inches (45 x 35 x 20 cm).
+
+These don't count as your personal item or carry-on:
+* Diaper bags (1 per child)
+* Breast pump
+* Small, soft-sided cooler of breast milk
+* Child safety seats, strollers and medical or mobility devices
+
+### Carry-on items
+You can bring only one carry-on item along with your personal item. Your carry-on must fit in in the overhead bin or under the seat in front of you. If it doesn't fit, it will need to be checked. Be sure all your carry-on items are labeled in case they are checked.
+
+#### Carry-on bag
+The total size of your carry-on, including the handles and wheels, cannot exceed 22 x 14 x 9 inches (56 x 36 x 23 cm) and must fit in the sizer at the airport.
+
+#### Soft-sided garment bag
+Your soft-sided garment bag cannot exceed 51 inches / 130 cm (length + width + height).
+
+## Checked bags
+Bag fees have been updated effective for tickets issued on / after February 20, 2024.
+
+Travel within / between the U.S., Puerto Rico, and U.S. Virgin Islands – 1st checked bag fee is $40 and the 2nd checked bag fee is $45.
+
+Travel to / from Canada, Caribbean, Mexico, Central America, and Guyana – 1st checked bag fee is $35 and the 2nd checked bag fee is $45.
+
+All bag fees are non-refundable and apply per person, each way, even if you buy or get an upgrade that includes free checked bags. If you believe you were incorrectly charged for bag fees, contact an American representative for help or file a refund claim within 45 days.
+
+### First Bag
+
+Decide the fee of your first checked bag according to the following:
+* If your flight is Within and between U.S., Puerto Rico and
+  Input arg 3: {"base_price": 341, "customer_class": "Basic Economy", "routine": "Europe", "direction": 0, "bag_list": [{"id": 1, "name": "backpack", "size": [21, 14, 7], "weight": 7}, {"id": 2, "name": "backpack", "size": [44, 24, 19], "weight": 51}, {"id": 3, "name": "backpack", "size": [51, 29, 26], "weight": 53}, {"id": 4, "name": "luggage box", "size": [35, 21, 9], "weight": 51}, {"id": 5, "name": "backpack", "size": [38, 21, 15], "weight": 51}, {"id": 6, "name": "luggage box", "size": [37, 14, 13], "weight": 53}, {"id": 7, "name": "luggage box", "size": [50, 28, 27], "weight": 53}, {"id": 8, "name": "luggage box", "size": [52, 26, 27], "weight": 62}, {"id": 9, "name": "backpack", "size": [50, 24, 25], "weight": 65}, {"id": 10, "name": "backpack", "size": [37, 17, 9], "weight": 70}, {"id": 11, "name": "backpack", "size": [47, 28, 22], "weight": 56}]}
+  Input arg 4: 
+  Execution trace (1 LLM calls):
+    extract_airline_params([])
+      -> base_price=341 customer_class='Basic Economy' routine='Miami to Stockholm' direction=1 bag_list=[BagItem(id=1, name='backpack', size=[21, 14, 7], weight=7), BagItem(id=2, name='backpack', size=[44, 24, 19], weight=51), BagItem(id=3, name='backpack', size=[51, 29, 26], weight=53), BagItem(id=4, name='luggage box', size=[35, 21, 9], weight=51), BagItem(id=5, name='backpack', size=[38, 21, 15], weight=51), BagItem(id=6, name='luggage box', size=[37, 14, 13], weight=53), BagItem(id=7, name='luggage box', size=[50, 28, 27], weight=53), BagItem(id=8, name='luggage box', size=[52, 26, 27], weight=62), BagItem(id=9, name='backpack', size=[50, 24, 25], weight=65), BagItem(id=10, name='backpack', size=[37, 17, 9], weight=70), BagItem(id=11, name='backpack', size=[47, 28, 22], weight=56)] [$0.0037]
+  RESULT: predicted=3536.0, expected=3326
+
+--- Case airline_1_31: ---
+  Input arg 0: Michael is a Main Cabin Class passenger flying from Auckland to Phoenix with the following items:
+1. A backpack: 20 x 14 x 9 inches, 10 lbs;
+2. A backpack: 46 x 22 x 19 inches, 51 lbs;
+3. A backpack: 50 x 30 x 25 inches, 54 lbs;
+4. A luggage box: 33 x 20 x 11 inches, 52 lbs;
+5. A luggage box: 40 x 15 x 17 inches, 51 lbs;
+6. A backpack: 45 x 32 x 24 inches, 52 lbs;
+7. A luggage box: 34 x 16 x 14 inches, 51 lbs;
+8. A backpack: 52 x 31 x 30 inches, 53 lbs;
+
+Michael's flight ticket is $800.
+  Input arg 1: airline
+  Input arg 2: # Bag fees
+All published bag fees apply at each check-in location and are base rates according to travel dates and destination; applicable taxes are not shown.
+
+## Carry-on bags
+You're allowed 1 carry-on bag and 1 personal item in all cabins.
+
+### Personal items
+Your personal item like a purse or small handbag must fit under the seat in front of you. Dimensions should not exceed 18 x 14 x 8 inches (45 x 35 x 20 cm).
+
+These don't count as your personal item or carry-on:
+* Diaper bags (1 per child)
+* Breast pump
+* Small, soft-sided cooler of breast milk
+* Child safety seats, strollers and medical or mobility devices
+
+### Carry-on items
+You can bring only one carry-on item along with your personal item. Your carry-on must fit in in the overhead bin or under the seat in front of you. If it doesn't fit, it will need to be checked. Be sure all your carry-on items are labeled in case they are checked.
+
+#### Carry-on bag
+The total size of your carry-on, including the handles and wheels, cannot exceed 22 x 14 x 9 inches (56 x 36 x 23 cm) and must fit in the sizer at the airport.
+
+#### Soft-sided garment bag
+Your soft-sided garment bag cannot exceed 51 inches / 130 cm (length + width + height).
+
+## Checked bags
+Bag fees have been updated effective for tickets issued on / after February 20, 2024.
+
+Travel within / between the U.S., Puerto Rico, and U.S. Virgin Islands – 1st checked bag fee is $40 and the 2nd checked bag fee is $45.
+
+Travel to / from Canada, Caribbean, Mexico, Central America, and Guyana – 1st checked bag fee is $35 and the 2nd checked bag fee is $45.
+
+All bag fees are non-refundable and apply per person, each way, even if you buy or get an upgrade that includes free checked bags. If you believe you were incorrectly charged for bag fees, contact an American representative for help or file a refund claim within 45 days.
+
+### First Bag
+
+Decide the fee of your first checked bag according to the following:
+* If your flight is Within and between U.S., Puerto Rico and
+  Input arg 3: {"base_price": 800, "customer_class": "Main Cabin", "routine": "New Zealand", "direction": 1, "bag_list": [{"id": 1, "name": "backpack", "size": [20, 14, 9], "weight": 10}, {"id": 2, "name": "backpack", "size": [46, 22, 19], "weight": 51}, {"id": 3, "name": "backpack", "size": [50, 30, 25], "weight": 54}, {"id": 4, "name": "luggage box", "size": [33, 20, 11], "weight": 52}, {"id": 5, "name": "luggage box", "size": [40, 15, 17], "weight": 51}, {"id": 6, "name": "backpack", "size": [45, 32, 24], "weight": 52}, {"id": 7, "name": "luggage box", "size": [34, 16, 14], "weight": 51}, {"id": 8, "name": "backpack", "size": [52, 31, 30], "weight": 53}]}
+  Input arg 4: 
+  Execution trace (1 LLM calls):
+    extract_airline_params([])
+      -> base_price=800 customer_class='Main Cabin' routine='Auckland to Phoenix' direction=1 bag_list=[BagItem(id=1, name='backpack', size=[20, 14, 9], weight=10), BagItem(id=2, name='backpack', size=[46, 22, 19], weight=51), BagItem(id=3, name='backpack', size=[50, 30, 25], weight=54), BagItem(id=4, name='luggage box', size=[33, 20, 11], weight=52), BagItem(id=5, name='luggage box', size=[40, 15, 17], weight=51), BagItem(id=6, name='backpack', size=[45, 32, 24], weight=52), BagItem(id=7, name='luggage box', size=[34, 16, 14], weight=51), BagItem(id=8, name='backpack', size=[52, 31, 30], weight=53)] [$0.0036]
+  RESULT: predicted=2895.0, expected=2960
+
+--- Case airline_0_31: ---
+  Input arg 0: David is a First Class passenger flying from Charlotte to Mexico City with the following items:
+1. A backpack: 19 x 13 x 8 inches, 9 lbs;
+2. A backpack: 50 x 27 x 24 inches, 74 lbs;
+3. A luggage box: 48 x 27 x 25 inches, 70 lbs;
+4. A backpack: 50 x 31 x 23 inches, 57 lbs;
+5. A backpack: 54 x 32 x 28 inches, 84 lbs;
+
+David's flight ticket is $104.
+  Input arg 1: airline
+  Input arg 2: # Bag fees
+All published bag fees apply at each check-in location and are base rates according to travel dates and destination; applicable taxes are not shown.
+
+## Carry-on bags
+You're allowed 1 carry-on bag and 1 personal item in all cabins.
+
+### Personal items
+Your personal item like a purse or small handbag must fit under the seat in front of you. Dimensions should not exceed 18 x 14 x 8 inches (45 x 35 x 20 cm).
+
+These don't count as your personal item or carry-on:
+* Diaper bags (1 per child)
+* Breast pump
+* Small, soft-sided cooler of breast milk
+* Child safety seats, strollers and medical or mobility devices
+
+### Carry-on items
+You can bring only one carry-on item along with your personal item. Your carry-on must fit in in the overhead bin or under the seat in front of you. If it doesn't fit, it will need to be checked. Be sure all your carry-on items are labeled in case they are checked.
+
+#### Carry-on bag
+The total size of your carry-on, including the handles and wheels, cannot exceed 22 x 14 x 9 inches (56 x 36 x 23 cm) and must fit in the sizer at the airport.
+
+#### Soft-sided garment bag
+Your soft-sided garment bag cannot exceed 51 inches / 130 cm (length + width + height).
+
+## Checked bags
+Bag fees have been updated effective for tickets issued on / after February 20, 2024.
+
+Travel within / between the U.S., Puerto Rico, and U.S. Virgin Islands – 1st checked bag fee is $40 and the 2nd checked bag fee is $45.
+
+Travel to / from Canada, Caribbean, Mexico, Central America, and Guyana – 1st checked bag fee is $35 and the 2nd checked bag fee is $45.
+
+All bag fees are non-refundable and apply per person, each way, even if you buy or get an upgrade that includes free checked bags. If you believe you were incorrectly charged for bag fees, contact an American representative for help or file a refund claim within 45 days.
+
+### First Bag
+
+Decide the fee of your first checked bag according to the following:
+* If your flight is Within and between U.S., Puerto Rico and
+  Input arg 3: {"base_price": 104, "customer_class": "First", "routine": "Mexico", "direction": 0, "bag_list": [{"id": 1, "name": "backpack", "size": [19, 13, 8], "weight": 9}, {"id": 2, "name": "backpack", "size": [50, 27, 24], "weight": 74}, {"id": 3, "name": "luggage box", "size": [48, 27, 25], "weight": 70}, {"id": 4, "name": "backpack", "size": [50, 31, 23], "weight": 57}, {"id": 5, "name": "backpack", "size": [54, 32, 28], "weight": 84}]}
+  Input arg 4: 
+  Execution trace (1 LLM calls):
+    extract_airline_params([])
+      -> base_price=104 customer_class='First Class' routine='Charlotte to Mexico City' direction=1 bag_list=[BagItem(id=1, name='backpack', size=[19, 13, 8], weight=9), BagItem(id=2, name='backpack', size=[50, 27, 24], weight=74), BagItem(id=3, name='luggage box', size=[48, 27, 25], weight=70), BagItem(id=4, name='backpack', size=[50, 31, 23], weight=57), BagItem(id=5, name='backpack', size=[54, 32, 28], weight=84)] [$0.0035]
+  RESULT: predicted=**exception raised**: 'First Class', expected=1104
+
+--- Case airline_1_88: ---
+  Input arg 0: William is a First Class passenger flying from San Francisco to Los Angeles with the following items:
+1. A backpack: 18 x 13 x 6 inches, 9 lbs;
+2. A luggage box: 33 x 20 x 12 inches, 64 lbs;
+3. A luggage box: 37 x 15 x 12 inches, 88 lbs;
+4. A luggage box: 44 x 32 x 22 inches, 52 lbs;
+5. A luggage box: 35 x 14 x 14 inches, 57 lbs;
+6. A luggage box: 47 x 27 x 24 inches, 93 lbs;
+7. A luggage box: 37 x 13 x 13 inches, 64 lbs;
+8. A backpack: 37 x 12 x 14 inches, 53 lbs;
+
+William's flight ticket is $100.
+  Input arg 1: airline
+  Input arg 2: # Bag fees
+All published bag fees apply at each check-in location and are base rates according to travel dates and destination; applicable taxes are not shown.
+
+## Carry-on bags
+You're allowed 1 carry-on bag and 1 personal item in all cabins.
+
+### Personal items
+Your personal item like a purse or small handbag must fit under the seat in front of you. Dimensions should not exceed 18 x 14 x 8 inches (45 x 35 x 20 cm).
+
+These don't count as your personal item or carry-on:
+* Diaper bags (1 per child)
+* Breast pump
+* Small, soft-sided cooler of breast milk
+* Child safety seats, strollers and medical or mobility devices
+
+### Carry-on items
+You can bring only one carry-on item along with your personal item. Your carry-on must fit in in the overhead bin or under the seat in front of you. If it doesn't fit, it will need to be checked. Be sure all your carry-on items are labeled in case they are checked.
+
+#### Carry-on bag
+The total size of your carry-on, including the handles and wheels, cannot exceed 22 x 14 x 9 inches (56 x 36 x 23 cm) and must fit in the sizer at the airport.
+
+#### Soft-sided garment bag
+Your soft-sided garment bag cannot exceed 51 inches / 130 cm (length + width + height).
+
+## Checked bags
+Bag fees have been updated effective for tickets issued on / after February 20, 2024.
+
+Travel within / between the U.S., Puerto Rico, and U.S. Virgin Islands – 1st checked bag fee is $40 and the 2nd checked bag fee is $45.
+
+Travel to / from Canada, Caribbean, Mexico, Central America, and Guyana – 1st checked bag fee is $35 and the 2nd checked bag fee is $45.
+
+All bag fees are non-refundable and apply per person, each way, even if you buy or get an upgrade that includes free checked bags. If you believe you were incorrectly charged for bag fees, contact an American representative for help or file a refund claim within 45 days.
+
+### First Bag
+
+Decide the fee of your first checked bag according to the following:
+* If your flight is Within and between U.S., Puerto Rico and
+  Input arg 3: {"base_price": 100, "customer_class": "First", "routine": "U.S.", "direction": 1, "bag_list": [{"id": 1, "name": "backpack", "size": [18, 13, 6], "weight": 9}, {"id": 2, "name": "luggage box", "size": [33, 20, 12], "weight": 64}, {"id": 3, "name": "luggage box", "size": [37, 15, 12], "weight": 88}, {"id": 4, "name": "luggage box", "size": [44, 32, 22], "weight": 52}, {"id": 5, "name": "luggage box", "size": [35, 14, 14], "weight": 57}, {"id": 6, "name": "luggage box", "size": [47, 27, 24], "weight": 93}, {"id": 7, "name": "luggage box", "size": [37, 13, 13], "weight": 64}, {"id": 8, "name": "backpack", "size": [37, 12, 14], "weight": 53}]}
+  Input arg 4: 
+  Execution trace (1 LLM calls):
+    extract_airline_params([])
+      -> base_price=100 customer_class='First Class' routine='SF to LA, domestic US flight' direction=0 bag_list=[BagItem(id=1, name='backpack', size=[18, 13, 6], weight=9), BagItem(id=2, name='luggage box', size=[33, 20, 12], weight=64), BagItem(id=3, name='luggage box', size=[37, 15, 12], weight=88), BagItem(id=4, name='luggage box', size=[44, 32, 22], weight=52), BagItem(id=5, name='luggage box', size=[35, 14, 14], weight=57), BagItem(id=6, name='luggage box', size=[47, 27, 24], weight=93), BagItem(id=7, name='luggage box', size=[37, 13, 13], weight=64), BagItem(id=8, name='backpack', size=[37, 12, 14], weight=53)] [$0.0036]
+  RESULT: predicted=**exception raised**: 'First Class', expected=1840
+
+--- Case airline_1_93: ---
+  Input arg 0: Michael is a Business Class passenger flying from Minneapolis to Portland with the following items:
+1. A backpack: 22 x 11 x 9 inches, 11 lbs;
+2. A luggage box: 34 x 20 x 9 inches, 52 lbs;
+3. A backpack: 38 x 17 x 13 inches, 73 lbs;
+4. A luggage box: 37 x 18 x 10 inches, 87 lbs;
+5. A luggage box: 34 x 23 x 10 inches, 56 lbs;
+6. A luggage box: 34 x 20 x 9 inches, 51 lbs;
+7. A backpack: 53 x 30 x 31 inches, 51 lbs;
+8. A backpack: 40 x 19 x 13 inches, 52 lbs;
+
+Michael's flight ticket is $54.
+  Input arg 1: airline
+  Input arg 2: # Bag fees
+All published bag fees apply at each check-in location and are base rates according to travel dates and destination; applicable taxes are not shown.
+
+## Carry-on bags
+You're allowed 1 carry-on bag and 1 personal item in all cabins.
+
+### Personal items
+Your personal item like a purse or small handbag must fit under the seat in front of you. Dimensions should not exceed 18 x 14 x 8 inches (45 x 35 x 20 cm).
+
+These don't count as your personal item or carry-on:
+* Diaper bags (1 per child)
+* Breast pump
+* Small, soft-sided cooler of breast milk
+* Child safety seats, strollers and medical or mobility devices
+
+### Carry-on items
+You can bring only one carry-on item along with your personal item. Your carry-on must fit in in the overhead bin or under the seat in front of you. If it doesn't fit, it will need to be checked. Be sure all your carry-on items are labeled in case they are checked.
+
+#### Carry-on bag
+The total size of your carry-on, including the handles and wheels, cannot exceed 22 x 14 x 9 inches (56 x 36 x 23 cm) and must fit in the sizer at the airport.
+
+#### Soft-sided garment bag
+Your soft-sided garment bag cannot exceed 51 inches / 130 cm (length + width + height).
+
+## Checked bags
+Bag fees have been updated effective for tickets issued on / after February 20, 2024.
+
+Travel within / between the U.S., Puerto Rico, and U.S. Virgin Islands – 1st checked bag fee is $40 and the 2nd checked bag fee is $45.
+
+Travel to / from Canada, Caribbean, Mexico, Central America, and Guyana – 1st checked bag fee is $35 and the 2nd checked bag fee is $45.
+
+All bag fees are non-refundable and apply per person, each way, even if you buy or get an upgrade that includes free checked bags. If you believe you were incorrectly charged for bag fees, contact an American representative for help or file a refund claim within 45 days.
+
+### First Bag
+
+Decide the fee of your first checked bag according to the following:
+* If your flight is Within and between U.S., Puerto Rico and
+  Input arg 3: {"base_price": 54, "customer_class": "Business", "routine": "U.S.", "direction": 1, "bag_list": [{"id": 1, "name": "backpack", "size": [22, 11, 9], "weight": 11}, {"id": 2, "name": "luggage box", "size": [34, 20, 9], "weight": 52}, {"id": 3, "name": "backpack", "size": [38, 17, 13], "weight": 73}, {"id": 4, "name": "luggage box", "size": [37, 18, 10], "weight": 87}, {"id": 5, "name": "luggage box", "size": [34, 23, 10], "weight": 56}, {"id": 6, "name": "luggage box", "size": [34, 20, 9], "weight": 51}, {"id": 7, "name": "backpack", "size": [53, 30, 31], "weight": 51}, {"id": 8, "name": "backpack", "size": [40, 19, 13], "weight": 52}]}
+  Input arg 4: 
+  Execution trace (1 LLM calls):
+    extract_airline_params([])
+      -> base_price=54 customer_class='Business Class' routine='Within and between U.S., Canada, Puerto Rico and U.S. Virgin Islands' direction=0 bag_list=[BagItem(id=1, name='backpack', size=[22, 11, 9], weight=11), BagItem(id=2, name='luggage box', size=[34, 20, 9], weight=52), BagItem(id=3, name='backpack', size=[38, 17, 13], weight=73), BagItem(id=4, name='luggage box', size=[37, 18, 10], weight=87), BagItem(id=5, name='luggage box', size=[34, 23, 10], weight=56), BagItem(id=6, name='luggage box', size=[34, 20, 9], weight=51), BagItem(id=7, name='backpack', size=[53, 30, 31], weight=51), BagItem(id=8, name='backpack', size=[40, 19, 13], weight=52)] [$0.0036]
+  RESULT: predicted=**exception raised**: 'Business Class', expected=2064
+
+--- Case airline_2_72: ---
+  Input arg 0: Emily is a Premium Economy Class passenger flying from Salt Lake City to Zurich with the following items:
+1. A backpack: 18 x 13 x 6 inches, 11 lbs;
+2. A luggage box: 39 x 21 x 19 inches, 65 lbs;
+3. A backpack: 47 x 31 x 21 inches, 52 lbs;
+4. A backpack: 40 x 27 x 15 inches, 53 lbs;
+5. A luggage box: 47 x 22 x 22 inches, 66 lbs;
+6. A backpack: 47 x 27 x 25 inches, 52 lbs;
+7. A luggage box: 45 x 28 x 22 inches, 51 lbs;
+8. A backpack: 35 x 17 x 11 inches, 52 lbs;
+9. A backpack: 55 x 30 x 30 inches, 61 lbs;
+10. A luggage box: 37 x 14 x 13 inches, 53 lbs;
+11. A backpack: 33 x 19 x 13 inches, 52 lbs;
+
+Emily's flight ticket is $251.
+  Input arg 1: airline
+  Input arg 2: # Bag fees
+All published bag fees apply at each check-in location and are base rates according to travel dates and destination; applicable taxes are not shown.
+
+## Carry-on bags
+You're allowed 1 carry-on bag and 1 personal item in all cabins.
+
+### Personal items
+Your personal item like a purse or small handbag must fit under the seat in front of you. Dimensions should not exceed 18 x 14 x 8 inches (45 x 35 x 20 cm).
+
+These don't count as your personal item or carry-on:
+* Diaper bags (1 per child)
+* Breast pump
+* Small, soft-sided cooler of breast milk
+* Child safety seats, strollers and medical or mobility devices
+
+### Carry-on items
+You can bring only one carry-on item along with your personal item. Your carry-on must fit in in the overhead bin or under the seat in front of you. If it doesn't fit, it will need to be checked. Be sure all your carry-on items are labeled in case they are checked.
+
+#### Carry-on bag
+The total size of your carry-on, including the handles and wheels, cannot exceed 22 x 14 x 9 inches (56 x 36 x 23 cm) and must fit in the sizer at the airport.
+
+#### Soft-sided garment bag
+Your soft-sided garment bag cannot exceed 51 inches / 130 cm (length + width + height).
+
+## Checked bags
+Bag fees have been updated effective for tickets issued on / after February 20, 2024.
+
+Travel within / between the U.S., Puerto Rico, and U.S. Virgin Islands – 1st checked bag fee is $40 and the 2nd checked bag fee is $45.
+
+Travel to / from Canada, Caribbean, Mexico, Central America, and Guyana – 1st checked bag fee is $35 and the 2nd checked bag fee is $45.
+
+All bag fees are non-refundable and apply per person, each way, even if you buy or get an upgrade that includes free checked bags. If you believe you were incorrectly charged for bag fees, contact an American representative for help or file a refund claim within 45 days.
+
+### First Bag
+
+Decide the fee of your first checked bag according to the following:
+* If your flight is Within and between U.S., Puerto Rico and
+  Input arg 3: {"base_price": 251, "customer_class": "Premium Economy", "routine": "Europe", "direction": 0, "bag_list": [{"id": 1, "name": "backpack", "size": [18, 13, 6], "weight": 11}, {"id": 2, "name": "luggage box", "size": [39, 21, 19], "weight": 65}, {"id": 3, "name": "backpack", "size": [47, 31, 21], "weight": 52}, {"id": 4, "name": "backpack", "size": [40, 27, 15], "weight": 53}, {"id": 5, "name": "luggage box", "size": [47, 22, 22], "weight": 66}, {"id": 6, "name": "backpack", "size": [47, 27, 25], "weight": 52}, {"id": 7, "name": "luggage box", "size": [45, 28, 22], "weight": 51}, {"id": 8, "name": "backpack", "size": [35, 17, 11], "weight": 52}, {"id": 9, "name": "backpack", "size": [55, 30, 30], "weight": 61}, {"id": 10, "name": "luggage box", "size": [37, 14, 13], "weight": 53}, {"id": 11, "name": "backpack", "size": [33, 19, 13], "weight": 52}]}
+  Input arg 4: 
+  Execution trace (1 LLM calls):
+    extract_airline_params([])
+      -> base_price=251 customer_class='Premium Economy' routine='extract_airline_params' direction=1 bag_list=[BagItem(id=1, name='backpack', size=[18, 13, 6], weight=11), BagItem(id=2, name='luggage box', size=[39, 21, 19], weight=65), BagItem(id=3, name='backpack', size=[47, 31, 21], weight=52), BagItem(id=4, name='backpack', size=[40, 27, 15], weight=53), BagItem(id=5, name='luggage box', size=[47, 22, 22], weight=66), BagItem(id=6, name='backpack', size=[47, 27, 25], weight=52), BagItem(id=7, name='luggage box', size=[45, 28, 22], weight=51), BagItem(id=8, name='backpack', size=[35, 17, 11], weight=52), BagItem(id=9, name='backpack', size=[55, 30, 30], weight=61), BagItem(id=10, name='luggage box', size=[37, 14, 13], weight=53), BagItem(id=11, name='backpack', size=[33, 19, 13], weight=52)] [$0.0038]
+  RESULT: predicted=3291.0, expected=2991
+
+--- Case airline_0_72: ---
+  Input arg 0: Daniel is a Business Class passenger flying from Brussels to Philadelphia with the following items:
+1. A backpack: 19 x 13 x 6 inches, 11 lbs;
+2. A luggage box: 36 x 17 x 12 inches, 64 lbs;
+3. A backpack: 37 x 22 x 12 inches, 51 lbs;
+4. A backpack: 40 x 21 x 20 inches, 51 lbs;
+5. A backpack: 33 x 21 x 10 inches, 65 lbs;
+
+Daniel's flight ticket is $519.
+  Input arg 1: airline
+  Input arg 2: # Bag fees
+All published bag fees apply at each check-in location and are base rates according to travel dates and destination; applicable taxes are not shown.
+
+## Carry-on bags
+You're allowed 1 carry-on bag and 1 personal item in all cabins.
+
+### Personal items
+Your personal item like a purse or small handbag must fit under the seat in front of you. Dimensions should not exceed 18 x 14 x 8 inches (45 x 35 x 20 cm).
+
+These don't count as your personal item or carry-on:
+* Diaper bags (1 per child)
+* Breast pump
+* Small, soft-sided cooler of breast milk
+* Child safety seats, strollers and medical or mobility devices
+
+### Carry-on items
+You can bring only one carry-on item along with your personal item. Your carry-on must fit in in the overhead bin or under the seat in front of you. If it doesn't fit, it will need to be checked. Be sure all your carry-on items are labeled in case they are checked.
+
+#### Carry-on bag
+The total size of your carry-on, including the handles and wheels, cannot exceed 22 x 14 x 9 inches (56 x 36 x 23 cm) and must fit in the sizer at the airport.
+
+#### Soft-sided garment bag
+Your soft-sided garment bag cannot exceed 51 inches / 130 cm (length + width + height).
+
+## Checked bags
+Bag fees have been updated effective for tickets issued on / after February 20, 2024.
+
+Travel within / between the U.S., Puerto Rico, and U.S. Virgin Islands – 1st checked bag fee is $40 and the 2nd checked bag fee is $45.
+
+Travel to / from Canada, Caribbean, Mexico, Central America, and Guyana – 1st checked bag fee is $35 and the 2nd checked bag fee is $45.
+
+All bag fees are non-refundable and apply per person, each way, even if you buy or get an upgrade that includes free checked bags. If you believe you were incorrectly charged for bag fees, contact an American representative for help or file a refund claim within 45 days.
+
+### First Bag
+
+Decide the fee of your first checked bag according to the following:
+* If your flight is Within and between U.S., Puerto Rico and
+  Input arg 3: {"base_price": 519, "customer_class": "Business", "routine": "Europe", "direction": 1, "bag_list": [{"id": 1, "name": "backpack", "size": [19, 13, 6], "weight": 11}, {"id": 2, "name": "luggage box", "size": [36, 17, 12], "weight": 64}, {"id": 3, "name": "backpack", "size": [37, 22, 12], "weight": 51}, {"id": 4, "name": "backpack", "size": [40, 21, 20], "weight": 51}, {"id": 5, "name": "backpack", "size": [33, 21, 10], "weight": 65}]}
+  Input arg 4: 
+  Execution trace (1 LLM calls):
+    extract_airline_params([])
+      -> base_price=519 customer_class='Business Class' routine='Brussels to Philadelphia' direction=1 bag_list=[BagItem(id=1, name='backpack', size=[19, 13, 6], weight=11), BagItem(id=2, name='luggage box', size=[36, 17, 12], weight=64), BagItem(id=3, name='backpack', size=[37, 22, 12], weight=51), BagItem(id=4, name='backpack', size=[40, 21, 20], weight=51), BagItem(id=5, name='backpack', size=[33, 21, 10], weight=65)] [$0.0035]
+  RESULT: predicted=**exception raised**: 'Business Class', expected=1279
+
+--- Case airline_2_3: ---
+  Input arg 0: Daniel is a Business Class passenger flying from Philadelphia to Las Vegas with the following items:
+1. A backpack: 19 x 12 x 7 inches, 12 lbs;
+2. A backpack: 50 x 27 x 24 inches, 76 lbs;
+3. A backpack: 45 x 32 x 21 inches, 64 lbs;
+4. A luggage box: 36 x 16 x 12 inches, 52 lbs;
+5. A backpack: 35 x 20 x 10 inches, 53 lbs;
+6. A luggage box: 49 x 30 x 21 inches, 66 lbs;
+7. A backpack: 37 x 15 x 11 inches, 51 lbs;
+8. A backpack: 44 x 22 x 19 inches, 56 lbs;
+9. A luggage box: 44 x 29 x 20 inches, 52 lbs;
+10. A backpack: 49 x 31 x 21 inches, 82 lbs;
+11. A luggage box: 35 x 16 x 13 inches, 79 lbs;
+
+Daniel's flight ticket is $63.
+  Input arg 1: airline
+  Input arg 2: # Bag fees
+All published bag fees apply at each check-in location and are base rates according to travel dates and destination; applicable taxes are not shown.
+
+## Carry-on bags
+You're allowed 1 carry-on bag and 1 personal item in all cabins.
+
+### Personal items
+Your personal item like a purse or small handbag must fit under the seat in front of you. Dimensions should not exceed 18 x 14 x 8 inches (45 x 35 x 20 cm).
+
+These don't count as your personal item or carry-on:
+* Diaper bags (1 per child)
+* Breast pump
+* Small, soft-sided cooler of breast milk
+* Child safety seats, strollers and medical or mobility devices
+
+### Carry-on items
+You can bring only one carry-on item along with your personal item. Your carry-on must fit in in the overhead bin or under the seat in front of you. If it doesn't fit, it will need to be checked. Be sure all your carry-on items are labeled in case they are checked.
+
+#### Carry-on bag
+The total size of your carry-on, including the handles and wheels, cannot exceed 22 x 14 x 9 inches (56 x 36 x 23 cm) and must fit in the sizer at the airport.
+
+#### Soft-sided garment bag
+Your soft-sided garment bag cannot exceed 51 inches / 130 cm (length + width + height).
+
+## Checked bags
+Bag fees have been updated effective for tickets issued on / after February 20, 2024.
+
+Travel within / between the U.S., Puerto Rico, and U.S. Virgin Islands – 1st checked bag fee is $40 and the 2nd checked bag fee is $45.
+
+Travel to / from Canada, Caribbean, Mexico, Central America, and Guyana – 1st checked bag fee is $35 and the 2nd checked bag fee is $45.
+
+All bag fees are non-refundable and apply per person, each way, even if you buy or get an upgrade that includes free checked bags. If you believe you were incorrectly charged for bag fees, contact an American representative for help or file a refund claim within 45 days.
+
+### First Bag
+
+Decide the fee of your first checked bag according to the following:
+* If your flight is Within and between U.S., Puerto Rico and
+  Input arg 3: {"base_price": 63, "customer_class": "Business", "routine": "U.S.", "direction": 0, "bag_list": [{"id": 1, "name": "backpack", "size": [19, 12, 7], "weight": 12}, {"id": 2, "name": "backpack", "size": [50, 27, 24], "weight": 76}, {"id": 3, "name": "backpack", "size": [45, 32, 21], "weight": 64}, {"id": 4, "name": "luggage box", "size": [36, 16, 12], "weight": 52}, {"id": 5, "name": "backpack", "size": [35, 20, 10], "weight": 53}, {"id": 6, "name": "luggage box", "size": [49, 30, 21], "weight": 66}, {"id": 7, "name": "backpack", "size": [37, 15, 11], "weight": 51}, {"id": 8, "name": "backpack", "size": [44, 22, 19], "weight": 56}, {"id": 9, "name": "luggage box", "size": [44, 29, 20], "weight": 52}, {"id": 10, "name": "backpack", "size": [49, 31, 21], "weight": 82}, {"id": 11, "name": "luggage box", "size": [35, 16, 13], "weight": 79}]}
+  Input arg 4: 
+  Execution trace (1 LLM calls):
+    extract_airline_params([])
+      -> base_price=63 customer_class='Business Class' routine='Philadelphia to Las Vegas' direction=1 bag_list=[BagItem(id=1, name='backpack', size=[19, 12, 7], weight=12), BagItem(id=2, name='backpack', size=[50, 27, 24], weight=76), BagItem(id=3, name='backpack', size=[45, 32, 21], weight=64), BagItem(id=4, name='luggage box', size=[36, 16, 12], weight=52), BagItem(id=5, name='backpack', size=[35, 20, 10], weight=53), BagItem(id=6, name='luggage box', size=[49, 30, 21], weight=66), BagItem(id=7, name='backpack', size=[37, 15, 11], weight=51), BagItem(id=8, name='backpack', size=[44, 22, 19], weight=56), BagItem(id=9, name='luggage box', size=[44, 29, 20], weight=52), BagItem(id=10, name='backpack', size=[49, 31, 21], weight=82), BagItem(id=11, name='luggage box', size=[35, 16, 13], weight=79)] [$0.0038]
+  RESULT: predicted=**exception raised**: 'Business Class', expected=3103
+
+--- Case airline_2_91: ---
+  Input arg 0: Susan is a Main Cabin Class passenger flying from Hong Kong to Charlotte with the following items:
+1. A backpack: 20 x 11 x 6 inches, 5 lbs;
+2. A backpack: 38 x 13 x 13 inches, 52 lbs;
+3. A luggage box: 44 x 23 x 15 inches, 66 lbs;
+4. A luggage box: 36 x 15 x 13 inches, 99 lbs;
+5. A backpack: 34 x 21 x 10 inches, 70 lbs;
+6. A backpack: 36 x 19 x 17 inches, 95 lbs;
+7. A luggage box: 51 x 25 x 26 inches, 53 lbs;
+8. A backpack: 39 x 16 x 13 inches, 60 lbs;
+9. A luggage box: 47 x 28 x 27 inches, 60 lbs;
+10. A backpack: 44 x 21 x 17 inches, 61 lbs;
+11. A luggage box: 40 x 20 x 13 inches, 55 lbs;
+
+Susan's flight ticket is $1394.
+  Input arg 1: airline
+  Input arg 2: # Bag fees
+All published bag fees apply at each check-in location and are base rates according to travel dates and destination; applicable taxes are not shown.
+
+## Carry-on bags
+You're allowed 1 carry-on bag and 1 personal item in all cabins.
+
+### Personal items
+Your personal item like a purse or small handbag must fit under the seat in front of you. Dimensions should not exceed 18 x 14 x 8 inches (45 x 35 x 20 cm).
+
+These don't count as your personal item or carry-on:
+* Diaper bags (1 per child)
+* Breast pump
+* Small, soft-sided cooler of breast milk
+* Child safety seats, strollers and medical or mobility devices
+
+### Carry-on items
+You can bring only one carry-on item along with your personal item. Your carry-on must fit in in the overhead bin or under the seat in front of you. If it doesn't fit, it will need to be checked. Be sure all your carry-on items are labeled in case they are checked.
+
+#### Carry-on bag
+The total size of your carry-on, including the handles and wheels, cannot exceed 22 x 14 x 9 inches (56 x 36 x 23 cm) and must fit in the sizer at the airport.
+
+#### Soft-sided garment bag
+Your soft-sided garment bag cannot exceed 51 inches / 130 cm (length + width + height).
+
+## Checked bags
+Bag fees have been updated effective for tickets issued on / after February 20, 2024.
+
+Travel within / between the U.S., Puerto Rico, and U.S. Virgin Islands – 1st checked bag fee is $40 and the 2nd checked bag fee is $45.
+
+Travel to / from Canada, Caribbean, Mexico, Central America, and Guyana – 1st checked bag fee is $35 and the 2nd checked bag fee is $45.
+
+All bag fees are non-refundable and apply per person, each way, even if you buy or get an upgrade that includes free checked bags. If you believe you were incorrectly charged for bag fees, contact an American representative for help or file a refund claim within 45 days.
+
+### First Bag
+
+Decide the fee of your first checked bag according to the following:
+* If your flight is Within and between U.S., Puerto Rico and
+  Input arg 3: {"base_price": 1394, "customer_class": "Main Cabin", "routine": "Hong Kong", "direction": 1, "bag_list": [{"id": 1, "name": "backpack", "size": [20, 11, 6], "weight": 5}, {"id": 2, "name": "backpack", "size": [38, 13, 13], "weight": 52}, {"id": 3, "name": "luggage box", "size": [44, 23, 15], "weight": 66}, {"id": 4, "name": "luggage box", "size": [36, 15, 13], "weight": 99}, {"id": 5, "name": "backpack", "size": [34, 21, 10], "weight": 70}, {"id": 6, "name": "backpack", "size": [36, 19, 17], "weight": 95}, {"id": 7, "name": "luggage box", "size": [51, 25, 26], "weight": 53}, {"id": 8, "name": "backpack", "size": [39, 16, 13], "weight": 60}, {"id": 9, "name": "luggage box", "size": [47, 28, 27], "weight": 60}, {"id": 10, "name": "backpack", "size": [44, 21, 17], "weight": 61}, {"id": 11, "name": "luggage box", "size": [40, 20, 13], "weight": 55}]}
+  Input arg 4: 
+  Execution trace (1 LLM calls):
+    extract_airline_params([])
+      -> base_price=1394 customer_class='Main Cabin' routine='Hong Kong to Charlotte' direction=1 bag_list=[BagItem(id=1, name='A backpack', size=[20, 11, 6], weight=5), BagItem(id=2, name='A backpack', size=[38, 13, 13], weight=52), BagItem(id=3, name='A luggage box', size=[44, 23, 15], weight=66), BagItem(id=4, name='A luggage box', size=[36, 15, 13], weight=99), BagItem(id=5, name='A backpack', size=[34, 21, 10], weight=70), BagItem(id=6, name='A backpack', size=[36, 19, 17], weight=95), BagItem(id=7, name='A luggage box', size=[51, 25, 26], weight=53), BagItem(id=8, name='A backpack', size=[39, 16, 13], weight=60), BagItem(id=9, name='A luggage box', size=[47, 28, 27], weight=60), BagItem(id=10, name='A backpack', size=[44, 21, 17], weight=61), BagItem(id=11, name='A luggage box', size=[40, 20, 13], weight=55)] [$0.0038]
+  RESULT: predicted=4759.0, expected=5324
+
+
+## Previous iterations
+
+Iter 0: train=28.6%, eval=16.7% — KEPT
+Iter 1: train=28.6% — ROLLED BACK
+  ⚠ This change HURT accuracy. Do NOT retry this approach.
+Iter 2: train=28.6% — ROLLED BACK
+  ⚠ This change HURT accuracy. Do NOT retry this approach.
+Iter 3: train=28.6% — ROLLED BACK
+  ⚠ This change HURT accuracy. Do NOT retry this approach.
+Iter 4: train=28.6% — ROLLED BACK
+  ⚠ This change HURT accuracy. Do NOT retry this approach.
+
+
+
+## HOW CHANGES WORK
+
+- @interface-decorated functions with method=simulate use their DOCSTRING as
+  the LLM prompt. Improving the docstring improves the LLM's output.
+- Functions bound with method=direct run as pure Python.
+- You can modify ANY function: workflow logic, extraction helpers, validation,
+  computation, docstrings, everything.
+- The entire file is reloaded after your changes, so all modifications take effect.
+
+## STRATEGY — READ THIS CAREFULLY
+
+Your changes are evaluated on ALL cases, not just the failures shown above.
+A change that fixes 5 failures but breaks 15 working cases is a NET REGRESSION.
+This has happened in previous iterations — learn from it.
+
+**CONSERVATIVE APPROACH REQUIRED:**
+- Changes to docstrings/prompts affect ALL cases that go through that code path.
+  If you add instructions that help edge cases but confuse the LLM on common
+  cases, accuracy drops. Be surgical.
+- Changes to Python logic (extraction, validation, computation) are SAFER because
+  they only fire when their conditions are met.
+- Prefer adding NEW conditional branches or fallback logic over modifying
+  existing working code paths.
+- If a previous iteration was rolled back, DO NOT try a more aggressive version
+  of the same idea. Try a completely different approach or a much smaller change.
+
+**PRIORITIZE THESE CHANGE TYPES (safest to riskiest):**
+1. Fix a bug in Python computation logic (zero risk to other cases)
+2. Add a new fallback/recovery path for a specific failure pattern
+3. Improve validation to catch and fix a category of extraction errors
+4. Add a small, specific instruction to a docstring (low risk if well-scoped)
+5. Rewrite extraction/prompt logic (HIGH RISK — only if you are very confident)
+
+**AVOID:**
+- Rewriting the extraction prompt wholesale — this breaks working cases
+- Adding many instructions at once — impossible to know what helped vs hurt
+- Changing unit conversion logic broadly — most values are already correct
+
+## CRITICAL RULES
+
+1. **DO NOT REWARD-HACK.** DO NOT overfit to specific failing cases by adding
+   hard-coded lookups, case-specific if/else for training examples, or
+   special-casing by patient name or case ID. Changes MUST generalize to
+   unseen cases. A held-out test set will expose overfitting.
+
+2. Make ONE targeted change per iteration. Don't rewrite everything at once.
+
+3. Return the COMPLETE modified ptools_evolved.py inside a <ptools_file> block.
+   Include ALL imports, ALL functions, everything. The block replaces the
+   entire file.
+
+4. Keep the file syntactically valid Python. Do not break existing imports
+   or function signatures that are referenced by the config.
+
+## Examples of GOOD changes
+- Fixing a specific computation bug (e.g. wrong formula for a calculator type)
+- Adding a validation check that catches a common extraction error pattern
+- Adding a small, specific docstring instruction scoped to a failure class
+- Adding a new fallback path for cases where extraction fails
+
+## Examples of BAD changes (cause regressions)
+- Rewriting the extraction prompt with many new instructions
+- Adding unit conversion logic that fires on all cases
+- Changing the workflow control flow
+- if calculator_name == "CHA2DS2-VASc": return 5
+
+<reasoning>
+1. What SPECIFIC failure pattern did you identify?
+2. How many of the shown failures share this pattern?
+3. What is the MINIMAL change that fixes this pattern?
+4. Why will this change NOT break currently working cases?
+</reasoning>
+
+<ptools_file>
+# Complete modified ptools_evolved.py here
+</ptools_file>
+
+<config>
+# Optional dotlist config overrides (e.g. model switches), one per line
+</config>

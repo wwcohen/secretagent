@@ -1,0 +1,111 @@
+case_name,predicted_output,predicted_numeric,expected_output,correct,exact_match,within_limits,absolute_error,calculator_name,category,output_type,input_tokens,output_tokens,latency,cost,expt_name
+train.4830,**exception raised**: unpickling stack underflow,,100.0,0.0,0.0,0.0,inf,Maintenance Fluids Calculations,physical,decimal,,,,,rc_iter0_eval
+train.8500,**exception raised**: unpickling stack underflow,,36.0,0.0,0.0,0.0,inf,Delta Gap,lab test,decimal,,,,,rc_iter0_eval
+train.6349,**exception raised**: unpickling stack underflow,,123.0,0.0,0.0,0.0,inf,LDL Calculated,lab test,decimal,,,,,rc_iter0_eval
+train.4253,**exception raised**: unpickling stack underflow,,0.0,0.0,0.0,0.0,inf,HEART Score for Major Cardiac Events,risk,integer,,,,,rc_iter0_eval
+train.9619,**exception raised**: unpickling stack underflow,,5.0,0.0,0.0,0.0,inf,Sequential Organ Failure Assessment (SOFA) Score,risk,integer,,,,,rc_iter0_eval
+train.8990,**exception raised**: unpickling stack underflow,,-4.5,0.0,0.0,0.0,inf,Albumin Corrected Delta Gap,lab test,decimal,,,,,rc_iter0_eval
+train.5356,**exception raised**: unpickling stack underflow,,135.336,0.0,0.0,0.0,inf,Sodium Correction for Hyperglycemia,lab test,decimal,,,,,rc_iter0_eval
+train.8051,**exception raised**: unpickling stack underflow,,77.53016,0.0,0.0,0.0,inf,Target weight,physical,decimal,,,,,rc_iter0_eval
+train.4346,**exception raised**: unpickling stack underflow,,11.30729,0.0,0.0,0.0,inf,Fibrosis-4 (FIB-4) Index for Liver Fibrosis,lab test,decimal,,,,,rc_iter0_eval
+train.9566,**exception raised**: unpickling stack underflow,,7.0,0.0,0.0,0.0,inf,Sequential Organ Failure Assessment (SOFA) Score,risk,integer,,,,,rc_iter0_eval
+train.9401,**exception raised**: unpickling stack underflow,,"('12 weeks', '6 days')",0.0,0.0,0.0,1.0,Estimated Gestational Age,date,date,,,,,rc_iter0_eval
+train.3923,**exception raised**: unpickling stack underflow,,62.31505,0.0,0.0,0.0,inf,Ideal Body Weight,physical,decimal,,,,,rc_iter0_eval
+train.5724,**exception raised**: unpickling stack underflow,,294.23016,0.0,0.0,0.0,inf,Serum Osmolality,lab test,decimal,,,,,rc_iter0_eval
+train.10047,**exception raised**: unpickling stack underflow,,10.0,0.0,0.0,0.0,inf,Glasgow Coma Score (GCS),severity,integer,,,,,rc_iter0_eval
+train.9980,**exception raised**: unpickling stack underflow,,8.0,0.0,0.0,0.0,inf,Caprini Score for Venous Thromboembolism (2005),risk,integer,,,,,rc_iter0_eval
+train.10443,**exception raised**: unpickling stack underflow,,2.0,0.0,0.0,0.0,inf,Revised Cardiac Risk Index for Pre-Operative Risk,risk,integer,,,,,rc_iter0_eval
+train.0199,**exception raised**: unpickling stack underflow,,133.07946,0.0,0.0,0.0,inf,CKD-EPI Equations for Glomerular Filtration Rate,lab test,decimal,,,,,rc_iter0_eval
+train.9206,**exception raised**: unpickling stack underflow,,20.0,0.0,0.0,0.0,inf,Morphine Milligram Equivalents (MME) Calculator,dosage,integer,,,,,rc_iter0_eval
+train.9545,**exception raised**: unpickling stack underflow,,3.0,0.0,0.0,0.0,inf,Wells' Criteria for DVT,risk,decimal,,,,,rc_iter0_eval
+train.6387,**exception raised**: unpickling stack underflow,,1.0,0.0,0.0,0.0,inf,CURB-65 Score for Pneumonia Severity,risk,integer,,,,,rc_iter0_eval
+train.9644,**exception raised**: unpickling stack underflow,,6.0,0.0,0.0,0.0,inf,Glasgow-Blatchford Bleeding Score (GBS),risk,integer,,,,,rc_iter0_eval
+train.10140,**exception raised**: unpickling stack underflow,,39.0,0.0,0.0,0.0,inf,MELD Na (UNOS/OPTN),lab test,decimal,,,,,rc_iter0_eval
+train.5330,**exception raised**: unpickling stack underflow,,146.632,0.0,0.0,0.0,inf,Sodium Correction for Hyperglycemia,lab test,decimal,,,,,rc_iter0_eval
+train.1743,**exception raised**: unpickling stack underflow,,91.33333,0.0,0.0,0.0,inf,Mean Arterial Pressure (MAP),physical,decimal,,,,,rc_iter0_eval
+train.6336,**exception raised**: unpickling stack underflow,,-4.0,0.0,0.0,0.0,inf,Anion Gap,lab test,decimal,,,,,rc_iter0_eval
+train.6054,**exception raised**: unpickling stack underflow,,0.57857,0.0,0.0,0.0,inf,Free Water Deficit,lab test,decimal,,,,,rc_iter0_eval
+train.9137,**exception raised**: unpickling stack underflow,,25.735,0.0,0.0,0.0,inf,Steroid Conversion Calculator,dosage,integer,,,,,rc_iter0_eval
+train.3813,**exception raised**: unpickling stack underflow,,59.62607,0.0,0.0,0.0,inf,Ideal Body Weight,physical,decimal,,,,,rc_iter0_eval
+train.10514,**exception raised**: unpickling stack underflow,,11.0,0.0,0.0,0.0,inf,APACHE II Score,risk,integer,,,,,rc_iter0_eval
+train.9726,**exception raised**: unpickling stack underflow,,3.41727,0.0,0.0,0.0,inf,Fractional Excretion of Sodium (FENa),lab test,decimal,,,,,rc_iter0_eval
+train.5888,**exception raised**: unpickling stack underflow,,2.0,0.0,0.0,0.0,inf,FeverPAIN Score for Strep Pharyngitis,diagnosis,integer,,,,,rc_iter0_eval
+train.4019,**exception raised**: unpickling stack underflow,,660.37605,0.0,0.0,0.0,inf,QTc Bazett Calculator,physical,decimal,,,,,rc_iter0_eval
+train.10533,**exception raised**: unpickling stack underflow,,14.0,0.0,0.0,0.0,inf,APACHE II Score,risk,integer,,,,,rc_iter0_eval
+train.9078,**exception raised**: unpickling stack underflow,,11/16/2014,0.0,0.0,0.0,1.0,Estimated Due Date,date,date,,,,,rc_iter0_eval
+train.2227,**exception raised**: unpickling stack underflow,,15.98244,0.0,0.0,0.0,inf,Body Mass Index (BMI),physical,decimal,,,,,rc_iter0_eval
+train.10141,**exception raised**: unpickling stack underflow,,29.0,0.0,0.0,0.0,inf,MELD Na (UNOS/OPTN),lab test,decimal,,,,,rc_iter0_eval
+train.10306,**exception raised**: unpickling stack underflow,,3.0,0.0,0.0,0.0,inf,Charlson Comorbidity Index (CCI),risk,integer,,,,,rc_iter0_eval
+train.9277,**exception raised**: unpickling stack underflow,,08/04/2003,0.0,0.0,0.0,1.0,Estimated of Conception,date,date,,,,,rc_iter0_eval
+train.8129,**exception raised**: unpickling stack underflow,,99.14495,0.0,0.0,0.0,inf,Adjusted Body Weight,physical,decimal,,,,,rc_iter0_eval
+train.6827,**exception raised**: unpickling stack underflow,,556.10772,0.0,0.0,0.0,inf,QTc Fridericia Calculator,physical,decimal,,,,,rc_iter0_eval
+train.0082,**exception raised**: unpickling stack underflow,,19.97717,0.0,0.0,0.0,inf,Creatinine Clearance (Cockcroft-Gault Equation),lab test,decimal,,,,,rc_iter0_eval
+train.4808,**exception raised**: unpickling stack underflow,,47.21552,0.0,0.0,0.0,inf,Maintenance Fluids Calculations,physical,decimal,,,,,rc_iter0_eval
+train.0055,**exception raised**: unpickling stack underflow,,60.11616,0.0,0.0,0.0,inf,Creatinine Clearance (Cockcroft-Gault Equation),lab test,decimal,,,,,rc_iter0_eval
+train.3291,**exception raised**: unpickling stack underflow,,4.04658,0.0,0.0,0.0,inf,MDRD GFR Equation,lab test,decimal,,,,,rc_iter0_eval
+train.8917,**exception raised**: unpickling stack underflow,,6.25,0.0,0.0,0.0,inf,Albumin Corrected Anion Gap,lab test,decimal,,,,,rc_iter0_eval
+train.6199,**exception raised**: unpickling stack underflow,,6.0,0.0,0.0,0.0,inf,Anion Gap,lab test,decimal,,,,,rc_iter0_eval
+train.7478,**exception raised**: unpickling stack underflow,,1.80174,0.0,0.0,0.0,inf,Body Surface Area Calculator,physical,decimal,,,,,rc_iter0_eval
+train.2056,**exception raised**: unpickling stack underflow,,22.06035,0.0,0.0,0.0,inf,Body Mass Index (BMI),physical,decimal,,,,,rc_iter0_eval
+train.7499,**exception raised**: unpickling stack underflow,,0.72486,0.0,0.0,0.0,inf,Body Surface Area Calculator,physical,decimal,,,,,rc_iter0_eval
+train.6636,**exception raised**: unpickling stack underflow,,4.0,0.0,0.0,0.0,inf,SIRS Criteria,diagnosis,integer,,,,,rc_iter0_eval
+train.8814,**exception raised**: unpickling stack underflow,,4.0,0.0,0.0,0.0,inf,Delta Ratio,lab test,decimal,,,,,rc_iter0_eval
+train.2820,**exception raised**: unpickling stack underflow,,3.0,0.0,0.0,0.0,inf,Wells' Criteria for Pulmonary Embolism,risk,integer,,,,,rc_iter0_eval
+train.9921,**exception raised**: unpickling stack underflow,,134.0,0.0,0.0,0.0,inf,PSI Score: Pneumonia Severity Index for CAP,severity,integer,,,,,rc_iter0_eval
+train.9254,**exception raised**: unpickling stack underflow,,53.6,0.0,0.0,0.0,inf,Morphine Milligram Equivalents (MME) Calculator,dosage,integer,,,,,rc_iter0_eval
+train.9779,**exception raised**: unpickling stack underflow,,0.99115,0.0,0.0,0.0,inf,Fractional Excretion of Sodium (FENa),lab test,decimal,,,,,rc_iter0_eval
+train.1364,**exception raised**: unpickling stack underflow,,100.0,0.0,0.0,0.0,inf,Mean Arterial Pressure (MAP),physical,decimal,,,,,rc_iter0_eval
+train.4081,**exception raised**: unpickling stack underflow,,716.884,0.0,0.0,0.0,inf,QTc Bazett Calculator,physical,decimal,,,,,rc_iter0_eval
+train.8849,**exception raised**: unpickling stack underflow,,0.85185,0.0,0.0,0.0,inf,Delta Ratio,lab test,decimal,,,,,rc_iter0_eval
+train.8406,**exception raised**: unpickling stack underflow,,-105.0,0.0,0.0,0.0,inf,Delta Gap,lab test,decimal,,,,,rc_iter0_eval
+train.6023,**exception raised**: unpickling stack underflow,,-1.45414,0.0,0.0,0.0,inf,Free Water Deficit,lab test,decimal,,,,,rc_iter0_eval
+train.2915,**exception raised**: unpickling stack underflow,,3.0,0.0,0.0,0.0,inf,Wells' Criteria for Pulmonary Embolism,risk,integer,,,,,rc_iter0_eval
+train.1081,**exception raised**: unpickling stack underflow,,7.0,0.0,0.0,0.0,inf,CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk,risk,integer,,,,,rc_iter0_eval
+train.4301,**exception raised**: unpickling stack underflow,,6.72926,0.0,0.0,0.0,inf,Fibrosis-4 (FIB-4) Index for Liver Fibrosis,lab test,decimal,,,,,rc_iter0_eval
+train.10038,**exception raised**: unpickling stack underflow,,5.0,0.0,0.0,0.0,inf,Glasgow Coma Score (GCS),severity,integer,,,,,rc_iter0_eval
+train.6823,**exception raised**: unpickling stack underflow,,397.48312,0.0,0.0,0.0,inf,QTc Fridericia Calculator,physical,decimal,,,,,rc_iter0_eval
+train.2675,**exception raised**: unpickling stack underflow,,12.22,0.0,0.0,0.0,inf,Calcium Correction for Hypoalbuminemia,lab test,decimal,,,,,rc_iter0_eval
+train.2574,**exception raised**: unpickling stack underflow,,9.2,0.0,0.0,0.0,inf,Calcium Correction for Hypoalbuminemia,lab test,decimal,,,,,rc_iter0_eval
+train.6902,**exception raised**: unpickling stack underflow,,443.55416,0.0,0.0,0.0,inf,QTc Framingham Calculator,physical,decimal,,,,,rc_iter0_eval
+train.7017,**exception raised**: unpickling stack underflow,,306.0,0.0,0.0,0.0,inf,QTc Hodges Calculator,physical,decimal,,,,,rc_iter0_eval
+train.6437,**exception raised**: unpickling stack underflow,,2.0,0.0,0.0,0.0,inf,CURB-65 Score for Pneumonia Severity,risk,integer,,,,,rc_iter0_eval
+train.9286,**exception raised**: unpickling stack underflow,,11/08/2021,0.0,0.0,0.0,1.0,Estimated of Conception,date,date,,,,,rc_iter0_eval
+train.9015,**exception raised**: unpickling stack underflow,,0.5,0.0,0.0,0.0,inf,Albumin Corrected Delta Ratio,lab test,decimal,,,,,rc_iter0_eval
+train.9962,**exception raised**: unpickling stack underflow,,12.0,0.0,0.0,0.0,inf,Caprini Score for Venous Thromboembolism (2005),risk,integer,,,,,rc_iter0_eval
+train.9428,**exception raised**: unpickling stack underflow,,14.0,0.0,0.0,0.0,inf,Child-Pugh Score for Cirrhosis Mortality,severity,integer,,,,,rc_iter0_eval
+train.9132,**exception raised**: unpickling stack underflow,,10.44184,0.0,0.0,0.0,inf,Steroid Conversion Calculator,dosage,integer,,,,,rc_iter0_eval
+train.6686,**exception raised**: unpickling stack underflow,,0.0,0.0,0.0,0.0,inf,SIRS Criteria,diagnosis,integer,,,,,rc_iter0_eval
+train.9020,**exception raised**: unpickling stack underflow,,-6.69565,0.0,0.0,0.0,inf,Albumin Corrected Delta Ratio,lab test,decimal,,,,,rc_iter0_eval
+train.5578,**exception raised**: unpickling stack underflow,,282.14286,0.0,0.0,0.0,inf,Serum Osmolality,lab test,decimal,,,,,rc_iter0_eval
+train.8976,**exception raised**: unpickling stack underflow,,10.0,0.0,0.0,0.0,inf,Albumin Corrected Delta Gap,lab test,decimal,,,,,rc_iter0_eval
+train.6915,**exception raised**: unpickling stack underflow,,423.33282,0.0,0.0,0.0,inf,QTc Framingham Calculator,physical,decimal,,,,,rc_iter0_eval
+train.10459,**exception raised**: unpickling stack underflow,,1.0,0.0,0.0,0.0,inf,Revised Cardiac Risk Index for Pre-Operative Risk,risk,integer,,,,,rc_iter0_eval
+train.10245,**exception raised**: unpickling stack underflow,,6.014,0.0,0.0,0.0,inf,Framingham Risk Score for Hard Coronary Heart Disease,lab test,decimal,,,,,rc_iter0_eval
+train.8256,**exception raised**: unpickling stack underflow,,52.99926,0.0,0.0,0.0,inf,Adjusted Body Weight,physical,decimal,,,,,rc_iter0_eval
+train.9657,**exception raised**: unpickling stack underflow,,2.0,0.0,0.0,0.0,inf,Glasgow-Blatchford Bleeding Score (GBS),risk,integer,,,,,rc_iter0_eval
+train.9853,**exception raised**: unpickling stack underflow,,12.34074,0.0,0.0,0.0,inf,HOMA-IR (Homeostatic Model Assessment for Insulin Resistance),lab test,decimal,,,,,rc_iter0_eval
+train.9345,**exception raised**: unpickling stack underflow,,"('21 weeks', '1 days')",0.0,0.0,0.0,1.0,Estimated Gestational Age,date,date,,,,,rc_iter0_eval
+train.9534,**exception raised**: unpickling stack underflow,,3.0,0.0,0.0,0.0,inf,Wells' Criteria for DVT,risk,decimal,,,,,rc_iter0_eval
+train.5890,**exception raised**: unpickling stack underflow,,4.0,0.0,0.0,0.0,inf,FeverPAIN Score for Strep Pharyngitis,diagnosis,integer,,,,,rc_iter0_eval
+train.4439,**exception raised**: unpickling stack underflow,,2.0,0.0,0.0,0.0,inf,Centor Score (Modified/McIsaac) for Strep Pharyngitis,severity,integer,,,,,rc_iter0_eval
+train.6491,**exception raised**: unpickling stack underflow,,1.0,0.0,0.0,0.0,inf,PERC Rule for Pulmonary Embolism,diagnosis,integer,,,,,rc_iter0_eval
+train.10242,**exception raised**: unpickling stack underflow,,2.44,0.0,0.0,0.0,inf,Framingham Risk Score for Hard Coronary Heart Disease,lab test,decimal,,,,,rc_iter0_eval
+train.8915,**exception raised**: unpickling stack underflow,,18.75,0.0,0.0,0.0,inf,Albumin Corrected Anion Gap,lab test,decimal,,,,,rc_iter0_eval
+train.4097,**exception raised**: unpickling stack underflow,,1.0,0.0,0.0,0.0,inf,HEART Score for Major Cardiac Events,risk,integer,,,,,rc_iter0_eval
+train.10379,**exception raised**: unpickling stack underflow,,3.0,0.0,0.0,0.0,inf,HAS-BLED Score for Major Bleeding Risk,risk,integer,,,,,rc_iter0_eval
+train.9440,**exception raised**: unpickling stack underflow,,5.0,0.0,0.0,0.0,inf,Child-Pugh Score for Cirrhosis Mortality,severity,integer,,,,,rc_iter0_eval
+train.6363,**exception raised**: unpickling stack underflow,,50.58,0.0,0.0,0.0,inf,LDL Calculated,lab test,decimal,,,,,rc_iter0_eval
+train.10337,**exception raised**: unpickling stack underflow,,3.0,0.0,0.0,0.0,inf,HAS-BLED Score for Major Bleeding Risk,risk,integer,,,,,rc_iter0_eval
+train.0213,**exception raised**: unpickling stack underflow,,63.96379,0.0,0.0,0.0,inf,CKD-EPI Equations for Glomerular Filtration Rate,lab test,decimal,,,,,rc_iter0_eval
+train.4434,**exception raised**: unpickling stack underflow,,3.0,0.0,0.0,0.0,inf,Centor Score (Modified/McIsaac) for Strep Pharyngitis,severity,integer,,,,,rc_iter0_eval
+train.9870,**exception raised**: unpickling stack underflow,,14.63951,0.0,0.0,0.0,inf,HOMA-IR (Homeostatic Model Assessment for Insulin Resistance),lab test,decimal,,,,,rc_iter0_eval
+train.7111,**exception raised**: unpickling stack underflow,,691.33333,0.0,0.0,0.0,inf,QTc Rautaharju Calculator,physical,decimal,,,,,rc_iter0_eval
+train.6530,**exception raised**: unpickling stack underflow,,2.0,0.0,0.0,0.0,inf,PERC Rule for Pulmonary Embolism,diagnosis,integer,,,,,rc_iter0_eval
+train.8082,**exception raised**: unpickling stack underflow,,81.80109,0.0,0.0,0.0,inf,Target weight,physical,decimal,,,,,rc_iter0_eval
+train.3149,**exception raised**: unpickling stack underflow,,28.59148,0.0,0.0,0.0,inf,MDRD GFR Equation,lab test,decimal,,,,,rc_iter0_eval
+train.7101,**exception raised**: unpickling stack underflow,,476.86667,0.0,0.0,0.0,inf,QTc Rautaharju Calculator,physical,decimal,,,,,rc_iter0_eval
+train.0815,**exception raised**: unpickling stack underflow,,5.0,0.0,0.0,0.0,inf,CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk,risk,integer,,,,,rc_iter0_eval
+train.6986,**exception raised**: unpickling stack underflow,,239.74962,0.0,0.0,0.0,inf,QTc Hodges Calculator,physical,decimal,,,,,rc_iter0_eval
+train.9085,**exception raised**: unpickling stack underflow,,04/01/2024,0.0,0.0,0.0,1.0,Estimated Due Date,date,date,,,,,rc_iter0_eval
+train.10259,**exception raised**: unpickling stack underflow,,6.0,0.0,0.0,0.0,inf,Charlson Comorbidity Index (CCI),risk,integer,,,,,rc_iter0_eval
+train.9911,**exception raised**: unpickling stack underflow,,101.0,0.0,0.0,0.0,inf,PSI Score: Pneumonia Severity Index for CAP,severity,integer,,,,,rc_iter0_eval
