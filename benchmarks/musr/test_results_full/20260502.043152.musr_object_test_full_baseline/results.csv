@@ -1,0 +1,76 @@
+case_name,predicted_output,expected_output,correct,input_tokens,output_tokens,latency,cost,expt_name
+ex065,1,0,False,4415.0,123.0,39.720765113830566,0.0056725000000000005,musr_object_test_full_baseline
+ex042,1,1,True,5337.0,188.0,40.00660943984985,0.00690625,musr_object_test_full_baseline
+ex015,"**exception raised**: litellm.RateLimitError: RateLimitError: Together_aiException - We noticed too many requests from your account. We do our best to serve all requests, but due to high load, some bursty requests may not succeed. In this situation, we use your ""dynamic"" rate limit to properly classify errors for failed requests. Your dynamic rate limit is 0.6666666666666666 RPM, while your current request rate is 2 RPM. Please refer to https://docs.together.ai/docs/rate-limits for more details about dynamic rate limits. If your workload is truly bursty, we recommend using batch or dedicated inference. For any further questions, please contact our sales team at https://www.together.ai/contact-sales.",1,False,4043.0,451.0,64.54106497764587,0.0056175,musr_object_test_full_baseline
+ex009,0,2,False,5073.0,294.0,78.50159454345703,0.00670875,musr_object_test_full_baseline
+ex100,2,2,True,5141.0,577.0,31.905185222625732,0.007147500000000001,musr_object_test_full_baseline
+ex058,4,4,True,5251.0,124.0,11.83996319770813,0.006718749999999999,musr_object_test_full_baseline
+ex001,1,1,True,4913.0,2015.0,67.79523706436157,0.008660000000000001,musr_object_test_full_baseline
+ex073,0,0,True,4183.0,511.0,23.02346658706665,0.005867500000000001,musr_object_test_full_baseline
+ex076,2,2,True,4652.0,484.0,23.82386302947998,0.00642,musr_object_test_full_baseline
+ex082,2,2,True,5143.0,170.0,31.92978024482727,0.0066412500000000005,musr_object_test_full_baseline
+ex080,**exception raised**: cannot find final answer,2,False,3989.0,2338.0,59.30638003349304,0.00790875,musr_object_test_full_baseline
+ex083,**exception raised**: cannot find final answer,0,False,4532.0,2172.0,71.44927668571472,0.00838,musr_object_test_full_baseline
+ex010,2,2,True,4790.0,362.0,15.805251836776733,0.006440000000000001,musr_object_test_full_baseline
+ex041,3,3,True,5552.0,473.0,60.32554817199707,0.0075312500000000015,musr_object_test_full_baseline
+ex067,0,0,True,4892.0,526.0,17.33451008796692,0.006772500000000001,musr_object_test_full_baseline
+ex066,2,1,False,3918.0,174.0,13.496588468551636,0.005115000000000001,musr_object_test_full_baseline
+ex052,**exception raised**: cannot find final answer,1,False,4487.0,2210.0,74.01800632476807,0.00837125,musr_object_test_full_baseline
+ex056,0,0,True,6016.0,133.0,47.98948836326599,0.00768625,musr_object_test_full_baseline
+ex033,0,0,True,4388.0,104.0,9.999423503875732,0.005615,musr_object_test_full_baseline
+ex030,2,2,True,5548.0,405.0,17.37980604171753,0.007441250000000001,musr_object_test_full_baseline
+ex068,2,0,False,4347.0,396.0,17.32978653907776,0.005928750000000001,musr_object_test_full_baseline
+ex060,3,3,True,6017.0,447.0,14.51471757888794,0.00808,musr_object_test_full_baseline
+ex072,**exception raised**: cannot find final answer,1,False,4879.0,2166.0,66.83967590332031,0.008806250000000002,musr_object_test_full_baseline
+ex026,0,0,True,4898.0,242.0,34.459821701049805,0.006425,musr_object_test_full_baseline
+ex059,**exception raised**: cannot find final answer,3,False,4348.0,2138.0,57.324217796325684,0.0081075,musr_object_test_full_baseline
+ex008,0,0,True,4170.0,129.0,8.317763805389404,0.005373750000000001,musr_object_test_full_baseline
+ex021,1,3,False,3870.0,363.0,21.99298405647278,0.00529125,musr_object_test_full_baseline
+ex063,**exception raised**: cannot find final answer,2,False,5253.0,2165.0,55.18590211868286,0.009272500000000001,musr_object_test_full_baseline
+ex032,2,0,False,5104.0,1188.0,25.799129009246826,0.007865,musr_object_test_full_baseline
+ex084,1,1,True,4515.0,125.0,5.1515631675720215,0.0058000000000000005,musr_object_test_full_baseline
+ex037,0,0,True,4948.0,472.0,12.10085940361023,0.006775000000000001,musr_object_test_full_baseline
+ex044,0,0,True,4799.0,524.0,22.40677261352539,0.006653750000000001,musr_object_test_full_baseline
+ex078,1,1,True,4827.0,609.0,21.987533569335938,0.006795000000000001,musr_object_test_full_baseline
+ex098,**exception raised**: cannot find final answer,0,False,4065.0,2199.0,69.43602108955383,0.00783,musr_object_test_full_baseline
+ex050,1,0,False,4375.0,124.0,23.0378634929657,0.00562375,musr_object_test_full_baseline
+ex062,**exception raised**: cannot find final answer,0,False,4537.0,2412.0,79.79992032051086,0.008686250000000001,musr_object_test_full_baseline
+ex045,2,1,False,4143.0,125.0,42.79112482070923,0.005335,musr_object_test_full_baseline
+ex049,1,2,False,6011.0,237.0,35.024455547332764,0.00781,musr_object_test_full_baseline
+ex047,0,0,True,4169.0,448.0,42.58760190010071,0.00577125,musr_object_test_full_baseline
+ex104,3,3,True,4181.0,394.0,20.89055633544922,0.005718750000000002,musr_object_test_full_baseline
+ex055,0,0,True,4828.0,635.0,58.97996664047241,0.006828750000000001,musr_object_test_full_baseline
+ex089,2,0,False,6041.0,544.0,19.02303910255432,0.00823125,musr_object_test_full_baseline
+ex012,2,2,True,3913.0,498.0,22.71851634979248,0.00551375,musr_object_test_full_baseline
+ex036,1,1,True,3996.0,127.0,25.453827619552612,0.00515375,musr_object_test_full_baseline
+ex023,0,0,True,4680.0,390.0,19.194791316986084,0.006337500000000001,musr_object_test_full_baseline
+ex039,2,3,False,4432.0,130.0,9.67717957496643,0.0057025,musr_object_test_full_baseline
+ex040,0,1,False,4679.0,134.0,19.697922706604004,0.006016250000000001,musr_object_test_full_baseline
+ex018,2,2,True,5076.0,507.0,25.103586196899414,0.006978749999999999,musr_object_test_full_baseline
+ex079,2,2,True,4912.0,131.0,26.976109981536865,0.0063037499999999995,musr_object_test_full_baseline
+ex005,3,0,False,5338.0,126.0,23.18550133705139,0.00683,musr_object_test_full_baseline
+ex024,2,2,True,4171.0,130.0,26.875391960144043,0.00537625,musr_object_test_full_baseline
+ex007,1,1,True,4417.0,414.0,15.03828501701355,0.006038750000000001,musr_object_test_full_baseline
+ex034,2,2,True,4268.0,529.0,31.216893911361694,0.00599625,musr_object_test_full_baseline
+ex085,4,4,True,4578.0,427.0,12.453052997589111,0.0062562500000000005,musr_object_test_full_baseline
+ex046,2,0,False,4690.0,354.0,23.969391584396362,0.006305000000000001,musr_object_test_full_baseline
+ex002,2,3,False,5663.0,150.0,22.24732494354248,0.00726625,musr_object_test_full_baseline
+ex051,2,2,True,4387.0,124.0,34.22466683387756,0.00563875,musr_object_test_full_baseline
+ex016,1,2,False,4850.0,188.0,6.486336946487427,0.006297500000000001,musr_object_test_full_baseline
+ex038,2,0,False,4504.0,334.0,9.147988319396973,0.0060475,musr_object_test_full_baseline
+ex061,2,2,True,4761.0,538.0,16.57099938392639,0.006623750000000001,musr_object_test_full_baseline
+ex105,1,1,True,4579.0,753.0,28.285911560058594,0.006665000000000001,musr_object_test_full_baseline
+ex022,1,2,False,4504.0,540.0,21.31197953224182,0.006305000000000001,musr_object_test_full_baseline
+ex006,2,0,False,5067.0,127.0,10.481643199920654,0.006492500000000002,musr_object_test_full_baseline
+ex048,0,0,True,4356.0,250.0,12.157041788101196,0.0057575000000000005,musr_object_test_full_baseline
+ex087,2,2,True,4254.0,414.0,14.56563115119934,0.005835000000000001,musr_object_test_full_baseline
+ex096,**exception raised**: cannot find final answer,0,False,5265.0,2184.0,74.11412858963013,0.009311250000000002,musr_object_test_full_baseline
+ex070,2,2,True,4905.0,248.0,9.387638807296753,0.006441250000000001,musr_object_test_full_baseline
+ex095,2,2,True,5165.0,250.0,37.56122374534607,0.0067687500000000005,musr_object_test_full_baseline
+ex019,0,0,True,4509.0,705.0,44.63109540939331,0.006517500000000001,musr_object_test_full_baseline
+ex074,3,3,True,4579.0,366.0,56.05357789993286,0.00618125,musr_object_test_full_baseline
+ex043,0,3,False,4297.0,178.0,13.083713054656982,0.005593750000000001,musr_object_test_full_baseline
+ex090,1,2,False,4375.0,257.0,19.640297889709473,0.005790000000000001,musr_object_test_full_baseline
+ex020,2,0,False,4504.0,184.0,4.838562250137329,0.00586,musr_object_test_full_baseline
+ex000,**exception raised**: cannot find final answer,0,False,6013.0,2168.0,69.04182457923889,0.01022625,musr_object_test_full_baseline
+ex101,3,3,True,4166.0,612.0,20.649486303329468,0.0059725,musr_object_test_full_baseline

@@ -14,12 +14,14 @@ import pandas as pd
 from secretagent.core import interface
 
 # ---------------------------------------------------------------
-# Table store — populated at experiment startup by expt.py
-# Maps example id -> {"table": str, "table_for_pd": dict,
-#                      "table_title": str | None}
+# Table store — share the dict object with the base `ptools` module so the
+# orch-loaded copies of get_table_schema/lookup_value/etc. see the table data
+# populated by `ptools.load_table_store(raw_data)` in expt.py. Without this,
+# this module re-defined an empty `_TABLE_STORE` and every wf_orch eval raised
+# KeyError(table_id) on the first table lookup.
 # ---------------------------------------------------------------
 
-_TABLE_STORE: dict[str, dict] = {}
+from ptools import _TABLE_STORE  # noqa: F401
 
 
 def load_table_store(dataset_dict: dict) -> None:

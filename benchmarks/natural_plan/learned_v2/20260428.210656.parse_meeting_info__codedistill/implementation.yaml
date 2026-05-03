@@ -1,0 +1,4 @@
+parse_meeting_info:
+  backoff: true
+  learner: codedistill
+  method: learned_code

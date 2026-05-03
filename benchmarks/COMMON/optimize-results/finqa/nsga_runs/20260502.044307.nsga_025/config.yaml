@@ -1,0 +1,27 @@
+llm:
+  model: gemini/gemini-2.5-flash-lite
+cachier:
+  cache_dir: C:\Users\STUDENT\OneDrive\Documents\Projects\AI Research\secretagent\benchmarks\finqa\llm_cache
+evaluate:
+  result_dir: C:\Users\STUDENT\OneDrive\Documents\Projects\AI Research\secretagent\benchmarks\finqa\results
+  expt_name: nsga_025
+dataset:
+  split: valid
+  shuffle_seed: null
+  'n': 50
+ptools:
+  parse_table:
+    method: direct
+  lookup_cell:
+    method: direct
+  compute:
+    method: direct
+  extract_reasoning_plan:
+    method: simulate
+    model: gemini/gemini-2.5-flash-lite
+  extract_final_number:
+    method: simulate
+    model: gemini/gemini-2.5-flash-lite
+  answer_finqa:
+    method: simulate
+root: C:\Users\STUDENT\OneDrive\Documents\Projects\AI Research\secretagent\benchmarks\finqa

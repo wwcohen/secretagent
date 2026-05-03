@@ -1,0 +1,7 @@
+{
+  "reproduce_cmd": "uv run python expt.py run --config-file conf/calendar.yaml ptools.calendar_scheduling.method=direct ptools.calendar_scheduling.fn=ptools_calendar.calendar_workflow dataset.partition=train dataset.n=100 evaluate.expt_name=natplan_calendar_train_train_full evaluate.record_details=true evaluate.result_dir=recordings_full",
+  "accuracy": 0.34,
+  "total_cost_usd": 0.390982,
+  "total_time_sec": 4728.7,
+  "n_samples": 100
+}

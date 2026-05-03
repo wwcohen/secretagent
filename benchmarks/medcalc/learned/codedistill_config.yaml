@@ -1,0 +1,5 @@
+ptools:
+  identify_calculator:
+    backoff: 'true'
+    learner: codedistill
+    method: learned_code

@@ -1,0 +1,7 @@
+{
+  "reproduce_cmd": "uv run python expt.py run --config-file conf/meeting.yaml evaluate.expt_name=meet_workflow evaluate.record_details=true evaluate.result_dir=recordings dataset.n=100 ptools.meeting_planning.method=direct ptools.meeting_planning.fn=ptools_meeting.meeting_workflow",
+  "accuracy": 0.26,
+  "total_cost_usd": 0.513118,
+  "total_time_sec": 5000.96,
+  "n_samples": 100
+}

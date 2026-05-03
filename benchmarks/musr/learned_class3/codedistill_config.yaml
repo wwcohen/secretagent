@@ -1,0 +1,13 @@
+ptools:
+  analyze_and_synthesize_evidence:
+    backoff: true
+    learner: codedistill
+    method: learned_code
+  form_conclusion:
+    backoff: true
+    learner: codedistill
+    method: learned_code
+  search_suspect_attributes:
+    backoff: true
+    learner: codedistill
+    method: learned_code

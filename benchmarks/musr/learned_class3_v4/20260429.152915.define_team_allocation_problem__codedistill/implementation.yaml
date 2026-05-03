@@ -1,0 +1,4 @@
+define_team_allocation_problem:
+  backoff: true
+  learner: codedistill
+  method: learned_code

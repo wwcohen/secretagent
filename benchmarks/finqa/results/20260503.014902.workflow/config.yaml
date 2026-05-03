@@ -1,0 +1,41 @@
+llm:
+  model: together_ai/deepseek-ai/DeepSeek-V3.1
+cachier:
+  cache_dir: /Users/arthurkajiyama/Documents/CMU/Research/secret_agents/secretagent/benchmarks/finqa/llm_cache
+evaluate:
+  result_dir: /Users/arthurkajiyama/Documents/CMU/Research/secret_agents/secretagent/benchmarks/finqa/results
+  expt_name: workflow
+  record_details: false
+dataset:
+  split: test
+  shuffle_seed: null
+  'n': 300
+ptools:
+  parse_table:
+    method: direct
+  lookup_cell:
+    method: direct
+  compute:
+    method: direct
+  extract_reasoning_plan:
+    method: prompt_llm
+    prompt_template_file: /Users/arthurkajiyama/Documents/CMU/Research/secret_agents/secretagent/benchmarks/finqa/prompt_templates/reasoning_plan.txt
+    answer_pattern: null
+  parse_plan_fields:
+    method: direct
+  substitute_values:
+    method: direct
+  format_for_scale:
+    method: direct
+  extract_final_number:
+    method: simulate
+  zeroshot_answer_finqa:
+    method: prompt_llm
+    prompt_template_file: /Users/arthurkajiyama/Documents/CMU/Research/secret_agents/secretagent/benchmarks/finqa/prompt_templates/zeroshot.txt
+    answer_pattern: null
+  coerce_to_answer:
+    method: direct
+  answer_finqa:
+    method: direct
+    fn: ptools.answer_finqa_workflow
+root: /Users/arthurkajiyama/Documents/CMU/Research/secret_agents/secretagent/benchmarks/finqa
