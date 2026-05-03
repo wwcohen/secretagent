@@ -17,6 +17,8 @@ from ptools_common import (  # noqa: F401  (re-export so the loaded ptools modul
     raw_answer,
     extract_index,
     react_solve,
+    react_solve_engineered,
+    _REACT_STATE,
 )
 
 
@@ -112,3 +114,39 @@ def answer_question_workflow(narrative: str, question: str, choices: list) -> in
     requirements = extract_team_requirements(narrative)
     text = score_team_assignments(narrative, requirements, question, choices)
     return extract_index(text, choices)
+
+
+# ----------------------------------------------------------------------
+# Stateful tool wrappers for ReAct + engineered ptools
+# ----------------------------------------------------------------------
+
+
+def solve_extract_team_requirements() -> str:
+    """Extract the constraints and requirements that define a valid team
+    from the current narrative — roles + headcount, hard constraints, soft
+    constraints, scoring rules, synergies, and conflicts.
+
+    Call this FIRST. Returns a structured free-form string — pass it to
+    ``solve_score_team_assignments``.
+    """
+    return extract_team_requirements(_REACT_STATE['narrative'])
+
+
+def solve_score_team_assignments(
+    requirements: str, question: str, choices: list,
+) -> str:
+    """Score each candidate team assignment in the question's choices against
+    the extracted requirements, then identify the best one.
+
+    Call this LAST.
+
+    Args:
+        requirements: The output of ``solve_extract_team_requirements``.
+        question: The original question text (passed through).
+        choices: The list of multiple-choice answer choices (passed through).
+
+    Returns: a short string concluding with the chosen assignment as it
+    appears in the choices. After this, decide the 0-based answer index
+    and stop calling tools.
+    """
+    return score_team_assignments(_REACT_STATE['narrative'], requirements, question, choices)

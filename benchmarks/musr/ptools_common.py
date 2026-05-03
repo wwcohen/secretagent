@@ -219,6 +219,86 @@ def react_answer_impl(narrative: str, question: str, choices: list) -> int:
 
 
 # ============================================================
+# ReAct + engineered (hand-designed) ptools support
+# ============================================================
+#
+# Generic ReAct entry point bound via simulate_pydantic with task-
+# specific engineered ptools as the agent's tool set. Each task module
+# (ptools_murder, ptools_object, ptools_team) defines plain-function
+# wrappers over its engineered ptools that read the narrative from
+# `_REACT_STATE` so the agent does not have to pass the long narrative
+# as an argument on every call.
+#
+# Wiring (config snippet, murder example):
+#   ptools:
+#     react_solve_engineered:
+#       method: simulate_pydantic
+#       tools:
+#         - ptools_murder.solve_extract_suspects
+#         - ptools_murder.solve_verify_alibis
+#         - ptools_murder.solve_deduce_murderer
+#     extract_suspects_and_evidence: {method: simulate}
+#     verify_alibis: {method: simulate}
+#     deduce_murderer: {method: simulate}
+#     answer_question:
+#       method: direct
+#       fn: ptools_common.react_engineered_answer_impl
+
+
+@interface
+def react_solve_engineered(narrative: str, question: str, choices: list) -> str:
+    """Solve a multiple-choice MUSR question using the available domain tools.
+
+    The runtime registers a small set of analysis tools tailored to this
+    task family. Read each tool's docstring (which explains its purpose
+    and required arguments) before deciding which to call. The current
+    narrative has already been loaded into the runtime, so tools that
+    need it will receive it automatically — you do NOT need to pass the
+    narrative as an argument.
+
+    Process:
+      1. Read the question and the answer choices.
+      2. Call the available tools (in a sensible order) to extract
+         evidence, verify constraints, or score candidates. You can pass
+         the output of one tool as input to another when its docstring
+         asks for it.
+      3. Reason briefly about which choice is best supported.
+      4. Return the 0-based answer index as a short string (e.g. "0",
+         "1", or "2"). Stop calling tools after deciding.
+
+    BUDGET: aim for at most 5–8 tool calls total. Prefer focused calls
+    over re-running the same tool.
+    """
+
+
+def react_engineered_answer_impl(narrative: str, question: str, choices: list) -> int:
+    """Direct-method entry point for ReAct + engineered-ptool configs.
+
+    Loads the narrative into _REACT_STATE so the (stateful) tool wrappers
+    can access it without the agent passing it as an arg, then runs
+    `react_solve_engineered` (bound to a pydantic-ai Agent with the
+    task's engineered ptools as tools), and returns the 0-based answer
+    index parsed from the agent's final string output.
+
+    Recovery order:
+      1. If the agent's final string output contains an integer, return it.
+      2. Else, return -1 (recorded as wrong by the evaluator).
+    """
+    _reset_react_state(narrative)
+    raw: str | None = None
+    try:
+        raw = react_solve_engineered(narrative, question, choices)
+    except Exception:
+        # Agent loop blew up (e.g. request limit, output validation).
+        pass
+    if isinstance(raw, str):
+        m = re.search(r'-?\d+', raw)
+        if m:
+            return int(m.group(0))
+    return -1
+
+
+# ============================================================
 # AWM (Agent Workflow Memory) support: workflow-augmented agent
 # ============================================================
 #

@@ -1,0 +1,7 @@
+{
+  "accuracy": 0.15,
+  "n_samples": 100,
+  "total_cost_usd": NaN,
+  "reproduce_cmd": "uv run python expt.py run --config-file conf/trip.yaml dataset.n=100 evaluate.expt_name=trip_react_engineered ptools.trip_planning.method=simulate_pydantic",
+  "note": "reconstructed from collision dir 20260501.174254.react_engineered/results.jsonl"
+}

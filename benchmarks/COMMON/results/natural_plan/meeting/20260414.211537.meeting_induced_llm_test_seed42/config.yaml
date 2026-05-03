@@ -1,0 +1,28 @@
+llm:
+  model: together_ai/deepseek-ai/DeepSeek-V3
+cachier:
+  cache_dir: /Users/lexl/reasoning_primitives/benchmarks/natural_plan/llm_cache
+  enable_caching: false
+evaluate:
+  expt_name: meeting_induced_llm_test_seed42
+  result_dir: /Users/lexl/reasoning_primitives/benchmarks/natural_plan/results
+  entry_point: meeting_planning
+  record_details: true
+dataset:
+  split: meeting
+  prompt_mode: 0shot
+  partition: test
+  shuffle_seed: 42
+ptools:
+  meeting_react_solve:
+    method: react_pydantic
+    tools:
+    - ptools_common.finish
+    - induced_ptools_seed42_correct_llm_meeting.define_meeting_problem
+    - induced_ptools_seed42_correct_llm_meeting.request_travel_times
+    - induced_ptools_seed42_correct_llm_meeting.propose_meeting_schedule
+    - induced_ptools_seed42_correct_llm_meeting.verify_constraints
+    - induced_ptools_seed42_correct_llm_meeting.analyze_constraints_and_requirements
+  meeting_planning:
+    method: direct
+    fn: ptools_common.meeting_react_impl

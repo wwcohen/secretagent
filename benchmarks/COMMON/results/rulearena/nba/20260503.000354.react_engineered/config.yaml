@@ -1,0 +1,20 @@
+llm:
+  model: together_ai/deepseek-ai/DeepSeek-V3.1
+  max_tokens: 8192
+  timeout: 600
+cachier:
+  cache_dir: /Users/lexl/Research_group/secretagent/benchmarks/rulearena/nba/llm_cache
+evaluate:
+  result_dir: /Users/lexl/Research_group/secretagent/benchmarks/rulearena/nba/results
+  expt_name: react_engineered
+dataset:
+  split: test
+  shuffle_seed: 42
+ptools:
+  extract_nba_params:
+    method: simulate
+  compute_nba_answer:
+    method: simulate_pydantic
+    tools:
+    - ptools.extract_nba_params
+root: /Users/lexl/Research_group/secretagent/benchmarks/rulearena/nba

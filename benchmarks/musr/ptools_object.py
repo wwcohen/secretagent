@@ -5,6 +5,8 @@ from ptools_common import (  # noqa: F401  (re-export so the loaded ptools modul
     raw_answer,
     extract_index,
     react_solve,
+    react_solve_engineered,
+    _REACT_STATE,
 )
 
 
@@ -125,3 +127,52 @@ def answer_question_workflow(narrative: str, question: str, choices: list) -> in
     )
     text = infer_belief(narrative, combined, question, choices)
     return extract_index(text, choices)
+
+
+# ----------------------------------------------------------------------
+# Stateful tool wrappers for ReAct + engineered ptools
+# ----------------------------------------------------------------------
+
+
+def solve_extract_movements() -> str:
+    """Extract a chronological list of every object-movement event in the
+    current narrative. For each move: object, from_location, to_location,
+    actor, who was present, who was absent.
+
+    Call this FIRST (paired with ``solve_extract_discoveries``). Returns
+    a numbered list — pass it to ``solve_infer_belief``.
+    """
+    return extract_movements(_REACT_STATE['narrative'])
+
+
+def solve_extract_discoveries() -> str:
+    """Extract incidental discoveries from the current narrative — moments
+    where a character notices/sees/learns the location of an object WITHOUT
+    witnessing the move that put it there (e.g. walking past, being told,
+    etc.).
+
+    Call this SECOND (paired with ``solve_extract_movements``). Returns a
+    numbered list (or "No discoveries.") — pass it to ``solve_infer_belief``.
+    """
+    return extract_discoveries(_REACT_STATE['narrative'])
+
+
+def solve_infer_belief(movements_and_discoveries: str, question: str, choices: list) -> str:
+    """Determine where the target person believes the target object is located,
+    given the extracted movements + discoveries.
+
+    Call this LAST.
+
+    Args:
+        movements_and_discoveries: The combined output of
+            ``solve_extract_movements`` and ``solve_extract_discoveries``.
+            Concatenate them with a header (e.g.
+            "## Object movements\\n<movements>\\n\\n## Incidental discoveries\\n<discoveries>").
+        question: The original question text (passed through).
+        choices: The list of multiple-choice answer choices (passed through).
+
+    Returns: a short string identifying the believed location (matching
+    one of the choices). After this, decide the 0-based answer index and
+    stop calling tools.
+    """
+    return infer_belief(_REACT_STATE['narrative'], movements_and_discoveries, question, choices)
