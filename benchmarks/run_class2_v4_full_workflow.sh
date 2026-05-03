@@ -1,6 +1,6 @@
 #!/bin/bash
-# C': Class 2 v4 workflow-codedistill on FULL-SIZE datasets, with backoff=True
-# (LLM-only fallback when generated returns None). Output: learned_class2_v4/.
+# C': Class 2 opus workflow-codedistill on FULL-SIZE datasets, with backoff=True
+# (LLM-only fallback when generated returns None). Output: learned_class2_opus/.
 set +e
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 LOG_DIR="$ROOT/benchmarks/codedistill_logs_v2"
@@ -40,7 +40,7 @@ run_wf() {
   echo "[$(date)] class2_v4 $label END rc=$?"
 }
 
-echo "=== Class 2 v4 (full-size, backoff=True) — start at $(date) ==="
+echo "=== Class 2 opus (full-size, backoff=True) — start at $(date) ==="
 
 # 1) NatPlan calendar
 cd "$ROOT/benchmarks/natural_plan"
@@ -53,9 +53,9 @@ run_wf natplan_calendar \
     ${MEET_TRACE:+--cross-trace-dir "$MEET_TRACE"} \
     ${TRIP_TRACE:+--cross-trace-dir "$TRIP_TRACE"} \
     --cross-dataset-file "$MEET_DS" --cross-dataset-file "$TRIP_DS" \
-    --learned-dir learned_class2_v4 --model "$CD_MODEL" \
+    --learned-dir learned_class2_opus --model "$CD_MODEL" \
     --backoff true --backoff-method simulate \
-  > "$LOG_DIR/class2v4_natplan_calendar.log" 2>&1
+  > "$LOG_DIR/class2_opus_natplan_calendar.log" 2>&1
 
 run_wf natplan_meeting \
   uv run -m secretagent.cli.learn workflow-codedistill \
@@ -66,9 +66,9 @@ run_wf natplan_meeting \
     ${CAL_TRACE:+--cross-trace-dir "$CAL_TRACE"} \
     ${TRIP_TRACE:+--cross-trace-dir "$TRIP_TRACE"} \
     --cross-dataset-file "$CAL_DS" --cross-dataset-file "$TRIP_DS" \
-    --learned-dir learned_class2_v4 --model "$CD_MODEL" \
+    --learned-dir learned_class2_opus --model "$CD_MODEL" \
     --backoff true \
-  > "$LOG_DIR/class2v4_natplan_meeting.log" 2>&1
+  > "$LOG_DIR/class2_opus_natplan_meeting.log" 2>&1
 
 run_wf natplan_trip \
   uv run -m secretagent.cli.learn workflow-codedistill \
@@ -79,9 +79,9 @@ run_wf natplan_trip \
     ${CAL_TRACE:+--cross-trace-dir "$CAL_TRACE"} \
     ${MEET_TRACE:+--cross-trace-dir "$MEET_TRACE"} \
     --cross-dataset-file "$CAL_DS" --cross-dataset-file "$MEET_DS" \
-    --learned-dir learned_class2_v4 --model "$CD_MODEL" \
+    --learned-dir learned_class2_opus --model "$CD_MODEL" \
     --backoff true \
-  > "$LOG_DIR/class2v4_natplan_trip.log" 2>&1
+  > "$LOG_DIR/class2_opus_natplan_trip.log" 2>&1
 
 # 2) BBH quartet
 for sub_iface_wf in "sports_understanding:are_sports_in_sentence_consistent" \
@@ -105,8 +105,8 @@ for sub_iface_wf in "sports_understanding:are_sports_in_sentence_consistent" \
       --reference-file ../sports_understanding/ptools.py --reference-file ../penguins_in_a_table/ptools.py \
       --reference-file ../geometric_shapes/ptools.py --reference-file ../date_understanding/ptools.py \
       ${trace:+--trace-dir "$trace"} \
-      --learned-dir learned_class2_v4 --model "$CD_MODEL" --backoff true \
-    > "$LOG_DIR/class2v4_bbh_${sub}.log" 2>&1
+      --learned-dir learned_class2_opus --model "$CD_MODEL" --backoff true \
+    > "$LOG_DIR/class2_opus_bbh_${sub}.log" 2>&1
 done
 
 # 3) MedCalc
@@ -116,8 +116,8 @@ run_wf medcalc \
     --interface calculate_medical_value --dataset-file data_train_100_diverse.json \
     --tool-module ptools --conf-file conf/workflow.yaml \
     ${MEDCALC_TRACE:+--trace-dir "$MEDCALC_TRACE"} \
-    --learned-dir learned_class2_v4 --model "$CD_MODEL" --backoff true \
-  > "$LOG_DIR/class2v4_medcalc.log" 2>&1
+    --learned-dir learned_class2_opus --model "$CD_MODEL" --backoff true \
+  > "$LOG_DIR/class2_opus_medcalc.log" 2>&1
 
 # 4) FinQA
 cd "$ROOT/benchmarks/finqa"
@@ -126,8 +126,8 @@ run_wf finqa \
     --interface answer_finqa --dataset-file data/train.json \
     --tool-module ptools --conf-file conf/workflow.yaml \
     ${FINQA_TRACE:+--trace-dir "$FINQA_TRACE"} \
-    --learned-dir learned_class2_v4 --model "$CD_MODEL" --backoff true \
-  > "$LOG_DIR/class2v4_finqa.log" 2>&1
+    --learned-dir learned_class2_opus --model "$CD_MODEL" --backoff true \
+  > "$LOG_DIR/class2_opus_finqa.log" 2>&1
 
 # 5) RuleArena airline only (other domains lack train Dataset json)
 cd "$ROOT/benchmarks/rulearena"
@@ -136,8 +136,8 @@ run_wf rulearena_airline \
     --interface compute_rulearena_answer --dataset-file airline_train_50.json \
     --tool-module ptools \
     ${AIRLINE_TRACE:+--trace-dir "$AIRLINE_TRACE"} \
-    --learned-dir learned_class2_v4 --model "$CD_MODEL" --backoff true \
-  > "$LOG_DIR/class2v4_rulearena_airline.log" 2>&1
+    --learned-dir learned_class2_opus --model "$CD_MODEL" --backoff true \
+  > "$LOG_DIR/class2_opus_rulearena_airline.log" 2>&1
 
 cd "$ROOT"
-echo "=== Class 2 v4 — DONE at $(date) ==="
+echo "=== Class 2 opus — DONE at $(date) ==="

@@ -62,9 +62,9 @@ def find_val_csv(benchdir: Path, expt_pat: str, strict_v4: bool = False,
       2. COMMON/codedistill-ptools-results/<common_subdir>/{val,test}_results_full/...   (Class 1 outputs)
       3. COMMON/codedistill-workflow-results/<common_subdir>/{val,test}_results_full/... (Class 2 outputs)
 
-    If strict_v4=True, only return v4 full-size matches.
+    If strict_v4=True, only return opus full-size matches.
     """
-    method_token = expt_pat.split('_')[-1]  # baseline / class1 / class2 / class3 / class1v4g / etc
+    method_token = expt_pat.split('_')[-1]  # baseline / class1 / class2 / class3 / class1_gemini / etc
     pre = '_'.join(expt_pat.split('_')[:-1])
 
     # Decide which COMMON subtree to search based on method
@@ -81,25 +81,25 @@ def find_val_csv(benchdir: Path, expt_pat: str, strict_v4: bool = False,
 
     if strict_v4:
         priority = [('val_results_full', f'_full_{method}v4_*'),
-                    ('val_results_full', f'_full_{method}v4'),
+                    ('val_results_full', f'_full_{method}opus'),
                     ('test_results_full', f'_full_{method}v4_*'),
-                    ('test_results_full', f'_full_{method}v4')]
+                    ('test_results_full', f'_full_{method}opus')]
         if method == 'baseline':
             priority = [('val_results_full', f'_full_{method}'),
                         ('test_results_full', f'_full_{method}')]
     else:
         priority = [('val_results_full', f'_full_{method}v4_*'),
-                    ('val_results_full', f'_full_{method}v4'),
+                    ('val_results_full', f'_full_{method}opus'),
                     ('val_results_full', f'_full_{method}'),
                     ('test_results_full', f'_full_{method}v4_*'),
-                    ('test_results_full', f'_full_{method}v4'),
-                    ('val_results', f'_{method}v4'),
+                    ('test_results_full', f'_full_{method}opus'),
+                    ('val_results', f'_{method}opus'),
                     ('val_results', f'_{method}v2'),
                     ('val_results', f'_{method}')]
 
-    # Search COMMON dirs first (paper-frozen v4/v4g results); per-bench last
+    # Search COMMON dirs first (paper-frozen opus/gemini results); per-bench last
     # (used only for baseline + legacy mini). This ordering avoids picking up
-    # stale n=30 mini vals when v4/v4g full-size results exist in COMMON.
+    # stale n=30 mini vals when opus/gemini full-size results exist in COMMON.
     search_roots = common_dirs + [benchdir]
     for root in search_roots:
         for sub, suffix in priority:
@@ -273,7 +273,7 @@ def collect_all():
                     if method != 'baseline' and cells[method]['cost_per_case'] > 0.001:
                         m2 = csv_metrics(csv, train_rec)
                         cells[method]['calls_per_case'] = m2['calls_per_case']
-        # attach strict v4 view as a sibling key
+        # attach strict opus view as a sibling key
         cells['_v4'] = cells_v4
         out[bench] = cells
     return out
@@ -294,14 +294,14 @@ def plot1_cost_vs_acc(data, outpath):
     fig, ax = plt.subplots(figsize=(11, 7))
     methods = [
         ('baseline', 'red',     'o', 'baseline (hand workflow)'),
-        ('class1',   'blue',    's', 'Class 1 v4 (ptool codedistill)'),
-        ('class2',   'green',   '^', 'Class 2 v4 (workflow codedistill)'),
+        ('class1',   'blue',    's', 'Class 1 opus (ptool codedistill)'),
+        ('class2',   'green',   '^', 'Class 2 opus (workflow codedistill)'),
         # v2/mini and Class 3 intentionally omitted: 3 points per benchmark
     ]
     legend_drawn = set()
 
     for bench, cells in data.items():
-        # plot1 uses the strict v4 view: baseline + c1_v4 + c2_v4 only
+        # plot1 uses the strict opus view: baseline + c1_v4 + c2_v4 only
         cells = cells.get('_v4', cells)
         path = []
         for mkey in ['baseline', 'class1', 'class2']:

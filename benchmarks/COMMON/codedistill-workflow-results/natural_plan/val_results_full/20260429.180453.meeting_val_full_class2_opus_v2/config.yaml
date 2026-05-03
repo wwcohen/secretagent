@@ -1,0 +1,34 @@
+llm:
+  model: together_ai/deepseek-ai/DeepSeek-V3.1
+  timeout: 180
+cachier:
+  cache_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/natural_plan/llm_cache
+evaluate:
+  result_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/natural_plan/val_results_full
+  expt_name: meeting_val_full_class2_opus_v2
+  entry_point: meeting_planning
+  prompt_trace: true
+  record_details: true
+dataset:
+  split: meeting
+  shuffle_seed: 42
+  prompt_mode: 0shot
+  'n': 100
+  stratified: false
+  sample_n: 50
+  sample_seed: 42
+  partition: valid
+ptools:
+  parse_meeting_info:
+    method: simulate
+  plan_visit_order:
+    method: simulate
+  build_meeting_plan:
+    method: simulate
+  meeting_planning:
+    method: learned_code
+    learner: workflow_distill
+    backoff: true
+learn:
+  train_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/natural_plan/learned_class2_opus
+root: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/natural_plan

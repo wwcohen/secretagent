@@ -8,10 +8,21 @@ export
 # Sample 50 more (seed 43): add dataset.sample_seed=43
 #
 
+# Optional: set DATASET_PARTITION=test (or =valid, =train) to run on a
+# pre-split file (data/{task}_{partition}.json) and write outputs to
+# results-<partition>/. Defaults: full data + dataset.shuffle_seed/n,
+# results/.
+PARTITION_OVERRIDE =
+EXPORT_SRC = results
+ifdef DATASET_PARTITION
+  PARTITION_OVERRIDE = dataset.partition=$(DATASET_PARTITION) evaluate.result_dir=results-$(DATASET_PARTITION)
+  EXPORT_SRC = results-$(DATASET_PARTITION)
+endif
+
 # ── Calendar ── (standard expt_names for scripts/benchmark_status.py)
 
 CAL_N ?= 100
-CAL_BASE = uv run python expt.py run --config-file conf/calendar.yaml dataset.n=$(CAL_N)
+CAL_BASE = uv run python expt.py run --config-file conf/calendar.yaml dataset.n=$(CAL_N) $(PARTITION_OVERRIDE)
 
 calendar_workflow:
 	$(CAL_BASE) evaluate.expt_name=workflow \
@@ -61,7 +72,7 @@ calendar_export:
 	uv run python -m secretagent.cli.results export \
 	  --check dataset.split=calendar \
 	  --as natural_plan/calendar \
-	  results/*
+	  $(EXPORT_SRC)/*
 
 # Legacy cal_* aliases (deprecated, kept for back-compat with existing scripts)
 cal_zeroshot_structured: calendar_structured_baseline
@@ -73,7 +84,7 @@ cal_react: calendar_react
 # ── Meeting ── (standard expt_names for scripts/benchmark_status.py)
 
 MEET_N ?= 100
-MEET_BASE = uv run python expt.py run --config-file conf/meeting.yaml dataset.n=$(MEET_N)
+MEET_BASE = uv run python expt.py run --config-file conf/meeting.yaml dataset.n=$(MEET_N) $(PARTITION_OVERRIDE)
 
 meeting_workflow:
 	$(MEET_BASE) evaluate.expt_name=workflow \
@@ -112,7 +123,7 @@ meeting_export:
 	uv run python -m secretagent.cli.results export \
 	  --check dataset.split=meeting \
 	  --as natural_plan/meeting \
-	  results/*
+	  $(EXPORT_SRC)/*
 
 # Legacy meet_* aliases (deprecated)
 meet_zeroshot_structured: meeting_structured_baseline
@@ -124,7 +135,7 @@ meet_react: meeting_react
 # ── Trip ── (standard expt_names for scripts/benchmark_status.py)
 
 TRIP_N ?= 100
-TRIP_BASE = uv run python expt.py run --config-file conf/trip.yaml dataset.n=$(TRIP_N)
+TRIP_BASE = uv run python expt.py run --config-file conf/trip.yaml dataset.n=$(TRIP_N) $(PARTITION_OVERRIDE)
 
 trip_workflow:
 	$(TRIP_BASE) evaluate.expt_name=workflow \
@@ -163,7 +174,7 @@ trip_export:
 	uv run python -m secretagent.cli.results export \
 	  --check dataset.split=trip \
 	  --as natural_plan/trip \
-	  results/*
+	  $(EXPORT_SRC)/*
 
 # Legacy trip_zs_* aliases (deprecated)
 trip_zeroshot_structured: trip_structured_baseline

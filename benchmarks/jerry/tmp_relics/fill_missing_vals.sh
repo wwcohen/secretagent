@@ -112,42 +112,42 @@ echo "[$(date)] === Class 1 v1 fills ==="
 wait
 echo "[$(date)] === Class 1 v1 fills DONE ==="
 
-# ========== Class 1 v4 fills (medcalc, geometric, date, musr_murder, rulearena) ==========
-echo "[$(date)] === Class 1 v4 fills ==="
+# ========== Class 1 opus fills (medcalc, geometric, date, musr_murder, rulearena) ==========
+echo "[$(date)] === Class 1 opus fills ==="
 
-( run_class1_val musr_murder "$ROOT/benchmarks/musr" learned_v4 murder_val_full_class1v4 \
+( run_class1_val musr_murder "$ROOT/benchmarks/musr" learned_opus murder_val_full_class1_opus \
     --config-file conf/murder_workflow.yaml dataset.split=murder_mysteries_val dataset.n=75 ) &
 
-( run_class1_val medcalc "$ROOT/benchmarks/medcalc" learned_v4 medcalc_val_full_class1v4 \
+( run_class1_val medcalc "$ROOT/benchmarks/medcalc" learned_opus medcalc_val_full_class1_opus \
     --config-file conf/workflow.yaml dataset.split=valid dataset.n=100 ) &
 
-( run_class1_val_bbh bbh_geometric "$ROOT/benchmarks/bbh/geometric_shapes" learned_v4 geometric_val_full_class1v4 \
+( run_class1_val_bbh bbh_geometric "$ROOT/benchmarks/bbh/geometric_shapes" learned_opus geometric_val_full_class1_opus \
     identify_shape geometric_shapes_workflow 75 ) &
 
-( run_class1_val_bbh bbh_date "$ROOT/benchmarks/bbh/date_understanding" learned_v4 date_val_full_class1v4 \
+( run_class1_val_bbh bbh_date "$ROOT/benchmarks/bbh/date_understanding" learned_opus date_val_full_class1_opus \
     answer_date_question zeroshot_unstructured_workflow 75 ) &
 
-# rulearena class 1 v4 (likely 0 ENABLED across domains, but try)
+# rulearena class 1 opus (likely 0 ENABLED across domains, but try)
 for dom in nba tax airline; do
-  ( run_class1_val rulearena_${dom} "$ROOT/benchmarks/rulearena" learned_v4 ${dom}_val_full_class1v4 \
+  ( run_class1_val rulearena_${dom} "$ROOT/benchmarks/rulearena" learned_opus ${dom}_val_full_class1_opus \
       "dataset.domain=${dom}" "dataset.split=valid" "dataset.n=50" \
       "ptools.compute_rulearena_answer.method=direct" \
       "ptools.compute_rulearena_answer.fn=ptools.l1_extract_workflow" ) &
 done
 
 wait
-echo "[$(date)] === Class 1 v4 fills DONE ==="
+echo "[$(date)] === Class 1 opus fills DONE ==="
 
-# ========== Class 2 v4 fills (musr_murder, finqa, medcalc, rulearena_nba/tax — if learned_class2_v4 exists) ==========
-echo "[$(date)] === Class 2 v4 fills ==="
+# ========== Class 2 opus fills (musr_murder, finqa, medcalc, rulearena_nba/tax — if learned_class2_opus exists) ==========
+echo "[$(date)] === Class 2 opus fills ==="
 
 run_class2_val() {
   local label="$1"; local cwd="$2"; local exptbase="$3"; local iface="$4"; shift 4
-  if [ ! -d "$cwd/learned_class2_v4" ]; then echo "[$label] no learned_class2_v4 — skip"; return; fi
-  if [ -z "$(ls -d "$cwd/learned_class2_v4/"*"${iface}__workflow_distill" 2>/dev/null | head -1)" ]; then
-    echo "[$label] no learned_class2_v4/*${iface}__workflow_distill — skip"; return
+  if [ ! -d "$cwd/learned_class2_opus" ]; then echo "[$label] no learned_class2_opus — skip"; return; fi
+  if [ -z "$(ls -d "$cwd/learned_class2_opus/"*"${iface}__workflow_distill" 2>/dev/null | head -1)" ]; then
+    echo "[$label] no learned_class2_opus/*${iface}__workflow_distill — skip"; return
   fi
-  echo "[$(date)] $label class2v4 val"
+  echo "[$(date)] $label class2_opus val"
   cd "$cwd"
   uv run python expt.py run "$@" \
     "evaluate.expt_name=${exptbase}" \
@@ -155,27 +155,27 @@ run_class2_val() {
     "ptools.${iface}.method=learned_code" \
     "ptools.${iface}.learner=workflow_distill" \
     "ptools.${iface}.backoff=true" \
-    "learn.train_dir=$cwd/learned_class2_v4" \
+    "learn.train_dir=$cwd/learned_class2_opus" \
     > "$LOG_DIR/fill_${exptbase}.log" 2>&1
-  echo "[$(date)] $label class2v4 val rc=$?"
+  echo "[$(date)] $label class2_opus val rc=$?"
 }
 
-# musr_murder class2 v4 (if exists)
-( run_class2_val musr_murder "$ROOT/benchmarks/musr" murder_val_full_class2v4 answer_question \
+# musr_murder class2 opus (if exists)
+( run_class2_val musr_murder "$ROOT/benchmarks/musr" murder_val_full_class2_opus answer_question \
     --config-file conf/murder_workflow.yaml \
     "dataset.split=murder_mysteries_val" "dataset.n=75" "llm.model=$DS_V3" ) &
 
-# finqa class2 v4
-( run_class2_val finqa "$ROOT/benchmarks/finqa" finqa_val_full_class2v4 answer_finqa \
+# finqa class2 opus
+( run_class2_val finqa "$ROOT/benchmarks/finqa" finqa_val_full_class2_opus answer_finqa \
     --config-file conf/workflow.yaml "dataset.split=valid" "dataset.n=100" "llm.model=$DS" ) &
 
-# medcalc class2 v4
-( run_class2_val medcalc "$ROOT/benchmarks/medcalc" medcalc_val_full_class2v4 answer_medcalc \
+# medcalc class2 opus
+( run_class2_val medcalc "$ROOT/benchmarks/medcalc" medcalc_val_full_class2_opus answer_medcalc \
     --config-file conf/workflow.yaml "dataset.split=valid" "dataset.n=100" "llm.model=$DS" ) &
 
-# rulearena nba/tax class2 v4
+# rulearena nba/tax class2 opus
 for dom in nba tax; do
-  ( run_class2_val rulearena_${dom} "$ROOT/benchmarks/rulearena" ${dom}_val_full_class2v4 compute_rulearena_answer \
+  ( run_class2_val rulearena_${dom} "$ROOT/benchmarks/rulearena" ${dom}_val_full_class2_opus compute_rulearena_answer \
       "dataset.domain=${dom}" "dataset.split=valid" "dataset.n=50" \
       "ptools.extract_${dom}_params.method=simulate" \
       "ptools.compute_${dom}_calculator.method=direct" \
@@ -184,20 +184,20 @@ for dom in nba tax; do
 done
 
 wait
-echo "[$(date)] === Class 2 v4 fills DONE ==="
+echo "[$(date)] === Class 2 opus fills DONE ==="
 
-# ========== Class 3 v4 fills (finqa, calendar) ==========
-echo "[$(date)] === Class 3 v4 fills ==="
+# ========== Class 3 opus fills (finqa, calendar) ==========
+echo "[$(date)] === Class 3 opus fills ==="
 
 run_class3_val() {
   local label="$1"; local cwd="$2"; local exptbase="$3"; local iface="$4"; shift 4
-  local cfg="$cwd/learned_class3_v4/codedistill_config.yaml"
-  if [ ! -d "$cwd/learned_class3_v4" ]; then echo "[$label] no class3_v4 — skip"; return; fi
+  local cfg="$cwd/learned_class3_opus/codedistill_config.yaml"
+  if [ ! -d "$cwd/learned_class3_opus" ]; then echo "[$label] no class3_v4 — skip"; return; fi
   declare -a PT3=()
   if [ -f "$cfg" ]; then
     while IFS= read -r line; do PT3+=("$line"); done < <(read_pt "$cfg")
   fi
-  echo "[$(date)] $label class3v4 val"
+  echo "[$(date)] $label class3_opus val"
   cd "$cwd"
   uv run python expt.py run "$@" \
     "evaluate.expt_name=${exptbase}" \
@@ -206,19 +206,19 @@ run_class3_val() {
     "ptools.${iface}.method=learned_code" \
     "ptools.${iface}.learner=workflow_distill" \
     "ptools.${iface}.backoff=true" \
-    "learn.train_dir=$cwd/learned_class3_v4" \
+    "learn.train_dir=$cwd/learned_class3_opus" \
     > "$LOG_DIR/fill_${exptbase}.log" 2>&1
-  echo "[$(date)] $label class3v4 val rc=$?"
+  echo "[$(date)] $label class3_opus val rc=$?"
 }
 
-# finqa class3 v4
-( run_class3_val finqa "$ROOT/benchmarks/finqa" finqa_val_full_class3v4 answer_finqa \
+# finqa class3 opus
+( run_class3_val finqa "$ROOT/benchmarks/finqa" finqa_val_full_class3_opus answer_finqa \
     --config-file conf/workflow.yaml "dataset.split=valid" "dataset.n=100" "llm.model=$DS" ) &
 
-# natplan_calendar class3 v4
-( run_class3_val natplan_calendar "$ROOT/benchmarks/natural_plan" calendar_val_full_class3v4 calendar_scheduling \
+# natplan_calendar class3 opus
+( run_class3_val natplan_calendar "$ROOT/benchmarks/natural_plan" calendar_val_full_class3_opus calendar_scheduling \
     --config-file conf/calendar.yaml "dataset.partition=valid" "dataset.n=100" "llm.model=$DS" ) &
 
 wait
-echo "[$(date)] === Class 3 v4 fills DONE ==="
+echo "[$(date)] === Class 3 opus fills DONE ==="
 echo "[$(date)] === ALL FILLS DONE ==="

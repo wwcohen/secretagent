@@ -1,0 +1,7 @@
+{
+  "reproduce_cmd": "uv run python expt.py run --config-file conf/calendar.yaml dataset.n=100 dataset.partition=test evaluate.result_dir=results-test evaluate.expt_name=react ptools.calendar_scheduling.method=simulate_pydantic ptools.calendar_scheduling.tools=[ptools_calendar.parse_schedules,ptools_calendar.find_available_slots,ptools_calendar.select_and_format]",
+  "accuracy": 0.47,
+  "total_cost_usd": 0.864095,
+  "total_time_sec": 6609.14,
+  "n_samples": 100
+}

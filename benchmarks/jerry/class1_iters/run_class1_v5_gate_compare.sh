@@ -5,7 +5,7 @@
 #   - no early stop (all 3 rounds run regardless of acc)
 #   - --max-wrong-rate 0.20
 #   - model claude-opus-4-6
-# Differs only in --gate-metric: 'train' (v1 style) vs 'val' (holdout, v4 style).
+# Differs only in --gate-metric: 'train' (v1 style) vs 'val' (holdout, opus style).
 # Both versions still compute holdout val_acc/val_wrong_rate (just don't gate on it
 # when gate=train).
 set +e

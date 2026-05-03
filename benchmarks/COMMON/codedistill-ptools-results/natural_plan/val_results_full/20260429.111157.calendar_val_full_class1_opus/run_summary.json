@@ -1,0 +1,7 @@
+{
+  "reproduce_cmd": "uv run python expt.py run --config-file conf/calendar.yaml ptools.calendar_scheduling.method=direct ptools.calendar_scheduling.fn=ptools_calendar.calendar_workflow learn.train_dir=learned_opus dataset.partition=valid dataset.n=100 evaluate.expt_name=calendar_val_full_class1_opus evaluate.result_dir=val_results_full",
+  "accuracy": 0.54,
+  "total_cost_usd": 0.328106,
+  "total_time_sec": 3042.25,
+  "n_samples": 100
+}

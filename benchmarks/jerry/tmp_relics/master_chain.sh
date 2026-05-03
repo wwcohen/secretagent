@@ -5,7 +5,7 @@
 #   A — full-size baseline re-record (recordings_full/)
 #   B' — re-distill C1 with max_wrong_rate=0.20 on full-size recordings
 #   C' — re-distill C2 with backoff=True on full-size datasets
-#   D' — re-distill C3 v4 on full-size data (only musr/finqa/calendar)
+#   D' — re-distill C3 opus on full-size data (only musr/finqa/calendar)
 #   E — full-size val eval for all classes
 # Each phase output goes into a clearly named dir; logs in benchmarks/*_logs/.
 
@@ -33,18 +33,18 @@ bash "$ROOT/benchmarks/run_full_size_baseline_record.sh"
 echo "[$(date)] A done"
 
 # ── Phase B': re-distill C1 on full-size recordings ──
-echo "[$(date)] B': class1 v4 codedistill-all on full-size recordings"
-bash "$ROOT/benchmarks/run_class1_v4_full_codedistill.sh"
+echo "[$(date)] B': class1 opus codedistill-all on full-size recordings"
+bash "$ROOT/benchmarks/run_class1_opus_full_codedistill.sh"
 echo "[$(date)] B' done"
 
 # ── Phase C': re-distill C2 on full-size data ──
-echo "[$(date)] C': class2 v4 workflow-codedistill on full-size datasets"
-bash "$ROOT/benchmarks/run_class2_v4_full_workflow.sh"
+echo "[$(date)] C': class2 opus workflow-codedistill on full-size datasets"
+bash "$ROOT/benchmarks/run_class2_opus_full_workflow.sh"
 echo "[$(date)] C' done"
 
 # ── Phase D': re-distill C3 on full-size data ──
-echo "[$(date)] D': class3 v4 induced+workflow_distill on full-size"
-bash "$ROOT/benchmarks/run_class3_v4_full.sh"
+echo "[$(date)] D': class3 opus induced+workflow_distill on full-size"
+bash "$ROOT/benchmarks/run_class3_opus_full.sh"
 echo "[$(date)] D' done"
 
 # ── Phase E: full-size val eval for all classes ──
