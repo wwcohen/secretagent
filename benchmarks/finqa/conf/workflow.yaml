@@ -1,6 +1,6 @@
-# Workflow: LLM extracts a reasoning plan (target, values, formula), then
-# Python evaluates the formula deterministically.  Falls back to LLM
-# extraction when no clean formula is found.
+# Workflow strategy for FinQA.  See the docstrings in ptools.py for what
+# each ptool does and why it's bound the way it is.
+
 llm:
   model: together_ai/deepseek-ai/DeepSeek-V3.1
 
@@ -17,12 +17,18 @@ dataset:
   n: null
 
 ptools:
-  parse_table:
+  extract_reasoning_plan:
+    method: prompt_llm
+    prompt_template_file: prompt_templates/reasoning_plan.txt
+    answer_pattern: null
+  parse_plan_fields:
+    method: direct
+  substitute_values:
     method: direct
   compute:
     method: direct
-  extract_reasoning_plan:
-    method: simulate
+  format_for_scale:
+    method: direct
   extract_final_number:
     method: simulate
   answer_finqa:

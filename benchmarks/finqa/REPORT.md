@@ -8,7 +8,7 @@ Each instance provides surrounding text, a markdown table from an SEC filing, an
 | Split | Source file | Cases | Labels |
 |-------|-------------|-------|--------|
 | train | `train.json` | ~6,251 | yes |
-| valid (dev) | `dev.json` | ~883 | yes |
+| valid (dev) | `valid.json` | ~883 | yes |
 | test | `test.json` | ~1,147 | yes |
 
 Gold answers are floats (`exe_ans`) representing exact numeric results.
@@ -19,51 +19,59 @@ All five experiments use the same model (`together_ai/deepseek-ai/DeepSeek-V3.1`
 
 | expt_name | Method | Description |
 |-----------|--------|-------------|
-| `workflow` | `direct` → `answer_finqa_workflow` | **Main result.** Hand-coded workflow using engineered ptools. LLM extracts reasoning plan (target + formula); Python evaluates the formula. Falls back to LLM extraction. |
-| `pot` | `program_of_thought` | Ablation: drop the workflow, keep ptools. LLM writes Python with `parse_table` and `compute` as available tools. |
-| `react` | `simulate_pydantic` | Ablation: drop the workflow, keep ptools. Pydantic-ai ReAct agent with `parse_table`, `lookup_cell`, `compute`, and `extract_reasoning_plan` as tools. |
-| `structured_baseline` | `simulate` | Ablation: drop workflow and ptools. Single `simulate` call on `answer_finqa`. |
-| `unstructured_baseline` | `prompt_llm` + coercion | Ablation: drop workflow, ptools, and structured prompt. Zero-shot prompt followed by answer extraction. |
+| `workflow` | `direct` → `answer_finqa_workflow` | Hand-coded workflow using engineered ptools. LLM extracts a structured reasoning plan (target, values with row/column refs, formula); Python substitutes values into the formula and evaluates it. Falls back to LLM extraction when the plan does not yield a usable formula. |
+| `structured_baseline` | `simulate` | Ablation: drop workflow and ptools. Single `simulate` call on `answer_finqa` — the LLM sees the function signature and docstring as a prompt and returns the answer in one shot. |
+| `unstructured_baseline` | `prompt_llm` + coercion | Ablation: drop workflow, ptools, and structured prompt. Zero-shot prompt template followed by a deterministic answer-extraction step. |
+| `pot` | `program_of_thought` | Ablation: drop workflow, keep ptools. LLM writes Python with the shared toolset (`parse_table`, `lookup_cell`, `compute`, `extract_reasoning_plan`) available; the code is executed in a sandbox. |
+| `react` | `simulate_pydantic` + cleanup | Ablation: drop workflow, keep ptools. Pydantic-ai ReAct agent with the same shared toolset; freeform output is post-processed by `extract_final_number`. |
 
-## Results (valid split, N=300)
+The agent ablations (`pot` and `react`) share the same toolset so that the comparison isolates the orchestration mechanism (program-of-thought vs ReAct loop) from tool capability.
+
+## Results (test split, N=300)
 
 | expt_name | Accuracy | Cost/ex | Latency/ex | Exceptions |
 |-----------|----------|---------|------------|------------|
-| structured_baseline | 79.6%* | $0.0011 | 18.1s | 0 |
-| workflow | 65.7% | $0.0012 | 4.9s | 0 |
-| unstructured_baseline | 57.7% | $0.0007 | 2.4s | 0 |
-| react | 49.0% | $0.0084 | 238.1s | 0 |
-| pot | 44.3% | $0.0017 | 16.6s | 17 |
-
-*\* structured_baseline: partial run (54/300 cases). Needs re-run.*
-
-TODO:
-run workflow with everything simulated
-split ptools w direct imp into docstring and types and the function imp
-workflow on training data
+| **workflow**            | **76.3%** | $0.0012 | 2.6s   | 0 / 300 |
+| structured_baseline     | 69.3%     | $0.0011 | 12.6s  | 0 / 300 |
+| unstructured_baseline   | 57.7%     | $0.0007 | 2.4s   | 0 / 300 |
+| react                   | 47.3%     | $0.0093 | 47.5s  | 0 / 300 |
+| pot                     | 41.7%     | $0.0020 | 9.7s   | 34 / 300 |
 
 ![Cost vs Accuracy](results_plot.png)
 
 ## Analysis
 
-### Structured baseline vs workflow
+### Workflow leads on accuracy, cost, and latency simultaneously
 
-The structured baseline uses a single `simulate` call — the LLM sees the `answer_finqa` function signature and docstring as a prompt. The workflow decomposes the task: `extract_reasoning_plan` (LLM) produces a plan with a formula, then `compute` (Python) evaluates it, falling back to `extract_final_number` (LLM) if no formula is found.
+The hand-coded workflow wins on all three metrics: highest accuracy (76.3%), lowest per-case cost tied with the structured baseline ($0.0012), and lowest non-trivial latency (2.6s). It does this by decomposing the task: `extract_reasoning_plan` (LLM via `prompt_llm` with a strict template) produces a target, values with row/column references, and a formula; `parse_plan_fields` and `substitute_values` (Python) plug the numbers in; `compute` (Python) evaluates the substituted expression; `extract_final_number` (LLM via `simulate`) is used only as a fallback when the structured plan does not yield a usable formula.
 
-The structured baseline leads at 79.6% (on 54 cases — partial run, may shift with full 300). The workflow (65.7%) trails by ~14pp but demonstrates the ptool decomposition: separating *what to compute* (LLM judgment) from *doing the computation* (Python arithmetic). The high structured baseline suggests DeepSeek-V3.1 is strong at single-shot numerical reasoning on this task.
+The decomposition matters because it puts each subtask on the right substrate: the LLM handles *understanding the question and identifying the relevant numbers*, while Python handles *the actual arithmetic*. The structured baseline collapses both into a single LLM call and sits 7pp behind, which is the cost of asking the LLM to do its own arithmetic.
 
-### Dropping the workflow hurts (pot and react)
+### Dropping the workflow hurts both agent ablations
 
-When we drop the hand-coded workflow and let the LLM plan tool calls autonomously:
+When the workflow is removed and the LLM is left to orchestrate the ptools autonomously, accuracy drops sharply:
 
-- **PoT** (44.3%): The model frequently generates prose instead of executable Python, causing 17 extraction exceptions. When code is generated, it often contains errors.
-- **ReAct** (49.0%): The pydantic-ai agent loop is very expensive ($0.0084/ex) and slow. DeepSeek-V3.1 sometimes emits raw tool-call tokens instead of properly invoking tools, producing garbage output.
+- **react** (47.3%) is by far the most expensive condition at $0.0093/ex (~8x workflow cost) and slowest at 47.5s/ex. The pydantic-ai agent loop accumulates context across tool calls, and a small number of cases consume disproportionate budget — one case alone produced 192K input tokens and cost $0.13.
+- **pot** (41.7%) is faster and cheaper than react but the weakest condition overall. It also produces 34 extraction exceptions out of 300 cases (11.3%), where the LLM writes prose explanation instead of fenced Python and gets truncated at the output-token budget before producing executable code. With a richer toolset (the shared toolset is bigger than the minimal `parse_table` + `compute` set), the verbose tool descriptions inflate the prompt and shift pot's failure mode from "wrong code" to "no code at all."
 
-Both ablations underperform the structured baseline, suggesting the hand-coded workflow provides significant value for this task.
+Both agent ablations underperform the structured baseline, so the message is consistent: a hand-coded workflow that uses the LLM for what LLMs are good at (planning) and Python for what Python is good at (arithmetic) wins on accuracy, cost, and latency together — autonomous tool-use loses on all three.
 
-### Unstructured baseline
+### The unstructured baseline is a meaningful floor
 
-The unstructured baseline (57.7%) uses a zero-shot prompt with `<answer>` tags followed by a direct Python coercion step. It outperforms both pot and react, showing that for this task a well-crafted prompt without tools can beat autonomous tool-use strategies.
+The unstructured baseline (57.7%) uses a zero-shot prompt with `<answer>` tags followed by deterministic text extraction. It outperforms both agent ablations, showing that for this task a well-crafted prompt without any tools beats autonomous tool-use strategies. This suggests that tools alone are not the value of the workflow — the value is in the *structure* (decomposed plan + Python arithmetic), not the tool inventory.
+
+### Negative result: workflow with shared ptool primitives
+
+We tested whether the workflow itself should use the same primitives that pot and react have access to (`lookup_cell` + `compute`) for value resolution, on the hypothesis that deterministic table lookups would prevent the LLM from misreading values. On a 300-case validation run with identical plan extraction, the variant **lost by 2.7pp (73.0% vs 75.7% baseline) with 0 wins and 8 losses across the diverging cases.**
+
+The diagnosis is that the LLM's dominant failure on FinQA is not misreading values — it is *citing the wrong row or column*, often attributing a number from prose to a table cell. A deterministic lookup faithfully follows the wrong citation and produces the wrong value, whereas the LLM's own eyeballed value usually comes from the correct cell even when its citation is off. So a "more rigorous" lookup primitive *amplifies* citation errors rather than correcting them.
+
+The variant lives at `ptools.answer_finqa_workflow_lookup` with a Makefile target `workflow-lookup`; reproduce with:
+
+```bash
+make workflow         SPLIT=valid N=300 RECORD=true SUFFIX=ab
+make workflow-lookup  SPLIT=valid N=300 RECORD=true SUFFIX=ab
+```
 
 ## Scoring
 
@@ -79,15 +87,18 @@ and multi-line output normalization (prefers first numeric line).
 - **`parse_table(problem)`**: Extracts the markdown table into clean tab-separated text.
 - **`lookup_cell(problem, row_label, column)`**: Fuzzy row/column lookup returning exact cell values.
 - **`compute(expression)`**: Safe arithmetic evaluation with `$`/`,` stripping.
+- **`parse_plan_fields(raw_plan)`**: Parses the LLM's structured plan into target, values, formula, and scale fields.
+- **`substitute_values(formula, values)`**: Replaces variable names in a formula with their numeric values.
+- **`format_for_scale(num, scale)`**: Formats a numeric result for the requested scale (`%`, `million`, etc.).
 
-### LLM ptools (simulate)
+### LLM ptools
 
-- **`extract_reasoning_plan(problem)`**: Produces a structured plan (target, values with row/col refs, formula with numbers substituted).
-- **`extract_final_number(verbose_output)`**: Cleans verbose LLM output to a bare number.
+- **`extract_reasoning_plan(problem)`** (`prompt_llm`, strict template): Produces a structured plan with target, values with row/column refs, formula with numbers substituted, and scale.
+- **`extract_final_number(verbose_output)`** (`simulate`): Cleans verbose LLM output to a bare number — used as a fallback in the workflow and as the post-processing step in the react ablation.
 
 ### Design principle
 
-The LLM handles *understanding and planning* while Python handles *data retrieval and arithmetic*. This avoids LLM-to-LLM passthroughs that add cost and error propagation.
+The LLM handles *understanding and planning* while Python handles *data retrieval and arithmetic*. This avoids LLM-to-LLM passthroughs that add cost and propagate errors.
 
 ## Reproducing
 
@@ -97,12 +108,12 @@ All experiments use the generic CLI (`secretagent.cli.expt`) from `benchmarks/fi
 cd benchmarks/finqa
 
 # Run all five (or individually: make workflow, make pot, etc.)
-make basics
+make basics N=300 SPLIT=test
 
 # Analyze results
 make avg
 make plot
 
-# Export to benchmarks/COMMON/results/finqa/finqa/
+# Export to benchmarks/results/finqa/finqa/
 make export
 ```
