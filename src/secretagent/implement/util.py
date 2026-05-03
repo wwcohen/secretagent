@@ -56,10 +56,18 @@ def resolve_tools(interface: Interface, tools, tool_module=None) -> list[Callabl
     resolved = []
     for tool in tools:
         if isinstance(tool, str):
-            # If tool_module is given and the name has no dots, qualify it
+            # If tool_module is given and the name has no dots, prefer direct
+            # attribute access — this works even when the module was loaded
+            # from a file path (e.g. `__learned__`) and isn't importable via
+            # dotted name on sys.path. Falls back to resolve_dotted.
             if tool_module is not None and '.' not in tool:
-                tool = f'{tool_module.__name__}.{tool}'
-            tool = resolve_dotted(tool)
+                attr = getattr(tool_module, tool, None)
+                if attr is not None:
+                    tool = attr
+                else:
+                    tool = resolve_dotted(f'{tool_module.__name__}.{tool}')
+            else:
+                tool = resolve_dotted(tool)
         if isinstance(tool, Interface):
             if tool.implementation is None:
                 raise ValueError(f'Interface {tool.name!r} has no implementation')

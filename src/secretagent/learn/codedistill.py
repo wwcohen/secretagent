@@ -20,16 +20,22 @@ from secretagent.dataset import Case, Dataset
 from secretagent.learn.base import Learner
 
 
+def _truncate_repr(obj, max_len: int = 2000) -> str:
+    """repr(obj) truncated to max_len chars, with ellipsis marker."""
+    s = repr(obj)
+    if len(s) <= max_len:
+        return s
+    return s[:max_len] + f'...<truncated {len(s) - max_len} chars>'
+
+
 def _format_cases(cases, max_cases: int = 50) -> str:
     """Format training cases as function call examples for the prompt.
 
-    Shows examples as function calls with positional args to make the
-    parameter structure clear to the LLM.
+    Shows examples as function calls with positional args. v1-style:
+    no truncation; the LLM sees the full input/output of each case so
+    long structured outputs (e.g. JSON, schedules) round-trip exactly.
     """
     lines = []
-    func_name = cases[0].name.split('_')[0] if cases else 'func'
-    # Infer function name from case name (e.g. 'extract_index_0.1.3' -> 'extract_index')
-    # Case names are formatted as '{interface_name}_{dx}.{lx}.{sx}'
     parts = cases[0].name.rsplit('_', 1) if cases else ['func']
     func_name = parts[0] if len(parts) > 1 else parts[0]
 
@@ -52,6 +58,8 @@ def _format_traces(cases, max_traces: int = 3) -> str:
 
     Shows how this interface is called within the broader workflow,
     helping the LLM understand data flow and output format requirements.
+    v1-style: local ptool I/O only, no top-level task header. Each
+    repr() is truncated to 80/120 chars to keep trace blocks compact.
     """
     traces = []
     seen = set()
@@ -77,7 +85,9 @@ def _format_traces(cases, max_traces: int = 3) -> str:
         # Add current step
         args_str = ", ".join(repr(a)[:80] for a in (case.input_args or []))
         output_str = repr(case.expected_output)[:120]
-        trace_lines.append(f"  {case.name.split('_')[0]}({args_str}) -> {output_str}  # <-- this function")
+        trace_lines.append(
+            f"  {case.name.split('_')[0]}({args_str}) -> {output_str}  # <-- this function"
+        )
 
         correct = meta.get('rollout_correct')
         status = "CORRECT" if correct else "INCORRECT" if correct is not None else "UNKNOWN"
@@ -88,7 +98,8 @@ def _format_traces(cases, max_traces: int = 3) -> str:
 
     if not traces:
         return ""
-    return "Workflow context (how this function is called):\n\n" + "\n\n".join(traces)
+    return ("Workflow context (how this function is called):\n\n"
+            + "\n\n".join(traces))
 
 
 def _format_errors(errors: list[dict]) -> str:
@@ -121,36 +132,22 @@ def _extract_code(llm_output: str) -> Optional[str]:
     return None
 
 
-def _compile_function(code: str, func_name: str, sandbox: bool = False):
+def _compile_function(code: str, func_name: str):
     """Compile code string and extract the named function.
 
     Returns the function object, or None if compilation/extraction fails.
-    When sandbox=True, uses LocalPythonExecutor for safe execution.
+    Inference-time sandboxing is handled separately by
+    secretagent.implement.learnedcode._load_learned_sandboxed; fit-time
+    evaluation runs unsandboxed (we are evaluating our own LLM-generated
+    research code, on our own machine).
     """
-    if sandbox:
-        try:
-            from smolagents.local_python_executor import LocalPythonExecutor, BASE_PYTHON_TOOLS
-            executor = LocalPythonExecutor(
-                additional_authorized_imports=['re', 'json', 'datetime', 'math',
-                                               'collections', 'itertools', 'functools'],
-            )
-            executor.static_tools = {
-                **BASE_PYTHON_TOOLS,
-                "final_answer": lambda x: x,
-            }
-            result = executor(code + f'\nfinal_answer({func_name})')
-            fn = result.output
-            return fn if callable(fn) else None
-        except Exception:
-            return None
-    else:
-        try:
-            namespace = {}
-            exec(code, namespace)
-            fn = namespace.get(func_name)
-            return fn
-        except Exception:
-            return None
+    try:
+        namespace = {}
+        exec(code, namespace)
+        fn = namespace.get(func_name)
+        return fn
+    except Exception:
+        return None
 
 
 def _evaluate_on_cases(fn, cases) -> tuple[float, list[dict], dict]:
@@ -158,26 +155,38 @@ def _evaluate_on_cases(fn, cases) -> tuple[float, list[dict], dict]:
 
     Each error is a dict with input_args, expected, and got.
     Stats includes counts for correct, wrong (returned incorrect value),
-    and abstained (returned None, would backoff to LLM).
+    and abstained (returned None or raised, would backoff to LLM).
+    Both wrong and abstained are added to errors so the LLM sees feedback
+    in subsequent rounds (otherwise an all-None first round produces no
+    feedback and round 2 just re-emits the same buggy code).
     """
     if fn is None:
-        return 0.0, [{'input_args': c.input_args, 'expected': c.expected_output, 'got': None}
-                      for c in cases], {'correct': 0, 'wrong': 0, 'abstained': len(cases)}
+        return 0.0, [{'input_args': c.input_args, 'expected': c.expected_output,
+                      'got': None, 'exception': 'fn=None'} for c in cases], \
+               {'correct': 0, 'wrong': 0, 'abstained': len(cases)}
     correct = 0
     wrong = 0
     abstained = 0
     errors = []
     for case in cases:
+        exc = None
         try:
             args = case.input_args or []
             kw = case.input_kw or {}
             result = fn(*args, **kw)
-        except Exception:
+        except Exception as ex:
             result = None
+            exc = f'{type(ex).__name__}: {ex}'[:300]
         if result == case.expected_output:
             correct += 1
         elif result is None:
             abstained += 1
+            errors.append({
+                'input_args': case.input_args,
+                'expected': case.expected_output,
+                'got': None,
+                'exception': exc,  # may be None if code returned None deliberately
+            })
         else:
             wrong += 1
             errors.append({
@@ -216,6 +225,9 @@ class CodeDistillLearner(Learner):
         self.generated_code: Optional[str] = None
         self.generated_fn = None
         self.train_accuracy: float = 0.0
+        self.train_stats: dict = {}
+        self.val_accuracy: float = 0.0
+        self.val_stats: dict = {}
         self.best_round: int = 0
         self.total_candidates: int = 0
 
@@ -273,9 +285,14 @@ class CodeDistillLearner(Learner):
                 candidates.append((code, fn, accuracy, errors, stats))
                 self.total_candidates += 1
 
-            # Pick best candidate this round
+            # Pick best candidate this round. Track at >= so we always
+            # capture some code even at 0% (so save_implementation has
+            # something to write; the runtime backoff will handle it).
             round_best = max(candidates, key=lambda x: x[2])
-            if round_best[2] > best_accuracy:
+            captured = round_best[2] > best_accuracy or (
+                best_code is None and round_best[0] is not None
+            )
+            if captured:
                 best_code, best_fn, best_accuracy = round_best[0], round_best[1], round_best[2]
                 best_stats = round_best[4] if len(round_best) > 4 else {}
                 self.best_round = round_idx + 1
@@ -286,10 +303,6 @@ class CodeDistillLearner(Learner):
                   f'wrong={stats_str.get("wrong", "?")}, '
                   f'abstained={stats_str.get("abstained", "?")})')
 
-            # Early exit if accuracy is high enough
-            if best_accuracy >= 0.95:
-                break
-
             # Feed error cases to next round
             if round_best[3]:
                 error_feedback = _format_errors(round_best[3])
@@ -299,6 +312,53 @@ class CodeDistillLearner(Learner):
         self.train_accuracy = best_accuracy
         self.train_stats = best_stats
         return self
+
+    def validate(self, holdout_fraction: float = 0.2, seed: int = 42) -> dict:
+        """v1-style: fit on 80%, eval generated_fn on 20% (recording
+        val_stats with wrong vs abstained), then refit on 100%. The
+        last fit overwrites earlier state, so the saved code is the
+        100%-fit. val_acc / val_stats reflect the 80%-fit's holdout
+        performance — a sanity check, not a gate driver.
+        """
+        import random
+        all_cases = list(self.dataset.cases)
+        rng = random.Random(seed)
+        rng.shuffle(all_cases)
+        split = max(1, int(len(all_cases) * holdout_fraction))
+        holdout = all_cases[:split]
+        train = all_cases[split:]
+
+        original_cases = self.dataset.cases
+        self.dataset.cases = train
+        self.fit()  # Fit 2: 80% train portion
+
+        if self.generated_fn is not None and holdout:
+            val_acc, _, val_stats = _evaluate_on_cases(self.generated_fn, holdout)
+        else:
+            val_acc = 0.0
+            val_stats = {'correct': 0, 'wrong': 0, 'abstained': len(holdout)}
+        self.val_accuracy = val_acc
+        self.val_stats = val_stats
+
+        self.dataset.cases = original_cases
+        self.fit()  # Fit 3: 100% refit (overwrites generated_fn)
+
+        return {
+            'accuracy': val_acc,
+            'holdout_size': len(holdout),
+            'train_size': len(train),
+            'stats': val_stats,
+        }
+
+    def val_wrong_rate(self) -> float:
+        """Wrong rate on the val holdout — the metric distill_all uses."""
+        stats = getattr(self, 'val_stats', None)
+        if not stats:
+            return 1.0
+        total = sum(stats.values())
+        if total == 0:
+            return 1.0
+        return stats.get('wrong', 0) / total
 
     def predict(self, input_args, input_kw=None) -> Any:
         """Predict using the generated function."""
@@ -328,7 +388,7 @@ class CodeDistillLearner(Learner):
         impl = {self.interface_name: {
             'method': 'learned_code',
             'learner': self.tag,
-            'backoff': 'true'}}
+            'backoff': True}}
         impl_outpath.write_text(yaml.dump(impl))
         return impl_outpath
 
@@ -348,10 +408,14 @@ class CodeDistillLearner(Learner):
         """Brief report on code distillation results."""
         code_lines = len(self.generated_code.splitlines()) if self.generated_code else 0
         stats = self.train_stats or {}
+        vstats = self.val_stats or {}
         return textwrap.dedent(f"""\
             train accuracy:     {self.train_accuracy:.2%}
-            correct/wrong/abstained: {stats.get('correct', 0)}/{stats.get('wrong', 0)}/{stats.get('abstained', 0)}
-            wrong rate:         {self.wrong_rate():.2%}
+            train correct/wrong/abstained: {stats.get('correct', 0)}/{stats.get('wrong', 0)}/{stats.get('abstained', 0)}
+            train wrong rate:   {self.wrong_rate():.2%}
+            val accuracy:       {self.val_accuracy:.2%}
+            val correct/wrong/abstained:   {vstats.get('correct', 0)}/{vstats.get('wrong', 0)}/{vstats.get('abstained', 0)}
+            val wrong rate:     {self.val_wrong_rate():.2%}
             best round:         {self.best_round}/{self.max_rounds}
             total candidates:   {self.total_candidates}
             generated code:     {code_lines} lines""")
@@ -476,7 +540,7 @@ class EndToEndDistillLearner(CodeDistillLearner):
         impl = {self.interface_name: {
             'method': 'learned_code',
             'learner': self.tag,
-            'backoff': 'true'}}
+            'backoff': True}}
         impl_outpath.write_text(yaml.dump(impl))
         return impl_outpath
 
@@ -507,6 +571,8 @@ def distill_all(
     max_rounds: int = 3,
     latest: int = 1,
     check: Optional[list[str]] = None,
+    gate_metric: str = 'val',
+    only_correct: bool = True,
 ) -> dict:
     """Auto-distill all interfaces found in recordings.
 
@@ -539,18 +605,32 @@ def distill_all(
                 model=model,
                 n_candidates=n_candidates,
                 max_rounds=max_rounds,
+                only_correct=only_correct,
             )
             learner.learn(dirs, latest=latest, check=check)
 
-            accuracy = learner.train_accuracy
-            wrong_rate = learner.wrong_rate()
-            stats = learner.train_stats
-            enabled = wrong_rate <= max_wrong_rate and accuracy > 0
+            train_acc = learner.train_accuracy
+            train_wr = learner.wrong_rate()
+            val_acc = learner.val_accuracy
+            val_wr = learner.val_wrong_rate()
+            # ENABLE decision uses gate_metric:
+            #   'val' = honest generalisation (default; conservative)
+            #   'train' = v1 style (looser; relies on backoff to catch overfit)
+            if gate_metric == 'train':
+                gate_wr = train_wr
+                gate_acc = train_acc
+            else:
+                gate_wr = val_wr
+                gate_acc = val_acc
+            enabled = gate_wr <= max_wrong_rate and gate_acc > 0
 
             results[iface] = {
-                'train_accuracy': accuracy,
-                'wrong_rate': wrong_rate,
-                'stats': stats,
+                'train_accuracy': train_acc,
+                'train_wrong_rate': train_wr,
+                'val_accuracy': val_acc,
+                'val_wrong_rate': val_wr,
+                'train_stats': learner.train_stats,
+                'val_stats': learner.val_stats,
                 'enabled': enabled,
                 'path': str(learner.out_dir),
             }
@@ -559,13 +639,13 @@ def distill_all(
                 enabled_configs[iface] = {
                     'method': 'learned_code',
                     'learner': 'codedistill',
-                    'backoff': 'true',
+                    'backoff': True,
                 }
-                print(f'  -> ENABLED (wrong_rate {wrong_rate:.0%} <= {max_wrong_rate:.0%}, '
-                      f'accuracy {accuracy:.0%})')
+                print(f'  -> ENABLED ({gate_metric}_wrong_rate {gate_wr:.0%} <= {max_wrong_rate:.0%}, '
+                      f'val_acc {val_acc:.0%}, train_acc {train_acc:.0%})')
             else:
-                print(f'  -> SKIPPED (wrong_rate {wrong_rate:.0%} > {max_wrong_rate:.0%} '
-                      f'or accuracy {accuracy:.0%})')
+                print(f'  -> SKIPPED ({gate_metric}_wrong_rate {gate_wr:.0%} > {max_wrong_rate:.0%} '
+                      f'or {gate_metric}_acc {gate_acc:.0%}, val_acc {val_acc:.0%}, train_acc {train_acc:.0%})')
 
         except Exception as ex:
             print(f'  -> FAILED: {ex}')
@@ -578,14 +658,16 @@ def distill_all(
 
     # Write summary
     print(f'\n{"="*60}')
-    print(f'SUMMARY (max_wrong_rate={max_wrong_rate:.0%})')
+    print(f'SUMMARY (gate={gate_metric}_wrong_rate <= {max_wrong_rate:.0%}, only_correct={only_correct})')
     print(f'{"="*60}')
-    print(f'  {"interface":40s} {"accuracy":>8s} {"wrong":>6s} {"abstain":>8s} {"status"}')
+    print(f'  {"interface":40s} {"train":>6s} {"val":>5s} {"v_wrong":>7s} {"v_abst":>6s} {"status"}')
     for iface, info in sorted(results.items()):
         status = 'ENABLED' if info['enabled'] else 'skipped'
-        stats = info.get('stats', {})
-        print(f'  {iface:40s} {info["train_accuracy"]:7.0%} '
-              f'{stats.get("wrong", "?"):>6} {stats.get("abstained", "?"):>8}  {status}')
+        vstats = info.get('val_stats', {})
+        print(f'  {iface:40s} {info["train_accuracy"]:5.0%} '
+              f'{info.get("val_accuracy", 0):4.0%} '
+              f'{vstats.get("wrong", "?"):>7} '
+              f'{vstats.get("abstained", "?"):>6}  {status}')
 
     # Write combined config for enabled interfaces
     if enabled_configs:

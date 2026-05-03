@@ -1,0 +1,24 @@
+llm:
+  model: together_ai/deepseek-ai/DeepSeek-V3.1
+cachier:
+  cache_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/finqa/llm_cache
+evaluate:
+  result_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/finqa/recordings
+  expt_name: finqa_train_record
+  record_details: true
+dataset:
+  split: train
+  shuffle_seed: null
+  'n': 50
+ptools:
+  parse_table:
+    method: direct
+  compute:
+    method: direct
+  extract_reasoning_plan:
+    method: simulate
+  extract_final_number:
+    method: simulate
+  answer_finqa:
+    method: direct
+    fn: ptools.answer_finqa_workflow

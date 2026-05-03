@@ -1,0 +1,51 @@
+case_name,predicted_output,expected_output,correct,input_tokens,output_tokens,latency,cost,expt_name
+train.043,C,(C),0.0,349.0,556.0,19.006146669387817,0.0011546,date_train_record_v4
+train.002,E,(E),0.0,357.0,1211.0,37.36205458641052,0.0022729,date_train_record_v4
+train.013,F,(F),0.0,370.0,300.0,10.337027788162231,0.000732,date_train_record_v4
+train.006,B,(B),0.0,347.0,335.0,8.75105881690979,0.0007777000000000001,date_train_record_v4
+train.048,B,(B),0.0,358.0,308.0,9.978566646575928,0.0007384000000000001,date_train_record_v4
+train.035,C,(C),0.0,349.0,290.0,10.886263847351074,0.0007024,date_train_record_v4
+train.036,C,(E),0.0,355.0,26.0,1.5611658096313477,0.00025719999999999996,date_train_record_v4
+train.072,A,(A),0.0,354.0,430.0,11.964670181274414,0.0009434000000000001,date_train_record_v4
+train.058,A,(A),0.0,339.0,18.0,1.0325582027435303,0.000234,date_train_record_v4
+train.046,D,(D),0.0,355.0,306.0,11.13814377784729,0.0007332,date_train_record_v4
+train.037,D,(D),0.0,356.0,1425.0,38.561492919921875,0.0026361,date_train_record_v4
+train.005,F,(F),0.0,357.0,261.0,9.225603818893433,0.0006579,date_train_record_v4
+train.069,E,(E),0.0,354.0,338.0,9.082528591156006,0.000787,date_train_record_v4
+train.014,E,(E),0.0,369.0,103.0,3.1246137619018555,0.00039650000000000004,date_train_record_v4
+train.045,F,(F),0.0,352.0,26.0,1.2706351280212402,0.0002554,date_train_record_v4
+train.038,C,(C),0.0,356.0,26.0,1.4327809810638428,0.0002578,date_train_record_v4
+train.016,B,(B),0.0,353.0,390.0,11.34793210029602,0.0008748,date_train_record_v4
+train.063,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',(B),0.0,146.0,2048.0,65.51332521438599,0.0035692000000000002,date_train_record_v4
+train.003,A,(A),0.0,361.0,253.0,7.594813108444214,0.0006467,date_train_record_v4
+train.064,B,(B),0.0,356.0,1243.0,29.21599769592285,0.0023267,date_train_record_v4
+train.055,D,(D),0.0,358.0,26.0,1.3291819095611572,0.000259,date_train_record_v4
+train.047,B,(D),0.0,358.0,26.0,48.207013845443726,0.000259,date_train_record_v4
+train.028,B,(B),0.0,365.0,369.0,13.176427602767944,0.0008463,date_train_record_v4
+train.034,B,(B),0.0,358.0,361.0,14.395439863204956,0.0008285,date_train_record_v4
+train.026,(A),(A),1.0,349.0,26.0,1.7287428379058838,0.0002536,date_train_record_v4
+train.057,E,(E),0.0,349.0,222.0,9.392723798751831,0.0005868000000000001,date_train_record_v4
+train.018,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',(E),0.0,133.0,2048.0,58.51048803329468,0.0035614,date_train_record_v4
+train.017,B,(B),0.0,356.0,374.0,10.90219783782959,0.0008493999999999999,date_train_record_v4
+train.010,B,(D),0.0,339.0,417.0,12.834928750991821,0.0009123000000000001,date_train_record_v4
+train.019,A,(A),0.0,369.0,26.0,1.9937822818756104,0.00026559999999999995,date_train_record_v4
+train.065,F,(F),0.0,354.0,297.0,11.62170696258545,0.0007173,date_train_record_v4
+train.012,A,(A),0.0,355.0,299.0,8.435617208480835,0.0007213,date_train_record_v4
+train.007,A,(A),0.0,345.0,26.0,1.2728159427642822,0.0002512,date_train_record_v4
+train.032,E,(E),0.0,346.0,1028.0,38.27947163581848,0.0019552,date_train_record_v4
+train.049,A,(A),0.0,359.0,304.0,11.708348989486694,0.0007322,date_train_record_v4
+train.004,A,(A),0.0,373.0,336.0,13.730005025863647,0.000795,date_train_record_v4
+train.054,D,(D),0.0,352.0,26.0,1.6705341339111328,0.0002554,date_train_record_v4
+train.025,F,(D),0.0,352.0,26.0,1.700510025024414,0.0002554,date_train_record_v4
+train.061,A,(A),0.0,353.0,141.0,5.736327171325684,0.00045149999999999997,date_train_record_v4
+train.040,B,(B),0.0,343.0,154.0,5.6681787967681885,0.0004676,date_train_record_v4
+train.020,D,(D),0.0,355.0,165.0,5.886975049972534,0.0004935,date_train_record_v4
+train.070,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',(A),0.0,146.0,2048.0,78.21277499198914,0.0035692000000000002,date_train_record_v4
+train.031,E,(E),0.0,343.0,242.0,6.885671615600586,0.0006172,date_train_record_v4
+train.015,D,(E),0.0,349.0,45.0,3.158952474594116,0.00028589999999999996,date_train_record_v4
+train.022,A,(A),0.0,354.0,279.0,8.1301429271698,0.0006867,date_train_record_v4
+train.011,F,(F),0.0,346.0,26.0,2.3322010040283203,0.0002518,date_train_record_v4
+train.073,A,(F),0.0,355.0,26.0,1.4983420372009277,0.00025719999999999996,date_train_record_v4
+train.059,B,(B),0.0,366.0,282.0,11.287706851959229,0.000699,date_train_record_v4
+train.074,C,(C),0.0,366.0,26.0,1.6651442050933838,0.00026379999999999996,date_train_record_v4
+train.067,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',(C),0.0,143.0,2048.0,62.60462403297424,0.0035674,date_train_record_v4

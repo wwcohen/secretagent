@@ -1,0 +1,7 @@
+{
+  "reproduce_cmd": "uv run python expt.py run --config-file conf/calendar_zs_cot.yaml dataset.partition=train dataset.n=50 evaluate.expt_name=calendar_zs_cot_train evaluate.record_details=true evaluate.result_dir=recordings_class3",
+  "accuracy": 0.74,
+  "total_cost_usd": 0.132434,
+  "total_time_sec": 4380.3,
+  "n_samples": 50
+}

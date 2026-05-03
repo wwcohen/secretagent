@@ -1,0 +1,4 @@
+extract_team_requirements:
+  backoff: true
+  learner: codedistill
+  method: learned_code

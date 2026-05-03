@@ -1,0 +1,3 @@
+ptools:
+  trip_planning:
+    method: simulate

@@ -1,0 +1,13 @@
+$prompt
+
+Think step-by-step. Work through:
+- What are each person's locations and time windows?
+- What travel times constrain ordering?
+- Which sequence of visits maximises meetings?
+
+Then state your final answer in EXACTLY this format (substituting the
+actual schedule plan):
+
+<answer>SOLUTION:
+You start at Mission District at 9:00AM. Travel to Russian Hill (12 minutes), arriving at 9:12AM. Meet Megan from 9:12AM to 12:42PM for 210 minutes.
+Travel to Marina District (11 minutes), arriving at 12:53PM. Meet Charles from 12:53PM to 1:53PM for 60 minutes.</answer>

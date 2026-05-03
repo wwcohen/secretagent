@@ -1,0 +1,31 @@
+# Zero-shot CoT for natplan meeting — Class 3 trace source
+llm:
+  model: together_ai/deepseek-ai/DeepSeek-V3.1
+  timeout: 180
+
+cachier:
+  cache_dir: llm_cache
+  enable_caching: true
+
+evaluate:
+  expt_name: meeting_zs_cot
+  result_dir: results
+  entry_point: meeting_planning
+  prompt_trace: true
+
+dataset:
+  split: meeting
+  partition: train
+  shuffle_seed: 42
+  prompt_mode: 0shot
+
+ptools:
+  parse_meeting_info:
+    method: simulate
+  plan_visit_order:
+    method: simulate
+  build_meeting_plan:
+    method: simulate
+  meeting_planning:
+    method: prompt_llm
+    prompt_template_file: prompt_templates/meeting_zs_cot.txt

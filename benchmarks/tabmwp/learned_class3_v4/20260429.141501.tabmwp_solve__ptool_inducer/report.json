@@ -1,0 +1,153 @@
+{
+  "interface": "tabmwp_solve",
+  "trace_mode": "react",
+  "only_correct": true,
+  "model": "together_ai/deepseek-ai/DeepSeek-V3",
+  "n_thoughts": 677,
+  "n_labeled": 647,
+  "n_unique_categories": 25,
+  "ptools": [
+    {
+      "func_name": "format_final_answer",
+      "display_name": "FormatFinalAnswer",
+      "short_desc": "Formats the computed numerical result as a clean string for final output.",
+      "docstring": "Formats the final answer for a tabular math word problem by converting the computed result into a clean string representation.\n\nThis function should be used when the agent has completed calculations and needs to prepare\nthe final output. It focuses on removing any units, extra text, or unnecessary precision,\nand returns just the numeric value as a string. For fractional results, it should convert\nto decimal format unless the problem specifically requires fractions.\n\nThe agent should ensure the result is properly rounded if needed, and matches the expected\nformat (e.g., decimal instead of fraction) based on the problem context.\n\nReturns:\n    str: The formatted answer as a clean string containing only the numeric result.\n    \n    Example: \"6.75\" (for $3/pound × 2.25 pounds calculation)",
+      "source_category": "Formatting final answer",
+      "count": 140
+    },
+    {
+      "func_name": "perform_calculation",
+      "display_name": "PerformCalculation",
+      "short_desc": "Executes mathematical calculations based on given values and operations.",
+      "docstring": "Performs mathematical calculations using values extracted from the table or question.\nExtracts relevant numerical values and operations from the focus string, which should\nspecify what needs to be calculated (e.g., 'price * quantity', 'total cost', 'sum of column').\nThe response should be structured as: 'Calculation: [expression] = [result]'.\nPay attention to proper unit handling, decimal precision, and mathematical operations.\nReturns: 'Calculation: 3 * 2.25 = 6.75'",
+      "source_category": "Performing calculation",
+      "count": 121
+    },
+    {
+      "func_name": "determine_required_operation",
+      "display_name": "DetermineRequiredOperation",
+      "short_desc": "Identifies the mathematical operation needed to solve a tabular math word problem.",
+      "docstring": "Determines which mathematical operation(s) is required to solve the problem based on the question and table structure.\n\nFocuses on identifying:\n- Whether the problem requires addition, subtraction, multiplication, division, or comparison\n- If multiple operations are needed in sequence\n- Which specific table columns/rows need to be operated on\n- Whether the operation involves aggregation (sum, average, max, min)\n\nReturns:\nA structured string with:\n- Primary operation required\n- Secondary operations if needed\n- Specific columns/rows involved\n- Brief justification for the operation choice\n\nExample:\n\\\"Primary: subtraction\\nSecondary: none\\nColumns: 2012, 2011\\nReason: Finding difference between two years\\\"",
+      "source_category": "Determining required operation",
+      "count": 116
+    },
+    {
+      "func_name": "extract_table_values",
+      "display_name": "ExtractTableValues",
+      "short_desc": "Extract and interpret specific values from a table to solve mathematical problems.",
+      "docstring": "Extracts specific values from the table based on the given focus, which typically involves identifying\nrelevant rows, columns, or cells for mathematical operations. The response should clearly state the\nextracted values and their context, ensuring correct row/column headers are matched. Pay attention to\npotential ambiguities in the focus, such as multiple matching entries or unit conversions.\n\nReturns:\n    A structured string containing the extracted values and their meanings. For example:\n    \"From the table, for 'Apples' in 'Price', the value is $1.20 per pound.\"",
+      "source_category": "Extracting table values",
+      "count": 93
+    },
+    {
+      "func_name": "analyze_table_structure",
+      "display_name": "AnalyzeTableStructure",
+      "short_desc": "Examine the structure of a table to understand its columns, rows, and data organization for solving tabular math problems.",
+      "docstring": "Analyzes the structure of a pipe-delimited table to understand its schema, data types, and organization.\n\nThis function helps identify:\n- Column names and their meanings\n- Row structure and data patterns\n- How numerical and categorical data are represented\n- Special table formats (like stem-and-leaf plots)\n- Relationships between columns\n\nResponse should be structured as:\n1. Table overview description\n2. Column-by-column analysis\n3. Identification of key data points\n4. Notes on special formatting if applicable\n\nPay attention to:\n- Numeric vs text data columns\n- Headers and their significance\n- Patterns in data representation\n- How the table structure relates to the question\n\nReturns:\nA structured analysis string. Example:\n\"Table has 3 columns: Item|Price|Quantity.\\n- Item: string values representing product names\\n- Price: decimal values representing cost\\n- Quantity: integer values representing stock count\\nThe table uses standard tabular format with pipe delimiters.\"",
+      "source_category": "Examining table structure",
+      "count": 69
+    }
+  ],
+  "categories": [
+    {
+      "category": "Formatting final answer",
+      "count": 140
+    },
+    {
+      "category": "Performing calculation",
+      "count": 121
+    },
+    {
+      "category": "Determining required operation",
+      "count": 116
+    },
+    {
+      "category": "Extracting table values",
+      "count": 93
+    },
+    {
+      "category": "Examining table structure",
+      "count": 69
+    },
+    {
+      "category": "Initial problem analysis",
+      "count": 52
+    },
+    {
+      "category": "Verifying results",
+      "count": 29
+    },
+    {
+      "category": "Stating a final answer",
+      "count": 4
+    },
+    {
+      "category": "Initial problem-solving approach declaration",
+      "count": 3
+    },
+    {
+      "category": "Interpreting table data",
+      "count": 3
+    },
+    {
+      "category": "Identifying data needed for calculation",
+      "count": 2
+    },
+    {
+      "category": "Identifying operation type",
+      "count": 2
+    },
+    {
+      "category": "Querying table with specific column names",
+      "count": 1
+    },
+    {
+      "category": "Identifying next chronological event",
+      "count": 1
+    },
+    {
+      "category": "Verifying answer against provided choices",
+      "count": 1
+    },
+    {
+      "category": "Computing statistical measure",
+      "count": 1
+    },
+    {
+      "category": "Identifying mode from data",
+      "count": 1
+    },
+    {
+      "category": "Checking column names",
+      "count": 1
+    },
+    {
+      "category": "Retrieving all table values",
+      "count": 1
+    },
+    {
+      "category": "Analyzing column positions",
+      "count": 1
+    },
+    {
+      "category": "Calculating total quantity",
+      "count": 1
+    },
+    {
+      "category": "Planning specific data lookup",
+      "count": 1
+    },
+    {
+      "category": "Verifying calculation result",
+      "count": 1
+    },
+    {
+      "category": "Matching value to category",
+      "count": 1
+    },
+    {
+      "category": "Counting values meeting criteria",
+      "count": 1
+    }
+  ]
+}

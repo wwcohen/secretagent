@@ -1,0 +1,51 @@
+case_name,predicted_output,expected_output,correct,correct_tolerance,failure_mode,input_tokens,output_tokens,latency,cost,expt_name
+airline_0_23,1742.0,1882,0.0,0.0,calculation_error,12401.0,412.0,26.726454973220825,0.016016250000000003,rulearena_airline_test_full_baseline
+airline_2_42,2992.0,2842,0.0,0.0,calculation_error,12523.0,514.0,22.0394070148468,0.01629625,rulearena_airline_test_full_baseline
+airline_2_96,3079.0,3079,1.0,1.0,none,12524.0,836.0,39.09227228164673,0.016700000000000003,rulearena_airline_test_full_baseline
+airline_0_52,1819.0,1959,0.0,0.0,calculation_error,12401.0,408.0,26.362449884414673,0.01601125,rulearena_airline_test_full_baseline
+airline_0_50,1186.0,1186,1.0,1.0,none,12401.0,342.0,20.457240104675293,0.015928750000000002,rulearena_airline_test_full_baseline
+airline_2_9,4215.0,5280,0.0,0.0,calculation_error,12526.0,435.0,17.536893129348755,0.01620125,rulearena_airline_test_full_baseline
+airline_2_65,3739.0,5039,0.0,0.0,calculation_error,12527.0,798.0,45.14573907852173,0.016656250000000004,rulearena_airline_test_full_baseline
+airline_1_17,"**exception raised**: status_code: 429, model_name: together_ai/deepseek-ai/DeepSeek-V3, body: litellm.RateLimitError: RateLimitError: Together_aiException - We noticed too many requests from your account. We do our best to serve all requests, but due to high load, some bursty requests may not succeed. In this situation, we use your ""dynamic"" rate limit to properly classify errors for failed requests. Your dynamic rate limit is 0.5 RPM, while your current request rate is 5 RPM. Please refer to https://docs.together.ai/docs/rate-limits for more details about dynamic rate limits. If your workload is truly bursty, we recommend using batch or dedicated inference. For any further questions, please contact our sales team at https://www.together.ai/contact-sales.",223,0.0,0.0,extraction_failure,,,,,rulearena_airline_test_full_baseline
+airline_0_62,1441.0,1241,0.0,0.0,calculation_error,12401.0,509.0,23.457769870758057,0.016137500000000003,rulearena_airline_test_full_baseline
+airline_0_9,1261.0,1261,1.0,1.0,none,12405.0,420.0,23.69255495071411,0.01603125,rulearena_airline_test_full_baseline
+airline_1_24,2421.0,2421,1.0,1.0,none,12464.0,386.0,12.835935115814209,0.0160625,rulearena_airline_test_full_baseline
+airline_2_29,3785.0,3695,0.0,0.0,calculation_error,12527.0,599.0,19.355143785476685,0.016407500000000002,rulearena_airline_test_full_baseline
+airline_2_17,3326.0,3326,1.0,1.0,none,12526.0,822.0,31.179210901260376,0.016685000000000002,rulearena_airline_test_full_baseline
+airline_0_60,1620.0,2510,0.0,0.0,calculation_error,12403.0,402.0,17.85104775428772,0.016006250000000003,rulearena_airline_test_full_baseline
+airline_1_52,1991.0,1896,0.0,0.0,calculation_error,12466.0,436.0,11.310214042663574,0.0161275,rulearena_airline_test_full_baseline
+airline_1_23,3640.0,3705,0.0,0.0,calculation_error,12465.0,444.0,11.80503511428833,0.01613625,rulearena_airline_test_full_baseline
+airline_0_67,1520.0,1515,1.0,0.0,none,12403.0,442.0,21.653053998947144,0.01605625,rulearena_airline_test_full_baseline
+airline_0_54,1310.0,1310,1.0,1.0,none,12408.0,303.0,13.63600778579712,0.01588875,rulearena_airline_test_full_baseline
+airline_0_41,1448.0,1838,0.0,0.0,calculation_error,12402.0,310.0,15.305040121078491,0.01589,rulearena_airline_test_full_baseline
+airline_1_29,2411.0,2961,0.0,0.0,calculation_error,12465.0,391.0,10.585726022720337,0.01607,rulearena_airline_test_full_baseline
+airline_0_66,1256.0,1256,1.0,1.0,none,12401.0,414.0,15.848505020141602,0.016018750000000002,rulearena_airline_test_full_baseline
+airline_2_52,3652.0,3652,1.0,1.0,none,12526.0,998.0,43.27750587463379,0.016905,rulearena_airline_test_full_baseline
+airline_1_65,3668.0,4808,0.0,0.0,calculation_error,12465.0,335.0,9.451895952224731,0.016,rulearena_airline_test_full_baseline
+airline_1_96,2085.0,2085,1.0,1.0,none,25846.0,1134.0,36.495790243148804,0.033725000000000005,rulearena_airline_test_full_baseline
+airline_1_9,2989.0,3539,0.0,0.0,calculation_error,12464.0,613.0,23.732752323150635,0.016346250000000003,rulearena_airline_test_full_baseline
+airline_2_82,4070.0,5120,0.0,0.0,calculation_error,12527.0,824.0,34.27346682548523,0.016688750000000002,rulearena_airline_test_full_baseline
+airline_2_54,3473.0,3473,1.0,1.0,none,26676.0,1182.0,31.85677409172058,0.0348225,rulearena_airline_test_full_baseline
+airline_0_51,751.0,751,1.0,1.0,none,12405.0,449.0,16.592944145202637,0.016067500000000002,rulearena_airline_test_full_baseline
+airline_2_50,3395.0,3395,1.0,1.0,none,12530.0,459.0,18.635038137435913,0.016236250000000004,rulearena_airline_test_full_baseline
+airline_2_24,3290.0,3290,1.0,1.0,none,12524.0,468.0,11.525084257125854,0.01624,rulearena_airline_test_full_baseline
+airline_1_41,2375.0,2425,0.0,0.0,calculation_error,12467.0,330.0,7.014423847198486,0.015996250000000004,rulearena_airline_test_full_baseline
+airline_2_62,3109.0,3749,0.0,0.0,calculation_error,25723.0,988.0,33.53224229812622,0.03338875,rulearena_airline_test_full_baseline
+airline_0_24,1573.0,1538,0.0,0.0,calculation_error,12404.0,418.0,13.033096075057983,0.0160275,rulearena_airline_test_full_baseline
+airline_2_44,3010.0,3010,1.0,1.0,none,12528.0,598.0,21.38281512260437,0.016407500000000002,rulearena_airline_test_full_baseline
+airline_2_23,4249.0,5389,0.0,0.0,calculation_error,12527.0,502.0,16.81325101852417,0.016286250000000002,rulearena_airline_test_full_baseline
+airline_1_54,2089.0,2089,1.0,1.0,none,12464.0,560.0,18.454753875732422,0.016280000000000003,rulearena_airline_test_full_baseline
+airline_2_60,2965.0,2565,0.0,0.0,calculation_error,12525.0,554.0,11.419513940811157,0.01634875,rulearena_airline_test_full_baseline
+airline_0_65,**exception raised**: 'First Class',1702,0.0,0.0,extraction_failure,25384.0,727.0,18.89496397972107,0.03263875,rulearena_airline_test_full_baseline
+airline_0_82,1395.0,1390,1.0,0.0,none,12403.0,438.0,13.351190090179443,0.016051250000000003,rulearena_airline_test_full_baseline
+airline_2_1,**exception raised**: Exceeded maximum retries (1) for output validation,3762,0.0,0.0,extraction_failure,,,,,rulearena_airline_test_full_baseline
+airline_1_82,2366.0,2266,0.0,0.0,calculation_error,12460.0,548.0,15.008806943893433,0.016260000000000004,rulearena_airline_test_full_baseline
+airline_2_66,4249.0,4849,0.0,0.0,calculation_error,12525.0,482.0,17.63190197944641,0.01625875,rulearena_airline_test_full_baseline
+airline_2_67,3224.0,3029,0.0,0.0,calculation_error,12525.0,870.0,17.709765911102295,0.01674375,rulearena_airline_test_full_baseline
+airline_1_50,2108.0,2158,0.0,0.0,calculation_error,12463.0,433.0,9.695459842681885,0.016120000000000002,rulearena_airline_test_full_baseline
+airline_0_96,**exception raised**: 'First Class',1054,0.0,0.0,extraction_failure,12402.0,425.0,16.978901863098145,0.01603375,rulearena_airline_test_full_baseline
+airline_1_51,2680.0,3645,0.0,0.0,calculation_error,12465.0,566.0,14.044300079345703,0.01628875,rulearena_airline_test_full_baseline
+airline_1_62,2350.0,2350,1.0,1.0,none,12463.0,400.0,14.38712215423584,0.01607875,rulearena_airline_test_full_baseline
+airline_2_51,3403.0,3303,0.0,0.0,calculation_error,26057.0,874.0,21.52708911895752,0.033663750000000006,rulearena_airline_test_full_baseline
+airline_2_41,3260.0,3260,1.0,1.0,none,12525.0,914.0,21.802128791809082,0.01679875,rulearena_airline_test_full_baseline
+airline_1_44,2594.0,2559,0.0,0.0,calculation_error,12464.0,844.0,28.49624490737915,0.016635,rulearena_airline_test_full_baseline

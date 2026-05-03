@@ -1,0 +1,45 @@
+llm:
+  model: together_ai/deepseek-ai/DeepSeek-V3.1
+cachier:
+  cache_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/tabmwp/llm_cache
+evaluate:
+  expt_name: tabmwp_solve_induced_record
+  result_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/tabmwp/learned_class3_v4/induced_recordings
+  record_details: true
+  entry_point: tabmwp_react
+dataset:
+  split: dev1k
+  shuffle_seed: 42
+  'n': 100
+ptools:
+  identify_operation:
+    method: simulate
+  compute_answer:
+    method: simulate
+  format_answer:
+    method: simulate
+  extract_answer:
+    method: simulate
+  get_table_schema:
+    method: direct
+  lookup_value:
+    method: direct
+  query_column:
+    method: direct
+  query_table:
+    method: direct
+  tabmwp_solve:
+    method: simulate_pydantic
+    tools:
+    - format_final_answer
+    - perform_calculation
+    - determine_required_operation
+    - extract_table_values
+    - analyze_table_structure
+    tool_module: __learned__
+    learner: ptool_inducer
+  tabmwp_react:
+    method: direct
+learn:
+  train_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/tabmwp/learned_class3_v4
+root: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/tabmwp

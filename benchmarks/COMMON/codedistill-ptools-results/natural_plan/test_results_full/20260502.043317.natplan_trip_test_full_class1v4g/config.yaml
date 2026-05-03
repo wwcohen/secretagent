@@ -1,0 +1,35 @@
+llm:
+  model: together_ai/deepseek-ai/DeepSeek-V3.1
+  timeout: 180
+cachier:
+  cache_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/natural_plan/llm_cache
+evaluate:
+  result_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/natural_plan/test_results_full
+  expt_name: natplan_trip_test_full_class1v4g
+  entry_point: trip_planning
+  prompt_trace: true
+  record_details: true
+dataset:
+  split: trip
+  shuffle_seed: 42
+  prompt_mode: 0shot
+  'n': 100
+  stratified: false
+  sample_n: 50
+  sample_seed: 42
+  partition: test
+ptools:
+  parse_trip_constraints:
+    method: simulate
+  find_valid_route:
+    method: simulate
+  build_trip_plan:
+    method: learned_code
+    backoff: true
+    learner: codedistill
+  trip_planning:
+    method: direct
+    fn: ptools_trip.trip_workflow
+learn:
+  train_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/natural_plan/learned_v4g
+root: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/natural_plan

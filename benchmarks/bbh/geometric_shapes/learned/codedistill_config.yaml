@@ -1,0 +1,21 @@
+ptools:
+  decompose_path:
+    backoff: true
+    learner: codedistill
+    method: learned_code
+  describe_command:
+    backoff: true
+    learner: codedistill
+    method: learned_code
+  describe_shape:
+    backoff: true
+    learner: codedistill
+    method: learned_code
+  extract_path_and_options:
+    backoff: true
+    learner: codedistill
+    method: learned_code
+  select_option:
+    backoff: true
+    learner: codedistill
+    method: learned_code

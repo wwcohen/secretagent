@@ -1,0 +1,76 @@
+case_name,predicted_output,expected_output,correct,input_tokens,output_tokens,latency,cost,expt_name
+test.089,True,True,1.0,320.0,217.0,4.988789796829224,0.0005609,bbh_sports_test_full_class1v4
+test.099,True,True,1.0,878.0,165.0,4.407626390457153,0.0008072999999999999,bbh_sports_test_full_class1v4
+test.077,True,True,1.0,877.0,789.0,20.68941879272461,0.0018674999999999998,bbh_sports_test_full_class1v4
+test.058,False,True,0.0,601.0,298.0,12.43569302558899,0.0008672,bbh_sports_test_full_class1v4
+test.059,True,True,1.0,598.0,36.0,1.5481626987457275,0.00042,bbh_sports_test_full_class1v4
+test.011,True,True,1.0,602.0,237.0,5.055747747421265,0.0007641,bbh_sports_test_full_class1v4
+test.025,True,True,1.0,594.0,167.0,3.3508973121643066,0.0006403,bbh_sports_test_full_class1v4
+test.083,True,True,1.0,604.0,347.0,12.731158018112183,0.0009523,bbh_sports_test_full_class1v4
+test.005,False,False,1.0,881.0,190.0,5.8502280712127686,0.0008516,bbh_sports_test_full_class1v4
+test.086,False,False,1.0,881.0,173.0,4.561881065368652,0.0008227,bbh_sports_test_full_class1v4
+test.019,**exception raised**: [Errno 35] Resource temporarily unavailable,True,0.0,,,,,bbh_sports_test_full_class1v4
+test.068,**exception raised**: [Errno 35] Resource temporarily unavailable,False,0.0,,,,,bbh_sports_test_full_class1v4
+test.010,**exception raised**: [Errno 35] Resource temporarily unavailable,False,0.0,,,,,bbh_sports_test_full_class1v4
+test.081,**exception raised**: [Errno 35] Resource temporarily unavailable,False,0.0,,,,,bbh_sports_test_full_class1v4
+test.085,True,True,1.0,881.0,185.0,10.580722332000732,0.0008431000000000001,bbh_sports_test_full_class1v4
+test.071,**exception raised**: [Errno 35] Resource temporarily unavailable,True,0.0,,,,,bbh_sports_test_full_class1v4
+test.047,**exception raised**: [Errno 35] Resource temporarily unavailable,True,0.0,,,,,bbh_sports_test_full_class1v4
+test.016,**exception raised**: [Errno 35] Resource temporarily unavailable,True,0.0,,,,,bbh_sports_test_full_class1v4
+test.098,**exception raised**: [Errno 35] Resource temporarily unavailable,True,0.0,,,,,bbh_sports_test_full_class1v4
+test.026,True,True,1.0,602.0,277.0,5.294080972671509,0.0008320999999999999,bbh_sports_test_full_class1v4
+test.076,False,False,1.0,599.0,145.0,2.8569207191467285,0.0006058999999999999,bbh_sports_test_full_class1v4
+test.057,**exception raised**: [Errno 35] Resource temporarily unavailable,True,0.0,,,,,bbh_sports_test_full_class1v4
+test.075,True,True,1.0,595.0,273.0,8.796930074691772,0.0008211000000000001,bbh_sports_test_full_class1v4
+test.080,False,False,1.0,314.0,20.0,1.4001460075378418,0.00022239999999999998,bbh_sports_test_full_class1v4
+test.004,False,True,0.0,600.0,34.0,1.6665589809417725,0.00041779999999999996,bbh_sports_test_full_class1v4
+test.055,False,False,1.0,315.0,114.0,3.60798716545105,0.0003828,bbh_sports_test_full_class1v4
+test.084,True,True,1.0,877.0,789.0,20.517618656158447,0.0018674999999999998,bbh_sports_test_full_class1v4
+test.039,True,True,1.0,887.0,286.0,6.63336706161499,0.0010184,bbh_sports_test_full_class1v4
+test.094,True,True,1.0,598.0,146.0,6.565985202789307,0.0006069999999999999,bbh_sports_test_full_class1v4
+test.069,True,True,1.0,596.0,23.0,1.5026140213012695,0.00039669999999999994,bbh_sports_test_full_class1v4
+test.064,True,True,1.0,883.0,440.0,15.927400827407837,0.0012778,bbh_sports_test_full_class1v4
+test.030,False,False,1.0,314.0,20.0,1.3832900524139404,0.00022239999999999998,bbh_sports_test_full_class1v4
+test.087,False,False,1.0,593.0,167.0,7.303063154220581,0.0006397,bbh_sports_test_full_class1v4
+test.027,True,True,1.0,601.0,36.0,1.8471479415893555,0.00042179999999999995,bbh_sports_test_full_class1v4
+test.063,True,True,1.0,599.0,162.0,6.386960029602051,0.0006348,bbh_sports_test_full_class1v4
+test.028,False,False,1.0,881.0,191.0,3.9240899085998535,0.0008533,bbh_sports_test_full_class1v4
+test.053,False,False,1.0,877.0,631.0,13.59497857093811,0.0015988999999999999,bbh_sports_test_full_class1v4
+test.014,False,False,1.0,1172.0,488.0,9.036961555480957,0.0015328,bbh_sports_test_full_class1v4
+test.070,**exception raised**: cannot find final answer,True,0.0,320.0,34.0,6.975589990615845,0.0002498,bbh_sports_test_full_class1v4
+test.048,True,True,1.0,599.0,127.0,3.2955543994903564,0.0005752999999999999,bbh_sports_test_full_class1v4
+test.013,False,False,1.0,597.0,235.0,16.413676738739014,0.0007577,bbh_sports_test_full_class1v4
+test.079,False,False,1.0,596.0,171.0,3.6884679794311523,0.0006483,bbh_sports_test_full_class1v4
+test.033,True,True,1.0,322.0,29.0,1.7993779182434082,0.00024249999999999999,bbh_sports_test_full_class1v4
+test.095,False,False,1.0,596.0,197.0,6.160139799118042,0.0006925,bbh_sports_test_full_class1v4
+test.006,True,True,1.0,1170.0,423.0,24.073979139328003,0.0014210999999999998,bbh_sports_test_full_class1v4
+test.097,True,True,1.0,604.0,147.0,3.667968511581421,0.0006123,bbh_sports_test_full_class1v4
+test.015,False,False,1.0,881.0,113.0,3.286278009414673,0.0007206999999999999,bbh_sports_test_full_class1v4
+test.056,True,True,1.0,1162.0,1997.0,76.34922003746033,0.0040921,bbh_sports_test_full_class1v4
+test.021,True,True,1.0,882.0,45.0,3.9438529014587402,0.0006057,bbh_sports_test_full_class1v4
+test.045,False,False,1.0,880.0,261.0,4.639291763305664,0.0009716999999999999,bbh_sports_test_full_class1v4
+test.037,False,False,1.0,597.0,167.0,6.13416314125061,0.0006421,bbh_sports_test_full_class1v4
+test.035,False,False,1.0,598.0,286.0,8.88911485671997,0.000845,bbh_sports_test_full_class1v4
+test.036,True,True,1.0,884.0,401.0,11.358814001083374,0.0012120999999999998,bbh_sports_test_full_class1v4
+test.034,True,True,1.0,882.0,148.0,3.8377246856689453,0.0007808,bbh_sports_test_full_class1v4
+test.020,False,False,1.0,593.0,30.0,7.24701714515686,0.00040679999999999997,bbh_sports_test_full_class1v4
+test.038,True,True,1.0,600.0,204.0,6.1316978931427,0.0007067999999999999,bbh_sports_test_full_class1v4
+test.002,True,True,1.0,314.0,21.0,0.8875851631164551,0.0002241,bbh_sports_test_full_class1v4
+test.012,True,True,1.0,597.0,186.0,4.959360837936401,0.0006743999999999999,bbh_sports_test_full_class1v4
+test.007,False,False,1.0,880.0,259.0,6.227468967437744,0.0009683,bbh_sports_test_full_class1v4
+test.032,False,False,1.0,593.0,30.0,2.3452420234680176,0.00040679999999999997,bbh_sports_test_full_class1v4
+test.072,**exception raised**: cannot find final answer,True,0.0,313.0,13.0,5.14489483833313,0.00020989999999999998,bbh_sports_test_full_class1v4
+test.073,True,True,1.0,885.0,269.0,5.930764675140381,0.0009883000000000001,bbh_sports_test_full_class1v4
+test.074,True,True,1.0,1156.0,2061.0,42.68228769302368,0.0041973,bbh_sports_test_full_class1v4
+test.008,True,True,1.0,882.0,369.0,5.748050689697266,0.0011565,bbh_sports_test_full_class1v4
+test.043,False,False,1.0,879.0,231.0,7.603248119354248,0.0009201,bbh_sports_test_full_class1v4
+test.090,True,True,1.0,599.0,162.0,6.386960029602051,0.0006348,bbh_sports_test_full_class1v4
+test.091,True,True,1.0,604.0,163.0,3.2920572757720947,0.0006395,bbh_sports_test_full_class1v4
+test.040,False,False,1.0,1171.0,220.0,3.8120102882385254,0.0010766,bbh_sports_test_full_class1v4
+test.088,True,True,1.0,315.0,22.0,0.7005019187927246,0.00022639999999999997,bbh_sports_test_full_class1v4
+test.049,False,False,1.0,314.0,21.0,0.6373069286346436,0.0002241,bbh_sports_test_full_class1v4
+test.093,True,True,1.0,598.0,32.0,1.7635550498962402,0.00041319999999999996,bbh_sports_test_full_class1v4
+test.031,False,False,1.0,596.0,193.0,4.660868167877197,0.0006857,bbh_sports_test_full_class1v4
+test.092,False,False,1.0,881.0,192.0,9.231948137283325,0.000855,bbh_sports_test_full_class1v4
+test.022,**exception raised**: cannot find final answer,True,0.0,319.0,22.0,7.160103797912598,0.00022879999999999998,bbh_sports_test_full_class1v4
+test.046,False,False,1.0,594.0,190.0,17.504863262176514,0.0006794,bbh_sports_test_full_class1v4

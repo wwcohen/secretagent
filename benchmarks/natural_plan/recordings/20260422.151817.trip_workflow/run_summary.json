@@ -1,0 +1,7 @@
+{
+  "reproduce_cmd": "uv run python expt.py run --config-file conf/trip.yaml evaluate.expt_name=trip_workflow evaluate.record_details=true evaluate.result_dir=recordings dataset.n=100 ptools.trip_planning.method=direct ptools.trip_planning.fn=ptools_trip.trip_workflow",
+  "accuracy": 0.12,
+  "total_cost_usd": 0.350006,
+  "total_time_sec": 3759.01,
+  "n_samples": 100
+}

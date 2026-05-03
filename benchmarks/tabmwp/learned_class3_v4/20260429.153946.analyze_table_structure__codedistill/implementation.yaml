@@ -1,0 +1,4 @@
+analyze_table_structure:
+  backoff: true
+  learner: codedistill
+  method: learned_code

@@ -1,0 +1,259 @@
+case_name,predicted_output,expected_output,correct,input_tokens,output_tokens,latency,cost,expt_name
+test.089,(B),(D),0.0,2677.0,1291.0,25.500234842300415,0.0038009000000000003,bbh_date_test_full_class2v4g
+test.099,(E),(E),1.0,2249.0,489.0,10.869255542755127,0.0021807,bbh_date_test_full_class2v4g
+test.077,(E),(E),1.0,2205.0,527.0,12.081024169921875,0.0022189,bbh_date_test_full_class2v4g
+test.058,(F),(F),1.0,2303.0,591.0,14.618634223937988,0.0023865,bbh_date_test_full_class2v4g
+test.059,(A),(A),1.0,2226.0,798.0,17.703924655914307,0.0026922,bbh_date_test_full_class2v4g
+test.011,(C),(C),1.0,2605.0,673.0,13.082067728042603,0.0027071,bbh_date_test_full_class2v4g
+test.025,(F),(F),1.0,2593.0,556.0,18.17544937133789,0.0025009999999999998,bbh_date_test_full_class2v4g
+test.083,(D),(D),1.0,2194.0,955.0,28.894211292266846,0.0029399,bbh_date_test_full_class2v4g
+test.005,(A),(A),1.0,2205.0,429.0,15.22954773902893,0.0020523,bbh_date_test_full_class2v4g
+test.086,(D),(D),1.0,2627.0,664.0,21.558309316635132,0.002705,bbh_date_test_full_class2v4g
+test.019,(B),(B),1.0,2200.0,393.0,16.177459955215454,0.0019880999999999996,bbh_date_test_full_class2v4g
+test.068,(A),(A),1.0,2611.0,325.0,11.960784673690796,0.0021191,bbh_date_test_full_class2v4g
+test.010,(A),(A),1.0,2224.0,713.0,25.553758144378662,0.0025465,bbh_date_test_full_class2v4g
+test.081,(B),(B),1.0,2269.0,605.0,9.962819337844849,0.0023899000000000004,bbh_date_test_full_class2v4g
+test.085,(F),(F),1.0,2224.0,615.0,11.851444959640503,0.0023799,bbh_date_test_full_class2v4g
+test.071,(D),(D),1.0,2183.0,180.0,5.407821416854858,0.0016158,bbh_date_test_full_class2v4g
+test.047,(C),(C),1.0,2270.0,661.0,11.032688856124878,0.0024857,bbh_date_test_full_class2v4g
+test.016,(B),(B),1.0,2230.0,833.0,19.699981451034546,0.0027541,bbh_date_test_full_class2v4g
+test.098,(E),(E),1.0,2205.0,401.0,12.594786882400513,0.0020047,bbh_date_test_full_class2v4g
+test.026,(F),(B),0.0,2631.0,815.0,26.765528202056885,0.0029641,bbh_date_test_full_class2v4g
+test.076,(B),(B),1.0,2627.0,622.0,25.822274208068848,0.0026336,bbh_date_test_full_class2v4g
+test.057,(E),(E),1.0,2300.0,895.0,27.060898303985596,0.0029014999999999996,bbh_date_test_full_class2v4g
+test.075,(E),(E),1.0,2247.0,452.0,21.182546377182007,0.0021165999999999997,bbh_date_test_full_class2v4g
+test.080,(C),(C),1.0,2698.0,1551.0,52.555490493774414,0.0042555,bbh_date_test_full_class2v4g
+test.004,(C),(C),1.0,2676.0,1462.0,57.197524309158325,0.004091,bbh_date_test_full_class2v4g
+test.055,(D),(D),1.0,2972.0,1301.0,44.652061223983765,0.003994900000000001,bbh_date_test_full_class2v4g
+test.084,(D),(D),1.0,2984.0,3526.0,112.77802538871765,0.0077846,bbh_date_test_full_class2v4g
+test.039,(F),(F),1.0,2224.0,594.0,24.281006813049316,0.0023442,bbh_date_test_full_class2v4g
+test.094,(B),(B),1.0,2224.0,692.0,23.645328760147095,0.0025108,bbh_date_test_full_class2v4g
+test.069,(B),(B),1.0,2672.0,671.0,24.34465718269348,0.0027439,bbh_date_test_full_class2v4g
+test.064,(C),(C),1.0,2293.0,1209.0,44.98628807067871,0.0034311,bbh_date_test_full_class2v4g
+test.030,(B),(B),1.0,2631.0,467.0,15.633016347885132,0.0023725,bbh_date_test_full_class2v4g
+test.087,(B),(B),1.0,2233.0,622.0,20.562381505966187,0.0023972,bbh_date_test_full_class2v4g
+test.027,(B),(B),1.0,2627.0,750.0,23.765077114105225,0.0028512,bbh_date_test_full_class2v4g
+test.063,(A),(A),1.0,2303.0,376.0,14.570432186126709,0.0020210000000000002,bbh_date_test_full_class2v4g
+test.028,(C),(C),1.0,2210.0,695.0,91.6341302394867,0.0025074999999999997,bbh_date_test_full_class2v4g
+test.053,(D),(D),1.0,2578.0,817.0,40.01417899131775,0.0029357,bbh_date_test_full_class2v4g
+test.014,(A),(A),1.0,2680.0,1035.0,36.106921911239624,0.0033675,bbh_date_test_full_class2v4g
+test.070,(F),(F),1.0,2623.0,609.0,27.473671197891235,0.0026090999999999996,bbh_date_test_full_class2v4g
+test.048,(D),(D),1.0,2250.0,686.0,25.207769632339478,0.0025162,bbh_date_test_full_class2v4g
+test.013,(A),(A),1.0,2220.0,562.0,21.338452577590942,0.0022873999999999998,bbh_date_test_full_class2v4g
+test.079,(B),(B),1.0,2305.0,540.0,18.865656852722168,0.002301,bbh_date_test_full_class2v4g
+test.033,(F),(F),1.0,2244.0,495.0,19.911627769470215,0.0021878999999999996,bbh_date_test_full_class2v4g
+test.095,(F),(F),1.0,2676.0,500.0,16.34874963760376,0.0024556000000000005,bbh_date_test_full_class2v4g
+test.006,(D),(D),1.0,2266.0,684.0,20.84174609184265,0.0025224,bbh_date_test_full_class2v4g
+test.097,(E),(E),1.0,2244.0,416.0,24.41041398048401,0.0020536,bbh_date_test_full_class2v4g
+test.015,(E),(E),1.0,2215.0,659.0,33.088396310806274,0.0024492999999999997,bbh_date_test_full_class2v4g
+test.056,(A),(B),0.0,2609.0,2330.0,81.30530405044556,0.0055264,bbh_date_test_full_class2v4g
+test.021,(F),(F),1.0,2628.0,993.0,41.52125430107117,0.0032649000000000003,bbh_date_test_full_class2v4g
+test.045,"Let's break down the problem step by step:
+
+1. Jane quit her job on March 20, 2020.
+2. 176 days have passed since then. So, we need to find the date 176 days after March 20, 2020.
+3. Then, we need to find the date 24 hours (which is 1 day) after that date.
+4. So essentially, we need to find the date 177 days after March 20, 2020.
+
+Let's calculate the date 177 days after March 20, 2020.
+
+First, note that 2020 is a leap year (since 2020 is divisible by 4), so February has 29 days.
+
+Let's count the days:
+
+- March 20, 2020 to March 31, 2020: 11 days (since 31 - 20 = 11)
+- April: 30 days
+- May: 31 days
+- June: 30 days
+- July: 31 days
+- August: 31 days
+- September: 30 days
+- October: 31 days
+- November:30 days
+- December:31 days
+- January 2021: 31 days
+- February 2021: 28 days (2021 is not a leap year)
+- March 2021: 31 days
+- April 2021: 30 days
+- May 2021: 31 days
+- June 2021: 30 days
+
+But we only need to add 177 days, so we don't need to go beyond that.
+
+Let's add up the days:
+
+From March 20 to March 31: 11 days (20th to 31st is 11 days, but since we start from 20th, the 20th is day 0. So from 20th to 21st is 1 day, 22nd is 2, ... 31st is 11 days after 20th? Actually, if March 20 is day 0, then March 21 is day 1, March 22 is day 2, ... March 31 is day 11. So after 11 days, it's March 31.
+
+But we need to be careful: if we start on March 20, then after 1 day is March 21, after 2 days is March 22, ... after 11 days is March 31.
+
+So, let's calculate cumulative:
+
+Start: March 20, 2020 (day 0)
+
+After 11 days: March 31, 2020 (day 11)
+
+Now, we have 177 - 11 = 166 days to add.
+
+April 2020: 30 days (from April 1 to April 30) -> after 30 days from March 31 is April 30? Actually, if we are at March 31, adding 1 day is April 1, 2 days is April 2, ... 30 days is April 30? But April has 30 days, so from April 1 to April 30 is 29 days? Let's think in terms of date addition.
+
+Better to use a systematic approach:
+
+Let's define the start date: 2020-03-20
+
+Add 177 days.
+
+We can calculate:
+
+2020 is a leap year, so:
+
+- March: 31 days, from 20th to 31st: 12 days? Actually, 20th to 21st is 1 day, so 20th to 31st is 11 days (31-20=11). But when adding days, if we start on day 0, then after n days, the date is start_date + n days.
+
+So, start_date = datetime(2020, 3, 20)
+
+After 177 days: start_date + timedelta(days=177)
+
+Then, we need to find the date 24 hours later, which is just one more day, so start_date + timedelta(days=178)
+
+But the question says ""24 hours later"", which is exactly one day, so if we have the date after 176 days, then 24 hours later is the next day. So if after 176 days is date X, then 24 hours later is X + 1 day.
+
+But the question says: ""176 days have passed since then. What is the date 24 hours later...""
+
+So, if 176 days have passed, that means the current date is 176 days after March 2, 2020. Then, we need the date 24 hours after that current date, which is one day after.
+
+So, we need to find: (March 20, 2020 + 176 days) + 1 day = March 20, 2020 + 177 days.
+
+So, we can directly calculate March 20, 2020 + 177 days.
+
+Let's compute:
+
+Start: 2020-03-20
+
+Add 177 days:
+
+First, days in 2020 from March 20 to December 31:
+
+March: 31 - 20 = 11 days (from 20th to 31st)
+April: 30
+May: 31
+June: 30
+July: 31
+August: 31
+September: 30
+October: 31
+November: 30
+December: 31
+
+Sum of days from March 20 to December 31, 2020:
+
+11 + 30 + 31 + 30 + 31 + 31 + 30 + 31 + 30 + 31
+
+Calculate step by step:
+
+11 + 30 = 41
+41 + 31 = 72
+72 + 30 = 102
+102 + 31 = 133
+133 + 31 = 164
+164 + 30 = 194
+194 + 31 = 225
+225 + 30 = 255
+255 + 31 = 286
+
+So, from March 20 to December 31 is 286 days? But this includes the start day? Actually, if we start on March 20, the number of days from March 20 to December 31 is 286 days? But that would mean after 286 days, it's December 31? Let's check:
+
+From March 20 to March 31: 11 days (20 to 31 is 11 days, but if we start on 20, after 1 day is 21, so after 11 days is 31st)
+
+So, the number of days from start to end date is (end - start) in days.
+
+To get to December 31, 2020 from March 20, 2020:
+
+Days in March: 31 - 20 = 11
+April: 30
+May: 31
+June: 30
+July: 31
+August: 31
+September: 30
+October: 31
+November: 30
+December: 31
+
+Sum: 11 + 30 = 41; 41+31=72; 72+30=102; 102+31=133; 133+31=164; 164+30=194; 2=225; 225+30=255; 255+31=286.
+
+So, after 286 days from March 20, 2020, it is December 31, 2020.
+
+But we need only 177 days, which is less than 286, so it is in 2020.
+
+So, start with 11 days to reach March 31.
+
+177 - 11 = 166 days to add after March 31.
+
+Now, from April 1:
+
+April: 30 days
+May: 31 days
+June: 30 days
+July: 31 days
+August: 31 days
+September: 30 days
+
+Let's see how many days we need: 166
+
+April: 30 -> after 30 days is April 30? Actually, if we are at April 1, adding 30 days is May 1? No:
+
+If we are at April 1, day 0:
++1 -> April 2
+...
++29 -> April 30
++30 -> May 1
+
+So, to get to the end of April, we need 29 days? This is confusing.
+
+Better to use a date calculator.
+
+We can use Python in mind:
+
+Start date: 2020-03-20
+Add 177 days:
+
+2020-03-20 + 177 days.
+
+2020-03-20 to 2020-04-20 is 31 days? From March 20 to April 20 is 31 days? March 20 to April 19 is 30 days, to April 20 is 31 days.
+
+But we are adding 177 days, which is more than 31.
+
+Let's add months:
+
+After 11 days: 2020-03-31
+After 41 days: 2020-04-30? (31-20=11, so 11+30=41? But from March 20 to April 30: March 20 to April 20 is 31 days, to April 30 is 41 days? 31 + 10 = 41? Actually, from March 20 to April 20 is 31 days, to April 21 is 32, ... to April 30 is 41 days.
+
+So, after 41 days from March 20 is April 30, 2020.
+
+Then, we need 177 - 41 = 136 more days.
+
+May has 31 days, so after 31 days from April 30 is May 31? April 30 + 1 = May 1, +2=May2, ... +",(B),0.0,2979.0,5317.0,155.65283632278442,0.0108263,bbh_date_test_full_class2v4g
+test.037,(D),(D),1.0,2560.0,396.0,18.229762315750122,0.0022092,bbh_date_test_full_class2v4g
+test.035,(D),(C),0.0,2238.0,391.0,15.031171798706055,0.0020075,bbh_date_test_full_class2v4g
+test.036,(F),(F),1.0,2255.0,1627.0,64.55262303352356,0.0041189,bbh_date_test_full_class2v4g
+test.034,(E),(E),1.0,2245.0,503.0,20.48707914352417,0.0022021000000000002,bbh_date_test_full_class2v4g
+test.020,(A) 07/27/2002,(A),0.0,1151.0,285.0,9.117766618728638,0.0011750999999999999,bbh_date_test_full_class2v4g
+test.038,(E),(E),1.0,2228.0,192.0,8.325885772705078,0.0016631999999999999,bbh_date_test_full_class2v4g
+test.002,(E),(E),1.0,2613.0,624.0,27.773773670196533,0.0026286,bbh_date_test_full_class2v4g
+test.012,(F),(F),1.0,2239.0,938.0,37.68539619445801,0.0029380000000000005,bbh_date_test_full_class2v4g
+test.007,(F),(F),1.0,2298.0,425.0,14.202604532241821,0.0021013000000000004,bbh_date_test_full_class2v4g
+test.032,(F),(D),0.0,2630.0,453.0,12.939636468887329,0.0023480999999999997,bbh_date_test_full_class2v4g
+test.072,(F),(F),1.0,2638.0,1405.0,42.88761639595032,0.0039713,bbh_date_test_full_class2v4g
+test.073,(D),(C),0.0,2677.0,1200.0,42.707215309143066,0.0036462,bbh_date_test_full_class2v4g
+test.074,(B),(B),1.0,2238.0,405.0,37.78576445579529,0.0020312999999999998,bbh_date_test_full_class2v4g
+test.008,(C),(C),1.0,2658.0,866.0,23.215413331985474,0.003067,bbh_date_test_full_class2v4g
+test.043,(E),(E),1.0,2583.0,446.0,18.017773866653442,0.0023079999999999997,bbh_date_test_full_class2v4g
+test.090,(D),(D),1.0,2283.0,1500.0,39.011481285095215,0.0039198,bbh_date_test_full_class2v4g
+test.091,(D),(D),1.0,2249.0,453.0,14.157387971878052,0.0021195,bbh_date_test_full_class2v4g
+test.040,(B),(B),1.0,2662.0,914.0,33.185301780700684,0.003151,bbh_date_test_full_class2v4g
+test.088,(C),(C),1.0,2293.0,871.0,41.43362069129944,0.0028564999999999997,bbh_date_test_full_class2v4g
+test.049,(F),(F),1.0,2580.0,1253.0,40.52578830718994,0.0036780999999999997,bbh_date_test_full_class2v4g
+test.093,(C),(C),1.0,2224.0,573.0,15.437216997146606,0.0023085,bbh_date_test_full_class2v4g
+test.031,(A),(A),1.0,2656.0,1045.0,26.653208255767822,0.0033700999999999996,bbh_date_test_full_class2v4g
+test.092,(E),(E),1.0,2615.0,1012.0,23.98461365699768,0.0032894,bbh_date_test_full_class2v4g
+test.022,(D),(D),1.0,2249.0,642.0,20.055604696273804,0.0024408,bbh_date_test_full_class2v4g
+test.046,(B),(B),1.0,2680.0,1051.0,27.66857099533081,0.0033947,bbh_date_test_full_class2v4g

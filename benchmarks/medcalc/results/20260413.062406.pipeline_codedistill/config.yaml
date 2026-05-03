@@ -1,0 +1,27 @@
+llm:
+  model: together_ai/Qwen/Qwen3.5-9B
+  max_tokens: 16384
+cachier:
+  cache_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/medcalc/llm_cache
+  enable_caching: true
+evaluate:
+  result_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/medcalc/results
+  expt_name: pipeline_codedistill
+  entry_point: calculate_medical_value
+dataset:
+  split: train
+  stratified: true
+  'n': 50
+  shuffle_seed: 42
+ptools:
+  identify_calculator:
+    method: learned_code
+    learner: codedistill
+    backoff: true
+  simulate_medical_value:
+    method: simulate
+  calculate_medical_value:
+    method: direct
+    fn: ptools.pipeline_workflow
+learn:
+  train_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/medcalc/learned
