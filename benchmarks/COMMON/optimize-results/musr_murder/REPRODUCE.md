@@ -1,6 +1,6 @@
 # musr_murder NSGA-II sweep snapshot
 
-Frozen on 2026-05-03 from commit 509b6402.
+Frozen on 2026-05-04 from commit dccdcac8.
 
 ## Command
 
@@ -23,4 +23,4 @@ dotlist expansions per method.
 - `nsga2_summary.csv` — one row per evaluated config
 - `nsga2_generations.csv` — per-generation convergence stats
 - `nsga2.png` — Pareto plot (cost vs correctness)
-- `nsga_runs/<TS>.nsga_NNN/` — per-config rollout dirs (53 total)
+- `nsga_runs/<TS>.nsga_NNN/` — per-config rollout dirs (0 total)
