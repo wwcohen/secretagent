@@ -21,8 +21,22 @@ ptools:
   compute:
     method: direct
   extract_reasoning_plan:
-    method: simulate
+    method: prompt_llm
+    prompt_template_file: prompt_templates/reasoning_plan.txt
+    answer_pattern: null
+  parse_plan_fields:
+    method: direct
+  substitute_values:
+    method: direct
+  format_for_scale:
+    method: direct
   extract_final_number:
     method: simulate
+  zeroshot_answer_finqa:
+    method: prompt_llm
+    prompt_template_file: prompt_templates/zeroshot.txt
+    answer_pattern: null
+  coerce_to_answer:
+    method: direct
   answer_finqa:
     method: simulate

@@ -1,0 +1,4 @@
+verify_alibis:
+  backoff: true
+  learner: codedistill
+  method: learned_code

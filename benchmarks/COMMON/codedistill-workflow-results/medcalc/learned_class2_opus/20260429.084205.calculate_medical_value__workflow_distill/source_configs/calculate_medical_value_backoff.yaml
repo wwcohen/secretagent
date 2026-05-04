@@ -1,0 +1,3 @@
+ptools:
+  calculate_medical_value:
+    method: simulate

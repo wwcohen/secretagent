@@ -5,9 +5,11 @@ import typer
 
 from secretagent.learn.baselines import EditedPToolLearner, RoteLearner
 from secretagent.learn.codedistill import CodeDistillLearner, EndToEndDistillLearner, distill_all
+from secretagent.learn.codedistill_pipeline import codedistill_induced_ptools
 from secretagent.learn.examples import extract_examples
 from secretagent.learn.ptool_inducer import PtoolInducer
 from secretagent.learn.traces import extract_ptp_traces
+from secretagent.learn.workflow_distill import WorkflowDistillLearner
 
 app = typer.Typer()
 _EXTRA_ARGS = {"allow_extra_args": True, "allow_interspersed_args": False}
@@ -121,6 +123,69 @@ def e2e_codedistill(
     learner.learn_from_dataset()
 
 
+@app.command(name='workflow-codedistill', context_settings=_EXTRA_ARGS)
+def workflow_codedistill(
+    ctx: typer.Context,
+    interface: str = typer.Option(..., help="Top-level workflow interface name"),
+    dataset_file: str = typer.Option(..., help="Path to dataset JSON file with (input, expected_output) cases"),
+    tool_module: str = typer.Option(..., help="Dotted module path holding callable tools, e.g. 'ptools_meeting' or 'ptools'"),
+    output_field: Optional[str] = typer.Option(None, help="Field in expected_output dict to extract (e.g. 'golden_plan')"),
+    tool_filter: Optional[list[str]] = typer.Option(None, help='Restrict to these tool names (repeatable)'),
+    reference_file: Optional[list[str]] = typer.Option(None, help='Reference workflow .py files for few-shot inspiration (repeatable)'),
+    trace_dir: Optional[list[str]] = typer.Option(None, help='Recording dirs to sample target-benchmark workflow traces from (repeatable)'),
+    react_trace_dir: Optional[list[str]] = typer.Option(None, help='ReAct recording dirs to sample tool-call sequences from (repeatable; uses step_info)'),
+    cross_trace_dir: Optional[list[str]] = typer.Option(None, help='Other-benchmark recording dirs for cross-domain inspiration (repeatable)'),
+    cross_dataset_file: Optional[list[str]] = typer.Option(None, help='Other-benchmark Dataset JSON files to sample cross-domain i/o examples from (repeatable)'),
+    conf_file: Optional[str] = typer.Option(None, help="Benchmark conf yaml — when set, simulate ptools are bound during fit-time eval so generated code can actually call LLM tools"),
+    trace_top_func: Optional[str] = typer.Option(None, help="Top-level func name in traces (defaults to --interface)"),
+    learned_dir: str = typer.Option('/tmp/workflow_distill', help='Directory to store learned code'),
+    model: str = typer.Option('claude-opus-4-6', help='LLM model'),
+    n_candidates: int = typer.Option(3, help='Candidates per round'),
+    max_rounds: int = typer.Option(3, help='Max refinement rounds'),
+    holdout_fraction: float = typer.Option(0.2, help='Train/val split fraction for holdout eval'),
+    backoff: bool = typer.Option(True, help='When generated fn returns None, fall back to pure-LLM call (NOT to hand-written workflow)'),
+    backoff_method: str = typer.Option('simulate', help='Backoff factory method (simulate = zero-shot LLM)'),
+):
+    """Learn a top-level workflow that calls existing tools (Class 2).
+
+    Generates a workflow function that orchestrates pre-existing pure-Python
+    helpers and/or simulate ptools, with cross-benchmark reference workflows
+    and sampled tool-call traces injected into the prompt for inspiration.
+
+    Example::
+
+        uv run -m secretagent.cli.learn workflow-codedistill \\
+          --interface meeting_planning \\
+          --dataset-file data/meeting_train.json --output-field golden_plan \\
+          --tool-module ptools_meeting \\
+          --reference-file ptools_calendar.py \\
+          --trace-dir recordings/20260428.123456.meeting_train_record \\
+          --learned-dir learned
+    """
+    learner = WorkflowDistillLearner(
+        interface_name=interface,
+        train_dir=learned_dir,
+        dataset_file=dataset_file,
+        tool_module=tool_module,
+        output_field=output_field,
+        tool_filter=tool_filter,
+        reference_workflow_files=reference_file,
+        trace_dirs=trace_dir,
+        react_trace_dirs=react_trace_dir,
+        cross_trace_dirs=cross_trace_dir,
+        cross_dataset_files=cross_dataset_file,
+        conf_file=conf_file,
+        trace_top_func=trace_top_func,
+        model=model,
+        n_candidates=n_candidates,
+        max_rounds=max_rounds,
+        holdout_fraction=holdout_fraction,
+        backoff=backoff,
+        backoff_method=backoff_method,
+    )
+    learner.learn_from_dataset()
+
+
 @app.command(context_settings=_EXTRA_ARGS)
 def codedistill_all(
     ctx: typer.Context,
@@ -131,6 +196,8 @@ def codedistill_all(
     n_candidates: int = typer.Option(3, help='Number of candidate versions per round'),
     max_rounds: int = typer.Option(3, help='Maximum refinement rounds'),
     max_wrong_rate: float = typer.Option(0.05, help='Max fraction of wrong (non-None) answers to enable'),
+    gate_metric: str = typer.Option('val', help="ENABLE gate: 'val' (holdout) or 'train' (v1 style, looser)"),
+    only_correct: bool = typer.Option(True, help='If True, only learn from rollouts whose final answer was correct'),
 ):
     """Auto-distill all interfaces found in recordings.
 
@@ -152,6 +219,8 @@ def codedistill_all(
         max_rounds=max_rounds,
         latest=latest,
         check=check,
+        gate_metric=gate_metric,
+        only_correct=only_correct,
     )
 
 
@@ -201,6 +270,74 @@ def induce_ptools(
         model=model,
     )
     learner.learn([Path(a) for a in ctx.args], latest=latest, check=check)
+
+
+@app.command(context_settings=_EXTRA_ARGS, name='codedistill-induced-ptools')
+def codedistill_induced_ptools_cmd(
+    ctx: typer.Context,
+    interface: str = typer.Option(..., help="Top-level interface name (e.g. 'answer_question')"),
+    task_desc: str = typer.Option(..., help="Natural-language task description"),
+    expt_cmd: str = typer.Option(..., help="Base expt.py command to re-run benchmark, e.g. 'uv run python expt.py run --config-file conf/murder.yaml dataset.split=murder_mysteries_train dataset.n=50'"),
+    trace_mode: str = typer.Option('react', help="'react' or 'cot'"),
+    state_module: Optional[str] = typer.Option(None, help="Module to import state from"),
+    state_expr: Optional[str] = typer.Option(None, help='Expression at call time'),
+    only_correct: bool = typer.Option(False, help='Only use correct rollouts for induction'),
+    max_ptools: int = typer.Option(5, help='Max induced ptools'),
+    min_count: int = typer.Option(3, help='Min category count to synthesize'),
+    induce_model: Optional[str] = typer.Option(None, help='LLM for PtoolInducer'),
+    learned_dir: str = typer.Option('learned', help='Directory for all pipeline outputs'),
+    max_wrong_rate: float = typer.Option(0.10, help='Max wrong_rate to enable a ptool'),
+    model: str = typer.Option('claude-opus-4-6', help='LLM for codedistill'),
+    n_candidates: int = typer.Option(3, help='Codedistill candidates per round'),
+    max_rounds: int = typer.Option(3, help='Codedistill max refinement rounds'),
+    latest: int = typer.Option(1, help='Keep latest k source dirs per tag'),
+    check: Optional[list[str]] = typer.Option(None, help='Config filter'),
+    cwd: Optional[str] = typer.Option(None, help='Working directory for the Stage B subprocess (default: current)'),
+    skip_stage_b: bool = typer.Option(False, help='Skip Stage B (useful if you already re-recorded)'),
+):
+    """Induce ptools from ReAct traces and codedistill each one.
+
+    Four-stage pipeline:
+      A) PtoolInducer on existing ReAct/CoT rollouts
+      B) Re-record benchmark with induced ptools (subprocess to expt.py)
+      C) codedistill-all on new recording
+      D) Merge configs into induced_codedistill_config.yaml
+
+    Example::
+
+        uv run -m secretagent.cli.learn codedistill-induced-ptools \\
+          --interface answer_question \\
+          --task-desc "Solve a murder mystery from a narrative" \\
+          --trace-mode react --only-correct \\
+          --state-module ptools_common \\
+          --state-expr '_REACT_STATE["narrative"]' \\
+          --learned-dir learned_induced \\
+          --expt-cmd "uv run python expt.py run --config-file conf/murder.yaml dataset.split=murder_mysteries_train dataset.n=50" \\
+          --cwd benchmarks/musr \\
+          benchmarks/musr/results/*murder_react_train*
+    """
+    codedistill_induced_ptools(
+        dirs=[Path(a) for a in ctx.args],
+        interface_name=interface,
+        task_desc=task_desc,
+        expt_cmd=expt_cmd,
+        trace_mode=trace_mode,
+        state_module=state_module,
+        state_expr=state_expr,
+        only_correct=only_correct,
+        max_ptools=max_ptools,
+        min_count=min_count,
+        induce_model=induce_model,
+        learned_dir=learned_dir,
+        max_wrong_rate=max_wrong_rate,
+        codedistill_model=model,
+        n_candidates=n_candidates,
+        max_rounds=max_rounds,
+        latest=latest,
+        check=check,
+        cwd=cwd,
+        skip_stage_b=skip_stage_b,
+    )
 
 
 @app.command(context_settings={"allow_extra_args": True, "allow_interspersed_args": True})

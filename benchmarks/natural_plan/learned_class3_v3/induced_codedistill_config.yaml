@@ -1,0 +1,12 @@
+ptools:
+  calendar_scheduling:
+    learner: ptool_inducer
+    method: simulate_pydantic
+    tool_module: __learned__
+    tools:
+    - propose_meeting_time
+    - propose_meeting_time_2
+  propose_meeting_time:
+    backoff: true
+    learner: codedistill
+    method: learned_code

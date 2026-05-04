@@ -1,0 +1,7 @@
+{
+  "reproduce_cmd": "uv run python expt.py run --config-file conf/calendar.yaml dataset.n=100 dataset.partition=test evaluate.result_dir=results-test evaluate.expt_name=structured_baseline ptools.calendar_scheduling.method=simulate",
+  "accuracy": 0.55,
+  "total_cost_usd": 0.093873,
+  "total_time_sec": 850.85,
+  "n_samples": 100
+}

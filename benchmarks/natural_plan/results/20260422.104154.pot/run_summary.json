@@ -1,0 +1,7 @@
+{
+  "reproduce_cmd": "uv run python expt.py run --config-file conf/calendar.yaml dataset.n=100 dataset.prompt_mode=5shot evaluate.expt_name=pot ptools.calendar_scheduling.method=program_of_thought ptools.calendar_scheduling.tools=[ptools_calendar.parse_schedules,ptools_calendar.find_available_slots,ptools_calendar.select_and_format]",
+  "accuracy": 0.0,
+  "total_cost_usd": 0,
+  "total_time_sec": 0,
+  "n_samples": 100
+}

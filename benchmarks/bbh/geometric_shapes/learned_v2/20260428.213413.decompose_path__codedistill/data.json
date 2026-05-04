@@ -1,0 +1,189 @@
+{
+  "name": "decompose_path",
+  "split": null,
+  "metadata": null,
+  "cases": [
+    {
+      "name": "decompose_path_0.10.1",
+      "metadata": {
+        "rollout_correct": 1.0,
+        "step_index": 1,
+        "prior_steps": [
+          {
+            "func": "extract_path_and_options",
+            "args": [
+              "This SVG path element <path d=\"M 98.96,92.35 L 44.27,28.27\"/> draws a\nOptions:\n(A) circle\n(B) heptagon\n(C) hexagon\n(D) kite\n(E) line\n(F) octagon\n(G) pentagon\n(H) rectangle\n(I) sector\n(J) triangle"
+            ],
+            "kw": {},
+            "output": [
+              "M 98.96,92.35 L 44.27,28.27",
+              [
+                [
+                  "A",
+                  "circle"
+                ],
+                [
+                  "B",
+                  "heptagon"
+                ],
+                [
+                  "C",
+                  "hexagon"
+                ],
+                [
+                  "D",
+                  "kite"
+                ],
+                [
+                  "E",
+                  "line"
+                ],
+                [
+                  "F",
+                  "octagon"
+                ],
+                [
+                  "G",
+                  "pentagon"
+                ],
+                [
+                  "H",
+                  "rectangle"
+                ],
+                [
+                  "I",
+                  "sector"
+                ],
+                [
+                  "J",
+                  "triangle"
+                ]
+              ]
+            ],
+            "stats": {
+              "input_tokens": 331,
+              "output_tokens": 96,
+              "latency": 3.1888420581817627,
+              "cost": 0.0003618,
+              "trace": {
+                "prompt": "Consider the following documentation stub for a Python function.  Note\nthat this is documentation, not a full implementation.\n```python\ndef extract_path_and_options(input: str) -> Tuple[str, List[Tuple[str, str]]]:\n    \"\"\"Extract the SVG path string and answer options from the prompt.\n\n    Returns (path, options) where path is the raw SVG path d=\"...\" string\n    and options is a list of (letter, shape_name) pairs, e.g. [('A', 'circle'), ('B', 'heptagon')].\n    \"\"\"\n    ...\n\n```\n\n\nImagine that this function was fully implemented as suggested by the\ndocumentation stub, and that function were called with these arguments:\n\ninput = 'This SVG path element <path d=\"M 98.96,92.35 L 44.27,28.27\"/> draws a\\nOptions:\\n(A) circle\\n(B) heptagon\\n(C) hexagon\\n(D) kite\\n(E) line\\n(F) octagon\\n(G) pentagon\\n(H) rectangle\\n(I) sector\\n(J) triangle'\n\nPropose a possible output of the function for these inputs that is\nconsistent with the documentation. Use the following output format:\n\n\n<answer>\nFINAL ANSWER\n</answer>\n\nIf your answer is x, show it as it would printed by a Python\ninterpreter called by print(x). Specifically if x is a string do NOT\ninclude quotes around it.  Also, do not include any text other than\nthe final answer between the <answer> and </answer> tags.\n",
+                "raw_response": "<answer>\n('M 98.96,92.35 L 44.27,28.27', [('A', 'circle'), ('B', 'heptagon'), ('C', 'hexagon'), ('D', 'kite'), ('E', 'line'), ('F', 'octagon'), ('G', 'pentagon'), ('H', 'rectangle'), ('I', 'sector'), ('J', 'triangle')])\n</answer>",
+                "reasoning_content": null,
+                "model": "together_ai/deepseek-ai/DeepSeek-V3.1"
+              }
+            }
+          }
+        ],
+        "top_level_func": "extract_path_and_options",
+        "top_level_args": [
+          "This SVG path element <path d=\"M 98.96,92.35 L 44.27,28.27\"/> draws a\nOptions:\n(A) circle\n(B) heptagon\n(C) hexagon\n(D) kite\n(E) line\n(F) octagon\n(G) pentagon\n(H) rectangle\n(I) sector\n(J) triangle"
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": "(E)",
+        "top_level_expected": "(E)"
+      },
+      "input_args": [
+        "M 98.96,92.35 L 44.27,28.27"
+      ],
+      "input_kw": null,
+      "expected_output": [
+        "M 98.96,92.35",
+        "L 44.27,28.27"
+      ]
+    },
+    {
+      "name": "decompose_path_0.19.1",
+      "metadata": {
+        "rollout_correct": 1.0,
+        "step_index": 1,
+        "prior_steps": [
+          {
+            "func": "extract_path_and_options",
+            "args": [
+              "This SVG path element <path d=\"M 29.40,69.39 L 51.16,67.08 L 65.98,58.97 L 86.05,37.54 L 83.22,21.48 M 83.22,21.48 L 41.67,26.57 L 29.40,69.39\"/> draws a\nOptions:\n(A) circle\n(B) heptagon\n(C) hexagon\n(D) kite\n(E) line\n(F) octagon\n(G) pentagon\n(H) rectangle\n(I) sector\n(J) triangle"
+            ],
+            "kw": {},
+            "output": [
+              "M 29.40,69.39 L 51.16,67.08 L 65.98,58.97 L 86.05,37.54 L 83.22,21.48 M 83.22,21.48 L 41.67,26.57 L 29.40,69.39",
+              [
+                [
+                  "A",
+                  "circle"
+                ],
+                [
+                  "B",
+                  "heptagon"
+                ],
+                [
+                  "C",
+                  "hexagon"
+                ],
+                [
+                  "D",
+                  "kite"
+                ],
+                [
+                  "E",
+                  "line"
+                ],
+                [
+                  "F",
+                  "octagon"
+                ],
+                [
+                  "G",
+                  "pentagon"
+                ],
+                [
+                  "H",
+                  "rectangle"
+                ],
+                [
+                  "I",
+                  "sector"
+                ],
+                [
+                  "J",
+                  "triangle"
+                ]
+              ]
+            ],
+            "stats": {
+              "input_tokens": 385,
+              "output_tokens": 150,
+              "latency": 4.377394914627075,
+              "cost": 0.000486,
+              "trace": {
+                "prompt": "Consider the following documentation stub for a Python function.  Note\nthat this is documentation, not a full implementation.\n```python\ndef extract_path_and_options(input: str) -> Tuple[str, List[Tuple[str, str]]]:\n    \"\"\"Extract the SVG path string and answer options from the prompt.\n\n    Returns (path, options) where path is the raw SVG path d=\"...\" string\n    and options is a list of (letter, shape_name) pairs, e.g. [('A', 'circle'), ('B', 'heptagon')].\n    \"\"\"\n    ...\n\n```\n\n\nImagine that this function was fully implemented as suggested by the\ndocumentation stub, and that function were called with these arguments:\n\ninput = 'This SVG path element <path d=\"M 29.40,69.39 L 51.16,67.08 L 65.98,58.97 L 86.05,37.54 L 83.22,21.48 M 83.22,21.48 L 41.67,26.57 L 29.40,69.39\"/> draws a\\nOptions:\\n(A) circle\\n(B) heptagon\\n(C) hexagon\\n(D) kite\\n(E) line\\n(F) octagon\\n(G) pentagon\\n(H) rectangle\\n(I) sector\\n(J) triangle'\n\nPropose a possible output of the function for these inputs that is\nconsistent with the documentation. Use the following output format:\n\n\n<answer>\nFINAL ANSWER\n</answer>\n\nIf your answer is x, show it as it would printed by a Python\ninterpreter called by print(x). Specifically if x is a string do NOT\ninclude quotes around it.  Also, do not include any text other than\nthe final answer between the <answer> and </answer> tags.\n",
+                "raw_response": "<answer>\n('M 29.40,69.39 L 51.16,67.08 L 65.98,58.97 L 86.05,37.54 L 83.22,21.48 M 83.22,21.48 L 41.67,26.57 L 29.40,69.39', [('A', 'circle'), ('B', 'heptagon'), ('C', 'hexagon'), ('D', 'kite'), ('E', 'line'), ('F', 'octagon'), ('G', 'pentagon'), ('H', 'rectangle'), ('I', 'sector'), ('J', 'triangle')])\n</answer>",
+                "reasoning_content": null,
+                "model": "together_ai/deepseek-ai/DeepSeek-V3.1"
+              }
+            }
+          }
+        ],
+        "top_level_func": "extract_path_and_options",
+        "top_level_args": [
+          "This SVG path element <path d=\"M 29.40,69.39 L 51.16,67.08 L 65.98,58.97 L 86.05,37.54 L 83.22,21.48 M 83.22,21.48 L 41.67,26.57 L 29.40,69.39\"/> draws a\nOptions:\n(A) circle\n(B) heptagon\n(C) hexagon\n(D) kite\n(E) line\n(F) octagon\n(G) pentagon\n(H) rectangle\n(I) sector\n(J) triangle"
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": "(C)",
+        "top_level_expected": "(C)"
+      },
+      "input_args": [
+        "M 29.40,69.39 L 51.16,67.08 L 65.98,58.97 L 86.05,37.54 L 83.22,21.48 M 83.22,21.48 L 41.67,26.57 L 29.40,69.39"
+      ],
+      "input_kw": null,
+      "expected_output": [
+        "M 29.40,69.39",
+        "L 51.16,67.08",
+        "L 65.98,58.97",
+        "L 86.05,37.54",
+        "L 83.22,21.48",
+        "M 83.22,21.48",
+        "L 41.67,26.57",
+        "L 29.40,69.39"
+      ]
+    }
+  ]
+}

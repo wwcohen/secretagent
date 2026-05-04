@@ -53,6 +53,19 @@ def plot_pareto_frontier(
         print("No results to plot.")
         return
 
+    # Deduplicate: NSGA-II re-evaluates configs on cache hits, producing
+    # identical (label, acc, cost) tuples that pile up at one point on the
+    # plot and clutter labels. Collapse to one entry per (label, acc, cost).
+    seen = set()
+    deduped = []
+    for r in results:
+        key = (r[0], round(r[1], 6), round(r[2], 8))
+        if key in seen:
+            continue
+        seen.add(key)
+        deduped.append(r)
+    results = deduped
+
     # Discover unique methods and models
     methods_seen: list[str] = []
     models_seen: list[str] = []
@@ -171,13 +184,18 @@ def plot_pareto_frontier(
         labelspacing=0.4,
     )
 
-    # Axis styling
-    costs = [c for _, _, c in results]
-    cost_range = max(costs) - min(costs) if len(costs) > 1 else max(costs)
-    ax.set_xlim(
-        max(0, min(costs) - cost_range * 0.08),
-        max(costs) + cost_range * 0.20,
-    )
+    # Axis styling. Use log-scale x when costs span more than ~20x, so 4 frontier
+    # points spanning $0.002-$0.30 don't get crushed into a left-edge cluster.
+    costs = [c for _, _, c in results if c > 0]
+    if costs and max(costs) / min(costs) > 20:
+        ax.set_xscale("log")
+        ax.set_xlim(min(costs) * 0.7, max(costs) * 1.6)
+    else:
+        cost_range = max(costs) - min(costs) if len(costs) > 1 else max(costs)
+        ax.set_xlim(
+            max(0, min(costs) - cost_range * 0.08),
+            max(costs) + cost_range * 0.20,
+        )
 
     ax.set_xlabel("Cost per query ($)", fontsize=11)
     ax.set_ylabel(metric_name, fontsize=11)

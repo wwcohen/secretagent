@@ -12,16 +12,35 @@ methods:
   structured_baseline:
     - ptools.tabmwp_solve.method=simulate
   workflow:
+    # broad_workflow calls extract_and_compute + format_answer.
+    # extract_and_compute isn't in conf/conf.yaml's defaults — bind it.
     - ptools.tabmwp_solve.method=direct
-    - ptools.tabmwp_solve.fn=ptools.tabmwp_workflow
+    - ptools.tabmwp_solve.fn=ptools.broad_workflow
+    - ptools.extract_and_compute.method=simulate
   pot:
-    - evaluate.entry_point=tabmwp_solve_pot
+    # Mirrors conf/pot.yaml: tabmwp_solve is a `direct` wrapper that looks up
+    # table_for_pd from _TABLE_STORE and forwards to tabmwp_solve_pot, which
+    # is the real program-of-thought call. entry_point stays as tabmwp_solve
+    # (the wrapper has the correct 4-arg signature; tabmwp_solve_pot is
+    # internal-only and takes a dict instead of a str).
+    - ptools.tabmwp_solve.method=direct
+    - ptools.tabmwp_solve.fn=ptools.pot_workflow
     - ptools.tabmwp_solve_pot.method=program_of_thought
     - ptools.tabmwp_solve_pot.additional_imports=[pandas]
   react:
+    # Mirrors conf/react.yaml: tabmwp_solve is the React agent, tabmwp_react is a
+    # direct wrapper that runs the agent and then extract_answer. The agent's
+    # tools are table accessors (no extract_answer — that's the wrapper's job).
     - evaluate.entry_point=tabmwp_react
-    - ptools.tabmwp_react.method=simulate_pydantic
-    - ptools.tabmwp_react.tools=[ptools.get_table_schema,ptools.lookup_value,ptools.query_column,ptools.query_table,ptools.extract_answer]
+    - ptools.tabmwp_solve.method=simulate_pydantic
+    - ptools.tabmwp_solve.tools=[ptools.identify_operation,ptools.compute_answer,ptools.format_answer,ptools.get_table_schema,ptools.lookup_value,ptools.query_column,ptools.query_table]
+    - ptools.tabmwp_react.method=direct
+    - ptools.extract_answer.method=simulate
+  wf_orch:
+    - ptools.tabmwp_solve.method=direct
+    - ptools.tabmwp_solve.fn=__learned__.tabmwp_solve_orchestrated_seed
+    - ptools.tabmwp_solve.learner=orch_learner
+    - learn.train_dir=results/orchestration_learner
 
 sub_interfaces:
   ptools.identify_operation:

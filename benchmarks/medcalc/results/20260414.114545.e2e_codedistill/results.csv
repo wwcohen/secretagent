@@ -1,0 +1,51 @@
+case_name,predicted_output,predicted_numeric,expected_output,correct,exact_match,within_limits,absolute_error,calculator_name,category,output_type,expt_name
+train.4278,,,5.0,0.0,0.0,0.0,inf,HEART Score for Major Cardiac Events,risk,integer,e2e_codedistill
+train.9258,,,297.8,0.0,0.0,0.0,inf,Morphine Milligram Equivalents (MME) Calculator,dosage,integer,e2e_codedistill
+train.5372,,,1390.8,0.0,0.0,0.0,inf,Sodium Correction for Hyperglycemia,lab test,decimal,e2e_codedistill
+train.2288,,,14.26873,0.0,0.0,0.0,inf,Body Mass Index (BMI),physical,decimal,e2e_codedistill
+train.2935,,,10.0,0.0,0.0,0.0,inf,Wells' Criteria for Pulmonary Embolism,risk,integer,e2e_codedistill
+train.3253,,,18.03704,0.0,0.0,0.0,inf,MDRD GFR Equation,lab test,decimal,e2e_codedistill
+train.8533,,,-19.0,0.0,0.0,0.0,inf,Delta Gap,lab test,decimal,e2e_codedistill
+train.10213,,,0.611,0.0,0.0,0.0,inf,Framingham Risk Score for Hard Coronary Heart Disease,lab test,decimal,e2e_codedistill
+train.6101,,,-6.48214,0.0,0.0,0.0,inf,Free Water Deficit,lab test,decimal,e2e_codedistill
+train.3736,,,52.38197,0.0,0.0,0.0,inf,Ideal Body Weight,physical,decimal,e2e_codedistill
+train.2713,,,9.54,0.0,0.0,0.0,inf,Calcium Correction for Hypoalbuminemia,lab test,decimal,e2e_codedistill
+train.6687,,,4.0,0.0,0.0,0.0,inf,SIRS Criteria,diagnosis,integer,e2e_codedistill
+train.4749,,,21.2,0.0,0.0,0.0,inf,Maintenance Fluids Calculations,physical,decimal,e2e_codedistill
+train.2832,,,6.0,0.0,0.0,0.0,inf,Wells' Criteria for Pulmonary Embolism,risk,integer,e2e_codedistill
+train.1995,,,111.33333,0.0,0.0,0.0,inf,Mean Arterial Pressure (MAP),physical,decimal,e2e_codedistill
+train.2379,,,22.7244,0.0,0.0,0.0,inf,Body Mass Index (BMI),physical,decimal,e2e_codedistill
+train.3478,,,52.38197,0.0,0.0,0.0,inf,Ideal Body Weight,physical,decimal,e2e_codedistill
+train.10497,,,11.0,0.0,0.0,0.0,inf,APACHE II Score,risk,integer,e2e_codedistill
+train.4181,,,3.0,0.0,0.0,0.0,inf,HEART Score for Major Cardiac Events,risk,integer,e2e_codedistill
+train.0868,,,6.0,0.0,0.0,0.0,inf,CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk,risk,integer,e2e_codedistill
+train.8344,,,86.19533,0.0,0.0,0.0,inf,Adjusted Body Weight,physical,decimal,e2e_codedistill
+train.5064,,,100.0,0.0,0.0,0.0,inf,Maintenance Fluids Calculations,physical,decimal,e2e_codedistill
+train.0576,,,24.06766,0.0,0.0,0.0,inf,CKD-EPI Equations for Glomerular Filtration Rate,lab test,decimal,e2e_codedistill
+train.1411,,,89.33333,0.0,0.0,0.0,inf,Mean Arterial Pressure (MAP),physical,decimal,e2e_codedistill
+train.7593,,,1.51731,0.0,0.0,0.0,inf,Body Surface Area Calculator,physical,decimal,e2e_codedistill
+train.6369,,,153.0,0.0,0.0,0.0,inf,LDL Calculated,lab test,decimal,e2e_codedistill
+train.3788,,,51.47646,0.0,0.0,0.0,inf,Ideal Body Weight,physical,decimal,e2e_codedistill
+train.2299,,,21.2322,0.0,0.0,0.0,inf,Body Mass Index (BMI),physical,decimal,e2e_codedistill
+train.5560,,,280.96825,0.0,0.0,0.0,inf,Serum Osmolality,lab test,decimal,e2e_codedistill
+train.8132,,,88.87564,0.0,0.0,0.0,inf,Adjusted Body Weight,physical,decimal,e2e_codedistill
+train.6607,,,2.0,0.0,0.0,0.0,inf,SIRS Criteria,diagnosis,integer,e2e_codedistill
+train.9149,,,31.1489,0.0,0.0,0.0,inf,Steroid Conversion Calculator,dosage,integer,e2e_codedistill
+train.2223,,,17.64706,0.0,0.0,0.0,inf,Body Mass Index (BMI),physical,decimal,e2e_codedistill
+train.9197,,,8.0,0.0,0.0,0.0,inf,Morphine Milligram Equivalents (MME) Calculator,dosage,integer,e2e_codedistill
+train.4580,,,65.0,0.0,0.0,0.0,inf,Maintenance Fluids Calculations,physical,decimal,e2e_codedistill
+train.3844,,,64.12607,0.0,0.0,0.0,inf,Ideal Body Weight,physical,decimal,e2e_codedistill
+train.8025,,,1.57003,0.0,0.0,0.0,inf,Body Surface Area Calculator,physical,decimal,e2e_codedistill
+train.5449,,,141.344,0.0,0.0,0.0,inf,Sodium Correction for Hyperglycemia,lab test,decimal,e2e_codedistill
+train.4032,,,447.55744,0.0,0.0,0.0,inf,QTc Bazett Calculator,physical,decimal,e2e_codedistill
+train.2487,,,26.27729,0.0,0.0,0.0,inf,Body Mass Index (BMI),physical,decimal,e2e_codedistill
+train.4879,,,73.4,0.0,0.0,0.0,inf,Maintenance Fluids Calculations,physical,decimal,e2e_codedistill
+train.9798,,,8.33333,0.0,0.0,0.0,inf,HOMA-IR (Homeostatic Model Assessment for Insulin Resistance),lab test,decimal,e2e_codedistill
+train.7213,,,1.61538,0.0,0.0,0.0,inf,Body Surface Area Calculator,physical,decimal,e2e_codedistill
+train.8555,,,7.0,0.0,0.0,0.0,inf,Delta Gap,lab test,decimal,e2e_codedistill
+train.1594,,,96.66667,0.0,0.0,0.0,inf,Mean Arterial Pressure (MAP),physical,decimal,e2e_codedistill
+train.9757,,,0.42416,0.0,0.0,0.0,inf,Fractional Excretion of Sodium (FENa),lab test,decimal,e2e_codedistill
+train.9065,,,01/06/2020,0.0,0.0,0.0,inf,Estimated Due Date,date,date,e2e_codedistill
+train.9256,,,60.0,0.0,0.0,0.0,inf,Morphine Milligram Equivalents (MME) Calculator,dosage,integer,e2e_codedistill
+train.9843,,,130.14252,0.0,0.0,0.0,inf,HOMA-IR (Homeostatic Model Assessment for Insulin Resistance),lab test,decimal,e2e_codedistill
+train.7577,,,1.65328,0.0,0.0,0.0,inf,Body Surface Area Calculator,physical,decimal,e2e_codedistill

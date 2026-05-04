@@ -1,0 +1,4 @@
+extract_discoveries:
+  backoff: true
+  learner: codedistill
+  method: learned_code

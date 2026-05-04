@@ -4,7 +4,6 @@ cachier:
   cache_dir: /Users/lexl/Research_group/secretagent/benchmarks/musr/llm_cache
   enable_caching: false
 evaluate:
-<<<<<<<< HEAD:benchmarks/musr/team/results/20260417.141944.pot/config.yaml
   expt_name: pot
   result_dir: /Users/lexl/Research_group/secretagent/benchmarks/musr/results
   entry_point: answer_question
@@ -12,14 +11,6 @@ dataset:
   split: team_allocation_test
   shuffle_seed: 42
   'n': null
-========
-  expt_name: structured_baseline
-  result_dir: /Users/lexl/Research_group/secretagent/benchmarks/musr/results
-  entry_point: answer_question
-dataset:
-  split: murder_mysteries_test
-  shuffle_seed: 42
->>>>>>>> origin/main:benchmarks/results/musr/murder/20260408.233243.structured_baseline/config.yaml
 ptools:
   answer_question:
     method: prompt_llm

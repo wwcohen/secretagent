@@ -1,0 +1,7 @@
+{
+  "reproduce_cmd": "uv run python expt.py run --config-file conf/trip.yaml dataset.n=100 dataset.partition=test evaluate.result_dir=results-test evaluate.expt_name=structured_baseline ptools.trip_planning.method=simulate",
+  "accuracy": 0.08,
+  "total_cost_usd": 0.085254,
+  "total_time_sec": 686.53,
+  "n_samples": 100
+}

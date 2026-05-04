@@ -1,0 +1,14 @@
+llm:
+  model: together_ai/deepseek-ai/DeepSeek-V3.1
+cachier:
+  cache_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/finqa/llm_cache
+evaluate:
+  result_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/finqa/results
+  expt_name: baseline
+dataset:
+  split: valid
+  shuffle_seed: null
+  'n': 50
+ptools:
+  answer_finqa:
+    method: simulate

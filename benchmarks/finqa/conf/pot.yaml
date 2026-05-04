@@ -1,5 +1,8 @@
-# Program of thought: LLM writes Python; executed in sandbox with table
-# parsing and compute tools available.
+# Program of thought: LLM writes Python; executed in sandbox.
+# Toolset matches react.yaml so the two ablations share the same
+# capabilities — only the orchestration mechanism (PoT vs ReAct loop)
+# differs. Bindings are "natural per tool": deterministic primitives
+# are direct, the LLM-backed planner is simulate.
 llm:
   model: together_ai/deepseek-ai/DeepSeek-V3.1
 
@@ -18,13 +21,19 @@ dataset:
 ptools:
   parse_table:
     method: direct
+  lookup_cell:
+    method: direct
   compute:
     method: direct
+  extract_reasoning_plan:
+    method: simulate
   answer_finqa:
     method: program_of_thought
     tools:
       - ptools.parse_table
+      - ptools.lookup_cell
       - ptools.compute
+      - ptools.extract_reasoning_plan
     inject_args: true
     additional_imports:
       - re

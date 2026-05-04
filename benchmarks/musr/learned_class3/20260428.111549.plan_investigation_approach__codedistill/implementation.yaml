@@ -1,0 +1,4 @@
+plan_investigation_approach:
+  backoff: true
+  learner: codedistill
+  method: learned_code

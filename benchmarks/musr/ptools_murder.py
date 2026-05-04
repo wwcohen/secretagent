@@ -10,6 +10,8 @@ from ptools_common import (  # noqa: F401  (re-export so the loaded ptools modul
     raw_answer,
     extract_index,
     react_solve,
+    react_solve_engineered,
+    _REACT_STATE,
 )
 
 
@@ -95,3 +97,58 @@ def answer_question_workflow(narrative: str, question: str, choices: list) -> in
     verified = verify_alibis(narrative, evidence)
     text = deduce_murderer(narrative, verified, question, choices)
     return extract_index(text, choices)
+
+
+# ----------------------------------------------------------------------
+# Stateful tool wrappers for ReAct + engineered ptools
+#
+# Plain Python functions exposed to the pydantic-ai agent as tools.
+# They read the narrative from `_REACT_STATE['narrative']` (set by
+# `react_engineered_answer_impl` in ptools_common before each call), so
+# the agent does not need to pass the narrative as an argument.
+# ----------------------------------------------------------------------
+
+
+def solve_extract_suspects() -> str:
+    """Extract the victim, crime details, and ALL suspects (with their motive,
+    means, opportunity, alibi, and any physical evidence) from the current
+    murder mystery narrative.
+
+    Call this FIRST. Returns a free-form string listing each suspect's
+    evidence. Pass this string to ``solve_verify_alibis``.
+    """
+    return extract_suspects_and_evidence(_REACT_STATE['narrative'])
+
+
+def solve_verify_alibis(suspect_evidence: str) -> str:
+    """Cross-check each suspect's alibi against the narrative to find weaknesses.
+
+    Call this AFTER ``solve_extract_suspects``.
+
+    Args:
+        suspect_evidence: The output of ``solve_extract_suspects`` — pass
+            it verbatim.
+
+    Returns: free-form string detailing alibi gaps, contradictions, and
+    corroborating evidence per suspect. Pass this to ``solve_deduce_murderer``.
+    """
+    return verify_alibis(_REACT_STATE['narrative'], suspect_evidence)
+
+
+def solve_deduce_murderer(verified_analysis: str, question: str, choices: list) -> str:
+    """Given verified alibi analysis and answer choices, identify the murderer.
+
+    Call this LAST.
+
+    Args:
+        verified_analysis: The output of ``solve_verify_alibis``.
+        question: The original question text (passed through from the
+            agent's input).
+        choices: The list of multiple-choice answer choices (passed
+            through from the agent's input).
+
+    Returns: a short string concluding which suspect (matching one of the
+    choices) is the murderer, with brief justification. After this, decide
+    the 0-based answer index and stop calling tools.
+    """
+    return deduce_murderer(_REACT_STATE['narrative'], verified_analysis, question, choices)

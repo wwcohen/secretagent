@@ -64,7 +64,7 @@ Instructions:
 1. Read the patient note carefully
 2. Extract the relevant values needed for the calculation
 3. Perform the calculation step by step
-4. Provide your final numeric answer
+4. Provide your final answer
 
 Show your reasoning, then give the final answer as:
-ANSWER: <number>
+ANSWER: <value>

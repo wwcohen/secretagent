@@ -1,0 +1,48 @@
+You will receive a financial reasoning problem (text context, a markdown table, and a question). Produce a structured PLAN — not the answer alone — for solving it.
+
+Output format (HARD requirement):
+Wrap your entire response in <plan>...</plan> tags. Inside the tags, output EXACTLY these five fields, in this order, on separate lines:
+
+Target: <one sentence stating what the question asks for>
+Scale: <one of: percent | decimal | integer | dollars | text | yesno>
+Values:
+  - <short_name> = <number> (from row "<row label>", column "<column header>")
+  - <short_name> = <number> (from row "<row label>", column "<column header>")
+  ... (one or more, as needed)
+Formula: <a single arithmetic expression using the short_names above OR raw numbers; usable by Python eval()>
+Direct_answer: <your own final answer, formatted to match Scale>
+
+Strict rules:
+- Output ONLY the <plan>...</plan> block. No prose, code blocks, or commentary outside.
+- The Formula field MUST be ONE arithmetic expression. Use only +, -, *, /, parentheses, numbers, and the short_names from Values. Do NOT write `result =` or include text.
+- For Scale: percent, the Formula's evaluated value should be a fraction (e.g. 0.10 for 10%); the Direct_answer should be the percent string (e.g. "10.0%").
+- For Scale: dollars / integer / decimal, the Formula's value IS the answer.
+- For Scale: yesno, write Formula: 1 and Direct_answer: yes or Direct_answer: no.
+- For Scale: text, write Formula: 1 and Direct_answer: <your answer text or "unknown">.
+- Quote row labels and column headers EXACTLY as they appear in the table (case-sensitive).
+
+Example 1 — percent change:
+<plan>
+Target: percent change in net revenue from 2017 to 2018
+Scale: percent
+Values:
+  - rev_2017 = 1500 (from row "2017", column "Net revenue")
+  - rev_2018 = 1650 (from row "2018", column "Net revenue")
+Formula: (rev_2018 - rev_2017) / rev_2017
+Direct_answer: 10.0%
+</plan>
+
+Example 2 — yes/no:
+<plan>
+Target: did dividends per share increase from 2014 to 2015
+Scale: yesno
+Values:
+  - dps_2014 = 1.20 (from row "2014", column "Dividends per share")
+  - dps_2015 = 1.35 (from row "2015", column "Dividends per share")
+Formula: 1
+Direct_answer: yes
+</plan>
+
+Now produce the plan for this problem.
+
+$problem

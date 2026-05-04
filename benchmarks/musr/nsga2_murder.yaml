@@ -3,15 +3,15 @@
 #   uv run -m secretagent.cli.optimize nsga2 \
 #     --space-file benchmarks/musr/nsga2_murder.yaml \
 #     --cwd benchmarks/musr \
-#     --pop-size 12 --n-gen 5 --timeout 600 \
+#     --pop-size 12 --n-gen 5 --timeout 1200 \
 #     dataset.split=murder_mysteries_test dataset.n=50
 #
-# Note: react_learned (using Lex's induced ptools at
-# src/secretagent/learn/inducer_results/musr/induced_ptools_seed42_correct_murder.py)
-# is NOT included here — it requires resolving the `_REACT_STATE` import path
-# (Lex's module imports `from ptools.ptools_common import _REACT_STATE`, but
-# MUSR's module is `ptools_common`, no `ptools.` prefix). Add as a separate
-# method block once that import is patched.
+# react_learned uses the corrected copies under
+# `learned/murder/*react_solve__ptool_inducer/learned_ptools.py`, which import
+# `_REACT_STATE` from `ptools_common` (no `ptools.` prefix) so they resolve
+# against MUSR's module layout. Lex's originals at
+# `src/secretagent/learn/inducer_results/musr/` still have the bad import and
+# must not be loaded directly.
 
 command: uv run python expt.py run --config-file conf/murder.yaml
 
@@ -41,6 +41,20 @@ methods:
     - ptools.answer_question.fn=ptools_common.react_answer_impl
     - ptools.react_solve.method=simulate_pydantic
     - ptools.react_solve.tools=[ptools_common.search,ptools_common.lookup,ptools_common.finish]
+  react_learned:
+    - ptools.answer_question.method=direct
+    - ptools.answer_question.fn=ptools_common.react_answer_impl
+    - ptools.react_solve.method=simulate_pydantic
+    - ptools.react_solve.tool_module=__learned__
+    - ptools.react_solve.learner=ptool_inducer
+    - ptools.react_solve.tools=__all__
+    - learn.train_dir=learned/murder
+  wf_orch:
+    - evaluate.entry_point=answer_question_workflow
+    - ptools.answer_question_workflow.method=direct
+    - ptools.answer_question_workflow.fn=__learned__.answer_question_workflow_orchestrated_seed
+    - ptools.answer_question_workflow.learner=orch_learner
+    - learn.train_dir=learned/murder
 
 sub_interfaces:
   ptools.extract_suspects_and_evidence:

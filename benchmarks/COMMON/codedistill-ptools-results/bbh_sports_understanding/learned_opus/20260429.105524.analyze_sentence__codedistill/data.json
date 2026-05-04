@@ -1,0 +1,1711 @@
+{
+  "name": "analyze_sentence",
+  "split": null,
+  "metadata": null,
+  "cases": [
+    {
+      "name": "analyze_sentence_0.0.0",
+      "metadata": {
+        "rollout_correct": 1.0,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "analyze_sentence",
+        "top_level_args": [
+          "Cooper Kupp scored in the third period in the Stanley Cup."
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": false,
+        "top_level_expected": false
+      },
+      "input_args": [
+        "Cooper Kupp scored in the third period in the Stanley Cup."
+      ],
+      "input_kw": null,
+      "expected_output": [
+        "Cooper Kupp",
+        "scored in the third period",
+        "in the Stanley Cup."
+      ]
+    },
+    {
+      "name": "analyze_sentence_0.1.0",
+      "metadata": {
+        "rollout_correct": 1.0,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "analyze_sentence",
+        "top_level_args": [
+          "Adam Thielen got on base."
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": false,
+        "top_level_expected": false
+      },
+      "input_args": [
+        "Adam Thielen got on base."
+      ],
+      "input_kw": null,
+      "expected_output": [
+        "Adam Thielen",
+        "got on base",
+        ""
+      ]
+    },
+    {
+      "name": "analyze_sentence_0.2.0",
+      "metadata": {
+        "rollout_correct": 1.0,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "analyze_sentence",
+        "top_level_args": [
+          "Klaas Jan Huntelaar scored the easy layup."
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": false,
+        "top_level_expected": false
+      },
+      "input_args": [
+        "Klaas Jan Huntelaar scored the easy layup."
+      ],
+      "input_kw": null,
+      "expected_output": [
+        "Klaas Jan Huntelaar",
+        "scored the easy layup",
+        ""
+      ]
+    },
+    {
+      "name": "analyze_sentence_0.3.0",
+      "metadata": {
+        "rollout_correct": 1.0,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "analyze_sentence",
+        "top_level_args": [
+          "Fernando Tatis Jr. earned a red card."
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": false,
+        "top_level_expected": false
+      },
+      "input_args": [
+        "Fernando Tatis Jr. earned a red card."
+      ],
+      "input_kw": null,
+      "expected_output": [
+        "Fernando Tatis Jr.",
+        "earned a red card",
+        ""
+      ]
+    },
+    {
+      "name": "analyze_sentence_0.4.0",
+      "metadata": {
+        "rollout_correct": 1.0,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "analyze_sentence",
+        "top_level_args": [
+          "A.J. Green scored in the third period."
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": false,
+        "top_level_expected": false
+      },
+      "input_args": [
+        "A.J. Green scored in the third period."
+      ],
+      "input_kw": null,
+      "expected_output": [
+        "A.J. Green",
+        "scored",
+        "in the third period."
+      ]
+    },
+    {
+      "name": "analyze_sentence_0.5.0",
+      "metadata": {
+        "rollout_correct": 1.0,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "analyze_sentence",
+        "top_level_args": [
+          "Willian killed the powerplay."
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": false,
+        "top_level_expected": false
+      },
+      "input_args": [
+        "Willian killed the powerplay."
+      ],
+      "input_kw": null,
+      "expected_output": [
+        "Willian",
+        "killed the powerplay",
+        ""
+      ]
+    },
+    {
+      "name": "analyze_sentence_0.6.0",
+      "metadata": {
+        "rollout_correct": 1.0,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "analyze_sentence",
+        "top_level_args": [
+          "Caris LeVert scored a reverse dunk."
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": true,
+        "top_level_expected": true
+      },
+      "input_args": [
+        "Caris LeVert scored a reverse dunk."
+      ],
+      "input_kw": null,
+      "expected_output": [
+        "Caris LeVert",
+        "scored a reverse dunk",
+        ""
+      ]
+    },
+    {
+      "name": "analyze_sentence_0.7.0",
+      "metadata": {
+        "rollout_correct": 1.0,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "analyze_sentence",
+        "top_level_args": [
+          "Ketel Marte got into the endzone."
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": false,
+        "top_level_expected": false
+      },
+      "input_args": [
+        "Ketel Marte got into the endzone."
+      ],
+      "input_kw": null,
+      "expected_output": [
+        "Ketel Marte",
+        "got into the endzone",
+        ""
+      ]
+    },
+    {
+      "name": "analyze_sentence_0.8.0",
+      "metadata": {
+        "rollout_correct": 1.0,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "analyze_sentence",
+        "top_level_args": [
+          "Mark Stone hit a triple."
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": false,
+        "top_level_expected": false
+      },
+      "input_args": [
+        "Mark Stone hit a triple."
+      ],
+      "input_kw": null,
+      "expected_output": [
+        "Mark Stone",
+        "hit a triple.",
+        ""
+      ]
+    },
+    {
+      "name": "analyze_sentence_0.9.0",
+      "metadata": {
+        "rollout_correct": 1.0,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "analyze_sentence",
+        "top_level_args": [
+          "Robin Lehner launched the desperation heave."
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": false,
+        "top_level_expected": false
+      },
+      "input_args": [
+        "Robin Lehner launched the desperation heave."
+      ],
+      "input_kw": null,
+      "expected_output": [
+        "Robin Lehner",
+        "launched the desperation heave",
+        ""
+      ]
+    },
+    {
+      "name": "analyze_sentence_0.10.0",
+      "metadata": {
+        "rollout_correct": 1.0,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "analyze_sentence",
+        "top_level_args": [
+          "Fred VanVleet scored a freekick in the Champions League Final."
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": false,
+        "top_level_expected": false
+      },
+      "input_args": [
+        "Fred VanVleet scored a freekick in the Champions League Final."
+      ],
+      "input_kw": null,
+      "expected_output": [
+        "Fred VanVleet",
+        "scored a freekick",
+        "in the Champions League Final."
+      ]
+    },
+    {
+      "name": "analyze_sentence_0.11.0",
+      "metadata": {
+        "rollout_correct": 1.0,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "analyze_sentence",
+        "top_level_args": [
+          "Mitchell Robinson airballed the shot."
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": true,
+        "top_level_expected": true
+      },
+      "input_args": [
+        "Mitchell Robinson airballed the shot."
+      ],
+      "input_kw": null,
+      "expected_output": [
+        "Mitchell Robinson",
+        "airballed the shot",
+        ""
+      ]
+    },
+    {
+      "name": "analyze_sentence_0.12.0",
+      "metadata": {
+        "rollout_correct": 1.0,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "analyze_sentence",
+        "top_level_args": [
+          "Tyreek Hill caught the screen pass."
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": true,
+        "top_level_expected": true
+      },
+      "input_args": [
+        "Tyreek Hill caught the screen pass."
+      ],
+      "input_kw": null,
+      "expected_output": [
+        "Tyreek Hill",
+        "caught the screen pass",
+        ""
+      ]
+    },
+    {
+      "name": "analyze_sentence_0.13.0",
+      "metadata": {
+        "rollout_correct": 1.0,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "analyze_sentence",
+        "top_level_args": [
+          "Michael Porter Jr. called for the screen."
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": true,
+        "top_level_expected": true
+      },
+      "input_args": [
+        "Michael Porter Jr. called for the screen."
+      ],
+      "input_kw": null,
+      "expected_output": [
+        "Michael Porter Jr.",
+        "called for the screen",
+        ""
+      ]
+    },
+    {
+      "name": "analyze_sentence_0.14.0",
+      "metadata": {
+        "rollout_correct": 1.0,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "analyze_sentence",
+        "top_level_args": [
+          "Sam Darnold scored on the power play in the Stanley Cup."
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": false,
+        "top_level_expected": false
+      },
+      "input_args": [
+        "Sam Darnold scored on the power play in the Stanley Cup."
+      ],
+      "input_kw": null,
+      "expected_output": [
+        "Sam Darnold",
+        "scored on the power play",
+        "in the Stanley Cup."
+      ]
+    },
+    {
+      "name": "analyze_sentence_0.15.0",
+      "metadata": {
+        "rollout_correct": 1.0,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "analyze_sentence",
+        "top_level_args": [
+          "Klaas Jan Huntelaar shot the puck."
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": false,
+        "top_level_expected": false
+      },
+      "input_args": [
+        "Klaas Jan Huntelaar shot the puck."
+      ],
+      "input_kw": null,
+      "expected_output": [
+        "Klaas Jan Huntelaar",
+        "shot the puck",
+        ""
+      ]
+    },
+    {
+      "name": "analyze_sentence_0.16.0",
+      "metadata": {
+        "rollout_correct": 1.0,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "analyze_sentence",
+        "top_level_args": [
+          "Leon Draisaitl grounded out to second base in the National League Championship Series."
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": false,
+        "top_level_expected": false
+      },
+      "input_args": [
+        "Leon Draisaitl grounded out to second base in the National League Championship Series."
+      ],
+      "input_kw": null,
+      "expected_output": [
+        "Leon Draisaitl",
+        "grounded out to second base",
+        "in the National League Championship Series."
+      ]
+    },
+    {
+      "name": "analyze_sentence_0.17.0",
+      "metadata": {
+        "rollout_correct": 1.0,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "analyze_sentence",
+        "top_level_args": [
+          "Freddie Freeman watched the pitch go by."
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": true,
+        "top_level_expected": true
+      },
+      "input_args": [
+        "Freddie Freeman watched the pitch go by."
+      ],
+      "input_kw": null,
+      "expected_output": [
+        "Freddie Freeman",
+        "watched the pitch go by",
+        ""
+      ]
+    },
+    {
+      "name": "analyze_sentence_0.18.0",
+      "metadata": {
+        "rollout_correct": 1.0,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "analyze_sentence",
+        "top_level_args": [
+          "DJ Chark caught the back shoulder fade in the NFC divisional round."
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": true,
+        "top_level_expected": true
+      },
+      "input_args": [
+        "DJ Chark caught the back shoulder fade in the NFC divisional round."
+      ],
+      "input_kw": null,
+      "expected_output": [
+        "DJ Chark",
+        "caught the back shoulder fade",
+        "in the NFC divisional round."
+      ]
+    },
+    {
+      "name": "analyze_sentence_0.19.0",
+      "metadata": {
+        "rollout_correct": 1.0,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "analyze_sentence",
+        "top_level_args": [
+          "Kevin Durant hit a walkoff homer."
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": false,
+        "top_level_expected": false
+      },
+      "input_args": [
+        "Kevin Durant hit a walkoff homer."
+      ],
+      "input_kw": null,
+      "expected_output": [
+        "Kevin Durant",
+        "hit a walkoff homer",
+        ""
+      ]
+    },
+    {
+      "name": "analyze_sentence_0.20.0",
+      "metadata": {
+        "rollout_correct": 1.0,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "analyze_sentence",
+        "top_level_args": [
+          "Vincent Kompany comitted a three second violation."
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": false,
+        "top_level_expected": false
+      },
+      "input_args": [
+        "Vincent Kompany comitted a three second violation."
+      ],
+      "input_kw": null,
+      "expected_output": [
+        "Vincent Kompany",
+        "committed a three second violation",
+        ""
+      ]
+    },
+    {
+      "name": "analyze_sentence_0.21.0",
+      "metadata": {
+        "rollout_correct": 1.0,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "analyze_sentence",
+        "top_level_args": [
+          "Anthony Davis beat the buzzer."
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": true,
+        "top_level_expected": true
+      },
+      "input_args": [
+        "Anthony Davis beat the buzzer."
+      ],
+      "input_kw": null,
+      "expected_output": [
+        "Anthony Davis",
+        "beat the buzzer",
+        ""
+      ]
+    },
+    {
+      "name": "analyze_sentence_0.22.0",
+      "metadata": {
+        "rollout_correct": 1.0,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "analyze_sentence",
+        "top_level_args": [
+          "Walker Buehler earned a trip to the penalty box."
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": false,
+        "top_level_expected": false
+      },
+      "input_args": [
+        "Walker Buehler earned a trip to the penalty box."
+      ],
+      "input_kw": null,
+      "expected_output": [
+        "Walker Buehler",
+        "earned a trip",
+        "to the penalty box."
+      ]
+    },
+    {
+      "name": "analyze_sentence_0.23.0",
+      "metadata": {
+        "rollout_correct": 1.0,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "analyze_sentence",
+        "top_level_args": [
+          "Eden Hazard hit the buzzer beater."
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": false,
+        "top_level_expected": false
+      },
+      "input_args": [
+        "Eden Hazard hit the buzzer beater."
+      ],
+      "input_kw": null,
+      "expected_output": [
+        "Eden Hazard",
+        "hit the buzzer beater",
+        ""
+      ]
+    },
+    {
+      "name": "analyze_sentence_0.24.0",
+      "metadata": {
+        "rollout_correct": 1.0,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "analyze_sentence",
+        "top_level_args": [
+          "Luke Voit was out at first."
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": true,
+        "top_level_expected": true
+      },
+      "input_args": [
+        "Luke Voit was out at first."
+      ],
+      "input_kw": null,
+      "expected_output": [
+        "Luke Voit",
+        "was out at first",
+        ""
+      ]
+    },
+    {
+      "name": "analyze_sentence_0.25.0",
+      "metadata": {
+        "rollout_correct": 1.0,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "analyze_sentence",
+        "top_level_args": [
+          "Steven Stamkos hit the slant pass."
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": false,
+        "top_level_expected": false
+      },
+      "input_args": [
+        "Steven Stamkos hit the slant pass."
+      ],
+      "input_kw": null,
+      "expected_output": [
+        "Steven Stamkos",
+        "hit the slant pass",
+        ""
+      ]
+    },
+    {
+      "name": "analyze_sentence_0.26.0",
+      "metadata": {
+        "rollout_correct": 1.0,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "analyze_sentence",
+        "top_level_args": [
+          "Tuukka Rask hit a double."
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": false,
+        "top_level_expected": false
+      },
+      "input_args": [
+        "Tuukka Rask hit a double."
+      ],
+      "input_kw": null,
+      "expected_output": [
+        "Tuukka Rask",
+        "hit a double",
+        ""
+      ]
+    },
+    {
+      "name": "analyze_sentence_0.27.0",
+      "metadata": {
+        "rollout_correct": 1.0,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "analyze_sentence",
+        "top_level_args": [
+          "Joe Burrow caught the back shoulder fade in the Superbowl."
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": true,
+        "top_level_expected": true
+      },
+      "input_args": [
+        "Joe Burrow caught the back shoulder fade in the Superbowl."
+      ],
+      "input_kw": null,
+      "expected_output": [
+        "Joe Burrow",
+        "caught the back shoulder fade",
+        "in the Superbowl."
+      ]
+    },
+    {
+      "name": "analyze_sentence_0.28.0",
+      "metadata": {
+        "rollout_correct": 1.0,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "analyze_sentence",
+        "top_level_args": [
+          "Elias Lindholm beat the buzzer."
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": false,
+        "top_level_expected": false
+      },
+      "input_args": [
+        "Elias Lindholm beat the buzzer."
+      ],
+      "input_kw": null,
+      "expected_output": [
+        "Elias Lindholm",
+        "beat the buzzer",
+        ""
+      ]
+    },
+    {
+      "name": "analyze_sentence_0.29.0",
+      "metadata": {
+        "rollout_correct": 1.0,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "analyze_sentence",
+        "top_level_args": [
+          "Timo Meier nutmegged the defender in the FA Cup."
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": false,
+        "top_level_expected": false
+      },
+      "input_args": [
+        "Timo Meier nutmegged the defender in the FA Cup."
+      ],
+      "input_kw": null,
+      "expected_output": [
+        "Timo Meier",
+        "nutmegged the defender",
+        "in the FA Cup."
+      ]
+    },
+    {
+      "name": "analyze_sentence_0.30.0",
+      "metadata": {
+        "rollout_correct": 1.0,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "analyze_sentence",
+        "top_level_args": [
+          "Kyle Connor eurostepped to the basket in the Western Conference Finals."
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": false,
+        "top_level_expected": false
+      },
+      "input_args": [
+        "Kyle Connor eurostepped to the basket in the Western Conference Finals."
+      ],
+      "input_kw": null,
+      "expected_output": [
+        "Kyle Connor",
+        "eurostepped to the basket",
+        "in the Western Conference Finals."
+      ]
+    },
+    {
+      "name": "analyze_sentence_0.31.0",
+      "metadata": {
+        "rollout_correct": 1.0,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "analyze_sentence",
+        "top_level_args": [
+          "Thomas Muller hit a triple."
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": false,
+        "top_level_expected": false
+      },
+      "input_args": [
+        "Thomas Muller hit a triple."
+      ],
+      "input_kw": null,
+      "expected_output": [
+        "Thomas Muller",
+        "hit a triple.",
+        ""
+      ]
+    },
+    {
+      "name": "analyze_sentence_0.32.0",
+      "metadata": {
+        "rollout_correct": 1.0,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "analyze_sentence",
+        "top_level_args": [
+          "Kailer Yamamoto performed a slide tackle in the European Cup."
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": false,
+        "top_level_expected": false
+      },
+      "input_args": [
+        "Kailer Yamamoto performed a slide tackle in the European Cup."
+      ],
+      "input_kw": null,
+      "expected_output": [
+        "Kailer Yamamoto",
+        "performed a slide tackle",
+        "in the European Cup."
+      ]
+    },
+    {
+      "name": "analyze_sentence_0.33.0",
+      "metadata": {
+        "rollout_correct": 1.0,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "analyze_sentence",
+        "top_level_args": [
+          "Gerrit Cole set the hard screen."
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": false,
+        "top_level_expected": false
+      },
+      "input_args": [
+        "Gerrit Cole set the hard screen."
+      ],
+      "input_kw": null,
+      "expected_output": [
+        "Gerrit Cole",
+        "set the hard screen",
+        ""
+      ]
+    },
+    {
+      "name": "analyze_sentence_0.34.0",
+      "metadata": {
+        "rollout_correct": 1.0,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "analyze_sentence",
+        "top_level_args": [
+          "Fred VanVleet passed the puck."
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": false,
+        "top_level_expected": false
+      },
+      "input_args": [
+        "Fred VanVleet passed the puck."
+      ],
+      "input_kw": null,
+      "expected_output": [
+        "Fred VanVleet",
+        "passed the puck",
+        ""
+      ]
+    },
+    {
+      "name": "analyze_sentence_0.35.0",
+      "metadata": {
+        "rollout_correct": 1.0,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "analyze_sentence",
+        "top_level_args": [
+          "Adam Thielen scored in added time."
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": false,
+        "top_level_expected": false
+      },
+      "input_args": [
+        "Adam Thielen scored in added time."
+      ],
+      "input_kw": null,
+      "expected_output": [
+        "Adam Thielen",
+        "scored in added time",
+        ""
+      ]
+    },
+    {
+      "name": "analyze_sentence_0.36.0",
+      "metadata": {
+        "rollout_correct": 1.0,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "analyze_sentence",
+        "top_level_args": [
+          "Ben Simmons was called for the goal tend."
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": true,
+        "top_level_expected": true
+      },
+      "input_args": [
+        "Ben Simmons was called for the goal tend."
+      ],
+      "input_kw": null,
+      "expected_output": [
+        "Ben Simmons",
+        "was called for the goal tend",
+        ""
+      ]
+    },
+    {
+      "name": "analyze_sentence_0.37.0",
+      "metadata": {
+        "rollout_correct": 1.0,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "analyze_sentence",
+        "top_level_args": [
+          "Corbin Burnes earned an indirect kick."
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": false,
+        "top_level_expected": false
+      },
+      "input_args": [
+        "Corbin Burnes earned an indirect kick."
+      ],
+      "input_kw": null,
+      "expected_output": [
+        "Corbin Burnes",
+        "earned an indirect kick",
+        ""
+      ]
+    },
+    {
+      "name": "analyze_sentence_0.38.0",
+      "metadata": {
+        "rollout_correct": 1.0,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "analyze_sentence",
+        "top_level_args": [
+          "Keenan Allen drew a flag on the play in the NFC championship."
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": true,
+        "top_level_expected": true
+      },
+      "input_args": [
+        "Keenan Allen drew a flag on the play in the NFC championship."
+      ],
+      "input_kw": null,
+      "expected_output": [
+        "Keenan Allen",
+        "drew a flag on the play",
+        "in the NFC championship."
+      ]
+    },
+    {
+      "name": "analyze_sentence_0.40.0",
+      "metadata": {
+        "rollout_correct": 1.0,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "analyze_sentence",
+        "top_level_args": [
+          "Javier Mascherano took a left footed shot."
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": true,
+        "top_level_expected": true
+      },
+      "input_args": [
+        "Javier Mascherano took a left footed shot."
+      ],
+      "input_kw": null,
+      "expected_output": [
+        "Javier Mascherano",
+        "took a left footed shot",
+        ""
+      ]
+    },
+    {
+      "name": "analyze_sentence_0.41.0",
+      "metadata": {
+        "rollout_correct": 1.0,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "analyze_sentence",
+        "top_level_args": [
+          "Neymar did a maradona on the defender in the Champions Leage Semifinal."
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": true,
+        "top_level_expected": true
+      },
+      "input_args": [
+        "Neymar did a maradona on the defender in the Champions Leage Semifinal."
+      ],
+      "input_kw": null,
+      "expected_output": [
+        "Neymar",
+        "did a maradona on the defender",
+        "in the Champions League Semifinal."
+      ]
+    },
+    {
+      "name": "analyze_sentence_0.42.0",
+      "metadata": {
+        "rollout_correct": 1.0,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "analyze_sentence",
+        "top_level_args": [
+          "Caris LeVert scored a reverse layup."
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": true,
+        "top_level_expected": true
+      },
+      "input_args": [
+        "Caris LeVert scored a reverse layup."
+      ],
+      "input_kw": null,
+      "expected_output": [
+        "Caris LeVert",
+        "scored a reverse layup.",
+        ""
+      ]
+    },
+    {
+      "name": "analyze_sentence_0.43.0",
+      "metadata": {
+        "rollout_correct": 1.0,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "analyze_sentence",
+        "top_level_args": [
+          "Jayson Tatum was called for the goal tend."
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": true,
+        "top_level_expected": true
+      },
+      "input_args": [
+        "Jayson Tatum was called for the goal tend."
+      ],
+      "input_kw": null,
+      "expected_output": [
+        "Jayson Tatum",
+        "was called for the goal tend",
+        ""
+      ]
+    },
+    {
+      "name": "analyze_sentence_0.44.0",
+      "metadata": {
+        "rollout_correct": 1.0,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "analyze_sentence",
+        "top_level_args": [
+          "Matthew Stafford launched a hail mary."
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": true,
+        "top_level_expected": true
+      },
+      "input_args": [
+        "Matthew Stafford launched a hail mary."
+      ],
+      "input_kw": null,
+      "expected_output": [
+        "Matthew Stafford",
+        "launched a hail mary",
+        ""
+      ]
+    },
+    {
+      "name": "analyze_sentence_0.45.0",
+      "metadata": {
+        "rollout_correct": 1.0,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "analyze_sentence",
+        "top_level_args": [
+          "Mike Hoffman launched the half court shot in the Western Conference Finals."
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": false,
+        "top_level_expected": false
+      },
+      "input_args": [
+        "Mike Hoffman launched the half court shot in the Western Conference Finals."
+      ],
+      "input_kw": null,
+      "expected_output": [
+        "Mike Hoffman",
+        "launched the half court shot",
+        "in the Western Conference Finals."
+      ]
+    },
+    {
+      "name": "analyze_sentence_0.46.0",
+      "metadata": {
+        "rollout_correct": 1.0,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "analyze_sentence",
+        "top_level_args": [
+          "Tom Brady was safe at first."
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": false,
+        "top_level_expected": false
+      },
+      "input_args": [
+        "Tom Brady was safe at first."
+      ],
+      "input_kw": null,
+      "expected_output": [
+        "Tom Brady",
+        "was safe at first",
+        ""
+      ]
+    },
+    {
+      "name": "analyze_sentence_0.47.0",
+      "metadata": {
+        "rollout_correct": 1.0,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "analyze_sentence",
+        "top_level_args": [
+          "Pierre-Luc Dubois skated backwards."
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": true,
+        "top_level_expected": true
+      },
+      "input_args": [
+        "Pierre-Luc Dubois skated backwards."
+      ],
+      "input_kw": null,
+      "expected_output": [
+        "Pierre-Luc Dubois",
+        "skated backwards",
+        ""
+      ]
+    },
+    {
+      "name": "analyze_sentence_0.48.0",
+      "metadata": {
+        "rollout_correct": 1.0,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "analyze_sentence",
+        "top_level_args": [
+          "Michael Conforto comitted a three second violation."
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": false,
+        "top_level_expected": false
+      },
+      "input_args": [
+        "Michael Conforto comitted a three second violation."
+      ],
+      "input_kw": null,
+      "expected_output": [
+        "Michael Conforto",
+        "committed a three second violation",
+        ""
+      ]
+    },
+    {
+      "name": "analyze_sentence_0.50.0",
+      "metadata": {
+        "rollout_correct": 1.0,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "analyze_sentence",
+        "top_level_args": [
+          "Toni Kroos took a throw in in the Champions Leage Semifinal."
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": true,
+        "top_level_expected": true
+      },
+      "input_args": [
+        "Toni Kroos took a throw in in the Champions Leage Semifinal."
+      ],
+      "input_kw": null,
+      "expected_output": [
+        "Toni Kroos",
+        "took a throw in",
+        "in the Champions Leage Semifinal."
+      ]
+    },
+    {
+      "name": "analyze_sentence_0.51.0",
+      "metadata": {
+        "rollout_correct": 1.0,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "analyze_sentence",
+        "top_level_args": [
+          "Nicklas Backstrom earned a trip to the penalty box."
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": true,
+        "top_level_expected": true
+      },
+      "input_args": [
+        "Nicklas Backstrom earned a trip to the penalty box."
+      ],
+      "input_kw": null,
+      "expected_output": [
+        "Nicklas Backstrom",
+        "earned a trip to the penalty box",
+        ""
+      ]
+    },
+    {
+      "name": "analyze_sentence_0.52.0",
+      "metadata": {
+        "rollout_correct": 1.0,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "analyze_sentence",
+        "top_level_args": [
+          "Aaron Nola converted the first down."
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": false,
+        "top_level_expected": false
+      },
+      "input_args": [
+        "Aaron Nola converted the first down."
+      ],
+      "input_kw": null,
+      "expected_output": [
+        "Aaron Nola",
+        "converted the first down.",
+        ""
+      ]
+    },
+    {
+      "name": "analyze_sentence_0.53.0",
+      "metadata": {
+        "rollout_correct": 1.0,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "analyze_sentence",
+        "top_level_args": [
+          "Sonny Gray was out at second."
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": true,
+        "top_level_expected": true
+      },
+      "input_args": [
+        "Sonny Gray was out at second."
+      ],
+      "input_kw": null,
+      "expected_output": [
+        "Sonny Gray",
+        "was out at second",
+        ""
+      ]
+    },
+    {
+      "name": "analyze_sentence_0.54.0",
+      "metadata": {
+        "rollout_correct": 1.0,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "analyze_sentence",
+        "top_level_args": [
+          "Draymond Green threw a touchdown."
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": false,
+        "top_level_expected": false
+      },
+      "input_args": [
+        "Draymond Green threw a touchdown."
+      ],
+      "input_kw": null,
+      "expected_output": [
+        "Draymond Green",
+        "threw a touchdown",
+        ""
+      ]
+    },
+    {
+      "name": "analyze_sentence_0.55.0",
+      "metadata": {
+        "rollout_correct": 1.0,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "analyze_sentence",
+        "top_level_args": [
+          "Yaya Toure scored a freekick."
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": true,
+        "top_level_expected": true
+      },
+      "input_args": [
+        "Yaya Toure scored a freekick."
+      ],
+      "input_kw": null,
+      "expected_output": [
+        "Yaya Toure",
+        "scored a freekick",
+        ""
+      ]
+    },
+    {
+      "name": "analyze_sentence_0.56.0",
+      "metadata": {
+        "rollout_correct": 1.0,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "analyze_sentence",
+        "top_level_args": [
+          "Robert Woods killed the powerplay."
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": false,
+        "top_level_expected": false
+      },
+      "input_args": [
+        "Robert Woods killed the powerplay."
+      ],
+      "input_kw": null,
+      "expected_output": [
+        "Robert Woods",
+        "killed the powerplay",
+        ""
+      ]
+    },
+    {
+      "name": "analyze_sentence_0.58.0",
+      "metadata": {
+        "rollout_correct": 1.0,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "analyze_sentence",
+        "top_level_args": [
+          "Evander Kane hit the slant pass in the AFC divisional round."
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": false,
+        "top_level_expected": false
+      },
+      "input_args": [
+        "Evander Kane hit the slant pass in the AFC divisional round."
+      ],
+      "input_kw": null,
+      "expected_output": [
+        "Evander Kane",
+        "hit the slant pass",
+        "in the AFC divisional round."
+      ]
+    },
+    {
+      "name": "analyze_sentence_0.59.0",
+      "metadata": {
+        "rollout_correct": 1.0,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "analyze_sentence",
+        "top_level_args": [
+          "Drew Brees went for it on fourth down."
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": true,
+        "top_level_expected": true
+      },
+      "input_args": [
+        "Drew Brees went for it on fourth down."
+      ],
+      "input_kw": null,
+      "expected_output": [
+        "Drew Brees",
+        "went for it on fourth down",
+        ""
+      ]
+    },
+    {
+      "name": "analyze_sentence_0.60.0",
+      "metadata": {
+        "rollout_correct": 1.0,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "analyze_sentence",
+        "top_level_args": [
+          "Petr Cech was safe at first."
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": false,
+        "top_level_expected": false
+      },
+      "input_args": [
+        "Petr Cech was safe at first."
+      ],
+      "input_kw": null,
+      "expected_output": [
+        "Petr Cech",
+        "was safe",
+        "at first."
+      ]
+    },
+    {
+      "name": "analyze_sentence_0.61.0",
+      "metadata": {
+        "rollout_correct": 1.0,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "analyze_sentence",
+        "top_level_args": [
+          "Josh Allen hit the screen pass."
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": true,
+        "top_level_expected": true
+      },
+      "input_args": [
+        "Josh Allen hit the screen pass."
+      ],
+      "input_kw": null,
+      "expected_output": [
+        "Josh Allen",
+        "hit the screen pass",
+        ""
+      ]
+    },
+    {
+      "name": "analyze_sentence_0.62.0",
+      "metadata": {
+        "rollout_correct": 1.0,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "analyze_sentence",
+        "top_level_args": [
+          "Sterling Shepard hit a walkoff homer."
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": false,
+        "top_level_expected": false
+      },
+      "input_args": [
+        "Sterling Shepard hit a walkoff homer."
+      ],
+      "input_kw": null,
+      "expected_output": [
+        "Sterling Shepard",
+        "hit a walkoff homer",
+        ""
+      ]
+    },
+    {
+      "name": "analyze_sentence_0.63.0",
+      "metadata": {
+        "rollout_correct": 1.0,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "analyze_sentence",
+        "top_level_args": [
+          "James Karinchak worked a full count."
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": true,
+        "top_level_expected": true
+      },
+      "input_args": [
+        "James Karinchak worked a full count."
+      ],
+      "input_kw": null,
+      "expected_output": [
+        "James Karinchak",
+        "worked a full count",
+        ""
+      ]
+    },
+    {
+      "name": "analyze_sentence_0.64.0",
+      "metadata": {
+        "rollout_correct": 1.0,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "analyze_sentence",
+        "top_level_args": [
+          "Sergio Ramos hit nothing but net."
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": false,
+        "top_level_expected": false
+      },
+      "input_args": [
+        "Sergio Ramos hit nothing but net."
+      ],
+      "input_kw": null,
+      "expected_output": [
+        "Sergio Ramos",
+        "hit nothing but net",
+        ""
+      ]
+    },
+    {
+      "name": "analyze_sentence_0.65.0",
+      "metadata": {
+        "rollout_correct": 1.0,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "analyze_sentence",
+        "top_level_args": [
+          "Tuukka Rask killed the powerplay."
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": true,
+        "top_level_expected": true
+      },
+      "input_args": [
+        "Tuukka Rask killed the powerplay."
+      ],
+      "input_kw": null,
+      "expected_output": [
+        "Tuukka Ruck",
+        "killed the powerplay",
+        ""
+      ]
+    },
+    {
+      "name": "analyze_sentence_0.66.0",
+      "metadata": {
+        "rollout_correct": 1.0,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "analyze_sentence",
+        "top_level_args": [
+          "Brandin Cooks went for it on fourth down."
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": true,
+        "top_level_expected": true
+      },
+      "input_args": [
+        "Brandin Cooks went for it on fourth down."
+      ],
+      "input_kw": null,
+      "expected_output": [
+        "Brandin Cooks",
+        "went for it on fourth down",
+        ""
+      ]
+    },
+    {
+      "name": "analyze_sentence_0.68.0",
+      "metadata": {
+        "rollout_correct": 1.0,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "analyze_sentence",
+        "top_level_args": [
+          "Bryce Harper hit the back shoulder fade."
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": false,
+        "top_level_expected": false
+      },
+      "input_args": [
+        "Bryce Harper hit the back shoulder fade."
+      ],
+      "input_kw": null,
+      "expected_output": [
+        "Bryce Harper",
+        "hit the back shoulder fade",
+        ""
+      ]
+    },
+    {
+      "name": "analyze_sentence_0.69.0",
+      "metadata": {
+        "rollout_correct": 1.0,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "analyze_sentence",
+        "top_level_args": [
+          "Nathan MacKinnon bricked the three pointer in the Eastern Conference Finals."
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": false,
+        "top_level_expected": false
+      },
+      "input_args": [
+        "Nathan MacKinnon bricked the three pointer in the Eastern Conference Finals."
+      ],
+      "input_kw": null,
+      "expected_output": [
+        "Nathan MacKinnon",
+        "bricked the three pointer",
+        "in the Eastern Conference Finals."
+      ]
+    },
+    {
+      "name": "analyze_sentence_0.70.0",
+      "metadata": {
+        "rollout_correct": 1.0,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "analyze_sentence",
+        "top_level_args": [
+          "Ryan Fitzpatrick scored a touchdown."
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": true,
+        "top_level_expected": true
+      },
+      "input_args": [
+        "Ryan Fitzpatrick scored a touchdown."
+      ],
+      "input_kw": null,
+      "expected_output": [
+        "Ryan Fitzpatrick",
+        "scored a touchdown",
+        ""
+      ]
+    },
+    {
+      "name": "analyze_sentence_0.71.0",
+      "metadata": {
+        "rollout_correct": 1.0,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "analyze_sentence",
+        "top_level_args": [
+          "Tom Brady converted the first down."
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": true,
+        "top_level_expected": true
+      },
+      "input_args": [
+        "Tom Brady converted the first down."
+      ],
+      "input_kw": null,
+      "expected_output": [
+        "Tom Brady",
+        "converted the first down",
+        ""
+      ]
+    },
+    {
+      "name": "analyze_sentence_0.72.0",
+      "metadata": {
+        "rollout_correct": 1.0,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "analyze_sentence",
+        "top_level_args": [
+          "Mookie Betts skated behind the net."
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": false,
+        "top_level_expected": false
+      },
+      "input_args": [
+        "Mookie Betts skated behind the net."
+      ],
+      "input_kw": null,
+      "expected_output": [
+        "Mookie Betts",
+        "skated behind the net",
+        ""
+      ]
+    },
+    {
+      "name": "analyze_sentence_0.73.0",
+      "metadata": {
+        "rollout_correct": 1.0,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "analyze_sentence",
+        "top_level_args": [
+          "Mookie Betts took a side-step three."
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": false,
+        "top_level_expected": false
+      },
+      "input_args": [
+        "Mookie Betts took a side-step three."
+      ],
+      "input_kw": null,
+      "expected_output": [
+        "Mookie Betts",
+        "took a side-step three",
+        ""
+      ]
+    },
+    {
+      "name": "analyze_sentence_0.74.0",
+      "metadata": {
+        "rollout_correct": 1.0,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "analyze_sentence",
+        "top_level_args": [
+          "Sean Couturier maradona'd the defender."
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": false,
+        "top_level_expected": false
+      },
+      "input_args": [
+        "Sean Couturier maradona'd the defender."
+      ],
+      "input_kw": null,
+      "expected_output": [
+        "Sean Couturier",
+        "maradona'd the defender",
+        ""
+      ]
+    }
+  ]
+}

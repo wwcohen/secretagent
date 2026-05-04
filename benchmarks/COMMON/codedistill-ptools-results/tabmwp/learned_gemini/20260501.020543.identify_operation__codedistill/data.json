@@ -1,0 +1,887 @@
+{
+  "name": "identify_operation",
+  "split": null,
+  "metadata": null,
+  "cases": [
+    {
+      "name": "identify_operation_0.0.0",
+      "metadata": {
+        "rollout_correct": true,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "identify_operation",
+        "top_level_args": [
+          "At Sparrowtown Consulting, the head of human resources examined how the number of employees with health care benefits varied in response to policy changes. According to the table, what was the rate of change between 2011 and 2012?",
+          "Columns: Year | Employees | Rows: 5"
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": "27",
+        "top_level_expected": "27"
+      },
+      "input_args": [
+        "At Sparrowtown Consulting, the head of human resources examined how the number of employees with health care benefits varied in response to policy changes. According to the table, what was the rate of change between 2011 and 2012?",
+        "Columns: Year | Employees | Rows: 5"
+      ],
+      "input_kw": null,
+      "expected_output": "difference"
+    },
+    {
+      "name": "identify_operation_0.4.0",
+      "metadata": {
+        "rollout_correct": true,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "identify_operation",
+        "top_level_args": [
+          "How much money does Lena need to buy a pink flamingo pen, a tiny bottle of sand, and a souvenir cup?",
+          "Columns: souvenir cup | $0.78 | Rows: 5"
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": "2.23",
+        "top_level_expected": "2.23"
+      },
+      "input_args": [
+        "How much money does Lena need to buy a pink flamingo pen, a tiny bottle of sand, and a souvenir cup?",
+        "Columns: souvenir cup | $0.78 | Rows: 5"
+      ],
+      "input_kw": null,
+      "expected_output": "sum"
+    },
+    {
+      "name": "identify_operation_0.8.0",
+      "metadata": {
+        "rollout_correct": true,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "identify_operation",
+        "top_level_args": [
+          "Look at the following schedule. Naomi just missed the 9.45 A.M. train at Richmond. What time is the next train?",
+          "Columns: Richmond | 9:00 A.M. | 9:45 A.M. | 10:00 A.M. | 10:30 A.M. | Rows: 5"
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": "10:00 A.M.",
+        "top_level_expected": "10:00 A.M."
+      },
+      "input_args": [
+        "Look at the following schedule. Naomi just missed the 9.45 A.M. train at Richmond. What time is the next train?",
+        "Columns: Richmond | 9:00 A.M. | 9:45 A.M. | 10:00 A.M. | 10:30 A.M. | Rows: 5"
+      ],
+      "input_kw": null,
+      "expected_output": "lookup"
+    },
+    {
+      "name": "identify_operation_0.11.0",
+      "metadata": {
+        "rollout_correct": true,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "identify_operation",
+        "top_level_args": [
+          "While writing a paper on making decisions in groups, Bridgette researched the size of a number of committees. What is the size of the largest committee?",
+          "Columns: Stem | Leaf  | Rows: 5"
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": "89",
+        "top_level_expected": "89"
+      },
+      "input_args": [
+        "While writing a paper on making decisions in groups, Bridgette researched the size of a number of committees. What is the size of the largest committee?",
+        "Columns: Stem | Leaf  | Rows: 5"
+      ],
+      "input_kw": null,
+      "expected_output": "max"
+    },
+    {
+      "name": "identify_operation_0.12.0",
+      "metadata": {
+        "rollout_correct": true,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "identify_operation",
+        "top_level_args": [
+          "Liam's class paid attention to how many bottles each student collected for their recycling project. What is the range of the numbers?",
+          "Columns: Name | Number of bottles | Rows: 6"
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": "15",
+        "top_level_expected": "15"
+      },
+      "input_args": [
+        "Liam's class paid attention to how many bottles each student collected for their recycling project. What is the range of the numbers?",
+        "Columns: Name | Number of bottles | Rows: 6"
+      ],
+      "input_kw": null,
+      "expected_output": "range"
+    },
+    {
+      "name": "identify_operation_0.14.0",
+      "metadata": {
+        "rollout_correct": true,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "identify_operation",
+        "top_level_args": [
+          "Look at the following schedule. When does family ice skating begin?",
+          "Columns: Activity | Begin | End | Rows: 6"
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": "1:20 P.M.",
+        "top_level_expected": "1:20 P.M."
+      },
+      "input_args": [
+        "Look at the following schedule. When does family ice skating begin?",
+        "Columns: Activity | Begin | End | Rows: 6"
+      ],
+      "input_kw": null,
+      "expected_output": "lookup"
+    },
+    {
+      "name": "identify_operation_0.15.0",
+      "metadata": {
+        "rollout_correct": true,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "identify_operation",
+        "top_level_args": [
+          "Mrs. McKenzie, the science teacher, informed her students of their scores on Monday's test. What is the lowest score?",
+          "Columns: Stem | Leaf  | Rows: 9"
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": "13",
+        "top_level_expected": "13"
+      },
+      "input_args": [
+        "Mrs. McKenzie, the science teacher, informed her students of their scores on Monday's test. What is the lowest score?",
+        "Columns: Stem | Leaf  | Rows: 9"
+      ],
+      "input_kw": null,
+      "expected_output": "min"
+    },
+    {
+      "name": "identify_operation_0.18.0",
+      "metadata": {
+        "rollout_correct": true,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "identify_operation",
+        "top_level_args": [
+          "Some students compared how many clubs they belong to. What is the mode of the numbers?",
+          "Columns: Name | Number of clubs | Rows: 6"
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": "8",
+        "top_level_expected": "8"
+      },
+      "input_args": [
+        "Some students compared how many clubs they belong to. What is the mode of the numbers?",
+        "Columns: Name | Number of clubs | Rows: 6"
+      ],
+      "input_kw": null,
+      "expected_output": "mode"
+    },
+    {
+      "name": "identify_operation_0.21.0",
+      "metadata": {
+        "rollout_correct": true,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "identify_operation",
+        "top_level_args": [
+          "The parks department compared how many soccer fields there are at each park. What is the mean of the numbers?",
+          "Columns: Park | Number of soccer fields | Rows: 6"
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": "5.0",
+        "top_level_expected": "5"
+      },
+      "input_args": [
+        "The parks department compared how many soccer fields there are at each park. What is the mean of the numbers?",
+        "Columns: Park | Number of soccer fields | Rows: 6"
+      ],
+      "input_kw": null,
+      "expected_output": "average"
+    },
+    {
+      "name": "identify_operation_0.23.0",
+      "metadata": {
+        "rollout_correct": true,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "identify_operation",
+        "top_level_args": [
+          "A stock broker followed the stock prices of a certain set of companies. How much did Watson and Partners's stock cost on Thursday?",
+          "Columns: Company | Wednesday | Thursday | Rows: 3"
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": "4",
+        "top_level_expected": "4"
+      },
+      "input_args": [
+        "A stock broker followed the stock prices of a certain set of companies. How much did Watson and Partners's stock cost on Thursday?",
+        "Columns: Company | Wednesday | Thursday | Rows: 3"
+      ],
+      "input_kw": null,
+      "expected_output": "lookup"
+    },
+    {
+      "name": "identify_operation_0.26.0",
+      "metadata": {
+        "rollout_correct": true,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "identify_operation",
+        "top_level_args": [
+          "A bakery recorded how many cupcakes it sold in the past 6 days. What is the range of the numbers?",
+          "Columns: Day | Number of cupcakes | Rows: 6"
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": "6",
+        "top_level_expected": "6"
+      },
+      "input_args": [
+        "A bakery recorded how many cupcakes it sold in the past 6 days. What is the range of the numbers?",
+        "Columns: Day | Number of cupcakes | Rows: 6"
+      ],
+      "input_kw": null,
+      "expected_output": "range"
+    },
+    {
+      "name": "identify_operation_0.30.0",
+      "metadata": {
+        "rollout_correct": true,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "identify_operation",
+        "top_level_args": [
+          "How much more does a box of tissues cost than a box of breath mints?",
+          "Columns: box of breath mints | $0.77 | Rows: 4"
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": "0.19",
+        "top_level_expected": "0.19"
+      },
+      "input_args": [
+        "How much more does a box of tissues cost than a box of breath mints?",
+        "Columns: box of breath mints | $0.77 | Rows: 4"
+      ],
+      "input_kw": null,
+      "expected_output": "difference"
+    },
+    {
+      "name": "identify_operation_0.33.0",
+      "metadata": {
+        "rollout_correct": true,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "identify_operation",
+        "top_level_args": [
+          "A coffee shop monitored the number of cups of coffee sold each day. What is the mean of the numbers?",
+          "Columns: Day | Number of cups | Rows: 5"
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": "18.0",
+        "top_level_expected": "18"
+      },
+      "input_args": [
+        "A coffee shop monitored the number of cups of coffee sold each day. What is the mean of the numbers?",
+        "Columns: Day | Number of cups | Rows: 5"
+      ],
+      "input_kw": null,
+      "expected_output": "average"
+    },
+    {
+      "name": "identify_operation_0.36.0",
+      "metadata": {
+        "rollout_correct": true,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "identify_operation",
+        "top_level_args": [
+          "Each year the Oakland School District publishes its annual budget, which includes information on the sports program's per-student spending. According to the table, what was the rate of change between 2010 and 2011?",
+          "Columns: Year | Per-student budget | Rows: 5"
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": "2",
+        "top_level_expected": "2"
+      },
+      "input_args": [
+        "Each year the Oakland School District publishes its annual budget, which includes information on the sports program's per-student spending. According to the table, what was the rate of change between 2010 and 2011?",
+        "Columns: Year | Per-student budget | Rows: 5"
+      ],
+      "input_kw": null,
+      "expected_output": "difference"
+    },
+    {
+      "name": "identify_operation_0.37.0",
+      "metadata": {
+        "rollout_correct": true,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "identify_operation",
+        "top_level_args": [
+          "A game show program recorded the scores of its contestants. Which score did the fewest people receive?",
+          "Columns: Score | Frequency | Rows: 6"
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": "9",
+        "top_level_expected": "9"
+      },
+      "input_args": [
+        "A game show program recorded the scores of its contestants. Which score did the fewest people receive?",
+        "Columns: Score | Frequency | Rows: 6"
+      ],
+      "input_kw": null,
+      "expected_output": "min"
+    },
+    {
+      "name": "identify_operation_0.41.0",
+      "metadata": {
+        "rollout_correct": true,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "identify_operation",
+        "top_level_args": [
+          "Look at the following schedule. Which activity begins at 8.35 P.M.?",
+          "Columns: Activity | Begin | End | Rows: 5"
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": "dog show",
+        "top_level_expected": "dog show"
+      },
+      "input_args": [
+        "Look at the following schedule. Which activity begins at 8.35 P.M.?",
+        "Columns: Activity | Begin | End | Rows: 5"
+      ],
+      "input_kw": null,
+      "expected_output": "lookup"
+    },
+    {
+      "name": "identify_operation_0.43.0",
+      "metadata": {
+        "rollout_correct": true,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "identify_operation",
+        "top_level_args": [
+          "Scott has $0.09. Does he have enough to buy a peppermint candy and a sour apple candy?",
+          "Columns: peppermint candy | $0.03 | Rows: 4"
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": "no",
+        "top_level_expected": "no"
+      },
+      "input_args": [
+        "Scott has $0.09. Does he have enough to buy a peppermint candy and a sour apple candy?",
+        "Columns: peppermint candy | $0.03 | Rows: 4"
+      ],
+      "input_kw": null,
+      "expected_output": "comparison"
+    },
+    {
+      "name": "identify_operation_0.47.0",
+      "metadata": {
+        "rollout_correct": true,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "identify_operation",
+        "top_level_args": [
+          "The transportation company tracked the number of train tickets sold in the past 3 days. How many more tickets were sold on Tuesday than on Wednesday?",
+          "Columns: Day | Number of tickets | Rows: 3"
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": "353",
+        "top_level_expected": "353"
+      },
+      "input_args": [
+        "The transportation company tracked the number of train tickets sold in the past 3 days. How many more tickets were sold on Tuesday than on Wednesday?",
+        "Columns: Day | Number of tickets | Rows: 3"
+      ],
+      "input_kw": null,
+      "expected_output": "difference"
+    },
+    {
+      "name": "identify_operation_0.50.0",
+      "metadata": {
+        "rollout_correct": true,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "identify_operation",
+        "top_level_args": [
+          "An actor was informed how many fan letters he received each day. What is the range of the numbers?",
+          "Columns: Day | Number of fan letters | Rows: 5"
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": "6",
+        "top_level_expected": "6"
+      },
+      "input_args": [
+        "An actor was informed how many fan letters he received each day. What is the range of the numbers?",
+        "Columns: Day | Number of fan letters | Rows: 5"
+      ],
+      "input_kw": null,
+      "expected_output": "range"
+    },
+    {
+      "name": "identify_operation_0.52.0",
+      "metadata": {
+        "rollout_correct": true,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "identify_operation",
+        "top_level_args": [
+          "How much more does a photo album cost than a scrapbook?",
+          "Columns: dog calendar | $14 | Rows: 3"
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": "3",
+        "top_level_expected": "3"
+      },
+      "input_args": [
+        "How much more does a photo album cost than a scrapbook?",
+        "Columns: dog calendar | $14 | Rows: 3"
+      ],
+      "input_kw": null,
+      "expected_output": "difference"
+    },
+    {
+      "name": "identify_operation_0.56.0",
+      "metadata": {
+        "rollout_correct": true,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "identify_operation",
+        "top_level_args": [
+          "At a candy factory, butterscotch candies were packaged into bags of different sizes. How many bags had fewer than 60 butterscotch candies?",
+          "Columns: Stem | Leaf  | Rows: 6"
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": "14",
+        "top_level_expected": "14"
+      },
+      "input_args": [
+        "At a candy factory, butterscotch candies were packaged into bags of different sizes. How many bags had fewer than 60 butterscotch candies?",
+        "Columns: Stem | Leaf  | Rows: 6"
+      ],
+      "input_kw": null,
+      "expected_output": "count"
+    },
+    {
+      "name": "identify_operation_0.57.0",
+      "metadata": {
+        "rollout_correct": true,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "identify_operation",
+        "top_level_args": [
+          "Jonah has $14,197. Does he have enough to buy a peanut cart and a pretzel stand?",
+          "Columns: ice cream truck | $7,732 | Rows: 5"
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": "no",
+        "top_level_expected": "no"
+      },
+      "input_args": [
+        "Jonah has $14,197. Does he have enough to buy a peanut cart and a pretzel stand?",
+        "Columns: ice cream truck | $7,732 | Rows: 5"
+      ],
+      "input_kw": null,
+      "expected_output": "comparison"
+    },
+    {
+      "name": "identify_operation_0.58.0",
+      "metadata": {
+        "rollout_correct": true,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "identify_operation",
+        "top_level_args": [
+          "Troy wrote down how many minutes of TV he watched over the past 5 days. How many minutes in total did Troy watch on Monday and Thursday?",
+          "Columns: Day | Minutes | Rows: 5"
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": "287",
+        "top_level_expected": "287"
+      },
+      "input_args": [
+        "Troy wrote down how many minutes of TV he watched over the past 5 days. How many minutes in total did Troy watch on Monday and Thursday?",
+        "Columns: Day | Minutes | Rows: 5"
+      ],
+      "input_kw": null,
+      "expected_output": "sum"
+    },
+    {
+      "name": "identify_operation_0.61.0",
+      "metadata": {
+        "rollout_correct": true,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "identify_operation",
+        "top_level_args": [
+          "Each year, the campers at Meg's summer camp try to set that summer's record for finishing the obstacle course as quickly as possible. According to the table, what was the rate of change between 2019 and 2020?",
+          "Columns: Year | Record time (minutes) | Rows: 5"
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": "5",
+        "top_level_expected": "5"
+      },
+      "input_args": [
+        "Each year, the campers at Meg's summer camp try to set that summer's record for finishing the obstacle course as quickly as possible. According to the table, what was the rate of change between 2019 and 2020?",
+        "Columns: Year | Record time (minutes) | Rows: 5"
+      ],
+      "input_kw": null,
+      "expected_output": "difference"
+    },
+    {
+      "name": "identify_operation_0.62.0",
+      "metadata": {
+        "rollout_correct": true,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "identify_operation",
+        "top_level_args": [
+          "The table shows a function. Is the function linear or nonlinear?",
+          "Columns: x | y | Rows: 3"
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": "linear",
+        "top_level_expected": "linear"
+      },
+      "input_args": [
+        "The table shows a function. Is the function linear or nonlinear?",
+        "Columns: x | y | Rows: 3"
+      ],
+      "input_kw": null,
+      "expected_output": "comparison"
+    },
+    {
+      "name": "identify_operation_0.63.0",
+      "metadata": {
+        "rollout_correct": true,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "identify_operation",
+        "top_level_args": [
+          "A girl compared the ages of her cousins. What is the median of the numbers?",
+          "Columns: Name | Age (years) | Rows: 7"
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": "12",
+        "top_level_expected": "12"
+      },
+      "input_args": [
+        "A girl compared the ages of her cousins. What is the median of the numbers?",
+        "Columns: Name | Age (years) | Rows: 7"
+      ],
+      "input_kw": null,
+      "expected_output": "median"
+    },
+    {
+      "name": "identify_operation_0.64.0",
+      "metadata": {
+        "rollout_correct": true,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "identify_operation",
+        "top_level_args": [
+          "Look at the following schedule. Which event ends at 4.20 P.M.?",
+          "Columns: Event | Begin | End | Rows: 6"
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": "women's volleyball game",
+        "top_level_expected": "women's volleyball game"
+      },
+      "input_args": [
+        "Look at the following schedule. Which event ends at 4.20 P.M.?",
+        "Columns: Event | Begin | End | Rows: 6"
+      ],
+      "input_kw": null,
+      "expected_output": "lookup"
+    },
+    {
+      "name": "identify_operation_0.65.0",
+      "metadata": {
+        "rollout_correct": true,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "identify_operation",
+        "top_level_args": [
+          "The parks department compared how many soccer fields there are at each park. What is the range of the numbers?",
+          "Columns: Park | Number of soccer fields | Rows: 8"
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": "9",
+        "top_level_expected": "9"
+      },
+      "input_args": [
+        "The parks department compared how many soccer fields there are at each park. What is the range of the numbers?",
+        "Columns: Park | Number of soccer fields | Rows: 8"
+      ],
+      "input_kw": null,
+      "expected_output": "range"
+    },
+    {
+      "name": "identify_operation_0.66.0",
+      "metadata": {
+        "rollout_correct": true,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "identify_operation",
+        "top_level_args": [
+          "A county agency recorded the money donated to several charitable causes over time. How much money was raised for parks in April?",
+          "Columns: Cause | March | April | Rows: 3"
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": "4",
+        "top_level_expected": "4"
+      },
+      "input_args": [
+        "A county agency recorded the money donated to several charitable causes over time. How much money was raised for parks in April?",
+        "Columns: Cause | March | April | Rows: 3"
+      ],
+      "input_kw": null,
+      "expected_output": "lookup"
+    },
+    {
+      "name": "identify_operation_0.68.0",
+      "metadata": {
+        "rollout_correct": true,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "identify_operation",
+        "top_level_args": [
+          "Some teachers compared how many students are in their classes. What is the mode of the numbers?",
+          "Columns: Teacher | Number of students | Rows: 5"
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": "30",
+        "top_level_expected": "30"
+      },
+      "input_args": [
+        "Some teachers compared how many students are in their classes. What is the mode of the numbers?",
+        "Columns: Teacher | Number of students | Rows: 5"
+      ],
+      "input_kw": null,
+      "expected_output": "mode"
+    },
+    {
+      "name": "identify_operation_0.70.0",
+      "metadata": {
+        "rollout_correct": true,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "identify_operation",
+        "top_level_args": [
+          "Anthony has $9. Does he have enough to buy pasta with white sauce and steamed broccoli?",
+          "Columns: pasta with white sauce | $9 | Rows: 3"
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": "no",
+        "top_level_expected": "no"
+      },
+      "input_args": [
+        "Anthony has $9. Does he have enough to buy pasta with white sauce and steamed broccoli?",
+        "Columns: pasta with white sauce | $9 | Rows: 3"
+      ],
+      "input_kw": null,
+      "expected_output": "lookup"
+    },
+    {
+      "name": "identify_operation_0.71.0",
+      "metadata": {
+        "rollout_correct": true,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "identify_operation",
+        "top_level_args": [
+          "Dr. Morrison, a pediatrician, weighed all the children who recently visited her office. How many children weighed exactly 41 pounds?",
+          "Columns: Stem | Leaf  | Rows: 4"
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": "1",
+        "top_level_expected": "1"
+      },
+      "input_args": [
+        "Dr. Morrison, a pediatrician, weighed all the children who recently visited her office. How many children weighed exactly 41 pounds?",
+        "Columns: Stem | Leaf  | Rows: 4"
+      ],
+      "input_kw": null,
+      "expected_output": "count"
+    },
+    {
+      "name": "identify_operation_0.73.0",
+      "metadata": {
+        "rollout_correct": true,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "identify_operation",
+        "top_level_args": [
+          "Look at the table. Then answer the question. At a price of $1,020, is there a shortage or a surplus?",
+          "Columns: Price | Quantity demanded | Quantity supplied | Rows: 5"
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": "surplus",
+        "top_level_expected": "surplus"
+      },
+      "input_args": [
+        "Look at the table. Then answer the question. At a price of $1,020, is there a shortage or a surplus?",
+        "Columns: Price | Quantity demanded | Quantity supplied | Rows: 5"
+      ],
+      "input_kw": null,
+      "expected_output": "comparison"
+    },
+    {
+      "name": "identify_operation_0.74.0",
+      "metadata": {
+        "rollout_correct": true,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "identify_operation",
+        "top_level_args": [
+          "Malia looked over her calendar to see how many times she had soccer practice each month. What is the range of the numbers?",
+          "Columns: Month | Number of practices | Rows: 8"
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": "6",
+        "top_level_expected": "6"
+      },
+      "input_args": [
+        "Malia looked over her calendar to see how many times she had soccer practice each month. What is the range of the numbers?",
+        "Columns: Month | Number of practices | Rows: 8"
+      ],
+      "input_kw": null,
+      "expected_output": "range"
+    },
+    {
+      "name": "identify_operation_0.76.0",
+      "metadata": {
+        "rollout_correct": true,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "identify_operation",
+        "top_level_args": [
+          "How much more does a silver necklace cost than a sapphire pendant?",
+          "Columns: sapphire pendant | $815.00 | Rows: 4"
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": "59.00",
+        "top_level_expected": "59"
+      },
+      "input_args": [
+        "How much more does a silver necklace cost than a sapphire pendant?",
+        "Columns: sapphire pendant | $815.00 | Rows: 4"
+      ],
+      "input_kw": null,
+      "expected_output": "difference"
+    },
+    {
+      "name": "identify_operation_0.85.0",
+      "metadata": {
+        "rollout_correct": true,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "identify_operation",
+        "top_level_args": [
+          "Look at Lamont's pay stub. Lamont lives in a state without state income tax. How much did Lamont make after taxes?",
+          "Columns: Employee | Pay period | | Rows: 6"
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": "2873.46",
+        "top_level_expected": "2,873.46"
+      },
+      "input_args": [
+        "Look at Lamont's pay stub. Lamont lives in a state without state income tax. How much did Lamont make after taxes?",
+        "Columns: Employee | Pay period | | Rows: 6"
+      ],
+      "input_kw": null,
+      "expected_output": "lookup"
+    },
+    {
+      "name": "identify_operation_0.88.0",
+      "metadata": {
+        "rollout_correct": true,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "identify_operation",
+        "top_level_args": [
+          "During a lab exercise, students in Professor Garza's class rolled a 6-sided die and recorded the results. Which number was rolled the fewest times?",
+          "Columns: Rolls of a | 6-sided die | Rows: 7"
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": "6",
+        "top_level_expected": "6"
+      },
+      "input_args": [
+        "During a lab exercise, students in Professor Garza's class rolled a 6-sided die and recorded the results. Which number was rolled the fewest times?",
+        "Columns: Rolls of a | 6-sided die | Rows: 7"
+      ],
+      "input_kw": null,
+      "expected_output": "min"
+    },
+    {
+      "name": "identify_operation_0.91.0",
+      "metadata": {
+        "rollout_correct": true,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "identify_operation",
+        "top_level_args": [
+          "At a candy factory, butterscotch candies were packaged into bags of different sizes. What is the smallest number of butterscotch candies?",
+          "Columns: Stem | Leaf  | Rows: 4"
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": "42",
+        "top_level_expected": "42"
+      },
+      "input_args": [
+        "At a candy factory, butterscotch candies were packaged into bags of different sizes. What is the smallest number of butterscotch candies?",
+        "Columns: Stem | Leaf  | Rows: 4"
+      ],
+      "input_kw": null,
+      "expected_output": "min"
+    },
+    {
+      "name": "identify_operation_0.94.0",
+      "metadata": {
+        "rollout_correct": true,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "identify_operation",
+        "top_level_args": [
+          "Danville Flooring tracked the number of broken tiles in each shipment it received last year. How many shipments had at least 60 broken tiles but less than 70 broken tiles?",
+          "Columns: Stem | Leaf  | Rows: 4"
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": "3",
+        "top_level_expected": "3"
+      },
+      "input_args": [
+        "Danville Flooring tracked the number of broken tiles in each shipment it received last year. How many shipments had at least 60 broken tiles but less than 70 broken tiles?",
+        "Columns: Stem | Leaf  | Rows: 4"
+      ],
+      "input_kw": null,
+      "expected_output": "count"
+    },
+    {
+      "name": "identify_operation_0.98.0",
+      "metadata": {
+        "rollout_correct": true,
+        "step_index": 0,
+        "prior_steps": [],
+        "top_level_func": "identify_operation",
+        "top_level_args": [
+          "Each table has 10 pink highlighters. How many pink highlighters are on 4 tables?",
+          "Columns: Number of tables | Number of pink highlighters | Rows: 4"
+        ],
+        "top_level_kw": null,
+        "top_level_predicted": "40",
+        "top_level_expected": "40"
+      },
+      "input_args": [
+        "Each table has 10 pink highlighters. How many pink highlighters are on 4 tables?",
+        "Columns: Number of tables | Number of pink highlighters | Rows: 4"
+      ],
+      "input_kw": null,
+      "expected_output": "multiplication"
+    }
+  ]
+}

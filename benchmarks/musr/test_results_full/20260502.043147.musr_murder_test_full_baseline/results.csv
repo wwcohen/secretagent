@@ -1,0 +1,76 @@
+case_name,predicted_output,expected_output,correct,input_tokens,output_tokens,latency,cost,expt_name
+ex042,1,1,True,6659.0,828.0,49.69216275215149,0.00935875,musr_murder_test_full_baseline
+ex041,0,0,True,5331.0,713.0,94.53191590309143,0.007555000000000001,musr_murder_test_full_baseline
+ex091,1,0,False,5865.0,672.0,46.56113386154175,0.00817125,musr_murder_test_full_baseline
+ex009,0,1,False,6047.0,713.0,79.52857303619385,0.008450000000000001,musr_murder_test_full_baseline
+ex065,0,0,True,5413.0,795.0,37.76808452606201,0.007760000000000001,musr_murder_test_full_baseline
+ex050,0,0,True,5396.0,578.0,44.84797239303589,0.0074675,musr_murder_test_full_baseline
+ex001,0,0,True,5494.0,871.0,22.49991273880005,0.007956250000000002,musr_murder_test_full_baseline
+ex070,0,1,False,5780.0,606.0,32.872864961624146,0.0079825,musr_murder_test_full_baseline
+ex015,0,1,False,6070.0,825.0,31.73274254798889,0.008618750000000001,musr_murder_test_full_baseline
+ex078,**exception raised**: cannot find final answer,1,False,5505.0,2790.0,72.82159304618835,0.01036875,musr_murder_test_full_baseline
+ex073,0,0,True,5748.0,723.0,30.283456087112427,0.00808875,musr_murder_test_full_baseline
+ex010,0,0,True,5171.0,596.0,28.542680025100708,0.007208750000000001,musr_murder_test_full_baseline
+ex055,0,0,True,6001.0,683.0,30.20851421356201,0.008355000000000001,musr_murder_test_full_baseline
+ex056,1,1,True,5977.0,828.0,30.720820426940918,0.008506250000000002,musr_murder_test_full_baseline
+ex072,1,1,True,5399.0,661.0,29.49703025817871,0.007575000000000001,musr_murder_test_full_baseline
+ex045,1,0,False,5364.0,667.0,36.157049894332886,0.00753875,musr_murder_test_full_baseline
+ex048,**exception raised**: cannot find final answer,1,False,5293.0,2704.0,89.30190086364746,0.009996250000000002,musr_murder_test_full_baseline
+ex092,1,1,True,5641.0,770.0,27.87362027168274,0.00801375,musr_murder_test_full_baseline
+ex076,0,0,True,5833.0,678.0,17.82603621482849,0.00813875,musr_murder_test_full_baseline
+ex037,0,0,True,5813.0,552.0,19.11594009399414,0.00795625,musr_murder_test_full_baseline
+ex030,0,1,False,5902.0,669.0,20.31372380256653,0.00821375,musr_murder_test_full_baseline
+ex021,**exception raised**: cannot find final answer,1,False,5531.0,2644.0,73.39921712875366,0.010218750000000002,musr_murder_test_full_baseline
+ex032,1,0,False,5149.0,653.0,39.13219499588013,0.0072525,musr_murder_test_full_baseline
+ex096,**exception raised**: cannot find final answer,1,False,4777.0,2631.0,69.31098914146423,0.009260000000000001,musr_murder_test_full_baseline
+ex080,1,1,True,5962.0,841.0,33.11915612220764,0.008503750000000001,musr_murder_test_full_baseline
+ex049,0,0,True,5549.0,750.0,25.87910032272339,0.00787375,musr_murder_test_full_baseline
+ex083,1,0,False,5861.0,811.0,29.76814031600952,0.00834,musr_murder_test_full_baseline
+ex026,0,1,False,5960.0,779.0,26.12002468109131,0.00842375,musr_murder_test_full_baseline
+ex087,0,0,True,5159.0,669.0,28.395965099334717,0.007285000000000001,musr_murder_test_full_baseline
+ex033,0,0,True,4758.0,532.0,13.886280298233032,0.0066125,musr_murder_test_full_baseline
+ex008,1,1,True,5682.0,594.0,25.143884897232056,0.007845,musr_murder_test_full_baseline
+ex047,0,0,True,5304.0,568.0,15.698679447174072,0.00734,musr_murder_test_full_baseline
+ex059,0,0,True,5711.0,902.0,26.148839712142944,0.008266250000000001,musr_murder_test_full_baseline
+ex063,1,1,True,5748.0,688.0,31.195136070251465,0.008045,musr_murder_test_full_baseline
+ex074,0,1,False,5326.0,714.0,25.769542694091797,0.00755,musr_murder_test_full_baseline
+ex044,1,0,False,5829.0,601.0,63.47894787788391,0.0080375,musr_murder_test_full_baseline
+ex098,1,0,False,4921.0,699.0,47.63263988494873,0.007025000000000001,musr_murder_test_full_baseline
+ex052,0,1,False,5797.0,844.0,60.93740963935852,0.00830125,musr_murder_test_full_baseline
+ex085,0,0,True,5435.0,849.0,43.429935455322266,0.007855000000000001,musr_murder_test_full_baseline
+ex012,1,1,True,5636.0,622.0,26.450631141662598,0.007822500000000001,musr_murder_test_full_baseline
+ex036,0,0,True,5428.0,792.0,45.90347981452942,0.007775000000000001,musr_murder_test_full_baseline
+ex023,0,1,False,5741.0,929.0,25.287549018859863,0.0083375,musr_murder_test_full_baseline
+ex039,1,1,True,6825.0,1279.0,41.92800807952881,0.01013,musr_murder_test_full_baseline
+ex040,1,1,True,5146.0,715.0,32.777395248413086,0.007326249999999999,musr_murder_test_full_baseline
+ex018,1,0,False,5470.0,919.0,21.953097820281982,0.007986250000000002,musr_murder_test_full_baseline
+ex066,1,0,False,5485.0,627.0,35.086288928985596,0.007640000000000001,musr_murder_test_full_baseline
+ex061,0,0,True,5794.0,1058.0,22.91122055053711,0.008565000000000001,musr_murder_test_full_baseline
+ex060,1,0,False,5260.0,493.0,40.902241230010986,0.007191250000000001,musr_murder_test_full_baseline
+ex007,0,0,True,5843.0,815.0,37.82825994491577,0.0083225,musr_murder_test_full_baseline
+ex034,1,1,True,5348.0,755.0,31.91717004776001,0.00762875,musr_murder_test_full_baseline
+ex099,0,1,False,5885.0,844.0,29.575205087661743,0.00841125,musr_murder_test_full_baseline
+ex046,1,1,True,5308.0,715.0,31.57505989074707,0.00752875,musr_murder_test_full_baseline
+ex002,0,1,False,5036.0,710.0,39.88518023490906,0.0071825,musr_murder_test_full_baseline
+ex051,0,0,True,4910.0,592.0,17.90275239944458,0.006877500000000001,musr_murder_test_full_baseline
+ex016,**exception raised**: cannot find final answer,1,False,5821.0,2974.0,67.06925010681152,0.01099375,musr_murder_test_full_baseline
+ex038,1,1,True,5977.0,605.0,27.55908489227295,0.0082275,musr_murder_test_full_baseline
+ex058,1,0,False,5752.0,716.0,50.6248459815979,0.008085,musr_murder_test_full_baseline
+ex068,0,1,False,6174.0,1200.0,57.30745077133179,0.0092175,musr_murder_test_full_baseline
+ex022,1,1,True,5796.0,736.0,19.284201860427856,0.008165,musr_murder_test_full_baseline
+ex062,1,1,True,5764.0,841.0,44.44040393829346,0.008256250000000001,musr_murder_test_full_baseline
+ex024,1,0,False,6015.0,669.0,24.719194173812866,0.008355,musr_murder_test_full_baseline
+ex005,0,1,False,5205.0,708.0,27.339476823806763,0.00739125,musr_murder_test_full_baseline
+ex006,0,0,True,5800.0,737.0,44.143085956573486,0.00817125,musr_murder_test_full_baseline
+ex067,0,0,True,5479.0,806.0,40.282031536102295,0.00785625,musr_murder_test_full_baseline
+ex082,**exception raised**: cannot find final answer,0,False,5414.0,2804.0,80.51582431793213,0.0102725,musr_murder_test_full_baseline
+ex019,1,1,True,5520.0,732.0,19.515920639038086,0.007815,musr_murder_test_full_baseline
+ex079,0,1,False,5215.0,659.0,23.377838850021362,0.007342500000000001,musr_murder_test_full_baseline
+ex043,1,1,True,5687.0,564.0,19.481217622756958,0.007813750000000001,musr_murder_test_full_baseline
+ex090,**exception raised**: cannot find final answer,0,False,5211.0,2813.0,94.61077404022217,0.01003,musr_murder_test_full_baseline
+ex020,**exception raised**: cannot find final answer,0,False,5280.0,2647.0,73.89171361923218,0.009908750000000001,musr_murder_test_full_baseline
+ex000,1,1,True,5883.0,633.0,19.457685947418213,0.008145,musr_murder_test_full_baseline
+ex095,1,0,False,5501.0,687.0,21.44925832748413,0.0077350000000000006,musr_murder_test_full_baseline
+ex057,**exception raised**: cannot find final answer,1,False,5529.0,2913.0,58.74302101135254,0.010552500000000001,musr_murder_test_full_baseline
+ex093,**exception raised**: cannot find final answer,1,False,5642.0,2854.0,61.58268928527832,0.010620000000000001,musr_murder_test_full_baseline
+ex053,0,1,False,5375.0,708.0,23.450589656829834,0.00760375,musr_murder_test_full_baseline

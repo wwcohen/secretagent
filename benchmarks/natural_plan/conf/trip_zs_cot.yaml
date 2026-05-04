@@ -1,0 +1,31 @@
+# Zero-shot CoT for natplan trip — Class 3 trace source
+llm:
+  model: together_ai/deepseek-ai/DeepSeek-V3.1
+  timeout: 180
+
+cachier:
+  cache_dir: llm_cache
+  enable_caching: true
+
+evaluate:
+  expt_name: trip_zs_cot
+  result_dir: results
+  entry_point: trip_planning
+  prompt_trace: true
+
+dataset:
+  split: trip
+  partition: train
+  shuffle_seed: 42
+  prompt_mode: 0shot
+
+ptools:
+  parse_trip_constraints:
+    method: simulate
+  find_valid_route:
+    method: simulate
+  build_trip_plan:
+    method: simulate
+  trip_planning:
+    method: prompt_llm
+    prompt_template_file: prompt_templates/trip_zs_cot.txt

@@ -1,0 +1,4 @@
+consistent_sports:
+  backoff: true
+  learner: codedistill
+  method: learned_code

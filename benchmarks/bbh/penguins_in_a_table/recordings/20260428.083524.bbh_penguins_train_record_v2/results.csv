@@ -1,0 +1,44 @@
+case_name,predicted_output,expected_output,correct,input_tokens,output_tokens,latency,cost,expt_name
+train.017,(D),(E),0.0,1128.0,1888.0,58.81856918334961,0.0038864,bbh_penguins_train_record_v2
+train.001,(C),(C),1.0,1388.0,246.0,9.205825328826904,0.0012510000000000002,bbh_penguins_train_record_v2
+train.009,(B),(D),0.0,1479.0,256.0,7.630390882492065,0.0013225999999999997,bbh_penguins_train_record_v2
+train.037,"**exception raised**: invalid syntax (<unknown>, line 1)",(D),0.0,478.0,986.0,29.24362587928772,0.001963,bbh_penguins_train_record_v2
+train.021,(B),(E),0.0,1504.0,1979.0,58.419726610183716,0.004266700000000001,bbh_penguins_train_record_v2
+train.018,(A),(A),1.0,1351.0,292.0,9.33539080619812,0.001307,bbh_penguins_train_record_v2
+train.036,**exception raised**: cannot find final answer,(D),0.0,578.0,2048.0,43.67150902748108,0.0038284,bbh_penguins_train_record_v2
+train.008,(E),(D),0.0,1432.0,266.0,8.143887758255005,0.0013114,bbh_penguins_train_record_v2
+train.023,(C),(C),1.0,2029.0,838.0,15.991673946380615,0.002642,bbh_penguins_train_record_v2
+train.006,"**exception raised**: closing parenthesis ']' does not match opening parenthesis '(' (<unknown>, line 1)",(E),0.0,577.0,151.0,2.4897301197052,0.0006029,bbh_penguins_train_record_v2
+train.007,(B),(D),0.0,2116.0,845.0,17.07846713066101,0.0027061,bbh_penguins_train_record_v2
+train.003,(B),(B),1.0,1185.0,485.0,10.039130210876465,0.0015355,bbh_penguins_train_record_v2
+train.029,(C),(C),1.0,1133.0,952.0,19.570109128952026,0.0022982,bbh_penguins_train_record_v2
+train.005,(B),(B),1.0,1388.0,254.0,5.561054706573486,0.0012646,bbh_penguins_train_record_v2
+train.002,(E),(D),0.0,1776.0,580.0,12.181722402572632,0.0020516,bbh_penguins_train_record_v2
+train.041,(B),(B),1.0,1381.0,239.0,6.843756437301636,0.0012349000000000001,bbh_penguins_train_record_v2
+train.033,(A),(A),1.0,1781.0,582.0,14.687685012817383,0.002058,bbh_penguins_train_record_v2
+train.024,(A),(A),1.0,1363.0,206.0,5.593061923980713,0.0011680000000000002,bbh_penguins_train_record_v2
+train.019,"**exception raised**: unterminated string literal (detected at line 5) (<unknown>, line 5)",(B),0.0,501.0,2048.0,43.13847017288208,0.0037822,bbh_penguins_train_record_v2
+train.034,(B),(B),1.0,1379.0,384.0,8.04032588005066,0.0014802,bbh_penguins_train_record_v2
+train.010,(D),(D),1.0,1391.0,250.0,6.397029638290405,0.0012596,bbh_penguins_train_record_v2
+train.035,(D),(E),0.0,1504.0,405.0,12.191033601760864,0.0015909000000000001,bbh_penguins_train_record_v2
+train.027,(D),(C),0.0,1519.0,382.0,10.503036975860596,0.0015607999999999998,bbh_penguins_train_record_v2
+train.013,(A),(A),1.0,1376.0,224.0,5.849450349807739,0.0012063999999999998,bbh_penguins_train_record_v2
+train.042,(C),(C),1.0,1785.0,2711.0,61.97947120666504,0.0056797,bbh_penguins_train_record_v2
+train.015,(E),(E),1.0,1441.0,428.0,11.466935396194458,0.0015922,bbh_penguins_train_record_v2
+train.016,(B),(B),1.0,2037.0,962.0,17.942896604537964,0.0028575999999999996,bbh_penguins_train_record_v2
+train.028,(D),(D),1.0,2031.0,839.0,17.156017303466797,0.0026448999999999995,bbh_penguins_train_record_v2
+train.040,(A),(A),1.0,1386.0,443.0,11.939887762069702,0.0015846999999999999,bbh_penguins_train_record_v2
+train.038,(A),(A),1.0,1378.0,366.0,11.827890396118164,0.0014489999999999998,bbh_penguins_train_record_v2
+train.030,(C),(C),1.0,1372.0,222.0,5.667709827423096,0.0012006,bbh_penguins_train_record_v2
+train.039,(C),(B),0.0,1776.0,534.0,13.557570457458496,0.0019734,bbh_penguins_train_record_v2
+train.032,"**exception raised**: invalid syntax (<unknown>, line 1)",(B),0.0,510.0,1455.0,26.477769136428833,0.0027795,bbh_penguins_train_record_v2
+train.025,(E),(D),0.0,1432.0,408.0,10.530289888381958,0.0015528,bbh_penguins_train_record_v2
+train.000,(D),(D),1.0,1392.0,388.0,9.742053508758545,0.0014948000000000001,bbh_penguins_train_record_v2
+train.022,(E),(D),0.0,1772.0,349.0,9.361469507217407,0.0016565,bbh_penguins_train_record_v2
+train.031,(A),(D),0.0,1555.0,677.0,16.543039321899414,0.0020839,bbh_penguins_train_record_v2
+train.014,(C),(C),1.0,2040.0,996.0,20.167256832122803,0.0029171999999999996,bbh_penguins_train_record_v2
+train.012,(B),(B),1.0,2054.0,999.0,18.715340614318848,0.0029306999999999996,bbh_penguins_train_record_v2
+train.020,(C),(C),1.0,1365.0,323.0,6.890327453613281,0.0013681000000000001,bbh_penguins_train_record_v2
+train.026,(D),(D),1.0,2040.0,965.0,18.019104957580566,0.0028644999999999994,bbh_penguins_train_record_v2
+train.011,(B),(B),1.0,1118.0,702.0,14.397610187530518,0.0018642,bbh_penguins_train_record_v2
+train.004,(B),(B),1.0,2035.0,841.0,18.327560901641846,0.0026506999999999998,bbh_penguins_train_record_v2

@@ -1,0 +1,31 @@
+# Zero-shot CoT for natplan calendar — used to source CoT trajectories
+# for codedistill-induced-ptools (Class 3).
+llm:
+  model: together_ai/deepseek-ai/DeepSeek-V3.1
+
+cachier:
+  cache_dir: llm_cache
+  enable_caching: false
+
+evaluate:
+  expt_name: calendar_zs_cot
+  result_dir: results
+  entry_point: calendar_scheduling
+  prompt_trace: true
+
+dataset:
+  split: calendar
+  partition: train
+  shuffle_seed: 42
+  prompt_mode: 0shot
+
+ptools:
+  parse_schedules:
+    method: simulate
+  find_available_slots:
+    method: simulate
+  select_and_format:
+    method: simulate
+  calendar_scheduling:
+    method: prompt_llm
+    prompt_template_file: prompt_templates/calendar_zs_cot.txt

@@ -1,0 +1,51 @@
+case_name,predicted_output,expected_output,correct,correct_tolerance,failure_mode,input_tokens,output_tokens,latency,cost,expt_name
+airline_0_78,1041.0,1041,1.0,1.0,none,12400.0,345.0,10.660708665847778,0.01593125,rulearena_airline_valid_train_full
+airline_2_72,3291.0,2991,0.0,0.0,calculation_error,12526.0,888.0,30.54003882408142,0.0167675,rulearena_airline_valid_train_full
+airline_2_88,**exception raised**: 'First class',3324,0.0,0.0,extraction_failure,12524.0,529.0,21.24605107307434,0.01631625,rulearena_airline_valid_train_full
+airline_0_3,1518.0,1513,1.0,0.0,none,12405.0,412.0,12.757397890090942,0.01602125,rulearena_airline_valid_train_full
+airline_0_40,2185.0,2735,0.0,0.0,calculation_error,12402.0,351.0,10.404227256774902,0.01594125,rulearena_airline_valid_train_full
+airline_2_0,3445.0,3445,1.0,1.0,none,26890.0,1282.0,37.922850608825684,0.035215,rulearena_airline_valid_train_full
+airline_2_49,3839.0,3834,1.0,0.0,none,12528.0,532.0,16.024039268493652,0.016325,rulearena_airline_valid_train_full
+airline_1_43,2293.0,2293,1.0,1.0,none,12470.0,382.0,10.843297958374023,0.016065,rulearena_airline_valid_train_full
+airline_0_22,1078.0,1078,1.0,1.0,none,12400.0,305.0,8.194510221481323,0.015881250000000003,rulearena_airline_valid_train_full
+airline_0_0,1245.0,1245,1.0,1.0,none,12402.0,374.0,10.089525938034058,0.01597,rulearena_airline_valid_train_full
+airline_1_61,1870.0,1870,1.0,1.0,none,12462.0,337.0,10.540784120559692,0.015998750000000003,rulearena_airline_valid_train_full
+airline_2_46,3566.0,3566,1.0,1.0,none,25634.0,897.0,27.907093048095703,0.03316375,rulearena_airline_valid_train_full
+airline_2_43,4426.0,5181,0.0,0.0,calculation_error,12530.0,471.0,20.77821183204651,0.016251250000000002,rulearena_airline_valid_train_full
+airline_0_90,1457.0,1847,0.0,0.0,calculation_error,12404.0,492.0,20.169322967529297,0.016120000000000002,rulearena_airline_valid_train_full
+airline_1_3,3143.0,3148,1.0,0.0,none,12464.0,598.0,19.021652936935425,0.0163275,rulearena_airline_valid_train_full
+airline_1_78,2670.0,2665,1.0,0.0,none,12463.0,462.0,14.35549521446228,0.01615625,rulearena_airline_valid_train_full
+airline_0_91,1358.0,1433,0.0,0.0,calculation_error,12404.0,497.0,16.361482858657837,0.01612625,rulearena_airline_valid_train_full
+airline_0_8,1141.0,1141,1.0,1.0,none,12402.0,292.0,10.024378061294556,0.0158675,rulearena_airline_valid_train_full
+airline_0_18,1387.0,1377,1.0,0.0,none,12404.0,279.0,11.003958940505981,0.01585375,rulearena_airline_valid_train_full
+airline_1_46,1969.0,2019,0.0,0.0,calculation_error,12465.0,448.0,13.363034963607788,0.016141250000000003,rulearena_airline_valid_train_full
+airline_0_74,1153.0,903,0.0,0.0,calculation_error,12399.0,410.0,13.663528203964233,0.01601125,rulearena_airline_valid_train_full
+airline_2_3,3103.0,3103,1.0,1.0,none,12524.0,863.0,26.432090282440186,0.016733750000000002,rulearena_airline_valid_train_full
+airline_1_49,2508.0,2108,0.0,0.0,calculation_error,12463.0,645.0,19.62690830230713,0.016385,rulearena_airline_valid_train_full
+airline_1_88,**exception raised**: 'First class',1840,0.0,0.0,extraction_failure,12467.0,672.0,20.730192184448242,0.01642375,rulearena_airline_valid_train_full
+airline_1_0,2595.0,2595,1.0,1.0,none,12462.0,700.0,18.838159799575806,0.016452500000000002,rulearena_airline_valid_train_full
+airline_2_73,3672.0,4812,0.0,0.0,calculation_error,12525.0,479.0,16.375057220458984,0.016255,rulearena_airline_valid_train_full
+airline_2_8,3800.0,4850,0.0,0.0,calculation_error,12527.0,481.0,15.099353075027466,0.016260000000000004,rulearena_airline_valid_train_full
+airline_0_93,399.0,599,0.0,0.0,calculation_error,12360.0,327.0,9.672230005264282,0.01585875,rulearena_airline_valid_train_full
+airline_2_40,3763.0,4293,0.0,0.0,calculation_error,12522.0,549.0,15.501843929290771,0.01633875,rulearena_airline_valid_train_full
+airline_2_61,3469.0,3219,0.0,0.0,calculation_error,12528.0,769.0,19.3262300491333,0.01662125,rulearena_airline_valid_train_full
+airline_1_18,1729.0,1779,0.0,0.0,calculation_error,12465.0,703.0,19.499635934829712,0.016460000000000002,rulearena_airline_valid_train_full
+airline_2_22,2085.0,1985,0.0,0.0,calculation_error,12426.0,377.0,10.54127311706543,0.01600375,rulearena_airline_valid_train_full
+airline_0_61,898.0,898,1.0,1.0,none,12401.0,326.0,10.33706283569336,0.015908750000000003,rulearena_airline_valid_train_full
+airline_2_92,3612.0,5162,0.0,0.0,calculation_error,12524.0,431.0,13.461941957473755,0.016193750000000003,rulearena_airline_valid_train_full
+airline_2_78,1515.0,1560,0.0,0.0,calculation_error,12426.0,310.0,8.593688011169434,0.01592,rulearena_airline_valid_train_full
+airline_1_8,2456.0,2711,0.0,0.0,calculation_error,12464.0,797.0,23.41229796409607,0.01657625,rulearena_airline_valid_train_full
+airline_2_90,3536.0,3326,0.0,0.0,calculation_error,12524.0,673.0,75.7046549320221,0.016496250000000004,rulearena_airline_valid_train_full
+airline_0_49,1070.0,1070,1.0,1.0,none,12401.0,341.0,29.067229986190796,0.0159275,rulearena_airline_valid_train_full
+airline_0_73,2246.0,2546,0.0,0.0,calculation_error,12403.0,201.0,10.303382873535156,0.015755,rulearena_airline_valid_train_full
+airline_2_31,3418.0,3418,1.0,1.0,none,12524.0,958.0,29.985864877700806,0.016852500000000003,rulearena_airline_valid_train_full
+airline_1_73,"**exception raised**: status_code: 503, model_name: together_ai/deepseek-ai/DeepSeek-V3, body: litellm.ServiceUnavailableError: ServiceUnavailableError: Together_aiException - Service unavailable",1857,0.0,0.0,extraction_failure,,,,,rulearena_airline_valid_train_full
+airline_2_74,3638.0,4938,0.0,0.0,calculation_error,12523.0,483.0,28.90196180343628,0.0162575,rulearena_airline_valid_train_full
+airline_2_91,"**exception raised**: status_code: 503, model_name: together_ai/deepseek-ai/DeepSeek-V3, body: litellm.ServiceUnavailableError: ServiceUnavailableError: Together_aiException - Service unavailable",5324,0.0,0.0,extraction_failure,,,,,rulearena_airline_valid_train_full
+airline_1_40,2460.0,3600,0.0,0.0,calculation_error,12463.0,325.0,20.635886192321777,0.015985,rulearena_airline_valid_train_full
+airline_0_88,"**exception raised**: status_code: 503, model_name: together_ai/deepseek-ai/DeepSeek-V3, body: litellm.ServiceUnavailableError: ServiceUnavailableError: Together_aiException - Service unavailable",1394,0.0,0.0,extraction_failure,,,,,rulearena_airline_valid_train_full
+airline_1_93,"**exception raised**: status_code: 503, model_name: together_ai/deepseek-ai/DeepSeek-V3, body: litellm.ServiceUnavailableError: ServiceUnavailableError: Together_aiException - Service unavailable",2064,0.0,0.0,extraction_failure,,,,,rulearena_airline_valid_train_full
+airline_1_22,"**exception raised**: status_code: 503, model_name: together_ai/deepseek-ai/DeepSeek-V3, body: litellm.ServiceUnavailableError: ServiceUnavailableError: Together_aiException - Service unavailable",2227,0.0,0.0,extraction_failure,,,,,rulearena_airline_valid_train_full
+airline_2_93,3414.0,3204,0.0,0.0,calculation_error,12526.0,480.0,36.01015901565552,0.0162575,rulearena_airline_valid_train_full
+airline_2_18,3438.0,3438,1.0,1.0,none,12526.0,520.0,27.856422901153564,0.016307500000000003,rulearena_airline_valid_train_full
+airline_1_92,2439.0,2254,0.0,0.0,calculation_error,12463.0,460.0,28.94656801223755,0.01615375,rulearena_airline_valid_train_full

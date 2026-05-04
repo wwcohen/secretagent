@@ -1,0 +1,76 @@
+case_name,predicted_output,expected_output,correct,input_tokens,output_tokens,latency,cost,expt_name
+valid.043,J,(J),0.0,3132.0,474.0,19.929603338241577,0.002685,bbh_geometric_shapes_valid_train_full
+valid.002,E,(E),0.0,1746.0,195.0,7.247081995010376,0.0013791,bbh_geometric_shapes_valid_train_full
+valid.013,G,(B),0.0,5887.0,3351.0,107.97781467437744,0.009228900000000002,bbh_geometric_shapes_valid_train_full
+valid.006,D,(D),0.0,3825.0,1689.0,39.2013258934021,0.005166299999999999,bbh_geometric_shapes_valid_train_full
+valid.048,E,(E),0.0,1751.0,289.0,10.076422214508057,0.0015419,bbh_geometric_shapes_valid_train_full
+valid.035,F,(F),0.0,8737.0,5053.0,143.06515622138977,0.0138323,bbh_geometric_shapes_valid_train_full
+valid.036,"**exception raised**: invalid syntax. Perhaps you forgot a comma? (<unknown>, line 1)",(J),0.0,358.0,122.0,4.567525625228882,0.00042219999999999996,bbh_geometric_shapes_valid_train_full
+valid.072,E,(E),0.0,1755.0,196.0,16.029983043670654,0.0013862,bbh_geometric_shapes_valid_train_full
+valid.058,J,(I),0.0,2477.0,1250.0,46.29156756401062,0.0036112,bbh_geometric_shapes_valid_train_full
+valid.046,E,(E),0.0,1768.0,378.0,11.909751415252686,0.0017034,bbh_geometric_shapes_valid_train_full
+valid.037,H,(K),0.0,3793.0,724.0,29.383336544036865,0.0035066000000000003,bbh_geometric_shapes_valid_train_full
+valid.005,E,(I),0.0,2503.0,392.0,15.57828164100647,0.0021682,bbh_geometric_shapes_valid_train_full
+valid.069,H,(D),0.0,3806.0,408.0,17.587395906448364,0.0029772,bbh_geometric_shapes_valid_train_full
+valid.014,J,(J),0.0,3125.0,2320.0,70.00800228118896,0.005819,bbh_geometric_shapes_valid_train_full
+valid.045,D,(D),0.0,3807.0,2366.0,70.7485899925232,0.0063064,bbh_geometric_shapes_valid_train_full
+valid.038,J,(J),0.0,3105.0,412.0,19.84966492652893,0.0025634000000000004,bbh_geometric_shapes_valid_train_full
+valid.016,H,(D),0.0,3937.0,590.0,26.077831506729126,0.0033651999999999996,bbh_geometric_shapes_valid_train_full
+valid.063,(C),(F),0.0,6623.0,3947.0,129.9674253463745,0.010683700000000003,bbh_geometric_shapes_valid_train_full
+valid.003,G,(B),0.0,5873.0,3022.0,84.23778796195984,0.008661200000000003,bbh_geometric_shapes_valid_train_full
+valid.064,G,(G),0.0,4489.0,2515.0,67.37303256988525,0.0069689,bbh_geometric_shapes_valid_train_full
+valid.055,A,(K),0.0,2617.0,975.0,35.48354935646057,0.0032277,bbh_geometric_shapes_valid_train_full
+valid.047,F,(F),0.0,6666.0,4215.0,147.27905559539795,0.011165100000000004,bbh_geometric_shapes_valid_train_full
+valid.028,I,(K),0.0,2660.0,726.0,23.725531339645386,0.0028302,bbh_geometric_shapes_valid_train_full
+valid.034,I,(K),0.0,2658.0,408.0,14.12102746963501,0.0022884,bbh_geometric_shapes_valid_train_full
+valid.026,E,(E),0.0,1768.0,295.0,13.743648529052734,0.0015623,bbh_geometric_shapes_valid_train_full
+valid.057,G,(F),0.0,6508.0,5402.0,231.5539379119873,0.013088200000000001,bbh_geometric_shapes_valid_train_full
+valid.018,J,(I),0.0,2472.0,1037.0,41.28789949417114,0.0032461000000000005,bbh_geometric_shapes_valid_train_full
+valid.017,C,(B),0.0,5949.0,6926.0,293.4749963283539,0.015343599999999999,bbh_geometric_shapes_valid_train_full
+valid.010,C,(B),0.0,5973.0,4418.0,128.924232006073,0.011094400000000003,bbh_geometric_shapes_valid_train_full
+valid.019,D,(D),0.0,3872.0,1277.0,42.175965785980225,0.0044941,bbh_geometric_shapes_valid_train_full
+valid.065,J,(C),0.0,5164.0,1712.0,56.56789469718933,0.0060088,bbh_geometric_shapes_valid_train_full
+valid.012,H,(D),0.0,3828.0,1922.0,61.52383351325989,0.005564199999999999,bbh_geometric_shapes_valid_train_full
+valid.007,"**exception raised**: unterminated string literal (detected at line 24) (<unknown>, line 24)",(G),0.0,385.0,1733.0,44.97838044166565,0.0031771,bbh_geometric_shapes_valid_train_full
+valid.032,H,(K),0.0,3818.0,3026.0,87.4349000453949,0.007435,bbh_geometric_shapes_valid_train_full
+valid.049,E,(E),0.0,1747.0,254.0,7.8902366161346436,0.00148,bbh_geometric_shapes_valid_train_full
+valid.004,"**exception raised**: invalid syntax (<unknown>, line 1)",(C),0.0,421.0,1239.0,18.799456119537354,0.0023589,bbh_geometric_shapes_valid_train_full
+valid.054,A,(K),0.0,2649.0,1117.0,34.25741124153137,0.0034883,bbh_geometric_shapes_valid_train_full
+valid.025,E,(I),0.0,2475.0,802.0,22.610459566116333,0.0028484,bbh_geometric_shapes_valid_train_full
+valid.061,G,(C),0.0,5176.0,2561.0,84.12047338485718,0.0074593,bbh_geometric_shapes_valid_train_full
+valid.040,G,(C),0.0,5159.0,1137.0,49.97773718833923,0.0050283,bbh_geometric_shapes_valid_train_full
+valid.020,"**exception raised**: invalid syntax. Perhaps you forgot a comma? (<unknown>, line 1)",(C),0.0,376.0,140.0,5.677384853363037,0.0004636,bbh_geometric_shapes_valid_train_full
+valid.070,J,(K),0.0,3813.0,1367.0,46.73133182525635,0.004611700000000001,bbh_geometric_shapes_valid_train_full
+valid.031,J,(J),0.0,3134.0,1442.0,44.39813542366028,0.004331799999999999,bbh_geometric_shapes_valid_train_full
+valid.015,G,(G),0.0,6623.0,4250.0,139.17531490325928,0.0111988,bbh_geometric_shapes_valid_train_full
+valid.022,E,(E),0.0,1769.0,217.0,6.76619029045105,0.0014302999999999998,bbh_geometric_shapes_valid_train_full
+valid.011,J,(J),0.0,3112.0,1253.0,42.10232448577881,0.0039973,bbh_geometric_shapes_valid_train_full
+valid.073,E,(E),0.0,1768.0,253.0,11.887591361999512,0.0014908999999999999,bbh_geometric_shapes_valid_train_full
+valid.059,G,(C),0.0,5220.0,2276.0,109.27621102333069,0.007001200000000001,bbh_geometric_shapes_valid_train_full
+valid.074,J,(J),0.0,3288.0,1207.0,43.02131247520447,0.0040247,bbh_geometric_shapes_valid_train_full
+valid.067,H,(D),0.0,3825.0,2878.0,98.48527908325195,0.007187600000000001,bbh_geometric_shapes_valid_train_full
+valid.042,F,(B),0.0,5818.0,2530.0,96.65746974945068,0.007791800000000001,bbh_geometric_shapes_valid_train_full
+valid.066,J,(I),0.0,2473.0,374.0,13.501627445220947,0.0021196,bbh_geometric_shapes_valid_train_full
+valid.039,E,(E),0.0,1748.0,191.0,17.678629398345947,0.0013735000000000002,bbh_geometric_shapes_valid_train_full
+valid.000,obtuse angle,(F),0.0,7121.0,4373.0,169.41618943214417,0.0117067,bbh_geometric_shapes_valid_train_full
+valid.021,I,(K),0.0,2655.0,406.0,16.23620915412903,0.0022831999999999996,bbh_geometric_shapes_valid_train_full
+valid.056,E,(E),0.0,1751.0,289.0,20.93836760520935,0.0015419,bbh_geometric_shapes_valid_train_full
+valid.060,G,(C),0.0,5189.0,1883.0,73.57190251350403,0.0063145000000000015,bbh_geometric_shapes_valid_train_full
+valid.027,B,(F),0.0,6519.0,3381.0,122.42567205429077,0.0096591,bbh_geometric_shapes_valid_train_full
+valid.008,D,(D),0.0,3795.0,3549.0,120.6688404083252,0.0083103,bbh_geometric_shapes_valid_train_full
+valid.030,I,(K),0.0,2664.0,504.0,25.15311884880066,0.0024552,bbh_geometric_shapes_valid_train_full
+valid.033,D,(G),0.0,4541.0,1389.0,64.00750637054443,0.0050859,bbh_geometric_shapes_valid_train_full
+valid.068,D,(B),0.0,8100.0,5044.0,121.34012484550476,0.013434800000000002,bbh_geometric_shapes_valid_train_full
+valid.053,I,(K),0.0,2662.0,1564.0,34.21674990653992,0.004256,bbh_geometric_shapes_valid_train_full
+valid.050,(B),(C),0.0,7413.0,4272.0,137.92100286483765,0.0117102,bbh_geometric_shapes_valid_train_full
+valid.071,H,(K),0.0,3811.0,874.0,28.8492169380188,0.0037723999999999995,bbh_geometric_shapes_valid_train_full
+valid.051,E,(E),0.0,1746.0,396.0,11.930027484893799,0.0017208,bbh_geometric_shapes_valid_train_full
+valid.001,C,(C),0.0,5248.0,2200.0,88.64372301101685,0.0068888000000000005,bbh_geometric_shapes_valid_train_full
+valid.044,F,(D),0.0,3793.0,1770.0,60.584917068481445,0.005284800000000001,bbh_geometric_shapes_valid_train_full
+valid.062,E,(E),0.0,1751.0,283.0,11.25201153755188,0.0015316999999999998,bbh_geometric_shapes_valid_train_full
+valid.029,C,(F),0.0,6597.0,3924.0,131.60686874389648,0.010629000000000001,bbh_geometric_shapes_valid_train_full
+valid.024,"**exception raised**: invalid syntax. Perhaps you forgot a comma? (<unknown>, line 1)",(J),0.0,349.0,113.0,7.86994194984436,0.0004015,bbh_geometric_shapes_valid_train_full
+valid.041,J,(J),0.0,3129.0,402.0,36.50602579116821,0.0025608,bbh_geometric_shapes_valid_train_full
+valid.052,"**exception raised**: invalid syntax. Perhaps you forgot a comma? (<unknown>, line 1)",(C),0.0,421.0,185.0,7.346745252609253,0.0005671000000000001,bbh_geometric_shapes_valid_train_full
+valid.023,F,(K),0.0,2652.0,505.0,22.640456914901733,0.0024496999999999995,bbh_geometric_shapes_valid_train_full
+valid.009,F,(G),0.0,4480.0,1346.0,55.68980073928833,0.0049762,bbh_geometric_shapes_valid_train_full

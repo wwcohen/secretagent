@@ -1,0 +1,43 @@
+case_name,predicted_output,expected_output,correct,failure_mode,tp,fp,tn,fn,input_tokens,output_tokens,latency,cost,expt_name
+nba_1_59,**exception raised**: Exceeded maximum retries (1) for output validation,1.0,0.0,extraction_failure,0.0,0.0,0.0,1.0,,,,,baseline_gemini-2.5-flash-lite
+nba_0_76,1.0,1.0,1.0,none,1.0,0.0,0.0,0.0,51370.0,3104.0,12.894688129425049,0.0063786,baseline_gemini-2.5-flash-lite
+nba_0_80,**exception raised**: Exceeded maximum retries (1) for output validation,1.0,0.0,extraction_failure,0.0,0.0,0.0,1.0,,,,,baseline_gemini-2.5-flash-lite
+nba_2_13,1.0,1.0,1.0,none,1.0,0.0,0.0,0.0,24344.0,5565.0,18.946149110794067,0.0046604,baseline_gemini-2.5-flash-lite
+nba_1_31,1.0,1.0,1.0,none,1.0,0.0,0.0,0.0,53859.0,4762.0,22.15852165222168,0.0072907,baseline_gemini-2.5-flash-lite
+nba_1_20,1.0,1.0,1.0,none,1.0,0.0,0.0,0.0,89161.0,7244.0,28.847464323043823,0.0118137,baseline_gemini-2.5-flash-lite
+nba_2_16,1.0,1.0,1.0,none,1.0,0.0,0.0,0.0,24397.0,11413.0,37.64469599723816,0.0070049,baseline_gemini-2.5-flash-lite
+nba_0_30,**exception raised**: Exceeded maximum retries (1) for output validation,1.0,0.0,extraction_failure,0.0,0.0,0.0,1.0,,,,,baseline_gemini-2.5-flash-lite
+nba_1_15,**exception raised**: Exceeded maximum retries (1) for output validation,1.0,0.0,extraction_failure,0.0,0.0,0.0,1.0,,,,,baseline_gemini-2.5-flash-lite
+nba_0_11,**exception raised**: Exceeded maximum retries (1) for output validation,1.0,0.0,extraction_failure,0.0,0.0,0.0,1.0,,,,,baseline_gemini-2.5-flash-lite
+nba_0_79,**exception raised**: Exceeded maximum retries (1) for output validation,0.0,0.0,extraction_failure,0.0,0.0,0.0,1.0,,,,,baseline_gemini-2.5-flash-lite
+nba_0_15,0.0,1.0,0.0,calculation_error,0.0,0.0,0.0,1.0,75391.0,1488.0,12.591135740280151,0.0081343,baseline_gemini-2.5-flash-lite
+nba_1_18,0.0,1.0,0.0,calculation_error,0.0,0.0,0.0,1.0,24190.0,8957.0,27.73851442337036,0.0060018,baseline_gemini-2.5-flash-lite
+nba_0_22,**exception raised**: Exceeded maximum retries (1) for output validation,0.0,0.0,extraction_failure,0.0,0.0,0.0,1.0,,,,,baseline_gemini-2.5-flash-lite
+nba_0_31,0.0,0.0,1.0,none,0.0,0.0,1.0,0.0,53553.0,5204.0,22.893161058425903,0.0074369,baseline_gemini-2.5-flash-lite
+nba_2_42,**exception raised**: No choices returned from LiteLLM,1.0,0.0,extraction_failure,0.0,0.0,0.0,1.0,,,,,baseline_gemini-2.5-flash-lite
+nba_1_42,**exception raised**: Exceeded maximum retries (1) for output validation,1.0,0.0,extraction_failure,0.0,0.0,0.0,1.0,,,,,baseline_gemini-2.5-flash-lite
+nba_1_76,**exception raised**: No choices returned from LiteLLM,1.0,0.0,extraction_failure,0.0,0.0,0.0,1.0,,,,,baseline_gemini-2.5-flash-lite
+nba_1_79,1.0,0.0,0.0,calculation_error,0.0,1.0,0.0,0.0,101705.0,925.0,16.721143007278442,0.0105405,baseline_gemini-2.5-flash-lite
+nba_2_10,**exception raised**: Exceeded maximum retries (1) for output validation,1.0,0.0,extraction_failure,0.0,0.0,0.0,1.0,,,,,baseline_gemini-2.5-flash-lite
+nba_0_73,1.0,0.0,0.0,calculation_error,0.0,1.0,0.0,0.0,51153.0,2906.0,14.090489387512207,0.0062777,baseline_gemini-2.5-flash-lite
+nba_2_29,1.0,1.0,1.0,none,1.0,0.0,0.0,0.0,24424.0,11279.0,28.67022967338562,0.006954,baseline_gemini-2.5-flash-lite
+nba_1_46,**exception raised**: Exceeded maximum retries (1) for output validation,1.0,0.0,extraction_failure,0.0,0.0,0.0,1.0,,,,,baseline_gemini-2.5-flash-lite
+nba_0_39,**exception raised**: Exceeded maximum retries (1) for output validation,1.0,0.0,extraction_failure,0.0,0.0,0.0,1.0,,,,,baseline_gemini-2.5-flash-lite
+nba_2_32,**exception raised**: Exceeded maximum retries (1) for output validation,1.0,0.0,extraction_failure,0.0,0.0,0.0,1.0,,,,,baseline_gemini-2.5-flash-lite
+nba_0_42,**exception raised**: Exceeded maximum retries (1) for output validation,1.0,0.0,extraction_failure,0.0,0.0,0.0,1.0,,,,,baseline_gemini-2.5-flash-lite
+nba_1_45,1.0,1.0,1.0,none,1.0,0.0,0.0,0.0,112526.0,4973.0,39.87058615684509,0.0132418,baseline_gemini-2.5-flash-lite
+nba_1_61,**exception raised**: Exceeded maximum retries (1) for output validation,1.0,0.0,extraction_failure,0.0,0.0,0.0,1.0,,,,,baseline_gemini-2.5-flash-lite
+nba_2_36,1.0,1.0,1.0,none,1.0,0.0,0.0,0.0,74664.0,1014.0,12.505522012710571,0.007872,baseline_gemini-2.5-flash-lite
+nba_2_8,**exception raised**: Exceeded maximum retries (1) for output validation,1.0,0.0,extraction_failure,0.0,0.0,0.0,1.0,,,,,baseline_gemini-2.5-flash-lite
+nba_1_3,**exception raised**: Exceeded maximum retries (1) for output validation,1.0,0.0,extraction_failure,0.0,0.0,0.0,1.0,,,,,baseline_gemini-2.5-flash-lite
+nba_2_30,**exception raised**: Exceeded maximum retries (1) for output validation,1.0,0.0,extraction_failure,0.0,0.0,0.0,1.0,,,,,baseline_gemini-2.5-flash-lite
+nba_1_63,**exception raised**: Exceeded maximum retries (1) for output validation,1.0,0.0,extraction_failure,0.0,0.0,0.0,1.0,,,,,baseline_gemini-2.5-flash-lite
+nba_0_20,1.0,1.0,1.0,none,1.0,0.0,0.0,0.0,50451.0,606.0,9.253856897354126,0.0052875,baseline_gemini-2.5-flash-lite
+nba_1_55,**exception raised**: Exceeded maximum retries (1) for output validation,1.0,0.0,extraction_failure,0.0,0.0,0.0,1.0,,,,,baseline_gemini-2.5-flash-lite
+nba_1_0,0.0,1.0,0.0,calculation_error,0.0,0.0,0.0,1.0,52373.0,3593.0,14.14561653137207,0.0066745,baseline_gemini-2.5-flash-lite
+nba_0_0,1.0,1.0,1.0,none,1.0,0.0,0.0,0.0,56243.0,7878.0,36.240217208862305,0.008775499999999999,baseline_gemini-2.5-flash-lite
+nba_0_72,**exception raised**: Exceeded maximum retries (1) for output validation,0.0,0.0,extraction_failure,0.0,0.0,0.0,1.0,,,,,baseline_gemini-2.5-flash-lite
+nba_1_84,0.0,1.0,0.0,calculation_error,0.0,0.0,0.0,1.0,24305.0,4607.0,18.281745672225952,0.0042733,baseline_gemini-2.5-flash-lite
+nba_1_22,1.0,1.0,1.0,none,1.0,0.0,0.0,0.0,49520.0,790.0,8.898983240127563,0.005268,baseline_gemini-2.5-flash-lite
+nba_0_63,1.0,1.0,1.0,none,1.0,0.0,0.0,0.0,50739.0,2293.0,11.3391695022583,0.0059911,baseline_gemini-2.5-flash-lite
+nba_0_68,**exception raised**: Exceeded maximum retries (1) for output validation,1.0,0.0,extraction_failure,0.0,0.0,0.0,1.0,,,,,baseline_gemini-2.5-flash-lite
