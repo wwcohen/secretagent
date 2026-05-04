@@ -93,7 +93,8 @@ workflow-lookup:
 # compute) are inherited from conf.yaml.
 
 pot:
-	$(CLI) evaluate.expt_name=pot llm.model=$(MODEL) $(DOT_N) \
+	$(CLI) evaluate.expt_name=$(call expt,pot) llm.model=$(MODEL) \
+	  $(DOT_N) $(DOT_SPLIT) $(DOT_RECORD) \
 	  ptools.extract_reasoning_plan.method=simulate \
 	  ptools.answer_finqa.method=program_of_thought \
 	  ptools.answer_finqa.tools=[ptools.parse_table,ptools.lookup_cell,ptools.compute,ptools.extract_reasoning_plan] \
@@ -101,7 +102,8 @@ pot:
 	  ptools.answer_finqa.additional_imports=[re]
 
 react:
-	$(CLI) evaluate.expt_name=react llm.model=$(MODEL) $(DOT_N) \
+	$(CLI) evaluate.expt_name=$(call expt,react) llm.model=$(MODEL) \
+	  $(DOT_N) $(DOT_SPLIT) $(DOT_RECORD) \
 	  ptools.extract_reasoning_plan.method=simulate \
 	  ptools.react_solve_finqa.method=simulate_pydantic \
 	  ptools.react_solve_finqa.tools=[ptools.call_parse_table,ptools.call_lookup_cell,ptools.call_compute,ptools.call_extract_reasoning_plan] \
@@ -111,13 +113,15 @@ react:
 # --- Ablation 2: drop workflow and ptools ---
 
 structured_baseline:
-	$(CLI) evaluate.expt_name=structured_baseline llm.model=$(MODEL) $(DOT_N) \
+	$(CLI) evaluate.expt_name=$(call expt,structured_baseline) llm.model=$(MODEL) \
+	  $(DOT_N) $(DOT_SPLIT) $(DOT_RECORD) \
 	  ptools.answer_finqa.method=simulate
 
 # --- Ablation 3: drop workflow, ptools, and structured prompt ---
 
 unstructured_baseline:
-	$(CLI) evaluate.expt_name=unstructured_baseline llm.model=$(MODEL) $(DOT_N) \
+	$(CLI) evaluate.expt_name=$(call expt,unstructured_baseline) llm.model=$(MODEL) \
+	  $(DOT_N) $(DOT_SPLIT) $(DOT_RECORD) \
 	  ptools.answer_finqa.method=direct \
 	  ptools.answer_finqa.fn=ptools.unstructured_baseline_workflow
 

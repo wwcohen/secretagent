@@ -13,8 +13,7 @@ Experiment mapping (see Makefile):
 
 import re
 
-from secretagent.core import interface, implement_via
-
+from secretagent.core import interface
 
 # ---------------------------------------------------------------
 # Top-level interface
@@ -34,6 +33,9 @@ def answer_finqa(problem: str) -> str:
 # Ptools called by the workflow
 # ---------------------------------------------------------------
 
+# Bound to ``direct`` in conf.yaml: arithmetic is exactly the kind of
+# task where Python is precise and cheap, and an LLM call would only
+# add cost and noise.  The function body below is what runs.
 @interface
 def compute(expression: str) -> str:
     """Evaluate a mathematical expression and return the numeric result as a string.
@@ -46,10 +48,6 @@ def compute(expression: str) -> str:
       compute("(637 / 5.0)")           → "127.4"
       compute("(193.5 - 100) / 100")   → "0.935"
       compute("60 / 243 * 100")        → "24.691358..."
-
-    Bound to ``direct``: arithmetic is exactly the kind of task where
-    Python is precise and cheap, and an LLM call would only add cost
-    and noise.  The function body below is what runs.
     """
     cleaned = expression.replace('$', '').replace(',', '')
     safe_globals = {
@@ -67,9 +65,13 @@ def compute(expression: str) -> str:
         return f"ERROR: {e}"
 
 
-@implement_via('prompt_llm',
-               prompt_template_file='prompt_templates/reasoning_plan.txt',
-               answer_pattern=None)
+# Bound in conf.yaml to ``prompt_llm`` with ``reasoning_plan.txt``, not
+# to ``simulate``, because simulate's permissive framing ("propose a
+# plausible output of this function") can't enforce the strict
+# <plan>...</plan> output format that ``parse_plan_fields`` depends on.
+# Other experiments (e.g. react) override the binding to simulate, in
+# which case this docstring is the spec the LLM sees.
+@interface
 def extract_reasoning_plan(problem: str) -> str:
     """Read the FinQA problem (context, table, and question) and produce a
     short plan for computing the answer.
@@ -81,13 +83,6 @@ def extract_reasoning_plan(problem: str) -> str:
 
     Be precise: name the row labels and column headers exactly as they
     appear. Write the formula with actual numbers substituted in.
-
-    Bound to ``prompt_llm`` with ``reasoning_plan.txt``, not to
-    ``simulate``, because simulate's permissive framing ("propose a
-    plausible output of this function") can't enforce the strict
-    <plan>...</plan> output format that ``parse_plan_fields`` depends
-    on.  Other experiments (e.g. react) override the binding to
-    simulate, in which case this docstring is the spec the LLM sees.
     """
     ...
 
@@ -115,7 +110,10 @@ def _extract_formula(plan: str) -> str | None:
     return expr or None
 
 
-@implement_via('direct')
+# Bound to ``direct`` in conf.yaml: this is pure regex over the LLM's
+# structured output.  Routing it through an LLM would just add cost
+# and a chance to garble the parse.
+@interface
 def parse_plan_fields(raw_plan: str) -> dict:
     """Strip <plan>...</plan> tags from the LLM output and parse out the
     Scale, Values, Formula, and Direct_answer fields.
@@ -125,10 +123,6 @@ def parse_plan_fields(raw_plan: str) -> dict:
         values (dict of short_name -> float)
         formula (str or None)
         direct_answer (str, possibly empty)
-
-    Bound to ``direct``: this is pure regex over the LLM's structured
-    output.  Routing it through an LLM would just add cost and a chance
-    to garble the parse.
     """
     m = _PLAN_TAG_RE.search(raw_plan)
     body = m.group(1) if m else raw_plan
@@ -148,33 +142,31 @@ def parse_plan_fields(raw_plan: str) -> dict:
     return out
 
 
-@implement_via('direct')
+# Bound to ``direct`` in conf.yaml: pure string substitution,
+# deterministic by construction.
+@interface
 def substitute_values(formula: str, values: dict) -> str:
     """Replace short_name tokens in a formula with their numeric values.
 
     Names are wrapped in parentheses to keep negatives parseable, and
     longest names are substituted first so e.g. ``rev_2018`` is replaced
     before ``rev`` (so the latter doesn't shadow the former).
-
-    Bound to ``direct``: pure string substitution, deterministic by
-    construction.
     """
     for name in sorted(values.keys(), key=len, reverse=True):
         formula = re.sub(rf'\b{re.escape(name)}\b', f'({values[name]})', formula)
     return formula
 
 
-@implement_via('direct')
+# Bound to ``direct`` in conf.yaml: pure formatting; the rule set is
+# small enough to encode in Python and large enough that we don't want
+# an LLM making it up case by case.
+@interface
 def format_for_scale(num: float, scale: str) -> str:
     """Format a numeric result according to the declared Scale.
 
     For scale="percent" we accept either convention (formula yielding the
     fraction 0.10, or the LLM's pct-magnitude 10.0) — pick by magnitude.
     For "integer", round and drop decimals; otherwise pretty-print.
-
-    Bound to ``direct``: pure formatting; the rule set is small enough
-    to encode in Python and large enough that we don't want an LLM
-    making it up case by case.
     """
     if scale == "percent":
         pct = num if abs(num) >= 1.5 else num * 100
@@ -184,6 +176,11 @@ def format_for_scale(num: float, scale: str) -> str:
     return f"{num:g}"
 
 
+# Bound to ``simulate`` in conf.yaml: the workflow only invokes this
+# as a fallback for problems where the structured plan didn't yield
+# a usable formula, so the input is unstructured prose and "extract a
+# plausible final number" is exactly the kind of task simulate is
+# good at.
 @interface
 def extract_final_number(verbose_output: str) -> str:
     """Extract only the final numeric answer from verbose LLM output.
@@ -196,12 +193,6 @@ def extract_final_number(verbose_output: str) -> str:
       "The answer is 127.4 million dollars." → "127.4"
       "93.5%" → "93.5%"
       "Calculated: (193.5 - 100)/100 = 0.935 = 93.5%" → "93.5%"
-
-    Bound to ``simulate`` (in conf.yaml): the workflow only invokes
-    this as a fallback for problems where the structured plan didn't
-    yield a usable formula, so the input is unstructured prose and
-    "extract a plausible final number" is exactly the kind of task
-    simulate is good at.
     """
     ...
 
@@ -222,8 +213,8 @@ def answer_finqa_workflow(problem: str) -> str:
        with compute, then format_for_scale. Fall back to Direct_answer
        or extract_final_number on failure.
 
-    See each ptool's docstring for the rationale behind its binding
-    (direct vs. simulate vs. prompt_llm).
+    See the comment above each ptool for the rationale behind its
+    binding (direct vs. simulate vs. prompt_llm).
     """
     raw_plan = extract_reasoning_plan(problem)
     fields = parse_plan_fields(raw_plan)
@@ -254,10 +245,14 @@ def answer_finqa_workflow(problem: str) -> str:
 # DOCUMENTED NEGATIVE RESULT — kept for reproducibility and writeup.
 #
 # Tests the question "would the workflow be better if it used the same
-# primitives as the pot/react ablations?". Uses ONLY primitives from the
-# pot/react toolset ({extract_reasoning_plan, lookup_cell, compute}) for
-# value access and arithmetic — no new helpers. compute() is repurposed
-# to parse raw cell strings (it strips $/, and evals as Python), falling
+# primitives as the pot/react ablations?". Uses only pot/react primitives
+# for value access and arithmetic — specifically the subset
+# {extract_reasoning_plan, lookup_cell, compute}. parse_table is omitted
+# from the full pot/react toolset {parse_table, lookup_cell, compute,
+# extract_reasoning_plan} because the plan already carries explicit
+# (from row "...", column "...") references, so a full-table dump would
+# be unused. No new helpers are introduced: compute() is repurposed to
+# parse raw cell strings (it strips $/, and evals as Python), falling
 # back to the LLM-eyeballed value whenever the cell can't be parsed
 # (FinQA cell formats like `$ -23158 ( 23158 )`, `1,234 million`, or
 # empty / NOT FOUND will return ERROR from compute → fallback fires).
@@ -294,16 +289,6 @@ _LOOKUP_REF_RE = re.compile(
 
 
 def answer_finqa_workflow_lookup(problem: str) -> str:
-    """Workflow variant that uses only the pot/react primitives
-    (lookup_cell + compute) for value extraction. Same prompt + plan
-    extraction as the standard workflow; for each cell reference in
-    the plan, runs lookup_cell + compute to resolve the cell to a
-    number, falling back to the LLM-eyeballed value on parse failure.
-
-    Documented negative result — see section header above for the
-    full diagnosis. Performs ~2.7pp worse than the standard workflow
-    on N=300 valid (0 wins / 8 losses among diverging cases).
-    """
     raw_plan = extract_reasoning_plan(problem)
     fields = parse_plan_fields(raw_plan)
 
@@ -460,9 +445,9 @@ def react_workflow(problem: str) -> str:
 # Unstructured baseline: zero-shot prompt + answer coercion
 # ---------------------------------------------------------------
 
-@implement_via('prompt_llm',
-               prompt_template_file='prompt_templates/zeroshot.txt',
-               answer_pattern=None)
+# Bound in conf.yaml to ``prompt_llm`` with ``zeroshot.txt`` for the
+# unstructured baseline.
+@interface
 def zeroshot_answer_finqa(problem: str) -> str:
     """Zero-shot unstructured prompt for FinQA (returns raw LLM string)."""
     ...
@@ -471,7 +456,8 @@ def zeroshot_answer_finqa(problem: str) -> str:
 _NUM_RE = re.compile(r'[$€£]?\s*-?\s*[\d,]+\.?\d*\s*%?')
 
 
-@implement_via('direct')
+# Bound to ``direct`` in conf.yaml: pure regex/string handling.
+@interface
 def coerce_to_answer(llm_output: str) -> str:
     """Extract the final answer from raw LLM text.
 
