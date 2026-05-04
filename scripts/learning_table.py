@@ -22,6 +22,7 @@ KEYTASKS = [
 BASE = os.path.join(os.path.dirname(__file__), "..", "benchmarks", "COMMON")
 RESULTS_DIR = os.path.join(BASE, "results")
 CODEDISTILL_DIR = os.path.join(BASE, "codedistill-workflow-results")
+LEARNER_DIR = os.path.join(BASE, "learner-results")
 
 
 def read_correct_series(csv_path):
@@ -73,6 +74,19 @@ def find_codedistill_csv(task, subtask, learner_llm="opus", ptool_class="class2"
     return None
 
 
+def find_react_learned_csv(task, subtask):
+    """Find ReAct/learned results CSV for a task/subtask in learner-results."""
+    subtask_dir = os.path.join(LEARNER_DIR, task, subtask)
+    if not os.path.isdir(subtask_dir):
+        return None
+    result = find_latest_dir(subtask_dir, f"*{subtask}_induced*")
+    if result:
+        csv_path = os.path.join(result, "results.csv")
+        if os.path.isfile(csv_path):
+            return csv_path
+    return None
+
+
 def format_cell(series):
     """Format mean +/- sem from a pandas Series."""
     if series is None or series.empty:
@@ -114,6 +128,17 @@ def build_dataframe():
                 else:
                     row[col] = "—"
             rows.append(row)
+
+    # Row: ReAct / Deepseek-V3 / learned
+    row = {"workflow": "ReAct", "model": "Deepseek-V3", "toolkit": "learned"}
+    for keytask, col in zip(KEYTASKS, col_names):
+        task, subtask = keytask.split("/")
+        csv_path = find_react_learned_csv(task, subtask)
+        if csv_path:
+            row[col] = format_cell(read_correct_series(csv_path))
+        else:
+            row[col] = "—"
+    rows.append(row)
 
     return pd.DataFrame(rows)
 
