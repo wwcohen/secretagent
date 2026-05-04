@@ -166,21 +166,31 @@ def build_dataframes(include_opus=False):
     correct_df = pd.DataFrame(correct_rows)
     cost_df = pd.DataFrame(cost_rows)
 
-    # Add average column over task columns
-    task_cols = col_names
+    # Create method label as index, transpose so tasks are rows
+    label_cols = ["workflow", "model", "toolkit"]
     for df in (correct_df, cost_df):
-        avgs = []
-        for _, row in df.iterrows():
+        if include_opus:
+            df.index = df.apply(lambda r: f"{r['workflow']}/{r['model']}/{r['toolkit']}", axis=1)
+        else:
+            df.index = df.apply(lambda r: f"{r['workflow']}/{r['toolkit']}", axis=1)
+        df.drop(columns=label_cols, inplace=True)
+
+    correct_df = correct_df.T
+    cost_df = cost_df.T
+
+    # Add average row over task rows
+    for df in (correct_df, cost_df):
+        avgs = {}
+        for col in df.columns:
             vals = []
-            for col in task_cols:
-                cell = row[col]
+            for cell in df[col]:
                 if isinstance(cell, str) and "+/-" in cell:
                     vals.append(float(cell.split("+/-")[0]))
             if vals:
-                avgs.append(f"{sum(vals)/len(vals):.2f}")
+                avgs[col] = f"{sum(vals)/len(vals):.2f}"
             else:
-                avgs.append("—")
-        df["average"] = avgs
+                avgs[col] = "—"
+        df.loc["average"] = avgs
 
     return correct_df, cost_df
 
@@ -194,10 +204,10 @@ def main():
 
     correct_df, cost_df = build_dataframes(include_opus=args.include_opus)
     print("=== Correctness ===")
-    print(correct_df.to_string(index=False))
+    print(correct_df.to_string())
     print()
     print("=== Cost (USD per 100 examples) ===")
-    print(cost_df.to_string(index=False))
+    print(cost_df.to_string())
 
 
 if __name__ == "__main__":
