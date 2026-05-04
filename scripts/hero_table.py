@@ -378,6 +378,9 @@ def main():
     parser.add_argument("--suppress", nargs="+", default=[],
                         metavar="TASK",
                         help="Benchmarks to exclude (e.g. tau_bench/retail)")
+    parser.add_argument("--sort-correctness-by", default=None,
+                        metavar="STRATEGY",
+                        help="Sort correctness table by a strategy column (e.g. pot, react)")
     args = parser.parse_args()
 
     cost_df, correct_df = build_tables()
@@ -389,6 +392,11 @@ def main():
     if args.min_cols > 0:
         cost_df = _filter_min_cols(cost_df, args.min_cols)
         correct_df = _filter_min_cols(correct_df, args.min_cols)
+
+    if args.sort_correctness_by:
+        col = args.sort_correctness_by
+        sort_key = correct_df[col].apply(lambda c: _parse_cell(c)[0] if _parse_cell(c) else float("-inf"))
+        correct_df = correct_df.iloc[sort_key.argsort()[::-1]]
 
     if args.format == "latex-correct":
         correct_df = pd.concat([correct_df, _avg_row(correct_df, "AVERAGE")])
