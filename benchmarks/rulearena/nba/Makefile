@@ -20,6 +20,18 @@ unstructured_baseline:
 	  ptools.compute_nba_answer.fn=ptools.unstructured_workflow \
 	  $(DOTPAIRS)
 
+# Same as unstructured_baseline but with a clean prompt that drops the
+# "Analyze each operation step by step" CoT instruction.
+# See conf/simplified_unstructured_baseline.yaml for the documented run config.
+simplified_unstructured_baseline:
+	uv run python -m secretagent.cli.expt run --interface ptools.compute_nba_answer --evaluator evaluator.NbaEvaluator evaluate.expt_name=simplified_unstructured_baseline \
+	  ptools.compute_nba_answer.method=direct \
+	  ptools.compute_nba_answer.fn=ptools.unstructured_workflow \
+	  ptools.zeroshot_nba.method=prompt_llm \
+	  ptools.zeroshot_nba.prompt_template_file=prompt_templates/simplified_unstructured.txt \
+	  ptools.zeroshot_nba.answer_pattern=null \
+	  $(DOTPAIRS)
+
 # zero-shot structured queries - the top-level stub is simulated by the LLM
 structured_baseline:
 	uv run python -m secretagent.cli.expt run --interface ptools.compute_nba_answer --evaluator evaluator.NbaEvaluator evaluate.expt_name=structured_baseline \

@@ -1,0 +1,16 @@
+Read the following narrative carefully, then answer the multiple-choice question.
+
+--- Narrative ---
+$narrative
+
+--- Question ---
+$question
+
+--- Choices ---
+$choices
+
+State your final answer as a single number (the 0-based index of the correct choice), in the format:
+
+<answer>
+INDEX
+</answer>
