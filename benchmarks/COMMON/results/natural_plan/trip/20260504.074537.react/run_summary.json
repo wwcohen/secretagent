@@ -1,0 +1,7 @@
+{
+  "reproduce_cmd": "uv run python expt.py run --config-file conf/trip.yaml dataset.n=100 dataset.partition=test evaluate.result_dir=results-test evaluate.expt_name=react ptools.trip_planning.method=simulate_pydantic ptools.trip_planning.tools=[ptools_trip.parse_trip_constraints,ptools_trip.find_valid_route,ptools_trip.build_trip_plan]",
+  "accuracy": 0.16,
+  "total_cost_usd": 1.035616,
+  "total_time_sec": 6108.79,
+  "n_samples": 100
+}
