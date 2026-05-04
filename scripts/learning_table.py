@@ -79,7 +79,7 @@ def find_react_csv(task, subtask):
     subtask_dir = os.path.join(RESULTS_DIR, task, subtask)
     if not os.path.isdir(subtask_dir):
         return None
-    result = find_latest_dir(subtask_dir, "*.react")
+    result = find_latest_dir(subtask_dir, "*react_engineered")
     if result:
         csv_path = os.path.join(result, "results.csv")
         if os.path.isfile(csv_path):
@@ -109,11 +109,11 @@ def format_cell(series):
     return f"{m:.2f}+/-{s:.2f}"
 
 
-def _add_row(correct_rows, cost_rows, label_cols, col_names, find_fn):
+def _add_row(correct_rows, cost_rows, label_cols, col_names, find_fn, tasks):
     """Add a row to both correct and cost tables using find_fn to locate CSVs."""
     correct_row = dict(label_cols)
     cost_row = dict(label_cols)
-    for keytask, col in zip(KEYTASKS, col_names):
+    for keytask, col in zip(tasks, col_names):
         task, subtask = keytask.split("/")
         csv_path = find_fn(task, subtask)
         if csv_path:
@@ -130,11 +130,12 @@ def _add_row(correct_rows, cost_rows, label_cols, col_names, find_fn):
     cost_rows.append(cost_row)
 
 
-def build_dataframes(include_opus=False):
+def build_dataframes(include_opus=False, suppress=None):
     """Build DataFrames for correctness and cost (USD per 100 examples)."""
+    tasks = [t for t in KEYTASKS if t not in (suppress or [])]
     col_names = [
         f"{t.split('/')[0].replace('natural_plan', 'natplan')}/{t.split('/')[1]}"
-        for t in KEYTASKS
+        for t in tasks
     ]
     correct_rows = []
     cost_rows = []
@@ -142,17 +143,17 @@ def build_dataframes(include_opus=False):
     # Row 1: engineered workflow
     _add_row(correct_rows, cost_rows,
              {"workflow": "human", "model": "-", "toolkit": "human"},
-             col_names, find_workflow_csv)
+             col_names, find_workflow_csv, tasks)
 
     # Row 2: ReAct with human toolkit
     _add_row(correct_rows, cost_rows,
              {"workflow": "ReAct", "model": "-", "toolkit": "human"},
-             col_names, find_react_csv)
+             col_names, find_react_csv, tasks)
 
     # Row 3: ReAct / Deepseek-V3 / learned
     _add_row(correct_rows, cost_rows,
              {"workflow": "ReAct", "model": "Deepseek-V3", "toolkit": "learned"},
-             col_names, find_react_learned_csv)
+             col_names, find_react_learned_csv, tasks)
 
     # Codedistill rows: learner_llm x ptool_class
     toolkit_labels = {"class2": "human", "class3": "learned"}
@@ -161,7 +162,8 @@ def build_dataframes(include_opus=False):
         for ptool_class in ("class2", "class3"):
             label = {"workflow": "codedist", "model": learner_llm, "toolkit": toolkit_labels[ptool_class]}
             _add_row(correct_rows, cost_rows, label, col_names,
-                     lambda t, s, ll=learner_llm, pc=ptool_class: find_codedistill_csv(t, s, learner_llm=ll, ptool_class=pc))
+                     lambda t, s, ll=learner_llm, pc=ptool_class: find_codedistill_csv(t, s, learner_llm=ll, ptool_class=pc),
+                     tasks)
 
     correct_df = pd.DataFrame(correct_rows)
     cost_df = pd.DataFrame(cost_rows)
@@ -200,9 +202,11 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--include-opus", action="store_true",
                         help="Include codedistill rows for model=opus")
+    parser.add_argument("--suppress", nargs="+", default=[], metavar="TASK/SUBTASK",
+                        help="Omit specified TASK/SUBTASK entries from the table")
     args = parser.parse_args()
 
-    correct_df, cost_df = build_dataframes(include_opus=args.include_opus)
+    correct_df, cost_df = build_dataframes(include_opus=args.include_opus, suppress=args.suppress)
     print("=== Correctness ===")
     print(correct_df.to_string())
     print()
