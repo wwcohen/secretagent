@@ -115,6 +115,7 @@ def average(
         check: Optional[list[str]] = typer.Option(None, help='Config constraint like key=value'),
         metric: Optional[list[str]] = typer.Option(None, help='Metrics to average'),
         pareto: bool = typer.Option(False, help='Only show Pareto-optimal experiments'),
+        shorten_path: bool = typer.Option(False, '--shorten-path', help='Show only the file_under tag instead of full path'),
 ):
     """Report mean +/- stderr of a metric and latency, grouped by experiment."""
     if metric is None:
@@ -129,7 +130,8 @@ def average(
                      if savefile.file_under_part(d) in optimal]
         dirs, dfs = [list(t) for t in zip(*filtered)] if filtered else ([], [])
     for path, df in zip(dirs, dfs):
-        df['path'] = [str(path)] * len(df)
+        label = savefile.file_under_part(path) if shorten_path else str(path)
+        df['path'] = [label] * len(df)
     if not dfs:
         print('No experiments to show.')
         return
