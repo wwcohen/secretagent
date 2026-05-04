@@ -23,7 +23,8 @@ summarize:
 pareto-all: pareto-nba pareto-murder pareto-tabwmp pareto-finqa pareto-sports
 
 #NBA_LABELS=--points-of-interest 4 --spacer 0.1 --label m=DS3.a=G25.tk=Ind.wf:ReA m=GPT20B.a=DS3.tk=h.wf=h m=DS3.a=G25.wf=ub  m=DS31.a=GPT20B.hf=h
-NBA_LABELS=--points-of-interest 4 --spacer 0.1 
+NBA_LABELS=--points-of-interest 4 --spacer 0.1 --label 'ptool ind, DS3/Gem2.5'  'eng, GPT20B/DS3.1' 'eng, DS3.1/GPT20B'  'eng, GPT20B'
+#NBA_LABELS=--points-of-interest 4 --spacer 0.1 
 
 pareto-nba:
 	uv run optimize_plot.py rulearena_nba $(NBA_LABELS); open rulearena_nba_optimize.png 
