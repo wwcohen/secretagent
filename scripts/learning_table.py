@@ -25,14 +25,14 @@ CODEDISTILL_DIR = os.path.join(BASE, "codedistill-workflow-results")
 LEARNER_DIR = os.path.join(BASE, "learner-results")
 
 
-def read_correct_series(csv_path):
-    """Read the 'correct' column from a results CSV as a numeric pandas Series."""
+def read_csv(csv_path):
+    """Read a results CSV as a DataFrame with correct as float."""
     df = pd.read_csv(csv_path)
     col = df["correct"]
-    # Handle True/False strings
     if col.dtype == object:
         col = col.map({"True": 1.0, "true": 1.0, "False": 0.0, "false": 0.0})
-    return col.astype(float)
+    df["correct"] = col.astype(float)
+    return df
 
 
 def find_latest_dir(directory, pattern):
@@ -74,6 +74,19 @@ def find_codedistill_csv(task, subtask, learner_llm="opus", ptool_class="class2"
     return None
 
 
+def find_react_csv(task, subtask):
+    """Find ReAct results CSV for a task/subtask."""
+    subtask_dir = os.path.join(RESULTS_DIR, task, subtask)
+    if not os.path.isdir(subtask_dir):
+        return None
+    result = find_latest_dir(subtask_dir, "*.react")
+    if result:
+        csv_path = os.path.join(result, "results.csv")
+        if os.path.isfile(csv_path):
+            return csv_path
+    return None
+
+
 def find_react_learned_csv(task, subtask):
     """Find ReAct/learned results CSV for a task/subtask in learner-results."""
     subtask_dir = os.path.join(LEARNER_DIR, task, subtask)
@@ -96,56 +109,95 @@ def format_cell(series):
     return f"{m:.2f}+/-{s:.2f}"
 
 
-def build_dataframe():
-    """Build a DataFrame with methods as rows and tasks as columns."""
+def _add_row(correct_rows, cost_rows, label_cols, col_names, find_fn):
+    """Add a row to both correct and cost tables using find_fn to locate CSVs."""
+    correct_row = dict(label_cols)
+    cost_row = dict(label_cols)
+    for keytask, col in zip(KEYTASKS, col_names):
+        task, subtask = keytask.split("/")
+        csv_path = find_fn(task, subtask)
+        if csv_path:
+            df = read_csv(csv_path)
+            correct_row[col] = format_cell(df["correct"])
+            if "cost" in df.columns:
+                cost_row[col] = format_cell(df["cost"] * 100)
+            else:
+                cost_row[col] = "—"
+        else:
+            correct_row[col] = "—"
+            cost_row[col] = "—"
+    correct_rows.append(correct_row)
+    cost_rows.append(cost_row)
+
+
+def build_dataframes(include_opus=False):
+    """Build DataFrames for correctness and cost (USD per 100 examples)."""
     col_names = [
         f"{t.split('/')[0].replace('natural_plan', 'natplan')}/{t.split('/')[1]}"
         for t in KEYTASKS
     ]
-    rows = []
+    correct_rows = []
+    cost_rows = []
 
     # Row 1: engineered workflow
-    row = {"workflow": "human", "model": "-", "toolkit": "human"}
-    for keytask, col in zip(KEYTASKS, col_names):
-        task, subtask = keytask.split("/")
-        csv_path = find_workflow_csv(task, subtask)
-        if csv_path:
-            row[col] = format_cell(read_correct_series(csv_path))
-        else:
-            row[col] = "—"
-    rows.append(row)
+    _add_row(correct_rows, cost_rows,
+             {"workflow": "human", "model": "-", "toolkit": "human"},
+             col_names, find_workflow_csv)
+
+    # Row 2: ReAct with human toolkit
+    _add_row(correct_rows, cost_rows,
+             {"workflow": "ReAct", "model": "-", "toolkit": "human"},
+             col_names, find_react_csv)
+
+    # Row 3: ReAct / Deepseek-V3 / learned
+    _add_row(correct_rows, cost_rows,
+             {"workflow": "ReAct", "model": "Deepseek-V3", "toolkit": "learned"},
+             col_names, find_react_learned_csv)
 
     # Codedistill rows: learner_llm x ptool_class
     toolkit_labels = {"class2": "human", "class3": "learned"}
-    for learner_llm in ("opus", "gemini"):
+    learner_llms = ("opus", "gemini") if include_opus else ("gemini",)
+    for learner_llm in learner_llms:
         for ptool_class in ("class2", "class3"):
-            row = {"workflow": "codedist", "model": learner_llm, "toolkit": toolkit_labels[ptool_class]}
-            for keytask, col in zip(KEYTASKS, col_names):
-                task, subtask = keytask.split("/")
-                csv_path = find_codedistill_csv(task, subtask, learner_llm=learner_llm, ptool_class=ptool_class)
-                if csv_path:
-                    row[col] = format_cell(read_correct_series(csv_path))
-                else:
-                    row[col] = "—"
-            rows.append(row)
+            label = {"workflow": "codedist", "model": learner_llm, "toolkit": toolkit_labels[ptool_class]}
+            _add_row(correct_rows, cost_rows, label, col_names,
+                     lambda t, s, ll=learner_llm, pc=ptool_class: find_codedistill_csv(t, s, learner_llm=ll, ptool_class=pc))
 
-    # Row: ReAct / Deepseek-V3 / learned
-    row = {"workflow": "ReAct", "model": "Deepseek-V3", "toolkit": "learned"}
-    for keytask, col in zip(KEYTASKS, col_names):
-        task, subtask = keytask.split("/")
-        csv_path = find_react_learned_csv(task, subtask)
-        if csv_path:
-            row[col] = format_cell(read_correct_series(csv_path))
-        else:
-            row[col] = "—"
-    rows.append(row)
+    correct_df = pd.DataFrame(correct_rows)
+    cost_df = pd.DataFrame(cost_rows)
 
-    return pd.DataFrame(rows)
+    # Add average column over task columns
+    task_cols = col_names
+    for df in (correct_df, cost_df):
+        avgs = []
+        for _, row in df.iterrows():
+            vals = []
+            for col in task_cols:
+                cell = row[col]
+                if isinstance(cell, str) and "+/-" in cell:
+                    vals.append(float(cell.split("+/-")[0]))
+            if vals:
+                avgs.append(f"{sum(vals)/len(vals):.2f}")
+            else:
+                avgs.append("—")
+        df["average"] = avgs
+
+    return correct_df, cost_df
 
 
 def main():
-    df = build_dataframe()
-    print(df.to_string(index=False))
+    import argparse
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--include-opus", action="store_true",
+                        help="Include codedistill rows for model=opus")
+    args = parser.parse_args()
+
+    correct_df, cost_df = build_dataframes(include_opus=args.include_opus)
+    print("=== Correctness ===")
+    print(correct_df.to_string(index=False))
+    print()
+    print("=== Cost (USD per 100 examples) ===")
+    print(cost_df.to_string(index=False))
 
 
 if __name__ == "__main__":
