@@ -1,0 +1,38 @@
+llm:
+  model: together_ai/deepseek-ai/DeepSeek-V3
+  max_tokens: 65536
+cachier:
+  cache_dir: /Users/lexl/Research_group/secretagent/benchmarks/medcalc/llm_cache
+  enable_caching: true
+evaluate:
+  result_dir: /Users/lexl/Research_group/secretagent/benchmarks/medcalc/results
+  expt_name: react_induced_state_oc1_mp5
+  entry_point: calculate_medical_value
+dataset:
+  split: test
+  stratified: true
+  'n': 100
+  shuffle_seed: 42
+ptools:
+  identify_calculator:
+    method: simulate
+  extract_clinical_values:
+    method: simulate
+  compute_calculation:
+    method: direct
+    fn: ptools.compute_calculation_impl
+  calculate_medical_value:
+    method: direct
+    fn: ptools.react_calculate_impl
+  react_calculate:
+    method: react_pydantic
+    tools: __all__
+    preamble: You compute a medical value from a patient note and a question. Use
+      the available tools (which encode reusable reasoning patterns) to derive intermediate
+      facts and the final value. Return the final numeric value as the structured
+      output. Stop calling tools after deciding.
+    tool_module: __learned__
+    learner: ptool_inducer
+learn:
+  train_dir: /Users/lexl/Research_group/secretagent/benchmarks/medcalc/learned/state-oc1-mp5
+root: /Users/lexl/Research_group/secretagent/benchmarks/medcalc
