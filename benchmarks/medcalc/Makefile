@@ -15,6 +15,10 @@ baseline:
 	uv run python expt.py run --config-file conf/baseline.yaml \
 	  llm.model=$(MODEL) dataset.n=$(N)
 
+simplified_unstructured_baseline:
+	uv run python expt.py run --config-file conf/simplified_unstructured_baseline.yaml \
+	  llm.model=$(MODEL) dataset.n=$(N)
+
 simulate:
 	uv run python expt.py run --config-file conf/simulate.yaml \
 	  llm.model=$(MODEL) dataset.n=$(N)

@@ -1,0 +1,27 @@
+# L0: Simplified Unstructured Baseline — true zero-shot prompt with no CoT instructions.
+# Mirrors conf/baseline.yaml but swaps the prompt template for one that drops the
+# numbered "step by step" / "Show your reasoning" instructions block.
+llm:
+  model: together_ai/deepseek-ai/DeepSeek-V3.1
+  max_tokens: 65536
+
+cachier:
+  cache_dir: llm_cache
+  enable_caching: true
+
+evaluate:
+  result_dir: results
+  expt_name: simplified_unstructured_baseline
+  entry_point: calculate_medical_value
+
+dataset:
+  split: train
+  stratified: true
+  n: null
+  shuffle_seed: 42
+
+ptools:
+  calculate_medical_value:
+    method: prompt_llm
+    prompt_template_file: prompt_templates/simplified_unstructured.txt
+    answer_pattern: "(?:ANSWER|answer|Answer)[:\\s]*([-\\d.eE+]+)"

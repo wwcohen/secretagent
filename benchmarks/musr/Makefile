@@ -28,6 +28,20 @@ team:
 	uv run python expt.py run --config-file conf/team.yaml \
 	  evaluate.expt_name=team llm.model=$(MODEL) dataset.n=$(N)
 
+# --- Simplified unstructured baselines (true zero-shot, no CoT phrasing) ---
+
+murder_simplified_unstructured_baseline:
+	uv run python expt.py run --config-file conf/murder_simplified_unstructured_baseline.yaml \
+	  llm.model=$(MODEL) dataset.n=$(N)
+
+object_simplified_unstructured_baseline:
+	uv run python expt.py run --config-file conf/object_simplified_unstructured_baseline.yaml \
+	  llm.model=$(MODEL) dataset.n=$(N)
+
+team_simplified_unstructured_baseline:
+	uv run python expt.py run --config-file conf/team_simplified_unstructured_baseline.yaml \
+	  llm.model=$(MODEL) dataset.n=$(N)
+
 # --- Run all ---
 
 all: murder_workflow object team
