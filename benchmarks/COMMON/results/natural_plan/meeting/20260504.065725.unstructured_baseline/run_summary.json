@@ -1,0 +1,7 @@
+{
+  "reproduce_cmd": "uv run python expt.py run --config-file conf/meeting.yaml dataset.n=100 dataset.partition=test evaluate.result_dir=results-test evaluate.expt_name=unstructured_baseline ptools.meeting_planning.method=prompt_llm ptools.meeting_planning.prompt_template_file=prompt_templates/zeroshot_meeting.txt",
+  "accuracy": 0.32,
+  "total_cost_usd": 0.273812,
+  "total_time_sec": 2728.07,
+  "n_samples": 100
+}

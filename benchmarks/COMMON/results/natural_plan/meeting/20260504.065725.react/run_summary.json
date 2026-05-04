@@ -1,0 +1,7 @@
+{
+  "reproduce_cmd": "uv run python expt.py run --config-file conf/meeting.yaml dataset.n=100 dataset.partition=test evaluate.result_dir=results-test evaluate.expt_name=react ptools.meeting_planning.method=simulate_pydantic ptools.meeting_planning.tools=[ptools_meeting.parse_meeting_info,ptools_meeting.plan_visit_order,ptools_meeting.build_meeting_plan]",
+  "accuracy": 0.23,
+  "total_cost_usd": 0.866153,
+  "total_time_sec": 6033.36,
+  "n_samples": 100
+}

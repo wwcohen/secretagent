@@ -1,18 +1,14 @@
 """Partition NaturalPlan data into train/valid/test splits (100 each).
 
-The TRAIN split is defined as the 100 cases that were actually used for
-the paper's baseline experiments (shuffle_seed=42 + n=100 on the full
-dataset). They were used to compare strategies (workflow / pot / react /
-structured / unstructured) — i.e. for METHOD selection — so by ML
-convention they belong in TRAIN, not TEST. We extract their case_names
-from an existing results CSV so the train set is EXACTLY the set that
-was evaluated — no re-runs needed.
+All three splits use the SAME stratified_sample method on
+(num_people, num_days) (or num_cities for trip), differing only by
+seed (train=42, valid=43, test=44). All disjoint. This way per-stratum
+distributions are comparable across splits, so train→test accuracy
+shifts reflect real generalization, not sampling artifacts.
 
-TEST and VALID are each 100 cases, freshly stratified-sampled from the
-pool of cases NOT in train (and disjoint from each other), with seeds
-42 and 43 respectively. TEST is reserved for the final paper numbers on
-whichever method wins; VALID is for any further hyperparameter or
-prompt tuning before the final test run.
+The earlier "shuffle the full pool then take first 100" train (the
+exact set evaluated for the paper) is preserved as `{task}_train_paper.json`
+for reference.
 
 The previous 50-example splits are preserved as `{task}_{split}_50.json`
 so past experiments keyed on those files (via dataset.partition=train_50
@@ -48,28 +44,27 @@ TASKS = {
         'data_file': 'calendar_scheduling.json',
         'strata_key': lambda inst: f"({inst['num_people']},{inst['num_days']})",
         'prompt_field': 'prompt_0shot',
-        # Any results CSV from the paper's N=100 seed=42 runs — all
-        # strategies on a given subtask evaluated the same 100 case names.
-        'train_case_source_csv': _BENCHMARK_DIR / 'results/20260420.201651.workflow/results.csv',
+        # Optional reference: paper's N=100 seed=42 shuffle eval set.
+        # Saved as `{task}_train_paper.json` for backwards reference.
+        'paper_eval_csv': _BENCHMARK_DIR / 'results/20260420.201651.workflow/results.csv',
     },
     'meeting': {
         'data_file': 'meeting_planning.json',
         'strata_key': lambda inst: str(inst['num_people']),
         'prompt_field': 'prompt_0shot',
-        'train_case_source_csv': _BENCHMARK_DIR / 'results/20260421.021958.structured_baseline/results.csv',
+        'paper_eval_csv': _BENCHMARK_DIR / 'results/20260421.021958.structured_baseline/results.csv',
     },
     'trip': {
         'data_file': 'trip_planning.json',
         'strata_key': lambda inst: str(inst['num_cities']),
         'prompt_field': 'prompt_0shot',
-        'train_case_source_csv': _BENCHMARK_DIR / 'results/20260421.052749.workflow/results.csv',
+        'paper_eval_csv': _BENCHMARK_DIR / 'results/20260421.052749.workflow/results.csv',
     },
 }
 
-NON_TRAIN_SPLITS = {
-    # TRAIN implicitly uses seed=42 (it's the seed=42-shuffled first 100 of the
-    # full data, extracted from the paper's results CSV). Keep the convention
-    # that train=42, valid=43, test=44.
+# All splits stratified, disjoint. Same method, different seed.
+SPLITS = {
+    'train': {'seed': 42, 'n': 100},
     'valid': {'seed': 43, 'n': 100},
     'test':  {'seed': 44, 'n': 100},
 }
@@ -147,27 +142,10 @@ def partition_task(task: str, cfg: dict):
 
     print(f'{task}: {len(all_data)} total examples')
 
-    # --- TRAIN: the 100 cases actually evaluated in the paper baseline ---
-    train_csv_path = cfg['train_case_source_csv']
-    if not train_csv_path.exists():
-        raise FileNotFoundError(
-            f'Expected paper train-set source CSV at {train_csv_path}; '
-            f'if you moved results, update TASKS[{task!r}]["train_case_source_csv"].'
-        )
-    train_names = pd.read_csv(train_csv_path)['case_name'].tolist()
-    missing = [n for n in train_names if n not in all_data]
-    if missing:
-        raise ValueError(f'{task}: {len(missing)} train case names not in full data')
-
-    train_cases = make_cases_in_order(all_data, train_names, cfg['prompt_field'])
-    save_dataset(_DATA_DIR / f'{task}_train.json', task, 'train', train_cases)
-
-    # --- TEST and VALID: 100 each, disjoint from train and each other ---
-    train_set = set(train_names)
+    # --- All three splits: stratified, disjoint, different seeds ---
     used_keys: set[str] = set()
-    for split_name, split_cfg in NON_TRAIN_SPLITS.items():
-        available = {k: v for k, v in all_data.items()
-                     if k not in train_set and k not in used_keys}
+    for split_name, split_cfg in SPLITS.items():
+        available = {k: v for k, v in all_data.items() if k not in used_keys}
         sampled = stratified_sample(
             available, cfg['strata_key'], split_cfg['n'], split_cfg['seed'],
         )
@@ -175,15 +153,20 @@ def partition_task(task: str, cfg: dict):
         cases = make_cases(sampled, cfg['prompt_field'])
         save_dataset(_DATA_DIR / f'{task}_{split_name}.json', task, split_name, cases)
 
-    # Sanity: confirm disjointness
-    overlap = train_set & used_keys
-    assert not overlap, f'{task}: train/test-or-valid overlap {overlap}'
+    # --- For reference: paper's seed=42 shuffle eval set as *_train_paper.json ---
+    paper_csv = cfg.get('paper_eval_csv')
+    if paper_csv and paper_csv.exists():
+        paper_names = pd.read_csv(paper_csv)['case_name'].tolist()
+        missing = [n for n in paper_names if n not in all_data]
+        if not missing:
+            paper_cases = make_cases_in_order(all_data, paper_names, cfg['prompt_field'])
+            save_dataset(_DATA_DIR / f'{task}_train_paper.json', task, 'train_paper', paper_cases)
 
 
 if __name__ == '__main__':
     for task, cfg in TASKS.items():
         partition_task(task, cfg)
-    print('\nDone. train/valid/test splits created (100 each, all disjoint).')
-    print('  train = the exact 100 cases used in paper baselines')
-    print('  valid, test = 100 each, stratified from the non-train pool')
-    print('  Old 50-example splits preserved as *_50.json')
+    print('\nDone. train/valid/test splits created (100 each, all stratified, disjoint).')
+    print('  train = stratified seed=42, valid = stratified seed=43, test = stratified seed=44')
+    print('  *_train_paper.json = the paper\'s original seed=42-shuffle eval set (reference)')
+    print('  *_50.json = the older 50-example splits (legacy)')
