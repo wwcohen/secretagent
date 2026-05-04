@@ -100,6 +100,35 @@ def find_react_learned_csv(task, subtask):
     return None
 
 
+def find_optimizer_csv(task, subtask):
+    """Find best NSGA-II test-pass results CSV for a task/subtask.
+
+    Scans benchmarks/COMMON/results/<task>/<subtask>/*.test_pass_* for the
+    Pareto-frontier configurations exported from the optimizer pipeline,
+    and returns the CSV path of the configuration with the highest
+    mean(correct) on test (Pareto top-1 by accuracy)."""
+    subtask_dir = os.path.join(RESULTS_DIR, task, subtask)
+    if not os.path.isdir(subtask_dir):
+        return None
+    matches = sorted(glob.glob(os.path.join(subtask_dir, "*.test_pass_*")))
+    if not matches:
+        return None
+    best_csv = None
+    best_acc = -1.0
+    for d in matches:
+        csv_path = os.path.join(d, "results.csv")
+        if not os.path.isfile(csv_path):
+            continue
+        try:
+            acc = read_csv(csv_path)["correct"].mean()
+        except Exception:
+            continue
+        if acc > best_acc:
+            best_acc = acc
+            best_csv = csv_path
+    return best_csv
+
+
 def format_cell(series):
     """Format mean +/- sem from a pandas Series."""
     if series is None or series.empty:
@@ -164,6 +193,11 @@ def build_dataframes(include_opus=False, suppress=None):
             _add_row(correct_rows, cost_rows, label, col_names,
                      lambda t, s, ll=learner_llm, pc=ptool_class: find_codedistill_csv(t, s, learner_llm=ll, ptool_class=pc),
                      tasks)
+
+    # Optimizer row: NSGA-II Pareto top-1 by test accuracy.
+    _add_row(correct_rows, cost_rows,
+             {"workflow": "nsga", "model": "auto", "toolkit": "auto"},
+             col_names, find_optimizer_csv, tasks)
 
     correct_df = pd.DataFrame(correct_rows)
     cost_df = pd.DataFrame(cost_rows)
