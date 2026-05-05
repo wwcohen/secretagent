@@ -111,8 +111,9 @@ def find_orchestrator_csv(task, subtask):
         subtask_dir = os.path.join(ORCHESTRATOR_DIR, "medcalc", "results",
                                    "learned_from_all_traces", subtask)
     elif task == "rulearena" and subtask == "nba":
+        # with_rulebook used a custom benchmark-specific prompting scheme
         subtask_dir = os.path.join(ORCHESTRATOR_DIR, "rulearena_nba", "results",
-                                   "with_rulebook")
+                                   "without_rulebook")
     else:
         task_subtask = f"{task}_{subtask}".replace("natural_plan", "natplan")
         subtask_dir = os.path.join(ORCHESTRATOR_DIR, task_subtask, "results")
