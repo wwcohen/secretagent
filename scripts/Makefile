@@ -13,6 +13,9 @@ latex_correct:
 latex_cost:
 	uv run hero_table.py --min-cols 3 --format latex-cost > hero-cost.tex
 
+latex_compact:
+	uv run hero_table.py --min-cols 3 --format latex-compact > hero-compact.tex
+
 summarize:
 	uv run hero_table.py --min-cols 3 --format plot-correct --x react --output summary/correct_react.png; open summary/correct_react.png
 	uv run hero_table.py --min-cols 3 --format plot-correct --x pot --output summary/correct_pot.png; open summary/correct_pot.png
