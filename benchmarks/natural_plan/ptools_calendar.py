@@ -41,6 +41,17 @@ def parse_schedules(problem_text: str) -> str:
 def find_available_slots(problem_text: str, schedules_json: str) -> str:
     """Find valid meeting slots that work for all participants.
 
+    Algorithm (be precise — interval arithmetic must be exact):
+      1. For each requested day, build the list of FREE intervals for each
+         participant (the complement of their busy intervals within
+         working_hours). A participant with no busy intervals on that day
+         has the single free interval [working_hours_start, working_hours_end].
+      2. Compute the INTERSECTION of all participants' free intervals on
+         that day (only times when EVERYONE is free).
+      3. From each common-free interval, enumerate every slot of length
+         duration_minutes that fits inside it. Slide in 30-min steps
+         starting from the interval's start.
+
     Args:
         problem_text: The original problem text (same string you passed to
             parse_schedules).
@@ -51,13 +62,24 @@ def find_available_slots(problem_text: str, schedules_json: str) -> str:
         A JSON string encoding a list of slot dicts, sorted by day order
         then start time:
         [{"day": str, "start": str, "end": str}, ...]
-        Each slot is at least duration_minutes long. Use 24-hour "HH:MM" format.
+        Each slot must be EXACTLY duration_minutes long (end - start ==
+        duration_minutes). Use 24-hour "HH:MM" format.
 
-    Example:
+    Examples:
+        # 30-minute meeting, 2 participants, 1 day:
         >>> find_available_slots(
         ...     "Schedule Alice and Bob for 30 min on Monday 9-17. Alice busy 9:00-10:00.",
         ...     '{"participants": ["Alice","Bob"], "duration_minutes": 30, "working_hours": ["9:00","17:00"], "days": ["Monday"], "schedules": {"Alice": {"Monday": [["9:00","10:00"]]}, "Bob": {"Monday": []}}}')
         '[{"day": "Monday", "start": "10:00", "end": "10:30"}, {"day": "Monday", "start": "10:30", "end": "11:00"}]'
+
+        # 60-minute meeting, 3 participants, multiple busy intervals.
+        # Alice free 9-10, 11-13, 14:30-17. Bob free 9-12, 13-15, 16-17.
+        # Carol free 9:30-13:30, 14-17. Common-free 60-min slots on Monday:
+        # 11:00-12:00 (all three free), 14:30-15:00 too short, no others fit 60 min.
+        >>> find_available_slots(
+        ...     "Schedule Alice, Bob and Carol for one hour on Monday 9-17.",
+        ...     '{"participants": ["Alice","Bob","Carol"], "duration_minutes": 60, "working_hours": ["9:00","17:00"], "days": ["Monday"], "schedules": {"Alice": {"Monday": [["10:00","11:00"],["13:00","14:30"]]}, "Bob": {"Monday": [["12:00","13:00"],["15:00","16:00"]]}, "Carol": {"Monday": [["9:00","9:30"],["13:30","14:00"]]}}}')
+        '[{"day": "Monday", "start": "11:00", "end": "12:00"}, {"day": "Monday", "start": "16:00", "end": "17:00"}]'
     """
 
 

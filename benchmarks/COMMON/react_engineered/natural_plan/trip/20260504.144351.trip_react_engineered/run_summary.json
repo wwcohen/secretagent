@@ -1,0 +1,7 @@
+{
+  "reproduce_cmd": "uv run python expt.py run --config-file conf/trip.yaml dataset.n=100 evaluate.expt_name=trip_react_engineered llm.model=together_ai/deepseek-ai/DeepSeek-V3 ptools.trip_planning.method=react_pydantic ptools.trip_planning.preamble=Answer the planning task using the available tools. Each tool has a docstring describing its purpose. After enough evidence, return your final plan as the structured output. Stop calling tools after producing the answer. ptools.trip_planning.tools=[ptools_trip.parse_trip_constraints,ptools_trip.find_valid_route,ptools_trip.build_trip_plan]",
+  "accuracy": 0.04,
+  "total_cost_usd": 1.20636,
+  "total_time_sec": 6070.4,
+  "n_samples": 100
+}

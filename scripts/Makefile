@@ -4,6 +4,9 @@ status:
 hero_table:
 	uv run hero_table.py --min-cols 3
 
+learning_table:
+	uv run learning_table.py
+
 latex_correct:
 	uv run hero_table.py --min-cols 3 --format latex-correct > 	hero.tex
 
@@ -16,6 +19,27 @@ summarize:
 	uv run hero_table.py --min-cols 3 --format plot-correct --x structured_baseline --output summary/correct_structured_baseline.png; open summary/correct_structured_baseline.png
 	uv run hero_table.py --min-cols 3 --format plot-correct --x unstructured_baseline --output summary/correct_unstructured_baseline.png; open summary/correct_unstructured_baseline.png
 	uv run hero_table.py --min-cols 3 --format plot-correct --x structured_baseline --y unstructured_baseline --output summary/correct_baselines; open summary/correct_baselines.png
+
+pareto-all: pareto-nba pareto-murder pareto-tabwmp pareto-finqa pareto-sports
+
+#NBA_LABELS=--points-of-interest 4 --spacer 0.1 --label m=DS3.a=G25.tk=Ind.wf:ReA m=GPT20B.a=DS3.tk=h.wf=h m=DS3.a=G25.wf=ub  m=DS31.a=GPT20B.hf=h
+NBA_LABELS=--points-of-interest 4 --spacer 0.1 --label 'ptool ind, DS3/Gem2.5'  'eng, GPT20B/DS3.1' 'eng, DS3.1/GPT20B'  'eng, GPT20B'
+#NBA_LABELS=--points-of-interest 4 --spacer 0.1 
+
+pareto-nba:
+	uv run optimize_plot.py rulearena_nba $(NBA_LABELS); open rulearena_nba_optimize.png 
+
+MURDER_LABELS=--points-of-interest 3 --spacer 0.1 
+pareto-murder:
+	uv run optimize_plot.py musr_murder $(MURDER_LABELS); open musr_murder_optimize.png 
+
+TABMWP_LABELS=--points-of-interest 3 --spacer 0.1 
+pareto-tabwmp:
+	uv run optimize_plot.py tabmwp $(TABMWP_LABELS); open tabmwp_optimize.png 
+
+FINQA_LABELS=--points-of-interest 3 --spacer 0.1 
+pareto-finqa:
+	uv run optimize_plot.py finqa $(FINQA_LABELS); open finqa_optimize.png 
 
 summarize-cost:
 	uv run hero_table.py --min-cols 3 --format plot-cost --x react --output summary/cost_react.png --suppress tau_bench/retail; open summary/cost_react.png

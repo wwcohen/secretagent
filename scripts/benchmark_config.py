@@ -33,7 +33,7 @@ from benchmark_status import TASKS, RESULT_DIR_RE
 sys.path.insert(0, str(REPO_ROOT / "src"))
 from secretagent.config import to_dotlist
 
-RESULTS_DIR = REPO_ROOT / "benchmarks" / "results"
+RESULTS_DIR = REPO_ROOT / "benchmarks" / "COMMON" / "results"
 
 STRATEGY_ORDER = ["workflow", "react", "pot", "structured_baseline", "unstructured_baseline"]
 

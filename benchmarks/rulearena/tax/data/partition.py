@@ -98,7 +98,7 @@ def _case_from_record(record: dict) -> tuple[Case, int | None]:
 
 def _write(path: Path, split_name: str, cases: list[Case]):
     ds = Dataset(name="rulearena_tax", split=split_name, cases=cases)
-    path.write_text(ds.model_dump_json(indent=2))
+    path.write_text(ds.model_dump_json(indent=2), encoding="utf-8")
 
 
 def _partition(split: str, stratify: bool):

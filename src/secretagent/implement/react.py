@@ -43,6 +43,13 @@ class ReactPydanticFactory(SimulatePydanticFactory):
         )
     )
 
+    def setup(self, tools=None, tool_module=None, learner=None,
+              preamble=None, **prompt_kw):
+        super().setup(tools=tools, tool_module=tool_module,
+                      learner=learner, **prompt_kw)
+        if preamble is not None:
+            self.preamble = preamble
+
     def create_prompt(self, interface, *args, **kw):
         input_args = interface.format_args(*args, **kw)
         return f"{self.preamble}\n\n{input_args}"

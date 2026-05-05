@@ -1,0 +1,47 @@
+case_name,predicted_output,expected_output,correct,failure_mode,tp,fp,tn,fn,input_tokens,output_tokens,latency,cost,expt_name
+nba_1_44,1.0,1.0,1.0,none,1.0,0.0,0.0,0.0,23122.0,1517.0,11.345206260681152,0.0014594999999999999,test_pass_react_learned_gpt-oss-20b
+nba_0_44,**exception raised**: Exceeded maximum retries (1) for output validation,1.0,0.0,extraction_failure,0.0,0.0,0.0,1.0,,,,,test_pass_react_learned_gpt-oss-20b
+nba_0_67,0.0,0.0,1.0,none,0.0,0.0,1.0,0.0,46559.0,2261.0,16.491576671600342,0.00278015,test_pass_react_learned_gpt-oss-20b
+nba_1_1,1.0,0.0,0.0,calculation_error,0.0,1.0,0.0,0.0,23310.0,229.0,2.651439666748047,0.0012112999999999998,test_pass_react_learned_gpt-oss-20b
+nba_1_50,**exception raised**: Exceeded maximum retries (1) for output validation,1.0,0.0,extraction_failure,0.0,0.0,0.0,1.0,,,,,test_pass_react_learned_gpt-oss-20b
+nba_0_60,0.0,1.0,0.0,calculation_error,0.0,0.0,0.0,1.0,46054.0,2897.0,20.002254962921143,0.0028821,test_pass_react_learned_gpt-oss-20b
+nba_2_31,1.0,1.0,1.0,none,1.0,0.0,0.0,0.0,23243.0,2288.0,15.745061159133911,0.00161975,test_pass_react_learned_gpt-oss-20b
+nba_0_17,1.0,1.0,1.0,none,1.0,0.0,0.0,0.0,46000.0,1624.0,11.61230993270874,0.0026248,test_pass_react_learned_gpt-oss-20b
+nba_1_71,**exception raised**: Exceeded maximum retries (1) for output validation,0.0,0.0,extraction_failure,0.0,0.0,0.0,1.0,,,,,test_pass_react_learned_gpt-oss-20b
+nba_2_14,1.0,1.0,1.0,none,1.0,0.0,0.0,0.0,46531.0,2638.0,15.308393239974976,0.0028541499999999997,test_pass_react_learned_gpt-oss-20b
+nba_1_85,1.0,1.0,1.0,none,1.0,0.0,0.0,0.0,23281.0,635.0,4.737867593765259,0.00129105,test_pass_react_learned_gpt-oss-20b
+nba_1_9,"**exception raised**: status_code: 400, model_name: together_ai/openai/gpt-oss-20b, body: litellm.BadRequestError: Together_aiException - Input validation error",1.0,0.0,extraction_failure,0.0,0.0,0.0,1.0,,,,,test_pass_react_learned_gpt-oss-20b
+nba_1_66,0.0,1.0,0.0,calculation_error,0.0,0.0,0.0,1.0,46296.0,5823.0,31.96102237701416,0.0034794,test_pass_react_learned_gpt-oss-20b
+nba_2_12,1.0,1.0,1.0,none,1.0,0.0,0.0,0.0,46604.0,920.0,7.959148168563843,0.0025142,test_pass_react_learned_gpt-oss-20b
+nba_0_65,"**exception raised**: status_code: 400, model_name: together_ai/openai/gpt-oss-20b, body: litellm.BadRequestError: Together_aiException - Input validation error",0.0,0.0,extraction_failure,0.0,0.0,0.0,1.0,,,,,test_pass_react_learned_gpt-oss-20b
+nba_1_23,0.0,0.0,1.0,none,0.0,0.0,1.0,0.0,46320.0,3068.0,15.792498350143433,0.0029296,test_pass_react_learned_gpt-oss-20b
+nba_0_51,0.0,1.0,0.0,calculation_error,0.0,0.0,0.0,1.0,46452.0,3813.0,24.137880086898804,0.0030851999999999997,test_pass_react_learned_gpt-oss-20b
+nba_1_52,1.0,1.0,1.0,none,1.0,0.0,0.0,0.0,46470.0,3941.0,24.470438957214355,0.0031117000000000002,test_pass_react_learned_gpt-oss-20b
+nba_0_77,1.0,0.0,0.0,calculation_error,0.0,1.0,0.0,0.0,46392.0,1758.0,13.279001951217651,0.0026712,test_pass_react_learned_gpt-oss-20b
+nba_2_11,1.0,1.0,1.0,none,1.0,0.0,0.0,0.0,23288.0,323.0,3.7120022773742676,0.0012289999999999998,test_pass_react_learned_gpt-oss-20b
+nba_0_23,"**exception raised**: status_code: 400, model_name: together_ai/openai/gpt-oss-20b, body: litellm.BadRequestError: Together_aiException - Input validation error",1.0,0.0,extraction_failure,0.0,0.0,0.0,1.0,,,,,test_pass_react_learned_gpt-oss-20b
+nba_2_4,1.0,1.0,1.0,none,1.0,0.0,0.0,0.0,23312.0,741.0,5.045502185821533,0.0013138,test_pass_react_learned_gpt-oss-20b
+nba_2_22,1.0,1.0,1.0,none,1.0,0.0,0.0,0.0,46580.0,1138.0,9.318719387054443,0.0025566,test_pass_react_learned_gpt-oss-20b
+nba_1_60,1.0,1.0,1.0,none,1.0,0.0,0.0,0.0,23118.0,83.0,1.9610085487365723,0.0011725,test_pass_react_learned_gpt-oss-20b
+nba_2_26,1.0,1.0,1.0,none,1.0,0.0,0.0,0.0,46698.0,5563.0,41.309876441955566,0.0034475,test_pass_react_learned_gpt-oss-20b
+nba_1_54,**exception raised**: Exceeded maximum retries (1) for output validation,1.0,0.0,extraction_failure,0.0,0.0,0.0,1.0,,,,,test_pass_react_learned_gpt-oss-20b
+nba_2_0,**exception raised**: Exceeded maximum retries (1) for output validation,1.0,0.0,extraction_failure,0.0,0.0,0.0,1.0,,,,,test_pass_react_learned_gpt-oss-20b
+nba_0_62,0.0,0.0,1.0,none,0.0,0.0,1.0,0.0,23146.0,2493.0,13.941375970840454,0.0016559,test_pass_react_learned_gpt-oss-20b
+nba_1_62,"**exception raised**: status_code: 400, model_name: together_ai/openai/gpt-oss-20b, body: litellm.BadRequestError: Together_aiException - Input validation error",1.0,0.0,extraction_failure,0.0,0.0,0.0,1.0,,,,,test_pass_react_learned_gpt-oss-20b
+nba_0_9,1.0,0.0,0.0,calculation_error,0.0,1.0,0.0,0.0,46098.0,2412.0,14.852484703063965,0.0027873,test_pass_react_learned_gpt-oss-20b
+nba_0_41,0.0,1.0,0.0,calculation_error,0.0,0.0,0.0,1.0,46387.0,3810.0,20.55793285369873,0.00308135,test_pass_react_learned_gpt-oss-20b
+nba_0_1,1.0,1.0,1.0,none,1.0,0.0,0.0,0.0,23078.0,131.0,2.2838919162750244,0.0011801000000000001,test_pass_react_learned_gpt-oss-20b
+nba_1_29,1.0,1.0,1.0,none,1.0,0.0,0.0,0.0,46600.0,1533.0,11.600618600845337,0.0026366000000000002,test_pass_react_learned_gpt-oss-20b
+nba_2_25,1.0,1.0,1.0,none,1.0,0.0,0.0,0.0,46708.0,3189.0,19.155293941497803,0.0029732,test_pass_react_learned_gpt-oss-20b
+nba_2_20,1.0,1.0,1.0,none,1.0,0.0,0.0,0.0,46911.0,2177.0,12.594273328781128,0.00278095,test_pass_react_learned_gpt-oss-20b
+nba_1_41,0.0,1.0,0.0,calculation_error,0.0,0.0,0.0,1.0,23261.0,2966.0,17.909358739852905,0.00175625,test_pass_react_learned_gpt-oss-20b
+nba_1_65,**exception raised**: Exceeded maximum retries (1) for output validation,1.0,0.0,extraction_failure,0.0,0.0,0.0,1.0,,,,,test_pass_react_learned_gpt-oss-20b
+nba_0_54,0.0,0.0,1.0,none,0.0,0.0,1.0,0.0,45970.0,2927.0,19.530808925628662,0.0028839,test_pass_react_learned_gpt-oss-20b
+nba_1_67,1.0,1.0,1.0,none,1.0,0.0,0.0,0.0,23152.0,1353.0,8.62598729133606,0.0014282,test_pass_react_learned_gpt-oss-20b
+nba_1_24,1.0,0.0,0.0,calculation_error,0.0,1.0,0.0,0.0,23102.0,796.0,7.062671661376953,0.0013143,test_pass_react_learned_gpt-oss-20b
+nba_0_52,1.0,1.0,1.0,none,1.0,0.0,0.0,0.0,46150.0,572.0,6.1297242641448975,0.0024219000000000003,test_pass_react_learned_gpt-oss-20b
+nba_0_24,1.0,0.0,0.0,calculation_error,0.0,1.0,0.0,0.0,46061.0,825.0,6.382973670959473,0.0024680500000000003,test_pass_react_learned_gpt-oss-20b
+nba_1_17,1.0,1.0,1.0,none,1.0,0.0,0.0,0.0,46572.0,1770.0,10.472118139266968,0.0026826,test_pass_react_learned_gpt-oss-20b
+nba_1_51,**exception raised**: Exceeded maximum retries (1) for output validation,1.0,0.0,extraction_failure,0.0,0.0,0.0,1.0,,,,,test_pass_react_learned_gpt-oss-20b
+nba_0_29,1.0,0.0,0.0,calculation_error,0.0,1.0,0.0,0.0,23118.0,1536.0,9.079454898834229,0.0014630999999999997,test_pass_react_learned_gpt-oss-20b
+nba_0_50,0.0,1.0,0.0,calculation_error,0.0,0.0,0.0,1.0,46548.0,2505.0,12.86289668083191,0.0028284,test_pass_react_learned_gpt-oss-20b

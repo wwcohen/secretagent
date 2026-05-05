@@ -55,7 +55,7 @@ def setup_and_load_dataset(dotlist: list[str], config_file: str | Path | None = 
 
     split = config.require('dataset.split')
     dataset_json_file = root / 'data' / f'{split}.json'
-    dataset = Dataset.model_validate_json(dataset_json_file.read_text())
+    dataset = Dataset.model_validate_json(dataset_json_file.read_text(encoding='utf-8'))
     dataset.configure(
         shuffle_seed=config.get('dataset.shuffle_seed'),
         n=config.get('dataset.n') or None  # don't pass in 0

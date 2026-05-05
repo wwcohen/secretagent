@@ -31,11 +31,11 @@ The agent ablations (`pot` and `react`) share the same toolset so that the compa
 
 | expt_name | Accuracy | Cost/ex | Latency/ex | Exceptions |
 |-----------|----------|---------|------------|------------|
-| **workflow**            | **76.3%** | $0.0012 | 2.6s   | 0 / 300 |
-| structured_baseline     | 69.3%     | $0.0011 | 12.6s  | 0 / 300 |
-| unstructured_baseline   | 57.7%     | $0.0007 | 2.4s   | 0 / 300 |
-| react                   | 47.3%     | $0.0093 | 47.5s  | 0 / 300 |
-| pot                     | 41.7%     | $0.0020 | 9.7s   | 34 / 300 |
+| **workflow**            | **75.3%** | $0.0012 | 4.6s   | 0 / 300   |
+| structured_baseline     | 61.7%     | $0.0014 | 10.4s  | 0 / 300   |
+| unstructured_baseline   | 57.3%     | $0.0010 | 6.0s   | 0 / 300   |
+| react                   | 32.0%     | $0.0095 | 59.7s  | 5 / 300   |
+| pot                     | 17.7%     | $0.0035 | 35.0s  | 162 / 300 |
 
 ![Cost vs Accuracy](results_plot.png)
 
@@ -43,22 +43,26 @@ The agent ablations (`pot` and `react`) share the same toolset so that the compa
 
 ### Workflow leads on accuracy, cost, and latency simultaneously
 
-The hand-coded workflow wins on all three metrics: highest accuracy (76.3%), lowest per-case cost tied with the structured baseline ($0.0012), and lowest non-trivial latency (2.6s). It does this by decomposing the task: `extract_reasoning_plan` (LLM via `prompt_llm` with a strict template) produces a target, values with row/column references, and a formula; `parse_plan_fields` and `substitute_values` (Python) plug the numbers in; `compute` (Python) evaluates the substituted expression; `extract_final_number` (LLM via `simulate`) is used only as a fallback when the structured plan does not yield a usable formula.
+The hand-coded workflow wins on all three metrics: highest accuracy (75.3%), lowest per-case cost tied with the unstructured baseline ($0.0012), and the lowest latency among the three workflow-style conditions (4.6s — only the unstructured baseline's bare prompt is faster). It does this by decomposing the task: `extract_reasoning_plan` (LLM via `prompt_llm` with a strict template) produces a target, values with row/column references, and a formula; `parse_plan_fields` and `substitute_values` (Python) plug the numbers in; `compute` (Python) evaluates the substituted expression; `extract_final_number` (LLM via `simulate`) is used only as a fallback when the structured plan does not yield a usable formula.
 
-The decomposition matters because it puts each subtask on the right substrate: the LLM handles *understanding the question and identifying the relevant numbers*, while Python handles *the actual arithmetic*. The structured baseline collapses both into a single LLM call and sits 7pp behind, which is the cost of asking the LLM to do its own arithmetic.
+The decomposition matters because it puts each subtask on the right substrate: the LLM handles *understanding the question and identifying the relevant numbers*, while Python handles *the actual arithmetic*. The structured baseline collapses both into a single LLM call and sits 13.6pp behind, which is the cost of asking the LLM to do its own arithmetic.
+
+The workflow is also the most stable condition across splits: it scores 75.7% on a separate 300-case `valid` run (`workflow_ab` below), within 0.4pp of its test-split number, while the agent ablations both drop sharply on test compared to earlier valid-set numbers. So the workflow's lead is not a function of which slice of FinQA we evaluate on.
 
 ### Dropping the workflow hurts both agent ablations
 
-When the workflow is removed and the LLM is left to orchestrate the ptools autonomously, accuracy drops sharply:
+When the workflow is removed and the LLM is left to orchestrate the ptools autonomously, accuracy collapses:
 
-- **react** (47.3%) is by far the most expensive condition at $0.0093/ex (~8x workflow cost) and slowest at 47.5s/ex. The pydantic-ai agent loop accumulates context across tool calls, and a small number of cases consume disproportionate budget — one case alone produced 192K input tokens and cost $0.13.
-- **pot** (41.7%) is faster and cheaper than react but the weakest condition overall. It also produces 34 extraction exceptions out of 300 cases (11.3%), where the LLM writes prose explanation instead of fenced Python and gets truncated at the output-token budget before producing executable code. With a richer toolset (the shared toolset is bigger than the minimal `parse_table` + `compute` set), the verbose tool descriptions inflate the prompt and shift pot's failure mode from "wrong code" to "no code at all."
+- **react** (32.0%) is by far the most expensive condition at $0.0095/ex (~8x workflow cost) and slowest at 59.7s/ex. The pydantic-ai agent loop accumulates context across tool calls (~9.3K input tokens / 2.3K output tokens per case on average vs. ~1.6K / 126 for the workflow), and a small number of cases consume disproportionate budget. The dominant failure modes are wrong final number even when the trace looks right (LLM-side arithmetic) and percentage-formatting mismatches.
+- **pot** (17.7%) is the weakest condition overall. **162 of 300 cases (54%) raise a sandbox extraction exception**: the LLM writes long prose reasoning before getting around to Python, hits the output-token budget mid-response, and the extracted code block is incomplete or absent. With the same shared toolset given to react, the verbose tool descriptions inflate the prompt and the model's natural verbosity becomes catastrophic — pot's failure shifts from "wrong code" to "no code at all." Excluding exceptions, pot's accuracy on the 138 cases that did parse is 38.4%, still well below the workflow.
 
-Both agent ablations underperform the structured baseline, so the message is consistent: a hand-coded workflow that uses the LLM for what LLMs are good at (planning) and Python for what Python is good at (arithmetic) wins on accuracy, cost, and latency together — autonomous tool-use loses on all three.
+Both agent ablations underperform every workflow-style baseline, so the message is consistent: a hand-coded workflow that uses the LLM for what LLMs are good at (planning) and Python for what Python is good at (arithmetic) wins on accuracy, cost, and latency together — autonomous tool-use loses on all three.
+
+We deliberately leave pot and react un-engineered: the ablation contract is "delete the workflow, keep the same primitives," not "build the best possible agent with these tools." Adding format-enforcement to pot's prompt or extra cleanup logic to react would just re-introduce pieces of the workflow under different names. The failure modes we see — pot's 162 truncated code-blocks and the percent-vs-decimal mismatches in both ablations — are themselves the evidence for the scaffolding the workflow provides via its strict plan template, `format_for_scale`, and `extract_final_number`; the structured baseline (61.7%) already isolates "raw LLM reasoning, no tools," so the gap from there down to pot/react measures the cost of tool-call complexity without compensating glue.
 
 ### The unstructured baseline is a meaningful floor
 
-The unstructured baseline (57.7%) uses a zero-shot prompt with `<answer>` tags followed by deterministic text extraction. It outperforms both agent ablations, showing that for this task a well-crafted prompt without any tools beats autonomous tool-use strategies. This suggests that tools alone are not the value of the workflow — the value is in the *structure* (decomposed plan + Python arithmetic), not the tool inventory.
+The unstructured baseline (57.3%) uses a zero-shot prompt with `<answer>` tags followed by deterministic text extraction. It outperforms both agent ablations by a wide margin (25–40pp) at a fraction of the cost, showing that for this task a well-crafted prompt without any tools beats autonomous tool-use strategies. This suggests that tools alone are not the value of the workflow — the value is in the *structure* (decomposed plan + Python arithmetic), not the tool inventory.
 
 ### Negative result: workflow with shared ptool primitives
 
