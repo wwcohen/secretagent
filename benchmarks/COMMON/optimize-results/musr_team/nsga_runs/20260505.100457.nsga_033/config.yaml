@@ -1,0 +1,28 @@
+llm:
+  model: together_ai/openai/gpt-oss-120b
+  thinking: true
+cachier:
+  cache_dir: C:\Users\STUDENT\OneDrive\Documents\Projects\AI Research\secretagent\benchmarks\musr\llm_cache
+evaluate:
+  expt_name: nsga_033
+  result_dir: C:\Users\STUDENT\OneDrive\Documents\Projects\AI Research\secretagent\benchmarks\musr\results
+  entry_point: answer_question
+dataset:
+  split: team_allocation_val
+  shuffle_seed: 42
+  'n': 50
+ptools:
+  raw_answer:
+    method: simulate
+  extract_index:
+    method: simulate
+  answer_question:
+    method: prompt_llm
+    prompt_template_file: C:\Users\STUDENT\OneDrive\Documents\Projects\AI Research\secretagent\benchmarks\musr\prompt_templates\zero_shot_cot.txt
+  extract_team_requirements:
+    method: simulate
+    model: together_ai/openai/gpt-oss-120b
+  score_team_assignments:
+    method: simulate
+    model: together_ai/deepseek-ai/DeepSeek-V3.1
+root: C:\Users\STUDENT\OneDrive\Documents\Projects\AI Research\secretagent\benchmarks\musr

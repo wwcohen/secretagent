@@ -1,0 +1,51 @@
+case_name,predicted_output,expected_output,correct,input_tokens,output_tokens,latency,cost,expt_name
+ex046,2,0,False,3403.0,14954.0,60.54845309257507,0.021129000000000005,nsga_010
+ex018,0,0,True,5234.0,20143.0,72.93269443511963,0.0201535,nsga_010
+ex036,**exception raised**: invalid literal for int() with base 10: '`\n`FINAL ANSWER`\n`</answer>`\nThe output of the function `extract_index` is an integer.\nThe question then provides a long string as `answer_text`. This `answer_text` contains the reasoning.\nThe `,0,False,5849.0,19798.0,62.671027183532715,0.020127799999999998,nsga_010
+ex008,**exception raised**: invalid literal for int() with base 10: '\\nFINAL ANSWER\\n</answer>` where FINAL ANSWER is the Python-printed representation of the result. For an integer this is just the integer itself.\n</thought>\n\n<answer>\n1',1,False,2755.0,12522.0,49.79549288749695,0.020300900000000004,nsga_010
+ex007,0,0,True,5154.0,15451.0,61.3990592956543,0.0241365,nsga_010
+ex059,**exception raised**: invalid literal for int() with base 10: 'FINAL ANSWER\n</answer>\n```\nAnd if the final answer is `x` it should be printed as `x` without quotes. So if `x` is `1` it should just be `1`.<thought>\nThe user wants me to simulate the `extract_i,1,False,4417.0,16231.0,56.234320402145386,0.016166,nsga_010
+ex071,0,0,True,5299.0,16696.0,57.51172089576721,0.0206034,nsga_010
+ex060,**exception raised**: invalid literal for int() with base 10: '` tags: Yes.\n\nConfidence Score: 5/5\n\n**Mental Sandbox:**\n-   If `extract_index` were to be taken literally and assuming `answer_text` contained a reference to one of the choices the output would,2,False,9312.0,15472.0,58.225151777267456,0.0189121,nsga_010
+ex043,2,1,False,3072.0,18171.0,77.76180005073547,0.0232418,nsga_010
+ex039,**exception raised**: invalid literal for int() with base 10: '\\nChoice 3 is invalid because Tom cannot be assigned to AI Development due to a hard constraint. Between Choice 1 and Choice 2 both assignments result in significant interpersonal conflicts among al,1,False,4823.0,14446.0,59.37067222595215,0.021102900000000004,nsga_010
+ex015,**exception raised**: cannot find final answer,2,False,5633.0,12952.0,88.52482223510742,0.0155835,nsga_010
+ex065,**exception raised**: invalid literal for int() with base 10: '\\n[Justification]\\n[Chosen Assignment]\\n</answer>`. It also clarifies that the justification and assignment should be concatenated into a single string with an implied newline between them.\n\nBas,1,False,5263.0,15201.0,65.81141114234924,0.019307300000000003,nsga_010
+ex057,"**exception raised**: invalid literal for int() with base 10: 'FINAL ANSWER</answer>` where `FINAL ANSWER` is the *output of the function*.\n\nThe output of `extract_index` is an `int`. So `FINAL ANSWER` should be `1`.\nThe prompt also says ""the output should be",2,False,10025.0,19928.0,71.74823880195618,0.0226109,nsga_010
+ex030,2,2,True,4696.0,11529.0,46.7561240196228,0.016401400000000003,nsga_010
+ex055,1,1,True,5273.0,9892.0,40.544482469558716,0.013550000000000003,nsga_010
+ex029,1,1,True,4343.0,17148.0,68.21980834007263,0.0282962,nsga_010
+ex049,**exception raised**: invalid literal for int() with base 10: '` should be the raw string that `print()` would output.\\nThis means:\\n1.  A newline.\\n2.  The justification string.\\n3.  A newline.\\n4.  The chosen assignment string.\\n5.  A newline.\\n\\nSo my,2,False,6393.0,20392.0,73.2385311126709,0.020477,nsga_010
+ex052,**exception raised**: invalid literal for int() with base 10: 'The assignment of Violinist: Elizabeth Cellist: Carla and George is selected. This choice is made because it preserves the positive synergy between Carla and George who often collaborate and support ,1,False,12206.0,16714.0,65.12572360038757,0.017323500000000002,nsga_010
+ex063,"**exception raised**: invalid literal for int() with base 10: 'Justification string.\nChosen assignment string exactly as it appears in choices.\n</answer>\n```\n\nThe user has provided the `answer_text` and the `choices` list:\n`answer_text = \'... </answer>""\\",0,False,5970.0,19292.0,65.60416722297668,0.0188923,nsga_010
+ex019,"**exception raised**: invalid literal for int() with base 10: '\\nJustification text.\\nChosen assignment string.\\n</answer>\\n\\nThe question is ""what is the best assignment of people to roles?"".\\nThe function should return a string.\\n\\nLet\\\'s make sure t",1,False,5103.0,21291.0,77.16225385665894,0.020369,nsga_010
+ex020,**exception raised**: invalid literal for int() with base 10: '` tags.\n</thought>\n<answer>\n2',1,False,2825.0,11121.0,45.61491084098816,0.017159100000000004,nsga_010
+ex040,"**exception raised**: invalid literal for int() with base 10: '`.\\n\\nLet\\\'s make the justification slightly more concise and directly reference the deciding factors.\\n\\nFinal check on output format:\\n""If your answer is x show it as it would printed by a P",2,False,5046.0,20447.0,74.02756023406982,0.0180471,nsga_010
+ex051,0,2,False,4229.0,11224.0,49.67830538749695,0.018519099999999997,nsga_010
+ex002,**exception raised**: invalid literal for int() with base 10: '` section for the final output formatted as if printed by Python (no quotes for strings).\n\nMy task is to *simulate the output of the `extract_index` function*. This means I should output the *retur,2,False,8932.0,16752.0,65.149817943573,0.020420300000000002,nsga_010
+ex056,1,1,True,2802.0,11873.0,46.95010590553284,0.018883900000000002,nsga_010
+ex064,0,0,True,5131.0,13510.0,49.826956033706665,0.019863000000000002,nsga_010
+ex066,1,2,False,3233.0,12173.0,46.82031273841858,0.0182569,nsga_010
+ex050,0,0,True,4445.0,13045.0,51.1758189201355,0.0205358,nsga_010
+ex023,2,2,True,5413.0,19647.0,69.72641563415527,0.0199916,nsga_010
+ex058,2,2,True,5765.0,11131.0,39.81668043136597,0.0151111,nsga_010
+ex025,2,2,True,2969.0,7775.0,32.98687386512756,0.0116718,nsga_010
+ex016,"**exception raised**: invalid literal for int() with base 10: ""` tags.\n    The format requires the string to be printed as if by `print(x)` meaning no surrounding quotes.\n</thought>\n<answer>\nChoices 1 and 3 are invalid due to hard constraint violations: Choi",1,False,6086.0,13609.0,52.67951560020447,0.0161762,nsga_010
+ex033,0,1,False,2892.0,14197.0,57.56772756576538,0.017069300000000003,nsga_010
+ex022,1,1,True,2667.0,11041.0,41.718554973602295,0.015728500000000003,nsga_010
+ex048,"**exception raised**: invalid literal for int() with base 10: 'FINAL ANSWER</answer>` which implies the output itself is the ""FINAL ANSWER"".\nThis is confusing. The function `extract_index` returns an integer. The example output seems to expect a string.\n\nLet\",0,False,4254.0,24325.0,93.12321615219116,0.0351187,nsga_010
+ex024,2,2,True,4871.0,10963.0,36.943557024002075,0.013966600000000001,nsga_010
+ex005,"**exception raised**: invalid literal for int() with base 10: 'and </answer> tags.""\nThis implies the output *could* be a string but the function signature `-> int` dictates it should be an integer.\n\nThe user\'s example of the `answer_text` *also* contains an ",0,False,6773.0,24130.0,77.61954236030579,0.0304952,nsga_010
+ex006,**exception raised**: invalid literal for int() with base 10: '` tag.\n    The `answer_text` provided starts with a lot of explanation and code blocks but it also contains the specific string that is present as the first choice.\n    The key part of the `answer_,0,False,4768.0,29166.0,91.24298620223999,0.0243464,nsga_010
+ex042,2,0,False,3110.0,11293.0,47.22644805908203,0.0165716,nsga_010
+ex062,**exception raised**: invalid literal for int() with base 10: '`.\n    # The `extract_index` stub doesn\'t fit this format.\n    # I will assume the prompt *wants* the output of a function that behaves as described in the detailed reasoning.\n\n    # The thought,2,False,5380.0,18276.0,71.36704015731812,0.0196928,nsga_010
+ex009,2,2,True,3895.0,9388.0,44.30570340156555,0.012601300000000001,nsga_010
+ex047,1,1,True,3084.0,8527.0,52.691768407821655,0.0128459,nsga_010
+ex021,0,0,True,2926.0,9602.0,40.87139868736267,0.017322600000000004,nsga_010
+ex027,2,2,True,5628.0,10991.0,43.635343074798584,0.014594000000000001,nsga_010
+ex053,2,2,True,5897.0,13849.0,49.21136474609375,0.017331,nsga_010
+ex010,"**exception raised**: invalid literal for int() with base 10: ""Score for 'Doctor: David Nurse: Emily and Olivia': INVALID\n\nScore for 'Doctor: Olivia Nurse: David and Emily': INVALID (Hard Constraint Violation)\n\nScore for 'Doctor: Emily Nurse: David and Olivi",2,False,4522.0,13621.0,49.66100525856018,0.0137365,nsga_010
+ex000,"**exception raised**: invalid literal for int() with base 10: 'and </answer> tags.""\n\nSo the final answer should be just the integer `2`.\n</thought>\n<answer>\n2'",2,False,5414.0,17234.0,66.86360287666321,0.0216862,nsga_010
+ex069,**exception raised**: invalid literal for int() with base 10: '` tags.\\n    The justification comes *before* the answer string within the response but not inside the `<answer>` tags. The documentation implies the function *produces* the score and justification ,2,False,5734.0,18497.0,68.38739728927612,0.0171717,nsga_010
+ex037,1,1,True,4498.0,14671.0,61.455931425094604,0.024289400000000003,nsga_010
+ex070,1,1,True,4814.0,10480.0,41.99967312812805,0.017402400000000002,nsga_010

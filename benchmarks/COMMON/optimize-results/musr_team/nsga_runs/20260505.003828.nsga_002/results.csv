@@ -1,0 +1,51 @@
+case_name,predicted_output,expected_output,correct,input_tokens,output_tokens,latency,cost,expt_name
+ex046,**exception raised**: 'charmap' codec can't encode characters in position 0-49: character maps to <undefined>,0,False,809.0,2048.0,46.85958695411682,0.00357125,nsga_002
+ex018,1,0,False,833.0,1470.0,23.725193738937378,0.0028787500000000002,nsga_002
+ex036,0,0,True,798.0,1201.0,29.789978504180908,0.00249875,nsga_002
+ex008,1,1,True,689.0,703.0,10.795636177062988,0.0017400000000000002,nsga_002
+ex007,**exception raised**: 'charmap' codec can't encode characters in position 0-49: character maps to <undefined>,0,False,755.0,981.0,22.49752163887024,0.00217,nsga_002
+ex059,**exception raised**: 'charmap' codec can't encode characters in position 0-49: character maps to <undefined>,1,False,726.0,1252.0,16.970165967941284,0.0024725000000000003,nsga_002
+ex071,0,0,True,769.0,623.0,13.593422651290894,0.0017400000000000002,nsga_002
+ex060,**exception raised**: 'charmap' codec can't encode characters in position 0-49: character maps to <undefined>,2,False,813.0,560.0,13.032519578933716,0.0017162500000000001,nsga_002
+ex043,**exception raised**: 'charmap' codec can't encode characters in position 0-49: character maps to <undefined>,1,False,836.0,1163.0,50.70117473602295,0.00249875,nsga_002
+ex039,1,1,True,774.0,846.0,10.022337913513184,0.002025,nsga_002
+ex015,2,2,True,740.0,619.0,14.229002714157104,0.0016987500000000002,nsga_002
+ex065,1,1,True,777.0,939.0,23.989115953445435,0.002145,nsga_002
+ex057,**exception raised**: 'charmap' codec can't encode characters in position 0-49: character maps to <undefined>,2,False,812.0,2048.0,27.19993758201599,0.003575,nsga_002
+ex030,**exception raised**: 'charmap' codec can't encode characters in position 0-49: character maps to <undefined>,2,False,872.0,604.0,15.076728820800781,0.001845,nsga_002
+ex055,**exception raised**: 'charmap' codec can't encode characters in position 0-49: character maps to <undefined>,1,False,715.0,855.0,23.117119550704956,0.0019625000000000003,nsga_002
+ex029,**exception raised**: 'charmap' codec can't encode characters in position 0-49: character maps to <undefined>,1,False,671.0,2048.0,29.25560688972473,0.0033987500000000003,nsga_002
+ex049,1,2,False,723.0,1159.0,12.662719249725342,0.0023525000000000004,nsga_002
+ex052,**exception raised**: 'charmap' codec can't encode characters in position 0-49: character maps to <undefined>,1,False,640.0,2048.0,46.606847524642944,0.00336,nsga_002
+ex063,0,0,True,712.0,1058.0,22.820040464401245,0.0022125,nsga_002
+ex019,1,1,True,760.0,770.0,16.91722297668457,0.0019125000000000001,nsga_002
+ex020,2,1,False,707.0,599.0,13.745897769927979,0.0016325000000000003,nsga_002
+ex040,**exception raised**: 'charmap' codec can't encode characters in position 0-49: character maps to <undefined>,2,False,720.0,1131.0,23.8247230052948,0.0023137500000000003,nsga_002
+ex051,0,2,False,791.0,1424.0,52.505274057388306,0.0027687500000000004,nsga_002
+ex002,2,2,True,699.0,487.0,17.487322330474854,0.0014825,nsga_002
+ex056,1,1,True,649.0,580.0,20.44787096977234,0.00153625,nsga_002
+ex064,0,0,True,705.0,711.0,18.276951789855957,0.0017700000000000003,nsga_002
+ex066,1,2,False,719.0,1017.0,42.42366123199463,0.00217,nsga_002
+ex050,0,0,True,719.0,630.0,21.46593976020813,0.0016862500000000002,nsga_002
+ex023,**exception raised**: 'charmap' codec can't encode characters in position 0-49: character maps to <undefined>,2,False,731.0,702.0,33.04697299003601,0.00179125,nsga_002
+ex058,2,2,True,748.0,666.0,26.15551495552063,0.0017675,nsga_002
+ex025,**exception raised**: 'charmap' codec can't encode characters in position 0-49: character maps to <undefined>,2,False,748.0,659.0,29.402156591415405,0.0017587500000000001,nsga_002
+ex016,1,1,True,802.0,1421.0,58.53180432319641,0.00277875,nsga_002
+ex033,**exception raised**: 'charmap' codec can't encode characters in position 0-49: character maps to <undefined>,1,False,704.0,714.0,29.249955415725708,0.0017725000000000002,nsga_002
+ex022,1,1,True,581.0,744.0,36.37611722946167,0.0016562500000000002,nsga_002
+ex048,**exception raised**: 'charmap' codec can't encode characters in position 0-49: character maps to <undefined>,0,False,762.0,1471.0,56.92379450798035,0.0027912500000000003,nsga_002
+ex024,2,2,True,647.0,417.0,23.50228261947632,0.00133,nsga_002
+ex005,0,0,True,757.0,1645.0,42.93178987503052,0.0030025000000000004,nsga_002
+ex006,0,0,True,683.0,1415.0,42.476664543151855,0.0026225000000000003,nsga_002
+ex042,**exception raised**: 'charmap' codec can't encode characters in position 0-49: character maps to <undefined>,0,False,779.0,1180.0,14.697559356689453,0.0024487500000000004,nsga_002
+ex062,1,2,False,750.0,1100.0,26.61524748802185,0.0023125000000000003,nsga_002
+ex009,**exception raised**: 'charmap' codec can't encode characters in position 0-49: character maps to <undefined>,2,False,675.0,1835.0,46.95458459854126,0.0031375000000000005,nsga_002
+ex047,**exception raised**: 'charmap' codec can't encode characters in position 0-49: character maps to <undefined>,1,False,718.0,602.0,21.063446283340454,0.00165,nsga_002
+ex021,0,0,True,704.0,609.0,9.35094928741455,0.0016412500000000001,nsga_002
+ex027,2,2,True,695.0,607.0,6.985853672027588,0.0016275,nsga_002
+ex053,**exception raised**: 'charmap' codec can't encode characters in position 0-49: character maps to <undefined>,2,False,682.0,778.0,14.671046257019043,0.0018250000000000002,nsga_002
+ex010,2,2,True,637.0,1219.0,28.483330965042114,0.00232,nsga_002
+ex000,2,2,True,747.0,641.0,10.87480902671814,0.0017350000000000002,nsga_002
+ex069,**exception raised**: 'charmap' codec can't encode characters in position 0-49: character maps to <undefined>,2,False,729.0,222.0,14.094248294830322,0.0011887500000000001,nsga_002
+ex037,1,1,True,792.0,1424.0,27.194239139556885,0.00277,nsga_002
+ex070,1,1,True,765.0,595.0,9.475568532943726,0.0017000000000000001,nsga_002
