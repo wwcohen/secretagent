@@ -96,7 +96,7 @@ def build_tables() -> tuple[pd.DataFrame, pd.DataFrame]:
                 if metric == "cost":
                     mean *= 100
                     sem *= 100
-                row[strategy] = f"{mean:.4f} +/- {sem:.4f}"
+                row[strategy] = f"{mean:.2f} +/- {sem:.2f}"
 
         cost_rows.append(cost_row)
         correct_rows.append(correct_row)
@@ -125,7 +125,7 @@ def _avg_row(df: pd.DataFrame, label: str, exclude_prefix: str | None = None) ->
         if vals:
             avg = np.mean(vals)
             se = np.std(vals, ddof=1) / np.sqrt(len(vals)) if len(vals) > 1 else 0.0
-            row[col] = f"{avg:.4f} +/- {se:.4f}"
+            row[col] = f"{avg:.2f} +/- {se:.2f}"
         else:
             row[col] = ""
     return pd.DataFrame([row]).set_index("task")
@@ -242,7 +242,7 @@ _LATEX_HEADERS = {
     "react": r"\makecell{Dynamic\\Workflow\\(ReAct)}",
     "pot": r"\makecell{Dynamic\\Workflow\\(PoT)}",
     "structured_baseline": r"\makecell{Zero-shot\\(Default\\Imp.)}",
-    "unstructured_baseline": r"\makecell{Zero-shot\\(Custom\\Prompt)}",
+    "unstructured_baseline": r"\makecell{Zero-shot\\(Traditional\\Prompt)}",
 }
 
 
@@ -312,6 +312,19 @@ def _print_latex_compact(correct_df: pd.DataFrame, cost_df: pd.DataFrame,
     print(r"\midrule")
 
     for task in tasks:
+        # Skip non-summary rows with any missing values
+        if not task.startswith("AVERAGE"):
+            has_missing = False
+            for s in strats:
+                if s in correct_df.columns and task in correct_df.index:
+                    if _parse_cell(correct_df.loc[task, s]) is None:
+                        has_missing = True
+                if s in cost_df.columns:
+                    if _parse_cell(cost_df.loc[task, s]) is None:
+                        has_missing = True
+            if has_missing:
+                continue
+
         # Correctness cells (bold = max)
         parsed_correct = {s: _parse_cell(correct_df.loc[task, s]) for s in strats if s in correct_df.columns} if task in correct_df.index else {}
         correct_means = [p[0] for p in parsed_correct.values() if p is not None]
