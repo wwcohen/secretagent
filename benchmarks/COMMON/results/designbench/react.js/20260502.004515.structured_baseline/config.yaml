@@ -1,0 +1,35 @@
+llm:
+  model: gemini/gemini-3-flash-preview
+cachier:
+  cache_dir: /Users/goku/Work/Spring_26/IS/secretagent/benchmarks/designbench/llm_cache
+evaluate:
+  result_dir: /Users/goku/Work/Spring_26/IS/secretagent/benchmarks/designbench/results
+  expt_name: structured_gemini3_flash_react_noleak
+  entry_point: generate_code
+  record_details: true
+dataset:
+  framework: react
+  shuffle_seed: 42
+  max_reference_chars: 20000
+benchmark:
+  output_framework: null
+  skip_eval: false
+  case_timeout_seconds: 120
+vlm:
+  provider: gemini
+  max_tokens: 8192
+  timeout_seconds: 120
+  retries: 3
+  retry_sleep_seconds: 2.0
+  enable_thinking: false
+  enabled: true
+echo:
+  model: false
+  llm_input: false
+  llm_output: false
+ptools:
+  generate_code:
+    method: vlm
+    prompt_mode: structured
+    output_mode: answer_tag
+root: /Users/goku/Work/Spring_26/IS/secretagent/benchmarks/designbench

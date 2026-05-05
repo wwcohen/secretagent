@@ -1,0 +1,52 @@
+llm:
+  model: gemini/gemini-3-flash-preview
+cachier:
+  cache_dir: /Users/goku/Work/Spring_26/IS/secretagent/benchmarks/designbench/llm_cache
+evaluate:
+  result_dir: /Users/goku/Work/Spring_26/IS/secretagent/benchmarks/designbench/results
+  expt_name: 20260502.141144.react_gemini3fw_vue
+  entry_point: generate_code
+  record_details: true
+dataset:
+  framework: vue
+  shuffle_seed: 42
+  max_reference_chars: 20000
+benchmark:
+  output_framework: null
+  skip_eval: false
+  case_timeout_seconds: 120
+vlm:
+  provider: gemini
+  max_tokens: 8192
+  timeout_seconds: 120
+  retries: 3
+  retry_sleep_seconds: 2.0
+  enable_thinking: false
+  enabled: true
+echo:
+  model: false
+  llm_input: false
+  llm_output: false
+ptools:
+  propose_code:
+    method: vlm
+    prompt_mode: unstructured
+    output_mode: freeform
+    user_text: 'The webpage screenshot:
+
+      '
+  render_generated_image:
+    method: direct
+  fix_code_from_rendered_and_reference:
+    method: vlm
+    prompt_mode: unstructured
+    output_mode: freeform
+    user_text: ''
+  generate_code:
+    method: react
+    max_steps: 20
+    tools:
+    - ptools.propose_code
+    - ptools.render_generated_image
+    - ptools.fix_code_from_rendered_and_reference
+root: /Users/goku/Work/Spring_26/IS/secretagent/benchmarks/designbench

@@ -243,3 +243,4 @@ docs/superpowers/
 benchmarks/designbench/data/
 benchmarks/designbench/results/
 benchmarks/results/designbench/*/*/artifacts/
+benchmarks/COMMON/results/designbench/*/*/artifacts/*

@@ -10,6 +10,8 @@ evaluate:
   expt_name: designbench_ptool
   entry_point: generate_code
   clip_threshold: 0.75
+  # Verbose: attach prompt/response traces to LLM stats (turn off when done debugging).
+  record_details: true
 
 dataset:
   framework: vanilla
@@ -35,11 +37,15 @@ vlm:
   enable_thinking: false
   enabled: true
 
+# Verbose LLM I/O to the terminal (turn off when done debugging).
+echo:
+  model: true
+  llm_input: true
+  llm_output: true
+
 ptools:
   generate_code:
-    method: react
-    max_steps: 20
-    tools:
-      - ptools.generate_code.func
-      - ptools.render_generated_image
-      - ptools.fix_code_from_rendered_and_reference
+    method: vlm
+    prompt_mode: docstring
+    output_mode: freeform
+    user_text: "The webpage screenshot:\n"
