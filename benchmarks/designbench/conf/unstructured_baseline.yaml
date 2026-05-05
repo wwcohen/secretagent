@@ -1,0 +1,50 @@
+# Choose any litellm-compatible model.
+llm:
+  model: Qwen/Qwen3.5-9B
+
+cachier:
+  cache_dir: llm_cache
+
+evaluate:
+  result_dir: results
+  expt_name: unstructured_baseline
+  entry_point: generate_code
+  # Verbose: attach prompt/response traces to LLM stats (turn off when done debugging).
+  record_details: true
+
+dataset:
+  framework: vanilla
+  shuffle_seed: 42
+  # Limit long HTML pages so prompts stay tractable.
+  max_reference_chars: 20000
+
+benchmark:
+  # If null, output framework follows dataset.framework.
+  output_framework: null
+  skip_eval: false
+  case_timeout_seconds: 120
+
+# Optional path to local DesignBench repo.
+# designbench:
+#   root: /absolute/path/to/DesignBench
+
+vlm:
+  max_tokens: 4096
+  timeout_seconds: 45
+  retries: 5
+  retry_sleep_seconds: 5.0
+  enable_thinking: false
+  enabled: true
+
+# Verbose LLM I/O to the terminal (turn off when done debugging).
+echo:
+  model: false
+  llm_input: false
+  llm_output: false
+
+ptools:
+  generate_code:
+    method: vlm
+    prompt_mode: unstructured
+    output_mode: freeform
+    user_text: "The webpage screenshot:\n"

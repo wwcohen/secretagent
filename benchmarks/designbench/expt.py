@@ -13,6 +13,25 @@ Example CLI commands:
 
     # skip visual evaluation (generation only)
     uv run python benchmarks/designbench/expt.py run --config-file conf/conf.yaml benchmark.skip_eval=true
+
+    # Rerun only prior failures (non-empty error/eval_error or render_failed); use a new expt_name.
+    # Use the real directory from the prior run (printed as ``saved in .../results.csv``), e.g.
+    # ``results/20260501.153000.my_expt/results.csv`` under this benchmark, not a placeholder name.
+    uv run python benchmarks/designbench/expt.py run --config-file conf/react_gemini_echo_all_ptools.yaml \\
+      dataset.framework=vanilla \\
+      dataset.rerun_from_csv=results/20260501.153000.my_expt/results.csv \\
+      evaluate.expt_name=my_expt_retry_failed
+
+    # Fixed pipeline: ``propose_code`` once, then up to ``benchmark.refine_rounds`` ×
+    # (``render_generated_image`` + ``fix_code_from_rendered_and_reference``); see
+    # ``ptools.propose_then_refine_loop`` (early exit on ``REFINE_DONE`` / unchanged code).
+    uv run python benchmarks/designbench/expt.py run --config-file conf/refine_loop_gemini.yaml dataset.n=2
+
+    # Refine loop on vanilla / react / vue only (no angular); run from ``benchmarks/designbench/``:
+    # for fw in vanilla react vue; do
+    #   uv run python expt.py run --config-file conf/refine_loop_gemini.yaml \\
+    #     dataset.framework=$fw evaluate.expt_name=refine_loop_gemini_${fw}
+    # done
 """
 
 import json
@@ -90,15 +109,28 @@ def _configure_designbench_imports() -> None:
     sys.path.insert(0, str(code_dir))
 
 
-def _set_designbench_generate_prompt(framework: str) -> None:
-    """Set generate_code docstring to the original DesignBench system prompt."""
+def get_designbench_generation_prompt_text(framework: str) -> str | None:
+    """Return DesignBench ``get_design_generation_prompt`` text, or ``None`` if unavailable."""
     try:
         from prompt.generation_prompt import get_design_generation_prompt  # type: ignore
         from utils import Framework  # type: ignore
     except ImportError:
+        return None
+    text, _ = get_design_generation_prompt(Framework(framework))
+    return text
+
+
+def _set_designbench_generate_code_doc(framework: str) -> None:
+    """Set ``generate_code`` and ``propose_code`` docs from the sibling DesignBench repo.
+
+    Uses ``prompt.generation_prompt.get_design_generation_prompt`` so React / Vue / etc.
+    instructions match the official DesignBench evaluator (not the vanilla-only stubs in ``ptools.py``).
+    """
+    text = get_designbench_generation_prompt_text(framework)
+    if text is None:
         return
-    system_prompt, _ = get_design_generation_prompt(Framework(framework))
-    ptools.generate_code.doc = system_prompt
+    ptools.generate_code.doc = text
+    ptools.propose_code.doc = text
 
 
 def _encode_image_base64(path: Path) -> str:
@@ -121,9 +153,29 @@ def _find_dataset_reference_image(item_dir: Path, item_id: str) -> Path | None:
     return None
 
 
-def load_dataset(framework: str, max_reference_chars: int | None) -> Dataset:
-    """Load DesignBench generation data for one framework."""
-    data_root = _BENCHMARK_DIR / 'data' / 'generation' / framework
+def load_dataset(
+    framework: str,
+    code_framework: str | None = None,
+    *,
+    generation_root: Path | None = None,
+) -> Dataset:
+    """Load DesignBench generation data for one framework.
+
+    ``framework`` selects which split directory to read. ``code_framework``,
+    if set, is passed as ``framework`` into ``generate_code`` / ``propose_code``
+    (target syntax); when omitted it defaults to the split name.
+
+    ``generation_root``, if set, must be the parent of per-framework folders
+    (i.e. ``generation_root / framework / <item_id>/``). Defaults to
+    ``<designbench>/data/generation``.
+
+    **Model input:** ``generate_code(framework, reference_screenshot=\"\")`` with
+    pixels only in ``input_kw['images']['reference_screenshot']`` (base64).
+    Golden HTML is never passed to the model (HTML files on disk are for eval /
+    bookkeeping only). Items without a reference image next to the HTML are skipped.
+    """
+    base = generation_root if generation_root is not None else _BENCHMARK_DIR / 'data' / 'generation'
+    data_root = Path(base) / framework
     if not data_root.exists():
         raise FileNotFoundError(f'Framework directory not found: {data_root}')
 
@@ -142,30 +194,100 @@ def load_dataset(framework: str, max_reference_chars: int | None) -> Dataset:
             continue
 
         with open(meta_path) as f:
-            metadata = json.load(f)
-        reference_html = html_path.read_text(encoding='utf-8', errors='ignore')
-        if max_reference_chars and max_reference_chars > 0:
-            reference_html = reference_html[:max_reference_chars]
+            json.load(f)  # require valid sidecar JSON; contents not passed to ``generate_code``
 
+        reference_image = _find_dataset_reference_image(item_dir, item_id)
+        if reference_image is None:
+            continue
+
+        encoded_image = _encode_image_base64(reference_image)
         expected = {
             'id': item_id,
             'framework': framework,
             'reference_html_path': str(html_path),
+            'reference_image_path': str(reference_image),
         }
-        input_kw = {}
-        reference_image = _find_dataset_reference_image(item_dir, item_id)
-        if reference_image is not None:
-            encoded_image = _encode_image_base64(reference_image)
-            expected['reference_image_path'] = str(reference_image)
-            input_kw = {'images': {'reference': encoded_image}}
+        input_kw = {'images': {'reference_screenshot': encoded_image}}
+        gen_fw = code_framework if code_framework else framework
         cases.append(Case(
             name=f'{framework}.{item_id}',
-            input_args=(reference_html, framework, metadata),
+            input_args=(gen_fw, ''),
             input_kw=input_kw,
             expected_output=expected,
         ))
 
+    if not cases:
+        raise FileNotFoundError(
+            f'No generation cases with a reference image under {data_root} '
+            '(expected a .png / .jpg / .webp next to each item HTML).'
+        )
+
     return Dataset(name='designbench', split=framework, cases=cases)
+
+
+def _results_row_failed(row: pd.Series) -> bool:
+    for col in ('error', 'eval_error'):
+        if col in row.index and pd.notna(row[col]) and str(row[col]).strip():
+            return True
+    if 'render_failed' in row.index and pd.notna(row['render_failed']):
+        v = row['render_failed']
+        if v is True or str(v).strip().lower() in ('true', '1', 'yes'):
+            return True
+    return False
+
+
+def _failed_case_names_from_results_csv(csv_path: Path) -> set[str]:
+    """Collect ``case_name`` values for rows that look failed in a prior ``results.csv``."""
+    df = pd.read_csv(csv_path)
+    if df.empty:
+        return set()
+    if 'case_name' not in df.columns:
+        if df.index.name == 'case_name':
+            df = df.reset_index()
+        else:
+            first = df.columns[0]
+            df = df.rename(columns={first: 'case_name'})
+    out: set[str] = set()
+    for _, row in df.iterrows():
+        if not _results_row_failed(row):
+            continue
+        cn = row.get('case_name')
+        if cn is None or (isinstance(cn, float) and pd.isna(cn)):
+            continue
+        out.add(str(cn).strip())
+    return out
+
+
+def _resolve_prior_results_csv(
+    user_path: str,
+    benchmark_dir: Path,
+) -> tuple[list[Path], Path | None]:
+    """Resolve ``dataset.rerun_from_csv`` relative to the benchmark dir or to ``benchmarks/``."""
+    raw = Path(user_path.strip()).expanduser()
+    candidates: list[Path] = []
+    if raw.is_absolute():
+        candidates.append(raw.resolve())
+    else:
+        candidates.append((benchmark_dir / raw).resolve())
+        alt = (benchmark_dir.parent / raw).resolve()
+        if alt not in candidates:
+            candidates.append(alt)
+    for c in candidates:
+        if c.exists():
+            return candidates, c
+    return candidates, None
+
+
+def _subset_dataset_to_failed_rerun(dataset: Dataset, prior_csv: Path) -> None:
+    failed = _failed_case_names_from_results_csv(prior_csv)
+    before = len(dataset.cases)
+    dataset.cases = [c for c in dataset.cases if c.name in failed]
+    after = len(dataset.cases)
+    print(
+        f'[designbench] rerun_from_csv={prior_csv} failed_rows={len(failed)} '
+        f'matched_cases={after}/{before}',
+        flush=True,
+    )
 
 
 class DesignBenchEvaluator(Evaluator):
@@ -341,21 +463,43 @@ def run(
     _configure_designbench_imports()
 
     framework = config.require('dataset.framework')
-    _set_designbench_generate_prompt(framework)
+    output_framework = config.get('benchmark.output_framework') or framework
+    _set_designbench_generate_code_doc(output_framework)
     implement_via_config(ptools, config.require('ptools'))
     dataset = load_dataset(
         framework=framework,
-        max_reference_chars=config.get('dataset.max_reference_chars'),
+        code_framework=config.get('benchmark.code_framework'),
     )
     dataset = dataset.configure(
         n=config.get('dataset.n'),
     )
+    rerun_csv = config.get('dataset.rerun_from_csv')
+    if rerun_csv:
+        tried, rp = _resolve_prior_results_csv(str(rerun_csv), _BENCHMARK_DIR)
+        if rp is None:
+            result_dir = Path(config.require('evaluate.result_dir'))
+            tried_s = ', '.join(str(p) for p in tried)
+            raise FileNotFoundError(
+                'dataset.rerun_from_csv: file not found.\n'
+                f'  Tried: {tried_s}\n'
+                '  Use the actual run folder name from your prior experiment (the path printed as '
+                '"saved in .../results.csv"), not a placeholder like PRIOR_RUN.\n'
+                f'  Typical layout: {result_dir}/<timestamp>.<evaluate.expt_name>/results.csv'
+            )
+        _subset_dataset_to_failed_rerun(dataset, rp)
+        if not dataset.cases:
+            print(
+                '[designbench] No cases to rerun (no failed rows matched dataset case names).',
+                flush=True,
+            )
+            return
+
     print('dataset:', dataset.summary())
     entry_point = config.require('evaluate.entry_point')
     interface = getattr(ptools, entry_point)
 
     evaluator = DesignBenchEvaluator(
-        output_framework=config.get('benchmark.output_framework') or framework,
+        output_framework=output_framework,
         skip_eval=bool(config.get('benchmark.skip_eval')),
     )
     csv_path = evaluator.evaluate(dataset, interface)

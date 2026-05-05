@@ -1,0 +1,41 @@
+# VLM + simulate_pydantic.txt (stub + <answer> tags).
+llm:
+  model: Qwen/Qwen3.5-9B
+
+cachier:
+  cache_dir: llm_cache
+
+evaluate:
+  result_dir: results
+  expt_name: structured_baseline
+  entry_point: generate_code
+  record_details: true
+
+dataset:
+  framework: vanilla
+  shuffle_seed: 42
+  max_reference_chars: 20000
+
+benchmark:
+  output_framework: null
+  skip_eval: false
+  case_timeout_seconds: 120
+
+vlm:
+  max_tokens: 2048
+  timeout_seconds: 45
+  retries: 5
+  retry_sleep_seconds: 5.0
+  enable_thinking: false
+  enabled: true
+
+echo:
+  model: true
+  llm_input: true
+  llm_output: true
+
+ptools:
+  generate_code:
+    method: vlm
+    prompt_mode: structured
+    output_mode: answer_tag

@@ -1,0 +1,74 @@
+# DesignBench **fixed refine loop** (no ReAct): entry ``ptools.propose_then_refine_loop``
+# (``generate_code`` + ``method: direct``). One ``propose_code``, then
+# Up to ``benchmark.refine_rounds`` iterations of screenshot render + VLM correct
+# (stops early on ``REFINE_DONE`` or unchanged extracted code).
+#
+# Step names in the loop (same tools as the ReAct recipe, deterministic order):
+#   1. propose_code
+#   2. generate_screenshot_from_code  → ``ptools.render_generated_image`` (direct)
+#   3. correct_and_generate_code      → ``ptools.fix_code_from_rendered_and_reference`` (VLM)
+#   (2–3 repeat until done or refine_rounds, default cap 20)
+#
+# Single split:
+#   uv run python expt.py run --config-file conf/refine_loop_gemini.yaml dataset.framework=vue dataset.n=2
+#
+# All non-angular splits (from this directory):
+#   for fw in vanilla react vue; do
+#     uv run python expt.py run --config-file conf/refine_loop_gemini.yaml \
+#       dataset.framework=$fw evaluate.expt_name=refine_loop_gemini_${fw}
+#   done
+llm:
+  model: gemini/gemini-3-flash-preview
+
+cachier:
+  cache_dir: llm_cache
+
+evaluate:
+  result_dir: results
+  expt_name: refine_loop_gemini
+  entry_point: generate_code
+  record_details: true
+
+dataset:
+  framework: vanilla
+  shuffle_seed: 42
+  max_reference_chars: 20000
+
+benchmark:
+  output_framework: null
+  skip_eval: false
+  case_timeout_seconds: 120
+  refine_rounds: 20
+
+vlm:
+  provider: gemini
+  max_tokens: 16384
+  timeout_seconds: 120
+  retries: 3
+  retry_sleep_seconds: 2.0
+  enable_thinking: false
+  enabled: true
+
+echo:
+  # Prints Gemini/JSON prompts (``vlm_input``), raw completions (``vlm_output``), and
+  # ``designbench_refine_io`` boxes from ``ptools`` (fence + char counts per refine step).
+  model: false
+  llm_input: false
+  llm_output: false
+
+ptools:
+  propose_code:
+    method: vlm
+    prompt_mode: unstructured
+    output_mode: freeform
+    user_text: "The webpage screenshot:\n"
+  render_generated_image:
+    method: direct
+  fix_code_from_rendered_and_reference:
+    method: vlm
+    prompt_mode: unstructured
+    output_mode: freeform
+    user_text: ""
+  generate_code:
+    method: direct
+    fn: ptools.propose_then_refine_loop
