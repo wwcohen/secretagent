@@ -16,7 +16,7 @@ KEYTASKS = [
     "natural_plan/meeting",
     "natural_plan/trip",
     "rulearena/nba",
-    "medcalc/overall",
+#    "medcalc/overall",
 #    "medcalc/formula",
 #    "medcalc/rules",
 ]
@@ -102,7 +102,26 @@ def find_react_learned_csv(task, subtask):
     return None
 
 
+ORCHESTRATOR_EXISTING_DIR = os.path.join(BASE, "orchestrator-results", "existing_workflow")
 ORCHESTRATOR_DIR = os.path.join(BASE, "orchestrator-results", "seed_from_ptools")
+
+
+def find_orchestrator_existing_csv(task, subtask):
+    """Find orchestrator/existing_workflow results CSV for a task/subtask."""
+    if task == "medcalc":
+        subtask_dir = os.path.join(ORCHESTRATOR_EXISTING_DIR, "medcalc", "results",
+                                   "learned_from_all_traces", subtask)
+    else:
+        task_subtask = f"{task}_{subtask}".replace("natural_plan", "natplan")
+        subtask_dir = os.path.join(ORCHESTRATOR_EXISTING_DIR, task_subtask, "results")
+    if not os.path.isdir(subtask_dir):
+        return None
+    result = find_latest_dir(subtask_dir, "*test*")
+    if result:
+        csv_path = os.path.join(result, "results.csv")
+        if os.path.isfile(csv_path):
+            return csv_path
+    return None
 
 
 def find_orchestrator_csv(task, subtask):
@@ -221,9 +240,14 @@ def build_dataframes(include_opus=False, suppress=None, transpose=False):
                      lambda t, s, ll=learner_llm, pc=ptool_class: find_codedistill_csv(t, s, learner_llm=ll, ptool_class=pc),
                      tasks)
 
-    # Orchestrator row
+    # Orchestrator (existing workflow) row
     _add_row(correct_rows, cost_rows,
              {"workflow": "orchest", "model": "-", "toolkit": "human"},
+             col_names, find_orchestrator_existing_csv, tasks)
+
+    # Orchestrator (seed from ptools) row
+    _add_row(correct_rows, cost_rows,
+             {"workflow": "orchest", "model": "-", "toolkit": "learned"},
              col_names, find_orchestrator_csv, tasks)
 
     # Optimizer row: NSGA-II Pareto top-1 by test accuracy.

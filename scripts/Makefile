@@ -8,10 +8,10 @@ learning_table:
 	uv run learning_table.py
 
 latex_correct:
-	uv run hero_table.py --min-cols 3 --format latex-correct > 	hero.tex
+	uv run hero_table.py --min-cols 3 --format latex-correct > hero.tex
 
 latex_cost:
-	uv run hero_table.py --min-cols 3 --format latex-cost > 	hero-cost.tex
+	uv run hero_table.py --min-cols 3 --format latex-cost > hero-cost.tex
 
 summarize:
 	uv run hero_table.py --min-cols 3 --format plot-correct --x react --output summary/correct_react.png; open summary/correct_react.png
@@ -55,3 +55,7 @@ count_ptools:
 
 check_splits:
 	uv run benchmark_config.py --check dataset.split
+
+amz_fig:
+	uv run hero_table.py --min-cols 3 --format plot-correct --x react pot --output tmp-correct.png; open tmp-correct.png
+	uv run hero_table.py --min-cols 3 --format plot-cost --x react pot --output tmp-cost.png; open tmp-cost.png

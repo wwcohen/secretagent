@@ -222,15 +222,16 @@ def _plot_comparison(df: pd.DataFrame, metric: str,
                    markersize=7, label=t)
             for t, c in task_colors.items()
         ]
-        ax.legend(handles=strategy_handles + task_handles, fontsize=8, loc="best")
+        ax.legend(handles=strategy_handles + task_handles, fontsize=10, loc="best")
         x_label = "/".join(x_strategy)
     else:
-        ax.legend(fontsize=8, loc="best")
+        ax.legend(fontsize=10, loc="best")
         x_label = x_strategy[0]
 
-    ax.set_xlabel(f"{x_label} {metric}")
-    ax.set_ylabel(f"{y_strategy} {metric}")
-    ax.set_title(f"{y_strategy} vs {x_label} {metric}")
+    ax.set_xlabel(f"{x_label} {metric}", fontsize=14)
+    ax.set_ylabel(f"{y_strategy} {metric}", fontsize=14)
+    ax.set_title(f"{y_strategy} vs {x_label} {metric}", fontsize=16)
+    ax.tick_params(labelsize=10)
     fig.tight_layout()
     fig.savefig(output, dpi=150)
     plt.close(fig)
