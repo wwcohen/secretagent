@@ -10,7 +10,7 @@ cachier:
   enable_caching: true
 evaluate:
   result_dir: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/medcalc/results/orchestration_learner
-  expt_name: induced_orch_equation
+  expt_name: induced_orch_formula
   entry_point: calculate_medical_value
   record_details: true
   max_workers: 4
@@ -24,5 +24,5 @@ ptools:
   calculate_medical_value:
     method: simulate_pydantic
     tools: __all__
-    tool_module: ptools_induced_equation
+    tool_module: ptools_induced_formula
 root: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/medcalc

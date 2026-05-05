@@ -3,7 +3,7 @@ Accuracy metrics for MedCalc-Bench evaluation.
 
 Follows the evaluation protocol from the MedCalc-Bench paper:
 - Rule-based calculators: Exact match required
-- Equation-based calculators: ±5% tolerance for numeric outputs
+- Formula-based calculators: ±5% tolerance for numeric outputs
 - Date outputs: Exact match required
 - Weeks/days outputs: Exact match required
 - Range validation using lower/upper limits
@@ -12,6 +12,27 @@ Follows the evaluation protocol from the MedCalc-Bench paper:
 from dataclasses import dataclass
 from typing import Any, Optional
 import re
+
+FORMULA_CATEGORY_LABELS = {
+    "formula",
+    "formulas",
+    "formula-based",
+    "equation",
+    "equations",
+    "equation-based",
+    "physical",
+    "lab test",
+    "dosage",
+}
+
+RULE_CATEGORY_LABELS = {
+    "rule",
+    "rules",
+    "rule-based",
+    "risk",
+    "diagnosis",
+    "severity",
+}
 
 
 @dataclass
@@ -64,7 +85,7 @@ def calculate_accuracy(
     upper_limit: Optional[float] = None,
     tolerance_pct: float = 5.0,
     output_type: str = "numeric",
-    category: str = "equation-based",
+    category: str = "formula-based",
 ) -> AccuracyResult:
     """
     Calculate accuracy metrics for a prediction.
@@ -76,8 +97,8 @@ def calculate_accuracy(
         upper_limit: Optional upper bound from dataset
         tolerance_pct: Percentage tolerance (default 5% per MedCalc-Bench)
         output_type: Type of output (numeric, date, weeks_days)
-        category: Calculator category ("equation-based" or "rule-based")
-                  Rule-based requires exact match, equation-based allows tolerance
+        category: Calculator category. MedCalcV2 Formulas use tolerance;
+                  MedCalcV2 Rules require exact match.
 
     Returns:
         AccuracyResult with all accuracy metrics
@@ -145,7 +166,8 @@ def calculate_accuracy(
 
     is_exact = absolute_error < 0.01
 
-    if category == "rule-based":
+    category_key = str(category).strip().lower()
+    if category_key in RULE_CATEGORY_LABELS:
         is_within_tolerance = is_exact
     else:
         if ground_truth != 0:

@@ -1,0 +1,14 @@
+1. **Specific failure pattern:** 
+   - *QTc Bazett Calculator*: Fails on 4 cases because the model does not reliably know the standard Bazett formula when asked for it zero-shot, often leading to formatting errors or math failures when it tries to derive it.
+   - *FIB-4 Index*: Fails on 2 cases due to a flawed instruction in the current docstring. The current prompt strictly commands the LLM to divide the platelets by 1000 (e.g., using `0.294`), which causes correct numbers like `282,000` to be extracted as `282` and then incorrectly reduced further to `0.282`, resulting in a final evaluated score off by a magnitude of 1000.
+
+2. **How many of the shown failures share this pattern?** 
+   These two issues account for 6 of the 20 remaining failures.
+
+3. **What is the MINIMAL change that fixes this pattern?** 
+   - I will append the correct mathematical formula for Bazett (`QT / sqrt(60 / HR)`) as Rule 19 in the `CRITICAL FORMULAS AND RULES` section.
+   - I will rewrite Rule 8 (FIB-4) to instruct the model to use the raw number of thousands for platelets (e.g., 282 for 282,000) and explicitly ban it from converting to decimals like 0.282. 
+
+4. **Why will this change NOT break currently working cases?** 
+   - Correcting the FIB-4 rule only triggers when "FIB-4" is specifically requested, and merely repairs an actively sabotaging instruction from a previous iteration. 
+   - Adding Bazett as Rule 19 ensures the formula is only evaluated when a user queries for the "QTc Bazett Calculator" by name, mimicking the identical, successful strategy we employed for QTc Rautaharju, Hodges, and Framingham without risking regressions.

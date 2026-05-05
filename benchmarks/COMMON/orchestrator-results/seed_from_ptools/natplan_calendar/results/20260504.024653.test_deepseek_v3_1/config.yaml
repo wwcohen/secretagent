@@ -1,0 +1,36 @@
+llm:
+  model: together_ai/deepseek-ai/DeepSeek-V3.1
+  timeout: 180
+cachier:
+  cache_dir: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/natural_plan/llm_cache
+  enable_caching: true
+evaluate:
+  result_dir: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/COMMON/orchestrator-results/seed_from_ptools/natplan_calendar
+  expt_name: test_deepseek_v3_1
+  entry_point: calendar_scheduling
+  prompt_trace: true
+  record_details: true
+  max_workers: 4
+dataset:
+  split: calendar
+  shuffle_seed: 42
+  prompt_mode: 0shot
+  'n': null
+  stratified: false
+  sample_n: 50
+  sample_seed: 42
+  partition: test
+ptools:
+  parse_schedules:
+    method: simulate
+  find_available_slots:
+    method: simulate
+  select_and_format:
+    method: simulate
+  calendar_scheduling:
+    method: direct
+    fn: __learned__.calendar_scheduling_orchestrated_seed
+    learner: orch_learner
+learn:
+  train_dir: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/COMMON/orchestrator-results/_train_dirs/seed_from_ptools/natplan_calendar
+root: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/natural_plan

@@ -1,0 +1,290 @@
+case_name,predicted_output,predicted_numeric,expected_output,correct,exact_match,within_limits,absolute_error,calculator_name,category,output_type,input_tokens,output_tokens,latency,cost,expt_name
+train.7350,"**exception raised**: status_code: 503, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.ServiceUnavailableError: GeminiException - {
+  ""error"": {
+    ""code"": 503,
+    ""message"": ""This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later."",
+    ""status"": ""UNAVAILABLE""
+  }
+}
+",,1.72525,0.0,0.0,0.0,inf,Body Surface Area Calculator,physical,decimal,,,,,formula_orchfix_exact_existing_benchmark
+train.4314,"**exception raised**: status_code: 503, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.ServiceUnavailableError: GeminiException - {
+  ""error"": {
+    ""code"": 503,
+    ""message"": ""This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later."",
+    ""status"": ""UNAVAILABLE""
+  }
+}
+",,4.20819,0.0,0.0,0.0,inf,Fibrosis-4 (FIB-4) Index for Liver Fibrosis,lab test,decimal,,,,,formula_orchfix_exact_existing_benchmark
+train.6901,"**exception raised**: status_code: 503, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.ServiceUnavailableError: GeminiException - {
+  ""error"": {
+    ""code"": 503,
+    ""message"": ""This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later."",
+    ""status"": ""UNAVAILABLE""
+  }
+}
+",,167.42854,0.0,0.0,0.0,inf,QTc Framingham Calculator,physical,decimal,,,,,formula_orchfix_exact_existing_benchmark
+train.7472,"**exception raised**: status_code: 503, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.ServiceUnavailableError: GeminiException - {
+  ""error"": {
+    ""code"": 503,
+    ""message"": ""This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later."",
+    ""status"": ""UNAVAILABLE""
+  }
+}
+",,1.6452,0.0,0.0,0.0,inf,Body Surface Area Calculator,physical,decimal,,,,,formula_orchfix_exact_existing_benchmark
+train.8098,49.658,49.658,49.47087,1.0,0.0,1.0,0.18713000000000335,Target weight,physical,decimal,2088.0,19.0,4.059358835220337,0.0005505,formula_orchfix_exact_existing_benchmark
+train.8706,0.3333333333,0.3333333333,0.94737,0.0,0.0,0.0,0.6140366667000001,Delta Ratio,lab test,decimal,2802.0,25.0,3.6228039264678955,0.0007379999999999999,formula_orchfix_exact_existing_benchmark
+train.5968,"**exception raised**: status_code: 503, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.ServiceUnavailableError: GeminiException - {
+  ""error"": {
+    ""code"": 503,
+    ""message"": ""This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later."",
+    ""status"": ""UNAVAILABLE""
+  }
+}
+",,-1.64571,0.0,0.0,0.0,inf,Free Water Deficit,lab test,decimal,,,,,formula_orchfix_exact_existing_benchmark
+train.7448,"**exception raised**: status_code: 503, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.ServiceUnavailableError: GeminiException - {
+  ""error"": {
+    ""code"": 503,
+    ""message"": ""This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later."",
+    ""status"": ""UNAVAILABLE""
+  }
+}
+",,1.01242,0.0,0.0,0.0,inf,Body Surface Area Calculator,physical,decimal,,,,,formula_orchfix_exact_existing_benchmark
+train.0610,33.562,33.562,33.65485,1.0,0.0,1.0,0.09285000000000565,CKD-EPI Equations for Glomerular Filtration Rate,lab test,decimal,2671.0,436.0,2.2777864933013916,0.00132175,formula_orchfix_exact_existing_benchmark
+train.4678,"**exception raised**: status_code: 503, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.ServiceUnavailableError: GeminiException - {
+  ""error"": {
+    ""code"": 503,
+    ""message"": ""This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later."",
+    ""status"": ""UNAVAILABLE""
+  }
+}
+",,101.0,0.0,0.0,0.0,inf,Maintenance Fluids Calculations,physical,decimal,,,,,formula_orchfix_exact_existing_benchmark
+train.6885,448.27,448.27,506.29551,0.0,0.0,0.0,58.02551,QTc Fridericia Calculator,physical,decimal,2090.0,19.0,3.434432029724121,0.000551,formula_orchfix_exact_existing_benchmark
+train.3859,80.51,80.51,84.04734,1.0,0.0,1.0,3.5373400000000004,Ideal Body Weight,physical,decimal,2343.0,18.0,3.4642930030822754,0.00061275,formula_orchfix_exact_existing_benchmark
+train.8384,"**exception raised**: status_code: 503, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.ServiceUnavailableError: GeminiException - {
+  ""error"": {
+    ""code"": 503,
+    ""message"": ""This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later."",
+    ""status"": ""UNAVAILABLE""
+  }
+}
+",,9.0,0.0,0.0,0.0,inf,Delta Gap,lab test,decimal,,,,,formula_orchfix_exact_existing_benchmark
+train.4734,76.0,76.0,76.0,1.0,1.0,1.0,0.0,Maintenance Fluids Calculations,physical,decimal,2856.0,228.0,3.3166141510009766,0.001056,formula_orchfix_exact_existing_benchmark
+train.7002,473.0,473.0,623.49787,0.0,0.0,0.0,150.49787000000003,QTc Hodges Calculator,physical,decimal,2089.0,18.0,3.059152126312256,0.0005492499999999999,formula_orchfix_exact_existing_benchmark
+train.8143,80.8,80.8,75.7591,0.0,0.0,0.0,5.0408999999999935,Adjusted Body Weight,physical,decimal,2289.0,17.0,2.534723997116089,0.00059775,formula_orchfix_exact_existing_benchmark
+train.2610,14.36,14.36,-4.334,0.0,0.0,0.0,18.694,Calcium Correction for Hypoalbuminemia,lab test,decimal,2792.0,212.0,7.367167234420776,0.001016,formula_orchfix_exact_existing_benchmark
+train.7702,2.0376,2.0376,2.03756,1.0,1.0,1.0,3.999999999981796e-05,Body Surface Area Calculator,physical,decimal,2786.0,165.0,7.65719199180603,0.000944,formula_orchfix_exact_existing_benchmark
+train.6199,6.0,6.0,6.0,1.0,1.0,1.0,0.0,Anion Gap,lab test,decimal,2285.0,243.0,6.406526803970337,0.00093575,formula_orchfix_exact_existing_benchmark
+train.2556,9.64,9.64,9.64,1.0,1.0,1.0,0.0,Calcium Correction for Hypoalbuminemia,lab test,decimal,2326.0,217.0,4.135215759277344,0.000907,formula_orchfix_exact_existing_benchmark
+train.3649,64.126,64.126,64.12607,1.0,1.0,1.0,6.999999999379725e-05,Ideal Body Weight,physical,decimal,2732.0,238.0,4.338361978530884,0.0010400000000000001,formula_orchfix_exact_existing_benchmark
+train.5204,130.0,130.0,132.0,1.0,0.0,1.0,2.0,Maintenance Fluids Calculations,physical,decimal,3256.0,18.0,3.162912130355835,0.000841,formula_orchfix_exact_existing_benchmark
+train.4728,128.3,128.3,128.3,1.0,1.0,1.0,0.0,Maintenance Fluids Calculations,physical,decimal,2814.0,217.0,2.8507022857666016,0.001029,formula_orchfix_exact_existing_benchmark
+train.5161,12.0,12.0,46.8,0.0,0.0,0.0,34.8,Maintenance Fluids Calculations,physical,decimal,3223.0,143.0,5.397675037384033,0.0010202499999999999,formula_orchfix_exact_existing_benchmark
+train.0373,32.48,32.48,35.45562,0.0,0.0,0.0,2.9756200000000064,CKD-EPI Equations for Glomerular Filtration Rate,lab test,decimal,2888.0,18.0,0.9867303371429443,0.000749,formula_orchfix_exact_existing_benchmark
+train.6114,0.0,0.0,0.14571,0.0,0.0,0.0,0.14571,Free Water Deficit,lab test,decimal,4046.0,16.0,1.4224355220794678,0.0010355,formula_orchfix_exact_existing_benchmark
+train.7824,2.27,2.27,2.28584,1.0,0.0,1.0,0.015839999999999854,Body Surface Area Calculator,physical,decimal,3246.0,17.0,1.4998016357421875,0.000837,formula_orchfix_exact_existing_benchmark
+train.0383,10.56,10.56,9.12304,0.0,0.0,0.0,1.436960000000001,CKD-EPI Equations for Glomerular Filtration Rate,lab test,decimal,3256.0,18.0,0.7747693061828613,0.000841,formula_orchfix_exact_existing_benchmark
+train.2381,18.339,18.339,18.3391,1.0,1.0,1.0,9.999999999976694e-05,Body Mass Index (BMI),physical,decimal,2953.0,19.0,1.3788952827453613,0.00076675,formula_orchfix_exact_existing_benchmark
+train.7685,1.7226,1.7226,1.75,1.0,0.0,1.0,0.02740000000000009,Body Surface Area Calculator,physical,decimal,2665.0,19.0,0.7679164409637451,0.00069475,formula_orchfix_exact_existing_benchmark
+train.3381,10.53,10.53,9.66345,0.0,0.0,0.0,0.8665500000000002,MDRD GFR Equation,lab test,decimal,2495.0,18.0,1.1207571029663086,0.00065075,formula_orchfix_exact_existing_benchmark
+train.1720,57.667,57.667,57.66667,1.0,1.0,1.0,0.0003299999999981651,Mean Arterial Pressure (MAP),physical,decimal,3068.0,152.0,3.6183252334594727,0.000995,formula_orchfix_exact_existing_benchmark
+train.2532,20.324,20.324,20.32383,1.0,1.0,1.0,0.00017000000000066962,Body Mass Index (BMI),physical,decimal,2497.0,174.0,1.849452018737793,0.00088525,formula_orchfix_exact_existing_benchmark
+train.5911,1.21,1.21,-1.41429,0.0,0.0,0.0,2.6242900000000002,Free Water Deficit,lab test,decimal,2824.0,17.0,0.708686351776123,0.0007314999999999999,formula_orchfix_exact_existing_benchmark
+train.8577,-3.1,-3.1,-3.1,1.0,1.0,1.0,0.0,Delta Gap,lab test,decimal,2836.0,16.0,0.7356915473937988,0.000733,formula_orchfix_exact_existing_benchmark
+train.2039,22.709,22.709,22.69402,1.0,0.0,1.0,0.014980000000001326,Body Mass Index (BMI),physical,decimal,2525.0,196.0,1.4913489818572998,0.00092525,formula_orchfix_exact_existing_benchmark
+train.2118,24.888,24.888,24.8877,1.0,1.0,1.0,0.00030000000000285354,Body Mass Index (BMI),physical,decimal,2463.0,226.0,1.464451789855957,0.00095475,formula_orchfix_exact_existing_benchmark
+train.6171,6.0,6.0,1230.0,0.0,0.0,0.0,1224.0,Anion Gap,lab test,decimal,2709.0,133.0,1.541780710220337,0.00087675,formula_orchfix_exact_existing_benchmark
+train.7841,1.29957,1.29957,1.29957,1.0,1.0,1.0,0.0,Body Surface Area Calculator,physical,decimal,2962.0,215.0,1.873988151550293,0.001063,formula_orchfix_exact_existing_benchmark
+train.5789,306.714,306.714,306.71429,1.0,1.0,1.0,0.00029000000000678483,Serum Osmolality,lab test,decimal,2422.0,259.0,1.784142017364502,0.0009939999999999999,formula_orchfix_exact_existing_benchmark
+train.8061,76.059,76.059,76.05576,1.0,1.0,1.0,0.003239999999991028,Target weight,physical,decimal,2089.0,19.0,0.86421799659729,0.0005507499999999999,formula_orchfix_exact_existing_benchmark
+train.9154,7.4804,7.4804,5.60768,0.0,0.0,0.0,1.8727200000000002,Steroid Conversion Calculator,dosage,integer,2089.0,19.0,0.9602179527282715,0.0005507499999999999,formula_orchfix_exact_existing_benchmark
+train.5335,138.384,138.384,137.304,1.0,0.0,1.0,1.079999999999984,Sodium Correction for Hyperglycemia,lab test,decimal,3556.0,20.0,1.0864005088806152,0.0009189999999999999,formula_orchfix_exact_existing_benchmark
+train.8964,-1.0,-1.0,-1.0,1.0,1.0,1.0,0.0,Albumin Corrected Delta Gap,lab test,decimal,3068.0,258.0,1.4936482906341553,0.001154,formula_orchfix_exact_existing_benchmark
+train.5108,91.0,91.0,95.0,1.0,0.0,1.0,4.0,Maintenance Fluids Calculations,physical,decimal,2870.0,17.0,0.9117541313171387,0.000743,formula_orchfix_exact_existing_benchmark
+train.8216,54.0,54.0,53.55596,1.0,0.0,1.0,0.4440400000000011,Adjusted Body Weight,physical,decimal,2875.0,17.0,1.1782910823822021,0.00074425,formula_orchfix_exact_existing_benchmark
+train.7487,1.843,1.843,1.84278,1.0,1.0,1.0,0.00021999999999988695,Body Surface Area Calculator,physical,decimal,3483.0,205.0,1.4324047565460205,0.00117825,formula_orchfix_exact_existing_benchmark
+train.7910,1.633,1.633,1.63299,1.0,1.0,1.0,1.0000000000065512e-05,Body Surface Area Calculator,physical,decimal,2792.0,185.0,1.4311060905456543,0.0009755,formula_orchfix_exact_existing_benchmark
+train.5381,130.76,130.76,130.76,1.0,1.0,1.0,0.0,Sodium Correction for Hyperglycemia,lab test,decimal,2438.0,170.0,1.22322678565979,0.0008645,formula_orchfix_exact_existing_benchmark
+train.5451,137.624,137.624,137.624,1.0,1.0,1.0,0.0,Sodium Correction for Hyperglycemia,lab test,decimal,2945.0,20.0,1.693303108215332,0.0007662499999999999,formula_orchfix_exact_existing_benchmark
+train.3675,56.4567,56.4567,56.45676,1.0,1.0,1.0,6.0000000004833964e-05,Ideal Body Weight,physical,decimal,3490.0,330.0,1.9663093090057373,0.0013675,formula_orchfix_exact_existing_benchmark
+train.6207,11.0,11.0,11.0,1.0,1.0,1.0,0.0,Anion Gap,lab test,decimal,2652.0,129.0,1.4525146484375,0.0008565,formula_orchfix_exact_existing_benchmark
+train.1800,95.333,95.333,95.33333,1.0,1.0,1.0,0.0003300000000052705,Mean Arterial Pressure (MAP),physical,decimal,3047.0,133.0,1.1386222839355469,0.00096125,formula_orchfix_exact_existing_benchmark
+train.5580,275.26,275.26,283.14767,1.0,0.0,1.0,7.887670000000014,Serum Osmolality,lab test,decimal,2731.0,290.0,2.6576790809631348,0.00111775,formula_orchfix_exact_existing_benchmark
+train.0022,78.557,78.557,78.54331,1.0,0.0,1.0,0.013689999999996871,Creatinine Clearance (Cockcroft-Gault Equation),lab test,decimal,2603.0,549.0,2.114816665649414,0.0014742499999999999,formula_orchfix_exact_existing_benchmark
+train.4294,0.0026943,0.0026943,2.69444,0.0,0.0,0.0,2.6917457000000002,Fibrosis-4 (FIB-4) Index for Liver Fibrosis,lab test,decimal,2963.0,341.0,1.653630018234253,0.0012522499999999999,formula_orchfix_exact_existing_benchmark
+train.1617,96.667,96.667,96.66667,1.0,1.0,1.0,0.0003300000000052705,Mean Arterial Pressure (MAP),physical,decimal,2295.0,176.0,1.5526738166809082,0.00083775,formula_orchfix_exact_existing_benchmark
+train.9781,3.495,3.495,3.495,1.0,1.0,1.0,0.0,Fractional Excretion of Sodium (FENa),lab test,decimal,3385.0,312.0,1.9329516887664795,0.0013142499999999999,formula_orchfix_exact_existing_benchmark
+train.1244,113.333,113.333,113.33333,1.0,1.0,1.0,0.0003300000000052705,Mean Arterial Pressure (MAP),physical,decimal,2965.0,144.0,2.293036937713623,0.00095725,formula_orchfix_exact_existing_benchmark
+train.2634,8.88,8.88,8.896,1.0,0.0,1.0,0.016000000000000014,Calcium Correction for Hypoalbuminemia,lab test,decimal,3135.0,333.0,2.292001485824585,0.00128325,formula_orchfix_exact_existing_benchmark
+train.0311,65.99,65.99,0.01667,0.0,0.0,0.0,65.97332999999999,CKD-EPI Equations for Glomerular Filtration Rate,lab test,decimal,3290.0,534.0,2.3122215270996094,0.0016235,formula_orchfix_exact_existing_benchmark
+train.3839,73.181,73.181,73.18119,1.0,1.0,1.0,0.00019000000000346517,Ideal Body Weight,physical,decimal,2483.0,180.0,1.236863136291504,0.00089075,formula_orchfix_exact_existing_benchmark
+train.7159,1.962,1.962,1.96214,1.0,1.0,1.0,0.000140000000000029,Body Surface Area Calculator,physical,decimal,3516.0,190.0,1.6688673496246338,0.001164,formula_orchfix_exact_existing_benchmark
+train.5525,129.688,129.688,129.688,1.0,1.0,1.0,0.0,Sodium Correction for Hyperglycemia,lab test,decimal,3247.0,192.0,1.6096539497375488,0.00109975,formula_orchfix_exact_existing_benchmark
+train.4856,54.4,54.4,54.4,1.0,1.0,1.0,0.0,Maintenance Fluids Calculations,physical,decimal,2407.0,168.0,1.9356629848480225,0.0008537499999999999,formula_orchfix_exact_existing_benchmark
+train.2032,106.66666666666667,106.66666666666667,106.66667,1.0,1.0,1.0,3.3333333249174757e-06,Mean Arterial Pressure (MAP),physical,decimal,2715.0,241.0,1.7374682426452637,0.00104025,formula_orchfix_exact_existing_benchmark
+train.8621,10.0,10.0,-5.0,0.0,0.0,0.0,15.0,Delta Gap,lab test,decimal,3267.0,17.0,0.8146696090698242,0.00084225,formula_orchfix_exact_existing_benchmark
+train.3350,3.407,3.407,3.21467,0.0,0.0,0.0,0.1923300000000001,MDRD GFR Equation,lab test,decimal,3034.0,18.0,1.4570097923278809,0.0007855,formula_orchfix_exact_existing_benchmark
+train.7297,1.8619,1.8619,1.8619,1.0,1.0,1.0,0.0,Body Surface Area Calculator,physical,decimal,2561.0,208.0,3.1979222297668457,0.00095225,formula_orchfix_exact_existing_benchmark
+train.5562,290.7857,290.7857,290.78571,1.0,1.0,1.0,9.999999974752427e-06,Serum Osmolality,lab test,decimal,2713.0,240.0,2.468782663345337,0.00103825,formula_orchfix_exact_existing_benchmark
+train.4603,77.0,77.0,77.0,1.0,1.0,1.0,0.0,Maintenance Fluids Calculations,physical,decimal,2329.0,420.0,4.502051591873169,0.00121225,formula_orchfix_exact_existing_benchmark
+train.2687,2.73,2.73,11.18,0.0,0.0,0.0,8.45,Calcium Correction for Hypoalbuminemia,lab test,decimal,3330.0,17.0,5.760413646697998,0.000858,formula_orchfix_exact_existing_benchmark
+train.5795,286.064,286.064,290.74603,1.0,0.0,1.0,4.6820299999999975,Serum Osmolality,lab test,decimal,3737.0,20.0,2.4386885166168213,0.0009642499999999999,formula_orchfix_exact_existing_benchmark
+train.1215,94.0,94.0,94.0,1.0,1.0,1.0,0.0,Mean Arterial Pressure (MAP),physical,decimal,2236.0,17.0,2.9809298515319824,0.0005845,formula_orchfix_exact_existing_benchmark
+train.0387,113.11,113.11,91.65023,0.0,0.0,0.0,21.459770000000006,CKD-EPI Equations for Glomerular Filtration Rate,lab test,decimal,2686.0,19.0,2.806668519973755,0.0007,formula_orchfix_exact_existing_benchmark
+train.0470,46.471,46.471,43.40028,0.0,0.0,0.0,3.0707199999999943,CKD-EPI Equations for Glomerular Filtration Rate,lab test,decimal,3301.0,411.0,4.778764724731445,0.0014417499999999999,formula_orchfix_exact_existing_benchmark
+train.4789,102.0,102.0,106.0,1.0,0.0,1.0,4.0,Maintenance Fluids Calculations,physical,decimal,3354.0,18.0,1.9437906742095947,0.0008655,formula_orchfix_exact_existing_benchmark
+train.7223,1.436,1.436,1.43614,1.0,1.0,1.0,0.000140000000000029,Body Surface Area Calculator,physical,decimal,2451.0,220.0,3.9182534217834473,0.00094275,formula_orchfix_exact_existing_benchmark
+train.1440,76.667,76.667,76.66667,1.0,1.0,1.0,0.0003300000000052705,Mean Arterial Pressure (MAP),physical,decimal,2350.0,221.0,4.49118185043335,0.0009190000000000001,formula_orchfix_exact_existing_benchmark
+train.2526,28.222,28.222,28.22222,1.0,1.0,1.0,0.00021999999999877673,Body Mass Index (BMI),physical,decimal,2920.0,19.0,4.114732980728149,0.0007585,formula_orchfix_exact_existing_benchmark
+train.5545,437.2,437.2,411.09524,0.0,0.0,0.0,26.10476,Serum Osmolality,lab test,decimal,3795.0,18.0,2.5939416885375977,0.00097575,formula_orchfix_exact_existing_benchmark
+train.3891,47.88,47.88,47.85442,1.0,0.0,1.0,0.025580000000005043,Ideal Body Weight,physical,decimal,3170.0,18.0,3.375181198120117,0.0008194999999999999,formula_orchfix_exact_existing_benchmark
+train.7576,1.876,1.876,1.90219,1.0,0.0,1.0,0.026190000000000158,Body Surface Area Calculator,physical,decimal,2940.0,18.0,3.1311557292938232,0.000762,formula_orchfix_exact_existing_benchmark
+train.2319,37.545,37.545,37.55839,1.0,0.0,1.0,0.013390000000001123,Body Mass Index (BMI),physical,decimal,2205.0,19.0,6.339892864227295,0.00057975,formula_orchfix_exact_existing_benchmark
+train.0400,8.71,8.71,8.5242,1.0,0.0,1.0,0.1858000000000004,CKD-EPI Equations for Glomerular Filtration Rate,lab test,decimal,3049.0,525.0,2.3257033824920654,0.00154975,formula_orchfix_exact_existing_benchmark
+train.6011,-2.057,-2.057,-2.05714,1.0,1.0,1.0,0.000140000000000029,Free Water Deficit,lab test,decimal,2919.0,321.0,3.8334596157073975,0.0012112499999999999,formula_orchfix_exact_existing_benchmark
+train.2349,27.173,27.173,27.17266,1.0,1.0,1.0,0.0003399999999977865,Body Mass Index (BMI),physical,decimal,2742.0,182.0,3.436140298843384,0.0009585,formula_orchfix_exact_existing_benchmark
+train.5261,0.0,0.0,20.0,0.0,0.0,0.0,20.0,Maintenance Fluids Calculations,physical,decimal,2763.0,514.0,4.047995090484619,0.00146175,formula_orchfix_exact_existing_benchmark
+train.3549,71.36,71.36,73.18119,1.0,0.0,1.0,1.8211900000000014,Ideal Body Weight,physical,decimal,2552.0,18.0,2.5985641479492188,0.000665,formula_orchfix_exact_existing_benchmark
+train.3273,38.283,38.283,35.01417,0.0,0.0,0.0,3.2688300000000012,MDRD GFR Equation,lab test,decimal,2714.0,19.0,2.448601245880127,0.000707,formula_orchfix_exact_existing_benchmark
+train.9736,2.35,2.35,3.0381,0.0,0.0,0.0,0.6880999999999999,Fractional Excretion of Sodium (FENa),lab test,decimal,3289.0,17.0,3.2200002670288086,0.00084775,formula_orchfix_exact_existing_benchmark
+train.1346,88.333,88.333,88.33333,1.0,1.0,1.0,0.0003300000000052705,Mean Arterial Pressure (MAP),physical,decimal,2792.0,19.0,1.5990574359893799,0.0007264999999999999,formula_orchfix_exact_existing_benchmark
+train.6118,0.0,0.0,-0.17143,0.0,0.0,0.0,0.17143,Free Water Deficit,lab test,decimal,2792.0,16.0,3.3141744136810303,0.000722,formula_orchfix_exact_existing_benchmark
+train.7001,331.75,331.75,331.74905,1.0,1.0,1.0,0.0009499999999889042,QTc Hodges Calculator,physical,decimal,2089.0,270.0,11.415390968322754,0.0009272499999999999,formula_orchfix_exact_existing_benchmark
+train.1838,91.667,91.667,91.66667,1.0,1.0,1.0,0.0003300000000052705,Mean Arterial Pressure (MAP),physical,decimal,3021.0,200.0,3.914879560470581,0.00105525,formula_orchfix_exact_existing_benchmark
+train.5490,134.896,134.896,134.896,1.0,1.0,1.0,0.0,Sodium Correction for Hyperglycemia,lab test,decimal,2664.0,220.0,2.184058904647827,0.000996,formula_orchfix_exact_existing_benchmark
+train.3527,67.15,67.15,69.55913,1.0,0.0,1.0,2.4091299999999904,Ideal Body Weight,physical,decimal,3845.0,18.0,1.0346307754516602,0.00098825,formula_orchfix_exact_existing_benchmark
+train.1160,83.33,83.33,83.33333,1.0,1.0,1.0,0.003330000000005384,Mean Arterial Pressure (MAP),physical,decimal,2198.0,18.0,1.4553465843200684,0.0005765,formula_orchfix_exact_existing_benchmark
+train.0367,32.553,32.553,33.48762,1.0,0.0,1.0,0.9346200000000024,CKD-EPI Equations for Glomerular Filtration Rate,lab test,decimal,2748.0,529.0,2.0017566680908203,0.0014805,formula_orchfix_exact_existing_benchmark
+train.4011,53.977,53.977,52.38197,1.0,0.0,1.0,1.5950299999999942,Ideal Body Weight,physical,decimal,2482.0,19.0,1.2159297466278076,0.000649,formula_orchfix_exact_existing_benchmark
+train.0290,50.0,50.0,48.85357,1.0,0.0,1.0,1.1464300000000023,CKD-EPI Equations for Glomerular Filtration Rate,lab test,decimal,2468.0,17.0,0.9793624877929688,0.0006425,formula_orchfix_exact_existing_benchmark
+train.9019,0.5833,0.5833,0.58333,1.0,1.0,1.0,2.999999999997449e-05,Albumin Corrected Delta Ratio,lab test,decimal,2892.0,428.0,2.8276634216308594,0.001365,formula_orchfix_exact_existing_benchmark
+train.5389,134.376,134.376,134.376,1.0,1.0,1.0,0.0,Sodium Correction for Hyperglycemia,lab test,decimal,2685.0,258.0,1.1943838596343994,0.00105825,formula_orchfix_exact_existing_benchmark
+train.6074,2.45,2.45,-0.35714,0.0,0.0,0.0,2.8071400000000004,Free Water Deficit,lab test,decimal,3217.0,17.0,0.9198331832885742,0.00082975,formula_orchfix_exact_existing_benchmark
+train.7050,268.926,268.926,255.71667,0.0,0.0,0.0,13.209329999999994,QTc Rautaharju Calculator,physical,decimal,2090.0,257.0,1.6438984870910645,0.000908,formula_orchfix_exact_existing_benchmark
+train.5689,284.0158,284.0158,284.01587,1.0,1.0,1.0,6.999999999379725e-05,Serum Osmolality,lab test,decimal,2737.0,232.0,1.2938570976257324,0.00103225,formula_orchfix_exact_existing_benchmark
+train.1218,112.66666666666667,112.66666666666667,112.66667,1.0,1.0,1.0,3.3333333249174757e-06,Mean Arterial Pressure (MAP),physical,decimal,2256.0,31.0,0.7343471050262451,0.0006104999999999999,formula_orchfix_exact_existing_benchmark
+train.2130,29.752,29.752,29.75207,1.0,1.0,1.0,7.000000000090267e-05,Body Mass Index (BMI),physical,decimal,2357.0,151.0,4.0911664962768555,0.00081575,formula_orchfix_exact_existing_benchmark
+train.1734,130.0,130.0,130.0,1.0,1.0,1.0,0.0,Mean Arterial Pressure (MAP),physical,decimal,2191.0,176.0,1.1494348049163818,0.00081175,formula_orchfix_exact_existing_benchmark
+train.4679,128.0,128.0,142.0,0.0,0.0,0.0,14.0,Maintenance Fluids Calculations,physical,decimal,2668.0,16.0,0.8203012943267822,0.000691,formula_orchfix_exact_existing_benchmark
+train.8904,26.9,26.9,19.5,0.0,0.0,0.0,7.399999999999999,Albumin Corrected Anion Gap,lab test,decimal,3064.0,17.0,1.2583956718444824,0.0007915,formula_orchfix_exact_existing_benchmark
+train.5341,124.92,124.92,300.52512,0.0,0.0,0.0,175.60512,Sodium Correction for Hyperglycemia,lab test,decimal,2763.0,217.0,1.5197570323944092,0.00101625,formula_orchfix_exact_existing_benchmark
+train.5149,12.0,12.0,116.8,0.0,0.0,0.0,104.8,Maintenance Fluids Calculations,physical,decimal,2614.0,181.0,1.5066282749176025,0.000925,formula_orchfix_exact_existing_benchmark
+train.10184,1.4,1.4,3.679,0.0,0.0,0.0,2.279,Framingham Risk Score for Hard Coronary Heart Disease,lab test,decimal,3039.0,16.0,1.2938544750213623,0.00078375,formula_orchfix_exact_existing_benchmark
+train.8553,10.0,10.0,20.0,0.0,0.0,0.0,10.0,Delta Gap,lab test,decimal,2921.0,17.0,0.7598714828491211,0.00075575,formula_orchfix_exact_existing_benchmark
+train.8361,1.0,1.0,1.0,1.0,1.0,1.0,0.0,Delta Gap,lab test,decimal,2462.0,220.0,1.409254789352417,0.0009454999999999999,formula_orchfix_exact_existing_benchmark
+train.7996,1.641,1.641,1.64063,1.0,1.0,1.0,0.00036999999999998145,Body Surface Area Calculator,physical,decimal,2707.0,208.0,1.375098705291748,0.00098875,formula_orchfix_exact_existing_benchmark
+train.2367,20.34,20.34,20.33833,1.0,1.0,1.0,0.0016700000000007265,Body Mass Index (BMI),physical,decimal,2658.0,18.0,1.0992801189422607,0.0006915,formula_orchfix_exact_existing_benchmark
+train.7440,0.2828,0.2828,0.28284,1.0,1.0,1.0,3.999999999998449e-05,Body Surface Area Calculator,physical,decimal,3001.0,211.0,1.742021083831787,0.00106675,formula_orchfix_exact_existing_benchmark
+train.0599,26.884,26.884,26.7105,1.0,0.0,1.0,0.17350000000000065,CKD-EPI Equations for Glomerular Filtration Rate,lab test,decimal,2203.0,386.0,1.949204683303833,0.0011297500000000001,formula_orchfix_exact_existing_benchmark
+train.8293,129.58,129.58,116.40241,0.0,0.0,0.0,13.17759000000001,Adjusted Body Weight,physical,decimal,2957.0,19.0,1.1446075439453125,0.00076775,formula_orchfix_exact_existing_benchmark
+train.7052,404.229,404.229,426.19444,0.0,0.0,0.0,21.96544,QTc Rautaharju Calculator,physical,decimal,2091.0,270.0,1.4510586261749268,0.00092775,formula_orchfix_exact_existing_benchmark
+train.1836,85.333,85.333,85.33333,1.0,1.0,1.0,0.0003300000000052705,Mean Arterial Pressure (MAP),physical,decimal,2434.0,140.0,1.989746332168579,0.0008185,formula_orchfix_exact_existing_benchmark
+train.8637,2.0,2.0,-8.0,0.0,0.0,0.0,10.0,Delta Gap,lab test,decimal,3301.0,16.0,1.8866758346557617,0.00084925,formula_orchfix_exact_existing_benchmark
+train.6089,-0.9257,-0.9257,-0.92571,1.0,1.0,1.0,1.0000000000065512e-05,Free Water Deficit,lab test,decimal,2804.0,327.0,2.2524547576904297,0.0011915,formula_orchfix_exact_existing_benchmark
+train.4077,213.627,213.627,302.16028,0.0,0.0,0.0,88.53327999999999,QTc Bazett Calculator,physical,decimal,2089.0,20.0,1.7111241817474365,0.0005522499999999999,formula_orchfix_exact_existing_benchmark
+train.1653,54.667,54.667,123.33333,0.0,0.0,0.0,68.66633,Mean Arterial Pressure (MAP),physical,decimal,3414.0,19.0,3.1324543952941895,0.000882,formula_orchfix_exact_existing_benchmark
+train.1249,149.333,149.333,149.33333,1.0,1.0,1.0,0.00032999999999105967,Mean Arterial Pressure (MAP),physical,decimal,2429.0,20.0,1.4951248168945312,0.0006372499999999999,formula_orchfix_exact_existing_benchmark
+train.7908,1.5059,1.5059,1.50591,1.0,1.0,1.0,1.0000000000065512e-05,Body Surface Area Calculator,physical,decimal,2559.0,246.0,3.183933734893799,0.00100875,formula_orchfix_exact_existing_benchmark
+train.10156,22.0,22.0,29.0,0.0,0.0,0.0,7.0,MELD Na (UNOS/OPTN),lab test,decimal,3314.0,17.0,1.114257574081421,0.0008539999999999999,formula_orchfix_exact_existing_benchmark
+train.3166,37.452,37.452,47.2675,0.0,0.0,0.0,9.8155,MDRD GFR Equation,lab test,decimal,3259.0,387.0,3.4987339973449707,0.0013952499999999998,formula_orchfix_exact_existing_benchmark
+train.9143,11.0538,11.0538,8.28648,0.0,0.0,0.0,2.7673200000000016,Steroid Conversion Calculator,dosage,integer,2085.0,20.0,4.128361940383911,0.00055125,formula_orchfix_exact_existing_benchmark
+train.6245,21.3,21.3,21.3,1.0,1.0,1.0,0.0,Anion Gap,lab test,decimal,3310.0,17.0,0.7674241065979004,0.000853,formula_orchfix_exact_existing_benchmark
+train.4999,132.0,132.0,132.0,1.0,1.0,1.0,0.0,Maintenance Fluids Calculations,physical,decimal,2974.0,16.0,4.367159843444824,0.0007675000000000001,formula_orchfix_exact_existing_benchmark
+train.8146,77.344,77.344,71.02052,0.0,0.0,0.0,6.323479999999989,Adjusted Body Weight,physical,decimal,3538.0,19.0,5.227762222290039,0.000913,formula_orchfix_exact_existing_benchmark
+train.0355,55.08,55.08,53.21799,1.0,0.0,1.0,1.862009999999998,CKD-EPI Equations for Glomerular Filtration Rate,lab test,decimal,3117.0,407.0,5.848185777664185,0.00138975,formula_orchfix_exact_existing_benchmark
+train.7180,1.48,1.48,1.45968,1.0,0.0,1.0,0.020319999999999894,Body Surface Area Calculator,physical,decimal,2749.0,17.0,5.55131196975708,0.00071275,formula_orchfix_exact_existing_benchmark
+train.5697,275.9047,275.9047,275.90476,1.0,1.0,1.0,6.000000001904482e-05,Serum Osmolality,lab test,decimal,2880.0,259.0,4.810901165008545,0.0011085,formula_orchfix_exact_existing_benchmark
+train.10195,2.0,2.0,6.254,0.0,0.0,0.0,4.254,Framingham Risk Score for Hard Coronary Heart Disease,lab test,decimal,3156.0,16.0,5.812030792236328,0.000813,formula_orchfix_exact_existing_benchmark
+train.3369,10.58,10.58,8.44483,0.0,0.0,0.0,2.1351700000000005,MDRD GFR Equation,lab test,decimal,2512.0,18.0,6.067171335220337,0.000655,formula_orchfix_exact_existing_benchmark
+train.3525,"**exception raised**: status_code: 503, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.ServiceUnavailableError: GeminiException - {
+  ""error"": {
+    ""code"": 503,
+    ""message"": ""This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later."",
+    ""status"": ""UNAVAILABLE""
+  }
+}
+",,84.04734,0.0,0.0,0.0,inf,Ideal Body Weight,physical,decimal,,,,,formula_orchfix_exact_existing_benchmark
+train.4828,106.0,106.0,103.0,1.0,0.0,1.0,3.0,Maintenance Fluids Calculations,physical,decimal,2594.0,16.0,8.519471168518066,0.0006725,formula_orchfix_exact_existing_benchmark
+train.7516,1.47,1.47,1.47422,1.0,1.0,1.0,0.0042200000000001125,Body Surface Area Calculator,physical,decimal,2945.0,17.0,3.6645665168762207,0.00076175,formula_orchfix_exact_existing_benchmark
+train.2234,17.04,17.04,19.04507,0.0,0.0,0.0,2.00507,Body Mass Index (BMI),physical,decimal,2705.0,246.0,5.876558542251587,0.00104525,formula_orchfix_exact_existing_benchmark
+train.0101,116.728,116.728,116.7284,1.0,1.0,1.0,0.00039999999999906777,Creatinine Clearance (Cockcroft-Gault Equation),lab test,decimal,3666.0,384.0,1.8312482833862305,0.0014925,formula_orchfix_exact_existing_benchmark
+train.2627,"**exception raised**: status_code: 503, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.ServiceUnavailableError: GeminiException - {
+  ""error"": {
+    ""code"": 503,
+    ""message"": ""This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later."",
+    ""status"": ""UNAVAILABLE""
+  }
+}
+",,7.84,0.0,0.0,0.0,inf,Calcium Correction for Hypoalbuminemia,lab test,decimal,,,,,formula_orchfix_exact_existing_benchmark
+train.2015,"**exception raised**: status_code: 503, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.ServiceUnavailableError: GeminiException - {
+  ""error"": {
+    ""code"": 503,
+    ""message"": ""This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later."",
+    ""status"": ""UNAVAILABLE""
+  }
+}
+",,132.66667,0.0,0.0,0.0,inf,Mean Arterial Pressure (MAP),physical,decimal,,,,,formula_orchfix_exact_existing_benchmark
+train.7804,1.433,1.433,1.46325,1.0,0.0,1.0,0.030249999999999888,Body Surface Area Calculator,physical,decimal,2626.0,18.0,3.0657577514648438,0.0006835,formula_orchfix_exact_existing_benchmark
+train.4831,104.0,104.0,92.0,0.0,0.0,0.0,12.0,Maintenance Fluids Calculations,physical,decimal,3122.0,18.0,2.1545190811157227,0.0008075,formula_orchfix_exact_existing_benchmark
+train.6896,509.294,509.294,509.29448,1.0,1.0,1.0,0.0004800000000386717,QTc Framingham Calculator,physical,decimal,2089.0,196.0,3.0000460147857666,0.0008162499999999999,formula_orchfix_exact_existing_benchmark
+train.4738,56.0,56.0,56.0,1.0,1.0,1.0,0.0,Maintenance Fluids Calculations,physical,decimal,2885.0,141.0,3.7242417335510254,0.00093275,formula_orchfix_exact_existing_benchmark
+train.5770,"**exception raised**: status_code: 503, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.ServiceUnavailableError: GeminiException - {
+  ""error"": {
+    ""code"": 503,
+    ""message"": ""This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later."",
+    ""status"": ""UNAVAILABLE""
+  }
+}
+",,310.10317,0.0,0.0,0.0,inf,Serum Osmolality,lab test,decimal,,,,,formula_orchfix_exact_existing_benchmark
+train.1195,86.667,86.667,86.66667,1.0,1.0,1.0,0.0003300000000052705,Mean Arterial Pressure (MAP),physical,decimal,2560.0,147.0,4.269422769546509,0.0008604999999999999,formula_orchfix_exact_existing_benchmark
+train.5624,307.72,307.72,331.42063,0.0,0.0,0.0,23.70062999999999,Serum Osmolality,lab test,decimal,2659.0,19.0,4.8339502811431885,0.00069325,formula_orchfix_exact_existing_benchmark
+train.5880,0.0,0.0,1089.76,0.0,0.0,0.0,1089.76,HOMA-IR (Homeostatic Model Assessment for Insulin Resistance),lab test,decimal,3766.0,16.0,4.879018545150757,0.0009655,formula_orchfix_exact_existing_benchmark
+train.8220,52.553,52.553,52.55265,1.0,1.0,1.0,0.00034999999999740794,Adjusted Body Weight,physical,decimal,3128.0,347.0,16.950682640075684,0.0013024999999999998,formula_orchfix_exact_existing_benchmark
+train.6863,408.83,408.83,563.18471,0.0,0.0,0.0,154.35471,QTc Fridericia Calculator,physical,decimal,2091.0,19.0,1.2358803749084473,0.00055125,formula_orchfix_exact_existing_benchmark
+train.7439,2.001,2.001,2.00125,1.0,1.0,1.0,0.00025000000000030553,Body Surface Area Calculator,physical,decimal,2301.0,183.0,1.3838832378387451,0.00084975,formula_orchfix_exact_existing_benchmark
+train.4845,44.0,44.0,44.0,1.0,1.0,1.0,0.0,Maintenance Fluids Calculations,physical,decimal,2500.0,178.0,1.6253159046173096,0.000892,formula_orchfix_exact_existing_benchmark
+train.8898,1.25,1.25,-1.125,0.0,0.0,0.0,2.375,Delta Ratio,lab test,decimal,2443.0,17.0,1.690004587173462,0.00063625,formula_orchfix_exact_existing_benchmark
+train.8659,1.25,1.25,0.33333,0.0,0.0,0.0,0.91667,Delta Ratio,lab test,decimal,2733.0,17.0,0.9631967544555664,0.00070875,formula_orchfix_exact_existing_benchmark
+train.8379,8.0,8.0,-4.0,0.0,0.0,0.0,12.0,Delta Gap,lab test,decimal,2890.0,91.0,1.5227599143981934,0.000859,formula_orchfix_exact_existing_benchmark
+train.3801,52.38,52.38,52.38197,1.0,1.0,1.0,0.0019700000000000273,Ideal Body Weight,physical,decimal,2371.0,178.0,1.4573428630828857,0.0008597499999999999,formula_orchfix_exact_existing_benchmark
+train.7311,0.3399,0.3399,0.46476,0.0,0.0,0.0,0.12486000000000003,Body Surface Area Calculator,physical,decimal,2673.0,217.0,1.2120232582092285,0.00099375,formula_orchfix_exact_existing_benchmark
+train.9229,180.0,180.0,154.0,0.0,0.0,0.0,26.0,Morphine Milligram Equivalents (MME) Calculator,dosage,integer,2119.0,16.0,2.214003562927246,0.00055375,formula_orchfix_exact_existing_benchmark
+train.4552,10.5,10.5,10.8,1.0,0.0,1.0,0.3000000000000007,Maintenance Fluids Calculations,physical,decimal,2698.0,17.0,1.8136122226715088,0.0007,formula_orchfix_exact_existing_benchmark
+train.8594,-1.0,-1.0,-16.0,0.0,0.0,0.0,15.0,Delta Gap,lab test,decimal,3168.0,14.0,5.655879497528076,0.0008129999999999999,formula_orchfix_exact_existing_benchmark
+train.4877,24.0,24.0,24.0,1.0,1.0,1.0,0.0,Maintenance Fluids Calculations,physical,decimal,4159.0,129.0,3.0999395847320557,0.00123325,formula_orchfix_exact_existing_benchmark
+train.1275,97.0,97.0,97.0,1.0,1.0,1.0,0.0,Mean Arterial Pressure (MAP),physical,decimal,2659.0,17.0,0.7742514610290527,0.00069025,formula_orchfix_exact_existing_benchmark
+train.4041,300.94,300.94,221.2524,0.0,0.0,0.0,79.6876,QTc Bazett Calculator,physical,decimal,2089.0,19.0,1.0736405849456787,0.0005507499999999999,formula_orchfix_exact_existing_benchmark
+train.1239,110.0,110.0,110.0,1.0,1.0,1.0,0.0,Mean Arterial Pressure (MAP),physical,decimal,3205.0,132.0,1.194230318069458,0.00099925,formula_orchfix_exact_existing_benchmark
+train.8773,0.5555555555555556,0.5555555555555556,6.0,0.0,0.0,0.0,5.444444444444445,Delta Ratio,lab test,decimal,2679.0,31.0,0.7307500839233398,0.00071625,formula_orchfix_exact_existing_benchmark
+train.8294,82.78,82.78,79.61454,1.0,0.0,1.0,3.165459999999996,Adjusted Body Weight,physical,decimal,2927.0,18.0,0.9159977436065674,0.00075875,formula_orchfix_exact_existing_benchmark
+train.3467,65.937,65.937,65.93709,1.0,1.0,1.0,9.000000000014552e-05,Ideal Body Weight,physical,decimal,3010.0,290.0,2.239368438720703,0.0011875,formula_orchfix_exact_existing_benchmark
+train.3168,10.58,10.58,8.46447,0.0,0.0,0.0,2.1155299999999997,MDRD GFR Equation,lab test,decimal,2179.0,18.0,1.0875191688537598,0.00057175,formula_orchfix_exact_existing_benchmark
+train.1604,96.333,96.333,96.33333,1.0,1.0,1.0,0.0003300000000052705,Mean Arterial Pressure (MAP),physical,decimal,3104.0,220.0,1.498830795288086,0.001106,formula_orchfix_exact_existing_benchmark
+train.0097,32.48,32.48,30.51282,0.0,0.0,0.0,1.9671799999999955,Creatinine Clearance (Cockcroft-Gault Equation),lab test,decimal,3122.0,18.0,1.3561301231384277,0.0008075,formula_orchfix_exact_existing_benchmark
+train.3795,60.7,60.7,60.50401,1.0,0.0,1.0,0.19599000000000188,Ideal Body Weight,physical,decimal,2986.0,17.0,0.7829039096832275,0.000772,formula_orchfix_exact_existing_benchmark
+train.5123,138.0,138.0,105.0,0.0,0.0,0.0,33.0,Maintenance Fluids Calculations,physical,decimal,3355.0,287.0,1.423233985900879,0.00126925,formula_orchfix_exact_existing_benchmark
+train.0235,24.7,24.7,23.78365,1.0,0.0,1.0,0.9163499999999978,CKD-EPI Equations for Glomerular Filtration Rate,lab test,decimal,2230.0,13.0,6.573404312133789,0.0005769999999999999,formula_orchfix_exact_existing_benchmark
+train.5176,79.5,79.5,79.5,1.0,1.0,1.0,0.0,Maintenance Fluids Calculations,physical,decimal,3409.0,17.0,1.0909078121185303,0.00087775,formula_orchfix_exact_existing_benchmark
+train.2451,16.195,16.195,16.19406,1.0,1.0,1.0,0.0009399999999999409,Body Mass Index (BMI),physical,decimal,2737.0,19.0,1.0052039623260498,0.00071275,formula_orchfix_exact_existing_benchmark
+train.10135,24.0,24.0,29.0,0.0,0.0,0.0,5.0,MELD Na (UNOS/OPTN),lab test,decimal,3237.0,17.0,0.7999703884124756,0.00083475,formula_orchfix_exact_existing_benchmark
+train.5126,103.5,103.5,103.5,1.0,1.0,1.0,0.0,Maintenance Fluids Calculations,physical,decimal,3491.0,164.0,1.8126044273376465,0.00111875,formula_orchfix_exact_existing_benchmark
+train.3947,63.22,63.22,63.22056,1.0,1.0,1.0,0.000560000000000116,Ideal Body Weight,physical,decimal,2771.0,268.0,1.3776781558990479,0.00109475,formula_orchfix_exact_existing_benchmark
+train.1386,103.33333333333333,103.33333333333333,103.33333,1.0,1.0,1.0,3.3333333249174757e-06,Mean Arterial Pressure (MAP),physical,decimal,2361.0,31.0,1.0404078960418701,0.00063675,formula_orchfix_exact_existing_benchmark
+train.8715,1.0,1.0,1.0,1.0,1.0,1.0,0.0,Delta Ratio,lab test,decimal,3609.0,267.0,1.838085412979126,0.00130275,formula_orchfix_exact_existing_benchmark
+train.1883,100.0,100.0,100.0,1.0,1.0,1.0,0.0,Mean Arterial Pressure (MAP),physical,decimal,2273.0,18.0,3.0909111499786377,0.00059525,formula_orchfix_exact_existing_benchmark
+train.2272,27.072,27.072,27.05515,1.0,0.0,1.0,0.016849999999998033,Body Mass Index (BMI),physical,decimal,2545.0,19.0,3.147754430770874,0.00066475,formula_orchfix_exact_existing_benchmark
+train.0347,62.89,62.89,63.43251,1.0,0.0,1.0,0.54251,CKD-EPI Equations for Glomerular Filtration Rate,lab test,decimal,2319.0,580.0,3.433739185333252,0.00144975,formula_orchfix_exact_existing_benchmark
+train.3800,74.0866,74.0866,74.0867,1.0,1.0,1.0,9.99999999891088e-05,Ideal Body Weight,physical,decimal,2755.0,509.0,3.735866069793701,0.00145225,formula_orchfix_exact_existing_benchmark
+train.3206,11.87,11.87,13.91447,0.0,0.0,0.0,2.0444700000000005,MDRD GFR Equation,lab test,decimal,2665.0,368.0,2.5350077152252197,0.00121825,formula_orchfix_exact_existing_benchmark
+train.9860,29.876543209876544,29.876543209876544,208.59259,0.0,0.0,0.0,178.71604679012347,HOMA-IR (Homeostatic Model Assessment for Insulin Resistance),lab test,decimal,3357.0,31.0,1.8070499897003174,0.0008857499999999999,formula_orchfix_exact_existing_benchmark
+train.8822,2.6666666666666665,2.6666666666666665,0.0,0.0,0.0,0.0,2.6666666666666665,Delta Ratio,lab test,decimal,2686.0,31.0,1.8465375900268555,0.000718,formula_orchfix_exact_existing_benchmark
+train.1313,80.0,80.0,80.0,1.0,1.0,1.0,0.0,Mean Arterial Pressure (MAP),physical,decimal,2269.0,155.0,2.4758718013763428,0.0007997499999999999,formula_orchfix_exact_existing_benchmark
+train.6305,12.0,12.0,12.0,1.0,1.0,1.0,0.0,Anion Gap,lab test,decimal,2586.0,160.0,3.8614501953125,0.0008864999999999999,formula_orchfix_exact_existing_benchmark
+train.2390,17.6367,17.6367,17.63668,1.0,1.0,1.0,2.000000000279556e-05,Body Mass Index (BMI),physical,decimal,2642.0,20.0,2.2360000610351562,0.0006904999999999999,formula_orchfix_exact_existing_benchmark
+train.3587,50.08,50.08,46.76778,0.0,0.0,0.0,3.3122199999999964,Ideal Body Weight,physical,decimal,3452.0,18.0,2.0459084510803223,0.00089,formula_orchfix_exact_existing_benchmark
+train.9202,124.0,124.0,124.0,1.0,1.0,1.0,0.0,Morphine Milligram Equivalents (MME) Calculator,dosage,integer,2119.0,280.0,3.0839202404022217,0.00094975,formula_orchfix_exact_existing_benchmark
+train.7288,0.12658,0.12658,0.11136,0.0,0.0,0.0,0.015219999999999997,Body Surface Area Calculator,physical,decimal,3163.0,20.0,2.2350528240203857,0.00082075,formula_orchfix_exact_existing_benchmark
+train.7290,1.692,1.692,1.69222,1.0,1.0,1.0,0.000220000000000109,Body Surface Area Calculator,physical,decimal,4038.0,279.0,2.590762138366699,0.001428,formula_orchfix_exact_existing_benchmark
+train.1796,83.33333333333333,83.33333333333333,83.33333,1.0,1.0,1.0,3.3333333249174757e-06,Mean Arterial Pressure (MAP),physical,decimal,2705.0,30.0,4.724937677383423,0.00072125,formula_orchfix_exact_existing_benchmark
+train.3468,46.043,46.043,46.04337,1.0,1.0,1.0,0.0003700000000037562,Ideal Body Weight,physical,decimal,3130.0,259.0,5.242560386657715,0.001171,formula_orchfix_exact_existing_benchmark
+train.7169,1.485,1.485,1.48492,1.0,1.0,1.0,8.000000000008001e-05,Body Surface Area Calculator,physical,decimal,2667.0,179.0,3.520085096359253,0.0009352499999999999,formula_orchfix_exact_existing_benchmark
+train.6357,248.0,248.0,247.8,1.0,0.0,1.0,0.19999999999998863,LDL Calculated,lab test,decimal,3157.0,18.0,7.001739263534546,0.0008162499999999999,formula_orchfix_exact_existing_benchmark

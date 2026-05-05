@@ -18,25 +18,27 @@ field, which this evaluator writes from `is_within_tolerance`; therefore
 | PoT | 1,100 | 5,016,414 | 1,347,285 | $5.3002 | $5.3002 | $0.0000 | 45,562.6 | 0.5191 | 0.6009 | 0.6000 | 0.6009 |
 | Workflow v2 | 1,100 | 3,332,333 | 273,533 | $2.4644 | $2.4644 | $0.0000 | 9,396.6 | 0.6518 | 0.6818 | 0.6809 | 0.6818 |
 
-## Equation vs Rule Split
+## Formulas vs Rules Split
 
-Equations/formulas = `physical`, `lab test`, `dosage`, `date`.
-Rules/criteria = `diagnosis`, `risk`, `severity`.
+Formulas = `physical`, `lab test`, `dosage`.
+Rules = `diagnosis`, `risk`, `severity`.
+Date calculators are retained in the full test-set table, but are excluded
+from this formulas/rules split.
 
-| method | binary_type | n | token_priced_cost | exact_match | within_tolerance | within_limits | accuracy |
+| method | partition | n | token_priced_cost | exact_match | within_tolerance | within_limits | accuracy |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| Unstructured | Equations/formulas | 720 | $1.4194 | 0.4458 | 0.7875 | 0.7875 | 0.7875 |
-| Unstructured | Rules/criteria | 380 | $0.9066 | 0.6158 | 0.6158 | 0.6158 | 0.6158 |
-| Structured | Equations/formulas | 720 | $1.3297 | 0.3514 | 0.5472 | 0.5472 | 0.5472 |
-| Structured | Rules/criteria | 380 | $0.7935 | 0.4395 | 0.4474 | 0.4395 | 0.4474 |
-| Workflow v1 | Equations/formulas | 720 | $1.0311 | 0.6903 | 0.7458 | 0.7458 | 0.7458 |
-| Workflow v1 | Rules/criteria | 380 | $1.0378 | 0.4921 | 0.4974 | 0.4921 | 0.4974 |
-| ReAct | Equations/formulas | 720 | $8.4620 | 0.5792 | 0.7514 | 0.7514 | 0.7514 |
-| ReAct | Rules/criteria | 380 | $4.8890 | 0.4684 | 0.4711 | 0.4684 | 0.4711 |
-| PoT | Equations/formulas | 720 | $3.2435 | 0.5653 | 0.6889 | 0.6889 | 0.6889 |
-| PoT | Rules/criteria | 380 | $2.0567 | 0.4316 | 0.4342 | 0.4316 | 0.4342 |
-| Workflow v2 | Equations/formulas | 720 | $1.1651 | 0.7306 | 0.7750 | 0.7750 | 0.7750 |
-| Workflow v2 | Rules/criteria | 380 | $1.2994 | 0.5026 | 0.5053 | 0.5026 | 0.5053 |
+| Unstructured | Formulas | 660 | $1.2980 | 0.4864 | 0.8591 | 0.8591 | 0.8591 |
+| Unstructured | Rules | 380 | $0.9066 | 0.6158 | 0.6158 | 0.6158 | 0.6158 |
+| Structured | Formulas | 660 | $1.2360 | 0.3833 | 0.5970 | 0.5970 | 0.5970 |
+| Structured | Rules | 380 | $0.7935 | 0.4395 | 0.4474 | 0.4395 | 0.4474 |
+| Workflow v1 | Formulas | 660 | $0.9676 | 0.7530 | 0.8136 | 0.8136 | 0.8136 |
+| Workflow v1 | Rules | 380 | $1.0378 | 0.4921 | 0.4974 | 0.4921 | 0.4974 |
+| ReAct | Formulas | 660 | $7.9029 | 0.6318 | 0.8197 | 0.8197 | 0.8197 |
+| ReAct | Rules | 380 | $4.8890 | 0.4684 | 0.4711 | 0.4684 | 0.4711 |
+| PoT | Formulas | 660 | $3.0916 | 0.6167 | 0.7515 | 0.7515 | 0.7515 |
+| PoT | Rules | 380 | $2.0567 | 0.4316 | 0.4342 | 0.4316 | 0.4342 |
+| Workflow v2 | Formulas | 660 | $1.1393 | 0.7848 | 0.8333 | 0.8333 | 0.8333 |
+| Workflow v2 | Rules | 380 | $1.2994 | 0.5026 | 0.5053 | 0.5026 | 0.5053 |
 
 ## Coarse Calculator Type Breakdown
 

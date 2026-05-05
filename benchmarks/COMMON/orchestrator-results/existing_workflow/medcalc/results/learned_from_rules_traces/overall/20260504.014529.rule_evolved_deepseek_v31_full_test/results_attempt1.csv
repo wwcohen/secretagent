@@ -1,0 +1,854 @@
+case_name,predicted_output,predicted_numeric,expected_output,correct,exact_match,within_limits,absolute_error,calculator_name,category,output_type,input_tokens,output_tokens,latency,cost,expt_name
+test.0044,3,3.0,4.0,0.0,0.0,0.0,1.0,CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk,risk,integer,2734.0,130.0,3.2082486152648926,0.0018614,rule_evolved_deepseek_v31_full_test
+test.0043,5,5.0,4.0,0.0,0.0,0.0,1.0,CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk,risk,integer,2768.0,280.0,7.784201145172119,0.0021368,rule_evolved_deepseek_v31_full_test
+test.0042,3,3.0,5.0,0.0,0.0,0.0,2.0,CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk,risk,integer,2351.0,309.0,7.54801082611084,0.0019359,rule_evolved_deepseek_v31_full_test
+test.0041,3,3.0,2.0,0.0,0.0,0.0,1.0,CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk,risk,integer,2831.0,374.0,9.656888961791992,0.0023344,rule_evolved_deepseek_v31_full_test
+test.0048,4,4.0,3.0,0.0,0.0,0.0,1.0,CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk,risk,integer,2974.0,115.0,4.554969072341919,0.0019799,rule_evolved_deepseek_v31_full_test
+test.0047,0,0.0,1.0,0.0,0.0,0.0,1.0,CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk,risk,integer,3274.0,173.0,6.266141653060913,0.0022584999999999997,rule_evolved_deepseek_v31_full_test
+test.0045,5,5.0,5.0,1.0,1.0,1.0,0.0,CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk,risk,integer,2454.0,377.0,11.314646244049072,0.0021133000000000002,rule_evolved_deepseek_v31_full_test
+test.0046,5,5.0,4.0,0.0,0.0,0.0,1.0,CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk,risk,integer,2526.0,252.0,8.871276140213013,0.001944,rule_evolved_deepseek_v31_full_test
+test.0049,5,5.0,7.0,0.0,0.0,0.0,2.0,CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk,risk,integer,2737.0,172.0,4.819440603256226,0.0019345999999999999,rule_evolved_deepseek_v31_full_test
+test.0051,3,3.0,1.0,0.0,0.0,0.0,2.0,CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk,risk,integer,2899.0,288.0,10.364572763442993,0.002229,rule_evolved_deepseek_v31_full_test
+test.0050,0,0.0,0.0,1.0,1.0,1.0,0.0,CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk,risk,integer,2619.0,328.0,11.784296035766602,0.002129,rule_evolved_deepseek_v31_full_test
+test.0052,2,2.0,2.0,1.0,1.0,1.0,0.0,CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk,risk,integer,3486.0,399.0,12.360425472259521,0.0027699,rule_evolved_deepseek_v31_full_test
+test.0054,0,0.0,0.0,1.0,1.0,1.0,0.0,CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk,risk,integer,2350.0,313.0,6.139936208724976,0.0019421,rule_evolved_deepseek_v31_full_test
+test.0053,4,4.0,5.0,0.0,0.0,0.0,1.0,CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk,risk,integer,2421.0,65.0,8.656952381134033,0.0015630999999999998,rule_evolved_deepseek_v31_full_test
+test.0055,0,0.0,0.0,1.0,1.0,1.0,0.0,CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk,risk,integer,2898.0,167.0,11.496149063110352,0.0020227,rule_evolved_deepseek_v31_full_test
+test.0056,1,1.0,0.0,0.0,0.0,0.0,1.0,CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk,risk,integer,2800.0,265.0,14.970916032791138,0.0021305,rule_evolved_deepseek_v31_full_test
+test.0058,"I need to analyze the patient note to calculate the CHA2DS2-VASc score. The patient is a 76-year-old man with history of multiple cerebral infarctions (strokes), diabetes mellitus, and hypertension. The CHA2DS2-VASc criteria include:
+- Age ≥75 years: +2 points (patient is 76)
+- Stroke/TIA: +2 points (history of multiple cerebral infarctions)
+- Diabetes mellitus: +1 point
+- Hypertension: +1 point
+- Vascular disease: +1 point (history of cerebral infarctions qualifies as vascular disease)
+- Female gender: 0 points (patient is male)
+- CHF: Not mentioned in the note
+
+Total score: 2 (age) + 2 (stroke) + 1 (diabetes) + 1 (hypertension) + 1 (vascular) = 7
+
+The patient's CHA2DS2-VASc Score is 7.",7.0,6.0,0.0,0.0,0.0,1.0,CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk,risk,integer,3299.0,330.0,10.236910581588745,0.0025404,rule_evolved_deepseek_v31_full_test
+test.0121,3,3.0,1.5,0.0,0.0,0.0,1.5,Wells' Criteria for Pulmonary Embolism,risk,integer,2912.0,105.0,2.371462345123291,0.0019257,rule_evolved_deepseek_v31_full_test
+test.0057,3,3.0,3.0,1.0,1.0,1.0,0.0,CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk,risk,integer,2627.0,507.0,15.78618311882019,0.0024381,rule_evolved_deepseek_v31_full_test
+test.0059,4,4.0,4.0,1.0,1.0,1.0,0.0,CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk,risk,integer,2684.0,383.0,11.19507908821106,0.0022615,rule_evolved_deepseek_v31_full_test
+test.0060,7,7.0,6.0,0.0,0.0,0.0,1.0,CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk,risk,integer,2465.0,331.0,9.26057505607605,0.0020416999999999996,rule_evolved_deepseek_v31_full_test
+test.0124,0,0.0,4.5,0.0,0.0,0.0,4.5,Wells' Criteria for Pulmonary Embolism,risk,integer,2726.0,75.0,8.759174346923828,0.0017630999999999999,rule_evolved_deepseek_v31_full_test
+test.0122,4.5,4.5,4.5,1.0,1.0,1.0,0.0,Wells' Criteria for Pulmonary Embolism,risk,integer,3198.0,530.0,10.40112018585205,0.0028198,rule_evolved_deepseek_v31_full_test
+test.0123,3.0,3.0,3.0,1.0,1.0,1.0,0.0,Wells' Criteria for Pulmonary Embolism,risk,integer,2710.0,107.0,9.991291284561157,0.0018078999999999999,rule_evolved_deepseek_v31_full_test
+test.0125,1.5,1.5,1.5,1.0,1.0,1.0,0.0,Wells' Criteria for Pulmonary Embolism,risk,integer,3706.0,192.0,8.50382113456726,0.00255,rule_evolved_deepseek_v31_full_test
+test.0129,0,0.0,0.0,1.0,1.0,1.0,0.0,Wells' Criteria for Pulmonary Embolism,risk,integer,2442.0,85.0,1.9369699954986572,0.0016097,rule_evolved_deepseek_v31_full_test
+test.0130,0,0.0,0.0,1.0,1.0,1.0,0.0,Wells' Criteria for Pulmonary Embolism,risk,integer,2732.0,139.0,3.1489644050598145,0.0018755,rule_evolved_deepseek_v31_full_test
+test.0126,0,0.0,0.0,1.0,1.0,1.0,0.0,Wells' Criteria for Pulmonary Embolism,risk,integer,2376.0,467.0,19.460898876190186,0.0022195,rule_evolved_deepseek_v31_full_test
+test.0131,1,1.0,5.5,0.0,0.0,0.0,4.5,Wells' Criteria for Pulmonary Embolism,risk,integer,2745.0,146.0,5.650010824203491,0.0018952,rule_evolved_deepseek_v31_full_test
+test.0133,0,0.0,0.0,1.0,1.0,1.0,0.0,Wells' Criteria for Pulmonary Embolism,risk,integer,2543.0,278.0,10.343754529953003,0.0019984,rule_evolved_deepseek_v31_full_test
+test.0132,3.0,3.0,3.0,1.0,1.0,1.0,0.0,Wells' Criteria for Pulmonary Embolism,risk,integer,2344.0,477.0,16.02413320541382,0.0022173,rule_evolved_deepseek_v31_full_test
+test.0134,0,0.0,0.0,1.0,1.0,1.0,0.0,Wells' Criteria for Pulmonary Embolism,risk,integer,2717.0,303.0,7.682470083236694,0.0021452999999999997,rule_evolved_deepseek_v31_full_test
+test.0135,0,0.0,1.5,0.0,0.0,0.0,1.5,Wells' Criteria for Pulmonary Embolism,risk,integer,2984.0,189.0,4.113228797912598,0.0021116999999999998,rule_evolved_deepseek_v31_full_test
+test.0136,4.5,4.5,4.5,1.0,1.0,1.0,0.0,Wells' Criteria for Pulmonary Embolism,risk,integer,2844.0,479.0,24.34836459159851,0.0025207,rule_evolved_deepseek_v31_full_test
+test.0128,**exception raised**: Exceeded maximum retries (1) for output validation,,7.5,0.0,0.0,0.0,inf,Wells' Criteria for Pulmonary Embolism,risk,integer,,,,,rule_evolved_deepseek_v31_full_test
+test.0127,**exception raised**: Exceeded maximum retries (1) for output validation,,6.0,0.0,0.0,0.0,inf,Wells' Criteria for Pulmonary Embolism,risk,integer,,,,,rule_evolved_deepseek_v31_full_test
+test.0140,0,0.0,0.0,1.0,1.0,1.0,0.0,Wells' Criteria for Pulmonary Embolism,risk,integer,2751.0,146.0,3.5644474029541016,0.0018988,rule_evolved_deepseek_v31_full_test
+test.0138,0,0.0,0.0,1.0,1.0,1.0,0.0,Wells' Criteria for Pulmonary Embolism,risk,integer,2780.0,232.0,5.060016632080078,0.0020624,rule_evolved_deepseek_v31_full_test
+test.0139,0,0.0,0.0,1.0,1.0,1.0,0.0,Wells' Criteria for Pulmonary Embolism,risk,integer,3276.0,257.0,5.7147722244262695,0.0024025,rule_evolved_deepseek_v31_full_test
+test.0137,0,0.0,1.5,0.0,0.0,0.0,1.5,Wells' Criteria for Pulmonary Embolism,risk,integer,2746.0,291.0,6.083044052124023,0.0021422999999999998,rule_evolved_deepseek_v31_full_test
+test.0201,8,8.0,9.0,0.0,0.0,0.0,1.0,Child-Pugh Score for Cirrhosis Mortality,severity,integer,2656.0,176.0,3.3284623622894287,0.0018928,rule_evolved_deepseek_v31_full_test
+test.0204,6,6.0,10.0,0.0,0.0,0.0,4.0,Child-Pugh Score for Cirrhosis Mortality,severity,integer,2735.0,86.0,2.1288299560546875,0.0017871999999999999,rule_evolved_deepseek_v31_full_test
+test.0205,"I need to analyze this patient case to calculate the Child-Pugh Score. From the admission data, I can extract: bilirubin = 5.9 mg/dL, albumin = 2.8 g/dL, INR = 1.93, presence of massive ascites, and no mention of encephalopathy. Let me assign points for each component and calculate the total score.",1.93,11.0,0.0,0.0,0.0,9.07,Child-Pugh Score for Cirrhosis Mortality,severity,integer,3329.0,167.0,3.359151601791382,0.0022813,rule_evolved_deepseek_v31_full_test
+test.0203,7,7.0,6.0,0.0,0.0,0.0,1.0,Child-Pugh Score for Cirrhosis Mortality,severity,integer,2602.0,395.0,6.647691011428833,0.0022327,rule_evolved_deepseek_v31_full_test
+test.0202,7,7.0,7.0,1.0,1.0,1.0,0.0,Child-Pugh Score for Cirrhosis Mortality,severity,integer,2960.0,599.0,10.356957197189331,0.0027943,rule_evolved_deepseek_v31_full_test
+test.0206,11,11.0,11.0,1.0,1.0,1.0,0.0,Child-Pugh Score for Cirrhosis Mortality,severity,integer,2740.0,280.0,5.216157674789429,0.00212,rule_evolved_deepseek_v31_full_test
+test.0207,6,6.0,6.0,1.0,1.0,1.0,0.0,Child-Pugh Score for Cirrhosis Mortality,severity,integer,3273.0,357.0,6.161305665969849,0.0025707,rule_evolved_deepseek_v31_full_test
+test.0208,10,10.0,10.0,1.0,1.0,1.0,0.0,Child-Pugh Score for Cirrhosis Mortality,severity,integer,3401.0,391.0,6.97504734992981,0.0027053,rule_evolved_deepseek_v31_full_test
+test.0210,7,7.0,9.0,0.0,0.0,0.0,2.0,Child-Pugh Score for Cirrhosis Mortality,severity,integer,2442.0,167.0,3.2870945930480957,0.0017491,rule_evolved_deepseek_v31_full_test
+test.0213,9,9.0,10.0,0.0,0.0,0.0,1.0,Child-Pugh Score for Cirrhosis Mortality,severity,integer,2458.0,276.0,5.344332218170166,0.001944,rule_evolved_deepseek_v31_full_test
+test.0211,5,5.0,5.0,1.0,1.0,1.0,0.0,Child-Pugh Score for Cirrhosis Mortality,severity,integer,2673.0,475.0,9.548319578170776,0.0024113,rule_evolved_deepseek_v31_full_test
+test.0212,5,5.0,8.0,0.0,0.0,0.0,3.0,Child-Pugh Score for Cirrhosis Mortality,severity,integer,2561.0,520.0,10.250726699829102,0.0024206,rule_evolved_deepseek_v31_full_test
+test.0209,12,12.0,12.0,1.0,1.0,1.0,0.0,Child-Pugh Score for Cirrhosis Mortality,severity,integer,3428.0,634.0,12.284803867340088,0.0031346000000000004,rule_evolved_deepseek_v31_full_test
+test.0215,7,7.0,8.0,0.0,0.0,0.0,1.0,Child-Pugh Score for Cirrhosis Mortality,severity,integer,3003.0,179.0,3.3024027347564697,0.0021061,rule_evolved_deepseek_v31_full_test
+test.0214,8,8.0,8.0,1.0,1.0,1.0,0.0,Child-Pugh Score for Cirrhosis Mortality,severity,integer,2605.0,268.0,5.119370222091675,0.0020185999999999997,rule_evolved_deepseek_v31_full_test
+test.0216,6,6.0,6.0,1.0,1.0,1.0,0.0,Child-Pugh Score for Cirrhosis Mortality,severity,integer,2697.0,315.0,5.950693130493164,0.0021537,rule_evolved_deepseek_v31_full_test
+test.0218,7,7.0,10.0,0.0,0.0,0.0,3.0,Child-Pugh Score for Cirrhosis Mortality,severity,integer,2439.0,181.0,3.783142328262329,0.0017710999999999998,rule_evolved_deepseek_v31_full_test
+test.0217,10,10.0,10.0,1.0,1.0,1.0,0.0,Child-Pugh Score for Cirrhosis Mortality,severity,integer,2439.0,400.0,7.585990905761719,0.0021434,rule_evolved_deepseek_v31_full_test
+test.0219,7,7.0,8.0,0.0,0.0,0.0,1.0,Child-Pugh Score for Cirrhosis Mortality,severity,integer,2752.0,352.0,6.319844484329224,0.0022496,rule_evolved_deepseek_v31_full_test
+test.0220,9,9.0,9.0,1.0,1.0,1.0,0.0,Child-Pugh Score for Cirrhosis Mortality,severity,integer,2373.0,311.0,5.460420608520508,0.0019525,rule_evolved_deepseek_v31_full_test
+test.0222,2,2.0,3.0,0.0,0.0,0.0,1.0,Wells' Criteria for DVT,risk,decimal,2913.0,383.0,5.799659013748169,0.0023989,rule_evolved_deepseek_v31_full_test
+test.0223,5,5.0,3.0,0.0,0.0,0.0,2.0,Wells' Criteria for DVT,risk,decimal,3038.0,413.0,6.7921552658081055,0.0025249,rule_evolved_deepseek_v31_full_test
+test.0224,3,3.0,4.0,0.0,0.0,0.0,1.0,Wells' Criteria for DVT,risk,decimal,2885.0,261.0,10.052483081817627,0.0021747,rule_evolved_deepseek_v31_full_test
+test.0221,4,4.0,3.0,0.0,0.0,0.0,1.0,Wells' Criteria for DVT,risk,decimal,2925.0,643.0,9.179363250732422,0.0028481,rule_evolved_deepseek_v31_full_test
+test.0226,1,1.0,0.0,0.0,0.0,0.0,1.0,Wells' Criteria for DVT,risk,decimal,3134.0,95.0,4.548016786575317,0.0020419,rule_evolved_deepseek_v31_full_test
+test.0229,3,3.0,3.0,1.0,1.0,1.0,0.0,Wells' Criteria for DVT,risk,decimal,3160.0,84.0,1.655369758605957,0.0020388,rule_evolved_deepseek_v31_full_test
+test.0228,2,2.0,3.0,0.0,0.0,0.0,1.0,Wells' Criteria for DVT,risk,decimal,3162.0,178.0,7.514415979385376,0.0021998,rule_evolved_deepseek_v31_full_test
+test.0225,0,0.0,2.0,0.0,0.0,0.0,2.0,Wells' Criteria for DVT,risk,decimal,2964.0,379.0,15.777154684066772,0.0024227,rule_evolved_deepseek_v31_full_test
+test.0230,3,3.0,4.0,0.0,0.0,0.0,1.0,Wells' Criteria for DVT,risk,decimal,3015.0,376.0,5.106274127960205,0.0024481999999999998,rule_evolved_deepseek_v31_full_test
+test.0227,2,2.0,3.0,0.0,0.0,0.0,1.0,Wells' Criteria for DVT,risk,decimal,3122.0,375.0,14.102071762084961,0.0025107000000000003,rule_evolved_deepseek_v31_full_test
+test.0231,1,1.0,-2.0,0.0,0.0,0.0,3.0,Wells' Criteria for DVT,risk,decimal,2979.0,548.0,8.227180242538452,0.002719,rule_evolved_deepseek_v31_full_test
+test.0232,3,3.0,3.0,1.0,1.0,1.0,0.0,Wells' Criteria for DVT,risk,decimal,3197.0,656.0,10.00675344467163,0.0030334,rule_evolved_deepseek_v31_full_test
+test.0235,2,2.0,3.0,0.0,0.0,0.0,1.0,Wells' Criteria for DVT,risk,decimal,3105.0,158.0,2.9492874145507812,0.0021316,rule_evolved_deepseek_v31_full_test
+test.0233,1,1.0,0.0,0.0,0.0,0.0,1.0,Wells' Criteria for DVT,risk,decimal,3024.0,275.0,10.387169361114502,0.0022819,rule_evolved_deepseek_v31_full_test
+test.0237,3,3.0,3.0,1.0,1.0,1.0,0.0,Wells' Criteria for DVT,risk,decimal,3345.0,218.0,8.507698059082031,0.0023776,rule_evolved_deepseek_v31_full_test
+test.0236,3,3.0,3.0,1.0,1.0,1.0,0.0,Wells' Criteria for DVT,risk,decimal,3238.0,660.0,11.497281074523926,0.0030648,rule_evolved_deepseek_v31_full_test
+test.0234,3,3.0,3.0,1.0,1.0,1.0,0.0,Wells' Criteria for DVT,risk,decimal,3116.0,458.0,15.366778373718262,0.0026482,rule_evolved_deepseek_v31_full_test
+test.0239,1,1.0,3.0,0.0,0.0,0.0,2.0,Wells' Criteria for DVT,risk,decimal,3259.0,112.0,2.0965700149536133,0.0021458,rule_evolved_deepseek_v31_full_test
+test.0238,3,3.0,3.0,1.0,1.0,1.0,0.0,Wells' Criteria for DVT,risk,decimal,3225.0,437.0,8.348255157470703,0.0026779,rule_evolved_deepseek_v31_full_test
+test.0241,3,3.0,2.0,0.0,0.0,0.0,1.0,Revised Cardiac Risk Index for Pre-Operative Risk,risk,integer,3180.0,175.0,3.816793441772461,0.0022055,rule_evolved_deepseek_v31_full_test
+test.0242,3,3.0,2.0,0.0,0.0,0.0,1.0,Revised Cardiac Risk Index for Pre-Operative Risk,risk,integer,3086.0,183.0,3.3736042976379395,0.0021627,rule_evolved_deepseek_v31_full_test
+test.0240,4,4.0,3.0,0.0,0.0,0.0,1.0,Wells' Criteria for DVT,risk,decimal,3223.0,430.0,8.608706951141357,0.0026647999999999997,rule_evolved_deepseek_v31_full_test
+test.0243,1,1.0,1.0,1.0,1.0,1.0,0.0,Revised Cardiac Risk Index for Pre-Operative Risk,risk,integer,2926.0,328.0,5.619564533233643,0.0023132,rule_evolved_deepseek_v31_full_test
+test.0244,1,1.0,1.0,1.0,1.0,1.0,0.0,Revised Cardiac Risk Index for Pre-Operative Risk,risk,integer,3035.0,360.0,5.88079309463501,0.002433,rule_evolved_deepseek_v31_full_test
+test.0247,3,3.0,2.0,0.0,0.0,0.0,1.0,Revised Cardiac Risk Index for Pre-Operative Risk,risk,integer,3222.0,120.0,3.687080144882202,0.0021372,rule_evolved_deepseek_v31_full_test
+test.0248,2,2.0,3.0,0.0,0.0,0.0,1.0,Revised Cardiac Risk Index for Pre-Operative Risk,risk,integer,3053.0,173.0,5.688005447387695,0.0021259,rule_evolved_deepseek_v31_full_test
+test.0246,3,3.0,3.0,1.0,1.0,1.0,0.0,Revised Cardiac Risk Index for Pre-Operative Risk,risk,integer,4072.0,200.0,5.424350738525391,0.0027832,rule_evolved_deepseek_v31_full_test
+test.0245,1,1.0,1.0,1.0,1.0,1.0,0.0,Revised Cardiac Risk Index for Pre-Operative Risk,risk,integer,3273.0,333.0,9.462309122085571,0.0025299,rule_evolved_deepseek_v31_full_test
+test.0250,2,2.0,1.0,0.0,0.0,0.0,1.0,Revised Cardiac Risk Index for Pre-Operative Risk,risk,integer,2600.0,116.0,2.9510440826416016,0.0017572,rule_evolved_deepseek_v31_full_test
+test.0249,1,1.0,1.0,1.0,1.0,1.0,0.0,Revised Cardiac Risk Index for Pre-Operative Risk,risk,integer,3208.0,141.0,3.50285005569458,0.0021644999999999998,rule_evolved_deepseek_v31_full_test
+test.0252,2,2.0,2.0,1.0,1.0,1.0,0.0,Revised Cardiac Risk Index for Pre-Operative Risk,risk,integer,3326.0,114.0,2.855257511138916,0.0021893999999999998,rule_evolved_deepseek_v31_full_test
+test.0251,1,1.0,2.0,0.0,0.0,0.0,1.0,Revised Cardiac Risk Index for Pre-Operative Risk,risk,integer,3070.0,81.0,1.8785808086395264,0.0019797,rule_evolved_deepseek_v31_full_test
+test.0254,2,2.0,1.0,0.0,0.0,0.0,1.0,Revised Cardiac Risk Index for Pre-Operative Risk,risk,integer,2745.0,109.0,2.237266778945923,0.0018323,rule_evolved_deepseek_v31_full_test
+test.0255,1,1.0,1.0,1.0,1.0,1.0,0.0,Revised Cardiac Risk Index for Pre-Operative Risk,risk,integer,3227.0,112.0,3.021599531173706,0.0021265999999999998,rule_evolved_deepseek_v31_full_test
+test.0253,3,3.0,2.0,0.0,0.0,0.0,1.0,Revised Cardiac Risk Index for Pre-Operative Risk,risk,integer,3079.0,299.0,6.509697198867798,0.0023557,rule_evolved_deepseek_v31_full_test
+test.0256,**exception raised**: Exceeded maximum retries (1) for output validation,,1.0,0.0,0.0,0.0,inf,Revised Cardiac Risk Index for Pre-Operative Risk,risk,integer,,,,,rule_evolved_deepseek_v31_full_test
+test.0260,2,2.0,2.0,1.0,1.0,1.0,0.0,Revised Cardiac Risk Index for Pre-Operative Risk,risk,integer,2913.0,175.0,3.562380790710449,0.0020453,rule_evolved_deepseek_v31_full_test
+test.0259,4,4.0,2.0,0.0,0.0,0.0,2.0,Revised Cardiac Risk Index for Pre-Operative Risk,risk,integer,3300.0,271.0,4.3372581005096436,0.0024407,rule_evolved_deepseek_v31_full_test
+test.0257,2,2.0,2.0,1.0,1.0,1.0,0.0,Revised Cardiac Risk Index for Pre-Operative Risk,risk,integer,3312.0,275.0,4.649532318115234,0.0024546999999999998,rule_evolved_deepseek_v31_full_test
+test.0258,2,2.0,2.0,1.0,1.0,1.0,0.0,Revised Cardiac Risk Index for Pre-Operative Risk,risk,integer,3315.0,290.0,5.117753267288208,0.002482,rule_evolved_deepseek_v31_full_test
+test.0262,2.0,2.0,5.0,0.0,0.0,0.0,3.0,HEART Score for Major Cardiac Events,risk,integer,3051.0,124.0,3.1645641326904297,0.0020414,rule_evolved_deepseek_v31_full_test
+test.0263,5,5.0,5.0,1.0,1.0,1.0,0.0,HEART Score for Major Cardiac Events,risk,integer,2597.0,223.0,4.770657300949097,0.0019373,rule_evolved_deepseek_v31_full_test
+test.0261,2,2.0,4.0,0.0,0.0,0.0,2.0,HEART Score for Major Cardiac Events,risk,integer,2454.0,475.0,11.301059246063232,0.0022799,rule_evolved_deepseek_v31_full_test
+test.0267,5,5.0,4.0,0.0,0.0,0.0,1.0,HEART Score for Major Cardiac Events,risk,integer,2283.0,467.0,9.329156160354614,0.0021637,rule_evolved_deepseek_v31_full_test
+test.0264,5,5.0,4.0,0.0,0.0,0.0,1.0,HEART Score for Major Cardiac Events,risk,integer,2817.0,322.0,5.776470422744751,0.0022376,rule_evolved_deepseek_v31_full_test
+test.0268,3,3.0,3.0,1.0,1.0,1.0,0.0,HEART Score for Major Cardiac Events,risk,integer,2454.0,197.0,3.793384552001953,0.0018073,rule_evolved_deepseek_v31_full_test
+test.0266,6,6.0,6.0,1.0,1.0,1.0,0.0,HEART Score for Major Cardiac Events,risk,integer,2908.0,322.0,13.307541847229004,0.0022922,rule_evolved_deepseek_v31_full_test
+test.0265,3,3.0,4.0,0.0,0.0,0.0,1.0,HEART Score for Major Cardiac Events,risk,integer,3101.0,281.0,14.094496965408325,0.0023383,rule_evolved_deepseek_v31_full_test
+test.0270,7,7.0,7.0,1.0,1.0,1.0,0.0,HEART Score for Major Cardiac Events,risk,integer,3068.0,78.0,1.6508252620697021,0.0019733999999999997,rule_evolved_deepseek_v31_full_test
+test.0271,4,4.0,3.0,0.0,0.0,0.0,1.0,HEART Score for Major Cardiac Events,risk,integer,2770.0,158.0,3.056432008743286,0.0019305999999999998,rule_evolved_deepseek_v31_full_test
+test.0269,8,8.0,6.0,0.0,0.0,0.0,2.0,HEART Score for Major Cardiac Events,risk,integer,2560.0,245.0,4.795754671096802,0.0019525,rule_evolved_deepseek_v31_full_test
+test.0272,5,5.0,6.0,0.0,0.0,0.0,1.0,HEART Score for Major Cardiac Events,risk,integer,2989.0,458.0,9.431058645248413,0.002572,rule_evolved_deepseek_v31_full_test
+test.0274,5,5.0,5.0,1.0,1.0,1.0,0.0,HEART Score for Major Cardiac Events,risk,integer,3063.0,229.0,3.8301138877868652,0.0022271,rule_evolved_deepseek_v31_full_test
+test.0273,2,2.0,1.0,0.0,0.0,0.0,1.0,HEART Score for Major Cardiac Events,risk,integer,2320.0,313.0,7.057236909866333,0.0019241,rule_evolved_deepseek_v31_full_test
+test.0276,7,7.0,6.0,0.0,0.0,0.0,1.0,HEART Score for Major Cardiac Events,risk,integer,3045.0,173.0,3.375253438949585,0.0021211,rule_evolved_deepseek_v31_full_test
+test.0275,5,5.0,5.0,1.0,1.0,1.0,0.0,HEART Score for Major Cardiac Events,risk,integer,2644.0,206.0,3.534348249435425,0.0019366,rule_evolved_deepseek_v31_full_test
+test.0277,5,5.0,4.0,0.0,0.0,0.0,1.0,HEART Score for Major Cardiac Events,risk,integer,2614.0,335.0,7.390989780426025,0.0021379,rule_evolved_deepseek_v31_full_test
+test.0278,4,4.0,7.0,0.0,0.0,0.0,3.0,HEART Score for Major Cardiac Events,risk,integer,2628.0,92.0,2.042506694793701,0.0017331999999999998,rule_evolved_deepseek_v31_full_test
+test.0280,3,3.0,6.0,0.0,0.0,0.0,3.0,HEART Score for Major Cardiac Events,risk,integer,3066.0,241.0,3.6091344356536865,0.0022492999999999997,rule_evolved_deepseek_v31_full_test
+test.0279,"I need to calculate the HEART Score for this patient. Let me analyze each component:
+
+1. History: The patient has chest pain with highly suspicious features (exertional onset evolving to rest pain, pressure quality, radiation to arm/jaw, associated diaphoresis/nausea) and known coronary artery disease with previous stent placement. This suggests a score of 2 (highly suspicious).
+
+2. ECG: Significant repolarization abnormalities with 2-3 mm ST depressions in V4-V6 and 1-2 mm in inferior leads with T-wave inversions. This indicates new ischemic changes, scoring 2 (significant ST depression).
+
+3. Age: Patient is 58 years old, which is less than 65 years. This scores 0 (<45), 1 (45-64), or 2 (≥65). Since she's 58, this scores 1.
+
+4. Risk factors: The patient has known CAD (coronary artery disease with previous stent placement), which is a major risk factor. She also has BMI of 33.8 (obese), but no mention of smoking, hypertension, diabetes, or dyslipidemia (denies lipid issues, not on lipid-lowering meds, glucose normal). The known CAD alone qualifies for risk factors, scoring 1 (1-2 risk factors) or 2 (≥3 risk factors). With only CAD clearly documented, this likely scores 1.
+
+5. Troponin: Initial troponin I is 176 ng/L (reference ≤18 ng/L), which is significantly elevated (nearly 10x upper limit). This scores 2 (elevated troponin).
+
+Adding the scores: History(2) + ECG(2) + Age(1) + Risk factors(1) + Troponin(2) = 8
+
+The HEART Score is 8.",8.0,8.0,1.0,1.0,1.0,0.0,HEART Score for Major Cardiac Events,risk,integer,3080.0,581.0,10.052448034286499,0.0028357,rule_evolved_deepseek_v31_full_test
+test.0302,0,0.0,2.0,0.0,0.0,0.0,2.0,Centor Score (Modified/McIsaac) for Strep Pharyngitis,severity,integer,2803.0,252.0,5.551536321640015,0.0021102,rule_evolved_deepseek_v31_full_test
+test.0303,3,3.0,4.0,0.0,0.0,0.0,1.0,Centor Score (Modified/McIsaac) for Strep Pharyngitis,severity,integer,2367.0,247.0,4.140101671218872,0.0018401,rule_evolved_deepseek_v31_full_test
+test.0301,4,4.0,4.0,1.0,1.0,1.0,0.0,Centor Score (Modified/McIsaac) for Strep Pharyngitis,severity,integer,2298.0,592.0,9.506531953811646,0.0023851999999999996,rule_evolved_deepseek_v31_full_test
+test.0305,3,3.0,3.0,1.0,1.0,1.0,0.0,Centor Score (Modified/McIsaac) for Strep Pharyngitis,severity,integer,2317.0,388.0,6.426461935043335,0.0020498,rule_evolved_deepseek_v31_full_test
+test.0306,2,2.0,3.0,0.0,0.0,0.0,1.0,Centor Score (Modified/McIsaac) for Strep Pharyngitis,severity,integer,2288.0,281.0,5.4534502029418945,0.0018505,rule_evolved_deepseek_v31_full_test
+test.0308,3,3.0,2.0,0.0,0.0,0.0,1.0,Centor Score (Modified/McIsaac) for Strep Pharyngitis,severity,integer,2400.0,239.0,4.256623029708862,0.0018463,rule_evolved_deepseek_v31_full_test
+test.0307,-1,-1.0,-1.0,1.0,1.0,1.0,0.0,Centor Score (Modified/McIsaac) for Strep Pharyngitis,severity,integer,3185.0,329.0,5.769746541976929,0.0024703,rule_evolved_deepseek_v31_full_test
+test.0310,4,4.0,3.0,0.0,0.0,0.0,1.0,Centor Score (Modified/McIsaac) for Strep Pharyngitis,severity,integer,3349.0,139.0,2.837165594100952,0.0022456999999999998,rule_evolved_deepseek_v31_full_test
+test.0311,3,3.0,3.0,1.0,1.0,1.0,0.0,Centor Score (Modified/McIsaac) for Strep Pharyngitis,severity,integer,2323.0,146.0,3.1722373962402344,0.001642,rule_evolved_deepseek_v31_full_test
+test.0309,5,5.0,4.0,0.0,0.0,0.0,1.0,Centor Score (Modified/McIsaac) for Strep Pharyngitis,severity,integer,2240.0,519.0,9.121567726135254,0.0022263,rule_evolved_deepseek_v31_full_test
+test.0312,3,3.0,3.0,1.0,1.0,1.0,0.0,Centor Score (Modified/McIsaac) for Strep Pharyngitis,severity,integer,2314.0,602.0,11.223847389221191,0.0024118,rule_evolved_deepseek_v31_full_test
+test.0304,0,0.0,0.0,1.0,1.0,1.0,0.0,Centor Score (Modified/McIsaac) for Strep Pharyngitis,severity,integer,10596.0,2314.0,43.23453950881958,0.0102914,rule_evolved_deepseek_v31_full_test
+test.0313,1,1.0,2.0,0.0,0.0,0.0,1.0,Centor Score (Modified/McIsaac) for Strep Pharyngitis,severity,integer,3005.0,182.0,4.002025365829468,0.0021124,rule_evolved_deepseek_v31_full_test
+test.0315,2,2.0,4.0,0.0,0.0,0.0,2.0,Centor Score (Modified/McIsaac) for Strep Pharyngitis,severity,integer,2738.0,303.0,6.349668025970459,0.0021579,rule_evolved_deepseek_v31_full_test
+test.0317,2,2.0,4.0,0.0,0.0,0.0,2.0,Centor Score (Modified/McIsaac) for Strep Pharyngitis,severity,integer,2366.0,165.0,3.916815996170044,0.0017001,rule_evolved_deepseek_v31_full_test
+test.0314,0,0.0,1.0,0.0,0.0,0.0,1.0,Centor Score (Modified/McIsaac) for Strep Pharyngitis,severity,integer,2331.0,440.0,10.108916521072388,0.0021466,rule_evolved_deepseek_v31_full_test
+test.0316,3,3.0,3.0,1.0,1.0,1.0,0.0,Centor Score (Modified/McIsaac) for Strep Pharyngitis,severity,integer,2271.0,550.0,12.296557903289795,0.0022976,rule_evolved_deepseek_v31_full_test
+test.0318,2,2.0,4.0,0.0,0.0,0.0,2.0,Centor Score (Modified/McIsaac) for Strep Pharyngitis,severity,integer,2284.0,195.0,5.273321866989136,0.0017019,rule_evolved_deepseek_v31_full_test
+test.0361,3,3.0,5.0,0.0,0.0,0.0,2.0,HAS-BLED Score for Major Bleeding Risk,risk,integer,3041.0,114.0,2.6642906665802,0.0020184,rule_evolved_deepseek_v31_full_test
+test.0362,3,3.0,3.0,1.0,1.0,1.0,0.0,HAS-BLED Score for Major Bleeding Risk,risk,integer,3046.0,102.0,2.957122802734375,0.002001,rule_evolved_deepseek_v31_full_test
+test.0320,5,5.0,5.0,1.0,1.0,1.0,0.0,Centor Score (Modified/McIsaac) for Strep Pharyngitis,severity,integer,2320.0,379.0,7.801891803741455,0.0020363,rule_evolved_deepseek_v31_full_test
+test.0319,3,3.0,3.0,1.0,1.0,1.0,0.0,Centor Score (Modified/McIsaac) for Strep Pharyngitis,severity,integer,2299.0,399.0,8.21961784362793,0.0020577,rule_evolved_deepseek_v31_full_test
+test.0364,3,3.0,2.0,0.0,0.0,0.0,1.0,HAS-BLED Score for Major Bleeding Risk,risk,integer,2844.0,165.0,3.4475038051605225,0.0019868999999999998,rule_evolved_deepseek_v31_full_test
+test.0363,3,3.0,3.0,1.0,1.0,1.0,0.0,HAS-BLED Score for Major Bleeding Risk,risk,integer,2970.0,462.0,8.811710119247437,0.0025674,rule_evolved_deepseek_v31_full_test
+test.0366,3,3.0,2.0,0.0,0.0,0.0,1.0,HAS-BLED Score for Major Bleeding Risk,risk,integer,2978.0,116.0,2.9788691997528076,0.0019839999999999997,rule_evolved_deepseek_v31_full_test
+test.0367,3,3.0,2.0,0.0,0.0,0.0,1.0,HAS-BLED Score for Major Bleeding Risk,risk,integer,2961.0,170.0,5.358043432235718,0.0020656,rule_evolved_deepseek_v31_full_test
+test.0368,1,1.0,2.0,0.0,0.0,0.0,1.0,HAS-BLED Score for Major Bleeding Risk,risk,integer,3026.0,166.0,4.121567487716675,0.0020978,rule_evolved_deepseek_v31_full_test
+test.0365,3,3.0,4.0,0.0,0.0,0.0,1.0,HAS-BLED Score for Major Bleeding Risk,risk,integer,2927.0,179.0,4.107193946838379,0.0020605,rule_evolved_deepseek_v31_full_test
+test.0370,3,3.0,3.0,1.0,1.0,1.0,0.0,HAS-BLED Score for Major Bleeding Risk,risk,integer,3152.0,352.0,8.919002056121826,0.0024896,rule_evolved_deepseek_v31_full_test
+test.0371,2,2.0,1.0,0.0,0.0,0.0,1.0,HAS-BLED Score for Major Bleeding Risk,risk,integer,2466.0,379.0,9.302069425582886,0.0021238999999999997,rule_evolved_deepseek_v31_full_test
+test.0373,4,4.0,2.0,0.0,0.0,0.0,2.0,HAS-BLED Score for Major Bleeding Risk,risk,integer,2336.0,232.0,5.793201923370361,0.001796,rule_evolved_deepseek_v31_full_test
+test.0374,2,2.0,1.0,0.0,0.0,0.0,1.0,HAS-BLED Score for Major Bleeding Risk,risk,integer,2333.0,405.0,9.775019645690918,0.0020883,rule_evolved_deepseek_v31_full_test
+test.0376,2,2.0,2.0,1.0,1.0,1.0,0.0,HAS-BLED Score for Major Bleeding Risk,risk,integer,3045.0,203.0,4.349443674087524,0.0021720999999999997,rule_evolved_deepseek_v31_full_test
+test.0375,3,3.0,3.0,1.0,1.0,1.0,0.0,HAS-BLED Score for Major Bleeding Risk,risk,integer,3199.0,569.0,20.8352689743042,0.0028867,rule_evolved_deepseek_v31_full_test
+test.0369,4,4.0,3.0,0.0,0.0,0.0,1.0,HAS-BLED Score for Major Bleeding Risk,risk,integer,10671.0,2471.0,57.602694511413574,0.0106033,rule_evolved_deepseek_v31_full_test
+test.0372,3,3.0,3.0,1.0,1.0,1.0,0.0,HAS-BLED Score for Major Bleeding Risk,risk,integer,10812.0,2197.0,54.74766993522644,0.0102221,rule_evolved_deepseek_v31_full_test
+test.0380,3,3.0,4.0,0.0,0.0,0.0,1.0,HAS-BLED Score for Major Bleeding Risk,risk,integer,3369.0,112.0,3.6912693977355957,0.0022118,rule_evolved_deepseek_v31_full_test
+test.0378,3,3.0,4.0,0.0,0.0,0.0,1.0,HAS-BLED Score for Major Bleeding Risk,risk,integer,3244.0,196.0,6.26985239982605,0.0022795999999999997,rule_evolved_deepseek_v31_full_test
+test.0379,3,3.0,4.0,0.0,0.0,0.0,1.0,HAS-BLED Score for Major Bleeding Risk,risk,integer,3228.0,315.0,10.564934253692627,0.0024722999999999998,rule_evolved_deepseek_v31_full_test
+test.0401,12,12.0,14.0,0.0,0.0,0.0,2.0,Glasgow-Blatchford Bleeding Score (GBS),risk,integer,2956.0,241.0,7.355987310409546,0.0021833,rule_evolved_deepseek_v31_full_test
+test.0402,7,7.0,10.0,0.0,0.0,0.0,3.0,Glasgow-Blatchford Bleeding Score (GBS),risk,integer,2758.0,236.0,7.505792140960693,0.0020559999999999997,rule_evolved_deepseek_v31_full_test
+test.0377,3,3.0,3.0,1.0,1.0,1.0,0.0,HAS-BLED Score for Major Bleeding Risk,risk,integer,3246.0,475.0,16.7482590675354,0.0027551,rule_evolved_deepseek_v31_full_test
+test.0404,1,1.0,1.0,1.0,1.0,1.0,0.0,Glasgow-Blatchford Bleeding Score (GBS),risk,integer,2501.0,148.0,6.138062238693237,0.0017522,rule_evolved_deepseek_v31_full_test
+test.0406,12,12.0,8.0,0.0,0.0,0.0,4.0,Glasgow-Blatchford Bleeding Score (GBS),risk,integer,2954.0,298.0,9.029272556304932,0.0022789999999999998,rule_evolved_deepseek_v31_full_test
+test.0403,9,9.0,7.0,0.0,0.0,0.0,2.0,Glasgow-Blatchford Bleeding Score (GBS),risk,integer,2689.0,489.0,15.94016695022583,0.0024446999999999997,rule_evolved_deepseek_v31_full_test
+test.0405,8,8.0,14.0,0.0,0.0,0.0,6.0,Glasgow-Blatchford Bleeding Score (GBS),risk,integer,2498.0,362.0,10.874581575393677,0.0021142,rule_evolved_deepseek_v31_full_test
+test.0408,7,7.0,8.0,0.0,0.0,0.0,1.0,Glasgow-Blatchford Bleeding Score (GBS),risk,integer,2914.0,223.0,5.627415418624878,0.0021275,rule_evolved_deepseek_v31_full_test
+test.0407,5,5.0,11.0,0.0,0.0,0.0,6.0,Glasgow-Blatchford Bleeding Score (GBS),risk,integer,3012.0,684.0,17.761770963668823,0.00297,rule_evolved_deepseek_v31_full_test
+test.0410,7,7.0,12.0,0.0,0.0,0.0,5.0,Glasgow-Blatchford Bleeding Score (GBS),risk,integer,3029.0,95.0,3.8617677688598633,0.0019789,rule_evolved_deepseek_v31_full_test
+test.0411,6,6.0,14.0,0.0,0.0,0.0,8.0,Glasgow-Blatchford Bleeding Score (GBS),risk,integer,2751.0,125.0,3.9698681831359863,0.0018631,rule_evolved_deepseek_v31_full_test
+test.0412,7,7.0,5.0,0.0,0.0,0.0,2.0,Glasgow-Blatchford Bleeding Score (GBS),risk,integer,3360.0,232.0,6.826112270355225,0.0024104,rule_evolved_deepseek_v31_full_test
+test.0409,0,0.0,3.0,0.0,0.0,0.0,3.0,Glasgow-Blatchford Bleeding Score (GBS),risk,integer,2487.0,470.0,11.80449652671814,0.0022912,rule_evolved_deepseek_v31_full_test
+test.0414,"I need to calculate the Glasgow-Blatchford Bleeding Score (GBS) for this patient. Let me analyze the GBS criteria and extract relevant values from the patient note:
+
+GBS criteria include:
+- Blood pressure (systolic BP): 144 mmHg
+- Heart rate: 107 beats/min  
+- Hemoglobin: 14.3 g/dL
+- BUN: 21 mg/dL
+- Other clinical findings
+
+Based on the GBS scoring system:
+- Systolic BP ≥100 mmHg = 0 points
+- Heart rate ≥100 = 1 point
+- Hemoglobin ≥12.0 (male) or ≥10.0 (female) = 0 points
+- BUN <18.2 = 0 points
+- No melena, syncope, hepatic disease, or cardiac failure mentioned
+
+Total GBS score = 1",1.0,7.0,0.0,0.0,0.0,6.0,Glasgow-Blatchford Bleeding Score (GBS),risk,integer,2789.0,330.0,7.181997537612915,0.0022344,rule_evolved_deepseek_v31_full_test
+test.0413,3,3.0,9.0,0.0,0.0,0.0,6.0,Glasgow-Blatchford Bleeding Score (GBS),risk,integer,3029.0,477.0,10.428741931915283,0.0026283,rule_evolved_deepseek_v31_full_test
+test.0417,0,0.0,4.0,0.0,0.0,0.0,4.0,Glasgow-Blatchford Bleeding Score (GBS),risk,integer,2665.0,149.0,4.263731479644775,0.0018522999999999999,rule_evolved_deepseek_v31_full_test
+test.0416,"I need to analyze this patient case to calculate the Glasgow-Blatchford Bleeding Score (GBS). From the patient note, I can extract several relevant clinical parameters: the patient is a 72-year-old man with hemoglobin 13.8 g/dL, blood pressure 145/62 mmHg, heart rate 88 bpm, and normal lab values including creatinine 1.0 mg/dL. However, upon reviewing the available formulas in the documentation, I notice that while GBS is listed as one of the scoring systems, the specific criteria for calculating Glasgow-Blatchford Score are not provided in the formula list. The documentation mentions ""sum of clinical and lab criteria (0-23)"" but doesn't specify what those criteria are. Without the specific scoring criteria for GBS (which typically includes factors like hemoglobin level, systolic BP, heart rate, melena, syncope, hepatic disease, cardiac failure, etc.), I cannot accurately calculate this score. The patient note doesn't contain information about gastrointestinal bleeding symptoms either, making this calculation impossible with the given information.",-23.0,0.0,0.0,0.0,0.0,23.0,Glasgow-Blatchford Bleeding Score (GBS),risk,integer,3321.0,318.0,8.238493204116821,0.0025331999999999998,rule_evolved_deepseek_v31_full_test
+test.0418,10,10.0,8.0,0.0,0.0,0.0,2.0,Glasgow-Blatchford Bleeding Score (GBS),risk,integer,3019.0,242.0,6.073058128356934,0.0022228,rule_evolved_deepseek_v31_full_test
+test.0419,12,12.0,16.0,0.0,0.0,0.0,4.0,Glasgow-Blatchford Bleeding Score (GBS),risk,integer,2739.0,227.0,5.990479469299316,0.0020293,rule_evolved_deepseek_v31_full_test
+test.0415,0,0.0,0.0,1.0,1.0,1.0,0.0,Glasgow-Blatchford Bleeding Score (GBS),risk,integer,3188.0,897.0,19.78938889503479,0.0034377,rule_evolved_deepseek_v31_full_test
+test.0420,15,15.0,14.0,0.0,0.0,0.0,1.0,Glasgow-Blatchford Bleeding Score (GBS),risk,integer,2694.0,431.0,10.324719429016113,0.0023491,rule_evolved_deepseek_v31_full_test
+test.0464,1,1.0,0.0,0.0,0.0,0.0,1.0,Charlson Comorbidity Index (CCI),risk,integer,3178.0,279.0,5.63847279548645,0.0023810999999999997,rule_evolved_deepseek_v31_full_test
+test.0463,7,7.0,9.0,0.0,0.0,0.0,2.0,Charlson Comorbidity Index (CCI),risk,integer,2433.0,218.0,6.780940532684326,0.0018304,rule_evolved_deepseek_v31_full_test
+test.0461,"I analyzed the patient note to calculate the Charlson Comorbidity Index (CCI). The patient is a 59-year-old woman with several medical conditions:
+
+1. Age: 59 years old (1 point for age 50-59)
+2. Primary Sjögren's Syndrome: This is a connective tissue/rheumatic disease (1 point for rheumatic disease)
+3. Deep vein thrombosis (DVT): (1 point for peripheral vascular disease)
+4. Ischemic stroke: (1 point for cerebrovascular disease)
+5. Metastatic pancreatic adenocarcinoma: This is a solid tumor with metastases (6 points for metastatic solid tumor)
+
+Adding these up: 1 (age) + 1 (rheumatic disease) + 1 (peripheral vascular) + 1 (cerebrovascular) + 6 (metastatic cancer) = 10
+
+The CCI score is 10.",10.0,9.0,0.0,0.0,0.0,1.0,Charlson Comorbidity Index (CCI),risk,integer,3086.0,360.0,10.41488766670227,0.0024636,rule_evolved_deepseek_v31_full_test
+test.0462,2,2.0,2.0,1.0,1.0,1.0,0.0,Charlson Comorbidity Index (CCI),risk,integer,2439.0,396.0,10.810479402542114,0.0021366,rule_evolved_deepseek_v31_full_test
+test.0465,5,5.0,6.0,0.0,0.0,0.0,1.0,Charlson Comorbidity Index (CCI),risk,integer,2660.0,229.0,6.180501222610474,0.0019853,rule_evolved_deepseek_v31_full_test
+test.0468,10,10.0,8.0,0.0,0.0,0.0,2.0,Charlson Comorbidity Index (CCI),risk,integer,3143.0,355.0,7.7967987060546875,0.0024893,rule_evolved_deepseek_v31_full_test
+test.0466,8,8.0,9.0,0.0,0.0,0.0,1.0,Charlson Comorbidity Index (CCI),risk,integer,2616.0,309.0,14.1013662815094,0.0020949000000000002,rule_evolved_deepseek_v31_full_test
+test.0469,3,3.0,4.0,0.0,0.0,0.0,1.0,Charlson Comorbidity Index (CCI),risk,integer,2898.0,205.0,10.164170503616333,0.0020873,rule_evolved_deepseek_v31_full_test
+test.0470,8,8.0,6.0,0.0,0.0,0.0,2.0,Charlson Comorbidity Index (CCI),risk,integer,2973.0,264.0,7.793797016143799,0.0022326,rule_evolved_deepseek_v31_full_test
+test.0471,0,0.0,0.0,1.0,1.0,1.0,0.0,Charlson Comorbidity Index (CCI),risk,integer,3075.0,242.0,9.518102645874023,0.0022564,rule_evolved_deepseek_v31_full_test
+test.0472,0,0.0,4.0,0.0,0.0,0.0,4.0,Charlson Comorbidity Index (CCI),risk,integer,3131.0,247.0,11.697349548339844,0.0022985,rule_evolved_deepseek_v31_full_test
+test.0467,3,3.0,3.0,1.0,1.0,1.0,0.0,Charlson Comorbidity Index (CCI),risk,integer,9191.0,2258.0,68.50673174858093,0.009353199999999999,rule_evolved_deepseek_v31_full_test
+test.0475,0,0.0,1.0,0.0,0.0,0.0,1.0,Charlson Comorbidity Index (CCI),risk,integer,3125.0,264.0,6.641753673553467,0.0023238,rule_evolved_deepseek_v31_full_test
+test.0473,2,2.0,4.0,0.0,0.0,0.0,2.0,Charlson Comorbidity Index (CCI),risk,integer,2528.0,523.0,14.378877401351929,0.0024059,rule_evolved_deepseek_v31_full_test
+test.0474,7,7.0,6.0,0.0,0.0,0.0,1.0,Charlson Comorbidity Index (CCI),risk,integer,2795.0,403.0,19.670257091522217,0.0023621,rule_evolved_deepseek_v31_full_test
+test.0478,4,4.0,3.0,0.0,0.0,0.0,1.0,Charlson Comorbidity Index (CCI),risk,integer,3094.0,187.0,5.8948540687561035,0.0021743,rule_evolved_deepseek_v31_full_test
+test.0479,5,5.0,5.0,1.0,1.0,1.0,0.0,Charlson Comorbidity Index (CCI),risk,integer,3242.0,444.0,8.674442052841187,0.0027,rule_evolved_deepseek_v31_full_test
+test.0480,1,1.0,1.0,1.0,1.0,1.0,0.0,Charlson Comorbidity Index (CCI),risk,integer,2788.0,256.0,8.645995616912842,0.002108,rule_evolved_deepseek_v31_full_test
+test.0481,4,4.0,4.0,1.0,1.0,1.0,0.0,FeverPAIN Score for Strep Pharyngitis,diagnosis,integer,2290.0,317.0,10.907936096191406,0.0019129,rule_evolved_deepseek_v31_full_test
+test.0482,2,2.0,2.0,1.0,1.0,1.0,0.0,FeverPAIN Score for Strep Pharyngitis,diagnosis,integer,2355.0,349.0,9.521907567977905,0.0020063,rule_evolved_deepseek_v31_full_test
+test.0483,3,3.0,5.0,0.0,0.0,0.0,2.0,FeverPAIN Score for Strep Pharyngitis,diagnosis,integer,2521.0,279.0,7.406351327896118,0.0019868999999999998,rule_evolved_deepseek_v31_full_test
+test.0484,4,4.0,4.0,1.0,1.0,1.0,0.0,FeverPAIN Score for Strep Pharyngitis,diagnosis,integer,2419.0,339.0,7.9080376625061035,0.0020277,rule_evolved_deepseek_v31_full_test
+test.0476,6,6.0,6.0,1.0,1.0,1.0,0.0,Charlson Comorbidity Index (CCI),risk,integer,10222.0,2284.0,64.96254348754883,0.010016,rule_evolved_deepseek_v31_full_test
+test.0477,3,3.0,3.0,1.0,1.0,1.0,0.0,Charlson Comorbidity Index (CCI),risk,integer,9468.0,2282.0,62.748859167099,0.0095602,rule_evolved_deepseek_v31_full_test
+test.0485,2,2.0,1.0,0.0,0.0,0.0,1.0,FeverPAIN Score for Strep Pharyngitis,diagnosis,integer,2343.0,316.0,6.772193193435669,0.001943,rule_evolved_deepseek_v31_full_test
+test.0486,4,4.0,3.0,0.0,0.0,0.0,1.0,FeverPAIN Score for Strep Pharyngitis,diagnosis,integer,2591.0,313.0,7.7644362449646,0.0020867,rule_evolved_deepseek_v31_full_test
+test.0487,5,5.0,3.0,0.0,0.0,0.0,2.0,FeverPAIN Score for Strep Pharyngitis,diagnosis,integer,2832.0,324.0,7.913132190704346,0.00225,rule_evolved_deepseek_v31_full_test
+test.0488,3,3.0,2.0,0.0,0.0,0.0,1.0,FeverPAIN Score for Strep Pharyngitis,diagnosis,integer,2285.0,414.0,10.845844268798828,0.0020748,rule_evolved_deepseek_v31_full_test
+test.0491,3,3.0,4.0,0.0,0.0,0.0,1.0,FeverPAIN Score for Strep Pharyngitis,diagnosis,integer,2390.0,112.0,2.9826483726501465,0.0016244,rule_evolved_deepseek_v31_full_test
+test.0490,1,1.0,2.0,0.0,0.0,0.0,1.0,FeverPAIN Score for Strep Pharyngitis,diagnosis,integer,2879.0,254.0,7.423375129699707,0.0021592,rule_evolved_deepseek_v31_full_test
+test.0493,3,3.0,2.0,0.0,0.0,0.0,1.0,FeverPAIN Score for Strep Pharyngitis,diagnosis,integer,2355.0,104.0,3.2563226222991943,0.0015898,rule_evolved_deepseek_v31_full_test
+test.0489,5,5.0,4.0,0.0,0.0,0.0,1.0,FeverPAIN Score for Strep Pharyngitis,diagnosis,integer,2298.0,357.0,10.922394514083862,0.0019857,rule_evolved_deepseek_v31_full_test
+test.0492,3,3.0,1.0,0.0,0.0,0.0,2.0,FeverPAIN Score for Strep Pharyngitis,diagnosis,integer,2716.0,344.0,7.80436110496521,0.0022144,rule_evolved_deepseek_v31_full_test
+test.0495,4,4.0,4.0,1.0,1.0,1.0,0.0,FeverPAIN Score for Strep Pharyngitis,diagnosis,integer,2858.0,139.0,5.44619345664978,0.0019510999999999999,rule_evolved_deepseek_v31_full_test
+test.0494,4,4.0,3.0,0.0,0.0,0.0,1.0,FeverPAIN Score for Strep Pharyngitis,diagnosis,integer,2298.0,435.0,13.689257621765137,0.0021183,rule_evolved_deepseek_v31_full_test
+test.0496,2,2.0,2.0,1.0,1.0,1.0,0.0,FeverPAIN Score for Strep Pharyngitis,diagnosis,integer,2257.0,391.0,19.65441918373108,0.0020188999999999997,rule_evolved_deepseek_v31_full_test
+test.0498,3,3.0,3.0,1.0,1.0,1.0,0.0,FeverPAIN Score for Strep Pharyngitis,diagnosis,integer,2368.0,123.0,3.227341651916504,0.0016298999999999999,rule_evolved_deepseek_v31_full_test
+test.0500,0,0.0,3.0,0.0,0.0,0.0,3.0,FeverPAIN Score for Strep Pharyngitis,diagnosis,integer,2366.0,178.0,4.925620794296265,0.0017222000000000001,rule_evolved_deepseek_v31_full_test
+test.0497,4,4.0,3.0,0.0,0.0,0.0,1.0,FeverPAIN Score for Strep Pharyngitis,diagnosis,integer,2299.0,424.0,10.780470848083496,0.0021002,rule_evolved_deepseek_v31_full_test
+test.0542,0,0.0,1.0,0.0,0.0,0.0,1.0,CURB-65 Score for Pneumonia Severity,risk,integer,3275.0,184.0,6.660292863845825,0.0022778,rule_evolved_deepseek_v31_full_test
+test.0541,1,1.0,1.0,1.0,1.0,1.0,0.0,CURB-65 Score for Pneumonia Severity,risk,integer,2504.0,117.0,11.20926833152771,0.0017012999999999998,rule_evolved_deepseek_v31_full_test
+test.0499,3,3.0,3.0,1.0,1.0,1.0,0.0,FeverPAIN Score for Strep Pharyngitis,diagnosis,integer,2295.0,652.0,16.825644731521606,0.0024854,rule_evolved_deepseek_v31_full_test
+test.0543,0,0.0,1.0,0.0,0.0,0.0,1.0,CURB-65 Score for Pneumonia Severity,risk,integer,2731.0,221.0,12.667932987213135,0.0020142999999999997,rule_evolved_deepseek_v31_full_test
+test.0544,5,5.0,5.0,1.0,1.0,1.0,0.0,CURB-65 Score for Pneumonia Severity,risk,integer,2812.0,280.0,17.904133081436157,0.0021632,rule_evolved_deepseek_v31_full_test
+test.0546,3,3.0,3.0,1.0,1.0,1.0,0.0,CURB-65 Score for Pneumonia Severity,risk,integer,2831.0,262.0,12.701190710067749,0.002144,rule_evolved_deepseek_v31_full_test
+test.0545,2,2.0,2.0,1.0,1.0,1.0,0.0,CURB-65 Score for Pneumonia Severity,risk,integer,3587.0,297.0,15.396624088287354,0.0026571,rule_evolved_deepseek_v31_full_test
+test.0547,3,3.0,3.0,1.0,1.0,1.0,0.0,CURB-65 Score for Pneumonia Severity,risk,integer,2763.0,406.0,12.849698305130005,0.002348,rule_evolved_deepseek_v31_full_test
+test.0548,**exception raised**: Exceeded maximum retries (1) for output validation,,1.0,0.0,0.0,0.0,inf,CURB-65 Score for Pneumonia Severity,risk,integer,,,,,rule_evolved_deepseek_v31_full_test
+test.0551,4,4.0,3.0,0.0,0.0,0.0,1.0,CURB-65 Score for Pneumonia Severity,risk,integer,3185.0,115.0,3.5137758255004883,0.0021065,rule_evolved_deepseek_v31_full_test
+test.0549,2,2.0,1.0,0.0,0.0,0.0,1.0,CURB-65 Score for Pneumonia Severity,risk,integer,3725.0,168.0,4.988565921783447,0.0025206,rule_evolved_deepseek_v31_full_test
+test.0554,4,4.0,3.0,0.0,0.0,0.0,1.0,CURB-65 Score for Pneumonia Severity,risk,integer,3375.0,106.0,2.7759146690368652,0.0022052,rule_evolved_deepseek_v31_full_test
+test.0552,1,1.0,0.0,0.0,0.0,0.0,1.0,CURB-65 Score for Pneumonia Severity,risk,integer,2367.0,472.0,11.321192979812622,0.0022226,rule_evolved_deepseek_v31_full_test
+test.0550,"I need to calculate the CURB-65 score for this patient based on the information provided during their initial admission. Looking at the patient note, I can extract the following relevant values:
+
+1. Age: 42 years old (from ""42-year-old male"")
+2. Blood urea nitrogen (BUN): 21 mg/dL (marked as H for high)
+3. Respiratory rate: 39 breaths per minute
+4. Blood pressure: 132/66 mmHg
+5. Mental status: ""alert and oriented"" (no confusion)
+
+Now applying the CURB-65 criteria:
+- C (Confusion): Patient was ""alert and oriented"" - 0 points
+- U (Urea > 19 mg/dL): BUN = 21 mg/dL > 19 - 1 point
+- R (Respiratory rate ≥ 30): RR = 39 ≥ 30 - 1 point  
+- B (Blood pressure low): BP 132/66 mmHg (SBP > 90, DBP > 60) - 0 points
+- 65 (Age ≥ 65): Age 42 < 65 - 0 points
+
+Total CURB-65 score = 0 + 1 + 1 + 0 + 0 = 2",2.0,2.0,1.0,1.0,1.0,0.0,CURB-65 Score for Pneumonia Severity,risk,integer,2949.0,440.0,11.411205768585205,0.0025174,rule_evolved_deepseek_v31_full_test
+test.0553,2,2.0,3.0,0.0,0.0,0.0,1.0,CURB-65 Score for Pneumonia Severity,risk,integer,2855.0,277.0,7.608443737030029,0.0021839,rule_evolved_deepseek_v31_full_test
+test.0556,1,1.0,1.0,1.0,1.0,1.0,0.0,CURB-65 Score for Pneumonia Severity,risk,integer,3468.0,95.0,3.4288785457611084,0.0022423,rule_evolved_deepseek_v31_full_test
+test.0558,2,2.0,2.0,1.0,1.0,1.0,0.0,CURB-65 Score for Pneumonia Severity,risk,integer,9006.0,2326.0,37.53124380111694,0.0093578,rule_evolved_deepseek_v31_full_test
+test.0555,3,3.0,2.0,0.0,0.0,0.0,1.0,CURB-65 Score for Pneumonia Severity,risk,integer,11001.0,2267.0,40.797602891922,0.0104545,rule_evolved_deepseek_v31_full_test
+test.0557,**exception raised**: Exceeded maximum retries (1) for output validation,,4.0,0.0,0.0,0.0,inf,CURB-65 Score for Pneumonia Severity,risk,integer,,,,,rule_evolved_deepseek_v31_full_test
+test.0559,**exception raised**: Exceeded maximum retries (1) for output validation,,1.0,0.0,0.0,0.0,inf,CURB-65 Score for Pneumonia Severity,risk,integer,,,,,rule_evolved_deepseek_v31_full_test
+test.0560,1,1.0,1.0,1.0,1.0,1.0,0.0,CURB-65 Score for Pneumonia Severity,risk,integer,10814.0,2271.0,39.34462809562683,0.0103491,rule_evolved_deepseek_v31_full_test
+test.0623,0,0.0,3.0,0.0,0.0,0.0,3.0,PERC Rule for Pulmonary Embolism,diagnosis,integer,3264.0,180.0,4.736940860748291,0.0022643999999999997,rule_evolved_deepseek_v31_full_test
+test.0622,0,0.0,0.0,1.0,1.0,1.0,0.0,PERC Rule for Pulmonary Embolism,diagnosis,integer,2566.0,340.0,7.459832668304443,0.0021176,rule_evolved_deepseek_v31_full_test
+test.0624,3,3.0,3.0,1.0,1.0,1.0,0.0,PERC Rule for Pulmonary Embolism,diagnosis,integer,2363.0,519.0,11.494298458099365,0.0023001,rule_evolved_deepseek_v31_full_test
+test.0627,0,0.0,1.0,0.0,0.0,0.0,1.0,PERC Rule for Pulmonary Embolism,diagnosis,integer,2661.0,161.0,5.625924825668335,0.0018702999999999999,rule_evolved_deepseek_v31_full_test
+test.0625,1,1.0,1.0,1.0,1.0,1.0,0.0,PERC Rule for Pulmonary Embolism,diagnosis,integer,2512.0,385.0,15.907536506652832,0.0021617,rule_evolved_deepseek_v31_full_test
+test.0628,0,0.0,1.0,0.0,0.0,0.0,1.0,PERC Rule for Pulmonary Embolism,diagnosis,integer,2708.0,87.0,3.331299066543579,0.0017727,rule_evolved_deepseek_v31_full_test
+test.0626,2,2.0,2.0,1.0,1.0,1.0,0.0,PERC Rule for Pulmonary Embolism,diagnosis,integer,2919.0,462.0,13.116933107376099,0.0025368,rule_evolved_deepseek_v31_full_test
+test.0621,3,3.0,4.0,0.0,0.0,0.0,1.0,PERC Rule for Pulmonary Embolism,diagnosis,integer,2943.0,321.0,25.32146644592285,0.0023114999999999998,rule_evolved_deepseek_v31_full_test
+test.0630,3,3.0,3.0,1.0,1.0,1.0,0.0,PERC Rule for Pulmonary Embolism,diagnosis,integer,3038.0,328.0,7.103186368942261,0.0023804,rule_evolved_deepseek_v31_full_test
+test.0631,0,0.0,0.0,1.0,1.0,1.0,0.0,PERC Rule for Pulmonary Embolism,diagnosis,integer,2692.0,345.0,12.578460931777954,0.0022017,rule_evolved_deepseek_v31_full_test
+test.0629,1,1.0,1.0,1.0,1.0,1.0,0.0,PERC Rule for Pulmonary Embolism,diagnosis,integer,3207.0,362.0,17.263550519943237,0.0025396,rule_evolved_deepseek_v31_full_test
+test.0632,1,1.0,1.0,1.0,1.0,1.0,0.0,PERC Rule for Pulmonary Embolism,diagnosis,integer,2353.0,471.0,25.66330862045288,0.0022125,rule_evolved_deepseek_v31_full_test
+test.0636,0,0.0,3.0,0.0,0.0,0.0,3.0,PERC Rule for Pulmonary Embolism,diagnosis,integer,3005.0,86.0,2.5338847637176514,0.0019491999999999999,rule_evolved_deepseek_v31_full_test
+test.0637,1,1.0,1.0,1.0,1.0,1.0,0.0,PERC Rule for Pulmonary Embolism,diagnosis,integer,2766.0,327.0,8.960608959197998,0.0022155,rule_evolved_deepseek_v31_full_test
+test.0633,0,0.0,0.0,1.0,1.0,1.0,0.0,PERC Rule for Pulmonary Embolism,diagnosis,integer,2485.0,324.0,14.07594108581543,0.0020418,rule_evolved_deepseek_v31_full_test
+test.0634,0,0.0,3.0,0.0,0.0,0.0,3.0,PERC Rule for Pulmonary Embolism,diagnosis,integer,3028.0,76.0,16.051225185394287,0.0019459999999999998,rule_evolved_deepseek_v31_full_test
+test.0635,2,2.0,2.0,1.0,1.0,1.0,0.0,PERC Rule for Pulmonary Embolism,diagnosis,integer,2726.0,344.0,16.75841736793518,0.0022204,rule_evolved_deepseek_v31_full_test
+test.0640,0,0.0,2.0,0.0,0.0,0.0,2.0,PERC Rule for Pulmonary Embolism,diagnosis,integer,2288.0,95.0,2.536926031112671,0.0015343,rule_evolved_deepseek_v31_full_test
+test.0639,0,0.0,0.0,1.0,1.0,1.0,0.0,PERC Rule for Pulmonary Embolism,diagnosis,integer,2738.0,310.0,11.628399133682251,0.0021698,rule_evolved_deepseek_v31_full_test
+test.0638,0,0.0,0.0,1.0,1.0,1.0,0.0,PERC Rule for Pulmonary Embolism,diagnosis,integer,2375.0,553.0,13.841842412948608,0.0023650999999999998,rule_evolved_deepseek_v31_full_test
+test.0641,1,1.0,1.0,1.0,1.0,1.0,0.0,SIRS Criteria,diagnosis,integer,3134.0,300.0,10.708942413330078,0.0023904,rule_evolved_deepseek_v31_full_test
+test.0642,1,1.0,1.0,1.0,1.0,1.0,0.0,SIRS Criteria,diagnosis,integer,2915.0,205.0,8.847204208374023,0.0020975,rule_evolved_deepseek_v31_full_test
+test.0644,2,2.0,1.0,0.0,0.0,0.0,1.0,SIRS Criteria,diagnosis,integer,2750.0,117.0,4.484866619110107,0.0018489000000000001,rule_evolved_deepseek_v31_full_test
+test.0643,3,3.0,3.0,1.0,1.0,1.0,0.0,SIRS Criteria,diagnosis,integer,3225.0,336.0,10.730904340744019,0.0025062,rule_evolved_deepseek_v31_full_test
+test.0645,2,2.0,0.0,0.0,0.0,0.0,2.0,SIRS Criteria,diagnosis,integer,2883.0,137.0,4.573106288909912,0.0019627,rule_evolved_deepseek_v31_full_test
+test.0646,2,2.0,2.0,1.0,1.0,1.0,0.0,SIRS Criteria,diagnosis,integer,2533.0,232.0,7.024418354034424,0.0019142,rule_evolved_deepseek_v31_full_test
+test.0647,3,3.0,2.0,0.0,0.0,0.0,1.0,SIRS Criteria,diagnosis,integer,2853.0,329.0,9.045414924621582,0.0022711,rule_evolved_deepseek_v31_full_test
+test.0648,3,3.0,3.0,1.0,1.0,1.0,0.0,SIRS Criteria,diagnosis,integer,3456.0,193.0,10.018264770507812,0.0024017,rule_evolved_deepseek_v31_full_test
+test.0649,1,1.0,1.0,1.0,1.0,1.0,0.0,SIRS Criteria,diagnosis,integer,3062.0,293.0,7.798398733139038,0.0023353000000000002,rule_evolved_deepseek_v31_full_test
+test.0650,3,3.0,3.0,1.0,1.0,1.0,0.0,SIRS Criteria,diagnosis,integer,3339.0,306.0,7.794955015182495,0.0025236,rule_evolved_deepseek_v31_full_test
+test.0653,2,2.0,3.0,0.0,0.0,0.0,1.0,SIRS Criteria,diagnosis,integer,2934.0,193.0,3.889173746109009,0.0020885,rule_evolved_deepseek_v31_full_test
+test.0651,2,2.0,2.0,1.0,1.0,1.0,0.0,SIRS Criteria,diagnosis,integer,2825.0,276.0,9.810524702072144,0.0021642,rule_evolved_deepseek_v31_full_test
+test.0652,0,0.0,0.0,1.0,1.0,1.0,0.0,SIRS Criteria,diagnosis,integer,2278.0,339.0,11.268865585327148,0.0019431000000000001,rule_evolved_deepseek_v31_full_test
+test.0654,2,2.0,2.0,1.0,1.0,1.0,0.0,SIRS Criteria,diagnosis,integer,3072.0,301.0,9.931586027145386,0.0023549,rule_evolved_deepseek_v31_full_test
+test.0655,3,3.0,2.0,0.0,0.0,0.0,1.0,SIRS Criteria,diagnosis,integer,9640.0,2300.0,45.91713261604309,0.009694000000000001,rule_evolved_deepseek_v31_full_test
+test.0656,3,3.0,3.0,1.0,1.0,1.0,0.0,SIRS Criteria,diagnosis,integer,10132.0,2278.0,67.94533371925354,0.0099518,rule_evolved_deepseek_v31_full_test
+test.0659,2,2.0,1.0,0.0,0.0,0.0,1.0,SIRS Criteria,diagnosis,integer,2832.0,221.0,7.625779390335083,0.0020748999999999997,rule_evolved_deepseek_v31_full_test
+test.0657,2,2.0,2.0,1.0,1.0,1.0,0.0,SIRS Criteria,diagnosis,integer,3439.0,316.0,10.023342609405518,0.0026006,rule_evolved_deepseek_v31_full_test
+test.0660,2,2.0,2.0,1.0,1.0,1.0,0.0,SIRS Criteria,diagnosis,integer,2422.0,334.0,11.420729875564575,0.0020210000000000002,rule_evolved_deepseek_v31_full_test
+test.0882,"I need to calculate the Pneumonia Severity Index (PSI) score for this 65-year-old female patient with pneumonia. Based on the documentation, I need to extract all relevant clinical values and apply the PSI scoring criteria systematically. The PSI score includes points for demographics, comorbidities, physical exam findings, and laboratory abnormalities. Let me carefully analyze the patient note to identify all scoring components.",65.0,75.0,0.0,0.0,0.0,10.0,PSI Score: Pneumonia Severity Index for CAP,severity,integer,2856.0,196.0,7.045475482940674,0.0020468,rule_evolved_deepseek_v31_full_test
+test.0881,126,126.0,112.0,0.0,0.0,0.0,14.0,PSI Score: Pneumonia Severity Index for CAP,severity,integer,2830.0,269.0,10.30570363998413,0.0021552999999999998,rule_evolved_deepseek_v31_full_test
+test.0884,118,118.0,90.0,0.0,0.0,0.0,28.0,PSI Score: Pneumonia Severity Index for CAP,severity,integer,2855.0,264.0,8.768884181976318,0.0021617999999999997,rule_evolved_deepseek_v31_full_test
+test.0885,91,91.0,94.0,0.0,0.0,0.0,3.0,PSI Score: Pneumonia Severity Index for CAP,severity,integer,2803.0,238.0,7.685512065887451,0.0020864,rule_evolved_deepseek_v31_full_test
+test.0887,106,106.0,119.0,0.0,0.0,0.0,13.0,PSI Score: Pneumonia Severity Index for CAP,severity,integer,2935.0,218.0,5.04234766960144,0.0021316,rule_evolved_deepseek_v31_full_test
+test.0886,"Based on the patient's clinical presentation: 77-year-old female with temperature 38.4°C (fever), heart rate 106 bpm (tachycardia), respiratory rate 30 breaths/min (tachypnea), systolic BP 131 mmHg, BUN 29 mg/dL, sodium 137 mEq/L, glucose 108 mg/dL, hematocrit 34%, pH 7.40, history of stroke/TIA, residence in nursing facility, and evidence of pleural effusion on imaging. The PSI score calculation would include points for: age (female >70 = 10 points), nursing home resident (10 points), history of cerebrovascular disease (10 points), respiratory rate >30 (20 points), temperature <35°C or >40°C (0 points - her temp is 38.4°C), heart rate >125 (0 points - her HR is 106), systolic BP <90 (0 points), BUN >30 mg/dL (0 points - her BUN is 29), sodium <130 (0 points), glucose >250 (0 points), hematocrit <30% (0 points - her Hct is 34%), arterial pH <7.35 (0 points), and pleural effusion (10 points). Total PSI score = 10 + 10 + 10 + 20 + 10 = 50.",50.0,117.0,0.0,0.0,0.0,67.0,PSI Score: Pneumonia Severity Index for CAP,severity,integer,2888.0,379.0,8.944591045379639,0.0023771,rule_evolved_deepseek_v31_full_test
+test.0658,2,2.0,2.0,1.0,1.0,1.0,0.0,SIRS Criteria,diagnosis,integer,11124.0,2134.0,37.985576152801514,0.0103022,rule_evolved_deepseek_v31_full_test
+test.0888,III,,84.0,0.0,0.0,0.0,inf,PSI Score: Pneumonia Severity Index for CAP,severity,integer,2935.0,298.0,8.546151399612427,0.0022676,rule_evolved_deepseek_v31_full_test
+test.0883,I need to analyze this medical case to calculate the Pneumonia Severity Index (PSI) score. Let me carefully review the patient note to extract all relevant clinical values and determine which components of the PSI score apply to this 68-year-old male patient with pneumonia.,68.0,128.0,0.0,0.0,0.0,60.0,PSI Score: Pneumonia Severity Index for CAP,severity,integer,9906.0,2171.0,38.719122648239136,0.009634299999999998,rule_evolved_deepseek_v31_full_test
+test.0891,91,91.0,92.0,0.0,0.0,0.0,1.0,PSI Score: Pneumonia Severity Index for CAP,severity,integer,2924.0,208.0,6.454264879226685,0.002108,rule_evolved_deepseek_v31_full_test
+test.0893,130,130.0,159.0,0.0,0.0,0.0,29.0,PSI Score: Pneumonia Severity Index for CAP,severity,integer,3024.0,269.0,6.167600631713867,0.0022716999999999998,rule_evolved_deepseek_v31_full_test
+test.0892,100,100.0,141.0,0.0,0.0,0.0,41.0,PSI Score: Pneumonia Severity Index for CAP,severity,integer,3193.0,684.0,18.451884269714355,0.0030786,rule_evolved_deepseek_v31_full_test
+test.0894,91,91.0,86.0,0.0,0.0,0.0,5.0,PSI Score: Pneumonia Severity Index for CAP,severity,integer,3104.0,275.0,8.71679425239563,0.0023299,rule_evolved_deepseek_v31_full_test
+test.0895,"I need to calculate the PSI score for this 67-year-old male patient with pneumonia. Based on the PSI scoring criteria, I need to evaluate demographic factors, comorbidities, physical exam findings, and laboratory values. The patient is male, age 67, which gives demographic points. He has fever (38.9°C), respiratory rate 17/min, heart rate 100/min, systolic BP 135 mmHg, pH 7.46 (normal), PO2 87 mmHg, BUN 31 mg/dL, sodium 132 mEq/L, hematocrit 33%, glucose 128 mg/dL. He has history of neurological event (stroke/TIA) and liver disease. He lives independently and is alert/oriented. I'll calculate the PSI score by assigning points for each criterion met and summing them up.",128.0,127.0,0.0,0.0,0.0,1.0,PSI Score: Pneumonia Severity Index for CAP,severity,integer,2911.0,452.0,11.124266147613525,0.002515,rule_evolved_deepseek_v31_full_test
+test.0890,106,106.0,106.0,1.0,1.0,1.0,0.0,PSI Score: Pneumonia Severity Index for CAP,severity,integer,3121.0,1253.0,31.693632125854492,0.0040027,rule_evolved_deepseek_v31_full_test
+test.0897,"I need to analyze this patient case to calculate the Pneumonia Severity Index (PSI) score. Let me carefully examine the patient note to extract all relevant clinical values and determine the appropriate PSI criteria based on the patient's demographics, comorbidities, physical exam findings, and laboratory results when first admitted to the hospital.",,118.0,0.0,0.0,0.0,inf,PSI Score: Pneumonia Severity Index for CAP,severity,integer,3011.0,148.0,3.380206823348999,0.0020582,rule_evolved_deepseek_v31_full_test
+test.0896,"Based on the patient note analysis, the PSI score calculation would be:
+
+Demographics:
+- Age 78: +30 points (age >70)
+- Female gender: +10 points
+- Nursing home resident: +10 points
+
+Physical Exam:
+- Altered mental status: +20 points
+- Respiratory rate >30: +20 points
+- Systolic BP <90: 0 points (BP 127)
+- Temperature <35 or >40: +15 points (temp 39.1°C)
+- Pulse >125: 0 points (HR 93)
+
+Comorbidities:
+- Neoplastic disease: +30 points (history of oncologic process)
+- Chronic renal failure: 0 points (no documented renal issues)
+- Congestive heart failure: 0 points (no evidence)
+- Liver disease: 0 points (no evidence)
+- Cerebrovascular disease: 0 points (no stroke history)
+
+Lab Values:
+- pH <7.35: 0 points (pH 7.48)
+- BUN >30 mg/dL: +20 points (BUN 33)
+- Sodium <130 mmol/L: 0 points (Na 147)
+- Glucose >250 mg/dL: 0 points (glucose 113)
+- Hematocrit <30%: 0 points (Hct 48%)
+- PaO2 <60 mmHg: 0 points (PaO2 91)
+- Pleural effusion: 0 points (no fluid collection)
+
+Total PSI Score: 30 (age) + 10 (gender) + 10 (nursing home) + 20 (mental status) + 20 (RR) + 15 (temp) + 30 (neoplasm) + 20 (BUN) = 155 points
+
+This places the patient in Risk Class IV (71-90 points) with a total score of 155.",155.0,168.0,0.0,0.0,0.0,13.0,PSI Score: Pneumonia Severity Index for CAP,severity,integer,3209.0,512.0,11.617939710617065,0.0027957999999999998,rule_evolved_deepseek_v31_full_test
+test.0889,"I cannot process the provided input as it appears to be corrupted or incorrectly encoded. The text contains numerous garbled characters and doesn't represent a valid patient medical note. 
+
+To properly calculate a Pneumonia Severity Index (PSI) score, I would need:
+1. A clear, readable patient note with specific clinical values
+2. Information about demographics, comorbidities, vital signs, and lab values
+3. Details needed for the PSI scoring criteria
+
+Please provide a valid patient note with readable medical information to calculate the PSI score.",3.0,93.0,0.0,0.0,0.0,90.0,PSI Score: Pneumonia Severity Index for CAP,severity,integer,9971.0,2258.0,39.5496768951416,0.009821199999999999,rule_evolved_deepseek_v31_full_test
+test.0898,119,119.0,135.0,0.0,0.0,0.0,16.0,PSI Score: Pneumonia Severity Index for CAP,severity,integer,3088.0,290.0,7.3018739223480225,0.0023458,rule_evolved_deepseek_v31_full_test
+test.0900,"The PSI/PORT Score calculation requires specific criteria evaluation:
+
+Demographics:
+- Age 85 years: +30 points (age ≥ 80)
+- Male gender: +10 points
+
+Comorbidities:
+- Neurological disease: +10 points (""neurological event some years ago"")
+- Liver disease: +20 points (""known condition requiring periodic monitoring of his liver health"")
+
+Physical Exam:
+- Respiratory rate ≥30: +20 points (34 breaths/min)
+- Temperature ≥40°C: +15 points (but patient has 39.2°C = 0 points)
+- Heart rate ≥125: +10 points (116 bpm = 0 points)
+- Systolic BP <90: +20 points (but patient has 136 = 0 points)
+- Altered mental status: +20 points (but patient has ""mental clarity appeared surprisingly intact"" = 0 points)
+
+Lab Findings:
+- pH <7.35: +30 points (but patient has 7.50 = 0 points)
+- BUN >30 mg/dL: +20 points (36 mg/dL)
+- Sodium <130: +20 points (but patient has 151 = 0 points)
+- Glucose >250: +10 points (but patient has 110 = 0 points)
+- Hematocrit <30%: +10 points (32% = 0 points)
+- PaO2 <60 or O2 sat <90%: +10 points (patient has PaO2 93 = 0 points)
+
+Total PSI Score = 30 (age) + 10 (male) + 10 (neuro) + 20 (liver) + 20 (resp rate) + 20 (BUN) = 110",110.0,175.0,0.0,0.0,0.0,65.0,PSI Score: Pneumonia Severity Index for CAP,severity,integer,2960.0,700.0,19.305084705352783,0.002966,rule_evolved_deepseek_v31_full_test
+test.0899,101,101.0,160.0,0.0,0.0,0.0,59.0,PSI Score: Pneumonia Severity Index for CAP,severity,integer,10357.0,2309.0,40.67043733596802,0.0101395,rule_evolved_deepseek_v31_full_test
+test.0902,15,15.0,15.0,1.0,1.0,1.0,0.0,Glasgow Coma Score (GCS),severity,integer,2840.0,171.0,4.3622355461120605,0.0019947,rule_evolved_deepseek_v31_full_test
+test.0901,9,9.0,8.0,0.0,0.0,0.0,1.0,Glasgow Coma Score (GCS),severity,integer,2863.0,193.0,4.816874027252197,0.0020459,rule_evolved_deepseek_v31_full_test
+test.0903,10,10.0,10.0,1.0,1.0,1.0,0.0,Glasgow Coma Score (GCS),severity,integer,2900.0,222.0,6.04846978187561,0.0021174,rule_evolved_deepseek_v31_full_test
+test.0904,10,10.0,9.0,0.0,0.0,0.0,1.0,Glasgow Coma Score (GCS),severity,integer,2866.0,260.0,6.465820789337158,0.0021616,rule_evolved_deepseek_v31_full_test
+test.0906,9,9.0,9.0,1.0,1.0,1.0,0.0,Glasgow Coma Score (GCS),severity,integer,2813.0,208.0,6.1254212856292725,0.0020414,rule_evolved_deepseek_v31_full_test
+test.0907,9,9.0,10.0,0.0,0.0,0.0,1.0,Glasgow Coma Score (GCS),severity,integer,2909.0,205.0,4.660644292831421,0.0020938999999999997,rule_evolved_deepseek_v31_full_test
+test.0908,6,6.0,6.0,1.0,1.0,1.0,0.0,Glasgow Coma Score (GCS),severity,integer,2864.0,316.0,8.595671653747559,0.0022556,rule_evolved_deepseek_v31_full_test
+test.0909,15,15.0,15.0,1.0,1.0,1.0,0.0,Glasgow Coma Score (GCS),severity,integer,2955.0,221.0,6.589795112609863,0.0021487,rule_evolved_deepseek_v31_full_test
+test.0911,6,6.0,8.0,0.0,0.0,0.0,2.0,Glasgow Coma Score (GCS),severity,integer,2884.0,106.0,3.4051449298858643,0.0019106,rule_evolved_deepseek_v31_full_test
+test.0910,8,8.0,9.0,0.0,0.0,0.0,1.0,Glasgow Coma Score (GCS),severity,integer,2799.0,240.0,7.359170198440552,0.0020874,rule_evolved_deepseek_v31_full_test
+test.0905,6,6.0,6.0,1.0,1.0,1.0,0.0,Glasgow Coma Score (GCS),severity,integer,9844.0,2305.0,42.93750524520874,0.009824900000000001,rule_evolved_deepseek_v31_full_test
+test.0912,9,9.0,9.0,1.0,1.0,1.0,0.0,Glasgow Coma Score (GCS),severity,integer,10131.0,2300.0,40.837093114852905,0.0099886,rule_evolved_deepseek_v31_full_test
+test.0915,9,9.0,9.0,1.0,1.0,1.0,0.0,Glasgow Coma Score (GCS),severity,integer,2970.0,160.0,5.233733654022217,0.002054,rule_evolved_deepseek_v31_full_test
+test.0916,12,12.0,12.0,1.0,1.0,1.0,0.0,Glasgow Coma Score (GCS),severity,integer,2872.0,235.0,7.1245832443237305,0.0021227,rule_evolved_deepseek_v31_full_test
+test.0913,3,3.0,3.0,1.0,1.0,1.0,0.0,Glasgow Coma Score (GCS),severity,integer,2912.0,232.0,8.341012239456177,0.0021416,rule_evolved_deepseek_v31_full_test
+test.0914,13,13.0,12.0,0.0,0.0,0.0,1.0,Glasgow Coma Score (GCS),severity,integer,2979.0,257.0,9.045900106430054,0.0022243,rule_evolved_deepseek_v31_full_test
+test.0918,7,7.0,7.0,1.0,1.0,1.0,0.0,Glasgow Coma Score (GCS),severity,integer,2953.0,126.0,3.769763708114624,0.001986,rule_evolved_deepseek_v31_full_test
+test.0917,9,9.0,7.0,0.0,0.0,0.0,2.0,Glasgow Coma Score (GCS),severity,integer,2868.0,190.0,7.8736162185668945,0.0020438,rule_evolved_deepseek_v31_full_test
+test.0920,9,9.0,11.0,0.0,0.0,0.0,2.0,Glasgow Coma Score (GCS),severity,integer,3080.0,84.0,5.085838079452515,0.0019908,rule_evolved_deepseek_v31_full_test
+test.0919,9,9.0,10.0,0.0,0.0,0.0,1.0,Glasgow Coma Score (GCS),severity,integer,3121.0,97.0,5.24529242515564,0.0020375,rule_evolved_deepseek_v31_full_test
+test.0921,25,25.0,22.0,0.0,0.0,0.0,3.0,APACHE II Score,risk,integer,2747.0,86.0,3.0543065071105957,0.0017943999999999998,rule_evolved_deepseek_v31_full_test
+test.0923,24,24.0,21.0,0.0,0.0,0.0,3.0,APACHE II Score,risk,integer,2733.0,264.0,7.113324880599976,0.0020886,rule_evolved_deepseek_v31_full_test
+test.0922,21,21.0,7.0,0.0,0.0,0.0,14.0,APACHE II Score,risk,integer,2825.0,331.0,9.033080577850342,0.0022576999999999996,rule_evolved_deepseek_v31_full_test
+test.0924,"I need to calculate the APACHE II score for this patient. Let me analyze the patient note step by step to extract all relevant information:
+
+1. Age: 72-year-old male
+2. Temperature: 37.5°C
+3. Respiratory rate: 24 breaths/min  
+4. Heart rate: 88 beats/min
+5. Blood pressure: 120/64 mmHg
+6. Neurological status: GCS 15 (fully alert)
+7. Oxygenation: FiO2 45%, PaO2 72 mmHg
+8. Laboratory values: Na 136 mEq/L, K 4.3 mEq/L, Creatinine 1.8 mg/dL, Hematocrit 34%
+9. Chronic conditions: Leukemia (immunocompromised state)
+
+The APACHE II score requires assigning points to each physiological parameter based on deviation from normal ranges, plus age points and chronic health points. After calculating each component:
+- Acute Physiology Score: Based on the extracted values
+- Age Points: 5 points (for age 72)
+- Chronic Health Points: 5 points (for leukemia/immunocompromised state requiring ICU admission)
+
+The final APACHE II score would be the sum of these three components.",5.0,12.0,0.0,0.0,0.0,7.0,APACHE II Score,risk,integer,2771.0,382.0,11.961172103881836,0.002312,rule_evolved_deepseek_v31_full_test
+test.0927,18,18.0,12.0,0.0,0.0,0.0,6.0,APACHE II Score,risk,integer,2979.0,242.0,10.461034536361694,0.0021988,rule_evolved_deepseek_v31_full_test
+test.0929,17,17.0,14.0,0.0,0.0,0.0,3.0,APACHE II Score,risk,integer,2949.0,77.0,3.5122263431549072,0.0019003,rule_evolved_deepseek_v31_full_test
+test.0925,21,21.0,10.0,0.0,0.0,0.0,11.0,APACHE II Score,risk,integer,2803.0,350.0,18.160218477249146,0.0022768,rule_evolved_deepseek_v31_full_test
+test.0930,28,28.0,19.0,0.0,0.0,0.0,9.0,APACHE II Score,risk,integer,2854.0,243.0,10.377739429473877,0.0021255,rule_evolved_deepseek_v31_full_test
+test.0926,"I'll calculate the APACHE II score for this 77-year-old female patient step by step:
+
+APACHE II Score = Acute Physiology Score + Age Points + Chronic Health Points
+
+ACUTE PHYSIOLOGY SCORE (APS):
+1. Temperature: 39.0°C = 39.0°C → 0 points (normal range)
+2. Mean Arterial Pressure: MAP = (2*DBP + SBP)/3 = (2*62 + 115)/3 = (124 + 115)/3 = 239/3 = 79.67 mmHg → 0 points (normal)
+3. Heart Rate: 92 bpm → 0 points (normal)
+4. Respiratory Rate: 16 breaths/min → 0 points (normal)
+5. Oxygenation: FiO2 = 55%, A-a gradient = 180 mmHg → 4 points (severe impairment)
+6. Arterial pH: 7.35 → 0 points (normal)
+7. Sodium: 140 mEq/L → 0 points (normal)
+8. Potassium: 4.0 mEq/L → 0 points (normal)
+9. Creatinine: 2.2 mg/dL → 2 points (moderate renal impairment)
+10. Hematocrit: 37% → 0 points (normal)
+11. White Blood Count: 11,500/mm³ → 0 points (normal)
+12. Glasgow Coma Scale: 11 → 1 point (mild impairment)
+
+Total APS = 0+0+0+0+4+0+0+0+2+0+0+1 = 7 points
+
+AGE POINTS:
+77 years old → 6 points (age ≥ 75)
+
+CHRONIC HEALTH POINTS:
+No evidence of chronic organ insufficiency or immunocompromised state → 0 points
+
+TOTAL APACHE II SCORE = 7 (APS) + 6 (Age) + 0 (Chronic Health) = 13
+
+Final APACHE II score: 13",13.0,19.0,0.0,0.0,0.0,6.0,APACHE II Score,risk,integer,2754.0,736.0,31.055500030517578,0.0029036,rule_evolved_deepseek_v31_full_test
+test.0928,"I need to calculate the APACHE II score for this patient. Let me analyze the patient note and extract all relevant values for the APACHE II calculation.
+
+First, I'll convert temperature from Fahrenheit to Celsius: 98.7°F = (98.7 - 32) × 5/9 = 37.06°C
+
+Now I'll assign points for each APS component:
+1. Temperature (37.06°C): 0 points (normal range)
+2. Mean arterial pressure (87 mm Hg): 0 points (normal range)
+3. Heart rate (98 bpm): 0 points (normal range)
+4. Respiratory rate (19 breaths/min): 0 points (normal range)
+5. PaO2 (75 mm Hg): 3 points (with FiO2 28% = 0.28, A-a gradient would be high)
+6. pH (7.40): 0 points (normal)
+7. Sodium (143 mEq/L): 0 points (normal)
+8. Potassium (4.4 mEq/L): 0 points (normal)
+9. Creatinine (1.2 mg/dL): 0 points (normal)
+10. Hematocrit (32%): 3 points (moderate anemia)
+11. WBC (8900/mm³): 0 points (normal)
+12. Glasgow Coma Scale (7): 6 points (severe impairment)
+
+APS total: 0+0+0+0+3+0+0+0+0+3+0+6 = 12 points
+
+Age points: 66-year-old → 5 points
+
+Chronic health points: The patient has ""defense mechanisms being below normal levels"" which suggests immunosuppression. This would qualify for 5 points (non-operative patient with chronic organ insufficiency).
+
+APACHE II Score = APS (12) + Age (5) + Chronic Health (5) = 22",22.0,18.0,0.0,0.0,0.0,4.0,APACHE II Score,risk,integer,3142.0,753.0,31.85520839691162,0.0031653,rule_evolved_deepseek_v31_full_test
+test.0931,26,26.0,26.0,1.0,1.0,1.0,0.0,APACHE II Score,risk,integer,2880.0,322.0,17.92923855781555,0.0022754,rule_evolved_deepseek_v31_full_test
+test.0932,"I need to calculate the APACHE II score for this 63-year-old female patient. The APACHE II score consists of three components: Acute Physiology Score (APS), Age Points, and Chronic Health Points. Let me extract the relevant clinical values from the patient note and apply the scoring criteria.
+
+First, for the APS (0-60 points):
+- Temperature 36.5°C = 0 points (normal range)
+- Mean arterial pressure: (2*68 + 119)/3 = 85 mmHg = 0 points
+- Heart rate 97/min = 0 points
+- Respiratory rate 25/min = 0 points
+- pH 7.39 = 0 points (normal)
+- Sodium 146 mEq/L = 2 points (mild hypernatremia)
+- Potassium 4.7 mEq/L = 0 points (normal)
+- Creatinine 3.1 mg/dL = 4 points (renal impairment)
+- Hematocrit 42% = 0 points (normal)
+- WBC 9.3 × 10³/μL = 0 points (normal)
+- GCS: 4 = 12 points (severe impairment)
+Total APS = 0+0+0+0+0+2+0+4+0+0+12 = 18 points
+
+Age points: 63 years old = 3 points
+
+Chronic Health Points: ""chronic impairment of host defenses"" indicates immunocompromised state = 5 points
+
+Total APACHE II Score = APS (18) + Age (3) + Chronic Health (5) = 26
+
+26",26.0,28.0,0.0,0.0,0.0,2.0,APACHE II Score,risk,integer,2545.0,617.0,25.369943857192993,0.0025759,rule_evolved_deepseek_v31_full_test
+test.0934,32,32.0,32.0,1.0,1.0,1.0,0.0,APACHE II Score,risk,integer,3052.0,920.0,27.903857469558716,0.0033952,rule_evolved_deepseek_v31_full_test
+test.0935,"I need to calculate the APACHE II score for this patient. Let me extract the relevant values from the clinical note and apply the APACHE II scoring system step by step.
+
+From the patient note:
+- Age: 65 years old (male)
+- Temperature: 37.0°C
+- Mean arterial pressure: Need to calculate from BP 138/72 mmHg
+- Heart rate: 96 bpm
+- Respiratory rate: 27 breaths/min
+- PaO₂: 76 mm Hg with FiO₂ 44%
+- Arterial pH: 7.32
+- Sodium: 148 mEq/L
+- Potassium: 5.0 mEq/L
+- Creatinine: 2.3 mg/dL
+- Hematocrit: 45%
+- White blood count: 9,900/mm³
+- Glasgow Coma Score: 5
+
+Let me calculate each component:
+
+1. Acute Physiology Score (APS):
+   - Temperature (37.0°C): Normal range = 0 points
+   - MAP: (2*DBP + SBP)/3 = (2*72 + 138)/3 = (144 + 138)/3 = 282/3 = 94 mmHg → Normal range = 0 points
+   - Heart rate (96 bpm): 90-109 = +1 point
+   - Respiratory rate (27 breaths/min): 12-24 = 0 points, but >25 = +2 points? Wait, APACHE II uses actual rate with FiO₂ criteria
+   - PaO₂/FiO₂: FiO₂ 44% = 0.44, PaO₂ 76 → A-a gradient calculation needed
+   - Arterial pH (7.32): 7.33-7.49 = 0 points
+   - Sodium (148 mEq/L): 150-154 = +1 point
+   - Potassium (5.0 mEq/L): 3.5-5.4 = 0 points
+   - Creatinine (2.3 mg/dL): 1.5-1.9 = +2 points
+   - Hematocrit (45%): 30-45.9 = 0 points
+   - WBC (9.9): 3.0-14.9 = 0 points
+   - GCS: 5 → APACHE II uses 15 - GCS = 10 points
+
+2. Age Points: 65 years = +5 points
+
+3. Chronic Health Points: No chronic health conditions mentioned = 0 points
+
+Total APACHE II Score: APS + Age + Chronic Health = (let's calculate properly)...
+
+After carefully calculating all components according to APACHE II scoring criteria, the final score would be:",0.0,24.0,0.0,0.0,0.0,24.0,APACHE II Score,risk,integer,3045.0,872.0,27.274429082870483,0.0033093999999999997,rule_evolved_deepseek_v31_full_test
+test.0936,"I need to analyze the patient note to calculate the APACHE II score. The APACHE II score requires evaluating multiple physiological parameters (temperature, heart rate, respiratory rate, blood pressure, oxygenation, arterial pH, sodium, potassium, creatinine, hematocrit, white blood cell count, Glasgow Coma Scale), plus age points and chronic health points. From the patient note, I can extract: age 56, heart rate 99, respiratory rate 29, temperature 38.5°C, BP 126/73, sodium 149, potassium 4.9, creatinine 2.7, hematocrit 28%, WBC 11,200, pH 7.41, PaO2 72 on FiO2 36%, GCS 14. The patient also has chronic kidney disease. I'll calculate each component systematically using standard APACHE II scoring criteria.",14.0,11.0,0.0,0.0,0.0,3.0,APACHE II Score,risk,integer,3112.0,309.0,15.159579277038574,0.0023924999999999997,rule_evolved_deepseek_v31_full_test
+test.0933,22,22.0,25.0,0.0,0.0,0.0,3.0,APACHE II Score,risk,integer,2946.0,1674.0,51.08334803581238,0.0046134,rule_evolved_deepseek_v31_full_test
+test.0940,31,31.0,28.0,0.0,0.0,0.0,3.0,APACHE II Score,risk,integer,2856.0,287.0,13.015690326690674,0.0022015,rule_evolved_deepseek_v31_full_test
+test.0937,"I need to calculate the APACHE II score for this 58-year-old male patient. The APACHE II score consists of three components: Acute Physiology Score (APS), Age Points, and Chronic Health Points. Let me first calculate the APS by scoring each of the 12 physiological variables, then add the age points and chronic health points.
+
+For the APS:
+1. Temperature: 37.3°C = 0 points (normal range)
+2. Mean arterial pressure: (2*74 + 129)/3 = 92.33 mmHg = 0 points
+3. Heart rate: 93 bpm = 0 points (normal)
+4. Respiratory rate: 12 breaths/min = 0 points (normal)
+5. PaO₂: 72 mmHg on FiO₂ 42% (A-a gradient calculation needed)
+   FiO₂ 42% = 0.42, A-a gradient = [(713*0.42) - (PaCO₂*0.8)] - PaO₂
+   Need PaCO₂ value (not provided) - assuming normal range = 0 points
+6. pH: 7.34 = 1 point (mild acidosis)
+7. Sodium: 133 mEq/L = 2 points (hyponatremia)
+8. Potassium: 3.6 mEq/L = 0 points (normal)
+9. Creatinine: 1.6 mg/dL = 2 points (elevated)
+10. Hematocrit: 46% = 0 points (normal)
+11. White blood cells: 10,900/mm³ = 0 points (mild elevation)
+12. Glasgow Coma Score: 12 = 3 points
+
+APS total: 0+0+0+0+0+1+2+0+2+0+0+3 = 8 points
+
+Age: 58 years = 6 points
+Chronic Health Points: Patient has chronic immune suppression = 5 points
+
+APACHE II Score = 8 + 6 + 5 = 19",19.0,13.0,0.0,0.0,0.0,6.0,APACHE II Score,risk,integer,3226.0,709.0,19.954713821411133,0.0031409000000000003,rule_evolved_deepseek_v31_full_test
+test.0941,4,4.0,6.0,0.0,0.0,0.0,2.0,Sequential Organ Failure Assessment (SOFA) Score,risk,integer,2795.0,265.0,6.986866235733032,0.0021275,rule_evolved_deepseek_v31_full_test
+test.0939,"I need to calculate the APACHE II score for this patient based on the clinical information provided. The APACHE II score consists of three components: Acute Physiology Score (based on 12 physiological variables), Age Points, and Chronic Health Points. Let me analyze the patient note to extract all relevant values and apply the scoring criteria.
+
+From the patient note:
+- Age: 61-year-old male
+- Temperature: 99.8°F (37.7°C)
+- Heart rate: 115 bpm
+- Blood pressure: 121/75 mmHg
+- Respiratory rate: 30 breaths/min
+- Sodium: 131 mEq/L
+- Potassium: 5.2 mEq/L
+- Creatinine: 3.2 mg/dL
+- Hematocrit: 30%
+- White blood cells: 9,500/mm³
+- GCS: 12
+- PaO2: 74 mmHg
+- FiO2: 46% (0.46)
+- pH: 7.28
+
+Calculating Acute Physiology Score:
+1. Temperature 37.7°C = 0 points
+2. MAP = (2*DBP + SBP)/3 = (2*75 + 121)/3 = 90.3 mmHg = 2 points
+3. Heart rate 115 bpm = 2 points
+4. Respiratory rate 30 breaths/min = 0 points
+5. Oxygenation: PaO2/FiO2 = 74/0.46 = 160.9 = 4 points
+6. Arterial pH 7.28 = 2 points
+7. Sodium 131 mEq/L = 2 points
+8. Potassium 5.2 mEq/L = 1 point
+9. Creatinine 3.2 mg/dL = 4 points
+10. Hematocrit 30% = 3 points
+11. WBC 9,500/mm³ = 0 points
+12. GCS: 12 = 3 points
+
+Total Acute Physiology Score = 0+2+2+0+4+2+2+1+4+3+0+3 = 23 points
+
+Age Points: 61 years = 3 points
+Chronic Health Points: Patient has ""longstanding vulnerability in more than one vital organ system"" and ""compromised internal defense mechanism"" suggesting chronic health issues = 5 points
+
+Total APACHE II Score = 23 + 3 + 5 = 31",31.0,22.0,0.0,0.0,0.0,9.0,APACHE II Score,risk,integer,2815.0,633.0,22.747715711593628,0.0027651,rule_evolved_deepseek_v31_full_test
+test.0943,3,3.0,7.0,0.0,0.0,0.0,4.0,Sequential Organ Failure Assessment (SOFA) Score,risk,integer,2880.0,258.0,8.504708766937256,0.0021666,rule_evolved_deepseek_v31_full_test
+test.0938,"I need to calculate the APACHE II score for this 57-year-old male patient. The APACHE II score requires calculating points for: 1) Acute Physiology Score (based on vital signs and lab values), 2) Age points, and 3) Chronic Health Points. 
+
+From the patient note, I can extract:
+- Age: 57 years (4 points for age 45-54, but wait - APACHE II uses: ≤44=0, 45-54=2, 55-64=3, 65-74=5, ≥75=6)
+- Temperature: 100.2°F = 37.9°C (1 point for 38.0-38.4°C range)
+- MAP: (2*DBP + SBP)/3 = (2*57 + 116)/3 = (114 + 116)/3 = 230/3 = 76.7 mmHg (0 points for 70-109 mmHg)
+- Heart rate: 85 bpm (0 points for 70-109 bpm)
+- Respiratory rate: 28 breaths/min (2 points for 25-34 breaths/min)
+- PaO2: 72 mmHg with FiO2 38% (A-a gradient calculation needed)
+- Arterial pH: 7.30 (2 points for 7.33-7.49)
+- Serum sodium: 150 mEq/L (4 points for ≥180)
+- Serum potassium: 5.1 mEq/L (0 points for 3.5-5.4)
+- Creatinine: 3.0 mg/dL (4 points for 1.5-1.9)
+- Hematocrit: 44% (0 points for 30-45.9%)
+- WBC: 13,000/mm³ (1 point for 15-19.9)
+- GCS: 15 (0 points)
+- Chronic health: Chronic renal disease (5 points for non-operative patient)
+
+Calculating A-a gradient: FiO2 = 0.38, PaO2 = 72 mmHg
+A-a gradient = (713 * FiO2) - PaO2 - (PaCO2 * 1.25)
+But PaCO2 not provided, so need to use alternative oxygenation score
+
+For APACHE II, oxygenation scoring:
+- If FiO2 ≥ 0.5: use A-a gradient
+- If FiO2 < 0.5: use PaO2 alone
+FiO2 = 0.38 < 0.5, so use PaO2 = 72 mmHg (3 points for 61-70 mmHg)
+
+Acute Physiology Score:
+- Temp: 1
+- MAP: 0  
+- HR: 0
+- RR: 2
+- PaO2: 3
+- pH: 2
+- Na: 4
+- K: 0
+- Creatinine: 4
+- Hct: 0
+- WBC: 1
+- GCS: 0
+Total APS = 1+0+0+2+3+2+4+0+4+0+1+0 = 17
+
+Age: 57 years (3 points for 55-64)
+Chronic Health: 5 points (non-operative with chronic renal disease)
+
+Total APACHE II = APS (17) + Age (3) + Chronic Health (5) = 25
+
+The final APACHE II score is 25.",25.0,18.0,0.0,0.0,0.0,7.0,APACHE II Score,risk,integer,2981.0,1031.0,37.70602893829346,0.0035413,rule_evolved_deepseek_v31_full_test
+test.0942,"I need to calculate the SOFA Score for this patient. Let me analyze each organ system:
+
+1. **Respiratory (PaO₂/FiO₂ ratio):** PaO₂ = 82 mmHg, FiO₂ = 0.32
+   PaO₂/FiO₂ = 82 / 0.32 = 256.25 → SOFA Score 2 (since 200 < ratio ≤ 300)
+
+2. **Cardiovascular:** BP = 90/50 mmHg, MAP = (2*50 + 90)/3 = 63.33 mmHg
+   Patient on norEPINEPHrine at 0.05 mcg/kg/min → SOFA Score 3 (vasopressors at any dose)
+
+3. **Hepatic:** Bilirubin = 1.2 mg/dL → SOFA Score 0 (bilirubin < 1.2)
+
+4. **Coagulation:** Platelets = 190,000/μL → SOFA Score 0 (platelets ≥ 150,000)
+
+5. **Renal:** Creatinine = 1.4 mg/dL, urine output = 800 mL/24h
+   Creatinine 1.4 mg/dL → SOFA Score 1 (creatinine 1.2-1.9)
+   Urine output < 500 mL/24h would be SOFA 4, but 800 mL/24h → SOFA Score 1
+   Taking the worse score: SOFA Score 1
+
+6. **Neurological:** GCS = 12 → SOFA Score 1 (GCS 13-14)
+
+Total SOFA Score = 2 (Respiratory) + 3 (Cardiovascular) + 0 (Hepatic) + 0 (Coagulation) + 1 (Renal) + 1 (Neurological) = 7
+
+The patient's SOFA Score is 7.",7.0,9.0,0.0,0.0,0.0,2.0,Sequential Organ Failure Assessment (SOFA) Score,risk,integer,3050.0,636.0,23.812705993652344,0.0029112,rule_evolved_deepseek_v31_full_test
+test.0945,"I need to analyze this patient note to calculate the SOFA (Sequential Organ Failure Assessment) Score. The SOFA Score evaluates six organ systems: respiratory, coagulation, liver, cardiovascular, central nervous system, and renal. I'll extract the relevant clinical values from the note and apply the standard SOFA scoring criteria to each system.",,8.0,0.0,0.0,0.0,inf,Sequential Organ Failure Assessment (SOFA) Score,risk,integer,2834.0,138.0,18.404545307159424,0.0019349999999999999,rule_evolved_deepseek_v31_full_test
+test.0946,4,4.0,5.0,0.0,0.0,0.0,1.0,Sequential Organ Failure Assessment (SOFA) Score,risk,integer,2905.0,217.0,13.553251504898071,0.0021119,rule_evolved_deepseek_v31_full_test
+test.0944,11,11.0,12.0,0.0,0.0,0.0,1.0,Sequential Organ Failure Assessment (SOFA) Score,risk,integer,2914.0,938.0,33.601818799972534,0.003343,rule_evolved_deepseek_v31_full_test
+test.0947,10,10.0,10.0,1.0,1.0,1.0,0.0,Sequential Organ Failure Assessment (SOFA) Score,risk,integer,2947.0,470.0,19.42025852203369,0.0025672,rule_evolved_deepseek_v31_full_test
+test.0948,"Let me calculate the SOFA Score step by step:
+
+1. Respiratory (PaO₂/FiO₂): 89/0.38 = 234.21 → Score 3 (≤200 = 4, ≤300 = 3)
+2. Coagulation (Platelets): 175,000 μL → Score 1 (<100,000 = 3, <150,000 = 2, <200,000 = 1)
+3. Liver (Bilirubin): 1.3 mg/dL → Score 0 (<1.2 = 0, 1.2-1.9 = 1)
+4. Cardiovascular: MAP = (2*52 + 76)/3 = 60 mmHg, norepinephrine dose = 0.06 mcg/kg/min → Score 3 (MAP <70 + vasopressors)
+5. Neurological: GCS = 8 → Score 3 (GCS 6-8 = 3)
+6. Renal: Creatinine = 1.6 mg/dL, urine output = 700 mL/24h → Score 2 (Creatinine 1.5-1.9 = 2)
+
+Total SOFA Score: 3 + 1 + 0 + 3 + 3 + 2 = 12",12.0,10.0,0.0,0.0,0.0,2.0,Sequential Organ Failure Assessment (SOFA) Score,risk,integer,3108.0,496.0,16.057112216949463,0.002708,rule_evolved_deepseek_v31_full_test
+test.0952,14,14.0,12.0,0.0,0.0,0.0,2.0,Sequential Organ Failure Assessment (SOFA) Score,risk,integer,2906.0,318.0,10.003825664520264,0.0022842,rule_evolved_deepseek_v31_full_test
+test.0949,11,11.0,9.0,0.0,0.0,0.0,2.0,Sequential Organ Failure Assessment (SOFA) Score,risk,integer,2908.0,363.0,11.307198762893677,0.0023619,rule_evolved_deepseek_v31_full_test
+test.0951,"I need to analyze this patient note to calculate the SOFA (Sequential Organ Failure Assessment) Score. Let me extract the relevant clinical parameters from the note and calculate the score step by step.
+
+From the patient note:
+- Glasgow Coma Score: 5 (severely compromised mental status)
+- PaO₂/FiO₂: PaO₂ = 56 mmHg, FiO₂ = 25% (25% = 0.25), so PaO₂/FiO₂ = 56/0.25 = 224
+- Bilirubin: 3.0 mg/dL
+- Platelets: 130,000 per microliter
+- Creatinine: 0.8 mg/dL (within normal range)
+- Blood pressure: 130/85 mmHg (stable, no vasopressors mentioned)
+- No mention of renal dysfunction (creatinine normal, urine output good)
+
+SOFA Score calculation:
+1. Respiratory: PaO₂/FiO₂ = 224 → Score 2
+2. Cardiovascular: BP stable, no vasopressors → Score 0
+3. Hepatic: Bilirubin = 3.0 mg/dL → Score 2
+4. Coagulation: Platelets = 130,000/μL → Score 1
+5. Renal: Creatinine = 0.8 mg/dL (normal) → Score 0
+6. Neurological: GCS = 5 → Score 4
+
+Total SOFA Score = 2 + 0 + 2 + 1 + 0 + 4 = 9
+
+Final answer: 9",9.0,9.0,1.0,1.0,1.0,0.0,Sequential Organ Failure Assessment (SOFA) Score,risk,integer,2910.0,423.0,12.805574893951416,0.0024651,rule_evolved_deepseek_v31_full_test
+test.0950,"I need to calculate the SOFA Score step by step using the patient data. Let me extract the relevant values and apply the SOFA scoring criteria:
+
+Respiratory: PaO2 = 68 mmHg with supplemental oxygen at 33% → PaO2/FiO2 ratio = 68/(33%/100) = 68/0.33 ≈ 206 → Score 2
+Coagulation: Platelets = 200,000/μL → Score 1
+Liver: Bilirubin = 2.5 mg/dL → Score 2
+Cardiovascular: BP 76/32 mmHg, on dopamine 5 mcg/kg/min and norepinephrine 0.07 mcg/kg/min → Score 4 (vasopressors required)
+CNS: GCS = 9 → Score 3
+Renal: Creatinine = 2.4 mg/dL → Score 3
+
+Total SOFA Score = 2 + 1 + 2 + 4 + 3 + 3 = 15",15.0,12.0,0.0,0.0,0.0,3.0,Sequential Organ Failure Assessment (SOFA) Score,risk,integer,3047.0,421.0,16.35550284385681,0.0025439,rule_evolved_deepseek_v31_full_test
+test.0955,9,9.0,14.0,0.0,0.0,0.0,5.0,Sequential Organ Failure Assessment (SOFA) Score,risk,integer,2930.0,200.0,7.178618431091309,0.002098,rule_evolved_deepseek_v31_full_test
+test.0954,8,8.0,14.0,0.0,0.0,0.0,6.0,Sequential Organ Failure Assessment (SOFA) Score,risk,integer,3237.0,281.0,9.54193925857544,0.0024199,rule_evolved_deepseek_v31_full_test
+test.0953,13,13.0,12.0,0.0,0.0,0.0,1.0,Sequential Organ Failure Assessment (SOFA) Score,risk,integer,2677.0,556.0,17.669071674346924,0.0025513999999999997,rule_evolved_deepseek_v31_full_test
+test.0956,5,5.0,5.0,1.0,1.0,1.0,0.0,Sequential Organ Failure Assessment (SOFA) Score,risk,integer,2847.0,375.0,10.580804586410522,0.0023457,rule_evolved_deepseek_v31_full_test
+test.0958,4,4.0,9.0,0.0,0.0,0.0,5.0,Sequential Organ Failure Assessment (SOFA) Score,risk,integer,3097.0,336.0,10.790507555007935,0.0024294,rule_evolved_deepseek_v31_full_test
+test.0957,"I need to calculate the SOFA Score for this patient. Let me analyze each organ system based on the patient note:
+
+1. **Respiratory**: PaO₂ = 91 mmHg, FiO₂ = 31% (0.31 fraction)
+   PaO₂/FiO₂ = 91 / 0.31 = 293.5 mmHg → SOFA Score 2 (for PaO₂/FiO₂ < 300)
+
+2. **Cardiovascular**: BP 120/76 mmHg, no vasopressors mentioned
+   MAP = (2*DBP + SBP)/3 = (2*76 + 120)/3 = 272/3 = 90.67 mmHg → SOFA Score 1 (MAP < 70 mmHg would be score 3, but 90.67 is normal)
+
+3. **Hepatic**: Bilirubin = 2.9 mg/dL → SOFA Score 2 (1.2-1.9 = 1 point, 2.0-5.9 = 2 points)
+
+4. **Coagulation**: Platelets = 125,000/μL → SOFA Score 1 (<150,000 = 1 point)
+
+5. **Renal**: Creatinine = 1.3 mg/dL, urine output = 1,100 mL/day
+   Creatinine 1.3 mg/dL → SOFA Score 1 (1.2-1.9 = 1 point)
+   Urine output 1,100 mL/day is adequate (>500 mL/day = 0 points)
+   Higher score takes precedence → SOFA Score 1
+
+6. **Neurological**: GCS = 10 → SOFA Score 2 (GCS 9-12 = 2 points)
+
+Total SOFA Score = 2 (respiratory) + 0 (cardiovascular) + 2 (hepatic) + 1 (coagulation) + 1 (renal) + 2 (neurological) = 8
+
+Final SOFA Score: 8",8.0,8.0,1.0,1.0,1.0,0.0,Sequential Organ Failure Assessment (SOFA) Score,risk,integer,2853.0,684.0,21.006420612335205,0.0028745999999999997,rule_evolved_deepseek_v31_full_test
+test.0960,"I need to calculate the SOFA Score for this patient. First, I'll extract all relevant clinical values from the patient note:
+
+Respiratory: PaO₂ = 64 mmHg, FiO₂ = 43% (0.43) → PaO₂/FiO₂ = 64/0.43 ≈ 148.8 → SOFA Respiratory Score = 2 (PaO₂/FiO₂ < 200)
+
+Coagulation: Platelets = 143,000/μL → SOFA Coagulation Score = 1 (platelets < 150,000)
+
+Liver: Bilirubin = 1.1 mg/dL → SOFA Liver Score = 0 (bilirubin < 1.2)
+
+Cardiovascular: BP = 76/42 mmHg (MAP ≈ 53 mmHg) + receiving dopamine 0.6 μg/kg/min and norepinephrine 0.14 μg/kg/min → SOFA Cardiovascular Score = 3 (MAP < 70 mmHg + vasopressors required)
+
+CNS: GCS = 14 → SOFA CNS Score = 1 (GCS 13-14)
+
+Renal: Creatinine = 1.5 mg/dL → SOFA Renal Score = 1 (creatinine 1.2-1.9)
+
+Total SOFA Score = 2 + 1 + 0 + 3 + 1 + 1 = 8",8.0,10.0,0.0,0.0,0.0,2.0,Sequential Organ Failure Assessment (SOFA) Score,risk,integer,3090.0,473.0,15.20003342628479,0.0026581,rule_evolved_deepseek_v31_full_test
+test.0959,"I'll calculate the SOFA Score step by step based on the patient note:
+
+1. **Respiratory**: PaO2/FiO2 = 83/0.41 = 202.44 → Score 3 (since 200 < PaO2/FiO2 ≤ 300)
+2. **Coagulation**: Platelets = 172,000/μL → Score 1 (since 100,000 ≤ platelets ≤ 150,000)
+3. **Liver**: Bilirubin = 2.7 mg/dL → Score 2 (since 2.0 ≤ bilirubin ≤ 6.0)
+4. **Cardiovascular**: Patient is receiving multiple vasopressors (dopamine 0.9 μg/kg/min, dobutamine 1.2 μg/kg/min, norepinephrine 0.13 μg/kg/min, epinephrine 0.04 μg/kg/min) → Score 4 (multiple vasopressors regardless of dose)
+5. **CNS**: GCS = 11 → Score 3 (since GCS 9-12)
+6. **Renal**: Creatinine = 1.05 mg/dL → Score 0 (creatinine < 1.2)
+
+Total SOFA Score = 3 + 1 + 2 + 4 + 3 + 0 = 13
+
+Final answer: 13",13.0,10.0,0.0,0.0,0.0,3.0,Sequential Organ Failure Assessment (SOFA) Score,risk,integer,2980.0,576.0,16.502803802490234,0.0027672,rule_evolved_deepseek_v31_full_test
+test.0963,1,1.0,7.0,0.0,0.0,0.0,6.0,Caprini Score for Venous Thromboembolism (2005),risk,integer,2920.0,87.0,4.855050802230835,0.0018999,rule_evolved_deepseek_v31_full_test
+test.0962,9,9.0,14.0,0.0,0.0,0.0,5.0,Caprini Score for Venous Thromboembolism (2005),risk,integer,2782.0,323.0,9.888453483581543,0.0022183,rule_evolved_deepseek_v31_full_test
+test.0965,1,1.0,6.0,0.0,0.0,0.0,5.0,Caprini Score for Venous Thromboembolism (2005),risk,integer,2847.0,100.0,10.206125259399414,0.0018782,rule_evolved_deepseek_v31_full_test
+test.0961,4,4.0,9.0,0.0,0.0,0.0,5.0,Caprini Score for Venous Thromboembolism (2005),risk,integer,2759.0,210.0,18.82613754272461,0.0020124,rule_evolved_deepseek_v31_full_test
+test.0967,5,5.0,13.0,0.0,0.0,0.0,8.0,Caprini Score for Venous Thromboembolism (2005),risk,integer,2806.0,106.0,3.8396201133728027,0.0018637999999999999,rule_evolved_deepseek_v31_full_test
+test.0964,7,7.0,10.0,0.0,0.0,0.0,3.0,Caprini Score for Venous Thromboembolism (2005),risk,integer,2827.0,389.0,22.648109436035156,0.0023575,rule_evolved_deepseek_v31_full_test
+test.0966,5,5.0,8.0,0.0,0.0,0.0,3.0,Caprini Score for Venous Thromboembolism (2005),risk,integer,2822.0,334.0,16.154435873031616,0.002261,rule_evolved_deepseek_v31_full_test
+test.0968,6,6.0,8.0,0.0,0.0,0.0,2.0,Caprini Score for Venous Thromboembolism (2005),risk,integer,2979.0,186.0,7.3476197719573975,0.0021035999999999997,rule_evolved_deepseek_v31_full_test
+test.0969,8,8.0,7.0,0.0,0.0,0.0,1.0,Caprini Score for Venous Thromboembolism (2005),risk,integer,2911.0,178.0,5.791911363601685,0.0020491999999999997,rule_evolved_deepseek_v31_full_test
+test.0971,5,5.0,8.0,0.0,0.0,0.0,3.0,Caprini Score for Venous Thromboembolism (2005),risk,integer,2863.0,93.0,4.262143850326538,0.0018759,rule_evolved_deepseek_v31_full_test
+test.0970,5,5.0,14.0,0.0,0.0,0.0,9.0,Caprini Score for Venous Thromboembolism (2005),risk,integer,2868.0,184.0,13.859906673431396,0.0020336,rule_evolved_deepseek_v31_full_test
+test.0972,7,7.0,9.0,0.0,0.0,0.0,2.0,Caprini Score for Venous Thromboembolism (2005),risk,integer,2884.0,395.0,22.859971284866333,0.0024019,rule_evolved_deepseek_v31_full_test
+test.0975,6,6.0,6.0,1.0,1.0,1.0,0.0,Caprini Score for Venous Thromboembolism (2005),risk,integer,2864.0,107.0,2.847163677215576,0.0019003,rule_evolved_deepseek_v31_full_test
+test.0974,5,5.0,5.0,1.0,1.0,1.0,0.0,Caprini Score for Venous Thromboembolism (2005),risk,integer,2972.0,90.0,3.3444230556488037,0.0019362,rule_evolved_deepseek_v31_full_test
+test.0976,4,4.0,8.0,0.0,0.0,0.0,4.0,Caprini Score for Venous Thromboembolism (2005),risk,integer,2795.0,137.0,4.31026029586792,0.0019099,rule_evolved_deepseek_v31_full_test
+test.0978,4,4.0,7.0,0.0,0.0,0.0,3.0,Caprini Score for Venous Thromboembolism (2005),risk,integer,2787.0,104.0,3.605588674545288,0.001849,rule_evolved_deepseek_v31_full_test
+test.0979,7,7.0,10.0,0.0,0.0,0.0,3.0,Caprini Score for Venous Thromboembolism (2005),risk,integer,2954.0,242.0,5.949342250823975,0.0021838,rule_evolved_deepseek_v31_full_test
+test.0977,7,7.0,8.0,0.0,0.0,0.0,1.0,Caprini Score for Venous Thromboembolism (2005),risk,integer,2880.0,360.0,10.775298118591309,0.00234,rule_evolved_deepseek_v31_full_test
+test.0980,8,8.0,14.0,0.0,0.0,0.0,6.0,Caprini Score for Venous Thromboembolism (2005),risk,integer,2938.0,153.0,10.35152292251587,0.0020229,rule_evolved_deepseek_v31_full_test
+test.0973,8,8.0,9.0,0.0,0.0,0.0,1.0,Caprini Score for Venous Thromboembolism (2005),risk,integer,9996.0,2142.0,53.156901836395264,0.009639,rule_evolved_deepseek_v31_full_test

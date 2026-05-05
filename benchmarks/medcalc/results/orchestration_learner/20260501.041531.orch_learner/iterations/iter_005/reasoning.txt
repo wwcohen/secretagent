@@ -1,0 +1,11 @@
+1. What SPECIFIC failure pattern did you identify?
+The model is miscalculating complex scores (Caprini, HAS-BLED, CHA2DS2-VASc, SIRS) zero-shot because it falls into common traps: calculating post-treatment vitals instead of baseline, missing demographic points (age/sex), and loosely applying thresholds (e.g. giving a point for any HTN rather than strictly >160 SBP for HAS-BLED).
+
+2. How many of the shown failures share this pattern?
+Almost all 31 non-timeout failures are simple omissions of criteria or arithmetic errors, with at least 15 directly related to the pitfalls mentioned above (e.g., missing female/age in CHA2DS2-VASc, wrongly applying vitals post-meds for SIRS/SOFA).
+
+3. What is the MINIMAL change that fixes this pattern?
+Adding a concise "COMMON PITFALLS TO AVOID" section to the `calculate_medical_value` docstring. This gives the Orchestrator explicit guardrails to double-check its zero-shot extraction (baseline state, demographics, strict thresholds) without forcing a brittle tool wrapper, and without adding a dense 13-score cheat sheet that causes overfitting.
+
+4. Why will this change NOT break currently working cases?
+It maintains the exact same zero-shot workflow and interface structure that currently achieves ~59% accuracy. It doesn't force JSON or regex parsing, nor does it override Python execution flow. The instructions are general principles that apply positively to all medical score calculations, ensuring it generalizes to unseen cases.

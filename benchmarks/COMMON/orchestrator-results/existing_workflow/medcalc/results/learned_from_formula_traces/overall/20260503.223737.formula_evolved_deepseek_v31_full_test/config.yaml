@@ -1,0 +1,31 @@
+llm:
+  model: together_ai/deepseek-ai/DeepSeek-V3.1
+  max_tokens: 65536
+  thinking: true
+  reasoning_effort: high
+  timeout: 240
+simulate_pydantic:
+  template: simulate_pydantic_thinking.txt
+cachier:
+  cache_dir: /mnt/d/aditya/cmu/research/william_cohen_group/codebase/secretagent/benchmarks/medcalc/llm_cache
+  enable_caching: true
+evaluate:
+  result_dir: /mnt/d/aditya/cmu/research/william_cohen_group/codebase/secretagent/benchmarks/medcalc/results/full_test_eval
+  expt_name: formula_evolved_deepseek_v31_full_test
+  entry_point: calculate_medical_value
+  record_details: false
+  max_workers: 4
+  max_retries: 2
+  case_timeout: 300
+dataset:
+  split: test
+  category_filter: formula
+  stratified: false
+  'n': null
+  shuffle_seed: 42
+ptools:
+  calculate_medical_value:
+    method: simulate_pydantic
+    tools: __all__
+    tool_module: ptools_evolved
+root: /mnt/d/aditya/cmu/research/william_cohen_group/codebase/secretagent/benchmarks/medcalc

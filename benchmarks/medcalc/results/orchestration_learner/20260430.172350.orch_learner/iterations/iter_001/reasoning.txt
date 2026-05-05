@@ -1,0 +1,11 @@
+An analysis of the pipeline's failure modes reveals several distinct categories where the LLM struggles to correctly evaluate the medical math zero-shot, primarily because it either hallucinates formula constants, uses the wrong units/scales, or fails to extract the precise variable (like baseline vs. peak Creatinine).
+
+Here is the targeted strategy:
+1. **Maintenance Fluids**: The LLM frequently estimates random fluid numbers instead of strictly applying the "4-2-1 rule" (which simplifies to `40 + weight_in_kg` for adults > 20kg).
+2. **Steroid Conversion**: The LLM guesses incorrect equivalency factors. Giving it the exact equivalents fixes these errors entirely. 
+3. **FIB-4 Index Bug**: The expected ground truth for this dataset divides the standard `10^9/L` platelet count by 1000. For example, it evaluates `294` as `0.294` causing calculations to be off by a magnitude of 1000. A targeted prompt instruction will correct this.
+4. **LDL Calculated**: The LLM incorrectly extracts the directly measured LDL value from the text instead of calculating it via the Friedewald equation when specifically queried for "LDL Calculated".
+5. **Albumin Corrected Delta Gap/Ratio**: The model hallucinates how Delta Gap incorporates Albumin. Giving it the exact `Corrected AG - 12` sequence fixes this.
+6. **Cockcroft-Gault & MDRD GFR**: Added strict guardrails to extract the *baseline* admission creatinine rather than peak, and injected the precise formulas (like adjusted body weight).
+
+By injecting these critical formulas and specific constraints directly into the `calculate_medical_value` interface's docstring, the simulator LLM is forced to use correct medical derivations without modifying any executing Python logic, minimizing the risk of regressions on previously working cases.

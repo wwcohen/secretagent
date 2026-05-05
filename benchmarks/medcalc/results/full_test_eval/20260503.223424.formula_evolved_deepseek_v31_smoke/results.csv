@@ -1,0 +1,2 @@
+case_name,predicted_output,predicted_numeric,expected_output,correct,exact_match,within_limits,absolute_error,calculator_name,category,output_type,input_tokens,output_tokens,latency,cost,expt_name
+test.0001,31.74,31.74,25.2381,0.0,0.0,0.0,6.501899999999999,Creatinine Clearance (Cockcroft-Gault Equation),lab test,decimal,10464.0,2174.0,30.621967315673828,0.009974199999999999,formula_evolved_deepseek_v31_smoke

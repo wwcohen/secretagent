@@ -1,0 +1,67 @@
+case_name,predicted_output,predicted_numeric,expected_output,correct,exact_match,within_limits,absolute_error,calculator_name,category,output_type,input_tokens,output_tokens,latency,cost,expt_name
+train.3397,39.7,39.7,43.6208,0.0,0.0,0.0,3.9208,MDRD GFR Equation,lab test,decimal,11150.0,218.0,29.338961601257324,0.0031145,rc_iter6_eval
+train.5191,**exception raised**: Exceeded maximum retries (1) for output validation,,115.0,0.0,0.0,0.0,inf,Maintenance Fluids Calculations,physical,decimal,,,,,rc_iter6_eval
+train.7033,397.75,397.75,397.74962,1.0,1.0,1.0,0.00038000000000693035,QTc Hodges Calculator,physical,decimal,13045.0,208.0,37.97998547554016,0.00357325,rc_iter6_eval
+train.8991,14.25,14.25,14.25,1.0,1.0,1.0,0.0,Albumin Corrected Delta Gap,lab test,decimal,11784.0,249.0,30.005311727523804,0.0033195,rc_iter6_eval
+train.9201,82.0,82.0,104.0,0.0,0.0,0.0,22.0,Morphine Milligram Equivalents (MME) Calculator,dosage,integer,9741.0,199.0,35.07491755485535,0.00273375,rc_iter6_eval
+train.9206,20.0,20.0,20.0,1.0,1.0,1.0,0.0,Morphine Milligram Equivalents (MME) Calculator,dosage,integer,6206.0,92.0,1.7637531757354736,0.0016895,rc_iter6_eval
+train.6907,386.4376,386.4376,386.44376,1.0,1.0,1.0,0.006160000000022592,QTc Framingham Calculator,physical,decimal,9672.0,176.0,51.98195695877075,0.002682,rc_iter6_eval
+train.3413,75.01,75.01,75.01979,1.0,1.0,1.0,0.009789999999995302,Ideal Body Weight,physical,decimal,11782.0,194.0,43.54721140861511,0.0032365,rc_iter6_eval
+train.0107,40.78,40.78,40.78419,1.0,1.0,1.0,0.004190000000001248,Creatinine Clearance (Cockcroft-Gault Equation),lab test,decimal,19428.0,449.0,134.7316038608551,0.005530500000000001,rc_iter6_eval
+train.8647,-7.0,-7.0,-7.0,1.0,1.0,1.0,0.0,Delta Gap,lab test,decimal,11979.0,180.0,60.04708123207092,0.00326475,rc_iter6_eval
+train.9018,0.31818,0.31818,0.31818,1.0,1.0,1.0,0.0,Albumin Corrected Delta Ratio,lab test,decimal,13103.0,299.0,57.410367250442505,0.00372425,rc_iter6_eval
+train.8963,18.85,18.85,18.85,1.0,1.0,1.0,0.0,Albumin Corrected Delta Gap,lab test,decimal,11671.0,280.0,45.668089151382446,0.0033377499999999996,rc_iter6_eval
+train.7118,536.5,536.5,536.5,1.0,1.0,1.0,0.0,QTc Rautaharju Calculator,physical,decimal,9583.0,147.0,27.555944442749023,0.0026162499999999997,rc_iter6_eval
+train.8073,67.48,67.48,67.47967,1.0,1.0,1.0,0.0003300000000052705,Target weight,physical,decimal,9982.0,313.0,37.02354621887207,0.0029649999999999998,rc_iter6_eval
+train.3183,47.57,47.57,46.51892,1.0,0.0,1.0,1.051079999999999,MDRD GFR Equation,lab test,decimal,11472.0,269.0,43.779943227767944,0.0032715,rc_iter6_eval
+train.9804,7.1,7.1,7.09877,1.0,1.0,1.0,0.0012299999999996203,HOMA-IR (Homeostatic Model Assessment for Insulin Resistance),lab test,decimal,12464.0,157.0,59.77033829689026,0.0033515,rc_iter6_eval
+train.2464,14.79,14.79,19.22607,0.0,0.0,0.0,4.436070000000001,Body Mass Index (BMI),physical,decimal,11512.0,141.0,29.945467710494995,0.0030895,rc_iter6_eval
+train.0091,73.79,73.79,73.78858,1.0,1.0,1.0,0.0014200000000101909,Creatinine Clearance (Cockcroft-Gault Equation),lab test,decimal,7818.0,225.0,52.86902713775635,0.002292,rc_iter6_eval
+train.4341,0.57,0.57,0.5696,1.0,1.0,1.0,0.00039999999999995595,Fibrosis-4 (FIB-4) Index for Liver Fibrosis,lab test,decimal,19361.0,335.0,67.66815495491028,0.00534275,rc_iter6_eval
+train.4076,503.49,503.49,503.48754,1.0,1.0,1.0,0.0024599999999850297,QTc Bazett Calculator,physical,decimal,9614.0,161.0,37.44335889816284,0.0026449999999999998,rc_iter6_eval
+train.7048,521.5,521.5,521.49926,1.0,1.0,1.0,0.000739999999950669,QTc Hodges Calculator,physical,decimal,9539.0,140.0,38.85037660598755,0.00259475,rc_iter6_eval
+train.5283,146.984,146.984,150.976,1.0,0.0,1.0,3.9919999999999902,Sodium Correction for Hyperglycemia,lab test,decimal,14506.0,316.0,80.37514662742615,0.0041005,rc_iter6_eval
+train.10137,31.0,31.0,31.0,1.0,1.0,1.0,0.0,MELD Na (UNOS/OPTN),lab test,decimal,18520.0,465.0,87.05267477035522,0.0053275,rc_iter6_eval
+train.9787,0.52,0.52,0.51612,1.0,1.0,1.0,0.0038799999999999946,Fractional Excretion of Sodium (FENa),lab test,decimal,18371.0,273.0,102.74984169006348,0.00500225,rc_iter6_eval
+train.2641,8.7,8.7,10.835,0.0,0.0,0.0,2.1350000000000016,Calcium Correction for Hypoalbuminemia,lab test,decimal,13476.0,219.0,9.308164596557617,0.0036975000000000003,rc_iter6_eval
+train.7880,1.34,1.34,1.33718,1.0,1.0,1.0,0.0028200000000000447,Body Surface Area Calculator,physical,decimal,13709.0,167.0,34.7571542263031,0.0036777499999999996,rc_iter6_eval
+train.8904,19.5,19.5,19.5,1.0,1.0,1.0,0.0,Albumin Corrected Anion Gap,lab test,decimal,12822.0,239.0,40.624565839767456,0.003564,rc_iter6_eval
+train.0383,92.01,92.01,9.12304,0.0,0.0,0.0,82.88696,CKD-EPI Equations for Glomerular Filtration Rate,lab test,decimal,13613.0,290.0,48.38699555397034,0.00383825,rc_iter6_eval
+train.2590,8.5,8.5,8.5,1.0,1.0,1.0,0.0,Calcium Correction for Hypoalbuminemia,lab test,decimal,9167.0,93.0,59.0292387008667,0.00243125,rc_iter6_eval
+train.7115,273.0,273.0,273.0,1.0,1.0,1.0,0.0,QTc Rautaharju Calculator,physical,decimal,9604.0,163.0,35.38391923904419,0.0026455,rc_iter6_eval
+train.8133,97.25,97.25,97.25202,1.0,1.0,1.0,0.002020000000001687,Adjusted Body Weight,physical,decimal,9701.0,209.0,49.85585331916809,0.00273875,rc_iter6_eval
+train.9816,2.34,2.34,97.68711,0.0,0.0,0.0,95.34711,HOMA-IR (Homeostatic Model Assessment for Insulin Resistance),lab test,decimal,13431.0,234.0,47.82096242904663,0.0037087500000000002,rc_iter6_eval
+train.8210,60.15,60.15,60.14572,1.0,1.0,1.0,0.004280000000001394,Adjusted Body Weight,physical,decimal,13558.0,212.0,43.83392906188965,0.0037075,rc_iter6_eval
+train.6179,17.2,17.2,17.2,1.0,1.0,1.0,0.0,Anion Gap,lab test,decimal,12619.0,186.0,43.423510789871216,0.00343375,rc_iter6_eval
+train.3594,52.38,52.38,52.38197,1.0,1.0,1.0,0.0019700000000000273,Ideal Body Weight,physical,decimal,11627.0,164.0,52.26482033729553,0.00315275,rc_iter6_eval
+train.1984,95.0,95.0,95.0,1.0,1.0,1.0,0.0,Mean Arterial Pressure (MAP),physical,decimal,13842.0,236.0,80.30035924911499,0.0038145,rc_iter6_eval
+train.8909,15.75,15.75,15.75,1.0,1.0,1.0,0.0,Albumin Corrected Anion Gap,lab test,decimal,11955.0,203.0,27.47782564163208,0.0032932499999999997,rc_iter6_eval
+train.5073,99.0,99.0,99.0,1.0,1.0,1.0,0.0,Maintenance Fluids Calculations,physical,decimal,11736.0,196.0,33.09484267234802,0.003228,rc_iter6_eval
+train.10189,4.0,4.0,3.974,1.0,0.0,1.0,0.0259999999999998,Framingham Risk Score for Hard Coronary Heart Disease,lab test,decimal,12957.0,405.0,38.35114812850952,0.00384675,rc_iter6_eval
+train.8896,0.46,0.46,0.46154,1.0,1.0,1.0,0.0015399999999999858,Delta Ratio,lab test,decimal,16082.0,168.0,49.92915630340576,0.004272499999999999,rc_iter6_eval
+train.2087,25.4,25.4,25.39022,1.0,1.0,1.0,0.009779999999999234,Body Mass Index (BMI),physical,decimal,11953.0,137.0,29.132198095321655,0.00319375,rc_iter6_eval
+train.6908,412.66,412.66,412.6591,1.0,1.0,1.0,0.0009000000000014552,QTc Framingham Calculator,physical,decimal,9658.0,166.0,52.469340085983276,0.0026635,rc_iter6_eval
+train.7311,0.34,0.34,0.46476,0.0,0.0,0.0,0.12475999999999998,Body Surface Area Calculator,physical,decimal,11383.0,231.0,65.79959988594055,0.0031922499999999998,rc_iter6_eval
+train.6840,332.0,332.0,331.96658,1.0,0.0,1.0,0.033419999999978245,QTc Fridericia Calculator,physical,decimal,9554.0,148.0,37.49697184562683,0.0026105,rc_iter6_eval
+train.9012,-2.33,-2.33,-2.33333,1.0,1.0,1.0,0.003330000000000055,Albumin Corrected Delta Ratio,lab test,decimal,12484.0,243.0,39.376407623291016,0.0034855,rc_iter6_eval
+train.6354,139.2,139.2,139.2,1.0,1.0,1.0,0.0,LDL Calculated,lab test,decimal,13899.0,189.0,39.673723220825195,0.00375825,rc_iter6_eval
+train.6181,12.0,12.0,12.0,1.0,1.0,1.0,0.0,Anion Gap,lab test,decimal,10646.0,131.0,24.999187231063843,0.002858,rc_iter6_eval
+train.6344,79.0,79.0,79.0,1.0,1.0,1.0,0.0,LDL Calculated,lab test,decimal,16713.0,214.0,123.95442533493042,0.00449925,rc_iter6_eval
+train.9173,184.79,184.79,184.92859,1.0,0.0,1.0,0.13859000000002197,Steroid Conversion Calculator,dosage,integer,9656.0,202.0,21.238468885421753,0.002717,rc_iter6_eval
+train.1706,94.0,94.0,98.33333,1.0,0.0,1.0,4.333330000000004,Mean Arterial Pressure (MAP),physical,decimal,13318.0,143.0,29.451368808746338,0.003544,rc_iter6_eval
+train.9123,7.2,7.2,7.1955,1.0,1.0,1.0,0.0045000000000001705,Steroid Conversion Calculator,dosage,integer,9627.0,196.0,33.70111656188965,0.00270075,rc_iter6_eval
+train.0400,8.71,8.71,8.5242,1.0,0.0,1.0,0.1858000000000004,CKD-EPI Equations for Glomerular Filtration Rate,lab test,decimal,12975.0,251.0,61.04236912727356,0.0036202499999999998,rc_iter6_eval
+train.5689,284.01,284.01,284.01587,1.0,1.0,1.0,0.005870000000015807,Serum Osmolality,lab test,decimal,11750.0,225.0,63.95467519760132,0.003275,rc_iter6_eval
+train.8082,81.80109,81.80109,81.80109,1.0,1.0,1.0,0.0,Target weight,physical,decimal,9580.0,168.0,34.72385764122009,0.002647,rc_iter6_eval
+train.6827,556.13,556.13,556.10772,1.0,0.0,1.0,0.022280000000023392,QTc Fridericia Calculator,physical,decimal,9817.0,219.0,35.486422538757324,0.0027827499999999996,rc_iter6_eval
+train.4365,0.45,0.45,0.44977,1.0,1.0,1.0,0.00023000000000000798,Fibrosis-4 (FIB-4) Index for Liver Fibrosis,lab test,decimal,12275.0,204.0,37.141968727111816,0.0033747499999999997,rc_iter6_eval
+train.5898,-1.75,-1.75,-2.1,0.0,0.0,0.0,0.3500000000000001,Free Water Deficit,lab test,decimal,11519.0,268.0,84.17346405982971,0.00328175,rc_iter6_eval
+train.5415,141.44,141.44,141.44,1.0,1.0,1.0,0.0,Sodium Correction for Hyperglycemia,lab test,decimal,11040.0,195.0,24.231777906417847,0.0030524999999999997,rc_iter6_eval
+train.10226,16.2,16.2,24.434,0.0,0.0,0.0,8.234000000000002,Framingham Risk Score for Hard Coronary Heart Disease,lab test,decimal,13980.0,381.0,28.22761368751526,0.0040665,rc_iter6_eval
+train.5837,286.64,286.64,286.64286,1.0,1.0,1.0,0.0028599999999983083,Serum Osmolality,lab test,decimal,15116.0,306.0,48.89744734764099,0.004238,rc_iter6_eval
+train.8419,1.0,1.0,1.0,1.0,1.0,1.0,0.0,Delta Gap,lab test,decimal,10719.0,148.0,26.42550563812256,0.00290175,rc_iter6_eval
+train.8807,1.22,1.22,1.21739,1.0,1.0,1.0,0.002610000000000001,Delta Ratio,lab test,decimal,13440.0,206.0,29.293172121047974,0.0036689999999999995,rc_iter6_eval
+train.9771,0.38,0.38,0.38241,1.0,1.0,1.0,0.0024100000000000232,Fractional Excretion of Sodium (FENa),lab test,decimal,13440.0,216.0,15.572949647903442,0.0036839999999999998,rc_iter6_eval
+train.6058,1.42,1.42,1.41748,1.0,1.0,1.0,0.0025199999999998557,Free Water Deficit,lab test,decimal,11821.0,305.0,49.87088942527771,0.00341275,rc_iter6_eval
+train.4013,439.39,439.39,439.39248,1.0,1.0,1.0,0.002479999999991378,QTc Bazett Calculator,physical,decimal,9602.0,170.0,26.323322296142578,0.0026555,rc_iter6_eval
+train.10177,27.316,27.316,27.0,1.0,0.0,1.0,0.31599999999999895,MELD Na (UNOS/OPTN),lab test,decimal,15577.0,882.0,60.26695251464844,0.00521725,rc_iter6_eval

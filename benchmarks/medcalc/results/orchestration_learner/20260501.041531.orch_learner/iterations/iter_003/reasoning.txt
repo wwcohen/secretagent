@@ -1,0 +1,8 @@
+An analysis of the failure cases reveals that the vast majority of errors come from the Orchestrator LLM hallucinating or misremembering the exact point criteria for complex medical scores (e.g., Glasgow-Blatchford, HAS-BLED, Caprini, CHA2DS2-VASc, Wells', PERC). When running zero-shot, the model will confidently execute the calculation but assign incorrect point values for specific conditions (e.g., misclassifying what constitutes "Major surgery" for Caprini, or forgetting that the current stroke counts in CHA2DS2-VASc). 
+
+Since `calculate_medical_value` asks the agent to mentally aggregate these values, providing a highly precise, densely packed "cheat sheet" of the exact rules for the most common failing calculators in the docstring resolves this memory bottleneck. It directly patches the knowledge gap without introducing risky parser changes, Python logic overrides, or multi-step loops. 
+
+### Minimal, Safe Improvement Strategy:
+1. Identify the 13 most frequently failing calculators from the error trace.
+2. Inject a densely structured `SCORE-SPECIFIC REMINDERS` section into the docstring of the main interface `calculate_medical_value`.
+3. Keep all extraction and tool signatures exactly as they are, ensuring zero regressions on correctly parsed cases.

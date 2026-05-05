@@ -1,0 +1,40 @@
+llm:
+  model: gemini/gemini-3.1-flash-lite-preview
+  timeout: 180
+
+orchestrate:
+  model: gemini/gemini-3.1-pro-preview
+  max_retries: 3
+
+cachier:
+  cache_dir: llm_cache
+  enable_caching: true
+
+evaluate:
+  result_dir: results
+  expt_name: trip_induced_seed_from_ptools
+  entry_point: trip_planning
+  prompt_trace: true
+
+dataset:
+  split: trip
+  shuffle_seed: 42
+  prompt_mode: 0shot
+  n: 4
+  stratified: false
+  sample_n: 50
+  sample_seed: 42
+
+ptools:
+  _define_problem_and_strategy_impl:
+    method: simulate
+  _search_constraint_details_impl:
+    method: simulate
+  _search_flight_network_impl:
+    method: simulate
+  trip_planning:
+    method: orchestrate
+    task_description: >
+      Solve a trip-planning problem by using the induced helper ptools to
+      extract trip constraints, inspect flight connectivity, and produce a
+      valid itinerary satisfying all constraints.

@@ -102,13 +102,14 @@ Examples:
 """
 
 
-def _build_medical_value_src(func_name: str, docstring: str) -> str:
+def _build_medical_value_src(func_name: str, docstring: str,
+                             return_type: str = 'float') -> str:
     """Build a synthetic source string with the docstring embedded."""
     # Indent the docstring for Python source
     doc_lines = docstring.strip().split('\n')
     indented = '\n'.join('    ' + line for line in doc_lines)
     return (
-        f'def {func_name}(patient_note: str, question: str) -> float:\n'
+        f'def {func_name}(patient_note: str, question: str) -> {return_type}:\n'
         f'    """{doc_lines[0]}\n'
         f'\n{indented}\n'
         f'    """\n'
@@ -123,6 +124,25 @@ calculate_medical_value.__doc__ = _CALCULATE_DOCSTRING
 calculate_medical_value = interface(calculate_medical_value)
 calculate_medical_value.src = _build_medical_value_src(
     'calculate_medical_value', _CALCULATE_DOCSTRING)
+
+
+_CALCULATE_TEXT_DOCSTRING = """Calculate a medical value from a patient note.
+
+Return the final answer as a string. Numeric answers should contain only the
+number, while date, gestational-age, class, or percentage answers should be
+returned in the natural format requested by the calculator question.
+"""
+
+
+# Optional non-legacy entry point; apples-to-apples benchmark configs keep using
+# calculate_medical_value so they retain the historical float parsing behavior.
+def calculate_medical_value_text(patient_note: str, question: str) -> str:
+    ...
+
+calculate_medical_value_text.__doc__ = _CALCULATE_TEXT_DOCSTRING
+calculate_medical_value_text = interface(calculate_medical_value_text)
+calculate_medical_value_text.src = _build_medical_value_src(
+    'calculate_medical_value_text', _CALCULATE_TEXT_DOCSTRING, 'str')
 
 
 # =============================================================================

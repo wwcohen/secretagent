@@ -1,0 +1,669 @@
+You are an expert ML engineer making a TARGETED improvement to an existing
+pipeline. The pipeline already works at a certain accuracy — your job is to
+make it BETTER, not blow it up.
+
+You have FULL CONTROL over the ptools module. You can modify ANY function,
+ANY docstring, ANY logic. Your changes will be written to ptools_evolved.py
+and evaluated.
+
+## Current ptools_evolved.py (FULL SOURCE — you own this file)
+
+```python
+"""Self-contained ptools module wrapping induced helpers.
+
+Hand-derived from the winning induction variant in learned/rule-4pc-pro-mp3.
+Designed to be ingested by OrchestrationLearner via inspect.getsource:
+the file MUST have no indirection — every symbol the supervisor sees
+lives here.
+"""
+
+import re
+from typing import Optional
+
+from secretagent.core import interface, implement_via
+
+# Reuse the existing medcalc machinery (formulas + calculator engine).
+# Only computational helpers are imported; nothing that wires interfaces.
+import calculator_simple
+import calculators
+
+
+# =============================================================================
+# Induced ptools (inlined from learned/rule-4pc-pro-mp3)
+# =============================================================================
+
+@implement_via('simulate')
+def map_patient_data_to_score(focus: str) -> str:
+    """
+    Maps extracted patient data to the criteria of a specific medical score or formula to calculate the total.
+
+    Provide the name of the score and the relevant extracted clinical values in the `focus`. The response will break down each criterion, evaluate the patient's data against it, assign the corresponding points, and calculate the final total.
+
+    Pay attention to the exact thresholds, units, and point values defined by the medical score (e.g., Age >= 65, HR > 100, specific biomarker ranges). Make sure to explicitly note criteria that receive 0 points due to lack of evidence, falling outside the risk thresholds, or normal findings.
+
+    Returns:
+    Score Name: [Name of the Score]
+    - [Criterion 1]: [Patient Data / Observation] -> [Points]
+    - [Criterion 2]: [Patient Data / Observation] -> [Points]
+    ...
+    Total Score: [Calculated Sum]
+    """
+
+
+@implement_via('simulate')
+def compute_score_step_by_step(focus: str) -> str:
+    """
+    Computes a medical score manually step-by-step. Provide the name of the medical score to calculate in the `focus` parameter (e.g., 'CURB-65', 'Caprini VTE').
+
+    The response will structure the calculation by:
+    1. Listing all the criteria evaluated for the score.
+    2. Stating the patient's specific extracted data or status for each criterion.
+    3. Assigning the exact point value (including 0 points for absent symptoms or normal findings) for each criterion.
+    4. Providing the explicit mathematical sum of the points to reach the final total score.
+
+    Pay attention to the specific definitions, thresholds, and exclusions for each scoring criterion to ensure accurate point assignment.
+
+    Returns:
+    - **[Criterion 1]**: [Patient's status/value] ([X] points)
+    - **[Criterion 2]**: [Patient's status/value] ([Y] points)
+    ...
+    Calculation: [X] + [Y] + ... = [Total Score]
+    """
+
+
+@implement_via('simulate')
+def calculate_clinical_score(focus: str) -> str:
+    """
+    Calculates a specified medical score by extracting relevant clinical criteria and applying the appropriate scoring formula.
+
+    Information to extract/reason about:
+    - Identify the required parameters for the specific score indicated in the `focus` (e.g., 'SOFA score', 'Child-Pugh score', 'Charlson Comorbidity Index').
+    - Extract the corresponding clinical values (lab results, vitals, comorbidities, age) from the patient note.
+
+    How the response should be structured:
+    - Provide a step-by-step list of each parameter evaluated.
+    - Note the extracted patient value for each parameter.
+    - State the points assigned based on the specific scoring criteria.
+    - Provide a final summation equation yielding the total score.
+
+    What the agent should pay attention to:
+    - Accurately apply clinical thresholds, age brackets, and unit conversions.
+    - Account for missing information properly (e.g., defaulting to normal/0 points if the score guidelines permit, or noting the missing data).
+    - Ensure strict arithmetic correctness when summing the assigned points.
+
+    Returns:
+    A structured string detailing the score calculation step-by-step.
+
+    Example:
+    Score Calculation: SOFA score
+    1. Respiration: PaO2/FiO2 = 160 -> Score = 3
+    2. Coagulation: Platelets = 110,000/uL -> Score = 1
+    3. Liver: Bilirubin = 1.4 mg/dL -> Score = 1
+    4. Cardiovascular: MAP = 57.3 mmHg -> Score = 1
+    5. Neurological: GCS = 5 -> Score = 4
+    6. Renal: Creatinine = 2.2 mg/dL -> Score = 2
+    Total SOFA Score = 3 + 1 + 1 + 1 + 4 + 2 = 12
+    """
+
+# =============================================================================
+# Public entry point — calculate_medical_value
+# =============================================================================
+
+@interface
+def calculate_medical_value(patient_note: str, question: str) -> float:
+    """Calculate a medical value from a patient note and question."""
+
+
+
+
+def _extract_number(value) -> Optional[float]:
+    if value is None:
+        return None
+    if isinstance(value, (int, float)):
+        return float(value)
+    s = str(value)
+    if s.startswith('**exception'):
+        return None
+    try:
+        return float(s)
+    except ValueError:
+        pass
+    for pat in (r'<answer>\s*([\d.eE+-]+)\s*</answer>', r'ANSWER:\s*([\d.eE+-]+)'):
+        m = re.search(pat, s)
+        if m:
+            try:
+                return float(m.group(1))
+            except ValueError:
+                pass
+    nums = re.findall(r'-?\d+\.?\d*', s)
+    if nums:
+        try:
+            return float(nums[-1])
+        except ValueError:
+            pass
+    return None
+
+```
+
+## Performance on training set
+
+Pipeline accuracy: 43.4%, avg cost: $nan/case, 76 cases
+
+Per-ptool breakdown:
+  calculate_medical_value: cost_frac=nan%, calls/case=1.0, avg_cost=$nan, lift=N/A, errors=3
+
+Ptools called via LLM: ['calculate_medical_value']
+
+Held-out eval accuracy: 44.7% (train: 43.4%)
+A large train-eval gap means your changes are OVERFITTING. Prefer changes that generalize to unseen cases.
+
+## Failure cases with full context
+
+Total failures: 43 / showing 43:
+
+Failure counts by category:
+  Caprini Score for Venous Thromboembolism (2005): 4 failures
+  FeverPAIN Score for Strep Pharyngitis: 4 failures
+  Glasgow-Blatchford Bleeding Score (GBS): 4 failures
+  HAS-BLED Score for Major Bleeding Risk: 3 failures
+  PSI Score: Pneumonia Severity Index for CAP: 3 failures
+  Sequential Organ Failure Assessment (SOFA) Score: 3 failures
+  Wells' Criteria for Pulmonary Embolism: 3 failures
+  PERC Rule for Pulmonary Embolism: 3 failures
+  Wells' Criteria for DVT: 2 failures
+  SIRS Criteria: 2 failures
+  CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk: 2 failures
+  Child-Pugh Score for Cirrhosis Mortality: 2 failures
+  HEART Score for Major Cardiac Events: 2 failures
+  APACHE II Score: 2 failures
+  Glasgow Coma Score (GCS): 1 failures
+  Revised Cardiac Risk Index for Pre-Operative Risk: 1 failures
+  Centor Score (Modified/McIsaac) for Strep Pharyngitis: 1 failures
+  Charlson Comorbidity Index (CCI): 1 failures
+
+--- Case train.9965: (calculator_name=Caprini Score for Venous Thromboembolism (2005), category=risk, output_type=integer) ---
+  Input arg 0: A 66-year-old man presented to the pre-operative holding area this morning in anticipation of an open completion sigmoid resection with creation of a colorectal anastomosis, a procedure the surgical oncology team estimates will last several hours under general anesthesia and will require a midline laparotomy with mobilization of the left colon. Three weeks earlier he had undergone a laparoscopic‐assisted low anterior resection for stage IIIB moderately differentiated adenocarcinoma of the rectosigmoid junction; although he recovered uneventfully and was discharged home on post-operative day 5, final pathology later revealed a focally positive distal margin, so the decision was made to return to the operating room before adjuvant chemotherapy is started. His convalescence since the initial operation has been relatively smooth: he has regained appetite, walks his dog around the neighborhood twice daily, and drives himself to clinic visits without limitation, reporting no shortness of breath, paroxysmal nocturnal dyspnea, peripheral edema, orthostatic symptoms, or infectious complaints. He denies chills, rigors, cough productive of purulent sputum, dysuria, or fevers since leaving the hospital, and he has not required emergency department evaluation, antibiotics, or readmission. Past medical history is notable for the aforementioned colorectal malignancy diagnosed six months ago after a positive fecal immunochemical test, long-standing hypertension controlled with amlodipine 5 mg daily, and hyperlipidemia treated with rosuvastatin 20 mg nightly; he has never been told he has coronary artery disease, heart failure, chronic lung disease, stroke, or inflammatory bowel disorders. There is no record of prior venous thromboembolic events in himself or close relatives, and he recalls no episode of calf pain, sudden unilateral leg swelling, or pleuritic chest discomfort. Five years ago he underwent radiofrequency ablation of a dilated great saphenous vein in the right leg but 
+  Input arg 1: What is the patient's Caprini Score for Venous Thromboembolism? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.
+  Execution trace (1 LLM calls):
+    calculate_medical_value(['A 66-year-old man presented to the pre-operative holding area this morning in anticipation of an open completion sigmoid resection with creation of a colorectal anastomosis, a procedure the surgical)
+      -> 7.0 [$0.0022]
+  RESULT: predicted=7.0, expected=10.0, absolute_error=3.0
+
+--- Case train.5881: (calculator_name=FeverPAIN Score for Strep Pharyngitis, category=diagnosis, output_type=integer) ---
+  Input arg 0: A 17-year-old young man presented to the pediatric emergency department with intermittent high-grade fever for two days in August 2015. This was associated with myalgia, headache, rhinorrhea, sore throat, productive cough and abdominal pain. Physical examination showed a congested oropharynx and soft abdomen with hyperactive bowel sounds. Laboratory tests showed a WBC of 3.06×109/L, a HCT of 38.6% and a platelet count of 151×109/L. Throat swab tested negative for influenza quick test and negative for beta-hemolytic streptococcus and nasopharyngeal swab was positive for DENV-2. His stool was negative for adenovirus (Adenolex test, Orion Diagnostica, Finland, as text in S1). He was treated for acute bacterial tonsillitis with oral amoxicillin and followed up in the pediatric clinic 2 days after, with marked improvement of symptoms.
+  Input arg 1: What is the patient's FeverPAIN score? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.
+  Execution trace (1 LLM calls):
+    calculate_medical_value(['A 17-year-old young man presented to the pediatric emergency department with intermittent high-grade fever for two days in August 2015. This was associated with myalgia, headache, rhinorrhea, sore t)
+      -> 1.0 [$0.0011]
+  RESULT: predicted=1.0, expected=2.0, absolute_error=1.0
+
+--- Case train.9647: (calculator_name=Glasgow-Blatchford Bleeding Score (GBS), category=risk, output_type=integer) ---
+  Input arg 0: A 63-year-old man with a well-documented history of chronic systolic ventricular dysfunction secondary to a prior anterior myocardial infarction (left ventricular ejection fraction 30 % on an echocardiogram performed four months earlier) arrived in the emergency department complaining of two episodes of fresh, bright red emesis that began suddenly an hour before arrival while he was watching television at home. He described the vomitus as “mostly liquid with streaks of blood,” totaling roughly half a cup in volume between both episodes, and noted a sour, metallic taste afterward. He reported a week-long flare of right shoulder osteoarthritis for which he had taken over-the-counter ibuprofen 600 mg three times daily, something he had not used in several months, and admitted to drinking three cups of black coffee every morning but denied alcohol intake, herbal supplements, anticoagulant, or antiplatelet medications. He specifically denied black, tarry, foul-smelling stools, denied any change in stool color, and stated that his last bowel movement the prior evening was normal in appearance. He also denied passing out, experiencing near-syncope, or any episode of losing consciousness, though he acknowledged transient lightheadedness when standing quickly to retrieve a glass of water after the second bout of vomiting. Over the preceding two days he had noticed mild substernal pressure when walking up stairs, similar to his usual stable angina, but no worsening dyspnea at rest, no new leg swelling, and no paroxysmal nocturnal dyspnea; he sleeps with two pillows routinely. His cardiac medications include carvedilol 25 mg twice daily, sacubitril-valsartan 49/51 mg twice daily, and furosemide 40 mg each morning; he had taken all doses as prescribed today. His past medical history is further notable for stage 3 chronic kidney disease felt to be vascular in origin, diet-controlled type 2 diabetes, and hyperlipidemia. He has never been told he has hepatitis, cirrhosis, jaundice
+  Input arg 1: What is the patient's Glasgow-Blatchford Bleeding score? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.
+  Execution trace (1 LLM calls):
+    calculate_medical_value(['A 63-year-old man with a well-documented history of chronic systolic ventricular dysfunction secondary to a prior anterior myocardial infarction (left ventricular ejection fraction 30 % on an echoca)
+      -> 5.0 [$0.0031]
+  RESULT: predicted=5.0, expected=3.0, absolute_error=2.0
+
+--- Case train.10382: (calculator_name=HAS-BLED Score for Major Bleeding Risk, category=risk, output_type=integer) ---
+  Input arg 0: A 32-year-old software engineer arrived to the weekday afternoon anticoagulation clinic for review of his vitamin K antagonist, begun eight months earlier after continuous telemetry on a wearable patch documented runs of non-valvular atrial fibrillation during long-distance bicycle training; transthoracic echocardiography performed two weeks after diagnosis revealed a mildly dilated left atrium measuring 4.3 cm, normal ventricular size and systolic function (ejection fraction 64 %), and no valvular stenosis or regurgitation of consequence. He keeps a cloud-based spreadsheet of point-of-care international normalized ratio (INR) checks obtained at the neighborhood pharmacy, and he scrolls through the most recent thirteen values for the team: 1.7, 2.9, 3.4, 1.8, 2.7, 3.6, 1.6, 2.1, 1.9, 3.2, 2.0, 3.5, and 1.5, with only five readings inside the target 2.0–3.0 window. Two episodes of spontaneous over-anticoagulation above 3.5 led the pharmacist to advise temporary dose holds; on three separate occasions he was instructed to bridge with low-molecular-weight heparin when the INR fell below 1.8. He reports faithful ingestion of a 6-mg warfarin tablet at 9 pm but admits erratic dietary vitamin K exposure because he alternates between meal-prepped kale-heavy salads during the workweek and convenience foods on hackathon weekends. He denies missing any dose outright, taking duplicate doses, or using herbal supplements, energy drinks, or bodybuilding powders. His medication list remains short: lisinopril 20 mg each morning prescribed five years ago after ambulatory cuff readings in the 150s/90s were confirmed on three separate clinic visits; adherence is good, yet the home log he brings today still averages 148/88 mm Hg, and three seated manual measurements by the nurse after five minutes of rest read 152/90, 150/92, and 154/88 mm Hg. He takes no aspirin, thienopyridines, non-steroidal anti-inflammatory drugs, selective serotonin reuptake inhibitors, glucocorticoids, fish-oil c
+  Input arg 1: What is the patient's HAS-BLED score? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.
+  Execution trace (1 LLM calls):
+    calculate_medical_value(['A 32-year-old software engineer arrived to the weekday afternoon anticoagulation clinic for review of his vitamin K antagonist, begun eight months earlier after continuous telemetry on a wearable pa)
+      -> 0.0 [$0.0016]
+  RESULT: predicted=0.0, expected=2.0, absolute_error=2.0
+
+--- Case train.9915: (calculator_name=PSI Score: Pneumonia Severity Index for CAP, category=severity, output_type=integer) ---
+  Input arg 0: A 42-year-old man was rushed to the department by co-workers after he collapsed onto a loading dock pallet midway through his afternoon shift at a local electronics warehouse; they report he had spent the previous three days pushing through worsening chills, high-volume sweating, and a hacking cough that produced foul-tasting yellow sputum but refused to seek help because he “couldn’t afford to miss any hours.”  He normally resides in a second-floor walk-up apartment with his partner, climbs two flights of stairs multiple times a day without limitation, and commutes by bicycle when the weather allows; no family members describe baseline confusion or memory lapses.  Past illnesses are few except for chronic transaminitis discovered during a blood donation screening eight years ago and later attributed to untreated hepatitis B acquired perinatally—fibro-scan last year revealed mild portal bridging without evidence of varices, ascites, encephalopathy, or synthetic failure, and he has never required antiviral therapy or hepatology procedural interventions. He denies any prior diagnoses of cancer or congestive heart failure.  He takes no prescription medications, purchases over-the-counter ibuprofen for occasional musculoskeletal aches, drinks two bottles of beer on weekends, and has never smoked or used illicit substances.  Vaccination records in his phone show an inactivated influenza shot from a community drive in November and completion of both pneumococcal series during adolescence because of childhood asthma that resolved by high school.  Paramedics found him seated on the warehouse floor, diaphoretic and panting, alternating between mumbling incoherent phrases and staring blankly; out of concern for preserving pristine vitals they withheld oxygen, intravenous fluids, antipyretics, or nebulizers during the eight-minute transport.  In the resuscitation bay, before any intervention beyond placement of saline locks, he appeared tremulous, skin flushed and hot, pupils 
+  Input arg 1: What is the patient's Pneumonia Severity Index (PSI)? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.
+  Execution trace (1 LLM calls):
+    calculate_medical_value(['A 42-year-old man was rushed to the department by co-workers after he collapsed onto a loading dock pallet midway through his afternoon shift at a local electronics warehouse; they report he had spe)
+      -> 122.0 [$0.0035]
+  RESULT: predicted=122.0, expected=142.0, absolute_error=20.0
+
+--- Case train.9574: (calculator_name=Sequential Organ Failure Assessment (SOFA) Score, category=risk, output_type=integer) ---
+  Input arg 0: A 70-year-old man with a background of moderate chronic obstructive pulmonary disease managed with inhaled tiotropium, long-standing hypertension, stage 3 chronic kidney disease (baseline serum creatinine reportedly 1.7 mg/dL), and obstructive sleep apnea treated nightly with a home mask system was brought to the emergency department from his apartment after his spouse found him seated on the couch, somnolent, tachypneic, and complaining that “the room is spinning.” According to pre-hospital documentation he had been febrile to 38.2 °C for the past two evenings, had developed a new purulent cough, and had taken no regular medications or fluids on the day of presentation. Paramedics encountered him with an oxygen saturation of 83 % on room air; they fitted a tight-seal face interface capable of delivering a fixed distending airway pressure and dialed the oxygen blender to 60 %. He remained upright in the transport stretcher, speaking in short phrases but denying chest pain. No sedatives, intravenous fluids, antibiotics, or vasopressors were administered en route. On arrival to our resuscitation bay, he was still breathing spontaneously through the same device, generating a visibly elevated work of breathing with accessory muscle recruitment but maintaining equal air entry without wheeze. A radial arterial sample drawn within five minutes showed pH 7.36, PaCO₂ 41 mm Hg, bicarbonate 23 mmol/L, and a PaO₂ of 92 mm Hg while the inspired oxygen fraction remained at 0.60. Vital signs captured simultaneously revealed a heart rate of 118 beats/min in sinus rhythm, temperature 38.5 °C by temporal probe, respiratory rate oscillating between 26 and 30 breaths/min, and a manual blood pressure of 94/55 mm Hg that repeated identically on a second cuff, giving a mean just under 70 mm Hg before any crystalloid or vasoactive medication was initiated. Capillary refill was sluggish at four seconds, fingers were cool, and mottling extended to mid-shin bilaterally. Neurologic assessment 
+  Input arg 1: What is the patient's Sequential Organ Failure Assessment (SOFA) Score?
+  Execution trace (1 LLM calls):
+    calculate_medical_value(['A 70-year-old man with a background of moderate chronic obstructive pulmonary disease managed with inhaled tiotropium, long-standing hypertension, stage 3 chronic kidney disease (baseline serum crea)
+      -> 9.0 [$0.0022]
+  RESULT: predicted=9.0, expected=10.0, absolute_error=1.0
+
+--- Case train.2833: (calculator_name=Wells' Criteria for Pulmonary Embolism, category=risk, output_type=integer) ---
+  Input arg 0: A 43-year-old woman, with postliver transplant (2008) secondary to primary sclerosing cholangitis-related cirrhosis, maintained on tacrolimus, presented to our hospital with 4-day history of sore throat and fever and 2-day history of skin rash. On examination, patient was found to be febrile with temperature of 38.2 celsius, B.P 100/80 mmHg, respiratory rate (R.R) 24/min, and heart rate (H.R.) 130/min. Oxygen saturation on room air was 85%. Systemic examination revealed congested eyes, pharyngeal erythema, maculopapular skin rash involving face, upper limbs, and trunk. Chest examination revealed decreased breath sounds on the right basal area and crackles on the left side posteriorly till the mid-zone. Basic laboratory work-up was as follows: WBC: 9.8 × 103/μL, neutrophil: 7.7 × 103/UL, lymphocyte: 0.9 × 103/UL, BUN:2.80 mmol/L, creatinine: 88 μmol/L, Na: 129 mmol/L, K: 4 mmol/L, Cl: 99 mmol/L, HCO3: 18 mmol/L mmol/L, bilirubin T: 7.6 μmol/L, albumin: 28 gm/L, ALT: 50 U/L, AST: 84 U/L, ALP: 268 U/L, INR: O.9, CRP: 53, ESR: 29 and tacrolimus level: 3.4. Hepatic transaminases showed progressive increase over 2 days. Ultrasound of abdomen and liver was normal. A CT pulmonary angiogram was ordered due to the presence of tachypnoea, tachycardia and drop in oxygen saturation. It did not show any evidence of PE but showed bilateral basal lung infiltrates more on the right side with associated two large size basal lung cysts (Fig. ) .
+Patient was admitted as a case of viral exanthemata fever and bronchopneumonia with airborne precautions and was treated with intravenous antibiotics and fluids. The respiratory viral panel came negative. Viral serology results were positive for CMV Ab IgG, EBV nuclear antigen IgG, EBV capsid antigen IgG, rubella IgG Ab, measles IgG Ab, and measles IgM Ab. Autoimmune serologies and tuberculosis work-up were negative. On day 2 of admission, patient's skin rash started to fade from the face and patient showed clinical improvement with regard to 
+  Input arg 1: What is the patient's score of Wells' criteria for Pulmonary Embolism? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.
+  Execution trace (1 LLM calls):
+    calculate_medical_value(["A 43-year-old woman, with postliver transplant (2008) secondary to primary sclerosing cholangitis-related cirrhosis, maintained on tacrolimus, presented to our hospital with 4-day history of sore th)
+      -> 4.5 [$0.0013]
+  RESULT: predicted=4.5, expected=1.5, absolute_error=3.0
+
+--- Case train.6566: (calculator_name=PERC Rule for Pulmonary Embolism, category=diagnosis, output_type=integer) ---
+  Input arg 0: A 73-year-old woman with a history of lower limb venous insufficiency, obesity, dyslipidaemia and impaired fasting glucose, who was not taking any medications, was admitted to another hospital due to compressive chest pain. Chest CT angiography demonstrated a proximal ascending aorta dissection. The patient was transferred to our tertiary medical centre and admitted to the cardiac surgery department. Since she came from an endemic area, she was tested for COVID-19 infection by RT-PCR testing of a nasopharyngeal swab, which came back positive. The cardiac surgeons postponed surgery, asked the patient to avoid mobilization, and kept her blood pressure low by administering intravenous labetalol. Physical examination upon arrival at the intensive care unit was notable for an oral temperature of 36.8°C, heart rate of 72 beats/min, respiratory rate of 24 breaths/min, blood pressure of 106/55 mmHg, and oxygen saturation of 94% in room air. Laboratory tests showed no leucocytosis, D-dimer blood levels of 7,353 ng/ml, and CRP blood levels of 129 mg/l. Another chest CT angiogram showed no change in the aortic dissection. The patient was not treated with thromboprophylaxis because of the high risk of aortic rupture and bleeding, but a pneumatic compression device on both legs was used in order to prevent deep vein thrombosis.
+Over the next days the patient was asymptomatic, oxygen saturation was normal most of the time, CRP blood levels decreased to 67 mg/l, and four RT-PCR tests for COVID-19 infection on nasopharyngeal swabs came back negative. However, there was a discrepancy between these signs and laboratory findings and the steady increase in D-dimer blood levels that reached 3,1041 ng/ml (). A third CT angiogram showed no change in the aortic dissection, but a new bilateral PE was demonstrated (). Thereafter, the patient underwent aortic dissection repair and thrombectomy.
+  Input arg 1: What are the number of criteria met for the PERC Rule for Pulmonary Embolism (PE)? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.
+  Execution trace (1 LLM calls):
+    calculate_medical_value(['A 73-year-old woman with a history of lower limb venous insufficiency, obesity, dyslipidaemia and impaired fasting glucose, who was not taking any medications, was admitted to another hospital due t)
+      -> 2.0 [$0.0018]
+  RESULT: predicted=2.0, expected=4.0, absolute_error=2.0
+
+--- Case train.9524: (calculator_name=Wells' Criteria for DVT, category=risk, output_type=decimal) ---
+  Input arg 0: A 55-year-old man arrived to the urgent care bay late this morning because his left calf had become visibly larger and achy overnight, making it difficult to lace his cycling shoe and prompting concern during his commute to work. He recalled finishing a 40-mile recreational bike ride two evenings prior without mishap; after a routine cool-down he sat at his desk for several hours reviewing architectural drawings, noticing only a vague tightness behind the knee. On waking today he saw that the posterior calf looked fuller than its counterpart and felt a dull pressure that worsened when he planted the foot or flexed the knee, yet eased somewhat with the limb elevated on a pillow. He denies stumbling, muscle strain, insect bite, recent rash, fever, chills, sore throat, dental work, intravenous cannulation, or trauma to the limb. He has remained fully independent in activities of daily living, continues to commute by train and short walks, has not worn splints or casts, and reports no weakness or numbness of either leg. Past medical history consists of well-controlled hyperlipidemia managed with rosuvastatin 10 mg nightly; he has never been diagnosed with venous thromboembolism, atrial fibrillation, heart failure, chronic lung or kidney disease, inflammatory bowel disease, or connective-tissue disorder. His only surgical procedure was a laparoscopic appendectomy twelve years ago, and he has not undergone any operation, endoscopy, or invasive vascular study in the past year. Medications are limited to the statin and an over-the-counter fish-oil capsule; he does not use hormonal therapy, glucocorticoids, erythropoiesis-stimulating agents, or anticoagulants. He quit cigarette smoking twenty years ago after a 6-pack-year exposure, drinks one craft beer on weekends, and denies recreational drug use. There is no family history of premature myocardial infarction, stroke, known thrombophilia, or venous clot. Review of systems is negative for chest pain, dyspnea, cough, hemoptys
+  Input arg 1: What is the patient's score of Wells' criteria for Deep Vein Thrombosis? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.
+  Execution trace (1 LLM calls):
+    calculate_medical_value(['A 55-year-old man arrived to the urgent care bay late this morning because his left calf had become visibly larger and achy overnight, making it difficult to lace his cycling shoe and prompting conc)
+      -> **exception**: The next request would exceed the request_limit of 50 [$nan]
+  RESULT: predicted=**exception raised**: The next request would exceed the request_limit of 50, expected=3.0, absolute_error=inf
+
+--- Case train.6746: (calculator_name=SIRS Criteria, category=diagnosis, output_type=integer) ---
+  Input arg 0: An 84-year-old Japanese woman was brought to our emergency department. She had sustained a 40°C fever over 2 days. Intravenous ceftriaxone followed by oral levofloxacin was administered at the long-term care facility. There were no remarkable findings on physical examination except for cognitive impairment and paralysis of the left upper and bilateral lower extremities caused by a previous cerebral infarction and by disuse syndrome.
+Her medical history was significant for paroxysmal atrial fibrillation, cerebral infarction, Parkinson's disease, and dementia. She had been confined to bed in a nursing home and was practically without any mobility for several years. She had a surgical history of superior mesenteric artery thrombosis and a chronic subdural hematoma.
+After urine and sputum samples and two sets of blood cultures had been submitted for laboratory testing, intravenous amoxicillin and clavulanic acid were started on suspicion of some bacterial infection with an unknown focus at that point. Nevertheless, she remained febrile, and all cultures turned out to be sterile. On the fifth day of admission, the patient was referred to our infectious disease department.
+On physical examination, her temperature was 38.2°C, pulse 125 bpm, blood pressure 110/54 mmHg, and respiratory rate 20 breaths/min. The Glasgow Coma Scale was E4V4M3, which was typical for her. Her right shoulder was red, swollen, and inflamed. Her shoulder pain was aggravated by pressing the right acromioclavicular joint or by abduction of the right arm. The remainder of the examination was normal.
+Laboratory tests 1 day before consultation revealed the following values: white blood cell count 4700/mL (reference range, 3500–9700) with a normal differential cell count, hemoglobin level 10.1 g/dL (reference range, 11.2–18.3) and platelet count 71,000/μL (reference range, 140,000–397,000), aspartate aminotransferase level 38 U/L (reference range, 13–33), alanine aminotransferase level 23 U/L (reference r
+  Input arg 1: What are the number of SIRS critiera met by the patient? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.
+  Execution trace (1 LLM calls):
+    calculate_medical_value(["An 84-year-old Japanese woman was brought to our emergency department. She had sustained a 40°C fever over 2 days. Intravenous ceftriaxone followed by oral levofloxacin was administered at the long-)
+      -> 1.0 [$0.0023]
+  RESULT: predicted=1.0, expected=3.0, absolute_error=2.0
+
+--- Case train.0771: (calculator_name=CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk, category=risk, output_type=integer) ---
+  Input arg 0: A 70-year-old woman presented to the emergency room with symptoms of total aphasia and right unilateral spatial neglect. She had a history of bronchial asthma, dyslipidemia, and type 2 diabetes. Dyslipidemia and type 2 diabetes were noted from the age of 62. The onset of symptoms was 46 min prior to presentation to the emergency room. Her neurological findings confirmed mixed aphasia (she could not obey simple commands), neglect of the right half of her body, and left conjugated deviation. No obvious paralysis or sensory disturbances were noted. Deep tendon reflex was normal, and no pathological reflex was observed. Her NIH Stroke Scale (NIHSS) was 7. Her baseline MRI revealed no obvious high signal in DWI (Fig. ). Fluid-attenuated inversion recovery (FLAIR) confirmed FLAIR vessel hyperintensities in the left middle cerebral artery (MCA) (Fig. ). Magnetic resonance angiography (MRA) showed partial obstruction in the distal part of the left MCA (Fig. ), which may have been an artifact. To make a definitive diagnosis, perfusion-weighted imaging (PWI) was additionally performed to assess the tissue at risk. Our automated software showed 12 mL of Tmax >6 s of hypoperfusion in the left MCA region, which matched the lesion side. Because the ischemic core calculated by an apparent diffusion coefficient (ADC) <620/10−3 mm2/s was not present, this case was diagnosed as DWI-negative DWI-PWI-mismatched AIS (Fig. ). Carotid vascular ultrasound showed no stenosis in the bilateral common carotid artery or internal carotid artery. We diagnosed her as AIS, and intravenous rt-PA therapy was administered 22 min after entering the MRI suite. She responded well to the reperfusion therapy, and her NIHSS was 0 after leaving the MRI suite. No further deterioration of neurological signs was observed during her admission. A FLAIR scan on the 9th day showed an ischemic change in the same lesion as the perfusion abnormality. This area was also identical to the obstructed left MCA seen on MRA.
+  Input arg 1: What is the patient's CHA2DS2-VASc Score? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.
+  Execution trace (1 LLM calls):
+    calculate_medical_value(['A 70-year-old woman presented to the emergency room with symptoms of total aphasia and right unilateral spatial neglect. She had a history of bronchial asthma, dyslipidemia, and type 2 diabetes. Dys)
+      -> 3.0 [$0.0025]
+  RESULT: predicted=3.0, expected=5.0, absolute_error=2.0
+
+--- Case train.9429: (calculator_name=Child-Pugh Score for Cirrhosis Mortality, category=severity, output_type=integer) ---
+  Input arg 0: A 72-year-old woman with a fifteen-year history of autoimmune cholestatic liver disease complicated by long-standing portal hypertension was brought to the emergency department by her spouse after she was found drifting in and out of consciousness during the morning medication round. According to the family, she had complained of progressive fatigue and mild abdominal bloating over the previous two weeks but had remained ambulatory until the night before admission, when she became profoundly drowsy, answered questions only after repeated prompting, and failed to recognize relatives on two occasions. There was no report of recent gastrointestinal bleeding, black stools, fever, or new medications; she had faithfully abstained from alcohol for more than a decade and had been taking ursodeoxycholic acid, nadolol, furosemide 40 mg, spironolactone 100 mg, and a nightly proton pump inhibitor. Her last consultation with hepatology six months earlier had noted stable variceal banding and a plan for periodic imaging surveillance. On arrival, triage vitals revealed temperature 37.1 °C, pulse 94 beats/min, blood pressure 105/60 mm Hg, respiratory rate 20 breaths/min with shallow pattern, and oxygen saturation 95 % breathing ambient air. She appeared markedly obtunded, aroused only to vigorous tactile stimuli, muttered incoherently, and could neither name the hospital nor protect her airway fully—requiring placement in a left lateral position. Because of the depth of somnolence, a flapping tremor could not be reliably elicited. Sclerae were faintly icteric, oral mucosa dry, and temporal muscle wasting was evident. Pulmonary auscultation identified bibasilar crackles likely secondary to shallow breathing; the cardiac examination showed a regular rhythm without murmurs. The abdomen was soft and nondistended, yet inspection disclosed a subtle fullness of the flanks. When percussion was performed with an assistant’s hand applying counterpressure, a faint impulse was transmitted acro
+  Input arg 1: What is the patient's Child-Pugh Score? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.
+  Execution trace (1 LLM calls):
+    calculate_medical_value(['A 72-year-old woman with a fifteen-year history of autoimmune cholestatic liver disease complicated by long-standing portal hypertension was brought to the emergency department by her spouse after s)
+      -> 11.0 [$0.0014]
+  RESULT: predicted=11.0, expected=10.0, absolute_error=1.0
+
+--- Case train.4129: (calculator_name=HEART Score for Major Cardiac Events, category=risk, output_type=integer) ---
+  Input arg 0: A 34-year-old male patient without cardiovascular risk factors presented at the ED with
+acute tearing chest pain after exercise radiating to the interscapular region. Patient ECG
+showed sinus rhythm with symmetric T waves in leads V1 through V4 and hs-cTn T was
+30.5 ng/L (3–14 ng/L normal value). Clinical suspicion was aortic dissection and patient
+was referred for non-ECG-gated contrast-enhanced CTA of the thoracic aortic. Normal aorta
+was shown and a transmural apical and anteroseptal MCTP defect was demonstrated using the
+late-phase contrast imaging started 60 s after the end of the arterial phase. In
+consequence, invasive coronary angiogram was indicated showing a total occlusion of the
+mid LAD which was stented. Resting cMRI, obtained before hospital discharge, demonstrated
+a non-transmural apical and anteroseptal infarct that correlates with MCTP imaging
+().
+  Input arg 1: What is the patient's score of the HEART Score? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.
+  Execution trace (1 LLM calls):
+    calculate_medical_value(['A 34-year-old male patient without cardiovascular risk factors presented at the ED with\nacute tearing chest pain after exercise radiating to the interscapular region. Patient ECG\nshowed sinus rhyt)
+      -> 2.0 [$0.0010]
+  RESULT: predicted=2.0, expected=5.0, absolute_error=3.0
+
+--- Case train.10490: (calculator_name=APACHE II Score, category=risk, output_type=integer) ---
+  Input arg 0: A 66-year-old man who normally lives independently and manages a small bicycle-repair shop was brought to the emergency department by ambulance after becoming acutely short-winded and febrile while unloading merchandise from a delivery truck earlier in the afternoon. According to coworkers he had complained since dawn of vague myalgias, mild nausea, and a scratchy throat, but continued working until he suddenly developed a violent coughing spell, produced two streaks of rusty sputum, and appeared light-headed enough to sit on the floor. Emergency medical personnel found him seated, speaking in full sentences yet visibly tachypneic, with a peripheral oxygen saturation in the mid-70s on ambient air; they applied a tight-fitting non-rebreather mask that the respiratory therapist later measured to deliver approximately 58 % inspired oxygen. No intravenous fluids, antipyretics, bronchodilators, or antibiotics were administered in the field. His past medical history was limited to diet-controlled diabetes mellitus and well-treated essential hypertension; he had no prior hospitalizations for lung, kidney, or liver disease, had never undergone chemotherapy, organ transplantation, or chronic steroid therapy, and was up-to-date on routine immunizations. Medications at home consisted of metformin 500 mg twice daily and amlodipine 5 mg each morning. He quit smoking cigarettes thirty years earlier after a 12-pack-year exposure, drinks a glass of beer with dinner on weekends, and denies recreational drug use. Family history is notable only for a father with coronary disease in his seventies. Upon arrival to the resuscitation bay—before any hospital interventions—the first set of vital signs recorded an axillary temperature of 38.9 °C, heart rate 97 beats per minute in regular rhythm, respiratory rate 35 breaths per minute with pronounced intercostal retractions, and blood pressure 138/72 mm Hg confirmed manually. Capillary refill was brisk and skin felt warm and flushed without m
+  Input arg 1: What is the patient's APACHE II score?
+  Execution trace (1 LLM calls):
+    calculate_medical_value(['A 66-year-old man who normally lives independently and manages a small bicycle-repair shop was brought to the emergency department by ambulance after becoming acutely short-winded and febrile while )
+      -> 17.0 [$0.0025]
+  RESULT: predicted=17.0, expected=14.0, absolute_error=3.0
+
+--- Case train.10064: (calculator_name=Glasgow Coma Score (GCS), category=severity, output_type=integer) ---
+  Input arg 0: A 48-year-old woman with a history limited to diet-controlled hyperlipidemia and seasonal allergic rhinitis was transported by rural EMS after being discovered collapsed on the living-room carpet by a coworker who stopped by for a scheduled ride to work; the witness reports hearing a loud thud, finding her lying prone and snoring faintly, but observing no convulsive activity, emesis, or obvious trauma to furniture or fixtures. Paramedics arrived nine minutes later, rolled her supine onto a backboard, applied a cervical collar because the exact mechanism of the fall was uncertain, obtained a finger-stick glucose of 112 mg/dL, started a single 18-gauge IV in the left antecubital vein, and provided 6 L/min oxygen by simple face mask after noting shallow respirations, yet administered no crystalloid, analgesic, anxiolytic, paralytic, or vasoactive medication during the twelve-minute transport. On entry to the emergency department resuscitation bay she remains on the EMS board in street clothing flecked with pet hair, purse still slung over one shoulder, and has not been repositioned or suctioned since leaving the scene. Initial pre-intervention vitals show blood pressure 164/96 mm Hg in the right arm, heart rate 102 beats/min in a regular rhythm, respiratory rate 18 breaths/min with occasional irregular sighs, peripheral oxygen saturation 97 % while still receiving face-mask oxygen, and a tympanic temperature of 36.9 °C. The airway is presently patent; the oropharynx contains no blood, dentures, or foreign material, and a brief sweep with a Yankauer catheter triggers an intact gag and brief cough. Inspection of the head reveals a 2-cm superficial abrasion on the left frontal scalp without active bleeding; pupils are 3 mm, equal, round, and briskly reactive. At baseline her eyelids are fully closed and lashes still, yet the moment her first name is spoken firmly near either ear the lids part to mid-palpebral height, gaze centers on the ceiling for roughly two seconds, th
+  Input arg 1: What is the patient's Glasgow Coma Score? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.
+  Execution trace (1 LLM calls):
+    calculate_medical_value(['A 48-year-old woman with a history limited to diet-controlled hyperlipidemia and seasonal allergic rhinitis was transported by rural EMS after being discovered collapsed on the living-room carpet by)
+      -> 8.0 [$0.0023]
+  RESULT: predicted=8.0, expected=7.0, absolute_error=1.0
+
+--- Case train.10414: (calculator_name=Revised Cardiac Risk Index for Pre-Operative Risk, category=risk, output_type=integer) ---
+  Input arg 0: A 65-year-old woman was seen in the peri-operative consultation clinic ten days before a scheduled elective laparoscopic sigmoid colectomy with primary anastomosis for recurrent uncomplicated diverticulitis that has caused three admissions over the past eighteen months; the colorectal surgeon anticipates a two-hour pneumoperitoneum under general anesthesia with an overnight stay on the surgical floor if bowel function returns promptly. She arrived unaccompanied after parking in the adjacent garage, walked the 150 m corridor to the examination suite at her usual pace, and stated that she routinely completes a two-mile loop around her neighborhood each morning pushing a lightweight stroller for her grandchild without pausing for breath, chest tightness, or lower-extremity swelling. Twelve years ago she experienced a non-ST elevation myocardial infarction attributed to an 80 % lesion in the mid–left anterior descending artery that was treated with a drug-eluting stent; since then there have been no emergency visits for cardiac symptoms, and a pharmacologic sestamibi stress study performed six months earlier as part of routine surveillance demonstrated a small fixed anterior scar without inducible ischemia at 8 metabolic equivalents. Her current cardiovascular medications include metoprolol succinate 50 mg each morning, aspirin 81 mg daily, and rosuvastatin 20 mg nightly; she has never required nitrates, ranolazine, or revascularization beyond the index stent. Four years ago she had a transient episode of expressive aphasia and right hand numbness that resolved within one hour; magnetic resonance imaging suggested a left frontal cortical ischemic focus, carotid duplex showed mild (<40 %) bilateral internal carotid plaque, and she was started on clopidogrel 75 mg daily in addition to intensified lipid management. Since that event she has had no further focal neurologic complaints, dizziness, visual disturbance, or gait imbalance, and she continues to perform daily crossw
+  Input arg 1: What is the patient's score of the Revised Cardiac Risk Index for Pre-Operative Risk? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.
+  Execution trace (1 LLM calls):
+    calculate_medical_value(['A 65-year-old woman was seen in the peri-operative consultation clinic ten days before a scheduled elective laparoscopic sigmoid colectomy with primary anastomosis for recurrent uncomplicated divert)
+      -> 3.0 [$0.0045]
+  RESULT: predicted=3.0, expected=2.0, absolute_error=1.0
+
+--- Case train.4414: (calculator_name=Centor Score (Modified/McIsaac) for Strep Pharyngitis, category=severity, output_type=integer) ---
+  Input arg 0: A 24-year-old man with no significant past medical history presents to urgent care with a cough and fatigue. The patient states his symptoms have persisted for the past 48 hours and have made work difficult for him. He has been taking an antibiotic he had left over from a previous infection but states it did not improve his symptoms. His temperature is 101°F (38.3°C), blood pressure is 127/68 mmHg, pulse is 110/min, respirations are 17/min, and oxygen saturation is 97% on room air. A chest radiograph is perfomed as seen in Figure A. Physical exam is notable for obesity, gynecomastia, and the finding in Figure B as well as some erythema of the posterior oropharynx.
+  Input arg 1: What is the patient's Centor Score? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.
+  Execution trace (1 LLM calls):
+    calculate_medical_value(['A 24-year-old man with no significant past medical history presents to urgent care with a cough and fatigue. The patient states his symptoms have persisted for the past 48 hours and have made work d)
+      -> 2.0 [$0.0011]
+  RESULT: predicted=2.0, expected=1.0, absolute_error=1.0
+
+--- Case train.10277: (calculator_name=Charlson Comorbidity Index (CCI), category=risk, output_type=integer) ---
+  Input arg 0: A 71-year-old man was referred to the internal-medicine clinic by his pulmonologist for a comprehensive pre-winter check-up given multiple chronic conditions and a recent uptick in exertional breathlessness. He retired from his job as a postal carrier six years ago but remains active in a community gardening club and manages all household finances without difficulty recalling appointments, computer passwords, or recent news headlines. He smoked one and a half packs of cigarettes daily from age 18 until age 66, stopping after an episode of influenza precipitated a severe bout of wheezing that led to formal spirometry and the diagnosis of fixed airflow limitation. At present he uses tiotropium 18 µg once every morning, fluticasone–vilanterol 100/25 µg inhaled each evening, and albuterol two puffs as needed; he typically empties one rescue canister every four months. He denies hospital admissions for respiratory failure or the need for home oxygen, yet reports clearing roughly a tablespoon of whitish sputum each dawn and having to pause halfway up the single flight of stairs in his split-level home. He has never experienced chest pressure radiating to the jaw or arm, diaphoresis with exertion, paroxysmal nocturnal dyspnea, orthopnea, pedal swelling, or exercise intolerance out of proportion to his pulmonary limitation, and an echocardiogram obtained during an insurance examination last year showed normal ventricular size and an ejection fraction of 60 %. Radial, femoral, posterior tibial, and dorsalis pedis pulses are symmetric and bounding; he hikes gentle trails on weekends without calf cramping or rest pain, and he has never noticed non-healing leg ulcers or color changes in his toes. Approximately ten years ago, after three weeks of gnawing epigastric discomfort accompanied by dark, tarry stools, upper endoscopy revealed a bleeding duodenal ulcer that was clipped and treated with a two-week course of dual antimicrobials for Helicobacter eradication. He has taken pa
+  Input arg 1: What is the patient's Charlson Comorbidity Index (CCI)? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.
+  Execution trace (1 LLM calls):
+    calculate_medical_value(['A 71-year-old man was referred to the internal-medicine clinic by his pulmonologist for a comprehensive pre-winter check-up given multiple chronic conditions and a recent uptick in exertional breath)
+      -> 7.0 [$0.0016]
+  RESULT: predicted=7.0, expected=8.0, absolute_error=1.0
+
+--- Case train.10025: (calculator_name=Caprini Score for Venous Thromboembolism (2005), category=risk, output_type=integer) ---
+  Input arg 0: A 67-year-old woman is interviewed this morning in the pre-operative area before transfer to the main laparoscopic suite, where the general surgery team anticipates a three-port cholecystectomy lasting about ninety minutes under general endotracheal anesthesia with overnight observation on the surgical ward. She walked from the parking structure to registration without assistance, navigated two flights of stairs while carrying her overnight bag, and reports that prior to admission she continued her routine of tending a small vegetable garden and walking her dog around the block twice daily, indicating baseline full ambulation. Her current admission began five days ago when she presented to the emergency department febrile to 39 °C with right upper-quadrant pain, hypotension, and leukocytosis; abdominal ultrasound demonstrated an obstructed cystic duct and sonographic Murphy sign, blood cultures later grew Escherichia coli, and she met systemic inflammatory criteria consistent with biliary sepsis. Broad-spectrum intravenous antibiotics were initiated, her hemodynamics stabilized after two liters of crystalloid, and percutaneous cholecystostomy was deemed unnecessary once the infectious picture improved. A single-lumen power-injectable peripherally inserted central catheter was placed in the left basilic vein on hospital day two for reliable delivery of piperacillin–tazobactam; the line remains in situ beneath an intact occlusive dressing, flushes easily, and pulls dark venous blood without resistance. She has had no other invasive procedures, endoscopies, or operating-room visits in the preceding month, and records reveal her last operation was an uncomplicated hysterectomy more than a decade earlier. Past medical history is notable for moderate chronic obstructive pulmonary disease attributed to a 40-pack-year smoking history; she quit six years ago but still uses a tiotropium inhaler daily and short-acting bronchodilator several times a week. Pulmonary clinic spiro
+  Input arg 1: What is the patient's Caprini Score for Venous Thromboembolism? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.
+  Execution trace (1 LLM calls):
+    calculate_medical_value(['A 67-year-old woman is interviewed this morning in the pre-operative area before transfer to the main laparoscopic suite, where the general surgery team anticipates a three-port cholecystectomy last)
+      -> 4.0 [$0.0017]
+  RESULT: predicted=4.0, expected=8.0, absolute_error=4.0
+
+--- Case train.9979: (calculator_name=Caprini Score for Venous Thromboembolism (2005), category=risk, output_type=integer) ---
+  Input arg 0: A 49-year-old woman is evaluated this morning in the regional block area prior to a scheduled elective right total knee replacement that the orthopaedic team anticipates will take approximately two hours under neuraxial anesthesia with a pneumatic tourniquet and primary cemented components; the plan is for immediate post-operative transfer to the joint-replacement ward and initiation of physical-therapy protocols tomorrow. She arrives on a stretcher, propped on pillows with the head of the bed elevated, and notes that progressive tricompartmental osteoarthritic pain over the past year has forced her to abandon her job as a catering supervisor and, more recently, to remain almost continuously recumbent because each attempt at weight bearing produces sharp medial knee grinding. Nursing flow sheets from the surgical admission that began yesterday document fewer than three assisted transfers to the bedside commode in a 24-hour period, and she states that at home during the preceding week she “basically lived between the mattress and the couch,” relying on her partner for meals, laundry, and bathing assistance. Her recent medical course is notable for having undergone a laparoscopic total hysterectomy with salpingo-oophorectomy 22 days ago for symptomatic leiomyomata; the operation was uncomplicated, but convalescence overlapped with a longstanding ankle problem, and two weeks ago the podiatry service performed an endoscopic debridement and Broström ligament reconstruction of the left ankle to address chronic instability. At the conclusion of that latter procedure a molded fiberglass below-knee cylinder was applied and remains in place today, extending from just below the fibular head to the metatarsal heads with the ankle in neutral; she has been instructed to keep the cast non-weight-bearing until her first post-operative clinic visit next week, and therefore propels herself with a knee scooter only for short indoor distances. She emphatically denies sustaining any fra
+  Input arg 1: What is the patient's Caprini Score for Venous Thromboembolism? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.
+  Execution trace (1 LLM calls):
+    calculate_medical_value(['A 49-year-old woman is evaluated this morning in the regional block area prior to a scheduled elective right total knee replacement that the orthopaedic team anticipates will take approximately two )
+      -> 4.0 [$0.0015]
+  RESULT: predicted=4.0, expected=11.0, absolute_error=7.0
+
+--- Case train.9995: (calculator_name=Caprini Score for Venous Thromboembolism (2005), category=risk, output_type=integer) ---
+  Input arg 0: A 58-year-old woman is evaluated in the pre-operative bay just before transfer to the operating theatre for an elective four-port laparoscopic fundoplication to treat long-standing, proton-pump-inhibitor-refractory gastro-oesophageal reflux disease. She walked from the visitor garage unaided, climbed a flight of stairs to registration, and has spent the morning seated in the waiting room reading the newspaper, reporting that she continues to manage household chores, garden for an hour most afternoons, and complete a two-kilometre stroll after dinner with her spouse; thus her baseline activity remains intact. The forthcoming procedure will be her first in more than a decade, and she confirms that she has not undergone any operation or endoscopic intervention in the past four weeks. Review of her recent medical course reveals that twenty-one days ago she awoke with transient slurred speech and mild facial droop; brain MRI demonstrated a small right pontine diffusion-positive lesion without large-vessel occlusion, and her deficits resolved within forty-eight hours after antiplatelet therapy was started. She required no thrombolysis, mechanical thrombectomy, or rehabilitation stay and was discharged home on day three with favourable neurologic examination. No additional cerebrovascular events have occurred since, but the episode places today’s surgery within the thirty-day window of an ischaemic stroke. Past medical history is also notable for moderate chronic obstructive pulmonary disease attributed to a forty-pack-year smoking history; she quit twelve years ago and now uses a tiotropium inhaler each morning plus salbutamol as needed, reporting one mild exacerbation last winter that was managed in the outpatient setting. She denies any history of systolic dysfunction, orthopnoea, paroxysmal nocturnal dyspnoea, peripheral oedema, or prior echocardiograms suggesting reduced ejection fraction. There have been no recent chest infections, and she has been afebrile with stab
+  Input arg 1: What is the patient's Caprini Score for Venous Thromboembolism? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.
+  Execution trace (1 LLM calls):
+    calculate_medical_value(['A 58-year-old woman is evaluated in the pre-operative bay just before transfer to the operating theatre for an elective four-port laparoscopic fundoplication to treat long-standing, proton-pump-inhi)
+      -> 7.0 [$0.0024]
+  RESULT: predicted=7.0, expected=12.0, absolute_error=5.0
+
+--- Case train.5885: (calculator_name=FeverPAIN Score for Strep Pharyngitis, category=diagnosis, output_type=integer) ---
+  Input arg 0: A 29-years-old female experienced an episode of mild upper respiratory tract infection followed by a slowly developing dysphagia and dyspnea. This led to impaired exercise tolerance lasting several months, with recent subacute exacerbation. There was no significant history of travel or exposure to infectious agents. She had not suffered from fever or other acute or chronic infectious symptoms. Her palatine tonsils had been removed in childhood. She was diagnosed with epilepsy at age 17 and had been free of epileptic symptoms for over 5 years with levetiracetam (500 mg two times per day) and lamotrigine (150 mg two times per day). Her family history was unremarkable.
+She spoke with hoarse voice, without signs or findings that would have suggested systemic involvement. There were no signs of generalized mucosal disease. Fiberoptic examination showed swelling of the lingual tonsil, epiglottic and arytenoid mucosa, causing airway obstruction (Fig. a). C-reactive protein concentration and blood sedimentation rate were low, and anti-nuclear, anti-neutrophil, anti-glomerular basement membrane, anti-myeloperoxidase, anti-proteinase 3, tissue transglutaminase and cyclic citrullinated peptide antibodies were negative. Thyroid function was normal and thyroid peroxidase antibodies were 34 IU/ml (normal value < 60 IU/ml). Plasma parathyroid hormone (39 ng/l; normal 18–80 ng/l) and serum vitamin D-25 (77 nmol/l; normal > 50 nmol/l) were normal. No evidence for acute or chronic viral, bacterial, mycobacterial or fungal infections, including hepatitis B and C, human immunodeficiency virus and tularemia, was found.
+Due to her swollen lingual tonsil and laryngeal mucosa causing airway obstruction, she was hospitalized and received empiric cefuroxime (1.5 g thrice daily) and methylprednisolone (75 mg once daily, height 173 cm, weight 63 kg, prednisolone dose 1.2 mg/kg) intravenously. After a transient positive response, she was discharged from the hospital after 6 days. Soon after, sh
+  Input arg 1: What is the patient's FeverPAIN score? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.
+  Execution trace (1 LLM calls):
+    calculate_medical_value(['A 29-years-old female experienced an episode of mild upper respiratory tract infection followed by a slowly developing dysphagia and dyspnea. This led to impaired exercise tolerance lasting several )
+      -> 1.0 [$0.0026]
+  RESULT: predicted=1.0, expected=2.0, absolute_error=1.0
+
+--- Case train.5894: (calculator_name=FeverPAIN Score for Strep Pharyngitis, category=diagnosis, output_type=integer) ---
+  Input arg 0: A 65-year-old male marathon runner presented to a primary care physician with abrupt onset of posterior left knee pain that began two days before. There had been no injury associated with the pain. He denied systemic symptoms, including fever, chills, night sweats, or malaise. Past medical history included asymptomatic severe mitral valve regurgitation secondary to bileaflet mitral valve prolapse, for which he underwent robot-assisted minimally invasive mitral valve repair and prosthetic ring placement approximately 6 months prior to presentation. There was also a history of hypertension and hyperlipidemia. He lived in the central United States with his wife and was employed as an attorney. He consumed approximately two alcoholic drinks per night, was a never smoker, and had no history of intravenous drug use. There were no other significant exposures or travel documented.
+The patient recovered from his mitral valve repair, had stopped anticoagulation after 6 weeks, and had returned to walking and/or running 3–5 miles per day. A transthoracic echocardiogram that was done approximately 2 months postoperatively demonstrated a normal functioning valve, with only trace regurgitation.
+He was initially treated with symptomatic pain relief with hydrocodone-acetaminophen but had no improvement in the left popliteal fossa pain and was therefore referred to an orthopedic provider. A plain radiograph demonstrated Baker's cyst and he was treated with a cortisone injection. Due to persistence of symptoms, he was subsequently evaluated for possible deep venous thrombosis via venous ultrasound which indicated a left popliteal thrombus and aneurysm. As a result of this finding, he was admitted to an outside hospital for further evaluation.
+At the outside facility, he underwent MRI of the left knee, CT angiogram with bilateral extremity runoff, and transthoracic echocardiogram. These studies revealed left popliteal aneurysm with occlusive eccentric thrombus and incomplete clot of a 
+  Input arg 1: What is the patient's FeverPAIN score? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.
+  Execution trace (1 LLM calls):
+    calculate_medical_value(["A 65-year-old male marathon runner presented to a primary care physician with abrupt onset of posterior left knee pain that began two days before. There had been no injury associated with the pain. )
+      -> 0.0 [$0.0074]
+  RESULT: predicted=0.0, expected=2.0, absolute_error=2.0
+
+--- Case train.5888: (calculator_name=FeverPAIN Score for Strep Pharyngitis, category=diagnosis, output_type=integer) ---
+  Input arg 0: A 72-year-old male attended the otorhinolaryngology outpatient department with complaints of right ear discharge over 2 years. He had no other constitutional symptoms. The patient had undergone left side myringoplasty 5 years previously for chronic suppurative otitis media. His chronic ear discharge was not resolved after ear surgery. The ear discharge was sent for bacterial culture which showed no growth. The patient was taking topical ciprofloxacin ear drops, without any resolution of the symptoms.
+On examination of the ear, it revealed mild myringitis, thickening of the posterior ear canal, and active purulent discharge. There was some pinkish-to-pale colored granulation tissue at the posterosuperior quadrant of the tympanic membrane ().
+The tympanic membrane was intact. The patient was concerned about malignancy and we took tissue from the granulations at the ear canal and sent it for histopathological examination. Histopathological examination showed squamous epithelium with granulo- matous inflammation. The acid-fast bacilli stain was positive for acid-fast bacilli ().
+There were no fungal hyphae on Grocott’s methenamine silver stain and no evidence of any malignancy. Real-time polymerase chain reaction (PCR) of the formalin-fixed paraffin-embedded tissue was positive for Myco-bacterium tuberculosis, which was surprising.
+The patient was then properly evaluated by chest physicians, and denied any fever, cough, weight loss, or hemoptysis. He had no past history of exposure to tuberculosis. The patient’s routine laboratory findings including complete blood count, liver function tests, erythrocyte sedimentation rate (ESR), and serum creatinine were normal. However, QuantiFERON-TB Gold was positive. A computed tomography (CT) scan of the both sides of the temporal bone was performed, which showed narrowing of the left external auditory canal ().
+This lesion was treated for extrapulmonary tuberculosis, including rifampicin (600 mg daily), isoniazid (300 mg daily), 
+  Input arg 1: What is the patient's FeverPAIN score? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.
+  Execution trace (1 LLM calls):
+    calculate_medical_value(['A 72-year-old male attended the otorhinolaryngology outpatient department with complaints of right ear discharge over 2 years. He had no other constitutional symptoms. The patient had undergone left)
+      -> **exception**: The next request would exceed the request_limit of 50 [$nan]
+  RESULT: predicted=**exception raised**: The next request would exceed the request_limit of 50, expected=2.0, absolute_error=inf
+
+--- Case train.9706: (calculator_name=Glasgow-Blatchford Bleeding Score (GBS), category=risk, output_type=integer) ---
+  Input arg 0: A 63-year-old woman with a decade-long history of chronic systolic heart dysfunction attributed to longstanding hypertension and an old apical myocardial infarction, most recent outpatient echocardiogram two months earlier noting a left-ventricular ejection fraction of 32 %, arrived by private vehicle to the emergency department at 02:45 after passing what she described as “pitch-black, sticky” stool on three occasions since midnight, the last of which filled the toilet bowl with a tar-like slurry that left a stubborn ebony ring despite repeated flushing. In the hours preceding arrival she noted progressive light-headedness on standing, a dry metallic taste, and profound fatigue requiring her to sit to catch her breath after walking across the bedroom, yet she never actually collapsed, lost vision, or felt the room spin. She has New York Heart Association class III baseline limitation, sleeping on three pillows and using 40 mg of furosemide each morning with a contingency dose for weight gain; her cardiology regimen also includes carvedilol 12.5 mg twice daily, sacubitril/valsartan 49/51 mg twice daily, spironolactone 25 mg nightly, and low-dose isosorbide mononitrate. Her other conditions are type 2 diabetes controlled with metformin 1 g twice daily, stage-III chronic kidney disease (baseline creatinine 1.4 mg/dL), and erosive osteoarthritis for which she has self-medicated over the past week with naproxen 500 mg three times daily while finishing a home-improvement project. She reports no history of viral hepatitis, cholestatic disease, jaundice, ascites, portal hypertension, or abnormal liver imaging, and her last comprehensive metabolic panel six weeks earlier was notable only for stable mild hyponatremia. She denies alcohol consumption beyond an occasional half-glass of wine on holidays, has never smoked, and has no exposure to recreational drugs or herbal supplements. Family history includes a mother with congestive heart failure and a brother with peptic ulcer
+  Input arg 1: What is the patient's Glasgow-Blatchford Bleeding score? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.
+  Execution trace (1 LLM calls):
+    calculate_medical_value(['A 63-year-old woman with a decade-long history of chronic systolic heart dysfunction attributed to longstanding hypertension and an old apical myocardial infarction, most recent outpatient echocardi)
+      -> 19.0 [$0.0024]
+  RESULT: predicted=19.0, expected=16.0, absolute_error=3.0
+
+--- Case train.9687: (calculator_name=Glasgow-Blatchford Bleeding Score (GBS), category=risk, output_type=integer) ---
+  Input arg 0: A 63-year-old female school librarian with a background of well-controlled type 2 diabetes managed on metformin, osteoarthritis of both knees intermittently treated with over-the-counter ibuprofen, and mild allergic rhinitis presented to the emergency department by ambulance at 07:25 after a frightening overnight episode of gastrointestinal bleeding. According to her spouse, she had gone to bed at 22:30 feeling “indigestion” after a late slice of pepperoni pizza; at approximately 02:00 he was awakened by a loud thud in the bathroom, where he discovered her slumped sideways against the vanity, eyes closed, with a cool forehead and shallow breathing. She regained consciousness spontaneously within twenty seconds, reporting that she had “blacked out” while straining on the commode and found the bowl full of shiny, jet-black, foul-smelling stool that coated the porcelain and was difficult to flush. She felt light-headed and sweaty but denied chest pain, palpitations, or shortness of breath at that moment. No emergency measures were taken at home, and she remained seated on the bathroom floor until paramedics arrived eight minutes later. During transit she produced two additional loose, tar-colored bowel movements into an emesis bag; no intravenous line, fluids, antiemetics, or acid-suppressive medications were started en route per the patient’s request to “let the hospital do everything.” Her daily medications consist of metformin 1000 mg twice-daily, vitamin D3, and a nightly over-the-counter sleep aid containing diphenhydramine; she last took naproxen 440 mg three times daily for three consecutive days last week when her right knee flared after yard work. She denies any prescription antiplatelet agents, anticoagulants, selective serotonin reuptake inhibitors, or corticosteroids. She drinks a single glass of red wine on weekends, quit smoking fifteen years ago after a ten-pack-year history, and has never used illicit substances. Surgical history is limited to a remote 
+  Input arg 1: What is the patient's Glasgow-Blatchford Bleeding score? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.
+  Execution trace (1 LLM calls):
+    calculate_medical_value(['A 63-year-old female school librarian with a background of well-controlled type 2 diabetes managed on metformin, osteoarthritis of both knees intermittently treated with over-the-counter ibuprofen, )
+      -> 15.0 [$0.0026]
+  RESULT: predicted=15.0, expected=13.0, absolute_error=2.0
+
+--- Case train.9711: (calculator_name=Glasgow-Blatchford Bleeding Score (GBS), category=risk, output_type=integer) ---
+  Input arg 0: A 29-year-old woman with no prior hospitalizations and whose only chronic issue is well-controlled mild asthma treated intermittently with albuterol inhaler was rushed to the emergency department by ambulance at 14:05 after collapsing briefly while standing in the checkout line of a supermarket. Witnesses reported that she turned pale, muttered that “everything is getting dark,” then slid to the floor and lost consciousness for less than thirty seconds before awakening confused but speaking coherently; there was no tonic-clonic activity, loss of bowel or bladder control, or post-ictal confusion. She recalled that earlier in the morning she had passed a large foul-smelling, coal-black stool that coated the toilet bowl and required several flushes, something she had never seen before; she attributed the change to an iron-rich protein shake she drank after her usual 10-kilometer training run and went about her day. While waiting in line at the store she experienced a wave of light-headedness, ringing in her ears, and blurred peripheral vision immediately preceding the brief loss of consciousness. Emergency medical services found her sitting upright on the floor, skin cool and clammy, but responding appropriately; they started no intravenous line, gave no fluids, and transported her on room air. During the ride she denied chest pain, palpitations beyond feeling her heart “race,” shortness of breath, abdominal distention, hematemesis, red rectal bleeding, or recent head trauma. She takes no non-steroidal anti-inflammatory drugs, aspirin, anticoagulants, steroids, or hormonal contraceptives, drinks wine socially once or twice a month, has never smoked, and denies recreational drug use. Family history is notable only for a mother with rheumatoid arthritis; there are no cardiovascular or bleeding disorders in first-degree relatives. She runs competitively, can ascend four flights of stairs while carrying groceries without dyspnea, sleeps flat with a single pillow, and has n
+  Input arg 1: What is the patient's Glasgow-Blatchford Bleeding score? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.
+  Execution trace (1 LLM calls):
+    calculate_medical_value(['A 29-year-old woman with no prior hospitalizations and whose only chronic issue is well-controlled mild asthma treated intermittently with albuterol inhaler was rushed to the emergency department by)
+      -> 10.0 [$0.0023]
+  RESULT: predicted=10.0, expected=7.0, absolute_error=3.0
+
+--- Case train.10360: (calculator_name=HAS-BLED Score for Major Bleeding Risk, category=risk, output_type=integer) ---
+  Input arg 0: A 76-year-old woman arrived for her semiannual visit to the hospital-based anticoagulation clinic seeking counsel on the safety of continuing oral vitamin K antagonist therapy that had been started eighteen months earlier after asymptomatic, non-valvular atrial fibrillation was documented on a home blood-pressure monitor with an irregular pulse alarm and confirmed on a 12-lead electrocardiogram obtained by her primary clinician. She lives independently, gardens daily, and walks a mile to the local market, but admits growing concern that her “borderline high blood pressure,” regular use of several over-the-counter pain and mood medications, the memory of a frightening gastrointestinal hemorrhage three years ago, and her nightly alcohol routine could converge to create a dangerous bleeding scenario while she remains on anticoagulation. Printed logs supplied by the pharmacist-run monitoring service list nineteen international normalized ratio (INR) measurements over the preceding six months ranging from 2.1 to 2.8 with a calculated time-in-therapeutic-range of 82 %, no gaps in testing, no dose holds, and no vitamin K rescues, suggesting consistently stable control. Her current regimen is warfarin 4 mg each evening taken from a pillbox, enteric-coated aspirin 81 mg every morning prescribed by cardiology after percutaneous coronary intervention to a right coronary artery stent nine years ago, sertraline 50 mg at bedtime for long-standing dysthymia, and naproxen sodium 220 mg one or two tablets most afternoons when her osteoarthritic knees ache after prolonged pruning; she denies use of glucocorticoids, ginkgo, fish oil, or herbal supplements. Blood-pressure treatment was initiated four months ago with amlodipine 10 mg nightly, yet the home upper-arm cuff she brought today shows readings over the past two weeks that average 158/86 mm Hg, and three seated auscultatory measurements in clinic after five minutes of rest are 162/88 mm Hg, 166/92 mm Hg, and 160/90 mm Hg; pulse 
+  Input arg 1: What is the patient's HAS-BLED score? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.
+  Execution trace (1 LLM calls):
+    calculate_medical_value(['A 76-year-old woman arrived for her semiannual visit to the hospital-based anticoagulation clinic seeking counsel on the safety of continuing oral vitamin K antagonist therapy that had been started )
+      -> 2.0 [$0.0051]
+  RESULT: predicted=2.0, expected=5.0, absolute_error=3.0
+
+--- Case train.10338: (calculator_name=HAS-BLED Score for Major Bleeding Risk, category=risk, output_type=integer) ---
+  Input arg 0: A 48-year-old man arrived to the cardiac rhythm clinic for an initial counseling visit regarding long-term oral anticoagulation that had been prescribed three months earlier when electrocardiographic monitoring for intermittent palpitations unexpectedly demonstrated non-valvular atrial fibrillation with a rapid ventricular response. He describes himself as a full-time software engineer who bicycles to work when the weather permits and generally feels healthy, but he has been told for several years that his blood pressure trends high; his primary care clinician started lisinopril 20 mg daily two years ago, yet home cuff readings remain in the mid-140s/90s and in clinic today a seated manual measurement after five minutes of rest is 156/94 mm Hg with a repeat value of 152/92 mm Hg, heart rate irregularly irregular at 86 beats per minute, respirations 16 per minute, temperature 36.5 °C, and oxygen saturation 98 % on ambient air. He states that at age 46 he was hospitalized overnight after passing a large, tarry stool and becoming light-headed while playing basketball; hemoglobin at that time was 6.9 g/dL, upper endoscopy revealed an actively spurting posterior duodenal ulcer that required epinephrine injection and clip placement, and he received two units of packed red blood cells before discharge on a twice-daily proton-pump inhibitor regimen. Since that episode he has experienced no further melena, hematemesis, epistaxis, hematuria, or easy bruising and his baseline hemoglobin has remained in the 14 g/dL range, but the memory of that bleeding event makes him anxious about taking “blood thinners.” He denies any prior ischemic or hemorrhagic stroke, transient ischemic attack, carotid disease, or peripheral embolic phenomena and has no family history of cerebral aneurysm or bleeding diathesis. Other medical problems include borderline dyslipidemia managed with dietary modification alone and mild seasonal allergic rhinitis treated with an as-needed intranasal corticoster
+  Input arg 1: What is the patient's HAS-BLED score? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.
+  Execution trace (1 LLM calls):
+    calculate_medical_value(['A 48-year-old man arrived to the cardiac rhythm clinic for an initial counseling visit regarding long-term oral anticoagulation that had been prescribed three months earlier when electrocardiographi)
+      -> 1.0 [$0.0014]
+  RESULT: predicted=1.0, expected=3.0, absolute_error=2.0
+
+--- Case train.9894: (calculator_name=PSI Score: Pneumonia Severity Index for CAP, category=severity, output_type=integer) ---
+  Input arg 0: A 61-year-old man was brought to the emergency department by ambulance in early autumn after two days of progressively worsening shortness of breath, a new cough productive of scant rust-colored sputum, and pleuritic discomfort along the lower left rib cage that awakened him from sleep the night before. According to his wife, he had spent the previous afternoon seated in a recliner because walking from the living room to the kitchen left him winded, whereas he normally climbs the stairs of their split-level home without pausing. His past history is notable for a small left parietal lacunar infarct six years ago that required inpatient rehabilitation for mild expressive aphasia—now fully resolved—and chronic systolic ventricular dysfunction attributed to ischemic cardiomyopathy diagnosed four years earlier after an anterior ST-elevation myocardial infarction; the most recent office echocardiogram three months earlier documented an ejection fraction of 30 % with mild functional mitral regurgitation. Outpatient laboratory panels have consistently shown a creatinine around 0.9 mg/dL, and he has never needed nephrology follow-up or dialysis, nor has he been told he has chronic kidney disease. He also has no known history of chronic liver disease, and prior hepatic function testing has been normal. He takes carvedilol 12.5 mg twice daily, sacubitril-valsartan 24-26 mg twice daily, low-dose furosemide, and aspirin 81 mg; no diuretic dose had been skipped in the week preceding presentation, and he denies use of any non-steroidal anti-inflammatory agents or over-the-counter cold remedies. He quit cigarettes twenty years ago after a 25-pack-year exposure, drinks a glass of wine with dinner on weekends, and denies illicit drug use. There has been no recent travel, no exposure to ill contacts, and no prior stays in long-term care facilities; he and his wife prepare their own meals and manage their household independently. On arrival he was seated upright on the gurney, conversa
+  Input arg 1: What is the patient's Pneumonia Severity Index (PSI)? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.
+  Execution trace (1 LLM calls):
+    calculate_medical_value(['A 61-year-old man was brought to the emergency department by ambulance in early autumn after two days of progressively worsening shortness of breath, a new cough productive of scant rust-colored spu)
+      -> 121.0 [$0.0024]
+  RESULT: predicted=121.0, expected=141.0, absolute_error=20.0
+
+--- Case train.9879: (calculator_name=PSI Score: Pneumonia Severity Index for CAP, category=severity, output_type=integer) ---
+  Input arg 0: A 63-year-old woman was brought to the emergency department by her sister after four days of progressive cough producing rust-colored sputum, intermittent chills, and pleuritic discomfort along the left posterior thorax that had become constant overnight; she described needing to sleep propped on two pillows because lying flat worsened her shortness of breath. She lives independently in a single-family home, prepares her own meals, and had been able to walk several blocks each evening despite chronic systolic dysfunction related to a remote anterior myocardial infarction, for which she takes carvedilol, sacubitril-valsartan, and low-dose furosemide. She also carries a diagnosis of compensated stage A cirrhosis secondary to nonalcoholic steatohepatitis, followed every six months in hepatology clinic, with the most recent ultrasound three months earlier showing no ascites or lesions and her last liver panel demonstrating mildly elevated transaminases but preserved synthetic function; she has never required paracentesis, encephalopathy therapy, or variceal banding. She denied prior strokes, transient neurologic deficits, chronic kidney problems, dialysis, malignancy, or recent hospitalizations, and reported the last time she received any antibiotic was for an uncomplicated urinary tract infection more than a year ago. Social history revealed lifelong abstinence from tobacco, only occasional wine with dinner, and no illicit drug use. She is up to date on her adult immunizations except for this season’s influenza booster, had no recent travel, and was unaware of sick contacts at work. Review of systems was negative for headache, visual changes, confusion, abdominal pain, dysuria, or rash. Upon arrival she was seated upright on the cart, conversant, and fully oriented to person, place, time, and situation. Initial vital signs obtained by triage were temperature 38.5 °C orally, heart rate 99 beats per minute and regular, respiratory rate 23 breaths per minute with shallow 
+  Input arg 1: What is the patient's Pneumonia Severity Index (PSI)? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.
+  Execution trace (1 LLM calls):
+    calculate_medical_value(['A 63-year-old woman was brought to the emergency department by her sister after four days of progressive cough producing rust-colored sputum, intermittent chills, and pleuritic discomfort along the )
+      -> 63.0 [$0.0153]
+  RESULT: predicted=63.0, expected=83.0, absolute_error=20.0
+
+--- Case train.9575: (calculator_name=Sequential Organ Failure Assessment (SOFA) Score, category=risk, output_type=integer) ---
+  Input arg 0: A 62-year-old man with a background of insulin-dependent type 2 diabetes mellitus, chronic obstructive pulmonary disease treated with a long-acting bronchodilator, stage 3 chronic kidney disease, and remote alcohol use disorder was transported to our emergency department from a skilled-nursing facility after staff noted a sudden decline in responsiveness accompanied by labored breathing and a recorded fever of 38.9 °C; he had completed a five-day course of oral levofloxacin for presumed bronchitis one week earlier but never fully returned to baseline energy. According to the transfer paperwork, he ambulated with a walker the day before but spoke in single words and appeared confused on the morning of presentation. Paramedics found him slumped over the side rails of his bed, moaning but without purposeful movement, saturating 82 % on room air. They applied a high-concentration Venturi mask set to deliver 55 % inspired oxygen and transported him in a semi-upright position; no sedation, paralytic agents, or advanced airway devices were used en route, and there were no intravenous fluids started in the field. Ten minutes after arrival in our resuscitation bay—before any antibiotic, crystalloid bolus, or vasoactive infusion had been administered—his vital signs revealed a heart rate of 124 beats per minute in sinus tachycardia, respiratory rate 30 breaths per minute with shallow excursions, temperature 39.2 °C, and a cuff blood pressure repeatedly measured at 84/44 mm Hg with a mean in the mid-50s. Peripheral pulses were faint, capillary refill exceeded four seconds, and the skin of the distal extremities was mottled and cool to touch. An arterial blood sample drawn from the right radial artery while he remained on 55 % FiO₂ yielded a PaO₂ of 88 mm Hg, PaCO₂ 42 mm Hg, pH 7.31, bicarbonate 20 mEq/L, and lactate 4.6 mmol/L. On neurologic examination he did not open his eyes to voice or to nail-bed pressure, emitted only guttural incomprehensible sounds, and demonstrated bi
+  Input arg 1: What is the patient's Sequential Organ Failure Assessment (SOFA) Score?
+  Execution trace (1 LLM calls):
+    calculate_medical_value(['A 62-year-old man with a background of insulin-dependent type 2 diabetes mellitus, chronic obstructive pulmonary disease treated with a long-acting bronchodilator, stage 3 chronic kidney disease, an)
+      -> 13.0 [$0.0034]
+  RESULT: predicted=13.0, expected=11.0, absolute_error=2.0
+
+--- Case train.9620: (calculator_name=Sequential Organ Failure Assessment (SOFA) Score, category=risk, output_type=integer) ---
+  Input arg 0: A 47-year-old man with a background of untreated chronic hepatitis C, daily methamphetamine inhalation, and poorly controlled type 2 diabetes (last documented HbA1c 11.4 % six months prior) was discovered by a hostel roommate at dawn lying supine on the dormitory floor, incontinent of urine, breathing rapidly, and muttering incoherently. Emergency medical technicians reached the scene eight minutes after the call and noted laboured respirations at 38 breaths min⁻¹ with perioral cyanosis, pulse oximetry of 68 % on room air, and an impalpable radial pulse that corresponded to an automated pressure of 74/42 mm Hg. Because of the depressed sensorium and gurgling airway, the crew performed rapid-sequence intubation with 100 mg ketamine and 80 mg rocuronium, passed a 7.5-mm cuffed endotracheal tube at 24 cm, confirmed equal breath sounds, and connected the patient to a portable turbine ventilator set to volume assist-control mode delivering 6 mL kg⁻¹ predicted tidal volume, a mandatory rate of 20, 10 cm H₂O of PEEP, and an inspired oxygen fraction of 0.72. No crystalloid, vasoactive agent, antimicrobial, corticosteroid, or glucose-lowering medication was administered in the field, and transport time to the emergency department was eleven minutes. On stretcher entry to the resuscitation bay—still attached to the outside ventilator and before any hospital treatment—the patient was febrile to 39.1 °C tympanic, tachycardic at 132 beats min⁻¹ in a narrow-complex rhythm, and mottled to mid-thigh. A right radial arterial catheter placed on the first attempt displayed 79/46 mm Hg with a mean of 56 mm Hg; waveform quality was good and no vasoactive infusion was running. Simultaneous arterial blood gas, drawn while ventilator settings remained unchanged, showed pH 7.26, PaCO₂ 48 mm Hg, bicarbonate 20 mEq L⁻¹, lactate 5.8 mmol L⁻¹, and an arterial oxygen tension of 57 mm Hg on 0.72 FiO₂. Neurologic examination prior to any additional sedative recorded eyes opening to pain, incompreh
+  Input arg 1: What is the patient's Sequential Organ Failure Assessment (SOFA) Score?
+  Execution trace (1 LLM calls):
+    calculate_medical_value(['A 47-year-old man with a background of untreated chronic hepatitis C, daily methamphetamine inhalation, and poorly controlled type 2 diabetes (last documented HbA1c 11.4 % six months prior) was disc)
+      -> 13.0 [$0.0031]
+  RESULT: predicted=13.0, expected=12.0, absolute_error=1.0
+
+--- Case train.3100: (calculator_name=Wells' Criteria for Pulmonary Embolism, category=risk, output_type=integer) ---
+  Input arg 0: A 68-year-old man (165 cm, 74 kg) was scheduled for transurethral resection of a bladder tumor using 5-ALA. He had been receiving amlodipine 5 mg and azilsartan 20 mg every morning orally for hypertension. His blood pressure was maintained around 130/70 mmHg. Since he had been diagnosed with pyogenic spondylodiscitis in the fourth/fifth lumber disk region in his forties, general anesthesia was preferred. During the pre-operative examination, chest X-ray, electrocardiogram, and laboratory test findings were normal.
+The patient took only amlodipine besylate on the morning of the surgery. Three hours before anesthesia induction, 5-ALA 20 mg/kg (Alaglio, Chugai Pharmaceutical, Tokyo, Japan) was administrated orally. Just before anesthesia induction, the patient’s blood pressure was 98/61 mmHg and his heart rate 82 beats/min. Anesthesia was induced with propofol 100 mg, rocuronium 50 mg, fentanyl 100 μg, and remifentanil 0.4 μg/kg/min. After 5 min, just before tracheal intubation, his blood pressure decreased to 47/32 mmHg. There were no observed changes in his electrocardiogram, such as ST-T changes or arrhythmia. Although we used phenylephrine at a total dose of 0.2 mg and ephedrine at a total dose of 10 mg over 10 min, hypotension persisted at 50/33 mmHg. Wheezing and erythema were not observed. Administration of 100 mL hydroxyethyl starch bolus for a few minutes was unsuccessful in increasing blood pressure. Transthoracic cardiac ultrasonography revealed normal systolic function, no asynergy, and normal size of the inferior vena cava. Bolus administration of noradrenaline at a total dose of 30 μg over 6 min slightly increased blood pressure to 65/39 mmHg. Arterial blood gas analysis revealed the following: pH, 7.350; HCO3− concentration, 23.2 mmol/L; base excess, 2.3 mmol/L; and lactate concentration, 1.7 mmol/L. Following this, bolus administration of adrenaline at a total dose of 30 μg over 9 min elevated the blood pressure from 53/26 to 127/49 mmHg. We decided to 
+  Input arg 1: What is the patient's score of Wells' criteria for Pulmonary Embolism? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.
+  Execution trace (1 LLM calls):
+    calculate_medical_value(['A 68-year-old man (165 cm, 74 kg) was scheduled for transurethral resection of a bladder tumor using 5-ALA. He had been receiving amlodipine 5 mg and azilsartan 20 mg every morning orally for hypert)
+      -> 0.0 [$0.0013]
+  RESULT: predicted=0.0, expected=1.5, absolute_error=1.5
+
+--- Case train.3124: (calculator_name=Wells' Criteria for Pulmonary Embolism, category=risk, output_type=integer) ---
+  Input arg 0: A 57-year-old gentleman presented to a peripheral centre with sudden onset palpitations associated with dizziness and profound sweating. Two episodes of VT were documented and needed direct current (DC) cardioversion due to haemodynamic instability. After 3 h, he was referred to our emergency on intravenous (IV) amiodarone infusion at 1 mg/min (after initial loading dose of 150 mg).
+He had history of Type 2 diabetes mellitus and Grave’s disease for last 10 years (on oral hypoglycaemic drugs and tablet carbimazole 10 mg thrice daily). He had no past history suggestive of cardiac illness but the family history was significant for sudden cardiac death (SCD) in two siblings at ages of 55 and 59 years. However, the patient had not undergone any work-up for familial SCD.
+At presentation, he had a pulse rate of 60/min and BP of 120/84 mmHg with no other significant clinical findings. In our emergency, he had another episode of monomorphic VT (with haemodynamic compromise) that was DC cardioverted.
+The 12-lead electrocardiogram (ECG) during VT showed ventricular rate of 190 beats/min with left bundle branch block pattern, left axis deviation, and QRS transition in lead V6 with notching in QRS complexes, all suggestive of right ventricle (RV) free wall origin (). This was similar in morphology to the ECGs recorded in the peripheral centre. ECG during sinus rhythm showed epsilon waves in leads V1–V3 and inferior limb leads. Leads V1–V3 also showed T-wave inversion along with terminal activation duration of 60 ms (). These findings favoured a diagnosis of arrhythmogenic right ventricular cardiomyopathy (ARVC).
+His blood sugar, serum electrolytes, and thyroid profile were normal. High-sensitivity cardiac-specific troponin T (Elecsys Troponin-T-hs, Cobas®, Roche diagnostics) (hs-cTnT) was mildly raised (). Patient was reloaded with IV amiodarone 150 mg for breakthrough VT and continued the infusion at 1 mg/min for a total of 6 h followed by 0.5 mg/min for 48 h. After 24 h, the I
+  Input arg 1: What is the patient's score of Wells' criteria for Pulmonary Embolism? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.
+  Execution trace (1 LLM calls):
+    calculate_medical_value(['A 57-year-old gentleman presented to a peripheral centre with sudden onset palpitations associated with dizziness and profound sweating. Two episodes of VT were documented and needed direct current )
+      -> 0.0 [$0.0035]
+  RESULT: predicted=0.0, expected=3.0, absolute_error=3.0
+
+--- Case train.6538: (calculator_name=PERC Rule for Pulmonary Embolism, category=diagnosis, output_type=integer) ---
+  Input arg 0: Our patient was a 25-year-old previously healthy female at 36th week gestation presented to the hospital with 4 days of progressive dyspnea and right-sided pleuritic chest pain. Her past medical history was pertinent for gestational thrombocytopenia which resolved spontaneously but no history of epistaxis or family history of Osler-Weber-Rendu syndrome was noted. She was found to be hypotensive and hypoxic on ventilator support. Chest X-ray revealed right-sided pleural effusion which caused complete hemithorax opacification.
+Patient underwent emergent cesarean delivery due to unstable vital signs and frequent fetal decelerations. Due to persistent hypoxia and hypotension, patient was admitted to ICU with ventilator support. Physical exam was significant for decreased breath sounds on the right side, dull percussion note, and decreased vocal tactile fremitus but no evidence of cyanosis.
+Vital signs were systolic blood pressure of 80 mm Hg, diastolic blood pressure of 40 mm Hg, pulse rate 142/min, pulse oximetry saturation 86% to 88% on 100% inspired oxygen, afebrile, and respiratory rate of 30/min. Patient was visibly diaphoretic using accessory muscles with sinus tachycardia noted on monitor.
+Initial labs revealed normal platelets, normal coagulation panel, and hemoglobin of 6.5 gm/dL. Critical care panel showed pH of 7.4, pCO2 of 50 mm hg, pAO2 60 mm hg, and saturation of 88%.
+A chest tube was placed which revealed a hemothorax. four liters of frank blood was removed with the chest tube placement which also resulted in normalization of the blood pressure and improved oxygenation on the monitor. Repeat chest X-ray showed continued opacification of the right lung, and the patient's hemoglobin continued to fall (). CT-chest with IV contrast showed a likely 1 cm area of active contrast extravasation along with compressive atelectasis of the right lower lobe.
+Pulmonary angiography confirmed an AVM with feeding branch of a basilar right pulmonary artery supplying aneurys
+  Input arg 1: What are the number of criteria met for the PERC Rule for Pulmonary Embolism (PE)? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.
+  Execution trace (1 LLM calls):
+    calculate_medical_value(["Our patient was a 25-year-old previously healthy female at 36th week gestation presented to the hospital with 4 days of progressive dyspnea and right-sided pleuritic chest pain. Her past medical his)
+      -> 2.0 [$0.0021]
+  RESULT: predicted=2.0, expected=3.0, absolute_error=1.0
+
+--- Case train.6569: (calculator_name=PERC Rule for Pulmonary Embolism, category=diagnosis, output_type=integer) ---
+  Input arg 0: Mrs. A.O., a 40-year-old known SCD patient with hemoglobin SS genotype was referred to the pulmonary division on account of dry cough of 3 weeks, difficulty in breathing of 2 weeks, and bilateral leg swelling of 4 days. There was low-grade fever, no weight loss, and no contact with chronic cough index. Difficulty in breathing initially occurred on exertion but later occurred even at rest. There was orthopnea but no paroxysmal nocturnal dyspnea. There was bilateral leg swelling, which worsened progressively. No swelling in other parts of the body. No reduction in her urine volume. She was not a diagnosed asthmatic, hypertensive, or diabetic and she was not previously treated for tuberculosis or any other chronic lung diseases. She was only admitted for childbirth in her adulthood years. She had a single episode of blood transfusion when she was 6 years old. Afterwards, she has been crisis free for more than 20 years. She neither smokes cigarettes nor consumes alcoholic drinks. No history of exposure to cigarette smoke from others. She is married in a monogamous family with two girls and one boy. Her last childbirth was 15 years prior to presentation. She works as a secretary in the registration office of a state polytechnic. No history of exposure to occupational dust or fumes. No history of chronic drug use and no history of allergy.
+On general examination, she was a middle aged looking woman, conscious, dyspneic with central cyanosis, afebrile (Temperature=36.5), not pale, anicteric, not dehydrated, grade 3 digital clubbing, bilateral pitting pedal edema up to the lower third of the leg, weight=84 kg, height=1.65 m, and BMI=30.9 kg/m2. Oxygen saturation in room air was 78% and this increased to 92% on 5 L/min of oxygen via nasal prong.
+Respiratory examination revealed that she was in respiratory distress as evidenced by respiratory rate of 42/ min, flaring of alae nasi, and use of accessory muscles of respiration, and the trachea was central with symmetrical chest 
+  Input arg 1: What are the number of criteria met for the PERC Rule for Pulmonary Embolism (PE)? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.
+  Execution trace (1 LLM calls):
+    calculate_medical_value(['Mrs. A.O., a 40-year-old known SCD patient with hemoglobin SS genotype was referred to the pulmonary division on account of dry cough of 3 weeks, difficulty in breathing of 2 weeks, and bilateral le)
+      -> 2.0 [$0.0022]
+  RESULT: predicted=2.0, expected=3.0, absolute_error=1.0
+
+--- Case train.9516: (calculator_name=Wells' Criteria for DVT, category=risk, output_type=decimal) ---
+  Input arg 0: A 63-year-old woman arrived to the emergency evaluation unit late this afternoon complaining that her right lower extremity had become “thick from hip to toes” over the past thirty-six hours, making it difficult for her to slip into her usual walking leggings and causing a heavy dragging sensation whenever she climbed stairs. She recalls finishing a community gardening event two evenings ago without incident; when she awoke the next morning, the entire limb looked puffier than the left, a discrepancy that progressed steadily through the day despite alternating periods of sitting, standing, and short walks around her house. She denies twisting injuries, falls, insect bites, animal scratches, recent rashes, or localized skin infections and has noticed no fever, night sweats, chills, nausea, vomiting, abdominal pain, dysuria, or systemic malaise. There has been no shortness of breath, pleuritic chest discomfort, hemoptysis, palpitations, or presyncope. Three years ago she completed six months of rivaroxaban for a sonographically confirmed popliteal and posterior tibial vein thrombosis in the same extremity that had developed after a transatlantic flight; she has taken no anticoagulant since and her subsequent annual physicals have been unremarkable. Her history is otherwise notable only for well-controlled hypertension and hypothyroidism; she takes lisinopril 10 mg daily and levothyroxine 75 µg daily, supplemented by over-the-counter vitamin D, and she specifically denies estrogen replacement, selective estrogen-receptor modulators, glucocorticoids, erythropoietin, or androgen therapy. She has never been diagnosed with malignant disease, inflammatory bowel pathology, nephrotic syndrome, or congestive heart failure. She underwent laparoscopic cholecystectomy eight years ago and an uncomplicated colonoscopy fifteen months ago, but no operative or invasive procedures since. She walks her dog twice daily for twenty minutes, performs light resistance training twice a week, 
+  Input arg 1: What is the patient's score of Wells' criteria for Deep Vein Thrombosis? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.
+  Execution trace (1 LLM calls):
+    calculate_medical_value(['A 63-year-old woman arrived to the emergency evaluation unit late this afternoon complaining that her right lower extremity had become “thick from hip to toes” over the past thirty-six hours, making)
+      -> **exception**: The next request would exceed the request_limit of 50 [$nan]
+  RESULT: predicted=**exception raised**: The next request would exceed the request_limit of 50, expected=3.0, absolute_error=inf
+
+--- Case train.6708: (calculator_name=SIRS Criteria, category=diagnosis, output_type=integer) ---
+  Input arg 0: A 44-year-old female patient admitted to the university hospital for new-onset left-sided weakness and right-sided headache; dizziness, confusion, chest pain, and palpitations for four days; and generalized malaise for two months. Medical history was significant for hypertension, chronic hepatitis C treatment naive, hypothyroidism, recent IV drug abuse, and alcoholism, and she was a former heavy smoker. A CT scan (computerized tomography) of the head done at the outside hospital revealed acute infarctions in the right thalamus and right temporal lobe. EKG showed normal sinus rhythm, and a chest X-ray was normal.
+On the day of admission, vital signs were blood pressure of 118/74 mmHg, pulse rate of 117/minute, respiratory rate of 20/minute, temperature of 38°C, and SpO2 of 98% on room air. Physical examination revealed the presence of poor oral hygiene and grade 3/6 systolic murmur at the cardiac apex. Neurological examination affirmed slurred speech, left-sided weakness with motor strength of 1/5 in upper and lower extremities, increased reflexes on the left side compared to the right, and right pupil dilation with sluggish response to light and right lateral ophthalmoparesis. EKG showed sinus tachycardia. TTE (transthoracic echocardiogram) () displayed an ejection fraction of 65%, dilated left atria, and severe mitral valve regurgitation with a 2 cm strand-like hypoechoic structure on its atrial surface suggestive of vegetation. CT angiogram of the head and neck displayed the patent carotid and vertebral basilar arterial system. Multifocal acute infarcts were detected at the right medial temporal lobe, right thalamus, right lateral pons, and midbrain with no hemorrhagic transformation on MRI (magnetic resonance imaging). TEE (transesophageal echocardiogram) () on day 4 revealed no evidence of thrombus or mass, ruptured chordae tendineae of the posterior mitral leaflet, and a small mobile density on the anterior mitral leaflet with no patent foramen ovale. Blood cul
+  Input arg 1: What are the number of SIRS critiera met by the patient? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.
+  Execution trace (1 LLM calls):
+    calculate_medical_value(["A 44-year-old female patient admitted to the university hospital for new-onset left-sided weakness and right-sided headache; dizziness, confusion, chest pain, and palpitations for four days; and gen)
+      -> 1.0 [$0.0037]
+  RESULT: predicted=1.0, expected=2.0, absolute_error=1.0
+
+--- Case train.0995: (calculator_name=CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk, category=risk, output_type=integer) ---
+  Input arg 0: A 66-year-old Caucasian male with past medical history significant for hypertension and hyperlipidemia presented with altered mental status. Symptoms at presentation included slurred speech. He was found walking around his yard and his neighbor noted his slurred speech. His last know well state was the day before in the evening hours. Upon arrival, the blood pressure was found to be at 150/70 and his laboratory workup including complete blood count, complete metabolic profile and urinalysis were normal. Urine drug screen was positive for cannabinoids and serum alcohol level was not detectable. CT of the head showed age-related atrophy and mild small vessel ischemic changes without acute intracranial bleeding (Figure ). Questionable loss of gray-white junction and edema was found in the left frontoparietal region. On physical exam, the patient was confused but had normal movements and strength. He denied use of any tobacco products. TTE showed a normal left ventricle size, thickness, and function. The ejection fraction was estimated at 60% with normal right ventricular structure and function. There was a small PFO with predominant left-to-right shunting visualized. MRI showed an acute left middle cerebral artery territory infarction without midline shift or hemorrhagic conversion (Figure ). CTA showed the right internal carotid artery with estimated stenosis of 30-50% and the left internal carotid artery with stenosis estimated at 30-50%. TEE showed the PFO previously demonstrated and an ejection fraction of approximately 60%. Ultrasound of lower extremities failed to show deep vein thrombosis. The patient continued receiving neuro checks during the length of the stay and was started on antiplatelet therapy and atorvastatin with an outpatient follow-up and discharged with an event recorder and possible percutaneous closure of PFO after conduction abnormalities were ruled out.
+  Input arg 1: What is the patient's CHA2DS2-VASc Score? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.
+  Execution trace (1 LLM calls):
+    calculate_medical_value(['A 66-year-old Caucasian male with past medical history significant for hypertension and hyperlipidemia presented with altered mental status. Symptoms at presentation included slurred speech. He was )
+      -> 2.0 [$0.0010]
+  RESULT: predicted=2.0, expected=4.0, absolute_error=2.0
+
+--- Case train.9475: (calculator_name=Child-Pugh Score for Cirrhosis Mortality, category=severity, output_type=integer) ---
+  Input arg 0: A 58-year-old woman with biopsy-proven cirrhosis attributed to long-standing non-alcoholic steatohepatitis presented to the tertiary-care emergency department late in the evening because coworkers had noticed during the past forty-eight hours that she required gentle prompting to remember the password for the shipping manifest, paused briefly while counting out coins, and at one point addressed Wednesday’s documents with Thursday’s date; she herself was concerned that earlier that morning she missed an exit on a familiar commute and felt “foggy” when balancing her checkbook. She reported no frank disorientation, had driven safely with her spouse in the passenger seat, and continued to manage basic activities of daily living, although she admitted that her handwriting had become slightly untidy over the prior week. The patient denied vomiting, hematemesis, melena, hematochezia, fever, chills, chest pain, dyspnea, or new dermatologic lesions. For the past month she had noticed her waistband felt snug by bedtime and that rolling onto her flank in bed occasionally produced a subtle sloshing sensation across the lower abdomen, but she could still button her jeans and denied marked distention, early satiety, orthopnea, or pedal swelling. Medical history was notable for hypertension on lisinopril 10 mg daily, class II obesity after a 30-pound weight loss program, and remote laparoscopic appendectomy; there had been no prior episodes of gastrointestinal bleeding, spontaneous bacterial peritonitis, or paracentesis, and she was not taking lactulose, rifaximin, diuretics, non-selective beta-blockers, or vitamin K. She never smoked, drinks wine only at weddings, and has never used recreational drugs. There is no family history of inherited liver disease; her father died of stroke at 76 and her mother has poorly controlled type 2 diabetes. Review of systems was otherwise negative for pruritus, jaundice noticed by acquaintances, bruising, muscle cramps, or unintended weight chang
+  Input arg 1: What is the patient's Child-Pugh Score? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.
+  Execution trace (1 LLM calls):
+    calculate_medical_value(['A 58-year-old woman with biopsy-proven cirrhosis attributed to long-standing non-alcoholic steatohepatitis presented to the tertiary-care emergency department late in the evening because coworkers h)
+      -> 9.0 [$0.0030]
+  RESULT: predicted=9.0, expected=8.0, absolute_error=1.0
+
+--- Case train.4098: (calculator_name=HEART Score for Major Cardiac Events, category=risk, output_type=integer) ---
+  Input arg 0: A 43-year-old Caucasian woman is admitted to the hospital with acute onset right upper quadrant (RUQ) pain. The pain started 6 hours ago after the patient had a large meal at a birthday party and has progressively worsened. She recalls having similar pain before but not so intense. No significant past medical history. Current medications are only oral contraceptive. Vitals are blood pressure 140/80 mm Hg, heart rate 79/min, respiratory rate 14/min, and temperature 37.6℃ (99.7℉). The patient’s BMI is 36.3 kg/m2. On exam, the patient appears slightly jaundiced. Her cardiac and respiratory examinations are within normal limits. Abdominal palpation reveals tenderness to palpation in the RUQ with no rebound or guarding, and there is an inspiratory arrest on deep palpation in this region. The remainder of the examination is within normal limits.
+Laboratory tests are significant for the following:
+RBC count 4.1 million/mm3
+Hb 13.4 mg/dL
+Leukocyte count 11,200/mm3
+ESR 22 mm/hr
+Platelet count 230,000/mm3
+Total bilirubin 2 mg/dL
+Direct bilirubin 1.1 mg/dL
+ALT 20 IU/L
+AST 18 IU/L
+Amylase 33 IU/L
+Ultrasound of the abdomen shows the following result (see image):
+The common bile duct (CBD) (not shown in the image) is not dilated.
+  Input arg 1: What is the patient's score of the HEART Score? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.
+  Execution trace (1 LLM calls):
+    calculate_medical_value(['A 43-year-old Caucasian woman is admitted to the hospital with acute onset right upper quadrant (RUQ) pain. The pain started 6 hours ago after the patient had a large meal at a birthday party and ha)
+      -> 0.0 [$0.0015]
+  RESULT: predicted=0.0, expected=1.0, absolute_error=1.0
+
+--- Case train.10524: (calculator_name=APACHE II Score, category=risk, output_type=integer) ---
+  Input arg 0: A 90-year-old man who until this morning had lived alone, prepared his own meals, and managed his antihypertensive tablet without assistance was discovered by a neighbor slumped over the kitchen table, mumbling incoherently and breathing rapidly after reportedly vomiting several times overnight; the neighbor last saw him two days earlier when he appeared well, and outpatient records from a primary-care visit six weeks ago documented an active lifestyle, a serum creatinine of 1.1 mg/dL, normal electrolytes, and no chronic steroid use, cytotoxic therapy, transplant history, or other condition that would compromise his immune defenses. Emergency medical services arrived nine minutes after the call and found him pale, shivering, and soaked with cold sweat; a temporal artery thermometer registered 35.7 °C, radial pulse was thready at 142 beats /min, respirations were counted at 35 breaths /min with shallow chest excursions, and non-invasive blood pressure cycled at 129/53 mm Hg on two consecutive cuffs. Capillary glucose was 104 mg/dL, and fingertip oximetry on ambient air read 68 %, prompting the crew to apply a tightly sealed facemask connected to the ambulance blender delivering 65 % inspired oxygen; during the twelve-minute transport he received neither intravenous fluids nor pharmacologic agents, and the mask settings were not altered. On stretcher entry to the resuscitation area—and before any hospital-initiated intervention—a radial arterial sample was obtained while he remained on the same oxygen source; analysis returned a pH of 7.60 with a markedly decreased PaCO₂ of 22 mm Hg (value confirmed on repeat cartridge), PaO₂ 82 mm Hg, and an analyzer-calculated alveolar-to-arterial gradient of 354 mm Hg, consistent with severe impairment of oxygen transfer in the face of pronounced respiratory alkalosis. Simultaneous point-of-care chemistry revealed a serum sodium of 126 mmol/L, potassium 5.8 mmol/L, chloride 97 mmol/L, bicarbonate 18 mmol/L, blood urea nitrogen 48 m
+  Input arg 1: What is the patient's APACHE II score?
+  Execution trace (1 LLM calls):
+    calculate_medical_value(['A 90-year-old man who until this morning had lived alone, prepared his own meals, and managed his antihypertensive tablet without assistance was discovered by a neighbor slumped over the kitchen tab)
+      -> 31.0 [$0.0024]
+  RESULT: predicted=31.0, expected=35.0, absolute_error=4.0
+
+
+## Previous iterations
+
+Iter 0: train=43.4%, eval=44.7% — KEPT
+
+
+## Additional instructions
+Preserve the SecretAgent interface shape. Do not emit config overrides that change ptools.*.method or ptools.*.fn. Do not convert the public calculate_medical_value entry point to a direct implementation unless the complete callable is present as a normal Python function. Prefer source-only changes to helper docstrings, helper logic, or additional uniquely named helper functions.
+
+
+## HOW CHANGES WORK
+
+- @interface-decorated functions with method=simulate use their DOCSTRING as
+  the LLM prompt. Improving the docstring improves the LLM's output.
+- Functions bound with method=direct run as pure Python.
+- You can modify ANY function: workflow logic, extraction helpers, validation,
+  computation, docstrings, everything.
+- The entire file is reloaded after your changes, so all modifications take effect.
+
+## STRATEGY — READ THIS CAREFULLY
+
+Your changes are evaluated on ALL cases, not just the failures shown above.
+A change that fixes 5 failures but breaks 15 working cases is a NET REGRESSION.
+This has happened in previous iterations — learn from it.
+
+**CONSERVATIVE APPROACH REQUIRED:**
+- Changes to docstrings/prompts affect ALL cases that go through that code path.
+  If you add instructions that help edge cases but confuse the LLM on common
+  cases, accuracy drops. Be surgical.
+- Changes to Python logic (extraction, validation, computation) are SAFER because
+  they only fire when their conditions are met.
+- Prefer adding NEW conditional branches or fallback logic over modifying
+  existing working code paths.
+- If a previous iteration was rolled back, DO NOT try a more aggressive version
+  of the same idea. Try a completely different approach or a much smaller change.
+
+**PRIORITIZE THESE CHANGE TYPES (safest to riskiest):**
+1. Fix a bug in Python computation logic (zero risk to other cases)
+2. Add a new fallback/recovery path for a specific failure pattern
+3. Improve validation to catch and fix a category of extraction errors
+4. Add a small, specific instruction to a docstring (low risk if well-scoped)
+5. Rewrite extraction/prompt logic (HIGH RISK — only if you are very confident)
+
+**AVOID:**
+- Rewriting the extraction prompt wholesale — this breaks working cases
+- Adding many instructions at once — impossible to know what helped vs hurt
+- Changing unit conversion logic broadly — most values are already correct
+
+## CRITICAL RULES
+
+1. **DO NOT REWARD-HACK.** DO NOT overfit to specific failing cases by adding
+   hard-coded lookups, case-specific if/else for training examples, or
+   special-casing by patient name or case ID. Changes MUST generalize to
+   unseen cases. A held-out test set will expose overfitting.
+
+2. Make ONE targeted change per iteration. Don't rewrite everything at once.
+
+3. Return the COMPLETE modified ptools_evolved.py inside a <ptools_file> block.
+   Include ALL imports, ALL functions, everything. The block replaces the
+   entire file.
+
+4. Keep the file syntactically valid Python. Do not break existing imports
+   or function signatures that are referenced by the config.
+
+## Examples of GOOD changes
+- Fixing a specific computation bug (e.g. wrong formula for a calculator type)
+- Adding a validation check that catches a common extraction error pattern
+- Adding a small, specific docstring instruction scoped to a failure class
+- Adding a new fallback path for cases where extraction fails
+
+## Examples of BAD changes (cause regressions)
+- Rewriting the extraction prompt with many new instructions
+- Adding unit conversion logic that fires on all cases
+- Changing the workflow control flow
+- if calculator_name == "CHA2DS2-VASc": return 5
+
+<reasoning>
+1. What SPECIFIC failure pattern did you identify?
+2. How many of the shown failures share this pattern?
+3. What is the MINIMAL change that fixes this pattern?
+4. Why will this change NOT break currently working cases?
+</reasoning>
+
+<ptools_file>
+# Complete modified ptools_evolved.py here
+</ptools_file>
+
+<config>
+# Optional dotlist config overrides (e.g. model switches), one per line
+</config>

@@ -1,0 +1,15 @@
+ba(problem_text: str, rules_text: str) -> float:
+```
+No.
+Could `NbaResult` have been overridden? No.
+Could `result` be `True` or `False`?
+Wait, look at `compute_rulearena_answer`. It returns a float.
+Is there any chance that the 26 cases are NOT NBA cases?
+"avg cost: $0.0001/case, 29 cases... Per-ptool breakdown: extract_nba_params: cost_frac=100.0%, calls/case=1.0"
+If there were Airline cases, why didn't they call `extract_airline_params` via LLM?
+Ah!
+`extract_airline_params` might be cached! Or it might not use LLM for some reason?
+No, if it doesn't use LLM, `calls/case` for `extract_nba_params` would be less than 1.0.
+If there are 29 cases, and `calls/case=1.0` for `extract_nba_params`, it means `extract_nba_params` was called EXACTLY 29 times. So it was called for EVERY case.
+Wait, if `extract_nba_params` was called for every case, but some cases are "airline", then the `domain == "airline"` branch would NOT be taken!
+Why would an "airline" case go to the

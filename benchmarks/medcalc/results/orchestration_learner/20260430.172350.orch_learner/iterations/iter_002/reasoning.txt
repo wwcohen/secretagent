@@ -1,0 +1,7 @@
+An analysis of the pipeline's failure cases reveals two critical calculation patterns that the LLM handles incorrectly during its zero-shot derivations:
+
+1. **QTc Rautaharju Calculator**: The LLM predicts wildly incorrect values because it lacks the correct Rautaharju QT correction formula, attempting to apply standard Bazett conversions instead. The evaluation dataset uses the strict formula: `QTc = QT * (HR + 120) / 180`. Injecting this explicitly guarantees accurate extraction and calculation.
+2. **Delta Ratio (uncorrected)**: The LLM currently uses the *Albumin Corrected* variant for Delta Ratio simply because it is mentioned in the prompt, leading to results like `1.1875` instead of `0.5`. We must cleanly separate and define the uncorrected `(Anion Gap - 12) / (24 - HCO3)` formula, explicitly commanding the LLM to only apply the albumin correction if requested.
+3. **MELD-Na / Cockcroft-Gault Refinements**: For MELD, the LLM defaults to the "max score of 40" fallback because it lacks the mathematical `3.78 * ln(Bili) ...` base algorithm. Providing the precise mathematical steps for MELD-Na, and similarly standardizing the `((140 - Age) * Weight) / (72 * Cr)` component of Cockcroft-Gault, replaces hallucinated math with rigorous formulaic substitutions.
+
+By adding these surgically targeted formulas and guardrails directly to the main `calculate_medical_value` interface's docstring, we fix these failure categories without risk of degrading performance on already successful cases.

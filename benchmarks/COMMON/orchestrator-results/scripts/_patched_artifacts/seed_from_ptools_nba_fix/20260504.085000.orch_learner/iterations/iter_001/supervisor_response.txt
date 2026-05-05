@@ -1,0 +1,253 @@
+<reasoning>
+1. What SPECIFIC failure pattern did you identify?
+The `compute_rulearena_answer_orchestrated_seed` function has two critical bugs for the NBA domain:
+a) It attempts to convert an `NbaResult` Pydantic model directly to a float (`return float(result)`), which throws a `TypeError`.
+b) It passes `problem_text` (which is often empty for NBA cases) to `extract_nba_params` instead of building the proper query context (rules + metadata) via `_build_nba_query`.
+
+2. How many of the shown failures share this pattern?
+All 3 shown failures fail with `TypeError: float() argument must be a string or a real number, not 'NbaResult'`. The trace also confirms the LLM was given an empty string: `extract_nba_params([''])`.
+
+3. What is the MINIMAL change that fixes this pattern?
+Replacing the body of the generated `compute_rulearena_answer_orchestrated_seed` function with a direct delegation to `l1_extract_workflow`. The `l1_extract_workflow` is already perfectly implemented in the file to handle correct query building and model unwrapping for all three domains.
+
+4. Why will this change NOT break currently working cases?
+The `l1_extract_workflow` represents the "golden path" logic manually written to wrap extraction LLMs with exact deterministic python calculators. It ensures correct input framing and type safety, solving these orchestration artifacts completely without modifying the core extraction prompts, thus preserving accuracy on all working cases.
+</reasoning>
+
+<ptools_file>
+"""RuleArena benchmark tools and workflows.
+
+Domains: airline (baggage fees), tax (US federal income tax), nba (CBA compliance).
+Experiment levels:
+  L0  - oracle: ground truth params fed directly to Python calculators
+  L0F - CoT: single LLM call per domain with chain-of-thought prompt
+  L1  - extract: LLM extracts structured params, Python computes answer
+  L3  - ReAct: autonomous agent with extraction and calculator tools
+
+Example CLI commands:
+    uv run expt.py run --help
+    uv run expt.py run evaluate.expt_name=l1_airline dataset.domain=airline \
+        ptools.compute_rulearena_answer.method=direct \
+        ptools.compute_rulearena_answer.fn=ptools.l1_extract_workflow
+"""
+
+import importlib.util
+import json
+# from math import e
+import re
+import sys
+from pathlib import Path
+from typing import Any
+from pydantic import BaseModel
+
+# from secretagent.benchmarks.rulearena.search_spaces import tax_space
+from secretagent.core import interface, implement_via
+
+_DATA_DIR = Path(__file__).parent / "data"
+
+class BagItem(BaseModel):
+    id: int
+    name: str
+    size: list[int]  # [length, width, height] in inches
+    weight: int       # pounds
+
+class AirlineParams(BaseModel):
+    base_price: int         # ticket price in USD
+    customer_class: str     # e.g "Main Cabin", "Business"
+    routine: str            # destination region, e.g. "U.S", "Japan"
+    direction: int          # 0 for departing from US, 1 for arriving to US
+    bag_list: list[BagItem] 
+
+class StudentRecord(BaseModel):
+    qualified_student_expenses: int = 0
+    f8863_part_iii_23: str = "No"
+    f8863_part_iii_24: str = "No"
+    f8863_part_iii_25: str = "No"
+    f8863_part_iii_26: str = "No"
+
+class TaxParams(BaseModel):
+    # Basic Info
+    name: str = ""
+    age: int = 0
+    spouse_age: int = 0
+    filing_status: str = "single"  # single/married filing jointly/married filing separately/head of household/qualifying surviving spouse
+    blind: bool = False
+    spouse_blind: bool = False
+    itemized: bool = False
+    self_employed: bool = False
+    has_student_loans_or_education_expenses: bool = False
+    num_qualifying_children: int = 0
+    num_other_dependents: int = 0
+
+    # Form 1040
+    wage_tip_compensation: float = 0.0             # Line 1a
+    household_employee_wage: float = 0.0           # Line 1b
+    unreported_tip: float = 0.0                    # Line 1c
+    nontaxable_combat_pay: float = 0.0             # Line 1d
+    tax_exempt_interest: float = 0.0               # Line 2a
+    taxable_interest: float = 0.0                  # Line 2b
+    qualified_dividends: float = 0.0               # Line 3a
+    ordinary_dividends: float = 0.0                # Line 3b
+    ira_distributions: float = 0.0                 # Line 4a
+    taxable_ira_distributions: float = 0.0         # Line 4b
+    all_pensions: float = 0.0                      # Line 5a
+    taxable_pensions: float = 0.0                  # Line 5b
+    social_security_benefits: float = 0.0          # Line 6a
+    taxable_social_security_benefits: float = 0.0  # Line 6b
+    qualified_business_income: float = 0.0         # Line 13
+    federal_income_tax_withheld: float = 0.0       # Line 25
+    earned_income_credit: float = 0.0              # Line 27
+
+    # Schedule 1
+    taxable_state_refunds: float = 0.0                 # Line 1
+    alimony_income: float = 0.0                        # Line 2a
+    sale_of_business: float = 0.0                      # Line 4
+    rental_real_estate_sch1: float = 0.0               # Line 5
+    farm_income: float = 0.0                           # Line 6
+    unemployment_compensation: float = 0.0             # Line 7
+    other_income: float = 0.0                          # Line 8
+    educator_expenses: float = 0.0                     # Line 11
+    hsa_deduction: float = 0.0                         # Line 13
+    ira_deduction: float = 0.0                         # Line 20
+    student_loan_interest_deduction: float = 0.0       # Line 21
+    other_adjustments: float = 0.0                     # Line 24
+
+    # Schedule 2
+    amt_f6251: float = 0.0                            # Line 1
+    credit_repayment: float = 0.0                     # Line 2
+    other_additional_taxes: float = 0.0               # Line 17
+
+    # Schedule 3
+    foreign_tax_credit: float = 0.0                  # Line 1
+    dependent_care: float = 0.0                     # Line 2
+    retirement_savings: float = 0.0                 # Line 4
+    elderly_disabled_credits: float = 0.0           # Line 6d
+    plug_in_motor_vehicle: float = 0.0              # Line 6i
+    alt_motor_vehicle: float = 0.0                 # Line 6j
+
+    # Schedule A (when itemized=true) 
+    medical_dental_expenses: float = 0.0            # Line 1
+    state_local_income_or_sales_tax: float = 0.0   # Line 5a
+    state_local_real_estate_tax: float = 0.0       # Line 5b
+    state_local_personal_property_tax: float = 0.0 # Line 5c
+    other_taxes_paid: float = 0.0                    # Line 5d
+    home_mortgage_interest_and_points: float = 0.0 # Line 8a
+    home_mortgage_interest_unreported: float = 0.0 # Line 8b
+    home_mortgage_points_unreported: float = 0.0   # Line 8c
+    investment_interest: float = 0.0                # Line 9
+    charity_cash: float = 0.0                      # Line 11
+    charity_non_cash: float = 0.0                  # Line 12
+    casualty_and_theft_loss: float = 0.0           # Line 15
+    other_itemized_deductions: float = 0.0        # Line 16
+
+    # Schedule C (when self_employed=true)
+    gross_receipts: float = 0.0                   # Line 1
+    returns_and_allowances: float = 0.0           # Line 2
+    cost_of_goods_sold: float = 0.0              # Line 4
+    other_inc_sched_c: float = 0.0               # Line 5
+    total_expenses: float = 0.0                          # Line 10
+    expenses_of_home: float = 0.0                         # Line 30
+    total_social_security_wages: float = 0.0              # Line 31
+
+    # Form 8863 (when has_student_loans_or_education_expenses=true)
+    student_list: list[StudentRecord] = []
+
+class NbaResult(BaseModel):
+    verdict: bool = False          # true if any operation violates rules
+    illegal_operation: str = ""    # letter of the violating operation
+    problematic_team: str = ""     # letter of the violating team
+    reasoning: str = ""            # brief explanation
+
+
+# ---------------------------------------------------------------------------
+# LLM extraction interfaces
+# ---------------------------------------------------------------------------
+
+@interface
+def extract_airline_params(query: str) -> AirlineParams:
+    """Extract structured baggage parameters from an airline fee query."""
+    ...
+
+
+@interface
+def extract_tax_params(query: str) -> TaxParams:
+    """Extract taxpayer parameters from filled IRS forms.
+
+    Extract the filled-in INPUT values from IRS forms. Skip computed
+    fields marked [__]. Dollar values like "$1,234" become numeric (1234.0).
+    """
+    ...
+
+
+@interface
+def extract_nba_params(query: str) -> NbaResult:
+    """Determine whether any NBA team operation violates CBA salary cap rules."""
+    ...
+# ---------------------------------------------------------------------------
+# Calculator interfaces (always Python via direct method)
+# ---------------------------------------------------------------------------
+
+@interface
+def compute_airline_calculator(params: dict) -> int:
+    """Compute airline baggage fee and total ticket cost.
+
+    Pass the dict returned by extract_airline_params directly as params.
+    Required keys: base_price, customer_class, routine, direction, bag_list.
+
+    Returns:
+        Total cost (ticket price + baggage fees) as integer dollars.
+
+    Examples:
+    >>> compute_airline_calculator({"base_price": 500, "customer_class": "Main Cabin", "routine": "U.S.", "direction": 0, "bag_list": [{"id": 1, "name": "carry-on", "size": [22, 14, 9], "weight": 10}]})
+    500
+    """
+
+
+@interface
+def compute_tax_calculator(params: dict) -> float:
+    """Compute federal tax amount from extracted TaxPayer fields.
+
+    Pass the dict returned by extract_tax_params directly as params.
+    Optional schedule fields are defaulted to 0 if absent.
+
+    Returns:
+        Amount owed (positive) or overpaid/refund (negative) as float.
+
+    Examples:
+    >>> compute_tax_calculator({"filing_status": "single", "age": 35, "wage_tip_compensation": 50000.0})
+    5000.0
+    """
+
+
+# ---------------------------------------------------------------------------
+# CoT prompt interfaces (always prompt_llm, bound at definition time)
+# ---------------------------------------------------------------------------
+
+@implement_via('prompt_llm', prompt_template_file='prompt_templates/airline_cot.txt')
+def _cot_airline(problem_text: str, rules_text: str) -> str:
+    ...
+
+
+@implement_via('prompt_llm', prompt_template_file='prompt_templates/tax_cot.txt')
+def _cot_tax(forms_text: str) -> str:
+    ...
+
+
+@implement_via('prompt_llm', prompt_template_file='prompt_templates/nba_cot.txt')
+def _cot_nba(problem_text: str, rules_text: str) -> str:
+    ...
+
+
+
+@implement_via('simulate')
+def _parse_numeric_answer(llm_output: str) -> float:
+    """Extract the numeric dollar amount from LLM text output.
+
+    The output may contain "The total cost is $1,234." or
+    "The total tax owed is $567." or "The total tax overpaid is $89."
+    For overpaid amounts, return the value as negative.
+    """
+    ...
+
+
+@implement_via('
