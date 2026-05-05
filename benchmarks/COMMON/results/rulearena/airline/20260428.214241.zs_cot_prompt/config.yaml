@@ -5,7 +5,7 @@ cachier:
   cache_dir: C:\Users\STUDENT\OneDrive\Documents\Projects\AI Research\secretagent\benchmarks\rulearena\airline\llm_cache
 evaluate:
   result_dir: C:\Users\STUDENT\OneDrive\Documents\Projects\AI Research\secretagent\benchmarks\rulearena\airline\results
-  expt_name: unstructured_baseline
+  expt_name: zs_cot_prompt
 dataset:
   split: test
   shuffle_seed: 137
