@@ -1,75 +1,140 @@
-# DesignBench — Gemini 3 Flash (unstructured)
+# DesignBench — Gemini 3 Flash
 
-Short report for **unstructured** VLM runs using **Gemini 3 Flash** (`gemini/gemini-3-flash-preview` via LiteLLM, `conf/unstructured_gemini_flash.yaml`). **Angular is omitted** here: the DesignBench Angular harness is fragile for model-only HTML (Material imports, `new.component.ts` shell, template typing), so we focus on **vanilla / React / Vue**.
+Summary of **Gemini 3 Flash** runs (`gemini/gemini-3-flash-preview`, `GEMINI_API_KEY` / LiteLLM). **Angular is omitted** (DesignBench Angular harness is brittle for HTML-only model output).
 
-## Environment
+**Repo snapshot:** `aa8b8f25` (regenerate metrics after new runs).
 
-- **Model:** `gemini/gemini-3-flash-preview` (Google AI Studio / `GEMINI_API_KEY`)
-- **Prompt:** `ptools.generate_code` with `prompt_mode: unstructured`, `output_mode: freeform`
-- **Repo snapshot:** commit `2388640` (update if you regenerate this doc)
-- **Visual eval:** enabled (`benchmark.skip_eval: false`) where runs completed
+**Where results live:** canonical copies under `benchmarks/COMMON/results/designbench/<vanilla|vue|react.js>/<timestamp>.<kind>/`. The same experiments are often mirrored under `benchmarks/designbench/results/` with a longer timestamp + `expt_name` in the folder name.
 
-## Results summary
+**Metrics:** Avg CLIP / SSIM / MAE are means over rows with a non-null value for that column. **Total $** is the sum of per-row `cost` (missing costs treated as 0). **$/case** is Total $ ÷ row count.
 
-Means below are **per-case averages** over rows in each `results.csv` (missing metrics excluded from that column’s mean).
+**Configs (Gemini variants):**
 
-| Split   | Expt directory | Rows | Avg CLIP | Avg SSIM | Avg MAE | Total cost (USD) | Avg cost / case |
-|---------|----------------|-----:|---------:|---------:|--------:|-------------------:|----------------:|
-| Vanilla | `results/20260501.091139.unstructured_gemini3_flash_vanilla` | 120 | 0.773 | 0.727 | 55.03 | 1.444 | 0.0120 |
-| React   | `results/20260501.100746.unstructured_gemini3_flash_react`   | 109 | 0.838 | 0.651 | 62.08 | 1.571 | 0.0144 |
-| Vue     | `results/20260501.110553.unstructured_gemini3_flash_vue`     | 118 | 0.820 | 0.668 | 59.97 | 1.989 | 0.0169 |
+| Mode | Typical config |
+|------|----------------|
+| **Unstructured_baseline** | `conf/unstructured_gemini_flash.yaml` |
+| **Structured_baseline** | `conf/structured_gemini_flash.yaml` |
+| **ReAct** | `conf/react_gemini_echo_all_ptools.yaml` (`generate_code` method `react` + tools) |
+| **Workflow** | `conf/refine_loop_gemini.yaml` (`propose_then_refine_loop`: propose → render/fix loop) |
 
-**Paths:** all under `benchmarks/designbench/` (e.g. `…/results.csv`, `…/artifacts/`).
+COMMON directory suffixes (`.unstructured_baseline`, `.structured_baseline`, `.react`, `.workflow`) match the rows below.
+
+---
+
+## Vanilla
+
+### Unstructured_baseline
+
+| n | Avg CLIP | Avg SSIM | Avg MAE | Total $ | $/case |
+|--:|---------:|---------:|--------:|--------:|-------:|
+| 120 | 0.773 | 0.727 | 55.03 | 1.444 | 0.0120 |
+
+**Directory:** `benchmarks/COMMON/results/designbench/vanilla/20260501.091139.unstructured_baseline/`
+
+### Structured_baseline
+
+| n | Avg CLIP | Avg SSIM | Avg MAE | Total $ | $/case |
+|--:|---------:|---------:|--------:|--------:|-------:|
+| 120 | 0.782 | 0.730 | 56.52 | 1.438 | 0.0120 |
+
+**Directory:** `benchmarks/COMMON/results/designbench/vanilla/20260501.235701.structured_baseline/`  
+(`expt_name`: `structured_gemini3_flash_vanilla_noleak`)
+
+### ReAct
+
+| n | Avg CLIP | Avg SSIM | Avg MAE | Total $ | $/case |
+|--:|---------:|---------:|--------:|--------:|-------:|
+| 120 | 0.749 | 0.717 | 60.93 | 9.230 | 0.0769 |
+
+**Directory:** `benchmarks/COMMON/results/designbench/vanilla/20260502.141147.20260502.141144.react/`  
+Mirror: `benchmarks/designbench/results/20260502.141147.20260502.141144.react_gemini3fw_vanilla/`
+
+### Workflow
+
+| n | Avg CLIP | Avg SSIM | Avg MAE | Total $ | $/case |
+|--:|---------:|---------:|--------:|--------:|-------:|
+| 120 | 0.793 | 0.724 | 57.89 | 13.451 | 0.1121 |
+
+**Directory:** `benchmarks/COMMON/results/designbench/vanilla/20260504.133859.workflow/`  
+(`expt_name`: `refine_loop_gemini_vanilla`)
+
+---
+
+## Vue
+
+### Unstructured_baseline
+
+| n | Avg CLIP | Avg SSIM | Avg MAE | Total $ | $/case |
+|--:|---------:|---------:|--------:|--------:|-------:|
+| 118 | 0.820 | 0.668 | 59.97 | 1.989 | 0.0169 |
+
+**Directory:** `benchmarks/COMMON/results/designbench/vue/20260501.110553.unstructured_baseline/`
+
+### Structured_baseline
+
+| n | Avg CLIP | Avg SSIM | Avg MAE | Total $ | $/case |
+|--:|---------:|---------:|--------:|--------:|-------:|
+| 118 | 0.799 | 0.630 | 68.14 | 2.236 | 0.0190 |
+
+**Directory:** `benchmarks/COMMON/results/designbench/vue/20260502.014433.structured_baseline/`  
+(`expt_name`: `structured_gemini3_flash_vue_noleak`)
+
+### ReAct
+
+| n | Avg CLIP | Avg SSIM | Avg MAE | Total $ | $/case |
+|--:|---------:|---------:|--------:|--------:|-------:|
+| 118 | 0.772 | 0.665 | 67.54 | 13.329 | 0.1130 |
+
+**Directory:** `benchmarks/COMMON/results/designbench/vue/20260502.141144.react/`  
+Mirror: `benchmarks/designbench/results/20260503.180756.20260502.141144.react_gemini3fw_vue/`
+
+### Workflow
+
+| n | Avg CLIP | Avg SSIM | Avg MAE | Total $ | $/case |
+|--:|---------:|---------:|--------:|--------:|-------:|
+| 118 | 0.831 | 0.739 | 53.99 | 22.918 | 0.1942 |
+
+**Directory:** `benchmarks/COMMON/results/designbench/vue/20260504.203008.workflow/`  
+(`expt_name`: `refine_loop_gemini_vue`)
+
+---
+
+## React.js
+
+### Unstructured_baseline
+
+| n | Avg CLIP | Avg SSIM | Avg MAE | Total $ | $/case |
+|--:|---------:|---------:|--------:|--------:|-------:|
+| 109 | 0.838 | 0.651 | 62.08 | 1.571 | 0.0144 |
+
+**Directory:** `benchmarks/COMMON/results/designbench/react.js/20260501.100746.unstructured_baseline/`
+
+### Structured_baseline
+
+| n | Avg CLIP | Avg SSIM | Avg MAE | Total $ | $/case |
+|--:|---------:|---------:|--------:|--------:|-------:|
+| 109 | 0.842 | 0.647 | 67.10 | 1.667 | 0.0153 |
+
+**Directory:** `benchmarks/COMMON/results/designbench/react.js/20260502.004515.structured_baseline/`
+
+### ReAct
+
+| n | Avg CLIP | Avg SSIM | Avg MAE | Total $ | $/case |
+|--:|---------:|---------:|--------:|--------:|-------:|
+| 109 | 0.813 | 0.598 | 72.47 | 8.208 | 0.0753 |
+
+**Directory:** `benchmarks/COMMON/results/designbench/react.js/20260502.141144.react/`  
+A merged primary+retry snapshot also exists at `benchmarks/designbench/results/20260505.combined.react_gemini3fw_react_plus_retry/` (same row count and means within rounding).
+
+### Workflow
+
+**No usable visual metrics** in the checked-in snapshot: `benchmarks/COMMON/results/designbench/react.js/20260504.202238.workflow/results.csv` has rows but no CLIP/SSIM/MAE/cost columns populated (failed / partial run). Re-run with `conf/refine_loop_gemini.yaml`, `dataset.framework=react`, `evaluate.expt_name=refine_loop_gemini_react`, then refresh this section.
+
+---
 
 ## Notes
 
-- **CLIP** is the primary visual metric in these runs; SSIM / MAE come from the same eval pipeline when renders succeed.
-- **Cost** is summed from per-row `cost` in `results.csv` (LiteLLM/Gemini where available); per-case average = total / row count.
-- **Angular:** if you revisit it later, fix the DesignBench app shell (`new.component.ts` + Material / template typing) and keep `ptools.prepare_code_for_render` for `@scope/pkg` and `*ngFor` loosening when injecting HTML only.
-
-## Re-run commands (unstructured Gemini)
-
-```bash
-cd benchmarks/designbench
-for fw in vanilla react vue; do
-  uv run python expt.py run --config-file conf/unstructured_gemini_flash.yaml \
-    dataset.framework=$fw \
-    evaluate.expt_name=unstructured_gemini3_flash_${fw}
-done
-```
-
-## Structured + Gemini (recommended if you want “Gemini only”)
-
-Use **`conf/structured_gemini_flash.yaml`**: same **Gemini 3 Flash** VLM stack as unstructured (`GEMINI_API_KEY`, `vlm.provider: gemini`), with **`prompt_mode: structured`** and **`output_mode: answer_tag`**.
-
-```bash
-cd benchmarks/designbench
-for fw in vanilla react vue; do
-  uv run python expt.py run --config-file conf/structured_gemini_flash.yaml \
-    dataset.framework=$fw \
-    evaluate.expt_name=structured_gemini3_flash_${fw}
-done
-```
-
-## Structured baseline (Qwen, simulate prompt)
-
-For **Together / Qwen** only, use **`conf/structured_baseline.yaml`**.
-
-```bash
-cd benchmarks/designbench
-for fw in vanilla react vue; do
-  uv run python expt.py run --config-file conf/structured_baseline.yaml \
-    dataset.framework=$fw \
-    evaluate.expt_name=structured_baseline_${fw}
-done
-```
-
-**Note:** `expt.load_dataset` passes only `(reference_html, framework)` into `generate_code` so `Interface.format_args` matches the stub’s type hints (no stray `metadata` positional).
-
-After runs finish:
-
-```bash
-uv run python -m secretagent.cli.results average --metric clip_similarity --metric ssim --metric mae --metric cost results/structured_gemini3_flash_*
-# Qwen structured runs:
-# uv run python -m secretagent.cli.results average --metric clip_similarity --metric ssim --metric mae --metric cost results/structured_baseline_*
-```
+- **CLIP** is the primary visual metric in these runs.
+- **ReAct** and **Workflow** are much more expensive per case than one-shot unstructured/structured generation.
+- **Qwen / Together** structured baseline uses `conf/structured_baseline.yaml` (not listed here; this doc is Gemini-focused).
+- **`expt.load_dataset`** passes only `(reference_html, framework)` into `generate_code` so `Interface.format_args` matches the stub (no extra `metadata` positional).
