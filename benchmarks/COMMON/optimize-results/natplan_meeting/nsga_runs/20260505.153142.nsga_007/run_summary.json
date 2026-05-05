@@ -1,0 +1,7 @@
+{
+  "reproduce_cmd": "uv run python expt.py run --config-file conf/meeting.yaml dataset.split=meeting dataset.partition=valid dataset.n=50 ptools.meeting_planning.method=prompt_llm ptools.meeting_planning.prompt_template_file=prompt_templates/meeting_zs_cot.txt llm.model=together_ai/deepseek-ai/DeepSeek-V3.1 evaluate.expt_name=nsga_007",
+  "accuracy": 0.0,
+  "total_cost_usd": 0.085931,
+  "total_time_sec": 900.68,
+  "n_samples": 50
+}

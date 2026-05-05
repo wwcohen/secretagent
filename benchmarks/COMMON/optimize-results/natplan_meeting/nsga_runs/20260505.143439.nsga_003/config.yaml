@@ -1,0 +1,29 @@
+llm:
+  model: together_ai/openai/gpt-oss-20b
+  timeout: 180
+cachier:
+  cache_dir: /home/rafacabrera7/DesktopUbuntu/secretagent/benchmarks/natural_plan/llm_cache
+evaluate:
+  result_dir: /home/rafacabrera7/DesktopUbuntu/secretagent/benchmarks/natural_plan/results
+  expt_name: nsga_003
+  entry_point: meeting_planning
+  prompt_trace: true
+dataset:
+  split: meeting
+  shuffle_seed: 42
+  prompt_mode: 0shot
+  'n': 50
+  stratified: false
+  sample_n: 50
+  sample_seed: 42
+  partition: valid
+ptools:
+  parse_meeting_info:
+    method: simulate
+  plan_visit_order:
+    method: simulate
+  build_meeting_plan:
+    method: simulate
+  meeting_planning:
+    method: simulate
+root: /home/rafacabrera7/DesktopUbuntu/secretagent/benchmarks/natural_plan
