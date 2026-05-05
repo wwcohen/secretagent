@@ -17,6 +17,8 @@ KEYTASKS = [
     "natural_plan/trip",
     "rulearena/nba",
     "medcalc/overall",
+#    "medcalc/formula",
+#    "medcalc/rules",
 ]
 
 BASE = os.path.join(os.path.dirname(__file__), "..", "benchmarks", "COMMON")
@@ -100,6 +102,30 @@ def find_react_learned_csv(task, subtask):
     return None
 
 
+ORCHESTRATOR_DIR = os.path.join(BASE, "orchestrator-results", "seed_from_ptools")
+
+
+def find_orchestrator_csv(task, subtask):
+    """Find orchestrator results CSV for a task/subtask."""
+    if task == "medcalc":
+        subtask_dir = os.path.join(ORCHESTRATOR_DIR, "medcalc", "results",
+                                   "learned_from_all_traces", subtask)
+    elif task == "rulearena" and subtask == "nba":
+        subtask_dir = os.path.join(ORCHESTRATOR_DIR, "rulearena_nba", "results",
+                                   "with_rulebook")
+    else:
+        task_subtask = f"{task}_{subtask}".replace("natural_plan", "natplan")
+        subtask_dir = os.path.join(ORCHESTRATOR_DIR, task_subtask, "results")
+    if not os.path.isdir(subtask_dir):
+        return None
+    result = find_latest_dir(subtask_dir, "*test*")
+    if result:
+        csv_path = os.path.join(result, "results.csv")
+        if os.path.isfile(csv_path):
+            return csv_path
+    return None
+
+
 def find_optimizer_csv(task, subtask):
     """Find best NSGA-II test-pass results CSV for a task/subtask.
 
@@ -159,7 +185,7 @@ def _add_row(correct_rows, cost_rows, label_cols, col_names, find_fn, tasks):
     cost_rows.append(cost_row)
 
 
-def build_dataframes(include_opus=False, suppress=None):
+def build_dataframes(include_opus=False, suppress=None, transpose=False):
     """Build DataFrames for correctness and cost (USD per 100 examples)."""
     tasks = [t for t in KEYTASKS if t not in (suppress or [])]
     col_names = [
@@ -194,6 +220,11 @@ def build_dataframes(include_opus=False, suppress=None):
                      lambda t, s, ll=learner_llm, pc=ptool_class: find_codedistill_csv(t, s, learner_llm=ll, ptool_class=pc),
                      tasks)
 
+    # Orchestrator row
+    _add_row(correct_rows, cost_rows,
+             {"workflow": "orchest", "model": "-", "toolkit": "human"},
+             col_names, find_orchestrator_csv, tasks)
+
     # Optimizer row: NSGA-II Pareto top-1 by test accuracy.
     _add_row(correct_rows, cost_rows,
              {"workflow": "nsga", "model": "auto", "toolkit": "auto"},
@@ -202,31 +233,42 @@ def build_dataframes(include_opus=False, suppress=None):
     correct_df = pd.DataFrame(correct_rows)
     cost_df = pd.DataFrame(cost_rows)
 
-    # Create method label as index, transpose so tasks are rows
-    label_cols = ["workflow", "model", "toolkit"]
-    for df in (correct_df, cost_df):
-        if include_opus:
-            df.index = df.apply(lambda r: f"{r['workflow']}/{r['model']}/{r['toolkit']}", axis=1)
-        else:
-            df.index = df.apply(lambda r: f"{r['workflow']}/{r['toolkit']}", axis=1)
-        df.drop(columns=label_cols, inplace=True)
-
-    correct_df = correct_df.T
-    cost_df = cost_df.T
-
-    # Add average row over task rows
-    for df in (correct_df, cost_df):
-        avgs = {}
-        for col in df.columns:
-            vals = []
-            for cell in df[col]:
-                if isinstance(cell, str) and "+/-" in cell:
-                    vals.append(float(cell.split("+/-")[0]))
-            if vals:
-                avgs[col] = f"{sum(vals)/len(vals):.2f}"
+    if transpose:
+        # Tasks as rows, methods as columns
+        label_cols = ["workflow", "model", "toolkit"]
+        for df in (correct_df, cost_df):
+            if include_opus:
+                df.index = df.apply(lambda r: f"{r['workflow']}/{r['model']}/{r['toolkit']}", axis=1)
             else:
-                avgs[col] = "—"
-        df.loc["average"] = avgs
+                df.index = df.apply(lambda r: f"{r['workflow']}/{r['toolkit']}", axis=1)
+            df.drop(columns=label_cols, inplace=True)
+
+        correct_df = correct_df.T
+        cost_df = cost_df.T
+
+        # Add average row
+        for df in (correct_df, cost_df):
+            avgs = {}
+            for col in df.columns:
+                vals = [float(c.split("+/-")[0]) for c in df[col] if isinstance(c, str) and "+/-" in c]
+                avgs[col] = f"{sum(vals)/len(vals):.2f}" if vals else "—"
+            df.loc["average"] = avgs
+    else:
+        # Methods as rows, tasks as columns (with workflow and ptools label columns)
+        drop_cols = ["model"] if not include_opus else []
+        for df in (correct_df, cost_df):
+            df.rename(columns={"toolkit": "ptools"}, inplace=True)
+            if drop_cols:
+                df.drop(columns=drop_cols, inplace=True)
+
+        # Add average column
+        task_cols = col_names
+        for df in (correct_df, cost_df):
+            avgs = []
+            for _, row in df.iterrows():
+                vals = [float(row[c].split("+/-")[0]) for c in task_cols if isinstance(row[c], str) and "+/-" in row[c]]
+                avgs.append(f"{sum(vals)/len(vals):.2f}" if vals else "—")
+            df["average"] = avgs
 
     return correct_df, cost_df
 
@@ -238,14 +280,18 @@ def main():
                         help="Include codedistill rows for model=opus")
     parser.add_argument("--suppress", nargs="+", default=[], metavar="TASK/SUBTASK",
                         help="Omit specified TASK/SUBTASK entries from the table")
+    parser.add_argument("--transpose", action="store_true",
+                        help="Show tasks as rows and methods as columns")
     args = parser.parse_args()
 
-    correct_df, cost_df = build_dataframes(include_opus=args.include_opus, suppress=args.suppress)
+    correct_df, cost_df = build_dataframes(
+        include_opus=args.include_opus, suppress=args.suppress, transpose=args.transpose)
     print("=== Correctness ===")
-    print(correct_df.to_string())
+    show_index = args.transpose
+    print(correct_df.to_string(index=show_index))
     print()
     print("=== Cost (USD per 100 examples) ===")
-    print(cost_df.to_string())
+    print(cost_df.to_string(index=show_index))
 
 
 if __name__ == "__main__":
