@@ -1,0 +1,20 @@
+{
+  "derived_from": "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/COMMON/results/medcalc/test_split/overall/20260504.140011.unstructured_no_formula",
+  "split": "formulas",
+  "included_categories": [
+    "dosage",
+    "lab test",
+    "physical"
+  ],
+  "excluded_categories_from_overall": [
+    "date",
+    "diagnosis",
+    "risk",
+    "severity"
+  ],
+  "rows": 660,
+  "correct": 194,
+  "accuracy": 0.29393939393939394,
+  "total_cost": 0.3081418999999776,
+  "note": "Derived by filtering the overall MedCalc test-split run; config.yaml is copied from the source run."
+}

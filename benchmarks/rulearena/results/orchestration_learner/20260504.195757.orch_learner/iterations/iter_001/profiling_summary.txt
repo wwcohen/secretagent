@@ -1,0 +1,9 @@
+Pipeline accuracy: 86.2%, avg cost: $0.0041/case, 29 cases
+
+Per-ptool breakdown:
+  _analyze_operation_compliance_impl: cost_frac=100.0%, calls/case=1.0, avg_cost=$0.0041, lift=N/A, errors=0
+
+Ptools called via LLM: ['_analyze_operation_compliance_impl']
+
+Held-out eval accuracy: 76.9% (train: 86.2%)
+A large train-eval gap means your changes are OVERFITTING. Prefer changes that generalize to unseen cases.

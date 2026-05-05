@@ -1,0 +1,16 @@
+text: str, metadata_json: str, forms_text: str) -> float:
+    return l1_extract_workflow(problem_text, domain, rules_text, metadata_json, forms_text)
+```
+In Iter 1, I did EXACTLY this! And it HURT accuracy!
+Why? "This skips compute_airline_calculator and compute_tax_calculator, potentially breaking tool tracking."
+Yes! The orchestrator tracks tool usage. The trace says: `Ptools called via LLM: ['extract_nba_params']`.
+If I bypass `compute_airline_calculator` by calling `l1_extract_workflow` (which calls `_airline_calc_fn`), I break the tool tracking, and the framework penalizes me or fails!
+So I MUST retain the calls to `extract_airline_params`, `compute_airline_calculator`, etc.
+Let's rewrite `compute_rulearena_answer_orchestrated_seed` to carefully preserve tool tracking, BUT pass the correct queries!
+
+```python
+def compute_rulearena_answer_orchestrated_seed(problem_text: str, domain: str, rules_text: str, metadata_json: str, forms_text: str) -> float:
+    if domain == "airline":
+        query = f"RULES:\n{rules_text}\n\nQUERY:\n{problem_text}"
+        airline_params = extract_airline_params(query)
+        result = compute_airline_calculator(airline

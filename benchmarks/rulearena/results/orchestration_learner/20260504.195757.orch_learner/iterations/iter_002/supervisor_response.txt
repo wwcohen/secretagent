@@ -1,0 +1,13 @@
+False. (Wait, if compliant -> False, then compliant = False, invalid = True!)
+Let me repeat that.
+If the 25 correct cases had `compliant` -> returned 0.0 -> expected 0.0.
+Then `expected=0.0` (False) means COMPLIANT.
+If expected=False means COMPLIANT, then why does `nba_0_22` (which is clearly illegal/non-compliant) have `answer=False`?
+Wait! In `nba_0_22`, the LLM said it is `non_compliant`. And the expected answer is `False`!
+Wait, if expected `False` means `non-compliant`, then:
+In `nba_0_22`: LLM says non-compliant. Expected is False (0.0). So non-compliant = False.
+In `nba_0_79`: LLM says non-compliant. Expected is False. So non-compliant = False.
+In `nba_1_79`: LLM says non-compliant. Expected is False. So non-compliant = False.
+In `nba_0_68`: LLM says Team B is non-compliant. Expected is True. (Wait! If non-compliant = False, then why is `nba_0_68` True?)
+Wait, if non-compliant = False (0.0), and compliant = True (1.0).
+Then the current logic:

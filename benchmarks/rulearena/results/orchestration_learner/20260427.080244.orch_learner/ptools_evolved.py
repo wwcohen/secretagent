@@ -581,5 +581,6 @@ def compute_rulearena_answer_orchestrated_seed(problem_text: str, domain: str, r
         result = compute_tax_calculator(tax_params)
         return float(result)
     elif domain == "nba":
+        # Manual fix: extract_nba_params returns NbaResult; convert via .verdict
         result = extract_nba_params(problem_text)
-        return float(result)
+        return float(result.verdict)

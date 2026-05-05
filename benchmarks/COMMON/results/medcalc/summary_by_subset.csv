@@ -1,7 +1,7 @@
 experiment,subset,n,tolerance_accuracy,exact_match,cost
-L0_baseline,formulas,205,0.8049,0.4244,0.4159
-L0_baseline,rules,64,0.5625,0.5625,0.153
-L0_baseline,overall,275,0.7309,0.4473,0.5784
+zs_cot_prompt,formulas,205,0.8049,0.4244,0.4159
+zs_cot_prompt,rules,64,0.5625,0.5625,0.153
+zs_cot_prompt,overall,275,0.7309,0.4473,0.5784
 L1_simulate,formulas,205,0.7073,0.5707,0.3945
 L1_simulate,rules,64,0.5469,0.5469,0.1361
 L1_simulate,overall,275,0.6545,0.5527,0.5426

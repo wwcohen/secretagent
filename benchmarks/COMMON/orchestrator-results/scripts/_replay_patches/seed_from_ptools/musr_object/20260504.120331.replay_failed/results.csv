@@ -1,0 +1,7 @@
+case_name,predicted_output,expected_output,correct,input_tokens,output_tokens,latency,cost,expt_name
+ex027,**exception raised**: cannot find final answer,2,False,1759.0,2271.0,55.0334587097168,0.0049161,replay_failed
+ex030,"**exception raised**: invalid literal for int() with base 10: '\\ndesk\' which contains some extraneous text but ends with the word \'desk\'. The choices are [""Dorothy\'s study table"" ""Michael\'s room"" \'desk\' \'shared bookshelf\']. We need to find which choice",2,False,2049.0,1791.0,43.95412611961365,0.0042741,replay_failed
+ex064,"**exception raised**: invalid literal for int() with base 10: '\\ndisplay stand\'. However note that this string contains a lot of extra text. The actual answer we are looking for seems to be ""display stand"" at the end. The choices are: [\'auction block\' \'bidd",4,False,1749.0,1087.0,54.05471587181091,0.0028973,replay_failed
+ex031,**exception raised**: cannot find final answer,3,False,3791.0,4096.0,84.65202450752258,0.009237800000000001,replay_failed
+ex094,**exception raised**: cannot find final answer,2,False,3771.0,4096.0,82.74527215957642,0.0092258,replay_failed
+ex047,"**exception raised**: invalid literal for int() with base 10: ""\\nbedside table'. So if the function is designed to handle such input it might extract the part after '<answer>\\n' and before the next tag or end.\n\nGiven the context I think the intended behavior",0,False,1587.0,1134.0,27.667937994003296,0.0028799999999999997,replay_failed

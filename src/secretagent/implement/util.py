@@ -4,6 +4,7 @@ import functools
 import importlib
 import importlib.util
 import pathlib
+import sys
 from glob import glob
 from pathlib import Path
 from string import Template
@@ -90,6 +91,10 @@ def _load_module_from_file(filepath, module_name='learned_ptools'):
     """Import a Python file and return the module."""
     spec = importlib.util.spec_from_file_location(module_name, filepath)
     mod = importlib.util.module_from_spec(spec)
+    # Register before exec so classes defined in the module pickle correctly:
+    # pickle records `cls.__module__` and unpickling calls `import <name>`,
+    # which only succeeds if the module is in sys.modules.
+    sys.modules[module_name] = mod
     spec.loader.exec_module(mod)
     return mod
 

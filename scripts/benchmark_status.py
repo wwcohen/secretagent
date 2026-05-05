@@ -8,7 +8,7 @@ For every TASK/SUBTASK this code checks that there is a subdirectory D
 in the main branch of the repo called benchmarks/COMMON/results/TASK/SUBTASK
 (eg benchmarks/COMMON/results/musr/team). That subdirectory D should contain
 a valid "results directory" for the expt_name S, for each S in
-'workflow', 'pot', 'react', 'structured_baseline', and 'unstructured_baseline'.
+'workflow', 'pot', 'react', 'structured_baseline', and 'zs_cot_prompt'.
 
 If there is no such directory print TASK/SUBTASK that subtask gets a
 score of 0, with a message saying that the expected result directory
@@ -90,7 +90,7 @@ STRATEGIES = [
     "pot",
     "react",
     "structured_baseline",
-    "unstructured_baseline",
+    "zs_cot_prompt",
 ]
 
 # Pattern: 2026mmdd.hhmmss.STRATEGY

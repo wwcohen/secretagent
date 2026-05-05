@@ -1,0 +1,951 @@
+case_name,predicted_output,predicted_numeric,expected_output,correct,exact_match,within_limits,absolute_error,calculator_name,category,output_type,input_tokens,output_tokens,latency,cost,expt_name
+test.0001,31.74,31.74,25.2381,0.0,0.0,0.0,6.501899999999999,Creatinine Clearance (Cockcroft-Gault Equation),lab test,decimal,10464.0,2174.0,30.621967315673828,0.009974199999999999,formula_evolved_deepseek_v31_full_test
+test.0003,43.2,43.2,57.65181,0.0,0.0,0.0,14.451809999999995,Creatinine Clearance (Cockcroft-Gault Equation),lab test,decimal,2763.0,114.0,5.6570799350738525,0.0018516,formula_evolved_deepseek_v31_full_test
+test.0002,26.7,26.7,38.0,0.0,0.0,0.0,11.3,Creatinine Clearance (Cockcroft-Gault Equation),lab test,decimal,3695.0,144.0,4.527393102645874,0.0024617999999999997,formula_evolved_deepseek_v31_full_test
+test.0004,"First, calculate ideal body weight (IBW) using Devine formula for female: Height is 5'3"" = 63 inches. IBW = 45.5 + 2.3 * (63 - 60) = 45.5 + 2.3 * 3 = 45.5 + 6.9 = 52.4 kg.
+
+Since BMI = 42 kg/m² (obese), use adjusted body weight: ABW = IBW + 0.4 * (actual_weight - IBW) = 52.4 + 0.4 * (105 - 52.4) = 52.4 + 0.4 * 52.6 = 52.4 + 21.04 = 73.44 kg.
+
+Now apply Cockroft-Gault formula: CrCl = ((140 - age) * adjusted_weight * gender_coef) / (Cr * 72) = ((140 - 42) * 73.44 * 0.85) / (0.8 * 72) = (98 * 73.44 * 0.85) / 57.6 = (98 * 62.424) / 57.6 = 6117.552 / 57.6 = 106.21 mL/min.
+
+Final answer: 106.21",106.21,106.19185,1.0,0.0,1.0,0.01814999999999145,Creatinine Clearance (Cockcroft-Gault Equation),lab test,decimal,2566.0,570.0,9.256027221679688,0.0025085999999999997,formula_evolved_deepseek_v31_full_test
+test.0005,"I need to calculate creatinine clearance using the Cockroft-Gault equation. First, I need to calculate BMI to determine weight status, then calculate ideal body weight and adjusted body weight if needed, and finally apply the Cockroft-Gault formula.
+
+From the patient note:
+- Age: 45 years
+- Gender: female (woman)
+- Weight: 58 kg
+- Height: 156 cm
+- Creatinine: 0.7 mg/dL
+
+Step 1: Calculate BMI
+BMI = weight_kg / (height_m)^2
+Height in meters: 156 cm = 1.56 m
+BMI = 58 / (1.56)^2 = 58 / 2.4336 = 23.83
+
+Step 2: Determine weight status
+BMI 23.83 is within normal range (18.5-24.9), so we use the minimum of ideal body weight and actual weight
+
+Step 3: Calculate ideal body weight (Devine formula for female)
+IBW = 45.5 + 2.3 * (height_in - 60)
+Height in inches: 156 cm / 2.54 = 61.42 inches
+IBW = 45.5 + 2.3 * (61.42 - 60) = 45.5 + 2.3 * 1.42 = 45.5 + 3.266 = 48.77 kg
+
+Step 4: Determine adjusted body weight
+Since BMI is normal, use minimum of IBW (48.77 kg) and actual weight (58 kg)
+Adjusted weight = min(48.77, 58) = 48.77 kg
+
+Step 5: Apply Cockroft-Gault formula
+CrCl = ((140 - age) * adjusted_weight * gender_coef) / (Cr * 72)
+For female: gender_coef = 0.85
+CrCl = ((140 - 45) * 48.77 * 0.85) / (0.7 * 72)
+= (95 * 48.77 * 0.85) / (50.4)
+= (95 * 41.4545) / 50.4
+= 3938.1775 / 50.4
+= 78.15 mL/min
+
+Final answer: 78.15",78.15,78.12231,1.0,0.0,1.0,0.027690000000006876,Creatinine Clearance (Cockcroft-Gault Equation),lab test,decimal,3357.0,651.0,10.620731592178345,0.0031209,formula_evolved_deepseek_v31_full_test
+test.0007,58.0,58.0,55.625,1.0,0.0,1.0,2.375,Creatinine Clearance (Cockcroft-Gault Equation),lab test,decimal,2902.0,106.0,1.920241355895996,0.0019213999999999998,formula_evolved_deepseek_v31_full_test
+test.0009,15.6,15.6,9.67083,0.0,0.0,0.0,5.929169999999999,Creatinine Clearance (Cockcroft-Gault Equation),lab test,decimal,3453.0,203.0,2.9526448249816895,0.0024169,formula_evolved_deepseek_v31_full_test
+test.0006,"Let me calculate this step by step:
+
+1. First, calculate BMI: Weight = 52.5 kg, Height = 167 cm = 1.67 m
+   BMI = 52.5 / (1.67)^2 = 52.5 / 2.7889 = 18.82
+
+2. Since BMI < 18.5 is underweight and 18.5-24.9 is normal weight, this patient's BMI of 18.82 is normal (just above the underweight threshold).
+
+3. According to the instructions: ""If the patient's BMI is normal, set their adjusted body weight to the minimum of the ideal body weight and actual weight.""
+
+4. Calculate ideal body weight using Devine formula for males:
+   Height in inches: 167 cm / 2.54 = 65.75 inches
+   IBW = 50 + 2.3 * (65.75 - 60) = 50 + 2.3 * 5.75 = 50 + 13.225 = 63.225 kg
+
+5. Actual weight = 52.5 kg
+   Minimum of IBW (63.225 kg) and actual weight (52.5 kg) = 52.5 kg
+
+6. Use Cockcroft-Gault formula:
+   CrCl = ((140 - age) * adjusted_weight * gender_coef) / (Cr * 72)
+   For males, gender_coef = 1
+   CrCl = ((140 - 41) * 52.5 * 1) / (0.86 * 72)
+        = (99 * 52.5) / (61.92)
+        = 5197.5 / 61.92 = 83.92 mL/min
+
+The creatinine clearance is approximately 83.92 mL/min.",83.92,83.93895,1.0,0.0,1.0,0.018950000000003797,Creatinine Clearance (Cockcroft-Gault Equation),lab test,decimal,11802.0,2603.0,38.797698974609375,0.0115063,formula_evolved_deepseek_v31_full_test
+test.0012,"I need to calculate the patient's Creatinine Clearance using the Cockcroft-Gault equation. First, I'll calculate BMI to determine if the patient needs adjusted body weight. The patient is 168 cm tall (1.68 m) and weighs 59 kg. BMI = 59 / (1.68)^2 = 59 / 2.8224 = 20.9 kg/m². Since BMI 20.9 is within the normal range (18.5-24.9), I should use the minimum of ideal body weight and actual weight. For males, ideal body weight = 50 + 2.3*(height_in - 60). Height 168 cm = 66.14 inches. IBW = 50 + 2.3*(66.14 - 60) = 50 + 2.3*6.14 = 50 + 14.12 = 64.12 kg. Since actual weight (59 kg) is less than IBW (64.12 kg), I use actual weight. Cockcroft-Gault: CrCl = ((140 - 53) * 59 * 1) / (1.1 * 72) = (87 * 59) / 79.2 = 5133 / 79.2 = 64.8 mL/min.",64.8,64.81061,1.0,0.0,1.0,0.010609999999999786,Creatinine Clearance (Cockcroft-Gault Equation),lab test,decimal,10496.0,2456.0,42.89802932739258,0.0104728,formula_evolved_deepseek_v31_full_test
+test.0010,**exception raised**: Exceeded maximum retries (1) for output validation,,63.90115,0.0,0.0,0.0,inf,Creatinine Clearance (Cockcroft-Gault Equation),lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0008,**exception raised**: Exceeded maximum retries (1) for output validation,,35.33309,0.0,0.0,0.0,inf,Creatinine Clearance (Cockcroft-Gault Equation),lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0011,**exception raised**: Exceeded maximum retries (1) for output validation,,10.01786,0.0,0.0,0.0,inf,Creatinine Clearance (Cockcroft-Gault Equation),lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0015,"I need to calculate this patient's creatinine clearance using the Cockcroft-Gault equation. First, I'll extract all relevant values from the patient note: age 83 years, weight 72.6 kg, height 172.7 cm, creatinine 1.7 mg/dL, and male gender. I must calculate BMI to determine if the patient is overweight/obese and whether to use adjusted body weight. Let me start by calculating BMI.",1.7,31.84454,0.0,0.0,0.0,30.14454,Creatinine Clearance (Cockcroft-Gault Equation),lab test,decimal,2778.0,225.0,4.021352291107178,0.0020493,formula_evolved_deepseek_v31_full_test
+test.0014,"I need to calculate creatinine clearance using Cockroft-Gault with adjusted body weight. First, I'll extract the patient's demographics and lab values: 81-year-old woman, height 153 cm, weight 40 kg, creatinine 1.27 mg/dL. Next, I'll calculate BMI to determine weight status, then calculate ideal body weight using Devine formula, then adjusted body weight based on BMI category, and finally apply Cockroft-Gault formula.
+
+BMI = weight_kg / (height_m)^2 = 40 / (1.53)^2 = 40 / 2.3409 = 17.09 (underweight)
+Since BMI < 18.5, patient is underweight → adjusted weight = actual weight = 40 kg
+
+Ideal Body Weight (Devine, female): IBW = 45.5 + 2.3 * (height_in - 60)
+Height: 153 cm = 60.24 inches
+IBW = 45.5 + 2.3 * (60.24 - 60) = 45.5 + 2.3 * 0.24 = 45.5 + 0.552 = 46.05 kg
+
+Cockroft-Gault formula:
+CrCl = ((140 - age) * adjusted_weight * gender_coef) / (Cr * 72)
+Gender coefficient for female = 0.85
+CrCl = ((140 - 81) * 40 * 0.85) / (1.27 * 72)
+= (59 * 40 * 0.85) / (91.44)
+= (2006) / (91.44)
+= 21.94 mL/min
+
+Final creatinine clearance: 21.94",21.94,21.93788,1.0,1.0,1.0,0.002120000000001454,Creatinine Clearance (Cockcroft-Gault Equation),lab test,decimal,2994.0,472.0,9.274672031402588,0.0025988,formula_evolved_deepseek_v31_full_test
+test.0016,"I need to calculate the creatinine clearance using the Cockroft-Gault equation. Let me first extract all the relevant values from the patient note:
+
+1. Age: 78 years old (man)
+2. Actual weight: 62.8 kg
+3. Height: 160 cm
+4. Creatinine: 0.93 mg/dl
+5. Gender: male (""man"")
+
+Now I need to calculate BMI to determine if the patient is underweight, normal weight, or overweight/obese:
+BMI = weight_kg / (height_m)^2 = 62.8 / (1.6)^2 = 62.8 / 2.56 = 24.53 kg/m²
+
+According to standard BMI categories:
+- Underweight: <18.5
+- Normal weight: 18.5-24.9  
+- Overweight: 25-29.9
+- Obese: ≥30
+
+The patient's BMI is 24.53, which falls in the normal weight range (18.5-24.9). According to the instructions, for normal weight patients, I should set adjusted body weight to the minimum of ideal body weight and actual weight.
+
+Let me calculate ideal body weight using Devine formula for males:
+First convert height from cm to inches: 160 cm / 2.54 = 63 inches
+IBW = 50 + 2.3 * (height_in - 60) = 50 + 2.3 * (63 - 60) = 50 + 2.3 * 3 = 50 + 6.9 = 56.9 kg
+
+Actual weight: 62.8 kg
+Minimum of IBW and actual weight: min(56.9, 62.8) = 56.9 kg
+
+Now I can calculate Creatinine Clearance using Cockroft-Gault:
+CrCl = ((140 - age) * adjusted_weight * gender_coef) / (Cr * 72)
+For males, gender_coef = 1
+CrCl = ((140 - 78) * 56.9 * 1) / (0.93 * 72) = (62 * 56.9) / (66.96) = 3527.8 / 66.96 = 52.69 mL/min",52.69,52.66849,1.0,0.0,1.0,0.021509999999999252,Creatinine Clearance (Cockcroft-Gault Equation),lab test,decimal,3078.0,562.0,10.582545757293701,0.0028022,formula_evolved_deepseek_v31_full_test
+test.0013,86.90,86.9,86.89835,1.0,1.0,1.0,0.0016500000000121418,Creatinine Clearance (Cockcroft-Gault Equation),lab test,decimal,2433.0,572.0,11.15601658821106,0.0024322,formula_evolved_deepseek_v31_full_test
+test.0019,43.15,43.15,40.96504,0.0,0.0,0.0,2.1849599999999967,Creatinine Clearance (Cockcroft-Gault Equation),lab test,decimal,3025.0,126.0,2.6824259757995605,0.0020292,formula_evolved_deepseek_v31_full_test
+test.0020,71.6,71.6,63.27379,0.0,0.0,0.0,8.326209999999996,Creatinine Clearance (Cockcroft-Gault Equation),lab test,decimal,2752.0,185.0,3.7440552711486816,0.0019657,formula_evolved_deepseek_v31_full_test
+test.0021,9.0,9.0,7.40237,0.0,0.0,0.0,1.5976299999999997,CKD-EPI Equations for Glomerular Filtration Rate,lab test,decimal,3190.0,280.0,5.764000177383423,0.0023899999999999998,formula_evolved_deepseek_v31_full_test
+test.0018,6.07,6.07,6.07477,1.0,1.0,1.0,0.004769999999999719,Creatinine Clearance (Cockcroft-Gault Equation),lab test,decimal,10458.0,2469.0,44.523343086242676,0.0104721,formula_evolved_deepseek_v31_full_test
+test.0022,90.2,90.2,47.039,0.0,0.0,0.0,43.161,CKD-EPI Equations for Glomerular Filtration Rate,lab test,decimal,10974.0,2201.0,40.11830282211304,0.0103261,formula_evolved_deepseek_v31_full_test
+test.0017,**exception raised**: Exceeded maximum retries (1) for output validation,,73.14863,0.0,0.0,0.0,inf,Creatinine Clearance (Cockcroft-Gault Equation),lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0023,**exception raised**: Exceeded maximum retries (1) for output validation,,48.44101,0.0,0.0,0.0,inf,CKD-EPI Equations for Glomerular Filtration Rate,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0024,25.28,25.28,23.42179,0.0,0.0,0.0,1.8582099999999997,CKD-EPI Equations for Glomerular Filtration Rate,lab test,decimal,9229.0,2544.0,42.14787030220032,0.0098622,formula_evolved_deepseek_v31_full_test
+test.0026,98.4,98.4,70.21721,0.0,0.0,0.0,28.18279000000001,CKD-EPI Equations for Glomerular Filtration Rate,lab test,decimal,2650.0,317.0,5.218235015869141,0.0021289,formula_evolved_deepseek_v31_full_test
+test.0027,22.5,22.5,25.65504,0.0,0.0,0.0,3.1550399999999996,CKD-EPI Equations for Glomerular Filtration Rate,lab test,decimal,2836.0,239.0,3.840785264968872,0.0021079,formula_evolved_deepseek_v31_full_test
+test.0028,7.0,7.0,11.09459,0.0,0.0,0.0,4.09459,CKD-EPI Equations for Glomerular Filtration Rate,lab test,decimal,2818.0,234.0,3.9438281059265137,0.0020886,formula_evolved_deepseek_v31_full_test
+test.0030,7.0,7.0,7.29346,1.0,0.0,1.0,0.2934599999999996,CKD-EPI Equations for Glomerular Filtration Rate,lab test,decimal,3171.0,273.0,5.202413320541382,0.0023667,formula_evolved_deepseek_v31_full_test
+test.0025,**exception raised**: Exceeded maximum retries (1) for output validation,,24.32306,0.0,0.0,0.0,inf,CKD-EPI Equations for Glomerular Filtration Rate,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0029,**exception raised**: Exceeded maximum retries (1) for output validation,,4.90379,0.0,0.0,0.0,inf,CKD-EPI Equations for Glomerular Filtration Rate,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0031,**exception raised**: Exceeded maximum retries (1) for output validation,,28.13233,0.0,0.0,0.0,inf,CKD-EPI Equations for Glomerular Filtration Rate,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0032,**exception raised**: Exceeded maximum retries (1) for output validation,,6.49484,0.0,0.0,0.0,inf,CKD-EPI Equations for Glomerular Filtration Rate,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0035,67.34,67.34,68.04278,1.0,0.0,1.0,0.70277999999999,CKD-EPI Equations for Glomerular Filtration Rate,lab test,decimal,2354.0,639.0,13.508264541625977,0.0024987,formula_evolved_deepseek_v31_full_test
+test.0036,28.0,28.0,50.95345,0.0,0.0,0.0,22.953449999999997,CKD-EPI Equations for Glomerular Filtration Rate,lab test,decimal,2968.0,213.0,4.338604927062988,0.0021429,formula_evolved_deepseek_v31_full_test
+test.0033,36.2,36.2,41.1776,0.0,0.0,0.0,4.977599999999995,CKD-EPI Equations for Glomerular Filtration Rate,lab test,decimal,10074.0,2213.0,40.560975313186646,0.0098065,formula_evolved_deepseek_v31_full_test
+test.0034,**exception raised**: Exceeded maximum retries (1) for output validation,,22.44331,0.0,0.0,0.0,inf,CKD-EPI Equations for Glomerular Filtration Rate,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0039,"142 * min(3/0.9,1)^-0.302 * max(3/0.9,1)^-1.200 * 0.9938^18 * 1.012",1.012,29.93751,0.0,0.0,0.0,28.92551,CKD-EPI Equations for Glomerular Filtration Rate,lab test,decimal,2796.0,167.0,3.3420217037200928,0.0019615,formula_evolved_deepseek_v31_full_test
+test.0037,62.3,62.3,74.27715,0.0,0.0,0.0,11.977150000000009,CKD-EPI Equations for Glomerular Filtration Rate,lab test,decimal,2681.0,253.0,5.341296195983887,0.0020387,formula_evolved_deepseek_v31_full_test
+test.0061,100.0,100.0,100.0,1.0,1.0,1.0,0.0,Mean Arterial Pressure (MAP),physical,decimal,2824.0,165.0,4.12579870223999,0.0019749,formula_evolved_deepseek_v31_full_test
+test.0062,56.667,56.667,56.66667,1.0,1.0,1.0,0.0003299999999981651,Mean Arterial Pressure (MAP),physical,decimal,2269.0,231.0,4.198399066925049,0.0017541,formula_evolved_deepseek_v31_full_test
+test.0064,70.0,70.0,70.0,1.0,1.0,1.0,0.0,Mean Arterial Pressure (MAP),physical,decimal,2703.0,177.0,3.5445127487182617,0.0019226999999999998,formula_evolved_deepseek_v31_full_test
+test.0065,75.333,75.333,75.33333,1.0,1.0,1.0,0.0003300000000052705,Mean Arterial Pressure (MAP),physical,decimal,3178.0,182.0,4.451573848724365,0.0022161999999999998,formula_evolved_deepseek_v31_full_test
+test.0066,66.66666666666667,66.66666666666667,78.66667,0.0,0.0,0.0,12.000003333333325,Mean Arterial Pressure (MAP),physical,decimal,2305.0,132.0,2.3125407695770264,0.0016074,formula_evolved_deepseek_v31_full_test
+test.0063,111.333,111.333,111.33333,1.0,1.0,1.0,0.0003300000000052705,Mean Arterial Pressure (MAP),physical,decimal,10339.0,2257.0,41.75126028060913,0.010040299999999999,formula_evolved_deepseek_v31_full_test
+test.0068,100.0,100.0,100.0,1.0,1.0,1.0,0.0,Mean Arterial Pressure (MAP),physical,decimal,2668.0,182.0,3.7556357383728027,0.0019102,formula_evolved_deepseek_v31_full_test
+test.0040,**exception raised**: Exceeded maximum retries (1) for output validation,,40.43277,0.0,0.0,0.0,inf,CKD-EPI Equations for Glomerular Filtration Rate,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0038,**exception raised**: Exceeded maximum retries (1) for output validation,,43.78544,0.0,0.0,0.0,inf,CKD-EPI Equations for Glomerular Filtration Rate,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0067,**exception raised**: Exceeded maximum retries (1) for output validation,,90.0,0.0,0.0,0.0,inf,Mean Arterial Pressure (MAP),physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0072,88.33333333333333,88.33333333333333,88.33333,1.0,1.0,1.0,3.3333333249174757e-06,Mean Arterial Pressure (MAP),physical,decimal,3095.0,101.0,2.3513197898864746,0.0020287,formula_evolved_deepseek_v31_full_test
+test.0070,71.66666666666667,71.66666666666667,68.33333,1.0,0.0,1.0,3.3333366666666677,Mean Arterial Pressure (MAP),physical,decimal,8844.0,2102.0,39.82941555976868,0.0088798,formula_evolved_deepseek_v31_full_test
+test.0071,126.0,126.0,126.0,1.0,1.0,1.0,0.0,Mean Arterial Pressure (MAP),physical,decimal,8720.0,2264.0,43.299235343933105,0.0090808,formula_evolved_deepseek_v31_full_test
+test.0074,86.67,86.67,86.66667,1.0,1.0,1.0,0.003330000000005384,Mean Arterial Pressure (MAP),physical,decimal,2277.0,220.0,5.032487154006958,0.0017402,formula_evolved_deepseek_v31_full_test
+test.0075,53.333333333333336,53.333333333333336,53.33333,1.0,1.0,1.0,3.3333333391283304e-06,Mean Arterial Pressure (MAP),physical,decimal,2555.0,121.0,3.0494801998138428,0.0017387,formula_evolved_deepseek_v31_full_test
+test.0077,64.333,64.333,64.33333,1.0,1.0,1.0,0.0003300000000052705,Mean Arterial Pressure (MAP),physical,decimal,2761.0,159.0,4.348792791366577,0.0019268999999999998,formula_evolved_deepseek_v31_full_test
+test.0078,82.66666666666667,82.66666666666667,82.66667,1.0,1.0,1.0,3.3333333249174757e-06,Mean Arterial Pressure (MAP),physical,decimal,3560.0,140.0,2.959028720855713,0.002374,formula_evolved_deepseek_v31_full_test
+test.0079,101.66666666666667,101.66666666666667,91.66667,0.0,0.0,0.0,9.999996666666675,Mean Arterial Pressure (MAP),physical,decimal,2439.0,131.0,2.4139716625213623,0.0016860999999999998,formula_evolved_deepseek_v31_full_test
+test.0080,83.0,83.0,83.0,1.0,1.0,1.0,0.0,Mean Arterial Pressure (MAP),physical,decimal,3299.0,126.0,2.8506345748901367,0.0021936,formula_evolved_deepseek_v31_full_test
+test.0069,**exception raised**: Exceeded maximum retries (1) for output validation,,96.0,0.0,0.0,0.0,inf,Mean Arterial Pressure (MAP),physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0073,**exception raised**: Exceeded maximum retries (1) for output validation,,90.0,0.0,0.0,0.0,inf,Mean Arterial Pressure (MAP),physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0076,**exception raised**: Exceeded maximum retries (1) for output validation,,104.0,0.0,0.0,0.0,inf,Mean Arterial Pressure (MAP),physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0083,28.01,28.01,28.02768,1.0,0.0,1.0,0.017679999999998586,Body Mass Index (BMI),physical,decimal,2636.0,104.0,1.9074420928955078,0.0017583999999999998,formula_evolved_deepseek_v31_full_test
+test.0082,16.7,16.7,23.79242,0.0,0.0,0.0,7.092420000000001,Body Mass Index (BMI),physical,decimal,4237.0,96.0,1.6727838516235352,0.0027053999999999997,formula_evolved_deepseek_v31_full_test
+test.0084,22.321,22.321,22.32143,1.0,1.0,1.0,0.00042999999999793204,Body Mass Index (BMI),physical,decimal,2994.0,111.0,1.8392887115478516,0.0019851,formula_evolved_deepseek_v31_full_test
+test.0085,24.0,24.0,23.95123,1.0,0.0,1.0,0.04877000000000109,Body Mass Index (BMI),physical,decimal,2580.0,128.0,2.0148298740386963,0.0017656,formula_evolved_deepseek_v31_full_test
+test.0086,22.97,22.97,22.99262,1.0,0.0,1.0,0.022619999999999862,Body Mass Index (BMI),physical,decimal,2912.0,168.0,2.085803985595703,0.0020328,formula_evolved_deepseek_v31_full_test
+test.0088,20.1,20.1,20.09369,1.0,1.0,1.0,0.006310000000002702,Body Mass Index (BMI),physical,decimal,3184.0,108.0,1.7235357761383057,0.002094,formula_evolved_deepseek_v31_full_test
+test.0089,19.98,19.98,19.97622,1.0,1.0,1.0,0.0037799999999990064,Body Mass Index (BMI),physical,decimal,2584.0,180.0,2.316305637359619,0.0018564,formula_evolved_deepseek_v31_full_test
+test.0091,22.36,22.36,22.37732,1.0,0.0,1.0,0.017320000000001556,Body Mass Index (BMI),physical,decimal,2962.0,113.0,1.4889051914215088,0.0019693,formula_evolved_deepseek_v31_full_test
+test.0092,26.5625,26.5625,26.5625,1.0,1.0,1.0,0.0,Body Mass Index (BMI),physical,decimal,3611.0,189.0,3.0401906967163086,0.0024879,formula_evolved_deepseek_v31_full_test
+test.0081,27.7,27.7,27.68878,1.0,0.0,1.0,0.01121999999999801,Body Mass Index (BMI),physical,decimal,9412.0,2204.0,50.721720457077026,0.009394,formula_evolved_deepseek_v31_full_test
+test.0087,22.11,22.11,22.11203,1.0,1.0,1.0,0.0020300000000013085,Body Mass Index (BMI),physical,decimal,9596.0,2193.0,50.66289162635803,0.0094857,formula_evolved_deepseek_v31_full_test
+test.0090,**exception raised**: Exceeded maximum retries (1) for output validation,,24.24242,0.0,0.0,0.0,inf,Body Mass Index (BMI),physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0096,19.67,19.67,19.66772,1.0,1.0,1.0,0.0022800000000025022,Body Mass Index (BMI),physical,decimal,2767.0,89.0,1.812375783920288,0.0018115,formula_evolved_deepseek_v31_full_test
+test.0093,31.35,31.35,31.35358,1.0,1.0,1.0,0.0035799999999994725,Body Mass Index (BMI),physical,decimal,4291.0,179.0,2.68274188041687,0.0028788999999999998,formula_evolved_deepseek_v31_full_test
+test.0098,13.18,13.18,13.1828,1.0,1.0,1.0,0.00280000000000058,Body Mass Index (BMI),physical,decimal,3022.0,93.0,1.9886929988861084,0.0019712999999999996,formula_evolved_deepseek_v31_full_test
+test.0097,22.06,22.06,22.06035,1.0,1.0,1.0,0.00035000000000096065,Body Mass Index (BMI),physical,decimal,2718.0,198.0,3.280595541000366,0.0019674,formula_evolved_deepseek_v31_full_test
+test.0100,15.62,15.62,15.61849,1.0,1.0,1.0,0.0015099999999996783,Body Mass Index (BMI),physical,decimal,3186.0,208.0,3.56793475151062,0.0022651999999999998,formula_evolved_deepseek_v31_full_test
+test.0101,9.32,9.32,9.32,1.0,1.0,1.0,0.0,Calcium Correction for Hypoalbuminemia,lab test,decimal,2692.0,217.0,3.0646772384643555,0.0019841,formula_evolved_deepseek_v31_full_test
+test.0102,9.36,9.36,8.56,0.0,0.0,0.0,0.7999999999999989,Calcium Correction for Hypoalbuminemia,lab test,decimal,2940.0,156.0,3.0346405506134033,0.0020292,formula_evolved_deepseek_v31_full_test
+test.0095,24.3,24.3,24.30462,1.0,1.0,1.0,0.00461999999999918,Body Mass Index (BMI),physical,decimal,9658.0,2221.0,47.33467745780945,0.0095705,formula_evolved_deepseek_v31_full_test
+test.0104,11.22,11.22,11.18,1.0,0.0,1.0,0.040000000000000924,Calcium Correction for Hypoalbuminemia,lab test,decimal,3150.0,100.0,2.0501792430877686,0.00206,formula_evolved_deepseek_v31_full_test
+test.0094,**exception raised**: Exceeded maximum retries (1) for output validation,,24.45107,0.0,0.0,0.0,inf,Body Mass Index (BMI),physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0099,**exception raised**: Exceeded maximum retries (1) for output validation,,18.51852,0.0,0.0,0.0,inf,Body Mass Index (BMI),physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0103,**exception raised**: Exceeded maximum retries (1) for output validation,,8.66,0.0,0.0,0.0,inf,Calcium Correction for Hypoalbuminemia,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0106,13.47,13.47,13.47,1.0,1.0,1.0,0.0,Calcium Correction for Hypoalbuminemia,lab test,decimal,2790.0,188.0,3.6457974910736084,0.0019936,formula_evolved_deepseek_v31_full_test
+test.0108,8.24,8.24,7.84,0.0,0.0,0.0,0.40000000000000036,Calcium Correction for Hypoalbuminemia,lab test,decimal,3960.0,136.0,2.963698148727417,0.0026072,formula_evolved_deepseek_v31_full_test
+test.0105,18.59,18.59,18.59,1.0,1.0,1.0,0.0,Calcium Correction for Hypoalbuminemia,lab test,decimal,3232.0,213.0,4.2584123611450195,0.0023013,formula_evolved_deepseek_v31_full_test
+test.0109,9.44,9.44,8.34,0.0,0.0,0.0,1.0999999999999996,Calcium Correction for Hypoalbuminemia,lab test,decimal,2928.0,125.0,1.9405698776245117,0.0019693000000000002,formula_evolved_deepseek_v31_full_test
+test.0107,9.66,9.66,8.94,0.0,0.0,0.0,0.7200000000000006,Calcium Correction for Hypoalbuminemia,lab test,decimal,9728.0,2101.0,47.667171001434326,0.0094085,formula_evolved_deepseek_v31_full_test
+test.0112,8.36,8.36,8.36,1.0,1.0,1.0,0.0,Calcium Correction for Hypoalbuminemia,lab test,decimal,3290.0,93.0,2.3767170906066895,0.0021321,formula_evolved_deepseek_v31_full_test
+test.0111,9.8,9.8,9.8,1.0,1.0,1.0,0.0,Calcium Correction for Hypoalbuminemia,lab test,decimal,3717.0,197.0,5.763818264007568,0.0025651,formula_evolved_deepseek_v31_full_test
+test.0113,27.76,27.76,24.26,0.0,0.0,0.0,3.5,Calcium Correction for Hypoalbuminemia,lab test,decimal,3494.0,150.0,3.067594051361084,0.0023514,formula_evolved_deepseek_v31_full_test
+test.0114,"I need to extract the calcium and albumin values from when the patient was first admitted. The note mentions: ""serum calcium 2.26 mmol/L"" and ""low albumin level 28 g/L"" in the initial presentation section. These appear to be the pre-treatment values needed for the calculation. The Calcium Correction formula is: Corrected Ca = Ca + 0.8 * (4 - albumin). I need to ensure units are consistent - the calcium is in mmol/L but the question asks for mg/dL, and albumin is in g/L while the formula expects g/dL.",4.0,10.018,0.0,0.0,0.0,6.018000000000001,Calcium Correction for Hypoalbuminemia,lab test,decimal,2887.0,207.0,3.4340298175811768,0.0020840999999999998,formula_evolved_deepseek_v31_full_test
+test.0110,9.04,9.04,9.16,1.0,0.0,1.0,0.120000000000001,Calcium Correction for Hypoalbuminemia,lab test,decimal,10216.0,2185.0,54.53468441963196,0.0098441,formula_evolved_deepseek_v31_full_test
+test.0115,8.7,8.7,7.86,0.0,0.0,0.0,0.839999999999999,Calcium Correction for Hypoalbuminemia,lab test,decimal,2891.0,150.0,4.855892658233643,0.0019896000000000002,formula_evolved_deepseek_v31_full_test
+test.0116,8.08,8.08,8.36,1.0,0.0,1.0,0.27999999999999936,Calcium Correction for Hypoalbuminemia,lab test,decimal,9866.0,2226.0,60.550357818603516,0.0097038,formula_evolved_deepseek_v31_full_test
+test.0118,8.96,8.96,9.938,0.0,0.0,0.0,0.9779999999999998,Calcium Correction for Hypoalbuminemia,lab test,decimal,3015.0,235.0,4.0117268562316895,0.0022085,formula_evolved_deepseek_v31_full_test
+test.0119,8.46,8.46,9.46,0.0,0.0,0.0,1.0,Calcium Correction for Hypoalbuminemia,lab test,decimal,2888.0,218.0,5.934405565261841,0.0021034,formula_evolved_deepseek_v31_full_test
+test.0117,3.48,3.48,11.141,0.0,0.0,0.0,7.661,Calcium Correction for Hypoalbuminemia,lab test,decimal,2875.0,115.0,3.875211000442505,0.0019205,formula_evolved_deepseek_v31_full_test
+test.0120,13.72,13.72,12.92,0.0,0.0,0.0,0.8000000000000007,Calcium Correction for Hypoalbuminemia,lab test,decimal,3943.0,189.0,4.428623199462891,0.0026871,formula_evolved_deepseek_v31_full_test
+test.0142,47.1,47.1,49.67659,0.0,0.0,0.0,2.576589999999996,MDRD GFR Equation,lab test,decimal,2805.0,224.0,5.8168134689331055,0.0020637999999999997,formula_evolved_deepseek_v31_full_test
+test.0145,10.7,10.7,44.38424,0.0,0.0,0.0,33.68424,MDRD GFR Equation,lab test,decimal,3242.0,121.0,2.4152719974517822,0.0021509,formula_evolved_deepseek_v31_full_test
+test.0146,8.74,8.74,6.30474,0.0,0.0,0.0,2.4352600000000004,MDRD GFR Equation,lab test,decimal,2700.0,250.0,5.229794502258301,0.002045,formula_evolved_deepseek_v31_full_test
+test.0147,"First, I need to extract the relevant values for the MDRD GFR calculation from the patient note when they were first admitted:
+- Age: 74 years (from ""at the age of 74 years"")
+- Creatinine: 1.74 mg/dL
+- Sex: Male (from ""man"" and ""he"")
+- Race: Not specified, so assuming non-Black
+
+Using the MDRD GFR formula: 175 × (Cr)^-1.154 × (age)^-0.203 × sex_coef
+For males: sex_coef = 1
+
+Step-by-step calculation:
+1. Cr^-1.154 = 1.74^-1.154 ≈ 0.523
+2. age^-0.203 = 74^-0.203 ≈ 0.671
+3. Multiply: 175 × 0.523 × 0.671 × 1 ≈ 61.5
+
+The patient's MDRD GFR is approximately 61.5 mL/min/1.73 m².",1.73,38.13722,0.0,0.0,0.0,36.40722,MDRD GFR Equation,lab test,decimal,2626.0,472.0,9.480753183364868,0.002378,formula_evolved_deepseek_v31_full_test
+test.0143,11.8,11.8,8.77541,0.0,0.0,0.0,3.02459,MDRD GFR Equation,lab test,decimal,10612.0,2237.0,57.39592218399048,0.0101701,formula_evolved_deepseek_v31_full_test
+test.0144,4.8,4.8,3.61309,0.0,0.0,0.0,1.1869099999999997,MDRD GFR Equation,lab test,decimal,9724.0,2289.0,58.97649812698364,0.0097257,formula_evolved_deepseek_v31_full_test
+test.0141,**exception raised**: Exceeded maximum retries (1) for output validation,,22.5803,0.0,0.0,0.0,inf,MDRD GFR Equation,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0148,**exception raised**: Exceeded maximum retries (1) for output validation,,4.30749,0.0,0.0,0.0,inf,MDRD GFR Equation,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0149,16.7,16.7,49.32243,0.0,0.0,0.0,32.622429999999994,MDRD GFR Equation,lab test,decimal,3010.0,304.0,12.228107213973999,0.0023228,formula_evolved_deepseek_v31_full_test
+test.0151,5.0,5.0,5.49779,0.0,0.0,0.0,0.4977900000000002,MDRD GFR Equation,lab test,decimal,2968.0,252.0,8.51572871208191,0.0022091999999999997,formula_evolved_deepseek_v31_full_test
+test.0152,"I need to calculate the MDRD GFR for this patient. Looking at the patient note, I can extract the following relevant information: the patient is a 62-year-old female, serum creatinine is 4.1 mg/dL, and she has diabetes. The note doesn't mention race/ethnicity, so I'll use the standard MDRD formula. The MDRD formula is: 175 * (Cr)^-1.154 * (age)^-0.203 * sex_coef. For females, the sex coefficient is 0.742. Let me calculate this step by step.
+
+Calculation:
+1. Cr = 4.1 mg/dL
+2. Cr^-1.154 = 4.1^(-1.154) = 1/(4.1^1.154) ≈ 1/5.45 ≈ 0.1835
+3. age^-0.203 = 62^(-0.203) ≈ 1/(62^0.203) ≈ 1/2.28 ≈ 0.4386
+4. 175 * 0.1835 * 0.4386 * 0.742 ≈ 175 * 0.1835 ≈ 32.11
+   32.11 * 0.4386 ≈ 14.08
+   14.08 * 0.742 ≈ 10.45
+
+MDRD GFR ≈ 10.45 mL/min/1.73 m²",1.73,11.0264,0.0,0.0,0.0,9.2964,MDRD GFR Equation,lab test,decimal,2858.0,412.0,12.612886667251587,0.0024151999999999997,formula_evolved_deepseek_v31_full_test
+test.0155,6.22,6.22,7.48685,0.0,0.0,0.0,1.2668499999999998,MDRD GFR Equation,lab test,decimal,2922.0,144.0,3.0452442169189453,0.0019979999999999998,formula_evolved_deepseek_v31_full_test
+test.0150,7.6,7.6,2.96306,0.0,0.0,0.0,4.636939999999999,MDRD GFR Equation,lab test,decimal,9558.0,2217.0,55.19890880584717,0.0095037,formula_evolved_deepseek_v31_full_test
+test.0154,11.7,11.7,11.46447,1.0,0.0,1.0,0.2355299999999989,MDRD GFR Equation,lab test,decimal,9806.0,2214.0,53.80353593826294,0.0096474,formula_evolved_deepseek_v31_full_test
+test.0153,**exception raised**: Exceeded maximum retries (1) for output validation,,11.99791,0.0,0.0,0.0,inf,MDRD GFR Equation,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0156,**exception raised**: Exceeded maximum retries (1) for output validation,,21.54697,0.0,0.0,0.0,inf,MDRD GFR Equation,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0157,8.0,8.0,5.31087,0.0,0.0,0.0,2.6891299999999996,MDRD GFR Equation,lab test,decimal,9648.0,2278.0,58.207834243774414,0.009661399999999999,formula_evolved_deepseek_v31_full_test
+test.0159,18.8,18.8,23.2302,0.0,0.0,0.0,4.430199999999999,MDRD GFR Equation,lab test,decimal,2888.0,259.0,6.635253667831421,0.0021731,formula_evolved_deepseek_v31_full_test
+test.0158,**exception raised**: Exceeded maximum retries (1) for output validation,,15.59972,0.0,0.0,0.0,inf,MDRD GFR Equation,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0160,**exception raised**: Exceeded maximum retries (1) for output validation,,7.51024,0.0,0.0,0.0,inf,MDRD GFR Equation,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0164,61.0,61.0,57.78748,0.0,0.0,0.0,3.212519999999998,Ideal Body Weight,physical,decimal,3565.0,126.0,4.3690025806427,0.0023531999999999997,formula_evolved_deepseek_v31_full_test
+test.0161,**exception raised**: Exceeded maximum retries (1) for output validation,,55.07095,0.0,0.0,0.0,inf,Ideal Body Weight,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0163,**exception raised**: Exceeded maximum retries (1) for output validation,,66.8426,0.0,0.0,0.0,inf,Ideal Body Weight,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0162,**exception raised**: Exceeded maximum retries (1) for output validation,,72.27568,0.0,0.0,0.0,inf,Ideal Body Weight,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0165,**exception raised**: Exceeded maximum retries (1) for output validation,,60.50401,0.0,0.0,0.0,inf,Ideal Body Weight,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0168,**exception raised**: Exceeded maximum retries (1) for output validation,,80.4253,0.0,0.0,0.0,inf,Ideal Body Weight,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0167,**exception raised**: Exceeded maximum retries (1) for output validation,,47.85442,0.0,0.0,0.0,inf,Ideal Body Weight,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0166,**exception raised**: Exceeded maximum retries (1) for output validation,,55.0985,0.0,0.0,0.0,inf,Ideal Body Weight,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0169,**exception raised**: Exceeded maximum retries (1) for output validation,,79.51979,0.0,0.0,0.0,inf,Ideal Body Weight,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0171,"First, convert height from cm to inches: 165 cm ÷ 2.54 = 64.96 inches
+
+Then apply Devine formula for males: IBW = 50 + 2.3 * (height_in - 60)
+IBW = 50 + 2.3 * (64.96 - 60)
+IBW = 50 + 2.3 * 4.96
+IBW = 50 + 11.408
+IBW = 61.408
+
+The patient's ideal body weight is approximately 61.41 kg",61.41,61.40954,1.0,1.0,1.0,0.0004599999999967963,Ideal Body Weight,physical,decimal,3300.0,332.0,5.620517730712891,0.0025444,formula_evolved_deepseek_v31_full_test
+test.0172,**exception raised**: Exceeded maximum retries (1) for output validation,,58.69299,0.0,0.0,0.0,inf,Ideal Body Weight,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0170,**exception raised**: Exceeded maximum retries (1) for output validation,,54.19299,0.0,0.0,0.0,inf,Ideal Body Weight,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0176,53.4,53.4,55.0985,1.0,0.0,1.0,1.6985000000000028,Ideal Body Weight,physical,decimal,10398.0,2184.0,50.50522565841675,0.0099516,formula_evolved_deepseek_v31_full_test
+test.0173,**exception raised**: Exceeded maximum retries (1) for output validation,,56.90952,0.0,0.0,0.0,inf,Ideal Body Weight,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0174,**exception raised**: Exceeded maximum retries (1) for output validation,,73.18119,0.0,0.0,0.0,inf,Ideal Body Weight,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0175,**exception raised**: Exceeded maximum retries (1) for output validation,,55.97646,0.0,0.0,0.0,inf,Ideal Body Weight,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0178,"First, I need to extract the patient's height from the medical note, which is 156 cm. Since the Ideal Body Weight (Devine) formula requires height in inches, I'll convert 156 cm to inches. The conversion factor is 1 inch = 2.54 cm, so height_in = 156 / 2.54 = 61.42 inches. Then I'll apply the female Devine formula: IBW = 45.5 + 2.3 * (height_in - 60) = 45.5 + 2.3 * (61.42 - 60) = 45.5 + 2.3 * 1.42 = 45.5 + 3.266 = 48.766 kg. Rounded to three decimal places, the ideal body weight is 48.766 kg.",48.766,48.75993,1.0,1.0,1.0,0.00607000000000113,Ideal Body Weight,physical,decimal,3314.0,319.0,5.216972351074219,0.0025307,formula_evolved_deepseek_v31_full_test
+test.0177,**exception raised**: Exceeded maximum retries (1) for output validation,,56.90954,0.0,0.0,0.0,inf,Ideal Body Weight,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0182,"I need to calculate the corrected QT interval using the Bazett formula. The patient has a heart rate of 178 bpm and QT interval of 244 msec. First, I'll calculate the RR interval: RR = 60/HR = 60/178 = 0.337 seconds. Then I'll apply the Bazett formula: QTc = QT / sqrt(RR) = 244 / sqrt(0.337).",0.337,420.26511,0.0,0.0,0.0,419.92811,QTc Bazett Calculator,physical,decimal,2161.0,185.0,2.637660503387451,0.0016110999999999999,formula_evolved_deepseek_v31_full_test
+test.0180,**exception raised**: Exceeded maximum retries (1) for output validation,,56.88197,0.0,0.0,0.0,inf,Ideal Body Weight,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0179,**exception raised**: Exceeded maximum retries (1) for output validation,,56.90952,0.0,0.0,0.0,inf,Ideal Body Weight,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0181,**exception raised**: Exceeded maximum retries (1) for output validation,,652.34474,0.0,0.0,0.0,inf,QTc Bazett Calculator,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0183,**exception raised**: Exceeded maximum retries (1) for output validation,,641.94237,0.0,0.0,0.0,inf,QTc Bazett Calculator,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0184,**exception raised**: Exceeded maximum retries (1) for output validation,,331.47353,0.0,0.0,0.0,inf,QTc Bazett Calculator,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0187,452.0,452.0,537.18013,0.0,0.0,0.0,85.18012999999996,QTc Bazett Calculator,physical,decimal,2161.0,96.0,1.3968651294708252,0.0014598,formula_evolved_deepseek_v31_full_test
+test.0189,401.36,401.36,401.66321,1.0,0.0,1.0,0.30320999999997866,QTc Bazett Calculator,physical,decimal,2161.0,289.0,2.9776575565338135,0.0017878999999999998,formula_evolved_deepseek_v31_full_test
+test.0186,**exception raised**: Exceeded maximum retries (1) for output validation,,599.41391,0.0,0.0,0.0,inf,QTc Bazett Calculator,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0188,**exception raised**: Exceeded maximum retries (1) for output validation,,564.26768,0.0,0.0,0.0,inf,QTc Bazett Calculator,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0185,**exception raised**: Exceeded maximum retries (1) for output validation,,614.10641,0.0,0.0,0.0,inf,QTc Bazett Calculator,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0190,**exception raised**: Exceeded maximum retries (1) for output validation,,179.77987,0.0,0.0,0.0,inf,QTc Bazett Calculator,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0191,**exception raised**: Exceeded maximum retries (1) for output validation,,578.24487,0.0,0.0,0.0,inf,QTc Bazett Calculator,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0192,**exception raised**: Exceeded maximum retries (1) for output validation,,540.48209,0.0,0.0,0.0,inf,QTc Bazett Calculator,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0193,**exception raised**: Exceeded maximum retries (1) for output validation,,223.00136,0.0,0.0,0.0,inf,QTc Bazett Calculator,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0194,**exception raised**: Exceeded maximum retries (1) for output validation,,424.90998,0.0,0.0,0.0,inf,QTc Bazett Calculator,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0196,345.6,345.6,345.5173,1.0,0.0,1.0,0.08270000000004529,QTc Bazett Calculator,physical,decimal,8509.0,2252.0,47.698479413986206,0.008933799999999999,formula_evolved_deepseek_v31_full_test
+test.0195,**exception raised**: Exceeded maximum retries (1) for output validation,,581.6804,0.0,0.0,0.0,inf,QTc Bazett Calculator,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0197,470 / sqrt(60/110),110.0,636.38566,0.0,0.0,0.0,526.38566,QTc Bazett Calculator,physical,decimal,2161.0,105.0,1.358170747756958,0.0014751,formula_evolved_deepseek_v31_full_test
+test.0281,3.82,3.82,3.82219,1.0,1.0,1.0,0.0021900000000001363,Fibrosis-4 (FIB-4) Index for Liver Fibrosis,lab test,decimal,3194.0,576.0,19.589850664138794,0.0028956,formula_evolved_deepseek_v31_full_test
+test.0200,**exception raised**: Exceeded maximum retries (1) for output validation,,288.46721,0.0,0.0,0.0,inf,QTc Bazett Calculator,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0199,**exception raised**: Exceeded maximum retries (1) for output validation,,469.30006,0.0,0.0,0.0,inf,QTc Bazett Calculator,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0198,**exception raised**: Exceeded maximum retries (1) for output validation,,277.51276,0.0,0.0,0.0,inf,QTc Bazett Calculator,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0284,2.56,2.56,6.21522,0.0,0.0,0.0,3.6552200000000004,Fibrosis-4 (FIB-4) Index for Liver Fibrosis,lab test,decimal,2579.0,241.0,3.144153594970703,0.0019571,formula_evolved_deepseek_v31_full_test
+test.0282,**exception raised**: Exceeded maximum retries (1) for output validation,,1.11536,0.0,0.0,0.0,inf,Fibrosis-4 (FIB-4) Index for Liver Fibrosis,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0287,1.22,1.22,1.55274,0.0,0.0,0.0,0.33274000000000004,Fibrosis-4 (FIB-4) Index for Liver Fibrosis,lab test,decimal,9600.0,2242.0,42.40024471282959,0.009571399999999999,formula_evolved_deepseek_v31_full_test
+test.0283,**exception raised**: Exceeded maximum retries (1) for output validation,,0.38218,0.0,0.0,0.0,inf,Fibrosis-4 (FIB-4) Index for Liver Fibrosis,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0285,**exception raised**: Exceeded maximum retries (1) for output validation,,1.71194,0.0,0.0,0.0,inf,Fibrosis-4 (FIB-4) Index for Liver Fibrosis,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0286,**exception raised**: Exceeded maximum retries (1) for output validation,,3.71829,0.0,0.0,0.0,inf,Fibrosis-4 (FIB-4) Index for Liver Fibrosis,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0288,3.887,3.887,3.88593,1.0,1.0,1.0,0.0010699999999999044,Fibrosis-4 (FIB-4) Index for Liver Fibrosis,lab test,decimal,9554.0,2318.0,43.18894600868225,0.009673,formula_evolved_deepseek_v31_full_test
+test.0289,**exception raised**: Exceeded maximum retries (1) for output validation,,4.44444,0.0,0.0,0.0,inf,Fibrosis-4 (FIB-4) Index for Liver Fibrosis,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0292,**exception raised**: Exceeded maximum retries (1) for output validation,,1.36478,0.0,0.0,0.0,inf,Fibrosis-4 (FIB-4) Index for Liver Fibrosis,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0290,**exception raised**: Exceeded maximum retries (1) for output validation,,6.65888,0.0,0.0,0.0,inf,Fibrosis-4 (FIB-4) Index for Liver Fibrosis,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0291,**exception raised**: Exceeded maximum retries (1) for output validation,,1.73285,0.0,0.0,0.0,inf,Fibrosis-4 (FIB-4) Index for Liver Fibrosis,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0293,1.7,1.7,2.77186,0.0,0.0,0.0,1.0718600000000003,Fibrosis-4 (FIB-4) Index for Liver Fibrosis,lab test,decimal,3064.0,172.0,2.6652722358703613,0.0021308,formula_evolved_deepseek_v31_full_test
+test.0295,1.9,1.9,3.2,0.0,0.0,0.0,1.3000000000000003,Fibrosis-4 (FIB-4) Index for Liver Fibrosis,lab test,decimal,2795.0,228.0,3.1918442249298096,0.0020645999999999998,formula_evolved_deepseek_v31_full_test
+test.0294,(64 * 128) / (115 * sqrt(124)),124.0,6.39707,0.0,0.0,0.0,117.60293,Fibrosis-4 (FIB-4) Index for Liver Fibrosis,lab test,decimal,3144.0,206.0,3.4070730209350586,0.0022366,formula_evolved_deepseek_v31_full_test
+test.0299,3.85,3.85,4.08073,0.0,0.0,0.0,0.23072999999999988,Fibrosis-4 (FIB-4) Index for Liver Fibrosis,lab test,decimal,3180.0,175.0,2.7614004611968994,0.0022055,formula_evolved_deepseek_v31_full_test
+test.0296,**exception raised**: Exceeded maximum retries (1) for output validation,,2.39709,0.0,0.0,0.0,inf,Fibrosis-4 (FIB-4) Index for Liver Fibrosis,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0297,**exception raised**: Exceeded maximum retries (1) for output validation,,1.70952,0.0,0.0,0.0,inf,Fibrosis-4 (FIB-4) Index for Liver Fibrosis,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0298,**exception raised**: Exceeded maximum retries (1) for output validation,,2.68233,0.0,0.0,0.0,inf,Fibrosis-4 (FIB-4) Index for Liver Fibrosis,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0300,**exception raised**: Exceeded maximum retries (1) for output validation,,3.99574,0.0,0.0,0.0,inf,Fibrosis-4 (FIB-4) Index for Liver Fibrosis,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0323,61.0,61.0,86.0,0.0,0.0,0.0,25.0,Maintenance Fluids Calculations,physical,decimal,10578.0,2265.0,40.11519932746887,0.0101973,formula_evolved_deepseek_v31_full_test
+test.0322,104,104.0,104.0,1.0,1.0,1.0,0.0,Maintenance Fluids Calculations,physical,decimal,10428.0,2306.0,40.37539029121399,0.010177,formula_evolved_deepseek_v31_full_test
+test.0325,65.0,65.0,85.0,0.0,0.0,0.0,20.0,Maintenance Fluids Calculations,physical,decimal,2934.0,148.0,3.0120997428894043,0.002012,formula_evolved_deepseek_v31_full_test
+test.0321,**exception raised**: Exceeded maximum retries (1) for output validation,,92.3,0.0,0.0,0.0,inf,Maintenance Fluids Calculations,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0324,**exception raised**: Exceeded maximum retries (1) for output validation,,94.7,0.0,0.0,0.0,inf,Maintenance Fluids Calculations,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0328,57,57.0,97.0,0.0,0.0,0.0,40.0,Maintenance Fluids Calculations,physical,decimal,3047.0,113.0,2.397779941558838,0.0020203,formula_evolved_deepseek_v31_full_test
+test.0326,**exception raised**: Exceeded maximum retries (1) for output validation,,44.0,0.0,0.0,0.0,inf,Maintenance Fluids Calculations,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0327,**exception raised**: Exceeded maximum retries (1) for output validation,,81.0,0.0,0.0,0.0,inf,Maintenance Fluids Calculations,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0332,44.0,44.0,44.0,1.0,1.0,1.0,0.0,Maintenance Fluids Calculations,physical,decimal,2672.0,164.0,4.2596189975738525,0.001882,formula_evolved_deepseek_v31_full_test
+test.0329,**exception raised**: Exceeded maximum retries (1) for output validation,,93.0,0.0,0.0,0.0,inf,Maintenance Fluids Calculations,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0330,**exception raised**: Exceeded maximum retries (1) for output validation,,131.0,0.0,0.0,0.0,inf,Maintenance Fluids Calculations,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0331,**exception raised**: Exceeded maximum retries (1) for output validation,,86.0,0.0,0.0,0.0,inf,Maintenance Fluids Calculations,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0333,111,111.0,111.0,1.0,1.0,1.0,0.0,Maintenance Fluids Calculations,physical,decimal,3904.0,219.0,6.039935111999512,0.0027146999999999996,formula_evolved_deepseek_v31_full_test
+test.0337,115.0,115.0,85.0,0.0,0.0,0.0,30.0,Maintenance Fluids Calculations,physical,decimal,2879.0,116.0,2.880115032196045,0.0019246,formula_evolved_deepseek_v31_full_test
+test.0334,96,96.0,96.0,1.0,1.0,1.0,0.0,Maintenance Fluids Calculations,physical,decimal,9440.0,2376.0,42.84952425956726,0.009703199999999999,formula_evolved_deepseek_v31_full_test
+test.0338,96,96.0,96.0,1.0,1.0,1.0,0.0,Maintenance Fluids Calculations,physical,decimal,10746.0,2288.0,40.575079679489136,0.0103372,formula_evolved_deepseek_v31_full_test
+test.0335,**exception raised**: Exceeded maximum retries (1) for output validation,,155.3,0.0,0.0,0.0,inf,Maintenance Fluids Calculations,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0336,**exception raised**: Exceeded maximum retries (1) for output validation,,92.2,0.0,0.0,0.0,inf,Maintenance Fluids Calculations,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0341,23,23.0,18.0,0.0,0.0,0.0,5.0,MELD Na (UNOS/OPTN),lab test,decimal,3374.0,222.0,4.128158807754517,0.0024018,formula_evolved_deepseek_v31_full_test
+test.0339,88.0,88.0,79.5,0.0,0.0,0.0,8.5,Maintenance Fluids Calculations,physical,decimal,10246.0,2168.0,39.22549271583557,0.0098332,formula_evolved_deepseek_v31_full_test
+test.0340,71.0,71.0,73.0,1.0,0.0,1.0,2.0,Maintenance Fluids Calculations,physical,decimal,9646.0,2186.0,40.43132162094116,0.0095038,formula_evolved_deepseek_v31_full_test
+test.0342,6,6.0,11.0,0.0,0.0,0.0,5.0,MELD Na (UNOS/OPTN),lab test,decimal,10546.0,2237.0,41.84253001213074,0.0101305,formula_evolved_deepseek_v31_full_test
+test.0343,**exception raised**: Exceeded maximum retries (1) for output validation,,26.0,0.0,0.0,0.0,inf,MELD Na (UNOS/OPTN),lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0344,**exception raised**: Exceeded maximum retries (1) for output validation,,23.0,0.0,0.0,0.0,inf,MELD Na (UNOS/OPTN),lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0345,**exception raised**: Exceeded maximum retries (1) for output validation,,24.0,0.0,0.0,0.0,inf,MELD Na (UNOS/OPTN),lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0346,**exception raised**: Exceeded maximum retries (1) for output validation,,19.0,0.0,0.0,0.0,inf,MELD Na (UNOS/OPTN),lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0348,**exception raised**: Exceeded maximum retries (1) for output validation,,32.0,0.0,0.0,0.0,inf,MELD Na (UNOS/OPTN),lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0347,**exception raised**: Exceeded maximum retries (1) for output validation,,33.0,0.0,0.0,0.0,inf,MELD Na (UNOS/OPTN),lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0352,19,19.0,30.0,0.0,0.0,0.0,11.0,MELD Na (UNOS/OPTN),lab test,decimal,9968.0,2388.0,49.93492269515991,0.0100404,formula_evolved_deepseek_v31_full_test
+test.0349,**exception raised**: Exceeded maximum retries (1) for output validation,,26.0,0.0,0.0,0.0,inf,MELD Na (UNOS/OPTN),lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0351,**exception raised**: Exceeded maximum retries (1) for output validation,,22.0,0.0,0.0,0.0,inf,MELD Na (UNOS/OPTN),lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0350,**exception raised**: Exceeded maximum retries (1) for output validation,,33.0,0.0,0.0,0.0,inf,MELD Na (UNOS/OPTN),lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0353,**exception raised**: Exceeded maximum retries (1) for output validation,,25.0,0.0,0.0,0.0,inf,MELD Na (UNOS/OPTN),lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0354,**exception raised**: Exceeded maximum retries (1) for output validation,,22.0,0.0,0.0,0.0,inf,MELD Na (UNOS/OPTN),lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0355,**exception raised**: Exceeded maximum retries (1) for output validation,,28.0,0.0,0.0,0.0,inf,MELD Na (UNOS/OPTN),lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0356,**exception raised**: Exceeded maximum retries (1) for output validation,,25.0,0.0,0.0,0.0,inf,MELD Na (UNOS/OPTN),lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0357,"First, I extract the required values from the patient note: creatinine = 2.1 mg/dL, bilirubin = 2.9 mg/dL, INR = 1.2, and sodium = 128 mEq/L. Next, I apply the MELD-Na formula: MELD = 10 * (0.957*ln(2.1) + 0.378*ln(2.9) + 1.120*ln(1.2) + 0.643). Calculating each term: ln(2.1) ≈ 0.741, ln(2.9) ≈ 1.064, ln(1.2) ≈ 0.182. Then: 0.957*0.741 ≈ 0.709, 0.378*1.064 ≈ 0.402, 1.120*0.182 ≈ 0.204. Sum: 0.709 + 0.402 + 0.204 + 0.643 = 1.958. Finally: 10 * 1.958 = 19.58. The MELD-Na score is approximately 19.6.",19.6,30.0,0.0,0.0,0.0,10.399999999999999,MELD Na (UNOS/OPTN),lab test,decimal,3050.0,420.0,8.862557172775269,0.002544,formula_evolved_deepseek_v31_full_test
+test.0358,"I need to analyze the patient note to calculate the MELD-Na score. From the note, I can extract:
+- Creatinine: 2.7 mg/dL
+- Bilirubin: 1.7 mg/dL  
+- INR: 2.3
+- Sodium: 139 mg/dL
+
+Using the MELD-Na formula: MELD = 10 * (0.957*ln(Cr) + 0.378*ln(Bili) + 1.120*ln(INR) + 0.643)
+
+Calculating step by step:
+ln(2.7) = 0.993
+ln(1.7) = 0.531
+ln(2.3) = 0.833
+
+MELD = 10 * (0.957*0.993 + 0.378*0.531 + 1.120*0.833 + 0.643)
+= 10 * (0.950 + 0.201 + 0.933 + 0.643)
+= 10 * (2.727)
+= 27.27
+
+Since sodium is 139 mg/dL (within normal range), no additional adjustment is needed for MELD-Na beyond the standard MELD calculation.
+
+Final MELD-Na score: 27",27.0,31.0,0.0,0.0,0.0,4.0,MELD Na (UNOS/OPTN),lab test,decimal,2993.0,377.0,7.786144256591797,0.0024367,formula_evolved_deepseek_v31_full_test
+test.0381,108.656,108.656,108.656,1.0,1.0,1.0,0.0,Sodium Correction for Hyperglycemia,lab test,decimal,2709.0,160.0,3.4933536052703857,0.0018974,formula_evolved_deepseek_v31_full_test
+test.0359,33.8,33.8,35.0,1.0,0.0,1.0,1.2000000000000028,MELD Na (UNOS/OPTN),lab test,decimal,9850.0,2486.0,47.565449714660645,0.0101362,formula_evolved_deepseek_v31_full_test
+test.0360,**exception raised**: Exceeded maximum retries (1) for output validation,,31.0,0.0,0.0,0.0,inf,MELD Na (UNOS/OPTN),lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0385,131.8,131.8,133.932,1.0,0.0,1.0,2.1319999999999766,Sodium Correction for Hyperglycemia,lab test,decimal,2812.0,143.0,2.4555087089538574,0.0019303,formula_evolved_deepseek_v31_full_test
+test.0382,**exception raised**: Exceeded maximum retries (1) for output validation,,131.56,0.0,0.0,0.0,inf,Sodium Correction for Hyperglycemia,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0383,**exception raised**: Exceeded maximum retries (1) for output validation,,137.84,0.0,0.0,0.0,inf,Sodium Correction for Hyperglycemia,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0384,**exception raised**: Exceeded maximum retries (1) for output validation,,137.248,0.0,0.0,0.0,inf,Sodium Correction for Hyperglycemia,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0386,**exception raised**: Exceeded maximum retries (1) for output validation,,145.664,0.0,0.0,0.0,inf,Sodium Correction for Hyperglycemia,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0387,**exception raised**: Exceeded maximum retries (1) for output validation,,134.4,0.0,0.0,0.0,inf,Sodium Correction for Hyperglycemia,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0388,**exception raised**: Exceeded maximum retries (1) for output validation,,143.70124,0.0,0.0,0.0,inf,Sodium Correction for Hyperglycemia,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0392,**exception raised**: Exceeded maximum retries (1) for output validation,,132.2,0.0,0.0,0.0,inf,Sodium Correction for Hyperglycemia,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0389,**exception raised**: Exceeded maximum retries (1) for output validation,,134.688,0.0,0.0,0.0,inf,Sodium Correction for Hyperglycemia,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0390,**exception raised**: Exceeded maximum retries (1) for output validation,,131.392,0.0,0.0,0.0,inf,Sodium Correction for Hyperglycemia,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0391,**exception raised**: Exceeded maximum retries (1) for output validation,,126.84,0.0,0.0,0.0,inf,Sodium Correction for Hyperglycemia,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0395,134.5,134.5,131.52917,1.0,0.0,1.0,2.9708300000000065,Sodium Correction for Hyperglycemia,lab test,decimal,3014.0,196.0,3.132476806640625,0.0021416,formula_evolved_deepseek_v31_full_test
+test.0393,105.56,105.56,105.56,1.0,1.0,1.0,0.0,Sodium Correction for Hyperglycemia,lab test,decimal,2793.0,208.0,3.4466400146484375,0.0020293999999999998,formula_evolved_deepseek_v31_full_test
+test.0396,**exception raised**: Exceeded maximum retries (1) for output validation,,134.8,0.0,0.0,0.0,inf,Sodium Correction for Hyperglycemia,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0394,**exception raised**: Exceeded maximum retries (1) for output validation,,130.408,0.0,0.0,0.0,inf,Sodium Correction for Hyperglycemia,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0397,**exception raised**: Exceeded maximum retries (1) for output validation,,131.28,0.0,0.0,0.0,inf,Sodium Correction for Hyperglycemia,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0398,**exception raised**: Exceeded maximum retries (1) for output validation,,131.672,0.0,0.0,0.0,inf,Sodium Correction for Hyperglycemia,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0399,**exception raised**: Exceeded maximum retries (1) for output validation,,146.36,0.0,0.0,0.0,inf,Sodium Correction for Hyperglycemia,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0400,**exception raised**: Exceeded maximum retries (1) for output validation,,130.288,0.0,0.0,0.0,inf,Sodium Correction for Hyperglycemia,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0423,302.0,302.0,300.96032,1.0,0.0,1.0,1.0396799999999757,Serum Osmolality,lab test,decimal,9138.0,2217.0,48.68519186973572,0.0092517,formula_evolved_deepseek_v31_full_test
+test.0421,424.3,424.3,424.27778,1.0,0.0,1.0,0.022220000000004347,Serum Osmolality,lab test,decimal,10830.0,2281.0,50.21389579772949,0.0103757,formula_evolved_deepseek_v31_full_test
+test.0422,**exception raised**: Exceeded maximum retries (1) for output validation,,332.6746,0.0,0.0,0.0,inf,Serum Osmolality,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0424,**exception raised**: Exceeded maximum retries (1) for output validation,,304.13889,0.0,0.0,0.0,inf,Serum Osmolality,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0426,323.2,323.2,323.19683,1.0,1.0,1.0,0.0031700000000114414,Serum Osmolality,lab test,decimal,10260.0,2313.0,43.872329235076904,0.0100881,formula_evolved_deepseek_v31_full_test
+test.0425,**exception raised**: Exceeded maximum retries (1) for output validation,,311.51722,0.0,0.0,0.0,inf,Serum Osmolality,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0427,280.38,280.38,280.38095,1.0,1.0,1.0,0.0009499999999889042,Serum Osmolality,lab test,decimal,10098.0,2350.0,46.88021969795227,0.0100538,formula_evolved_deepseek_v31_full_test
+test.0429,285.17,285.17,285.19044,1.0,0.0,1.0,0.020440000000007785,Serum Osmolality,lab test,decimal,10129.0,2396.0,46.7354302406311,0.0101506,formula_evolved_deepseek_v31_full_test
+test.0428,**exception raised**: Exceeded maximum retries (1) for output validation,,316.92031,0.0,0.0,0.0,inf,Serum Osmolality,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0430,314.0,314.0,279.79365,0.0,0.0,0.0,34.206349999999986,Serum Osmolality,lab test,decimal,9614.0,2232.0,46.46236872673035,0.0095628,formula_evolved_deepseek_v31_full_test
+test.0431,**exception raised**: Exceeded maximum retries (1) for output validation,,308.05556,0.0,0.0,0.0,inf,Serum Osmolality,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0432,**exception raised**: Exceeded maximum retries (1) for output validation,,367.35714,0.0,0.0,0.0,inf,Serum Osmolality,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0434,282.0,282.0,293.13492,1.0,0.0,1.0,11.134920000000022,Serum Osmolality,lab test,decimal,3033.0,158.0,3.0929698944091797,0.0020884,formula_evolved_deepseek_v31_full_test
+test.0435,283.635,283.635,283.63492,1.0,1.0,1.0,7.999999996854967e-05,Serum Osmolality,lab test,decimal,3318.0,244.0,4.441464424133301,0.0024056,formula_evolved_deepseek_v31_full_test
+test.0437,277.6,277.6,277.60317,1.0,1.0,1.0,0.003169999999954598,Serum Osmolality,lab test,decimal,2392.0,338.0,5.119466066360474,0.0020098,formula_evolved_deepseek_v31_full_test
+test.0438,291.142857,291.142857,291.14286,1.0,1.0,1.0,2.999999992425728e-06,Serum Osmolality,lab test,decimal,10484.0,2277.0,52.46008372306824,0.0101613,formula_evolved_deepseek_v31_full_test
+test.0440,263.5,263.5,288.29365,0.0,0.0,0.0,24.793650000000014,Serum Osmolality,lab test,decimal,2460.0,127.0,2.563723564147949,0.0016918999999999999,formula_evolved_deepseek_v31_full_test
+test.0433,**exception raised**: Exceeded maximum retries (1) for output validation,,283.68637,0.0,0.0,0.0,inf,Serum Osmolality,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0436,**exception raised**: Exceeded maximum retries (1) for output validation,,277.63492,0.0,0.0,0.0,inf,Serum Osmolality,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0439,**exception raised**: Exceeded maximum retries (1) for output validation,,300.43651,0.0,0.0,0.0,inf,Serum Osmolality,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0444,1.877,1.877,1.87654,1.0,1.0,1.0,0.00045999999999990493,HOMA-IR (Homeostatic Model Assessment for Insulin Resistance),lab test,decimal,2798.0,184.0,3.2334418296813965,0.0019915999999999996,formula_evolved_deepseek_v31_full_test
+test.0441,**exception raised**: Exceeded maximum retries (1) for output validation,,10.66914,0.0,0.0,0.0,inf,HOMA-IR (Homeostatic Model Assessment for Insulin Resistance),lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0442,**exception raised**: Exceeded maximum retries (1) for output validation,,1.95556,0.0,0.0,0.0,inf,HOMA-IR (Homeostatic Model Assessment for Insulin Resistance),lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0443,**exception raised**: Exceeded maximum retries (1) for output validation,,4.11111,0.0,0.0,0.0,inf,HOMA-IR (Homeostatic Model Assessment for Insulin Resistance),lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0446,**exception raised**: Exceeded maximum retries (1) for output validation,,3.55556,0.0,0.0,0.0,inf,HOMA-IR (Homeostatic Model Assessment for Insulin Resistance),lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0445,**exception raised**: Exceeded maximum retries (1) for output validation,,2.5679,0.0,0.0,0.0,inf,HOMA-IR (Homeostatic Model Assessment for Insulin Resistance),lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0447,**exception raised**: Exceeded maximum retries (1) for output validation,,1.31852,0.0,0.0,0.0,inf,HOMA-IR (Homeostatic Model Assessment for Insulin Resistance),lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0448,**exception raised**: Exceeded maximum retries (1) for output validation,,2.26667,0.0,0.0,0.0,inf,HOMA-IR (Homeostatic Model Assessment for Insulin Resistance),lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0452,2.93,2.93,2.93333,1.0,1.0,1.0,0.003330000000000055,HOMA-IR (Homeostatic Model Assessment for Insulin Resistance),lab test,decimal,9926.0,2206.0,48.92173671722412,0.0097058,formula_evolved_deepseek_v31_full_test
+test.0451,1.728395,1.728395,1.7284,1.0,1.0,1.0,5.000000000032756e-06,HOMA-IR (Homeostatic Model Assessment for Insulin Resistance),lab test,decimal,10034.0,2246.0,49.57149147987366,0.0098386,formula_evolved_deepseek_v31_full_test
+test.0453,4.5,4.5,4.5037,1.0,1.0,1.0,0.0037000000000002586,HOMA-IR (Homeostatic Model Assessment for Insulin Resistance),lab test,decimal,2840.0,145.0,4.252817869186401,0.0019505,formula_evolved_deepseek_v31_full_test
+test.0454,1.1358,1.1358,1.1358,1.0,1.0,1.0,0.0,HOMA-IR (Homeostatic Model Assessment for Insulin Resistance),lab test,decimal,6057.0,285.0,7.025875091552734,0.0041186999999999994,formula_evolved_deepseek_v31_full_test
+test.0450,**exception raised**: Exceeded maximum retries (1) for output validation,,4.39012,0.0,0.0,0.0,inf,HOMA-IR (Homeostatic Model Assessment for Insulin Resistance),lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0449,**exception raised**: Exceeded maximum retries (1) for output validation,,3.53086,0.0,0.0,0.0,inf,HOMA-IR (Homeostatic Model Assessment for Insulin Resistance),lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0456,5.456,5.456,5.45679,1.0,1.0,1.0,0.0007899999999994023,HOMA-IR (Homeostatic Model Assessment for Insulin Resistance),lab test,decimal,9894.0,2195.0,47.80403137207031,0.0096679,formula_evolved_deepseek_v31_full_test
+test.0455,**exception raised**: Exceeded maximum retries (1) for output validation,,5.24444,0.0,0.0,0.0,inf,HOMA-IR (Homeostatic Model Assessment for Insulin Resistance),lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0458,6.172839506172839,6.172839506172839,6.17284,1.0,1.0,1.0,4.938271604970623e-07,HOMA-IR (Homeostatic Model Assessment for Insulin Resistance),lab test,decimal,2946.0,172.0,3.3718159198760986,0.0020599999999999998,formula_evolved_deepseek_v31_full_test
+test.0459,5.08,5.08,5.08148,1.0,1.0,1.0,0.0014799999999999258,HOMA-IR (Homeostatic Model Assessment for Insulin Resistance),lab test,decimal,9896.0,2242.0,40.82347917556763,0.009748999999999999,formula_evolved_deepseek_v31_full_test
+test.0502,1.8,1.8,-1.02857,0.0,0.0,0.0,2.82857,Free Water Deficit,lab test,decimal,3330.0,266.0,4.4612932205200195,0.0024501999999999996,formula_evolved_deepseek_v31_full_test
+test.0503,1.5,1.5,0.42857,0.0,0.0,0.0,1.0714299999999999,Free Water Deficit,lab test,decimal,3787.0,164.0,3.175997257232666,0.002551,formula_evolved_deepseek_v31_full_test
+test.0504,0.196,0.196,-0.20143,0.0,0.0,0.0,0.39743,Free Water Deficit,lab test,decimal,2709.0,202.0,4.157230854034424,0.0019687999999999997,formula_evolved_deepseek_v31_full_test
+test.0505,2.7,2.7,-0.76286,0.0,0.0,0.0,3.46286,Free Water Deficit,lab test,decimal,2948.0,196.0,5.374236822128296,0.0021019999999999997,formula_evolved_deepseek_v31_full_test
+test.0460,**exception raised**: Exceeded maximum retries (1) for output validation,,0.88889,0.0,0.0,0.0,inf,HOMA-IR (Homeostatic Model Assessment for Insulin Resistance),lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0457,**exception raised**: Exceeded maximum retries (1) for output validation,,5.44198,0.0,0.0,0.0,inf,HOMA-IR (Homeostatic Model Assessment for Insulin Resistance),lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0501,**exception raised**: Exceeded maximum retries (1) for output validation,,-0.82813,0.0,0.0,0.0,inf,Free Water Deficit,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0508,0.533,0.533,0.53357,1.0,1.0,1.0,0.0005699999999999594,Free Water Deficit,lab test,decimal,3038.0,303.0,5.688020944595337,0.0023379,formula_evolved_deepseek_v31_full_test
+test.0506,-4.29,-4.29,-2.14286,0.0,0.0,0.0,2.14714,Free Water Deficit,lab test,decimal,9730.0,2223.0,40.95525145530701,0.0096171,formula_evolved_deepseek_v31_full_test
+test.0507,3.57,3.57,2.14286,0.0,0.0,0.0,1.4271399999999996,Free Water Deficit,lab test,decimal,9994.0,2255.0,40.830227851867676,0.009829899999999999,formula_evolved_deepseek_v31_full_test
+test.0509,**exception raised**: Exceeded maximum retries (1) for output validation,,0.11571,0.0,0.0,0.0,inf,Free Water Deficit,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0512,**exception raised**: Exceeded maximum retries (1) for output validation,,0.51429,0.0,0.0,0.0,inf,Free Water Deficit,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0510,**exception raised**: Exceeded maximum retries (1) for output validation,,-1.5,0.0,0.0,0.0,inf,Free Water Deficit,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0511,**exception raised**: Exceeded maximum retries (1) for output validation,,-2.46071,0.0,0.0,0.0,inf,Free Water Deficit,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0514,-1.565,-1.565,-1.56429,1.0,1.0,1.0,0.0007099999999999884,Free Water Deficit,lab test,decimal,2731.0,241.0,7.247701644897461,0.0020483,formula_evolved_deepseek_v31_full_test
+test.0515,16.425,16.425,16.425,1.0,1.0,1.0,0.0,Free Water Deficit,lab test,decimal,2819.0,407.0,9.514530181884766,0.0023833,formula_evolved_deepseek_v31_full_test
+test.0518,1.62,1.62,0.30857,0.0,0.0,0.0,1.31143,Free Water Deficit,lab test,decimal,3238.0,172.0,2.3499691486358643,0.0022352,formula_evolved_deepseek_v31_full_test
+test.0516,0.93,0.93,1.04143,0.0,0.0,0.0,0.11143000000000003,Free Water Deficit,lab test,decimal,9610.0,2239.0,43.19234323501587,0.009572299999999999,formula_evolved_deepseek_v31_full_test
+test.0520,1.925,1.925,0.225,0.0,0.0,0.0,1.7,Free Water Deficit,lab test,decimal,3633.0,252.0,3.9351694583892822,0.0026081999999999998,formula_evolved_deepseek_v31_full_test
+test.0517,**exception raised**: Exceeded maximum retries (1) for output validation,,0.45429,0.0,0.0,0.0,inf,Free Water Deficit,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0519,**exception raised**: Exceeded maximum retries (1) for output validation,,-1.30179,0.0,0.0,0.0,inf,Free Water Deficit,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0513,**exception raised**: Exceeded maximum retries (1) for output validation,,0.79714,0.0,0.0,0.0,inf,Free Water Deficit,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0523,14,14.0,14.0,1.0,1.0,1.0,0.0,Anion Gap,lab test,decimal,9330.0,2201.0,46.06476283073425,0.0093397,formula_evolved_deepseek_v31_full_test
+test.0525,39.2,39.2,39.2,1.0,1.0,1.0,0.0,Anion Gap,lab test,decimal,2861.0,146.0,3.058443784713745,0.0019648,formula_evolved_deepseek_v31_full_test
+test.0521,**exception raised**: Exceeded maximum retries (1) for output validation,,15.0,0.0,0.0,0.0,inf,Anion Gap,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0522,**exception raised**: Exceeded maximum retries (1) for output validation,,28.0,0.0,0.0,0.0,inf,Anion Gap,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0524,**exception raised**: Exceeded maximum retries (1) for output validation,,30.0,0.0,0.0,0.0,inf,Anion Gap,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0529,14,14.0,14.0,1.0,1.0,1.0,0.0,Anion Gap,lab test,decimal,3508.0,255.0,4.32191014289856,0.0025383,formula_evolved_deepseek_v31_full_test
+test.0530,39.0,39.0,39.0,1.0,1.0,1.0,0.0,Anion Gap,lab test,decimal,2397.0,115.0,1.9325337409973145,0.0016336999999999999,formula_evolved_deepseek_v31_full_test
+test.0531,13,13.0,13.0,1.0,1.0,1.0,0.0,Anion Gap,lab test,decimal,2508.0,100.0,2.293646812438965,0.0016748,formula_evolved_deepseek_v31_full_test
+test.0526,25,25.0,25.0,1.0,1.0,1.0,0.0,Anion Gap,lab test,decimal,10934.0,2262.0,49.430909156799316,0.0104058,formula_evolved_deepseek_v31_full_test
+test.0528,**exception raised**: Exceeded maximum retries (1) for output validation,,15.2,0.0,0.0,0.0,inf,Anion Gap,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0527,**exception raised**: Exceeded maximum retries (1) for output validation,,16.0,0.0,0.0,0.0,inf,Anion Gap,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0532,**exception raised**: Exceeded maximum retries (1) for output validation,,17.0,0.0,0.0,0.0,inf,Anion Gap,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0535,14.0,14.0,14.0,1.0,1.0,1.0,0.0,Anion Gap,lab test,decimal,3219.0,110.0,2.3685948848724365,0.0021184,formula_evolved_deepseek_v31_full_test
+test.0534,28,28.0,28.0,1.0,1.0,1.0,0.0,Anion Gap,lab test,decimal,3185.0,160.0,4.775815963745117,0.002183,formula_evolved_deepseek_v31_full_test
+test.0537,30.0,30.0,30.0,1.0,1.0,1.0,0.0,Anion Gap,lab test,decimal,3155.0,136.0,4.823951959609985,0.0021242,formula_evolved_deepseek_v31_full_test
+test.0533,27,27.0,27.0,1.0,1.0,1.0,0.0,Anion Gap,lab test,decimal,10264.0,2252.0,59.70689010620117,0.0099868,formula_evolved_deepseek_v31_full_test
+test.0538,14.0,14.0,14.0,1.0,1.0,1.0,0.0,Anion Gap,lab test,decimal,10486.0,2130.0,56.082080125808716,0.0099126,formula_evolved_deepseek_v31_full_test
+test.0561,2.11,2.11,2.69633,0.0,0.0,0.0,0.5863300000000002,Fractional Excretion of Sodium (FENa),lab test,decimal,2686.0,207.0,3.656893491744995,0.0019635,formula_evolved_deepseek_v31_full_test
+test.0536,**exception raised**: Exceeded maximum retries (1) for output validation,,22.2,0.0,0.0,0.0,inf,Anion Gap,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0539,**exception raised**: Exceeded maximum retries (1) for output validation,,20.0,0.0,0.0,0.0,inf,Anion Gap,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0540,**exception raised**: Exceeded maximum retries (1) for output validation,,-9.0,0.0,0.0,0.0,inf,Anion Gap,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0562,**exception raised**: Exceeded maximum retries (1) for output validation,,0.49498,0.0,0.0,0.0,inf,Fractional Excretion of Sodium (FENa),lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0564,1.27,1.27,1.27276,1.0,1.0,1.0,0.0027599999999998737,Fractional Excretion of Sodium (FENa),lab test,decimal,10056.0,2397.0,56.60735535621643,0.0101085,formula_evolved_deepseek_v31_full_test
+test.0563,**exception raised**: Exceeded maximum retries (1) for output validation,,0.27093,0.0,0.0,0.0,inf,Fractional Excretion of Sodium (FENa),lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0566,1.9,1.9,0.27053,0.0,0.0,0.0,1.62947,Fractional Excretion of Sodium (FENa),lab test,decimal,2896.0,192.0,4.697481155395508,0.002064,formula_evolved_deepseek_v31_full_test
+test.0565,0.78,0.78,0.47824,0.0,0.0,0.0,0.30176000000000003,Fractional Excretion of Sodium (FENa),lab test,decimal,10418.0,2262.0,48.03781294822693,0.0100962,formula_evolved_deepseek_v31_full_test
+test.0568,**exception raised**: Exceeded maximum retries (1) for output validation,,0.39454,0.0,0.0,0.0,inf,Fractional Excretion of Sodium (FENa),lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0567,**exception raised**: Exceeded maximum retries (1) for output validation,,0.09683,0.0,0.0,0.0,inf,Fractional Excretion of Sodium (FENa),lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0569,**exception raised**: Exceeded maximum retries (1) for output validation,,0.60554,0.0,0.0,0.0,inf,Fractional Excretion of Sodium (FENa),lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0570,**exception raised**: Exceeded maximum retries (1) for output validation,,0.17181,0.0,0.0,0.0,inf,Fractional Excretion of Sodium (FENa),lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0574,2.1,2.1,0.20979,0.0,0.0,0.0,1.8902100000000002,Fractional Excretion of Sodium (FENa),lab test,decimal,2975.0,151.0,4.724695682525635,0.0020417,formula_evolved_deepseek_v31_full_test
+test.0572,**exception raised**: Exceeded maximum retries (1) for output validation,,0.1601,0.0,0.0,0.0,inf,Fractional Excretion of Sodium (FENa),lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0571,**exception raised**: Exceeded maximum retries (1) for output validation,,0.38036,0.0,0.0,0.0,inf,Fractional Excretion of Sodium (FENa),lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0573,**exception raised**: Exceeded maximum retries (1) for output validation,,0.1576,0.0,0.0,0.0,inf,Fractional Excretion of Sodium (FENa),lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0576,0.86,0.86,0.2137,0.0,0.0,0.0,0.6463,Fractional Excretion of Sodium (FENa),lab test,decimal,3013.0,189.0,4.362507581710815,0.0021290999999999997,formula_evolved_deepseek_v31_full_test
+test.0575,**exception raised**: Exceeded maximum retries (1) for output validation,,0.345,0.0,0.0,0.0,inf,Fractional Excretion of Sodium (FENa),lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0578,0.88,0.88,0.30239,0.0,0.0,0.0,0.57761,Fractional Excretion of Sodium (FENa),lab test,decimal,2967.0,172.0,4.7733941078186035,0.0020726,formula_evolved_deepseek_v31_full_test
+test.0579,0.97,0.97,0.24295,0.0,0.0,0.0,0.72705,Fractional Excretion of Sodium (FENa),lab test,decimal,3047.0,202.0,5.540790796279907,0.0021716,formula_evolved_deepseek_v31_full_test
+test.0577,**exception raised**: Exceeded maximum retries (1) for output validation,,0.15068,0.0,0.0,0.0,inf,Fractional Excretion of Sodium (FENa),lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0580,**exception raised**: Exceeded maximum retries (1) for output validation,,0.46847,0.0,0.0,0.0,inf,Fractional Excretion of Sodium (FENa),lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0581,**exception raised**: Exceeded maximum retries (1) for output validation,,103.8,0.0,0.0,0.0,inf,LDL Calculated,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0582,**exception raised**: Exceeded maximum retries (1) for output validation,,125.0588,0.0,0.0,0.0,inf,LDL Calculated,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0583,**exception raised**: Exceeded maximum retries (1) for output validation,,153.6,0.0,0.0,0.0,inf,LDL Calculated,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0584,**exception raised**: Exceeded maximum retries (1) for output validation,,34.4,0.0,0.0,0.0,inf,LDL Calculated,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0585,**exception raised**: Exceeded maximum retries (1) for output validation,,214.38,0.0,0.0,0.0,inf,LDL Calculated,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0586,**exception raised**: Exceeded maximum retries (1) for output validation,,171.2,0.0,0.0,0.0,inf,LDL Calculated,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0587,**exception raised**: Exceeded maximum retries (1) for output validation,,133.6,0.0,0.0,0.0,inf,LDL Calculated,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0588,**exception raised**: Exceeded maximum retries (1) for output validation,,119.0,0.0,0.0,0.0,inf,LDL Calculated,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0592,115.0,115.0,128.0,0.0,0.0,0.0,13.0,LDL Calculated,lab test,decimal,2495.0,120.0,2.0459094047546387,0.0017009999999999998,formula_evolved_deepseek_v31_full_test
+test.0590,118.8,118.8,92.2464,0.0,0.0,0.0,26.553600000000003,LDL Calculated,lab test,decimal,2994.0,110.0,2.169262170791626,0.0019833999999999997,formula_evolved_deepseek_v31_full_test
+test.0594,40.4,40.4,62.4,0.0,0.0,0.0,22.0,LDL Calculated,lab test,decimal,2857.0,134.0,2.1065900325775146,0.001942,formula_evolved_deepseek_v31_full_test
+test.0589,**exception raised**: Exceeded maximum retries (1) for output validation,,169.2,0.0,0.0,0.0,inf,LDL Calculated,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0591,**exception raised**: Exceeded maximum retries (1) for output validation,,159.4,0.0,0.0,0.0,inf,LDL Calculated,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0593,**exception raised**: Exceeded maximum retries (1) for output validation,,59.0,0.0,0.0,0.0,inf,LDL Calculated,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0595,**exception raised**: Exceeded maximum retries (1) for output validation,,136.8,0.0,0.0,0.0,inf,LDL Calculated,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0596,**exception raised**: Exceeded maximum retries (1) for output validation,,82.8,0.0,0.0,0.0,inf,LDL Calculated,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0597,**exception raised**: Exceeded maximum retries (1) for output validation,,89.0,0.0,0.0,0.0,inf,LDL Calculated,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0598,**exception raised**: Exceeded maximum retries (1) for output validation,,92.6,0.0,0.0,0.0,inf,LDL Calculated,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0599,**exception raised**: Exceeded maximum retries (1) for output validation,,91.4,0.0,0.0,0.0,inf,LDL Calculated,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0600,**exception raised**: Exceeded maximum retries (1) for output validation,,83.0,0.0,0.0,0.0,inf,LDL Calculated,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0604,6,6.0,0.668,0.0,0.0,0.0,5.332,Framingham Risk Score for Hard Coronary Heart Disease,lab test,decimal,3152.0,256.0,3.166123390197754,0.0023264,formula_evolved_deepseek_v31_full_test
+test.0605,18.5,18.5,10.402,0.0,0.0,0.0,8.098,Framingham Risk Score for Hard Coronary Heart Disease,lab test,decimal,3061.0,237.0,4.081188440322876,0.0022394999999999997,formula_evolved_deepseek_v31_full_test
+test.0603,**exception raised**: Exceeded maximum retries (1) for output validation,,0.896,0.0,0.0,0.0,inf,Framingham Risk Score for Hard Coronary Heart Disease,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0601,**exception raised**: Exceeded maximum retries (1) for output validation,,29.023,0.0,0.0,0.0,inf,Framingham Risk Score for Hard Coronary Heart Disease,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0602,**exception raised**: Exceeded maximum retries (1) for output validation,,6.732,0.0,0.0,0.0,inf,Framingham Risk Score for Hard Coronary Heart Disease,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0606,**exception raised**: Exceeded maximum retries (1) for output validation,,24.904,0.0,0.0,0.0,inf,Framingham Risk Score for Hard Coronary Heart Disease,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0607,**exception raised**: Exceeded maximum retries (1) for output validation,,6.017,0.0,0.0,0.0,inf,Framingham Risk Score for Hard Coronary Heart Disease,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0608,**exception raised**: Exceeded maximum retries (1) for output validation,,61.022,0.0,0.0,0.0,inf,Framingham Risk Score for Hard Coronary Heart Disease,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0612,22,22.0,25.274,0.0,0.0,0.0,3.274000000000001,Framingham Risk Score for Hard Coronary Heart Disease,lab test,decimal,2413.0,417.0,5.057864189147949,0.0021567,formula_evolved_deepseek_v31_full_test
+test.0609,**exception raised**: Exceeded maximum retries (1) for output validation,,5.197,0.0,0.0,0.0,inf,Framingham Risk Score for Hard Coronary Heart Disease,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0610,**exception raised**: Exceeded maximum retries (1) for output validation,,3.647,0.0,0.0,0.0,inf,Framingham Risk Score for Hard Coronary Heart Disease,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0611,**exception raised**: Exceeded maximum retries (1) for output validation,,0.276,0.0,0.0,0.0,inf,Framingham Risk Score for Hard Coronary Heart Disease,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0614,"I cannot calculate the Framingham Risk Score as the documentation only provides formulas for specific medical calculations, and the Framingham Risk Score requires a complex multivariate equation that is not fully specified in the provided formulas. The documentation lists ""Framingham Risk Score: Complex multivariate equation based on age, sex, lipids, BP, smoking"" but does not provide the actual formula implementation details needed to perform this specific calculation.",,0.904,0.0,0.0,0.0,inf,Framingham Risk Score for Hard Coronary Heart Disease,lab test,decimal,3250.0,352.0,5.359469175338745,0.0025484,formula_evolved_deepseek_v31_full_test
+test.0615,"The Framingham Risk Score calculation requires specific variables that are not fully available in this patient note. While we have age (61), sex (male), total cholesterol (198 mg/dL), HDL-C (42 mg/dL), and blood pressure (130/80 mmHg), we cannot determine the complete Framingham Risk Score because:
+
+1. We don't know if the patient was receiving treatment for hypertension prior to admission
+2. The exact smoking status is unclear (patient ""denied smoking"" but this might refer to current smoking status)
+3. The Framingham Risk Score requires specific categorical inputs that aren't fully extractable from this clinical note
+
+Without these critical components, a valid Framingham Risk Score cannot be calculated. The function would likely return an error or indicate insufficient data for this specific calculation.",3.0,10.975,0.0,0.0,0.0,7.975,Framingham Risk Score for Hard Coronary Heart Disease,lab test,decimal,2982.0,380.0,4.98793363571167,0.0024351999999999998,formula_evolved_deepseek_v31_full_test
+test.0616,16,16.0,16.526,1.0,0.0,1.0,0.5259999999999998,Framingham Risk Score for Hard Coronary Heart Disease,lab test,decimal,10170.0,2292.0,33.0915412902832,0.0099984,formula_evolved_deepseek_v31_full_test
+test.0618,4.2,4.2,4.047,1.0,0.0,1.0,0.15300000000000047,Framingham Risk Score for Hard Coronary Heart Disease,lab test,decimal,9952.0,2204.0,35.2669141292572,0.009718,formula_evolved_deepseek_v31_full_test
+test.0620,15.2,15.2,16.778,0.0,0.0,0.0,1.5779999999999994,Framingham Risk Score for Hard Coronary Heart Disease,lab test,decimal,2823.0,260.0,4.567754745483398,0.0021357999999999998,formula_evolved_deepseek_v31_full_test
+test.0613,**exception raised**: Exceeded maximum retries (1) for output validation,,6.625,0.0,0.0,0.0,inf,Framingham Risk Score for Hard Coronary Heart Disease,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0617,**exception raised**: Exceeded maximum retries (1) for output validation,,17.914,0.0,0.0,0.0,inf,Framingham Risk Score for Hard Coronary Heart Disease,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0662,315.5,315.5,281.43587,0.0,0.0,0.0,34.06412999999998,QTc Fridericia Calculator,physical,decimal,8504.0,2223.0,39.89070749282837,0.0088815,formula_evolved_deepseek_v31_full_test
+test.0619,**exception raised**: Exceeded maximum retries (1) for output validation,,1.814,0.0,0.0,0.0,inf,Framingham Risk Score for Hard Coronary Heart Disease,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0661,**exception raised**: Exceeded maximum retries (1) for output validation,,482.05069,0.0,0.0,0.0,inf,QTc Fridericia Calculator,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0664,387.0,387.0,364.21357,0.0,0.0,0.0,22.786429999999996,QTc Fridericia Calculator,physical,decimal,8529.0,2265.0,49.04085111618042,0.0089679,formula_evolved_deepseek_v31_full_test
+test.0663,**exception raised**: Exceeded maximum retries (1) for output validation,,455.59247,0.0,0.0,0.0,inf,QTc Fridericia Calculator,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0667,427.8,427.8,522.37659,0.0,0.0,0.0,94.57658999999995,QTc Fridericia Calculator,physical,decimal,2162.0,185.0,3.667804002761841,0.0016116999999999998,formula_evolved_deepseek_v31_full_test
+test.0666,**exception raised**: Exceeded maximum retries (1) for output validation,,577.83474,0.0,0.0,0.0,inf,QTc Fridericia Calculator,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0668,**exception raised**: Exceeded maximum retries (1) for output validation,,285.9772,0.0,0.0,0.0,inf,QTc Fridericia Calculator,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0665,**exception raised**: Exceeded maximum retries (1) for output validation,,391.47238,0.0,0.0,0.0,inf,QTc Fridericia Calculator,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0670,527.0,527.0,500.03636,0.0,0.0,0.0,26.963639999999998,QTc Fridericia Calculator,physical,decimal,2162.0,136.0,3.848978281021118,0.0015283999999999999,formula_evolved_deepseek_v31_full_test
+test.0669,**exception raised**: Exceeded maximum retries (1) for output validation,,395.67477,0.0,0.0,0.0,inf,QTc Fridericia Calculator,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0672,398.0,398.0,312.17523,0.0,0.0,0.0,85.82477,QTc Fridericia Calculator,physical,decimal,2162.0,192.0,10.790667295455933,0.0016235999999999998,formula_evolved_deepseek_v31_full_test
+test.0673,**exception raised**: Exceeded maximum retries (1) for output validation,,606.05787,0.0,0.0,0.0,inf,QTc Fridericia Calculator,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0671,**exception raised**: Exceeded maximum retries (1) for output validation,,566.30447,0.0,0.0,0.0,inf,QTc Fridericia Calculator,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0675,**exception raised**: Exceeded maximum retries (1) for output validation,,622.46578,0.0,0.0,0.0,inf,QTc Fridericia Calculator,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0674,**exception raised**: Exceeded maximum retries (1) for output validation,,305.26745,0.0,0.0,0.0,inf,QTc Fridericia Calculator,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0676,514.4,514.4,578.46083,0.0,0.0,0.0,64.06083000000001,QTc Fridericia Calculator,physical,decimal,8515.0,2217.0,49.64680862426758,0.0088779,formula_evolved_deepseek_v31_full_test
+test.0678,350.462,350.462,361.56904,1.0,0.0,1.0,11.107039999999984,QTc Fridericia Calculator,physical,decimal,2162.0,123.0,2.9705350399017334,0.0015063,formula_evolved_deepseek_v31_full_test
+test.0680,351.29,351.29,351.17285,1.0,0.0,1.0,0.11715000000003783,QTc Fridericia Calculator,physical,decimal,8494.0,2309.0,57.56271433830261,0.0090217,formula_evolved_deepseek_v31_full_test
+test.0679,**exception raised**: Exceeded maximum retries (1) for output validation,,593.13574,0.0,0.0,0.0,inf,QTc Fridericia Calculator,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0677,**exception raised**: Exceeded maximum retries (1) for output validation,,660.06312,0.0,0.0,0.0,inf,QTc Fridericia Calculator,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0681,**exception raised**: Exceeded maximum retries (1) for output validation,,560.0007,0.0,0.0,0.0,inf,QTc Framingham Calculator,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0682,**exception raised**: Exceeded maximum retries (1) for output validation,,353.41104,0.0,0.0,0.0,inf,QTc Framingham Calculator,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0683,307.0,307.0,307.00012,1.0,1.0,1.0,0.00011999999998124622,QTc Framingham Calculator,physical,decimal,8504.0,2302.0,46.071224212646484,0.009015800000000001,formula_evolved_deepseek_v31_full_test
+test.0684,**exception raised**: Exceeded maximum retries (1) for output validation,,441.99978,0.0,0.0,0.0,inf,QTc Framingham Calculator,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0685,**exception raised**: Exceeded maximum retries (1) for output validation,,262.66718,0.0,0.0,0.0,inf,QTc Framingham Calculator,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0687,480.5,480.5,480.49986,1.0,1.0,1.0,0.0001399999999875945,QTc Framingham Calculator,physical,decimal,8496.0,2313.0,44.039894342422485,0.0090297,formula_evolved_deepseek_v31_full_test
+test.0688,"**exception raised**: status_code: 503, model_name: together_ai/deepseek-ai/DeepSeek-V3.1, body: litellm.ServiceUnavailableError: ServiceUnavailableError: Together_aiException - Service unavailable",,525.9993,0.0,0.0,0.0,inf,QTc Framingham Calculator,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0686,**exception raised**: Exceeded maximum retries (1) for output validation,,270.99986,0.0,0.0,0.0,inf,QTc Framingham Calculator,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0690,496,496.0,539.99934,0.0,0.0,0.0,43.99933999999996,QTc Framingham Calculator,physical,decimal,2161.0,171.0,4.455709457397461,0.0015873,formula_evolved_deepseek_v31_full_test
+test.0691,508.7,508.7,543.37152,0.0,0.0,0.0,34.671520000000044,QTc Framingham Calculator,physical,decimal,2161.0,171.0,16.290350675582886,0.0015873,formula_evolved_deepseek_v31_full_test
+test.0692,308.0,308.0,338.55624,0.0,0.0,0.0,30.556240000000003,QTc Framingham Calculator,physical,decimal,2161.0,140.0,15.437591314315796,0.0015346,formula_evolved_deepseek_v31_full_test
+test.0695,297.484,297.484,297.48402,1.0,1.0,1.0,2.0000000006348273e-05,QTc Framingham Calculator,physical,decimal,2161.0,353.0,13.866019010543823,0.0018966999999999999,formula_evolved_deepseek_v31_full_test
+test.0694,441.0,441.0,396.75,0.0,0.0,0.0,44.25,QTc Framingham Calculator,physical,decimal,8508.0,2139.0,42.86251926422119,0.0087411,formula_evolved_deepseek_v31_full_test
+test.0697,261.566,261.566,261.56582,1.0,1.0,1.0,0.00018000000000029104,QTc Framingham Calculator,physical,decimal,2161.0,338.0,6.784091472625732,0.0018712,formula_evolved_deepseek_v31_full_test
+test.0689,**exception raised**: Exceeded maximum retries (1) for output validation,,457.66718,0.0,0.0,0.0,inf,QTc Framingham Calculator,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0699,394.0,394.0,449.49986,0.0,0.0,0.0,55.49986000000001,QTc Framingham Calculator,physical,decimal,2161.0,109.0,8.166368246078491,0.0014819,formula_evolved_deepseek_v31_full_test
+test.0693,**exception raised**: Exceeded maximum retries (1) for output validation,,332.00044,0.0,0.0,0.0,inf,QTc Framingham Calculator,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0700,302.6,302.6,302.6,1.0,1.0,1.0,0.0,QTc Framingham Calculator,physical,decimal,2161.0,253.0,4.957853078842163,0.0017266999999999998,formula_evolved_deepseek_v31_full_test
+test.0696,**exception raised**: Exceeded maximum retries (1) for output validation,,382.0007,0.0,0.0,0.0,inf,QTc Framingham Calculator,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0698,**exception raised**: Exceeded maximum retries (1) for output validation,,469.56686,0.0,0.0,0.0,inf,QTc Framingham Calculator,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0704,444.5,444.5,444.50014,1.0,1.0,1.0,0.0001399999999875945,QTc Hodges Calculator,physical,decimal,2161.0,209.0,6.272236347198486,0.0016519,formula_evolved_deepseek_v31_full_test
+test.0701,413.25,413.25,413.25067,1.0,1.0,1.0,0.0006700000000137152,QTc Hodges Calculator,physical,decimal,2161.0,294.0,7.632225036621094,0.0017964,formula_evolved_deepseek_v31_full_test
+test.0702,"**exception raised**: status_code: 429, model_name: together_ai/deepseek-ai/DeepSeek-V3.1, body: litellm.RateLimitError: RateLimitError: Together_aiException - We noticed too many requests from your account. We do our best to serve all requests, but due to high load, some bursty requests may not succeed. In this situation, we use your ""dynamic"" rate limit to properly classify errors for failed requests. Your dynamic rate limit is 0.6666666666666666 RPM, while your current request rate is 3 RPM. Please refer to https://docs.together.ai/docs/rate-limits for more details about dynamic rate limits. If your workload is truly bursty, we recommend using batch or dedicated inference. For any further questions, please contact our sales team at https://www.together.ai/contact-sales.",,460.24991,0.0,0.0,0.0,inf,QTc Hodges Calculator,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0705,"**exception raised**: status_code: 429, model_name: together_ai/deepseek-ai/DeepSeek-V3.1, body: litellm.RateLimitError: RateLimitError: Together_aiException - We noticed too many requests from your account. We do our best to serve all requests, but due to high load, some bursty requests may not succeed. In this situation, we use your ""dynamic"" rate limit to properly classify errors for failed requests. Your dynamic rate limit is 0.6666666666666666 RPM, while your current request rate is 2 RPM. Please refer to https://docs.together.ai/docs/rate-limits for more details about dynamic rate limits. If your workload is truly bursty, we recommend using batch or dedicated inference. For any further questions, please contact our sales team at https://www.together.ai/contact-sales.",,514.25117,0.0,0.0,0.0,inf,QTc Hodges Calculator,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0707,211 + 1.75 * (126 - 60) = 211 + 1.75 * 66 = 211 + 115.5 = 326.5,326.5,326.50022,1.0,1.0,1.0,0.00022000000001298758,QTc Hodges Calculator,physical,decimal,2161.0,127.0,10.23769235610962,0.0015125,formula_evolved_deepseek_v31_full_test
+test.0708,550.5,550.5,517.5016,0.0,0.0,0.0,32.99839999999995,QTc Hodges Calculator,physical,decimal,2161.0,115.0,3.288633108139038,0.0014921,formula_evolved_deepseek_v31_full_test
+test.0709,619.75,619.75,619.75061,1.0,1.0,1.0,0.0006100000000515138,QTc Hodges Calculator,physical,decimal,2161.0,223.0,5.76195764541626,0.0016757,formula_evolved_deepseek_v31_full_test
+test.0703,**exception raised**: Exceeded maximum retries (1) for output validation,,562.74955,0.0,0.0,0.0,inf,QTc Hodges Calculator,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0711,"**exception raised**: status_code: 503, model_name: together_ai/deepseek-ai/DeepSeek-V3.1, body: litellm.ServiceUnavailableError: ServiceUnavailableError: Together_aiException - Service unavailable",,491.0,0.0,0.0,0.0,inf,QTc Hodges Calculator,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0706,**exception raised**: Exceeded maximum retries (1) for output validation,,433.25025,0.0,0.0,0.0,inf,QTc Hodges Calculator,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0710,426.0,426.0,343.0,0.0,0.0,0.0,83.0,QTc Hodges Calculator,physical,decimal,8502.0,2113.0,58.96815228462219,0.008693300000000001,formula_evolved_deepseek_v31_full_test
+test.0712,428.5,428.5,428.49787,1.0,1.0,1.0,0.0021300000000223918,QTc Hodges Calculator,physical,decimal,8494.0,2286.0,50.5448682308197,0.0089826,formula_evolved_deepseek_v31_full_test
+test.0714,442.75,442.75,527.75071,0.0,0.0,0.0,85.00071000000003,QTc Hodges Calculator,physical,decimal,2161.0,100.0,2.6231257915496826,0.0014666,formula_evolved_deepseek_v31_full_test
+test.0716,272.25,272.25,329.25132,0.0,0.0,0.0,57.00132000000002,QTc Hodges Calculator,physical,decimal,2161.0,118.0,2.9894320964813232,0.0014972,formula_evolved_deepseek_v31_full_test
+test.0715,492.75,492.75,493.74963,1.0,0.0,1.0,0.9996300000000247,QTc Hodges Calculator,physical,decimal,2161.0,122.0,16.367573261260986,0.001504,formula_evolved_deepseek_v31_full_test
+test.0713,"**exception raised**: status_code: 503, model_name: together_ai/deepseek-ai/DeepSeek-V3.1, body: litellm.ServiceUnavailableError: ServiceUnavailableError: Together_aiException - Service unavailable",,498.75129,0.0,0.0,0.0,inf,QTc Hodges Calculator,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0717,442.75,442.75,442.7502,1.0,1.0,1.0,0.0002000000000066393,QTc Hodges Calculator,physical,decimal,2161.0,241.0,20.70810842514038,0.0017063,formula_evolved_deepseek_v31_full_test
+test.0720,359.0,359.0,412.9981,0.0,0.0,0.0,53.99810000000002,QTc Hodges Calculator,physical,decimal,2161.0,125.0,3.625434637069702,0.0015091,formula_evolved_deepseek_v31_full_test
+test.0718,595.25,595.25,601.24745,1.0,0.0,1.0,5.997449999999958,QTc Hodges Calculator,physical,decimal,2161.0,123.0,11.02320647239685,0.0015057,formula_evolved_deepseek_v31_full_test
+test.0722,"First, I need to calculate the RR interval from the heart rate. RR = 60/HR = 60/81 ≈ 0.7407 seconds. Then applying the Rautaharju formula: QTc = QT + 154 * (1 - RR) = 303 + 154 * (1 - 0.7407) = 303 + 154 * 0.2593 ≈ 303 + 39.93 = 342.93. The corrected QT interval is approximately 342.93 msec.",342.93,338.35,1.0,0.0,1.0,4.579999999999984,QTc Rautaharju Calculator,physical,decimal,2163.0,269.0,8.41953730583191,0.0017550999999999999,formula_evolved_deepseek_v31_full_test
+test.0719,414 + 1.75 * (57 - 60) = 414 + 1.75 * (-3) = 414 - 5.25 = 408.75,408.75,408.75015,1.0,1.0,1.0,0.00015000000001919034,QTc Hodges Calculator,physical,decimal,2161.0,162.0,14.288439512252808,0.001572,formula_evolved_deepseek_v31_full_test
+test.0723,"First, I need to extract the relevant values from the patient note: heart rate = 127 bpm and QT interval = 465 msec. For the Rautaharju formula, I need to calculate RR interval: RR = 60/HR = 60/127 = 0.47244 seconds. Then apply the formula: QTc = QT + 154 * (1 - RR) = 465 + 154 * (1 - 0.47244) = 465 + 154 * 0.52756 = 465 + 81.24 = 546.24 msec. After checking my arithmetic, the final corrected QT interval is 546.24.",546.24,638.08333,0.0,0.0,0.0,91.84333000000004,QTc Rautaharju Calculator,physical,decimal,2163.0,256.0,20.510163068771362,0.001733,formula_evolved_deepseek_v31_full_test
+test.0724,397.857,397.857,290.4,0.0,0.0,0.0,107.45700000000005,QTc Rautaharju Calculator,physical,decimal,2163.0,111.0,16.13977026939392,0.0014865,formula_evolved_deepseek_v31_full_test
+test.0721,461.0,461.0,503.75,0.0,0.0,0.0,42.75,QTc Rautaharju Calculator,physical,decimal,8518.0,2214.0,61.4690580368042,0.0088746,formula_evolved_deepseek_v31_full_test
+test.0728,602.4,602.4,673.4,0.0,0.0,0.0,71.0,QTc Rautaharju Calculator,physical,decimal,2163.0,145.0,3.3607966899871826,0.0015443,formula_evolved_deepseek_v31_full_test
+test.0727,355.0,355.0,352.75,1.0,0.0,1.0,2.25,QTc Rautaharju Calculator,physical,decimal,2163.0,165.0,3.4240269660949707,0.0015783,formula_evolved_deepseek_v31_full_test
+test.0729,"I need to calculate the corrected QT interval using the Rautaharju formula. First, I extract the heart rate (HR) of 52 bpm and QT interval of 239 msec from the patient note. The Rautaharju formula is QTc = QT + 154 * (1 - RR), where RR = 60/HR in seconds. I calculate RR = 60/52 = 1.1538 seconds, then compute QTc = 239 + 154 * (1 - 1.1538) = 239 + 154 * (-0.1538) = 239 - 23.6852 = 215.3148 msec. After rounding appropriately, the final result is 215.3.",215.3,228.37778,0.0,0.0,0.0,13.07777999999999,QTc Rautaharju Calculator,physical,decimal,2163.0,285.0,5.088923692703247,0.0017823000000000001,formula_evolved_deepseek_v31_full_test
+test.0725,"**exception raised**: status_code: 503, model_name: together_ai/deepseek-ai/DeepSeek-V3.1, body: litellm.ServiceUnavailableError: ServiceUnavailableError: Together_aiException - Service unavailable",,738.55556,0.0,0.0,0.0,inf,QTc Rautaharju Calculator,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0726,"**exception raised**: status_code: 429, model_name: together_ai/deepseek-ai/DeepSeek-V3.1, body: litellm.RateLimitError: RateLimitError: Together_aiException - We noticed too many requests from your account. We do our best to serve all requests, but due to high load, some bursty requests may not succeed. In this situation, we use your ""dynamic"" rate limit to properly classify errors for failed requests. Your dynamic rate limit is 0.6666666666666666 RPM, while your current request rate is 2 RPM. Please refer to https://docs.together.ai/docs/rate-limits for more details about dynamic rate limits. If your workload is truly bursty, we recommend using batch or dedicated inference. For any further questions, please contact our sales team at https://www.together.ai/contact-sales.",,354.44444,0.0,0.0,0.0,inf,QTc Rautaharju Calculator,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0730,"**exception raised**: status_code: 429, model_name: together_ai/deepseek-ai/DeepSeek-V3.1, body: litellm.RateLimitError: RateLimitError: Together_aiException - We noticed too many requests from your account. We do our best to serve all requests, but due to high load, some bursty requests may not succeed. In this situation, we use your ""dynamic"" rate limit to properly classify errors for failed requests. Your dynamic rate limit is 0.6666666666666666 RPM, while your current request rate is 3 RPM. Please refer to https://docs.together.ai/docs/rate-limits for more details about dynamic rate limits. If your workload is truly bursty, we recommend using batch or dedicated inference. For any further questions, please contact our sales team at https://www.together.ai/contact-sales.",,403.43333,0.0,0.0,0.0,inf,QTc Rautaharju Calculator,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0733,396.0,396.0,609.4,0.0,0.0,0.0,213.39999999999998,QTc Rautaharju Calculator,physical,decimal,2163.0,163.0,3.3662545680999756,0.0015749,formula_evolved_deepseek_v31_full_test
+test.0732,381.0,381.0,248.08333,0.0,0.0,0.0,132.91667,QTc Rautaharju Calculator,physical,decimal,2163.0,187.0,15.823704242706299,0.0016157,formula_evolved_deepseek_v31_full_test
+test.0736,433.65,433.65,459.33333,0.0,0.0,0.0,25.683330000000012,QTc Rautaharju Calculator,physical,decimal,2163.0,166.0,3.0816779136657715,0.00158,formula_evolved_deepseek_v31_full_test
+test.0735,595.836,595.836,805.2,0.0,0.0,0.0,209.36400000000003,QTc Rautaharju Calculator,physical,decimal,2163.0,150.0,14.843635320663452,0.0015528,formula_evolved_deepseek_v31_full_test
+test.0734,"**exception raised**: status_code: 503, model_name: together_ai/deepseek-ai/DeepSeek-V3.1, body: litellm.ServiceUnavailableError: ServiceUnavailableError: Together_aiException - Service unavailable",,416.26667,0.0,0.0,0.0,inf,QTc Rautaharju Calculator,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0731,390.4,390.4,314.73889,0.0,0.0,0.0,75.66110999999995,QTc Rautaharju Calculator,physical,decimal,8509.0,2218.0,85.89510655403137,0.008876,formula_evolved_deepseek_v31_full_test
+test.0737,449.2,449.2,421.3,0.0,0.0,0.0,27.899999999999977,QTc Rautaharju Calculator,physical,decimal,2163.0,100.0,9.0390305519104,0.0014678,formula_evolved_deepseek_v31_full_test
+test.0739,"**exception raised**: status_code: 503, model_name: together_ai/deepseek-ai/DeepSeek-V3.1, body: litellm.ServiceUnavailableError: ServiceUnavailableError: Together_aiException - Service unavailable",,300.33333,0.0,0.0,0.0,inf,QTc Rautaharju Calculator,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0740,302.38,302.38,317.77778,1.0,0.0,1.0,15.397780000000012,QTc Rautaharju Calculator,physical,decimal,2163.0,311.0,22.377452611923218,0.0018265,formula_evolved_deepseek_v31_full_test
+test.0738,"I need to calculate the corrected QT interval using the Rautaharju formula. From the patient note, I extract HR = 129 bpm and QT = 221 msec. First, I calculate RR = 60/HR = 60/129 ≈ 0.465116 seconds. Then I apply the Rautaharju formula: QTc = QT + 154 * (1 - RR) = 221 + 154 * (1 - 0.465116) = 221 + 154 * 0.534884 ≈ 221 + 82.37 ≈ 303.37. The corrected QT interval is approximately 303 msec.",303.0,305.71667,1.0,0.0,1.0,2.716670000000022,QTc Rautaharju Calculator,physical,decimal,2163.0,328.0,22.548569202423096,0.0018554,formula_evolved_deepseek_v31_full_test
+test.0741,1.95,1.95,1.94203,1.0,1.0,1.0,0.007970000000000033,Body Surface Area Calculator,physical,decimal,3755.0,193.0,11.478798627853394,0.0025811,formula_evolved_deepseek_v31_full_test
+test.0744,1.85,1.85,2.00305,0.0,0.0,0.0,0.1530499999999999,Body Surface Area Calculator,physical,decimal,2991.0,102.0,2.684413433074951,0.001968,formula_evolved_deepseek_v31_full_test
+test.0742,1.43,1.43,1.50083,1.0,0.0,1.0,0.07083000000000017,Body Surface Area Calculator,physical,decimal,3294.0,202.0,17.994267225265503,0.0023198000000000003,formula_evolved_deepseek_v31_full_test
+test.0745,1.62,1.62,1.64958,1.0,0.0,1.0,0.02957999999999994,Body Surface Area Calculator,physical,decimal,2880.0,148.0,4.529518127441406,0.0019795999999999998,formula_evolved_deepseek_v31_full_test
+test.0746,1.49,1.49,1.5438,1.0,0.0,1.0,0.05380000000000007,Body Surface Area Calculator,physical,decimal,3130.0,98.0,3.250102996826172,0.0020445999999999997,formula_evolved_deepseek_v31_full_test
+test.0743,1.37,1.37,1.30512,1.0,0.0,1.0,0.06488000000000005,Body Surface Area Calculator,physical,decimal,2852.0,107.0,17.58121418952942,0.0018931,formula_evolved_deepseek_v31_full_test
+test.0747,1.08,1.08,1.1547,0.0,0.0,0.0,0.07469999999999999,Body Surface Area Calculator,physical,decimal,2721.0,129.0,4.808476448059082,0.0018518999999999999,formula_evolved_deepseek_v31_full_test
+test.0748,1.32,1.32,1.23333,0.0,0.0,0.0,0.08667000000000002,Body Surface Area Calculator,physical,decimal,3365.0,129.0,1.874847173690796,0.0022383,formula_evolved_deepseek_v31_full_test
+test.0749,1.58,1.58,1.53912,1.0,0.0,1.0,0.04088000000000003,Body Surface Area Calculator,physical,decimal,2745.0,119.0,1.5004322528839111,0.0018493000000000001,formula_evolved_deepseek_v31_full_test
+test.0753,2.107,2.107,2.4367,0.0,0.0,0.0,0.3296999999999999,Body Surface Area Calculator,physical,decimal,2933.0,157.0,2.243152379989624,0.0020266999999999998,formula_evolved_deepseek_v31_full_test
+test.0751,1.58,1.58,1.67332,0.0,0.0,0.0,0.09331999999999985,Body Surface Area Calculator,physical,decimal,3135.0,130.0,15.212254047393799,0.0021019999999999997,formula_evolved_deepseek_v31_full_test
+test.0750,"**exception raised**: status_code: 503, model_name: together_ai/deepseek-ai/DeepSeek-V3.1, body: litellm.ServiceUnavailableError: ServiceUnavailableError: Together_aiException - Service unavailable",,1.61761,0.0,0.0,0.0,inf,Body Surface Area Calculator,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0754,2.0,2.0,2.18581,0.0,0.0,0.0,0.18581000000000003,Body Surface Area Calculator,physical,decimal,2839.0,147.0,2.7944090366363525,0.0019533,formula_evolved_deepseek_v31_full_test
+test.0755,1.71,1.71,1.81812,0.0,0.0,0.0,0.10812,Body Surface Area Calculator,physical,decimal,4034.0,129.0,2.6702327728271484,0.0026397,formula_evolved_deepseek_v31_full_test
+test.0756,1.67,1.67,1.73646,1.0,0.0,1.0,0.06645999999999996,Body Surface Area Calculator,physical,decimal,2868.0,109.0,1.6676673889160156,0.0019061,formula_evolved_deepseek_v31_full_test
+test.0757,0.42,0.42,0.41553,1.0,1.0,1.0,0.004469999999999974,Body Surface Area Calculator,physical,decimal,2791.0,149.0,2.155595541000366,0.0019278999999999998,formula_evolved_deepseek_v31_full_test
+test.0760,1.83,1.83,1.81812,1.0,0.0,1.0,0.011880000000000113,Body Surface Area Calculator,physical,decimal,2479.0,135.0,7.7964394092559814,0.0017169,formula_evolved_deepseek_v31_full_test
+test.0759,0.511,0.511,0.47677,0.0,0.0,0.0,0.03422999999999998,Body Surface Area Calculator,physical,decimal,2829.0,121.0,7.4643471240997314,0.0019031,formula_evolved_deepseek_v31_full_test
+test.0752,2.12,2.12,2.16217,1.0,0.0,1.0,0.04217000000000004,Body Surface Area Calculator,physical,decimal,10716.0,2210.0,64.43756103515625,0.0101866,formula_evolved_deepseek_v31_full_test
+test.0758,1.69,1.69,1.84429,0.0,0.0,0.0,0.15429000000000004,Body Surface Area Calculator,physical,decimal,9174.0,2178.0,53.52077126502991,0.009207,formula_evolved_deepseek_v31_full_test
+test.0763,"First, I need to calculate the patient's ideal body weight (IBW) using the Devine formula for females: IBW = 45.5 + 2.3 * (height_in - 60).
+
+Extracted from patient note:
+- Height: 157 cm
+- Actual weight: 78.8 kg
+- Gender: Female (54-year-old woman)
+
+Convert height from cm to inches:
+157 cm ÷ 2.54 = 61.81 inches
+
+Calculate IBW:
+IBW = 45.5 + 2.3 * (61.81 - 60)
+IBW = 45.5 + 2.3 * 1.81
+IBW = 45.5 + 4.163
+IBW = 49.663 kg
+
+Now calculate adjusted body weight (ABW):
+ABW = IBW + 0.4 * (actual_weight - IBW)
+ABW = 49.663 + 0.4 * (78.8 - 49.663)
+ABW = 49.663 + 0.4 * 29.137
+ABW = 49.663 + 11.6548
+ABW = 61.3178 kg
+
+Final result: 61.3",61.3,61.31926,1.0,0.0,1.0,0.01926000000000272,Adjusted Body Weight,physical,decimal,2473.0,442.0,5.319515228271484,0.0022352,formula_evolved_deepseek_v31_full_test
+test.0765,57.5,57.5,52.41895,0.0,0.0,0.0,5.081049999999998,Adjusted Body Weight,physical,decimal,3066.0,124.0,1.8748373985290527,0.0020504,formula_evolved_deepseek_v31_full_test
+test.0764,53.78,53.78,52.80335,1.0,0.0,1.0,0.9766499999999994,Adjusted Body Weight,physical,decimal,2990.0,185.0,8.232791900634766,0.0021085,formula_evolved_deepseek_v31_full_test
+test.0767,81.0,81.0,80.99533,1.0,1.0,1.0,0.004670000000004393,Adjusted Body Weight,physical,decimal,3316.0,489.0,5.0043816566467285,0.0028209,formula_evolved_deepseek_v31_full_test
+test.0768,65.0,65.0,64.68903,1.0,0.0,1.0,0.3109699999999975,Adjusted Body Weight,physical,decimal,2676.0,187.0,9.13780927658081,0.0019235,formula_evolved_deepseek_v31_full_test
+test.0762,62.8,62.8,58.62918,0.0,0.0,0.0,4.170819999999999,Adjusted Body Weight,physical,decimal,10038.0,2095.0,51.09798216819763,0.0095843,formula_evolved_deepseek_v31_full_test
+test.0769,66.3,66.3,63.8547,1.0,0.0,1.0,2.445299999999996,Adjusted Body Weight,physical,decimal,2656.0,186.0,2.505222797393799,0.0019098,formula_evolved_deepseek_v31_full_test
+test.0761,67.7732,67.7732,67.77564,1.0,1.0,1.0,0.0024399999999928923,Adjusted Body Weight,physical,decimal,9927.0,2371.0,62.348119497299194,0.0099869,formula_evolved_deepseek_v31_full_test
+test.0766,"First, I need to calculate the patient's ideal body weight using the Devine formula for males: IBW = 50 + 2.3 * (height_in - 60). The patient's height is 162 cm, which needs to be converted to inches (162 cm ÷ 2.54 = 63.78 inches). Then IBW = 50 + 2.3 * (63.78 - 60) = 50 + 2.3 * 3.78 = 50 + 8.694 = 58.694 kg. Then using the adjusted body weight formula: ABW = IBW + 0.4 * (actual_weight - IBW) = 58.694 + 0.4 * (74.5 - 58.694) = 58.694 + 0.4 * 15.806 = 58.694 + 6.3224 = 65.0164 kg. The final answer should be 65.0164.",65.0164,65.01579,1.0,1.0,1.0,0.0006100000000088812,Adjusted Body Weight,physical,decimal,11908.0,2445.0,55.95270371437073,0.0113013,formula_evolved_deepseek_v31_full_test
+test.0770,51.2,51.2,50.99926,1.0,0.0,1.0,0.20074000000000325,Adjusted Body Weight,physical,decimal,11256.0,2326.0,52.45187020301819,0.0107078,formula_evolved_deepseek_v31_full_test
+test.0772,"I cannot provide a valid response because the input text appears to be corrupted or encoded incorrectly. The patient note contains garbled, unreadable text that doesn't follow standard medical documentation format. This prevents me from extracting the necessary clinical values (weight, height, BMI) to perform the adjusted body weight calculation as requested.
+
+Please provide the patient note in clear, readable text format with proper medical values so I can calculate the adjusted body weight using the specified formula:
+- First calculate Ideal Body Weight using Devine formula
+- Then calculate Adjusted Body Weight = IBW + 0.4 * (actual_weight - IBW)",0.4,87.79533,0.0,0.0,0.0,87.39533,Adjusted Body Weight,physical,decimal,11300.0,2330.0,54.403536558151245,0.010741,formula_evolved_deepseek_v31_full_test
+test.0771,**exception raised**: Exceeded maximum retries (1) for output validation,,68.6591,0.0,0.0,0.0,inf,Adjusted Body Weight,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0775,91.04,91.04,85.79533,0.0,0.0,0.0,5.244669999999999,Adjusted Body Weight,physical,decimal,2354.0,189.0,2.2120416164398193,0.0017337,formula_evolved_deepseek_v31_full_test
+test.0774,"I need to calculate the adjusted body weight for this 80-year-old female patient. First, I'll extract the relevant values: height = 155 cm, weight = 70 kg, gender = female. I need to convert height to inches (155 cm ÷ 2.54 = 61.02 inches) and calculate ideal body weight using Devine formula for females: IBW = 45.5 + 2.3 × (height_in - 60) = 45.5 + 2.3 × (61.02 - 60) = 45.5 + 2.3 × 1.02 = 47.846 kg. Then adjusted body weight: ABW = IBW + 0.4 × (actual_weight - IBW) = 47.846 + 0.4 × (70 - 47.846) = 47.846 + 0.4 × 22.154 = 47.846 + 8.8616 = 56.7076 kg. The final result should be 56.71 kg.",56.71,56.71265,1.0,1.0,1.0,0.0026499999999956003,Adjusted Body Weight,physical,decimal,3115.0,381.0,4.355157852172852,0.0025167,formula_evolved_deepseek_v31_full_test
+test.0777,62.4,62.4,75.3221,0.0,0.0,0.0,12.922100000000007,Adjusted Body Weight,physical,decimal,3299.0,197.0,9.71168565750122,0.0023143,formula_evolved_deepseek_v31_full_test
+test.0779,67.906,67.906,67.90241,1.0,1.0,1.0,0.0035900000000026466,Adjusted Body Weight,physical,decimal,3418.0,315.0,10.352236986160278,0.0025862999999999997,formula_evolved_deepseek_v31_full_test
+test.0778,"I need to calculate the adjusted body weight for this patient. First, I need to extract the patient's height (165 cm) and weight (63 kg) from the note. Since the patient is female, I'll use the female Devine formula for ideal body weight: IBW = 45.5 + 2.3 * (height_in - 60). I need to convert 165 cm to inches (165 / 2.54 = ~64.96 inches). Then calculate IBW = 45.5 + 2.3 * (64.96 - 60) = 45.5 + 2.3 * 4.96 = 45.5 + 11.408 = 56.908 kg. Finally, using the adjusted body weight formula: ABW = IBW + 0.4 * (actual_weight - IBW) = 56.908 + 0.4 * (63 - 56.908) = 56.908 + 0.4 * 6.092 = 56.908 + 2.4368 = 59.3448 kg. The final answer should be rounded appropriately.",59.3448,59.34572,1.0,1.0,1.0,0.000920000000000698,Adjusted Body Weight,physical,decimal,3841.0,401.0,22.252835273742676,0.0029863,formula_evolved_deepseek_v31_full_test
+test.0776,**exception raised**: Exceeded maximum retries (1) for output validation,,59.08903,0.0,0.0,0.0,inf,Adjusted Body Weight,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0781,12.4,12.4,14.4,0.0,0.0,0.0,2.0,Delta Gap,lab test,decimal,9330.0,2184.0,58.89462161064148,0.0093108,formula_evolved_deepseek_v31_full_test
+test.0773,**exception raised**: Exceeded maximum retries (1) for output validation,,58.14572,0.0,0.0,0.0,inf,Adjusted Body Weight,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0784,5.0,5.0,0.0,0.0,0.0,0.0,5.0,Delta Gap,lab test,decimal,2879.0,142.0,3.7330939769744873,0.0019688,formula_evolved_deepseek_v31_full_test
+test.0780,**exception raised**: Exceeded maximum retries (1) for output validation,,61.18588,0.0,0.0,0.0,inf,Adjusted Body Weight,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0782,**exception raised**: Exceeded maximum retries (1) for output validation,,4.0,0.0,0.0,0.0,inf,Delta Gap,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0783,**exception raised**: Exceeded maximum retries (1) for output validation,,25.0,0.0,0.0,0.0,inf,Delta Gap,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0786,-9,-9.0,4.0,0.0,0.0,0.0,13.0,Delta Gap,lab test,decimal,2614.0,129.0,2.2223398685455322,0.0017877,formula_evolved_deepseek_v31_full_test
+test.0785,8.5,8.5,14.5,0.0,0.0,0.0,6.0,Delta Gap,lab test,decimal,2932.0,153.0,2.711524486541748,0.0020193,formula_evolved_deepseek_v31_full_test
+test.0790,-10,-10.0,-10.0,1.0,1.0,1.0,0.0,Delta Gap,lab test,decimal,9142.0,2250.0,43.277814865112305,0.009310200000000001,formula_evolved_deepseek_v31_full_test
+test.0791,14,14.0,18.0,0.0,0.0,0.0,4.0,Delta Gap,lab test,decimal,2510.0,142.0,2.359114646911621,0.0017474,formula_evolved_deepseek_v31_full_test
+test.0787,**exception raised**: Exceeded maximum retries (1) for output validation,,12.0,0.0,0.0,0.0,inf,Delta Gap,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0789,**exception raised**: Exceeded maximum retries (1) for output validation,,6.0,0.0,0.0,0.0,inf,Delta Gap,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0788,**exception raised**: Exceeded maximum retries (1) for output validation,,9.0,0.0,0.0,0.0,inf,Delta Gap,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0795,"I need to calculate the delta gap for this patient. Looking at the patient note, I can see the relevant lab values from admission: sodium 137 mmol/L, chloride 98 mmol/L, bicarbonate 9 mmol/L. The anion gap formula is AG = Na - (Cl + HCO3), so I'll calculate that first, then subtract 12 to get the delta gap.",12.0,18.0,0.0,0.0,0.0,6.0,Delta Gap,lab test,decimal,3494.0,159.0,2.5567164421081543,0.0023667000000000002,formula_evolved_deepseek_v31_full_test
+test.0792,-4.1,-4.1,2.1,0.0,0.0,0.0,6.199999999999999,Delta Gap,lab test,decimal,10454.0,2245.0,44.38079881668091,0.0100889,formula_evolved_deepseek_v31_full_test
+test.0794,1,1.0,1.0,1.0,1.0,1.0,0.0,Delta Gap,lab test,decimal,10612.0,2258.0,39.69471096992493,0.010205800000000001,formula_evolved_deepseek_v31_full_test
+test.0793,**exception raised**: Exceeded maximum retries (1) for output validation,,11.0,0.0,0.0,0.0,inf,Delta Gap,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0796,**exception raised**: Exceeded maximum retries (1) for output validation,,22.0,0.0,0.0,0.0,inf,Delta Gap,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0798,"First, I'll calculate the anion gap using the formula: AG = Na - (Cl + HCO3). From the patient note, the values are: Na = 139 mEq/L, Cl = 108 mEq/L, HCO3 = 15 mmol/L. So AG = 139 - (108 + 15) = 139 - 123 = 16 mEq/L. Then, delta gap = AG - 12 = 16 - 12 = 4 mEq/L. The final answer should be just the numeric value without units.",4.0,4.0,1.0,1.0,1.0,0.0,Delta Gap,lab test,decimal,3008.0,260.0,4.309285879135132,0.0022467999999999998,formula_evolved_deepseek_v31_full_test
+test.0800,4,4.0,4.0,1.0,1.0,1.0,0.0,Delta Gap,lab test,decimal,8924.0,2276.0,40.4859573841095,0.0092236,formula_evolved_deepseek_v31_full_test
+test.0802,0.75,0.75,0.875,0.0,0.0,0.0,0.125,Delta Ratio,lab test,decimal,2939.0,167.0,2.0135772228240967,0.0020472999999999997,formula_evolved_deepseek_v31_full_test
+test.0803,0.8,0.8,1.42857,0.0,0.0,0.0,0.6285699999999999,Delta Ratio,lab test,decimal,2369.0,180.0,2.420603036880493,0.0017274,formula_evolved_deepseek_v31_full_test
+test.0804,1.67,1.67,0.42714,0.0,0.0,0.0,1.2428599999999999,Delta Ratio,lab test,decimal,2520.0,122.0,2.757857084274292,0.0017193999999999998,formula_evolved_deepseek_v31_full_test
+test.0799,**exception raised**: Exceeded maximum retries (1) for output validation,,7.0,0.0,0.0,0.0,inf,Delta Gap,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0797,**exception raised**: Exceeded maximum retries (1) for output validation,,4.7,0.0,0.0,0.0,inf,Delta Gap,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0807,-0.28,-0.28,0.13043,0.0,0.0,0.0,0.41043,Delta Ratio,lab test,decimal,3060.0,152.0,2.4355783462524414,0.0020943999999999997,formula_evolved_deepseek_v31_full_test
+test.0801,**exception raised**: Exceeded maximum retries (1) for output validation,,0.94737,0.0,0.0,0.0,inf,Delta Ratio,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0808,1.597560975609756,1.597560975609756,1.59756,1.0,1.0,1.0,9.756097558710763e-07,Delta Ratio,lab test,decimal,9801.0,2256.0,46.78870129585266,0.0097158,formula_evolved_deepseek_v31_full_test
+test.0805,**exception raised**: Exceeded maximum retries (1) for output validation,,1.13333,0.0,0.0,0.0,inf,Delta Ratio,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0806,**exception raised**: Exceeded maximum retries (1) for output validation,,0.88235,0.0,0.0,0.0,inf,Delta Ratio,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0811,0.8,0.8,1.2,0.0,0.0,0.0,0.3999999999999999,Delta Ratio,lab test,decimal,2686.0,202.0,3.663886308670044,0.001955,formula_evolved_deepseek_v31_full_test
+test.0812,1.0,1.0,2.35714,0.0,0.0,0.0,1.3571399999999998,Delta Ratio,lab test,decimal,2974.0,215.0,3.0227673053741455,0.0021499,formula_evolved_deepseek_v31_full_test
+test.0814,0.5,0.5,0.5,1.0,1.0,1.0,0.0,Delta Ratio,lab test,decimal,2562.0,257.0,3.413764476776123,0.0019741,formula_evolved_deepseek_v31_full_test
+test.0809,**exception raised**: Exceeded maximum retries (1) for output validation,,1.5,0.0,0.0,0.0,inf,Delta Ratio,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0810,**exception raised**: Exceeded maximum retries (1) for output validation,,0.61165,0.0,0.0,0.0,inf,Delta Ratio,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0813,**exception raised**: Exceeded maximum retries (1) for output validation,,-0.57143,0.0,0.0,0.0,inf,Delta Ratio,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0818,0.842,0.842,1.52632,0.0,0.0,0.0,0.6843199999999999,Delta Ratio,lab test,decimal,3048.0,146.0,3.0230422019958496,0.002077,formula_evolved_deepseek_v31_full_test
+test.0815,**exception raised**: Exceeded maximum retries (1) for output validation,,-0.15789,0.0,0.0,0.0,inf,Delta Ratio,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0816,-0.4,-0.4,-0.4,1.0,1.0,1.0,0.0,Delta Ratio,lab test,decimal,9734.0,2331.0,49.20783805847168,0.0098031,formula_evolved_deepseek_v31_full_test
+test.0819,1.21,1.21,1.21053,1.0,1.0,1.0,0.0005300000000001415,Delta Ratio,lab test,decimal,9804.0,2354.0,49.05415439605713,0.0098842,formula_evolved_deepseek_v31_full_test
+test.0817,**exception raised**: Exceeded maximum retries (1) for output validation,,1.5,0.0,0.0,0.0,inf,Delta Ratio,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0820,**exception raised**: Exceeded maximum retries (1) for output validation,,-0.5,0.0,0.0,0.0,inf,Delta Ratio,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0824,"First, calculate the anion gap: AG = Na - (Cl + HCO3) = 138 - (102 + 15) = 138 - 117 = 21 mEq/L
+
+Then calculate the albumin correction: Corrected AG = AG + 2.5 * (4 - albumin) = 21 + 2.5 * (4 - 2.6) = 21 + 2.5 * 1.4 = 21 + 3.5 = 24.5",24.5,24.5,1.0,1.0,1.0,0.0,Albumin Corrected Anion Gap,lab test,decimal,3187.0,268.0,4.7323081493377686,0.0023677999999999998,formula_evolved_deepseek_v31_full_test
+test.0823,15,15.0,15.0,1.0,1.0,1.0,0.0,Albumin Corrected Anion Gap,lab test,decimal,2770.0,355.0,6.306053400039673,0.0022654999999999997,formula_evolved_deepseek_v31_full_test
+test.0825,21.5,21.5,26.5,0.0,0.0,0.0,5.0,Albumin Corrected Anion Gap,lab test,decimal,10024.0,2202.0,48.13240337371826,0.0097578,formula_evolved_deepseek_v31_full_test
+test.0821,**exception raised**: Exceeded maximum retries (1) for output validation,,19.25,0.0,0.0,0.0,inf,Albumin Corrected Anion Gap,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0822,**exception raised**: Exceeded maximum retries (1) for output validation,,3.0,0.0,0.0,0.0,inf,Albumin Corrected Anion Gap,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0826,**exception raised**: Exceeded maximum retries (1) for output validation,,20.75,0.0,0.0,0.0,inf,Albumin Corrected Anion Gap,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0829,15,15.0,15.0,1.0,1.0,1.0,0.0,Albumin Corrected Anion Gap,lab test,decimal,3144.0,403.0,5.862767696380615,0.0025715,formula_evolved_deepseek_v31_full_test
+test.0827,**exception raised**: Exceeded maximum retries (1) for output validation,,11.25,0.0,0.0,0.0,inf,Albumin Corrected Anion Gap,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0831,16.75,16.75,26.25,0.0,0.0,0.0,9.5,Albumin Corrected Anion Gap,lab test,decimal,10037.0,2111.0,45.4289116859436,0.0096109,formula_evolved_deepseek_v31_full_test
+test.0828,**exception raised**: Exceeded maximum retries (1) for output validation,,4.0,0.0,0.0,0.0,inf,Albumin Corrected Anion Gap,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0830,**exception raised**: Exceeded maximum retries (1) for output validation,,8.75,0.0,0.0,0.0,inf,Albumin Corrected Anion Gap,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0832,**exception raised**: Exceeded maximum retries (1) for output validation,,31.0,0.0,0.0,0.0,inf,Albumin Corrected Anion Gap,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0833,"First, calculate the anion gap: AG = Na - (Cl + HCO3) = 133 - (122 + 20.2) = 133 - 142.2 = -9.2 mEq/L
+
+Then calculate the albumin corrected anion gap: Corrected AG = AG + 2.5 * (4 - albumin) = -9.2 + 2.5 * (4 - 3.2) = -9.2 + 2.5 * 0.8 = -9.2 + 2.0 = -7.2
+
+The albumin corrected anion gap is -7.2 mEq/L",-7.2,-7.2,1.0,1.0,1.0,0.0,Albumin Corrected Anion Gap,lab test,decimal,3369.0,371.0,12.701779127120972,0.0026521,formula_evolved_deepseek_v31_full_test
+test.0834,**exception raised**: Exceeded maximum retries (1) for output validation,,8.5,0.0,0.0,0.0,inf,Albumin Corrected Anion Gap,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0836,**exception raised**: Exceeded maximum retries (1) for output validation,,14.0,0.0,0.0,0.0,inf,Albumin Corrected Anion Gap,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0835,**exception raised**: Exceeded maximum retries (1) for output validation,,15.65,0.0,0.0,0.0,inf,Albumin Corrected Anion Gap,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0837,**exception raised**: Exceeded maximum retries (1) for output validation,,13.25,0.0,0.0,0.0,inf,Albumin Corrected Anion Gap,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0840,7.8,7.8,6.95,0.0,0.0,0.0,0.8499999999999996,Albumin Corrected Anion Gap,lab test,decimal,10794.0,2216.0,48.63857865333557,0.010243599999999999,formula_evolved_deepseek_v31_full_test
+test.0838,**exception raised**: Exceeded maximum retries (1) for output validation,,25.35,0.0,0.0,0.0,inf,Albumin Corrected Anion Gap,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0839,**exception raised**: Exceeded maximum retries (1) for output validation,,6.5,0.0,0.0,0.0,inf,Albumin Corrected Anion Gap,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0841,**exception raised**: Exceeded maximum retries (1) for output validation,,-1.25,0.0,0.0,0.0,inf,Albumin Corrected Delta Gap,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0844,12.7,12.7,-5.5,0.0,0.0,0.0,18.2,Albumin Corrected Delta Gap,lab test,decimal,3204.0,231.0,9.049037456512451,0.0023151,formula_evolved_deepseek_v31_full_test
+test.0842,**exception raised**: Exceeded maximum retries (1) for output validation,,8.75,0.0,0.0,0.0,inf,Albumin Corrected Delta Gap,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0843,**exception raised**: Exceeded maximum retries (1) for output validation,,19.5,0.0,0.0,0.0,inf,Albumin Corrected Delta Gap,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0847,6.4,6.4,1.0,0.0,0.0,0.0,5.4,Albumin Corrected Delta Gap,lab test,decimal,10062.0,2233.0,46.7375910282135,0.0098333,formula_evolved_deepseek_v31_full_test
+test.0848,12.5,12.5,0.5,0.0,0.0,0.0,12.0,Albumin Corrected Delta Gap,lab test,decimal,11040.0,2369.0,49.6233389377594,0.010651299999999999,formula_evolved_deepseek_v31_full_test
+test.0846,**exception raised**: Exceeded maximum retries (1) for output validation,,-1.25,0.0,0.0,0.0,inf,Albumin Corrected Delta Gap,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0845,**exception raised**: Exceeded maximum retries (1) for output validation,,5.5,0.0,0.0,0.0,inf,Albumin Corrected Delta Gap,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0851,"First, calculate the anion gap: AG = Na - (Cl + HCO3) = 143 - (112 + 22) = 143 - 134 = 9
+
+Then calculate the delta gap: Delta Gap = AG - 12 = 9 - 12 = -3
+
+Finally, calculate the albumin corrected anion gap: Corrected AG = AG + 2.5 * (4 - albumin) = 9 + 2.5 * (4 - 2.6) = 9 + 2.5 * 1.4 = 9 + 3.5 = 12.5
+
+Therefore, the albumin corrected delta gap is 12.5",12.5,0.5,0.0,0.0,0.0,12.0,Albumin Corrected Delta Gap,lab test,decimal,3076.0,353.0,5.42656946182251,0.0024457,formula_evolved_deepseek_v31_full_test
+test.0849,**exception raised**: Exceeded maximum retries (1) for output validation,,27.75,0.0,0.0,0.0,inf,Albumin Corrected Delta Gap,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0850,**exception raised**: Exceeded maximum retries (1) for output validation,,-3.75,0.0,0.0,0.0,inf,Albumin Corrected Delta Gap,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0852,**exception raised**: Exceeded maximum retries (1) for output validation,,4.65,0.0,0.0,0.0,inf,Albumin Corrected Delta Gap,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0853,**exception raised**: Exceeded maximum retries (1) for output validation,,-4.0,0.0,0.0,0.0,inf,Albumin Corrected Delta Gap,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0854,**exception raised**: Exceeded maximum retries (1) for output validation,,15.2,0.0,0.0,0.0,inf,Albumin Corrected Delta Gap,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0855,**exception raised**: Exceeded maximum retries (1) for output validation,,-4.75,0.0,0.0,0.0,inf,Albumin Corrected Delta Gap,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0856,**exception raised**: Exceeded maximum retries (1) for output validation,,-10.0,0.0,0.0,0.0,inf,Albumin Corrected Delta Gap,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0857,"First, calculate the anion gap: AG = Na - (Cl + HCO3) = 144 - (119 + 12) = 144 - 131 = 13
+
+Then calculate the corrected anion gap: Corrected AG = AG + 2.5 * (4 - albumin) = 13 + 2.5 * (4 - 2) = 13 + 2.5 * 2 = 13 + 5 = 18
+
+Finally, calculate the albumin corrected delta gap: Delta Gap = Corrected AG - 12 = 18 - 12 = 6
+
+The patient's albumin corrected delta gap is 6 mEq/L.",6.0,6.0,1.0,1.0,1.0,0.0,Albumin Corrected Delta Gap,lab test,decimal,2972.0,334.0,5.939641714096069,0.002351,formula_evolved_deepseek_v31_full_test
+test.0859,"Let me calculate this step by step:
+
+1. First, calculate the anion gap:
+   AG = Na - (Cl + HCO3) = 134 - (95 + 11) = 134 - 106 = 28 mEq/L
+
+2. Next, calculate the delta gap:
+   Delta Gap = AG - 12 = 28 - 12 = 16 mEq/L
+
+3. Finally, calculate the albumin corrected delta gap:
+   The formula is: Corrected AG = AG + 2.5 * (4 - albumin)
+   = 28 + 2.5 * (4 - 6.0)
+   = 28 + 2.5 * (-2)
+   = 28 - 5
+   = 23 mEq/L
+
+The albumin corrected delta gap is 23 mEq/L.",23.0,11.0,0.0,0.0,0.0,12.0,Albumin Corrected Delta Gap,lab test,decimal,3318.0,382.0,6.717642545700073,0.0026402,formula_evolved_deepseek_v31_full_test
+test.0858,**exception raised**: Exceeded maximum retries (1) for output validation,,-0.75,0.0,0.0,0.0,inf,Albumin Corrected Delta Gap,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0860,**exception raised**: Exceeded maximum retries (1) for output validation,,7.5,0.0,0.0,0.0,inf,Albumin Corrected Delta Gap,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0862,**exception raised**: Exceeded maximum retries (1) for output validation,,-2.5,0.0,0.0,0.0,inf,Albumin Corrected Delta Ratio,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0861,**exception raised**: Exceeded maximum retries (1) for output validation,,0.7,0.0,0.0,0.0,inf,Albumin Corrected Delta Ratio,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0863,**exception raised**: Exceeded maximum retries (1) for output validation,,1.08333,0.0,0.0,0.0,inf,Albumin Corrected Delta Ratio,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0864,**exception raised**: Exceeded maximum retries (1) for output validation,,1.11765,0.0,0.0,0.0,inf,Albumin Corrected Delta Ratio,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0867,"First, I need to calculate the anion gap using the formula: AG = Na - (Cl + HCO3)
+AG = 136 - (113 + 7.8) = 136 - 120.8 = 15.2
+
+Next, I need to calculate the albumin corrected anion gap using: Corrected AG = AG + 2.5 * (4 - albumin)
+Corrected AG = 15.2 + 2.5 * (4 - 1.5) = 15.2 + 2.5 * 2.5 = 15.2 + 6.25 = 21.45
+
+Then I calculate the delta gap: Delta Gap = AG - 12 = 15.2 - 12 = 3.2
+
+Finally, I calculate the delta ratio: Delta Ratio = Delta Gap / (24 - HCO3) = 3.2 / (24 - 7.8) = 3.2 / 16.2 = 0.1975
+
+The albumin corrected delta ratio is 0.1975",0.1975,0.58333,0.0,0.0,0.0,0.38583,Albumin Corrected Delta Ratio,lab test,decimal,2585.0,384.0,5.672408103942871,0.0022037999999999997,formula_evolved_deepseek_v31_full_test
+test.0865,**exception raised**: Exceeded maximum retries (1) for output validation,,1.19444,0.0,0.0,0.0,inf,Albumin Corrected Delta Ratio,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0866,**exception raised**: Exceeded maximum retries (1) for output validation,,3.25,0.0,0.0,0.0,inf,Albumin Corrected Delta Ratio,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0868,-0.7,-0.7,1.31818,0.0,0.0,0.0,2.01818,Albumin Corrected Delta Ratio,lab test,decimal,9414.0,2140.0,43.2488751411438,0.0092864,formula_evolved_deepseek_v31_full_test
+test.0871,-0.8,-0.8,0.47917,0.0,0.0,0.0,1.2791700000000001,Albumin Corrected Delta Ratio,lab test,decimal,10026.0,2287.0,33.41002297401428,0.009903499999999999,formula_evolved_deepseek_v31_full_test
+test.0872,1.125,1.125,1.44643,0.0,0.0,0.0,0.3214300000000001,Albumin Corrected Delta Ratio,lab test,decimal,10472.0,2258.0,36.29133057594299,0.0101218,formula_evolved_deepseek_v31_full_test
+test.0873,-1.25,-1.25,1.45833,0.0,0.0,0.0,2.70833,Albumin Corrected Delta Ratio,lab test,decimal,3296.0,296.0,10.724629163742065,0.0024808,formula_evolved_deepseek_v31_full_test
+test.0874,"Let me calculate this step by step:
+
+First, calculate the anion gap:
+AG = Na - (Cl + HCO3) = 133 - (92 + 16.8) = 133 - 108.8 = 24.2
+
+Next, calculate the albumin corrected anion gap:
+Corrected AG = AG + 2.5 * (4 - albumin) = 24.2 + 2.5 * (4 - 2.8) = 24.2 + 2.5 * 1.2 = 24.2 + 3.0 = 27.2
+
+Then calculate the delta gap:
+Delta Gap = Corrected AG - 12 = 27.2 - 12 = 15.2
+
+Finally, calculate the albumin corrected delta ratio:
+Delta Ratio = Delta Gap / (24 - HCO3) = 15.2 / (24 - 16.8) = 15.2 / 7.2 = 2.111111111111111
+
+So the albumin corrected delta ratio is approximately 2.11",2.11,2.11111,1.0,1.0,1.0,0.0011100000000001664,Albumin Corrected Delta Ratio,lab test,decimal,3070.0,436.0,13.696427822113037,0.0025832,formula_evolved_deepseek_v31_full_test
+test.0875,0.947,0.947,0.94737,1.0,1.0,1.0,0.0003700000000000925,Albumin Corrected Delta Ratio,lab test,decimal,3989.0,484.0,8.522602796554565,0.0032162,formula_evolved_deepseek_v31_full_test
+test.0876,"I need to calculate the albumin corrected delta ratio for this patient based on initial admission values. From the patient note, I have: Na=135 mmol/L, Cl=110 mmol/L, HCO3=18 mmol/L, albumin=1.2 g/dL.
+
+First, I'll calculate the anion gap: AG = Na - (Cl + HCO3) = 135 - (110 + 18) = 135 - 128 = 7
+
+Next, I'll calculate the corrected anion gap for hypoalbuminemia: Corrected AG = AG + 2.5 * (4 - albumin) = 7 + 2.5 * (4 - 1.2) = 7 + 2.5 * 2.8 = 7 + 7 = 14
+
+Then, I'll calculate the delta gap: Delta Gap = Corrected AG - 12 = 14 - 12 = 2
+
+Finally, I'll calculate the delta ratio: Delta Ratio = Delta Gap / (24 - HCO3) = 2 / (24 - 18) = 2 / 6 = 0.333
+
+The albumin corrected delta ratio is 0.333.",0.333,0.33333,1.0,1.0,1.0,0.00032999999999999696,Albumin Corrected Delta Ratio,lab test,decimal,3424.0,398.0,8.880087852478027,0.002731,formula_evolved_deepseek_v31_full_test
+test.0869,**exception raised**: Exceeded maximum retries (1) for output validation,,1.1875,0.0,0.0,0.0,inf,Albumin Corrected Delta Ratio,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0877,"Let me calculate the albumin corrected delta ratio step by step:
+
+1. First, calculate the anion gap: AG = Na - (Cl + HCO3) = 136 - (101 + 22) = 136 - 123 = 13
+
+2. Next, apply albumin correction: Corrected AG = AG + 2.5 * (4 - albumin) = 13 + 2.5 * (4 - 3.5) = 13 + 2.5 * 0.5 = 13 + 1.25 = 14.25
+
+3. Calculate delta gap: Delta Gap = Corrected AG - 12 = 14.25 - 12 = 2.25
+
+4. Finally, calculate delta ratio: Delta Ratio = Delta Gap / (24 - HCO3) = 2.25 / (24 - 22) = 2.25 / 2 = 1.125
+
+The albumin corrected delta ratio is 1.125",1.125,5.49563,0.0,0.0,0.0,4.37063,Albumin Corrected Delta Ratio,lab test,decimal,2503.0,393.0,11.960234642028809,0.0021698999999999998,formula_evolved_deepseek_v31_full_test
+test.0878,"First, I need to extract the relevant lab values from the patient's initial admission data. From the note, I can see:
+- Sodium (Na): 134 mEq/L
+- Chloride (Cl): 100 mEq/L
+- Bicarbonate (HCO3): 22 mEq/L
+- Albumin: 3.8 g/dL
+
+Now I need to calculate step by step:
+1. Anion Gap: AG = Na - (Cl + HCO3) = 134 - (100 + 22) = 134 - 122 = 12
+2. Delta Gap: Delta Gap = AG - 12 = 12 - 12 = 0
+3. Albumin Correction: The normal albumin is 4 g/dL, so correction = 2.5 * (4 - albumin) = 2.5 * (4 - 3.8) = 2.5 * 0.2 = 0.5
+4. Corrected Anion Gap: Corrected AG = AG + albumin correction = 12 + 0.5 = 12.5
+5. Delta Gap with Correction: Corrected Delta Gap = Corrected AG - 12 = 12.5 - 12 = 0.5
+6. Delta Ratio: Delta Ratio = Delta Gap / (24 - HCO3) = 0.5 / (24 - 22) = 0.5 / 2 = 0.25
+
+Since the question asks for albumin corrected delta ratio, I need to use the corrected anion gap value. The final albumin corrected delta ratio is 0.25.",0.25,0.25,1.0,1.0,1.0,0.0,Albumin Corrected Delta Ratio,lab test,decimal,3429.0,418.0,12.177441358566284,0.002768,formula_evolved_deepseek_v31_full_test
+test.0870,**exception raised**: Exceeded maximum retries (1) for output validation,,1.22222,0.0,0.0,0.0,inf,Albumin Corrected Delta Ratio,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0880,**exception raised**: Exceeded maximum retries (1) for output validation,,0.32143,0.0,0.0,0.0,inf,Albumin Corrected Delta Ratio,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.0879,**exception raised**: Exceeded maximum retries (1) for output validation,,0.91667,0.0,0.0,0.0,inf,Albumin Corrected Delta Ratio,lab test,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.1004,177.8648,177.8648,44.49288,0.0,0.0,0.0,133.37192,Steroid Conversion Calculator,dosage,integer,2156.0,478.0,9.925278902053833,0.0021062,formula_evolved_deepseek_v31_full_test
+test.1003,"**exception raised**: status_code: 503, model_name: together_ai/deepseek-ai/DeepSeek-V3.1, body: litellm.ServiceUnavailableError: ServiceUnavailableError: Together_aiException - Service unavailable",,5.10782,0.0,0.0,0.0,inf,Steroid Conversion Calculator,dosage,integer,,,,,formula_evolved_deepseek_v31_full_test
+test.1005,183.208,183.208,183.1393,1.0,0.0,1.0,0.06870000000000687,Steroid Conversion Calculator,dosage,integer,2159.0,200.0,12.303174495697021,0.0016354,formula_evolved_deepseek_v31_full_test
+test.1006,5.26625,5.26625,26.36095,0.0,0.0,0.0,21.0947,Steroid Conversion Calculator,dosage,integer,2160.0,146.0,5.394402742385864,0.0015442,formula_evolved_deepseek_v31_full_test
+test.1008,6.264,6.264,7.82991,0.0,0.0,0.0,1.5659099999999997,Steroid Conversion Calculator,dosage,integer,2154.0,329.0,13.877347946166992,0.0018517,formula_evolved_deepseek_v31_full_test
+test.1009,0.29,0.29,38.6425,0.0,0.0,0.0,38.3525,Steroid Conversion Calculator,dosage,integer,2154.0,197.0,11.846829652786255,0.0016273,formula_evolved_deepseek_v31_full_test
+test.1002,**exception raised**: Exceeded maximum retries (1) for output validation,,6.11006,0.0,0.0,0.0,inf,Steroid Conversion Calculator,dosage,integer,,,,,formula_evolved_deepseek_v31_full_test
+test.1010,1.0,1.0,7.541,0.0,0.0,0.0,6.541,Steroid Conversion Calculator,dosage,integer,2160.0,121.0,2.931422472000122,0.0015017,formula_evolved_deepseek_v31_full_test
+test.1011,38.2696,38.2696,59.8637,0.0,0.0,0.0,21.594100000000005,Steroid Conversion Calculator,dosage,integer,2160.0,186.0,4.909240484237671,0.0016121999999999998,formula_evolved_deepseek_v31_full_test
+test.1012,233.612,233.612,233.5244,1.0,0.0,1.0,0.08759999999998058,Steroid Conversion Calculator,dosage,integer,2159.0,164.0,3.7524302005767822,0.0015742,formula_evolved_deepseek_v31_full_test
+test.1001,**exception raised**: Exceeded maximum retries (1) for output validation,,53.0932,0.0,0.0,0.0,inf,Steroid Conversion Calculator,dosage,integer,,,,,formula_evolved_deepseek_v31_full_test
+test.1007,**exception raised**: Exceeded maximum retries (1) for output validation,,4.4025,0.0,0.0,0.0,inf,Steroid Conversion Calculator,dosage,integer,,,,,formula_evolved_deepseek_v31_full_test
+test.1013,"I cannot calculate the steroid conversion from Betamethasone IV to Cortisone PO because the specific conversion factor between these two steroids is not provided in the available formulas. The documentation only mentions ""Steroid Conversion: Prednisone equivalent = dose * conversion_factor"" but doesn't include conversion factors for the specific pair of Betamethasone IV to Cortisone PO. This conversion would require specific pharmacologic equivalence data that is not included in the provided formulas.",,210.9789,0.0,0.0,0.0,inf,Steroid Conversion Calculator,dosage,integer,2153.0,205.0,4.130035400390625,0.0016403,formula_evolved_deepseek_v31_full_test
+test.1016,3.15,3.15,3.3579,0.0,0.0,0.0,0.20789999999999997,Steroid Conversion Calculator,dosage,integer,2155.0,313.0,6.558637380599976,0.0018250999999999999,formula_evolved_deepseek_v31_full_test
+test.1017,46.66725,46.66725,46.68405,1.0,0.0,1.0,0.016799999999996373,Steroid Conversion Calculator,dosage,integer,2160.0,201.0,10.392746925354004,0.0016376999999999997,formula_evolved_deepseek_v31_full_test
+test.1018,"**exception raised**: status_code: 429, model_name: together_ai/deepseek-ai/DeepSeek-V3.1, body: litellm.RateLimitError: RateLimitError: Together_aiException - We noticed too many requests from your account. We do our best to serve all requests, but due to high load, some bursty requests may not succeed. In this situation, we use your ""dynamic"" rate limit to properly classify errors for failed requests. Your dynamic rate limit is 0.75 RPM, while your current request rate is 2 RPM. Please refer to https://docs.together.ai/docs/rate-limits for more details about dynamic rate limits. If your workload is truly bursty, we recommend using batch or dedicated inference. For any further questions, please contact our sales team at https://www.together.ai/contact-sales.",,263.52179,0.0,0.0,0.0,inf,Steroid Conversion Calculator,dosage,integer,,,,,formula_evolved_deepseek_v31_full_test
+test.1015,**exception raised**: Exceeded maximum retries (1) for output validation,,102.31208,0.0,0.0,0.0,inf,Steroid Conversion Calculator,dosage,integer,,,,,formula_evolved_deepseek_v31_full_test
+test.1014,**exception raised**: Exceeded maximum retries (1) for output validation,,188.2054,0.0,0.0,0.0,inf,Steroid Conversion Calculator,dosage,integer,,,,,formula_evolved_deepseek_v31_full_test
+test.1019,**exception raised**: Exceeded maximum retries (1) for output validation,,38.14748,0.0,0.0,0.0,inf,Steroid Conversion Calculator,dosage,integer,,,,,formula_evolved_deepseek_v31_full_test
+test.1022,68.82649,68.82649,68.83201,1.0,1.0,1.0,0.005519999999989977,Target weight,physical,decimal,2158.0,176.0,9.931212902069092,0.001594,formula_evolved_deepseek_v31_full_test
+test.1024,97.11845,97.11845,97.02245,1.0,0.0,1.0,0.09599999999998943,Target weight,physical,decimal,2160.0,127.0,3.3061916828155518,0.0015118999999999998,formula_evolved_deepseek_v31_full_test
+test.1020,**exception raised**: Exceeded maximum retries (1) for output validation,,186.9567,0.0,0.0,0.0,inf,Steroid Conversion Calculator,dosage,integer,,,,,formula_evolved_deepseek_v31_full_test
+test.1023,20.7 * (1.94)^2 = 20.7 * 3.7636 = 77.90652,77.90652,77.90652,1.0,1.0,1.0,0.0,Target weight,physical,decimal,2158.0,180.0,10.703484773635864,0.0016008,formula_evolved_deepseek_v31_full_test
+test.1021,"**exception raised**: status_code: 429, model_name: together_ai/deepseek-ai/DeepSeek-V3.1, body: litellm.RateLimitError: RateLimitError: Together_aiException - We noticed too many requests from your account. We do our best to serve all requests, but due to high load, some bursty requests may not succeed. In this situation, we use your ""dynamic"" rate limit to properly classify errors for failed requests. Your dynamic rate limit is 0.75 RPM, while your current request rate is 2 RPM. Please refer to https://docs.together.ai/docs/rate-limits for more details about dynamic rate limits. If your workload is truly bursty, we recommend using batch or dedicated inference. For any further questions, please contact our sales team at https://www.together.ai/contact-sales.",,73.75872,0.0,0.0,0.0,inf,Target weight,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.1026,"First, I need to convert the patient's height from inches to meters. Height is 78 inches, which converts to meters: 78 * 0.0254 = 1.9812 meters. Then I apply the target weight formula: Target Weight = target_bmi * (height_m)^2 = 22.6 * (1.9812)^2 = 22.6 * 3.924 = 88.6824 kg.",88.6824,88.70847,1.0,0.0,1.0,0.026070000000004256,Target weight,physical,decimal,2158.0,219.0,11.499763488769531,0.0016671,formula_evolved_deepseek_v31_full_test
+test.1025,"**exception raised**: status_code: 503, model_name: together_ai/deepseek-ai/DeepSeek-V3.1, body: litellm.ServiceUnavailableError: ServiceUnavailableError: Together_aiException - Service unavailable",,73.4349,0.0,0.0,0.0,inf,Target weight,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.1027,57.40761,57.40761,57.40761,1.0,1.0,1.0,0.0,Target weight,physical,decimal,8484.0,2272.0,52.38236975669861,0.0089528,formula_evolved_deepseek_v31_full_test
+test.1031,73.0,73.0,73.07248,1.0,0.0,1.0,0.07247999999999877,Target weight,physical,decimal,2158.0,185.0,15.586320161819458,0.0016093000000000001,formula_evolved_deepseek_v31_full_test
+test.1028,**exception raised**: Exceeded maximum retries (1) for output validation,,91.06356,0.0,0.0,0.0,inf,Target weight,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.1030,**exception raised**: Exceeded maximum retries (1) for output validation,,74.9472,0.0,0.0,0.0,inf,Target weight,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.1033,43.0,43.0,43.13088,1.0,0.0,1.0,0.13087999999999766,Target weight,physical,decimal,2158.0,102.0,8.695798873901367,0.0014682,formula_evolved_deepseek_v31_full_test
+test.1029,**exception raised**: Exceeded maximum retries (1) for output validation,,38.15424,0.0,0.0,0.0,inf,Target weight,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.1032,38.88125,38.88125,38.89625,1.0,0.0,1.0,0.015000000000000568,Target weight,physical,decimal,8500.0,2214.0,40.86344289779663,0.0088638,formula_evolved_deepseek_v31_full_test
+test.1035,56.3,56.3,57.13189,1.0,0.0,1.0,0.8318900000000014,Target weight,physical,decimal,8504.0,2232.0,42.29337930679321,0.0088968,formula_evolved_deepseek_v31_full_test
+test.1034,"First, convert height from inches to meters: 77 inches × 0.0254 = 1.9558 meters
+
+Then calculate target weight using formula: Target Weight = target_bmi × (height_m)^2
+Target Weight = 19.7 × (1.9558)^2
+Target Weight = 19.7 × 3.825 = 75.35",75.35,75.35553,1.0,1.0,1.0,0.005530000000007362,Target weight,physical,decimal,8493.0,2264.0,46.21140789985657,0.0089446,formula_evolved_deepseek_v31_full_test
+test.1036,**exception raised**: Exceeded maximum retries (1) for output validation,,68.59986,0.0,0.0,0.0,inf,Target weight,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.1038,52.6,52.6,52.58448,1.0,0.0,1.0,0.015520000000002199,Target weight,physical,decimal,2160.0,103.0,4.307047367095947,0.0014711,formula_evolved_deepseek_v31_full_test
+test.1037,86.8,86.8,87.20432,1.0,0.0,1.0,0.40431999999999846,Target weight,physical,decimal,2158.0,102.0,16.038933277130127,0.0014682,formula_evolved_deepseek_v31_full_test
+test.1042,"**exception raised**: status_code: 503, model_name: together_ai/deepseek-ai/DeepSeek-V3.1, body: litellm.ServiceUnavailableError: ServiceUnavailableError: Together_aiException - Service unavailable",,335.2,0.0,0.0,0.0,inf,Morphine Milligram Equivalents (MME) Calculator,dosage,integer,,,,,formula_evolved_deepseek_v31_full_test
+test.1040,**exception raised**: Exceeded maximum retries (1) for output validation,,69.53296,0.0,0.0,0.0,inf,Target weight,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.1039,**exception raised**: Exceeded maximum retries (1) for output validation,,68.688,0.0,0.0,0.0,inf,Target weight,physical,decimal,,,,,formula_evolved_deepseek_v31_full_test
+test.1041,**exception raised**: Exceeded maximum retries (1) for output validation,,149.0,0.0,0.0,0.0,inf,Morphine Milligram Equivalents (MME) Calculator,dosage,integer,,,,,formula_evolved_deepseek_v31_full_test
+test.1046,2.0,2.0,4.0,0.0,0.0,0.0,2.0,Morphine Milligram Equivalents (MME) Calculator,dosage,integer,8516.0,2270.0,62.063642263412476,0.0089686,formula_evolved_deepseek_v31_full_test
+test.1043,**exception raised**: Exceeded maximum retries (1) for output validation,,444.0,0.0,0.0,0.0,inf,Morphine Milligram Equivalents (MME) Calculator,dosage,integer,,,,,formula_evolved_deepseek_v31_full_test
+test.1048,61,61.0,61.0,1.0,1.0,1.0,0.0,Morphine Milligram Equivalents (MME) Calculator,dosage,integer,2180.0,279.0,8.722182512283325,0.0017823,formula_evolved_deepseek_v31_full_test
+test.1044,**exception raised**: Exceeded maximum retries (1) for output validation,,282.0,0.0,0.0,0.0,inf,Morphine Milligram Equivalents (MME) Calculator,dosage,integer,,,,,formula_evolved_deepseek_v31_full_test
+test.1045,**exception raised**: Exceeded maximum retries (1) for output validation,,207.8,0.0,0.0,0.0,inf,Morphine Milligram Equivalents (MME) Calculator,dosage,integer,,,,,formula_evolved_deepseek_v31_full_test
+test.1047,**exception raised**: Exceeded maximum retries (1) for output validation,,473.0,0.0,0.0,0.0,inf,Morphine Milligram Equivalents (MME) Calculator,dosage,integer,,,,,formula_evolved_deepseek_v31_full_test
+test.1051,80,80.0,94.0,0.0,0.0,0.0,14.0,Morphine Milligram Equivalents (MME) Calculator,dosage,integer,2165.0,189.0,3.8755760192871094,0.0016203,formula_evolved_deepseek_v31_full_test
+test.1052,190,190.0,230.0,0.0,0.0,0.0,40.0,Morphine Milligram Equivalents (MME) Calculator,dosage,integer,2179.0,219.0,10.258572578430176,0.0016797000000000001,formula_evolved_deepseek_v31_full_test
+test.1049,**exception raised**: Exceeded maximum retries (1) for output validation,,213.0,0.0,0.0,0.0,inf,Morphine Milligram Equivalents (MME) Calculator,dosage,integer,,,,,formula_evolved_deepseek_v31_full_test
+test.1050,**exception raised**: Exceeded maximum retries (1) for output validation,,366.6,0.0,0.0,0.0,inf,Morphine Milligram Equivalents (MME) Calculator,dosage,integer,,,,,formula_evolved_deepseek_v31_full_test
+test.1053,**exception raised**: Exceeded maximum retries (1) for output validation,,31.8,0.0,0.0,0.0,inf,Morphine Milligram Equivalents (MME) Calculator,dosage,integer,,,,,formula_evolved_deepseek_v31_full_test
+test.1057,130,130.0,94.0,0.0,0.0,0.0,36.0,Morphine Milligram Equivalents (MME) Calculator,dosage,integer,2181.0,103.0,3.276210308074951,0.0014837000000000001,formula_evolved_deepseek_v31_full_test
+test.1054,**exception raised**: Exceeded maximum retries (1) for output validation,,40.0,0.0,0.0,0.0,inf,Morphine Milligram Equivalents (MME) Calculator,dosage,integer,,,,,formula_evolved_deepseek_v31_full_test
+test.1058,120.0,120.0,324.0,0.0,0.0,0.0,204.0,Morphine Milligram Equivalents (MME) Calculator,dosage,integer,2194.0,191.0,7.163099050521851,0.0016411,formula_evolved_deepseek_v31_full_test
+test.1056,200,200.0,175.0,0.0,0.0,0.0,25.0,Morphine Milligram Equivalents (MME) Calculator,dosage,integer,8586.0,2202.0,54.8284957408905,0.008895,formula_evolved_deepseek_v31_full_test
+test.1055,**exception raised**: Exceeded maximum retries (1) for output validation,,12.0,0.0,0.0,0.0,inf,Morphine Milligram Equivalents (MME) Calculator,dosage,integer,,,,,formula_evolved_deepseek_v31_full_test
+test.1059,**exception raised**: Exceeded maximum retries (1) for output validation,,150.0,0.0,0.0,0.0,inf,Morphine Milligram Equivalents (MME) Calculator,dosage,integer,,,,,formula_evolved_deepseek_v31_full_test
+test.1060,**exception raised**: Exceeded maximum retries (1) for output validation,,186.2,0.0,0.0,0.0,inf,Morphine Milligram Equivalents (MME) Calculator,dosage,integer,,,,,formula_evolved_deepseek_v31_full_test

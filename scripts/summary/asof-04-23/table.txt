@@ -1,5 +1,5 @@
 === Correctness ===
-                                   workflow              react                pot structured_baseline unstructured_baseline
+                                   workflow              react                pot structured_baseline        zs_cot_prompt
 task                                                                                                                       
 bbh/date_understanding    0.8133 +/- 0.0453                     0.5733 +/- 0.0575   0.7333 +/- 0.0514     0.8667 +/- 0.0395
 bbh/geometric_shapes      0.7467 +/- 0.0506                     0.7467 +/- 0.0506   0.8533 +/- 0.0411     0.0000 +/- 0.0000
@@ -19,7 +19,7 @@ tau_bench/retail          0.6667 +/- 0.0614  0.8000 +/- 0.0521                  
 AVERAGE                   0.6562 +/- 0.0575  0.4528 +/- 0.0800  0.5302 +/- 0.0732   0.5738 +/- 0.0695     0.5550 +/- 0.0833
 
 === Cost ===
-                                   workflow              react                pot structured_baseline unstructured_baseline
+                                   workflow              react                pot structured_baseline        zs_cot_prompt
 task                                                                                                                       
 bbh/date_understanding    0.0028 +/- 0.0001                     0.0040 +/- 0.0001   0.0008 +/- 0.0001     0.0009 +/- 0.0001
 bbh/geometric_shapes      0.0218 +/- 0.0013                     0.0268 +/- 0.0015   0.0025 +/- 0.0001                      

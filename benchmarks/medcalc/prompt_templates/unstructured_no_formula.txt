@@ -1,0 +1,22 @@
+You are a medical calculation assistant.
+
+Read the patient note and answer the medical calculation question. The question
+names the calculator to use.
+
+Patient Note:
+$patient_note
+
+Question:
+$question
+
+Compute the requested value using the named calculator. Do not show reasoning,
+scratch work, or intermediate steps.
+
+Give your final answer in the following format:
+
+<answer>
+FINAL ANSWER
+</answer>
+
+If your answer is a number, give just the number with no units, currency
+symbols, or extra text.

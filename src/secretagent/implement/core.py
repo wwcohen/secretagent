@@ -60,7 +60,15 @@ class DirectFactory(Implementation.Factory):
             }
             if sub_cfg:
                 implement_via_config(mod, sub_cfg)
-            self.direct_fn = getattr(mod, attr)
+            attr_obj = getattr(mod, attr)
+            # If the evolved entry is itself an @interface stub, it has no
+            # implementation registered on the loaded module's Interface
+            # (entry is excluded from sub_cfg above to avoid recursion). Use
+            # its underlying function so the workflow body runs directly.
+            if isinstance(attr_obj, Interface):
+                self.direct_fn = attr_obj.func
+            else:
+                self.direct_fn = attr_obj
         elif isinstance(fn, str):
             self.direct_fn = resolve_dotted(fn)
         elif fn is not None:
