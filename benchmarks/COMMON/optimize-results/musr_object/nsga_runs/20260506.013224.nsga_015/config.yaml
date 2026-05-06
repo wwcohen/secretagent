@@ -1,0 +1,40 @@
+llm:
+  model: together_ai/deepseek-ai/DeepSeek-V3.1
+  thinking: true
+cachier:
+  cache_dir: C:\Users\STUDENT\OneDrive\Documents\Projects\AI Research\secretagent\benchmarks\musr\llm_cache
+evaluate:
+  expt_name: nsga_015
+  result_dir: C:\Users\STUDENT\OneDrive\Documents\Projects\AI Research\secretagent\benchmarks\musr\results
+  entry_point: answer_question
+dataset:
+  split: object_placements_val
+  shuffle_seed: 42
+  'n': 50
+ptools:
+  raw_answer:
+    method: simulate
+  extract_index:
+    method: simulate
+  infer_belief:
+    method: simulate
+    model: together_ai/deepseek-ai/DeepSeek-V3.1
+  answer_question:
+    method: direct
+    fn: ptools_common.react_answer_impl
+  answer_question_workflow:
+    method: direct
+  react_solve:
+    method: simulate_pydantic
+    tool_module: __learned__
+    learner: ptool_inducer
+    tools: __all__
+  extract_movements:
+    method: simulate
+    model: together_ai/deepseek-ai/DeepSeek-V3
+  extract_discoveries:
+    method: simulate
+    model: together_ai/deepseek-ai/DeepSeek-V3.1
+learn:
+  train_dir: C:\Users\STUDENT\OneDrive\Documents\Projects\AI Research\secretagent\benchmarks\musr\learned\object
+root: C:\Users\STUDENT\OneDrive\Documents\Projects\AI Research\secretagent\benchmarks\musr
