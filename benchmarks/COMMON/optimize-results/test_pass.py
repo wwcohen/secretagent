@@ -10,7 +10,7 @@ Usage:
     uv run python benchmarks/COMMON/optimize-results/test_pass.py <bench> [--dry-run]
 
     bench is one of: sports, medcalc, tabmwp, nba, musr_murder, musr_team,
-                     natplan_meeting, natplan_trip
+                     musr_object, natplan_meeting, natplan_trip
 
     finqa is skipped: FinQA's leaderboard test set is private; the public release
     only includes dev (which the optimizer already used as 'valid').
@@ -96,6 +96,15 @@ BENCHES: dict[str, BenchSpec] = {
         summary_csv=REPO_ROOT / "benchmarks/COMMON/optimize-results/musr_team/nsga2_summary.csv",
         snapshot_dir=REPO_ROOT / "benchmarks/COMMON/optimize-results/musr_team",
         test_split="team_allocation_test",
+        extra_dotlist=["dataset.n=50"],
+    ),
+    "musr_object": BenchSpec(
+        name="musr_object",
+        cwd=REPO_ROOT / "benchmarks/musr",
+        space_yaml=REPO_ROOT / "benchmarks/musr/nsga2_object.yaml",
+        summary_csv=REPO_ROOT / "benchmarks/COMMON/optimize-results/musr_object/nsga2_summary.csv",
+        snapshot_dir=REPO_ROOT / "benchmarks/COMMON/optimize-results/musr_object",
+        test_split="object_placements_test",
         extra_dotlist=["dataset.n=50"],
     ),
     "natplan_meeting": BenchSpec(
