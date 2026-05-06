@@ -14,6 +14,44 @@ from secretagent import config
 from secretagent.core import Interface, all_interfaces
 
 
+def _find_repo_root(start: Path) -> Path | None:
+    """Best-effort repo root lookup for repo-relative pointer files."""
+    for path in (start, *start.parents):
+        if (path / '.git').exists() or (path / 'pyproject.toml').exists():
+            return path
+    return None
+
+
+def _resolve_learned_pointer(pointer_path: Path, train_dir: Path) -> Path | None:
+    """Resolve a text pointer file to a learned-output directory.
+
+    Some checkouts cannot materialize directory symlinks. For those cases,
+    orchestrator learner indexes use regular files whose first non-empty line is
+    either an absolute path or a repo-relative path to the real run directory.
+    """
+    try:
+        target_text = next(
+            line.strip() for line in pointer_path.read_text().splitlines()
+            if line.strip()
+        )
+    except (OSError, StopIteration, UnicodeDecodeError):
+        return None
+
+    raw = Path(target_text)
+    if raw.is_absolute():
+        return raw
+
+    repo_root = _find_repo_root(pointer_path.resolve().parent)
+    candidates = []
+    if repo_root is not None:
+        candidates.append(repo_root / raw)
+    candidates.extend([pointer_path.parent / raw, train_dir / raw])
+    for candidate in candidates:
+        if candidate.exists():
+            return candidate.resolve()
+    return candidates[0] if candidates else raw
+
+
 def resolve_dotted(name: str) -> Any:
     """Resolve a dotted name like 'module.func' to the actual object.
     """
@@ -113,12 +151,26 @@ def _find_learned_module_path(learner, filename, interface_name=None):
         tag = f'{interface_name}__{learner}'
     else:
         tag = learner
-    pattern = str(Path(train_dir) / f'*{tag}' / filename)
-    matches = sorted(glob(pattern))
+    train_path = Path(train_dir)
+    pattern = str(train_path / f'*{tag}' / filename)
+    matches = [Path(path) for path in sorted(glob(pattern))]
+
+    pointer_matches = []
+    for entry in sorted(train_path.glob(f'*{tag}')):
+        if entry.is_dir():
+            continue
+        target = _resolve_learned_pointer(entry, train_path)
+        if target is None:
+            continue
+        candidate = target / filename
+        if candidate.exists():
+            pointer_matches.append(candidate)
+
+    matches.extend(pointer_matches)
     if not matches:
         raise FileNotFoundError(
             f'no learned file found matching {pattern}')
-    return Path(matches[-1])
+    return matches[-1]
 
 
 def _find_learned_ptools_path(interface_name, learner):
@@ -172,5 +224,4 @@ def format_examples_as_doctests(interface_name: str, cases: list) -> str:
         lines.append(f">>> {interface_name}({args_str})")
         lines.append(repr(out))
     return '\n'.join(lines) + '\n'
-
 

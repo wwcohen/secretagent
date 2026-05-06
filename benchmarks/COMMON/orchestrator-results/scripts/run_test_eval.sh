@@ -3,10 +3,10 @@
 # Loops 16 (class, bench) cells, invoking each benchmark's local expt.py
 # with __learned__.<fn> bound to the workflow this run produced.
 #
-# The runner reads each cell's bench / entry_point / fn / config_file from
-# its source run's run_metadata.json + implementation.yaml, so swapping a
-# symlink under _train_dirs/<class>/<bench>/ is enough to pick a different
-# orch_learner run.
+# The runner reads each cell's bench / entry_point / fn / config_file from its
+# source run's run_metadata.json + implementation.yaml. The _train_dirs index
+# may contain directory symlinks on Unix or portable text pointer files on
+# Windows/core.symlinks=false checkouts.
 
 set -uo pipefail
 
@@ -18,6 +18,7 @@ mkdir -p "$LOG_ROOT"
 MODEL="${MODEL:-together_ai/deepseek-ai/DeepSeek-V3.1}"
 EXPT_TAG="${EXPT_TAG:-test_deepseek_v3_1}"
 MAX_WORKERS="${MAX_WORKERS:-4}"
+RESOLVE_RUN="$ROOT/scripts/resolve_learner_run.py"
 
 # Per-bench overrides for max_workers. Heavier benchmarks (medcalc, ~5 sub-tool
 # LLM calls per case across 1100 cases) get more parallelism. Stay <~10 to
@@ -88,9 +89,9 @@ run_one() {
 
   local td="$ROOT/scripts/_train_dirs/$cls/$bench"
   local src
-  src=$(readlink -f "$td"/*.orch_learner)
+  src=$(python3 "$RESOLVE_RUN" "$td" --repo-root "$REPO")
   if [[ ! -d "$src" ]]; then
-    echo "ERROR: no symlink target under $td" >&2
+    echo "ERROR: no orch_learner run found under $td" >&2
     return 1
   fi
 

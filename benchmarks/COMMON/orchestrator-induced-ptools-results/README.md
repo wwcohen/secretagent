@@ -26,6 +26,9 @@ Canonical rows:
 The source final eval runs remain in their benchmark-local
 `test_results_full/` directories. Learner outputs remain under each
 benchmark's `results/orchestration_learner/*.orch_learner/` directories.
+The optional rerun index under `benchmarks/COMMON/orchestrator-results/_train_dirs/`
+uses repo-relative pointer files rather than committed directory symlinks, so it
+works on checkouts where Git cannot create symlinks.
 
 ```bash
 # Print the canonical test-set summary table:

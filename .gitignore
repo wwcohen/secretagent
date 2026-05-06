@@ -238,6 +238,16 @@ __marimo__/
 .codex/benchmarks/natural_plan/llm_cache/
 
 strategy_comparison.png
+
+# Orchestrator train-dir indexes are portable pointer files. On
+# core.symlinks=false checkouts, old directory symlinks may appear as copied
+# learner-output trees; keep those generated trees out of Git.
+benchmarks/COMMON/orchestrator-results/_train_dirs/**
+!benchmarks/COMMON/orchestrator-results/_train_dirs/**/
+!benchmarks/COMMON/orchestrator-results/_train_dirs/**/*.orch_learner
+benchmarks/COMMON/orchestrator-results/scripts/_train_dirs/**
+!benchmarks/COMMON/orchestrator-results/scripts/_train_dirs/**/
+!benchmarks/COMMON/orchestrator-results/scripts/_train_dirs/**/*.orch_learner
 paper/
 docs/superpowers/
 benchmarks/designbench/data/

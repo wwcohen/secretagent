@@ -93,9 +93,25 @@ PY
 link_run() {
   local label="$1" run_dir="$2"
   local dest="$LINK_ROOT/$label"
+  local pointer="$dest/$(basename "$run_dir")"
+  local rel_run_dir
   mkdir -p "$dest"
-  find "$dest" -maxdepth 1 -type l -name '*.orch_learner' -delete
-  ln -s "$run_dir" "$dest/$(basename "$run_dir")"
+  find "$dest" -maxdepth 1 \( -type l -o -type f \) -name '*.orch_learner' -delete
+  if [[ -d "$pointer" && ! -L "$pointer" ]]; then
+    pointer="$dest/$(basename "$run_dir").pointer.orch_learner"
+  fi
+  if [[ -e "$pointer" ]]; then
+    echo "ERROR: cannot write pointer; path already exists: $pointer" >&2
+    return 1
+  fi
+  rel_run_dir=$(python3 - "$REPO_ROOT" "$run_dir" <<'PY'
+import os
+import sys
+
+print(os.path.relpath(sys.argv[2], sys.argv[1]))
+PY
+)
+  printf '%s\n' "$rel_run_dir" > "$pointer"
 }
 
 for row in "${ROWS[@]}"; do

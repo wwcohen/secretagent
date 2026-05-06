@@ -21,6 +21,7 @@ MODEL="${MODEL:-together_ai/deepseek-ai/DeepSeek-V3.1}"
 MAX_WORKERS="${MAX_WORKERS:-1}"
 CACHING="${CACHING:-false}"
 LINK_ROOT="$REPO_ROOT/benchmarks/COMMON/orchestrator-results/_train_dirs/induced_seed_from_ptools"
+RESOLVE_RUN="$REPO_ROOT/benchmarks/COMMON/orchestrator-results/scripts/resolve_learner_run.py"
 LOG_DIR="$REPO_ROOT/logs/orchestration_runs/$(date +%Y%m%d.%H%M%S)/induced_seed_test_eval"
 export PYDANTIC_DISABLE_PLUGINS="${PYDANTIC_DISABLE_PLUGINS:-1}"
 mkdir -p "$LOG_DIR"
@@ -58,9 +59,9 @@ for row in "${ROWS[@]}"; do
   selected "$label" || continue
 
   train_dir="$LINK_ROOT/$label"
-  run_dir=$(readlink -f "$train_dir"/*.orch_learner)
+  run_dir=$(python3 "$RESOLVE_RUN" "$train_dir" --repo-root "$REPO_ROOT")
   if [[ ! -d "$run_dir" ]]; then
-    echo "ERROR: no induced learner symlink found under $train_dir" >&2
+    echo "ERROR: no induced learner run found under $train_dir" >&2
     exit 1
   fi
 

@@ -119,3 +119,8 @@ with PATCH_NOTES.md alongside.
 - `_resume_*.sh`, `_bump_*.sh` — watchers used during the main run
 - `_reorganize.py`, `_reorganize_medcalc.py` — one-shot reorganization tools
 - `_train_dirs/`, `_patched_artifacts/`, `_replay_patches/`, `_logs/` — infrastructure
+
+`_train_dirs` entries are portable `*.orch_learner` pointer files, not
+committed directory symlinks. Each pointer file contains a repo-relative path to
+the real learner output directory. `run_test_eval.sh` and the benchmark-level
+induced-seed test runner resolve both pointer files and real symlinks.

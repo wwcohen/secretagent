@@ -40,3 +40,9 @@ See `RESULTS_LAYOUT.md` for the directory layout and the meaning of the
 variants.
 
 Helper scripts and infra dirs live under `scripts/`.
+
+`_train_dirs` indexes use portable `*.orch_learner` pointer files instead of
+committed directory symlinks. Each pointer file contains a repo-relative path to
+the real learner output under `benchmarks/*/results/orchestration_learner/`.
+The evaluation helpers resolve both pointer files and real symlinks, so the
+tree is safe on Windows checkouts with `core.symlinks=false`.
