@@ -399,7 +399,17 @@ def cross_summary(
     benchmarks = {}
     for path in csv_paths:
         df = pd.read_csv(path)
-        name = Path(path).parts[-3] if len(Path(path).parts) >= 3 else Path(path).stem
+        parts = Path(path).parts
+        # Two supported layouts:
+        #   <bench>/results/<file>      -> name = parts[-3]   (canonical sweep cwd)
+        #   <...>/<bench>/<file>        -> name = parts[-2]   (snapshot dirs under
+        #                                                     benchmarks/COMMON/optimize-results/<bench>/)
+        if len(parts) >= 3 and parts[-2] == "results":
+            name = parts[-3]
+        elif len(parts) >= 2:
+            name = parts[-2]
+        else:
+            name = Path(path).stem
         benchmarks[name] = df
 
     auto_ref_cost = ref_cost or max(
