@@ -21,7 +21,9 @@ summarize:
 	uv run hero_table.py --min-cols 3 --format plot-correct --x pot --output summary/correct_pot.png; open summary/correct_pot.png
 	uv run hero_table.py --min-cols 3 --format plot-correct --x structured_baseline --output summary/correct_structured_baseline.png; open summary/correct_structured_baseline.png
 	uv run hero_table.py --min-cols 3 --format plot-correct --x unstructured_baseline --output summary/correct_unstructured_baseline.png; open summary/correct_unstructured_baseline.png
+	uv run hero_table.py --min-cols 3 --format plot-correct --x unstructured_thinking --output summary/correct_unstructured_thinking.png; open summary/correct_unstructured_thinking.png
 	uv run hero_table.py --min-cols 3 --format plot-correct --x structured_baseline --y unstructured_baseline --output summary/correct_baselines; open summary/correct_baselines.png
+	uv run hero_table.py --min-cols 3 --format plot-correct --x structured_baseline --y unstructured_thinking --output summary/correct_thinking; open summary/correct_thinking.png
 
 pareto-all: pareto-nba pareto-murder pareto-tabwmp pareto-finqa pareto-sports
 

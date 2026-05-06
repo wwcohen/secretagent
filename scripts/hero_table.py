@@ -36,7 +36,7 @@ from benchmark_status import TASKS, STRATEGIES, RESULT_DIR_RE, TASK_TO_LATEX
 
 RESULTS_DIR = REPO_ROOT / "benchmarks" / "COMMON" / "results"
 
-STRATEGY_ORDER = ["workflow", "react", "pot", "structured_baseline", "unstructured_baseline"]
+STRATEGY_ORDER = ["workflow", "react", "pot", "structured_baseline", "unstructured_baseline", "unstructured_thinking"]
 
 
 def find_latest_result_dir(parent: Path, strategy: str) -> Path | None:
@@ -72,7 +72,16 @@ def build_tables() -> tuple[pd.DataFrame, pd.DataFrame]:
         correct_row = {"task": task_subtask}
 
         for strategy in STRATEGY_ORDER:
-            result_dir = find_latest_result_dir(parent, strategy)
+            # For unstructured_thinking: prefer zs_cot_prompt, fall back to unstructured_baseline
+            is_zs_cot = False
+            if strategy == "unstructured_thinking":
+                result_dir = find_latest_result_dir(parent, "zs_cot_prompt")
+                if result_dir is not None:
+                    is_zs_cot = True
+                else:
+                    result_dir = find_latest_result_dir(parent, "unstructured_baseline")
+            else:
+                result_dir = find_latest_result_dir(parent, strategy)
             if result_dir is None:
                 cost_row[strategy] = ""
                 correct_row[strategy] = ""
@@ -96,7 +105,8 @@ def build_tables() -> tuple[pd.DataFrame, pd.DataFrame]:
                 if metric == "cost":
                     mean *= 100
                     sem *= 100
-                row[strategy] = f"{mean:.2f} +/- {sem:.2f}"
+                suffix = "*" if is_zs_cot else " "
+                row[strategy] = f"{mean:.2f} +/- {sem:.2f}{suffix}"
 
         cost_rows.append(cost_row)
         correct_rows.append(correct_row)
@@ -142,7 +152,12 @@ def _parse_cell(cell: str) -> tuple[float, float] | None:
     if not cell or "+/-" not in str(cell):
         return None
     parts = str(cell).split("+/-")
-    return float(parts[0].strip()), float(parts[1].strip())
+    return float(parts[0].strip()), float(parts[1].strip().rstrip("*"))
+
+
+def _cell_has_star(cell: str) -> bool:
+    """Check if a cell string ends with '*'."""
+    return bool(cell) and str(cell).rstrip().endswith("*")
 
 
 _STRATEGY_MARKERS = ["o", "^", "s", "*", "D", "v", "P", "X"]
@@ -244,6 +259,7 @@ _LATEX_HEADERS = {
     "pot": r"\makecell{Dynamic\\Workflow\\(PoT)}",
     "structured_baseline": r"\makecell{Zero-shot\\(Default\\Imp.)}",
     "unstructured_baseline": r"\makecell{Zero-shot\\(Traditional\\Prompt)}",
+    "unstructured_thinking": r"\makecell{Zero-shot\\(Traditional\\Prompt\\w/ Thinking)}",
 }
 
 
@@ -268,10 +284,11 @@ def _print_latex(df: pd.DataFrame, caption: str, minimize: bool = False):
                 cells.append("--")
             else:
                 mean, sem = p
+                star = "$^*$" if _cell_has_star(df.loc[task, col]) else ""
                 if mean == best:
-                    cell = f"$\\mathbf{{{mean:.2f}}}$"
+                    cell = f"$\\mathbf{{{mean:.2f}}}${star}"
                 else:
-                    cell = f"${mean:.2f}$"
+                    cell = f"${mean:.2f}${star}"
                 cells.append(cell)
         task_label = task.replace("_", r"\_")
         if task == "AVERAGE":
