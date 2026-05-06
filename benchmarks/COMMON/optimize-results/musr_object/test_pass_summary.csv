@@ -1,0 +1,5 @@
+method,model,valid_correct,valid_cost,test_correct,test_cost,n_test,expt_name
+wf_orch,gemini-2.5-flash,0.86,0.0053338802,0.78,0.3142032299999998,50,test_pass_wf_orch_gemini-2-5-flash
+wf_orch,gpt-oss-120b,0.84,0.0007470269999999,0.78,0.0388109999999988,50,test_pass_wf_orch_gpt-oss-120b
+structured_baseline,gpt-oss-120b,0.74,0.0004597829999999,0.64,0.023931599999998703,50,test_pass_structured_baseline_gpt-oss-120b
+zs_cot,gpt-oss-120b,0.0,0.0003307169999999,0.02,0.0171712499999981,50,test_pass_zs_cot_gpt-oss-120b
