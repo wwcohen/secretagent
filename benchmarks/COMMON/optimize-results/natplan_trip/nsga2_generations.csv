@@ -1,0 +1,2 @@
+generation,frontier_size,new_evals,cache_hits,total_evals,best_accuracy,cheapest_cost,elapsed_s
+0,4,18,0,18,0.22,0.000145199999999978,0.0
