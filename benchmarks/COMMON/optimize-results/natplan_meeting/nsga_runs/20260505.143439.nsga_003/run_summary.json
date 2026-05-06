@@ -1,0 +1,7 @@
+{
+  "reproduce_cmd": "uv run python expt.py run --config-file conf/meeting.yaml dataset.split=meeting dataset.partition=valid dataset.n=50 ptools.meeting_planning.method=simulate llm.model=together_ai/openai/gpt-oss-20b evaluate.expt_name=nsga_003",
+  "accuracy": 0.44,
+  "total_cost_usd": 0.054979,
+  "total_time_sec": 959.92,
+  "n_samples": 50
+}

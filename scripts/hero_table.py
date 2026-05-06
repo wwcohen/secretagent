@@ -96,7 +96,7 @@ def build_tables() -> tuple[pd.DataFrame, pd.DataFrame]:
                 if metric == "cost":
                     mean *= 100
                     sem *= 100
-                row[strategy] = f"{mean:.4f} +/- {sem:.4f}"
+                row[strategy] = f"{mean:.2f} +/- {sem:.2f}"
 
         cost_rows.append(cost_row)
         correct_rows.append(correct_row)
@@ -125,7 +125,7 @@ def _avg_row(df: pd.DataFrame, label: str, exclude_prefix: str | None = None) ->
         if vals:
             avg = np.mean(vals)
             se = np.std(vals, ddof=1) / np.sqrt(len(vals)) if len(vals) > 1 else 0.0
-            row[col] = f"{avg:.4f} +/- {se:.4f}"
+            row[col] = f"{avg:.2f} +/- {se:.2f}"
         else:
             row[col] = ""
     return pd.DataFrame([row]).set_index("task")
@@ -222,15 +222,16 @@ def _plot_comparison(df: pd.DataFrame, metric: str,
                    markersize=7, label=t)
             for t, c in task_colors.items()
         ]
-        ax.legend(handles=strategy_handles + task_handles, fontsize=8, loc="best")
+        ax.legend(handles=strategy_handles + task_handles, fontsize=10, loc="best")
         x_label = "/".join(x_strategy)
     else:
-        ax.legend(fontsize=8, loc="best")
+        ax.legend(fontsize=10, loc="best")
         x_label = x_strategy[0]
 
-    ax.set_xlabel(f"{x_label} {metric}")
-    ax.set_ylabel(f"{y_strategy} {metric}")
-    ax.set_title(f"{y_strategy} vs {x_label} {metric}")
+    ax.set_xlabel(f"{x_label} {metric}", fontsize=14)
+    ax.set_ylabel(f"{y_strategy} {metric}", fontsize=14)
+    ax.set_title(f"{y_strategy} vs {x_label} {metric}", fontsize=16)
+    ax.tick_params(labelsize=10)
     fig.tight_layout()
     fig.savefig(output, dpi=150)
     plt.close(fig)
@@ -242,7 +243,7 @@ _LATEX_HEADERS = {
     "react": r"\makecell{Dynamic\\Workflow\\(ReAct)}",
     "pot": r"\makecell{Dynamic\\Workflow\\(PoT)}",
     "structured_baseline": r"\makecell{Zero-shot\\(Default\\Imp.)}",
-    "unstructured_baseline": r"\makecell{Zero-shot\\(Custom\\Prompt)}",
+    "unstructured_baseline": r"\makecell{Zero-shot\\(Traditional\\Prompt)}",
 }
 
 
@@ -312,6 +313,19 @@ def _print_latex_compact(correct_df: pd.DataFrame, cost_df: pd.DataFrame,
     print(r"\midrule")
 
     for task in tasks:
+        # Skip non-summary rows with any missing values
+        if not task.startswith("AVERAGE"):
+            has_missing = False
+            for s in strats:
+                if s in correct_df.columns and task in correct_df.index:
+                    if _parse_cell(correct_df.loc[task, s]) is None:
+                        has_missing = True
+                if s in cost_df.columns:
+                    if _parse_cell(cost_df.loc[task, s]) is None:
+                        has_missing = True
+            if has_missing:
+                continue
+
         # Correctness cells (bold = max)
         parsed_correct = {s: _parse_cell(correct_df.loc[task, s]) for s in strats if s in correct_df.columns} if task in correct_df.index else {}
         correct_means = [p[0] for p in parsed_correct.values() if p is not None]
@@ -378,6 +392,9 @@ def main():
     parser.add_argument("--suppress", nargs="+", default=[],
                         metavar="TASK",
                         help="Benchmarks to exclude (e.g. tau_bench/retail)")
+    parser.add_argument("--sort-correctness-by", default=None,
+                        metavar="STRATEGY",
+                        help="Sort correctness table by a strategy column (e.g. pot, react)")
     args = parser.parse_args()
 
     cost_df, correct_df = build_tables()
@@ -389,6 +406,11 @@ def main():
     if args.min_cols > 0:
         cost_df = _filter_min_cols(cost_df, args.min_cols)
         correct_df = _filter_min_cols(correct_df, args.min_cols)
+
+    if args.sort_correctness_by:
+        col = args.sort_correctness_by
+        sort_key = correct_df[col].apply(lambda c: _parse_cell(c)[0] if _parse_cell(c) else float("-inf"))
+        correct_df = correct_df.iloc[sort_key.argsort()[::-1]]
 
     if args.format == "latex-correct":
         correct_df = pd.concat([correct_df, _avg_row(correct_df, "AVERAGE")])

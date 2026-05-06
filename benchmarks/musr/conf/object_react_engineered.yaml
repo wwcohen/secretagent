@@ -5,7 +5,7 @@
 # it is preset on the runtime by react_engineered_answer_impl).
 # Test split (seed-42 partition: train=75 / val=75 / test=remainder=106)
 llm:
-  model: together_ai/deepseek-ai/DeepSeek-V3.1
+  model: together_ai/deepseek-ai/DeepSeek-V3
 
 cachier:
   cache_dir: llm_cache
@@ -28,7 +28,8 @@ ptools:
   infer_belief:
     method: simulate
   react_solve_engineered:
-    method: simulate_pydantic
+    method: react_pydantic
+    preamble: "Answer the following multiple-choice question using the available tools. Read each tool's docstring before deciding which to call; the narrative is already loaded into the runtime so tools that need it will receive it automatically. After enough evidence, return the 0-based answer index as a short string (e.g. \"0\", \"1\", \"2\"). Stop calling tools after deciding."
     tools:
       - ptools_object.solve_extract_movements
       - ptools_object.solve_extract_discoveries

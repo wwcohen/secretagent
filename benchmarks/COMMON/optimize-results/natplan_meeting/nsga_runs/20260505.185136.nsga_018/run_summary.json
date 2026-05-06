@@ -1,0 +1,7 @@
+{
+  "reproduce_cmd": "uv run python expt.py run --config-file conf/meeting.yaml dataset.split=meeting dataset.partition=valid dataset.n=50 ptools.meeting_planning.method=direct ptools.meeting_planning.fn=ptools_meeting.meeting_workflow llm.model=gemini/gemini-2.5-flash-lite evaluate.expt_name=nsga_018",
+  "accuracy": 0.2,
+  "total_cost_usd": 0.048604,
+  "total_time_sec": 249.13,
+  "n_samples": 50
+}

@@ -1,0 +1,7 @@
+{
+  "reproduce_cmd": "uv run python expt.py run --config-file conf/meeting.yaml llm.model=together_ai/deepseek-ai/DeepSeek-V3.1 ptools.meeting_planning.method=simulate dataset.split=meeting dataset.partition=test dataset.n=50 evaluate.expt_name=test_pass_structured_baseline_DeepSeek-V3-1",
+  "accuracy": 0.36,
+  "total_cost_usd": 0.05262,
+  "total_time_sec": 216.35,
+  "n_samples": 50
+}

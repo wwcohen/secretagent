@@ -1,0 +1,29 @@
+llm:
+  model: together_ai/deepseek-ai/DeepSeek-V3.1
+  thinking: true
+  max_tokens: 16384
+cachier:
+  cache_dir: C:\Users\STUDENT\OneDrive\Documents\Projects\AI Research\secretagent\benchmarks\musr\llm_cache
+evaluate:
+  expt_name: nsga_003
+  result_dir: C:\Users\STUDENT\OneDrive\Documents\Projects\AI Research\secretagent\benchmarks\musr\results
+  entry_point: answer_question
+dataset:
+  split: team_allocation_val
+  shuffle_seed: 42
+  'n': 50
+ptools:
+  raw_answer:
+    method: simulate
+  extract_index:
+    method: simulate
+  answer_question:
+    method: program_of_thought
+    tools: __all__
+  extract_team_requirements:
+    method: simulate
+    model: together_ai/deepseek-ai/DeepSeek-V3.1
+  score_team_assignments:
+    method: simulate
+    model: together_ai/deepseek-ai/DeepSeek-V3
+root: C:\Users\STUDENT\OneDrive\Documents\Projects\AI Research\secretagent\benchmarks\musr

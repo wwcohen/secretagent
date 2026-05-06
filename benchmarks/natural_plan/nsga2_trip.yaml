@@ -1,0 +1,27 @@
+# NSGA-II search space for natural_plan trip_planning.
+# Run from repo root:
+#   uv run -m secretagent.cli.optimize nsga2 \
+#     --space-file benchmarks/natural_plan/nsga2_trip.yaml \
+#     --cwd benchmarks/natural_plan \
+#     --pop-size 12 --n-gen 5 --timeout 1200 \
+#     dataset.split=trip dataset.partition=valid dataset.n=50
+
+command: uv run python expt.py run --config-file conf/trip.yaml
+
+models:
+  - together_ai/deepseek-ai/DeepSeek-V3.1
+  - together_ai/deepseek-ai/DeepSeek-V3
+  - together_ai/openai/gpt-oss-20b
+  - together_ai/openai/gpt-oss-120b
+  - gemini/gemini-2.5-flash
+  - gemini/gemini-2.5-flash-lite
+
+methods:
+  structured_baseline:
+    - ptools.trip_planning.method=simulate
+  zs_cot:
+    - ptools.trip_planning.method=prompt_llm
+    - ptools.trip_planning.prompt_template_file=prompt_templates/trip_zs_cot.txt
+  workflow:
+    - ptools.trip_planning.method=direct
+    - ptools.trip_planning.fn=ptools_trip.trip_workflow

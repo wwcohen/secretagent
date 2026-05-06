@@ -1,0 +1,37 @@
+# Simplified Unstructured Baseline — murder mysteries.
+# True zero-shot: raw_answer is bound to a clean prompt_llm template (no CoT
+# phrasing). The body of answer_question (direct) calls raw_answer + extract_index,
+# so the LLM gets a single zero-shot prompt and the index is parsed afterward.
+llm:
+  model: together_ai/deepseek-ai/DeepSeek-V3.1
+
+cachier:
+  cache_dir: llm_cache
+  enable_caching: false
+
+evaluate:
+  expt_name: simplified_unstructured_baseline
+  result_dir: results
+  entry_point: answer_question
+
+dataset:
+  split: murder_mysteries_val
+  shuffle_seed: 42
+
+ptools:
+  raw_answer:
+    method: prompt_llm
+    prompt_template_file: prompt_templates/simplified_unstructured.txt
+    answer_pattern: null
+  extract_index:
+    method: simulate
+  extract_suspects_and_evidence:
+    method: simulate
+  verify_alibis:
+    method: simulate
+  deduce_murderer:
+    method: simulate
+  answer_question:
+    method: direct
+  answer_question_workflow:
+    method: direct

@@ -16,22 +16,25 @@ KEYTASKS = [
     "natural_plan/meeting",
     "natural_plan/trip",
     "rulearena/nba",
-    "medcalc/overall",
+#    "medcalc/overall",
+#    "medcalc/formula",
+#    "medcalc/rules",
 ]
 
 BASE = os.path.join(os.path.dirname(__file__), "..", "benchmarks", "COMMON")
 RESULTS_DIR = os.path.join(BASE, "results")
 CODEDISTILL_DIR = os.path.join(BASE, "codedistill-workflow-results")
+LEARNER_DIR = os.path.join(BASE, "learner-results")
 
 
-def read_correct_series(csv_path):
-    """Read the 'correct' column from a results CSV as a numeric pandas Series."""
+def read_csv(csv_path):
+    """Read a results CSV as a DataFrame with correct as float."""
     df = pd.read_csv(csv_path)
     col = df["correct"]
-    # Handle True/False strings
     if col.dtype == object:
         col = col.map({"True": 1.0, "true": 1.0, "False": 0.0, "false": 0.0})
-    return col.astype(float)
+    df["correct"] = col.astype(float)
+    return df
 
 
 def find_latest_dir(directory, pattern):
@@ -73,6 +76,105 @@ def find_codedistill_csv(task, subtask, learner_llm="opus", ptool_class="class2"
     return None
 
 
+def find_react_csv(task, subtask):
+    """Find ReAct results CSV for a task/subtask."""
+    subtask_dir = os.path.join(RESULTS_DIR, task, subtask)
+    if not os.path.isdir(subtask_dir):
+        return None
+    result = find_latest_dir(subtask_dir, "*react_engineered")
+    if result:
+        csv_path = os.path.join(result, "results.csv")
+        if os.path.isfile(csv_path):
+            return csv_path
+    return None
+
+
+def find_react_learned_csv(task, subtask):
+    """Find ReAct/learned results CSV for a task/subtask in learner-results."""
+    subtask_dir = os.path.join(LEARNER_DIR, task, subtask)
+    if not os.path.isdir(subtask_dir):
+        return None
+    result = find_latest_dir(subtask_dir, f"*{subtask}_induced*")
+    if result:
+        csv_path = os.path.join(result, "results.csv")
+        if os.path.isfile(csv_path):
+            return csv_path
+    return None
+
+
+ORCHESTRATOR_EXISTING_DIR = os.path.join(BASE, "orchestrator-results", "existing_workflow")
+ORCHESTRATOR_DIR = os.path.join(BASE, "orchestrator-results", "seed_from_ptools")
+
+
+def find_orchestrator_existing_csv(task, subtask):
+    """Find orchestrator/existing_workflow results CSV for a task/subtask."""
+    if task == "medcalc":
+        subtask_dir = os.path.join(ORCHESTRATOR_EXISTING_DIR, "medcalc", "results",
+                                   "learned_from_all_traces", subtask)
+    else:
+        task_subtask = f"{task}_{subtask}".replace("natural_plan", "natplan")
+        subtask_dir = os.path.join(ORCHESTRATOR_EXISTING_DIR, task_subtask, "results")
+    if not os.path.isdir(subtask_dir):
+        return None
+    result = find_latest_dir(subtask_dir, "*test*")
+    if result:
+        csv_path = os.path.join(result, "results.csv")
+        if os.path.isfile(csv_path):
+            return csv_path
+    return None
+
+
+def find_orchestrator_csv(task, subtask):
+    """Find orchestrator results CSV for a task/subtask."""
+    if task == "medcalc":
+        subtask_dir = os.path.join(ORCHESTRATOR_DIR, "medcalc", "results",
+                                   "learned_from_all_traces", subtask)
+    elif task == "rulearena" and subtask == "nba":
+        # with_rulebook used a custom benchmark-specific prompting scheme
+        subtask_dir = os.path.join(ORCHESTRATOR_DIR, "rulearena_nba", "results",
+                                   "without_rulebook")
+    else:
+        task_subtask = f"{task}_{subtask}".replace("natural_plan", "natplan")
+        subtask_dir = os.path.join(ORCHESTRATOR_DIR, task_subtask, "results")
+    if not os.path.isdir(subtask_dir):
+        return None
+    result = find_latest_dir(subtask_dir, "*test*")
+    if result:
+        csv_path = os.path.join(result, "results.csv")
+        if os.path.isfile(csv_path):
+            return csv_path
+    return None
+
+
+def find_optimizer_csv(task, subtask):
+    """Find best NSGA-II test-pass results CSV for a task/subtask.
+
+    Scans benchmarks/COMMON/results/<task>/<subtask>/*.test_pass_* for the
+    Pareto-frontier configurations exported from the optimizer pipeline,
+    and returns the CSV path of the configuration with the highest
+    mean(correct) on test (Pareto top-1 by accuracy)."""
+    subtask_dir = os.path.join(RESULTS_DIR, task, subtask)
+    if not os.path.isdir(subtask_dir):
+        return None
+    matches = sorted(glob.glob(os.path.join(subtask_dir, "*.test_pass_*")))
+    if not matches:
+        return None
+    best_csv = None
+    best_acc = -1.0
+    for d in matches:
+        csv_path = os.path.join(d, "results.csv")
+        if not os.path.isfile(csv_path):
+            continue
+        try:
+            acc = read_csv(csv_path)["correct"].mean()
+        except Exception:
+            continue
+        if acc > best_acc:
+            best_acc = acc
+            best_csv = csv_path
+    return best_csv
+
+
 def format_cell(series):
     """Format mean +/- sem from a pandas Series."""
     if series is None or series.empty:
@@ -82,45 +184,139 @@ def format_cell(series):
     return f"{m:.2f}+/-{s:.2f}"
 
 
-def build_dataframe():
-    """Build a DataFrame with methods as rows and tasks as columns."""
+def _add_row(correct_rows, cost_rows, label_cols, col_names, find_fn, tasks):
+    """Add a row to both correct and cost tables using find_fn to locate CSVs."""
+    correct_row = dict(label_cols)
+    cost_row = dict(label_cols)
+    for keytask, col in zip(tasks, col_names):
+        task, subtask = keytask.split("/")
+        csv_path = find_fn(task, subtask)
+        if csv_path:
+            df = read_csv(csv_path)
+            correct_row[col] = format_cell(df["correct"])
+            if "cost" in df.columns:
+                cost_row[col] = format_cell(df["cost"] * 100)
+            else:
+                cost_row[col] = "—"
+        else:
+            correct_row[col] = "—"
+            cost_row[col] = "—"
+    correct_rows.append(correct_row)
+    cost_rows.append(cost_row)
+
+
+def build_dataframes(include_opus=False, suppress=None, transpose=False):
+    """Build DataFrames for correctness and cost (USD per 100 examples)."""
+    tasks = [t for t in KEYTASKS if t not in (suppress or [])]
     col_names = [
         f"{t.split('/')[0].replace('natural_plan', 'natplan')}/{t.split('/')[1]}"
-        for t in KEYTASKS
+        for t in tasks
     ]
-    rows = []
+    correct_rows = []
+    cost_rows = []
 
     # Row 1: engineered workflow
-    row = {"workflow": "human", "model": "-", "toolkit": "human"}
-    for keytask, col in zip(KEYTASKS, col_names):
-        task, subtask = keytask.split("/")
-        csv_path = find_workflow_csv(task, subtask)
-        if csv_path:
-            row[col] = format_cell(read_correct_series(csv_path))
-        else:
-            row[col] = "—"
-    rows.append(row)
+    _add_row(correct_rows, cost_rows,
+             {"workflow": "human", "model": "-", "toolkit": "human"},
+             col_names, find_workflow_csv, tasks)
+
+    # Row 2: ReAct with human toolkit
+    _add_row(correct_rows, cost_rows,
+             {"workflow": "ReAct", "model": "-", "toolkit": "human"},
+             col_names, find_react_csv, tasks)
+
+    # Row 3: ReAct / Deepseek-V3 / learned
+    _add_row(correct_rows, cost_rows,
+             {"workflow": "ReAct", "model": "Deepseek-V3", "toolkit": "learned"},
+             col_names, find_react_learned_csv, tasks)
 
     # Codedistill rows: learner_llm x ptool_class
     toolkit_labels = {"class2": "human", "class3": "learned"}
-    for learner_llm in ("opus", "gemini"):
+    learner_llms = ("opus", "gemini") if include_opus else ("gemini",)
+    for learner_llm in learner_llms:
         for ptool_class in ("class2", "class3"):
-            row = {"workflow": "codedist", "model": learner_llm, "toolkit": toolkit_labels[ptool_class]}
-            for keytask, col in zip(KEYTASKS, col_names):
-                task, subtask = keytask.split("/")
-                csv_path = find_codedistill_csv(task, subtask, learner_llm=learner_llm, ptool_class=ptool_class)
-                if csv_path:
-                    row[col] = format_cell(read_correct_series(csv_path))
-                else:
-                    row[col] = "—"
-            rows.append(row)
+            label = {"workflow": "codedist", "model": learner_llm, "toolkit": toolkit_labels[ptool_class]}
+            _add_row(correct_rows, cost_rows, label, col_names,
+                     lambda t, s, ll=learner_llm, pc=ptool_class: find_codedistill_csv(t, s, learner_llm=ll, ptool_class=pc),
+                     tasks)
 
-    return pd.DataFrame(rows)
+    # Orchestrator (existing workflow) row
+    _add_row(correct_rows, cost_rows,
+             {"workflow": "orchest", "model": "-", "toolkit": "human"},
+             col_names, find_orchestrator_existing_csv, tasks)
+
+    # Orchestrator (seed from ptools) row
+    _add_row(correct_rows, cost_rows,
+             {"workflow": "orchest", "model": "-", "toolkit": "learned"},
+             col_names, find_orchestrator_csv, tasks)
+
+    # Optimizer row: NSGA-II Pareto top-1 by test accuracy.
+    _add_row(correct_rows, cost_rows,
+             {"workflow": "nsga", "model": "auto", "toolkit": "auto"},
+             col_names, find_optimizer_csv, tasks)
+
+    correct_df = pd.DataFrame(correct_rows)
+    cost_df = pd.DataFrame(cost_rows)
+
+    if transpose:
+        # Tasks as rows, methods as columns
+        label_cols = ["workflow", "model", "toolkit"]
+        for df in (correct_df, cost_df):
+            if include_opus:
+                df.index = df.apply(lambda r: f"{r['workflow']}/{r['model']}/{r['toolkit']}", axis=1)
+            else:
+                df.index = df.apply(lambda r: f"{r['workflow']}/{r['toolkit']}", axis=1)
+            df.drop(columns=label_cols, inplace=True)
+
+        correct_df = correct_df.T
+        cost_df = cost_df.T
+
+        # Add average row
+        for df in (correct_df, cost_df):
+            avgs = {}
+            for col in df.columns:
+                vals = [float(c.split("+/-")[0]) for c in df[col] if isinstance(c, str) and "+/-" in c]
+                avgs[col] = f"{sum(vals)/len(vals):.2f}" if vals else "—"
+            df.loc["average"] = avgs
+    else:
+        # Methods as rows, tasks as columns (with workflow and ptools label columns)
+        drop_cols = ["model"] if not include_opus else []
+        for df in (correct_df, cost_df):
+            df.rename(columns={"toolkit": "ptools"}, inplace=True)
+            if drop_cols:
+                df.drop(columns=drop_cols, inplace=True)
+
+        # Add average column
+        task_cols = col_names
+        for df in (correct_df, cost_df):
+            avgs = []
+            for _, row in df.iterrows():
+                vals = [float(row[c].split("+/-")[0]) for c in task_cols if isinstance(row[c], str) and "+/-" in row[c]]
+                avgs.append(f"{sum(vals)/len(vals):.2f}" if vals else "—")
+            df["average"] = avgs
+
+    return correct_df, cost_df
 
 
 def main():
-    df = build_dataframe()
-    print(df.to_string(index=False))
+    import argparse
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--include-opus", action="store_true",
+                        help="Include codedistill rows for model=opus")
+    parser.add_argument("--suppress", nargs="+", default=[], metavar="TASK/SUBTASK",
+                        help="Omit specified TASK/SUBTASK entries from the table")
+    parser.add_argument("--transpose", action="store_true",
+                        help="Show tasks as rows and methods as columns")
+    args = parser.parse_args()
+
+    correct_df, cost_df = build_dataframes(
+        include_opus=args.include_opus, suppress=args.suppress, transpose=args.transpose)
+    print("=== Correctness ===")
+    show_index = args.transpose
+    print(correct_df.to_string(index=show_index))
+    print()
+    print("=== Cost (USD per 100 examples) ===")
+    print(cost_df.to_string(index=show_index))
 
 
 if __name__ == "__main__":

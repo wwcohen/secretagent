@@ -1,0 +1,23 @@
+llm:
+  model: together_ai/deepseek-ai/DeepSeek-V3.1
+  max_tokens: 8192
+  timeout: 600
+cachier:
+  cache_dir: /home/rafacabrera7/DesktopUbuntu/secretagent/benchmarks/rulearena/nba/llm_cache
+evaluate:
+  result_dir: /home/rafacabrera7/DesktopUbuntu/secretagent/benchmarks/rulearena/nba/results
+  expt_name: simplified_unstructured_baseline
+dataset:
+  split: test
+  shuffle_seed: 137
+ptools:
+  extract_nba_params:
+    method: simulate_pydantic
+  compute_nba_answer:
+    method: direct
+    fn: ptools.unstructured_workflow
+  zeroshot_nba:
+    method: prompt_llm
+    prompt_template_file: /home/rafacabrera7/DesktopUbuntu/secretagent/benchmarks/rulearena/nba/prompt_templates/simplified_unstructured.txt
+    answer_pattern: null
+root: /home/rafacabrera7/DesktopUbuntu/secretagent/benchmarks/rulearena/nba
