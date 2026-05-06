@@ -1,0 +1,7 @@
+{
+  "reproduce_cmd": "uv run python expt.py run --config-file conf/trip.yaml llm.model=gemini/gemini-2.5-flash-lite ptools.trip_planning.method=simulate dataset.split=trip dataset.partition=test dataset.n=50 evaluate.expt_name=test_pass_structured_baseline_gemini-2-5-flash-lite",
+  "accuracy": 0.16,
+  "total_cost_usd": 0.007048,
+  "total_time_sec": 119.03,
+  "n_samples": 50
+}
