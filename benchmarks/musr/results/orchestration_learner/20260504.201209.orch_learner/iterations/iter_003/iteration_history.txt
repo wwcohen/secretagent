@@ -1,0 +1,27 @@
+Iter 0: train=71.4%, eval=63.3% — KEPT
+Iter 1: train=75.7%, eval=63.3% — KEPT
+  What was tried: An analysis of the failure cases reveals a critical flaw in the generated orchestration logic: the `answer_question_workflow_orchestrated_seed` function evaluates suspects sequentially and returns the **first** suspect that gets a `'1'` from the LLM. 
+
+Because the `_determine_if_killer_impl` tool evaluates each suspect in isolation, it frequently hallucinates a `'1'` for "ghost" suspects (distractors who are only mentioned once in the introductory sentence) simply because there is no evidence clearing them. If the ghost suspect happens to be `choices[0]`, the pipeline early-exits and returns them, completely ignoring the primary suspect who actually has the evidence.
+
+To fix this conservatively without blowing up working cases:
+1. **Evaluate All Suspects**: Instead of early-exiting, we will collect scores for all choices.
+2. **Prompt Injection**: We append a strict instruction to the narrative to prevent the LLM from returning `'1'` for barely-mentioned suspects.
+3. **Robust Tie-Breaker**: If the LLM returns `[0, 0]` or `[1, 1]`, we fall back to selecting the suspect with the highest mention count in the narrative, which acts as a very strong prior in this dataset.
+4. **Bypass Unnecessary LLM Call**: We return the integer index directly instead of invoking `extract_index`, effectively removing an unnecessary LLM step and reducing cost/latency.
+Iter 2: train=74.3%, eval=70.0% — ROLLED BACK
+  What was tried: 1. What SPECIFIC failure pattern did you identify?
+In the failure cases, the LLM hallucinates a '1' for innocent suspects. This happens for two reasons: 
+a) It evaluates "ghost" suspects who are mentioned exactly once in the intro paragraph and hallucinates evidence against them.
+b) For suspects that *are* investigated, the LLM gets distracted by red herrings (e.g., bad behavior, arguments, general motives) and misses the core deductive logic of the dataset, which relies on matching the suspect to the specific murder weapon.
+
+2. How many of the shown failures share this pattern?
+All 17 failures share this pattern. In every case, the true expected murderer has a clear, explicit connection to the exact murder weapon in the text (e.g., owns a sai, uses a hatchet for work, has bleach on their boat), while the innocent suspect either has zero mentions after the introduction or no connection to the weapon.
+
+3. What is the MINIMAL change that fixes this pattern?
+- **Python Guardrail:** Short-circuit the LLM call and automatically assign a score of 0 if a suspect is mentioned $\le 1$ time. A suspect mentioned only once cannot be the subject of deductive reasoning.
+- **Precision Prompting:** Replace the vague "strong evidence" prompt injection with a highly structured instruction that explicitly forces the LLM to: (1) Identify the weapon from paragraph 1, (2) Look for a direct link between the suspect and that exact weapon, and (3) Ignore general motives or interpersonal conflicts.
+
+4. Why will this change NOT break currently working cases?
+The `count <= 1` check is mathematically conservative; it only bypasses the LLM for pure distractors, preserving the evaluation of legitimately investigated suspects. The refined prompt directly aligns with the fundamental deductive mechanism of the MuSR dataset (weapon linking), which will solidify true positives that previously worked while preventing false positives caused by red herrings.
+  ⚠ This change HURT accuracy. Do NOT retry this approach.

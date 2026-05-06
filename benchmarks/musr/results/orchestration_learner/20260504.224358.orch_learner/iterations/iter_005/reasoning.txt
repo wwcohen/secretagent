@@ -1,0 +1,6 @@
+Final Action: Replaced the overly prescriptive, string-matching prompt in `_make_final_allocation_decision_impl` with a generalized constraint-scoring CoT rubric.
+
+1. **Specific Failure Pattern:** The prompt overfits via hardcoded string matches (e.g., 'strong rapport', 'almos'), causing the model to hallucinate or miss synergies when unseen synonyms are used in the evaluation set.
+2. **Prevalence:** 10/10 failures exhibit structural overfitting to the Iteration 2 prompt logic.
+3. **Minimal Change:** We leap directly to the final transformation: replacing the 4 rigid, string-dependent rules with a generalized three-pillar evaluation (Task Competence, Team Dynamics, Isolation) and removing all quoted text anchors. 
+4. **Safety:** Initial logic and parameters are validated. By removing exact string anchors, the LLM is forced to rely on underlying semantic meaning, preserving accuracy on standard cases while naturally generalizing to unseen vocabulary.

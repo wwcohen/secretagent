@@ -1,0 +1,6 @@
+Pipeline accuracy: 91.4%, avg cost: $0.0000/case, 70 cases
+
+Per-ptool breakdown:
+
+Held-out eval accuracy: 86.7% (train: 91.4%)
+A large train-eval gap means your changes are OVERFITTING. Prefer changes that generalize to unseen cases.

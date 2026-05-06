@@ -2,13 +2,11 @@
 and produce a unified table:
   benchmark | label | n | acc | cost_total | model | path
 """
-import json
-import re
 from pathlib import Path
 import pandas as pd
 import yaml
 
-ROOT = Path("/Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks")
+ROOT = Path(__file__).resolve().parents[1]
 
 BENCHES = [
     "natural_plan", "musr", "finqa", "medcalc", "rulearena",
@@ -36,6 +34,91 @@ COMMON_BENCH_NAMES = {
 
 records = []
 
+MEDCALC_SUBSETS = {
+    "formulas": {"dosage", "lab test", "physical"},
+    "rules": {"diagnosis", "risk", "severity"},
+}
+
+
+def _bbh_acc(bench, df):
+    if 'bbh' not in bench or not {'predicted_output', 'expected_output'} <= set(df.columns):
+        return None
+
+    def norm(s):
+        s = str(s).strip()
+        if s.startswith('(') and s.endswith(')') and len(s) >= 3:
+            return s[1:-1].strip()
+        return s
+
+    return float(df.apply(lambda r: norm(r['predicted_output']) == norm(r['expected_output']), axis=1).mean())
+
+
+def _append_record(bench, scope, name, df, cfg, path, subset=None,
+                   sub_bench=None, missing_cost_as_zero=False):
+    bbh_acc = _bbh_acc(bench, df)
+    acc_val = bbh_acc if bbh_acc is not None else (float(df['correct'].mean()) if 'correct' in df else None)
+    cost = float(df["cost"].sum()) if "cost" in df else (0.0 if missing_cost_as_zero else None)
+    records.append({
+        "bench": bench,
+        "scope": scope,
+        "name": name,
+        "subset": subset,
+        "sub_bench": sub_bench,
+        "n": len(df),
+        "acc": acc_val,
+        "acc_raw": float(df["correct"].mean()) if "correct" in df else None,
+        "cost": cost,
+        "model": (cfg.get("llm") or {}).get("model"),
+        "split": (cfg.get("dataset") or {}).get("split"),
+        "expt_name": (cfg.get("evaluate") or {}).get("expt_name"),
+        "path": str(path),
+    })
+
+
+def append_records(bench, scope, name, df, cfg, path, forced_sub_bench=None,
+                   missing_cost_as_zero=False):
+    """Append one scan row, except medcalc is always split into formulas/rules."""
+    if bench == "medcalc" and "category" in df.columns:
+        categories = df["category"].astype(str).str.lower()
+        wrote_subset = False
+        for subset, allowed in MEDCALC_SUBSETS.items():
+            sub_df = df[categories.isin(allowed)]
+            if sub_df.empty:
+                continue
+            _append_record(
+                bench, scope, name, sub_df, cfg, path,
+                subset=subset, sub_bench=f"medcalc_{subset}",
+                missing_cost_as_zero=missing_cost_as_zero,
+            )
+            wrote_subset = True
+        if wrote_subset:
+            return
+    _append_record(bench, scope, name, df, cfg, path,
+                   sub_bench=forced_sub_bench,
+                   missing_cost_as_zero=missing_cost_as_zero)
+
+
+def sub_bench_from_run_name(bench, name):
+    name = name.lower()
+    if bench == "natural_plan":
+        for sub in ("calendar", "meeting", "trip"):
+            if f"natplan_{sub}" in name or sub in name:
+                return f"natplan_{sub}"
+    if bench == "musr":
+        for sub in ("murder", "object", "team"):
+            if f"musr_{sub}" in name or sub in name:
+                return f"musr_{sub}"
+    if bench == "rulearena":
+        for sub in ("airline", "nba", "tax"):
+            if f"rulearena_{sub}" in name or sub in name:
+                return f"rulearena_{sub}"
+    if bench == "medcalc":
+        for subset in MEDCALC_SUBSETS:
+            if f"medcalc_{subset}" in name:
+                return f"medcalc_{subset}"
+    return None
+
+
 def scan(bench, scope, base):
     base = ROOT / bench / base
     if not base.exists():
@@ -52,31 +135,7 @@ def scan(bench, scope, base):
             cfg = yaml.safe_load(rcfg.read_text()) or {}
         except Exception:
             continue
-        # post-hoc paren-strip for BBH multiple-choice
-        if 'bbh' in bench and 'predicted_output' in df.columns and 'expected_output' in df.columns:
-            def norm(s):
-                s = str(s).strip()
-                if s.startswith('(') and s.endswith(')') and len(s) >= 3:
-                    return s[1:-1].strip()
-                return s
-            df['correct_norm'] = df.apply(lambda r: norm(r['predicted_output']) == norm(r['expected_output']), axis=1)
-            acc_val = float(df['correct_norm'].mean())
-        else:
-            acc_val = float(df['correct'].mean()) if 'correct' in df else None
-        rec = {
-            "bench": bench,
-            "scope": scope,
-            "name": d.name,
-            "n": len(df),
-            "acc": acc_val,
-            "acc_raw": float(df["correct"].mean()) if "correct" in df else None,
-            "cost": float(df["cost"].sum()) if "cost" in df else None,
-            "model": (cfg.get("llm") or {}).get("model"),
-            "split": (cfg.get("dataset") or {}).get("split"),
-            "expt_name": (cfg.get("evaluate") or {}).get("expt_name"),
-            "path": str(d),
-        }
-        records.append(rec)
+        append_records(bench, scope, d.name, df, cfg, d)
 
 for bench in BENCHES:
     for scope, base in [("val_full","val_results_full"),("val_mini","val_results"),("archived","results")]:
@@ -94,26 +153,7 @@ for bench in BENCHES:
                             cfg = yaml.safe_load((d/"config.yaml").read_text()) or {} if (d/"config.yaml").exists() else {}
                         except Exception:
                             continue
-                        # paren-strip for BBH archived too
-                        if 'bbh' in bench and 'predicted_output' in df.columns and 'expected_output' in df.columns:
-                            def normf(s):
-                                s = str(s).strip()
-                                if s.startswith('(') and s.endswith(')') and len(s) >= 3:
-                                    return s[1:-1].strip()
-                                return s
-                            df['correct_norm'] = df.apply(lambda r: normf(r['predicted_output']) == normf(r['expected_output']), axis=1)
-                            acc_val = float(df['correct_norm'].mean())
-                        else:
-                            acc_val = float(df['correct'].mean()) if 'correct' in df else None
-                        records.append({
-                            "bench": bench, "scope": "archived_inproject", "name": d.name,
-                            "n": len(df), "acc": acc_val,
-                            "cost": float(df["cost"].sum()) if "cost" in df else None,
-                            "model": (cfg.get("llm") or {}).get("model"),
-                            "split": (cfg.get("dataset") or {}).get("split"),
-                            "expt_name": (cfg.get("evaluate") or {}).get("expt_name"),
-                            "path": str(d),
-                        })
+                        append_records(bench, "archived_inproject", d.name, df, cfg, d)
             continue
         scan(bench, scope, base)
 
@@ -139,35 +179,54 @@ def scan_common(bench, dst, common_subdir, scope_prefix):
                 cfg = yaml.safe_load(rcfg.read_text()) or {}
             except Exception:
                 continue
-            if 'bbh' in bench and 'predicted_output' in df.columns and 'expected_output' in df.columns:
-                def norm(s):
-                    s = str(s).strip()
-                    if s.startswith('(') and s.endswith(')') and len(s) >= 3:
-                        return s[1:-1].strip()
-                    return s
-                df['correct_norm'] = df.apply(lambda r: norm(r['predicted_output']) == norm(r['expected_output']), axis=1)
-                acc_val = float(df['correct_norm'].mean())
-            else:
-                acc_val = float(df['correct'].mean()) if 'correct' in df else None
-            records.append({
-                "bench": bench,
-                "scope": f"{scope_prefix}_{results_kind.replace('_full','')}",  # e.g. ptools_val_results / workflow_test_results
-                "name": d.name,
-                "n": len(df),
-                "acc": acc_val,
-                "acc_raw": float(df["correct"].mean()) if "correct" in df else None,
-                "cost": float(df["cost"].sum()) if "cost" in df else None,
-                "model": (cfg.get("llm") or {}).get("model"),
-                "split": (cfg.get("dataset") or {}).get("split"),
-                "expt_name": (cfg.get("evaluate") or {}).get("expt_name"),
-                "path": str(d),
-            })
+            append_records(
+                bench,
+                f"{scope_prefix}_{results_kind.replace('_full','')}",  # e.g. ptools_val_results / workflow_test_results
+                d.name,
+                df,
+                cfg,
+                d,
+            )
 
 for bench in BENCHES:
     dst = COMMON_BENCH_NAMES.get(bench)
     if dst is None: continue
     scan_common(bench, dst, 'codedistill-ptools-results', 'ptools')
     scan_common(bench, dst, 'codedistill-workflow-results', 'workflow')
+
+
+def scan_orchestrator_common(bench, dst, common_subdir, scope):
+    base = ROOT / 'COMMON' / common_subdir / dst / 'test_results_full'
+    if not base.exists():
+        return
+    for d in sorted(base.iterdir()):
+        if not d.is_dir():
+            continue
+        rcsv = d / "results.csv"
+        rcfg = d / "config.yaml"
+        if not rcsv.exists() or not rcfg.exists():
+            continue
+        try:
+            df = pd.read_csv(rcsv)
+            cfg = yaml.safe_load(rcfg.read_text()) or {}
+        except Exception:
+            continue
+        append_records(
+            bench, scope, d.name, df, cfg, d,
+            forced_sub_bench=sub_bench_from_run_name(bench, d.name),
+            missing_cost_as_zero=True,
+        )
+
+
+for bench in BENCHES:
+    dst = COMMON_BENCH_NAMES.get(bench)
+    if dst is None:
+        continue
+    scan_orchestrator_common(bench, dst, 'orchestrator-results', 'orchestrator_test')
+    scan_orchestrator_common(
+        bench, dst, 'orchestrator-induced-ptools-results',
+        'orchestrator_induced_test',
+    )
 
 df = pd.DataFrame(records)
 print(f"Total rows: {len(df)}")

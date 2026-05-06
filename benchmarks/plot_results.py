@@ -29,6 +29,8 @@ BENCHMARKS_DIR = ROOT / 'benchmarks'
 # COMMON dirs (for class1/2 results).
 COMMON_PT  = BENCHMARKS_DIR / 'COMMON' / 'codedistill-ptools-results'
 COMMON_WF  = BENCHMARKS_DIR / 'COMMON' / 'codedistill-workflow-results'
+COMMON_ORCH = BENCHMARKS_DIR / 'COMMON' / 'orchestrator-results'
+COMMON_ORCH_INDUCED = BENCHMARKS_DIR / 'COMMON' / 'orchestrator-induced-ptools-results'
 
 # (label, per-bench-dir for baseline, COMMON-dir-name for ptools, COMMON-dir-name for workflow)
 BENCHMARKS_INFO = {
@@ -42,7 +44,8 @@ BENCHMARKS_INFO = {
     'bbh_penguins':      (BENCHMARKS_DIR / 'bbh' / 'penguins_in_a_table',  'bbh_penguins_in_a_table'),
     'bbh_geometric':     (BENCHMARKS_DIR / 'bbh' / 'geometric_shapes',     'bbh_geometric_shapes'),
     'bbh_date':          (BENCHMARKS_DIR / 'bbh' / 'date_understanding',   'bbh_date_understanding'),
-    'medcalc':           (BENCHMARKS_DIR / 'medcalc',                     'medcalc'),
+    'medcalc_formulas':  (BENCHMARKS_DIR / 'medcalc',                     'medcalc'),
+    'medcalc_rules':     (BENCHMARKS_DIR / 'medcalc',                     'medcalc'),
     'finqa':             (BENCHMARKS_DIR / 'finqa',                       'finqa'),
     'rulearena_nba':     (BENCHMARKS_DIR / 'rulearena',                   'rulearena'),
     'rulearena_tax':     (BENCHMARKS_DIR / 'rulearena',                   'rulearena'),
@@ -117,7 +120,31 @@ def _is_bbh(csv_path: Path) -> bool:
     return '/bbh/' in str(csv_path)
 
 
-def csv_metrics(csv_path: Path, train_rollout_dir: Path = None):
+MEDCALC_SUBSETS = {
+    'formulas': {'dosage', 'lab test', 'physical'},
+    'rules': {'diagnosis', 'risk', 'severity'},
+}
+
+
+def _medcalc_subset_for_bench(bench: str):
+    if bench == 'medcalc_formulas':
+        return 'formulas'
+    if bench == 'medcalc_rules':
+        return 'rules'
+    return None
+
+
+def _filter_medcalc_subset(df: pd.DataFrame, subset: str | None):
+    if subset is None:
+        return df
+    if 'category' not in df.columns:
+        return df.iloc[0:0]
+    allowed = MEDCALC_SUBSETS[subset]
+    categories = df['category'].astype(str).str.lower()
+    return df[categories.isin(allowed)]
+
+
+def csv_metrics(csv_path: Path, train_rollout_dir: Path = None, medcalc_subset: str | None = None):
     """Return (n, acc, total_cost, llm_calls_per_case).
 
     LLM-calls counted from the train recording's rollout (val recordings
@@ -126,8 +153,10 @@ def csv_metrics(csv_path: Path, train_rollout_dir: Path = None):
     """
     if csv_path is None or not csv_path.exists():
         return None
-    df = pd.read_csv(csv_path)
+    df = _filter_medcalc_subset(pd.read_csv(csv_path), medcalc_subset)
     n = len(df)
+    if n == 0:
+        return None
     # For BBH benchmarks, the per-benchmark evaluator strips parens (e.g.
     # `(C)` vs `C`); my val runs used the default ExactMatchEvaluator and
     # so `correct` is undercounted. Re-compute using strip-parens for BBH.
@@ -186,7 +215,8 @@ TRAIN_REC_PATTERN = {
     'bbh_penguins':     'bbh/penguins_in_a_table/recordings/*bbh_penguins_train_record_v2',
     'bbh_geometric':    'bbh/geometric_shapes/recordings/*bbh_geometric_train_record_v2',
     'bbh_date':         'bbh/date_understanding/recordings/*date_train_record_v4',
-    'medcalc':          'medcalc/recordings/*medcalc_train_record',
+    'medcalc_formulas': 'medcalc/recordings/*medcalc_train_record',
+    'medcalc_rules':    'medcalc/recordings/*medcalc_train_record',
     'finqa':            'finqa/recordings/*finqa_train_record',
     'rulearena_nba':    'rulearena/recordings/*nba_train_record',
     'rulearena_tax':    'rulearena/recordings/*tax_train_record',
@@ -200,6 +230,28 @@ def find_train_rec(bench):
         return None
     matches = sorted((BENCHMARKS_DIR).glob(pat))
     return matches[-1] if matches else None
+
+
+def find_orchestrator_csv(bench: str, condition: str, root: Path = COMMON_ORCH):
+    """Find canonical orchestrator test result for a benchmark/condition.
+
+    Conditions are held-out test results and live in the COMMON-style
+    orchestrator tree:
+      COMMON/<orchestrator-results-dir>/<common_subdir>/test_results_full/<run>/
+    """
+    common_subdir = BENCHMARKS_INFO[bench][1]
+    base = root / common_subdir / 'test_results_full'
+    if not base.exists():
+        return None
+    cands = sorted(
+        p / 'results.csv'
+        for p in base.iterdir()
+        if p.is_dir()
+        and (p / 'results.csv').exists()
+        and bench in p.name
+        and condition in p.name
+    )
+    return cands[-1] if cands else None
 
 
 def collect_all():
@@ -239,7 +291,7 @@ def collect_all():
             prefixes.append('object_val')
         elif bench == 'musr_team':
             prefixes.append('team_val')
-        elif bench == 'medcalc':
+        elif bench.startswith('medcalc_'):
             prefixes.append('medcalc_val')
         elif bench == 'finqa':
             prefixes.append('finqa_val')
@@ -247,32 +299,58 @@ def collect_all():
             prefixes.append('tabmwp_val')
 
         cells = {'baseline': None, 'class1': None, 'class1v2': None,
-                 'class2': None, 'class3': None}
+                 'class2': None, 'class3': None,
+                 'orch_existing_workflow': None, 'orch_seed_from_ptools': None,
+                 'orch_induced_seed_ptools': None}
         # plot1 will use these strict_v4 cells; other plots use the loose ones
-        cells_v4 = {'baseline': None, 'class1': None, 'class2': None}
+        cells_v4 = {'baseline': None, 'class1': None, 'class2': None,
+                    'orch_existing_workflow': None, 'orch_seed_from_ptools': None,
+                    'orch_induced_seed_ptools': None}
         train_rec = find_train_rec(bench)
         # COMMON subdir name for this benchmark (post-reorg)
         common_subdir = BENCHMARKS_INFO[bench][1] if bench in BENCHMARKS_INFO else None
+        medcalc_subset = _medcalc_subset_for_bench(bench)
         for pref in prefixes:
             for method in cells_v4:
+                if method.startswith('orch_'):
+                    continue
                 csv = find_val_csv(benchdir, f'{pref}_{method}', strict_v4=True,
                                    common_subdir=common_subdir)
                 if csv:
-                    cells_v4[method] = csv_metrics(csv, train_rec if method == 'baseline' else None)
+                    cells_v4[method] = csv_metrics(csv, train_rec if method == 'baseline' else None,
+                                                   medcalc_subset=medcalc_subset)
+                    if cells_v4[method] is None:
+                        continue
                     if method != 'baseline' and cells_v4[method]['cost_per_case'] > 0.001:
-                        m2 = csv_metrics(csv, train_rec)
+                        m2 = csv_metrics(csv, train_rec, medcalc_subset=medcalc_subset)
                         cells_v4[method]['calls_per_case'] = m2['calls_per_case']
             for method in cells:
+                if method.startswith('orch_'):
+                    continue
                 csv = find_val_csv(benchdir, f'{pref}_{method}', common_subdir=common_subdir)
                 if csv:
                     # Only count calls/case for baseline (uses train rollout);
                     # for distilled methods, infer from cost: if near-zero cost,
                     # calls = 0; else count train rollout (over-estimate)
-                    cells[method] = csv_metrics(csv, train_rec if method == 'baseline' else None)
+                    cells[method] = csv_metrics(csv, train_rec if method == 'baseline' else None,
+                                                medcalc_subset=medcalc_subset)
+                    if cells[method] is None:
+                        continue
                     # For distilled methods: if cost > 0, also use train rollout
                     if method != 'baseline' and cells[method]['cost_per_case'] > 0.001:
-                        m2 = csv_metrics(csv, train_rec)
+                        m2 = csv_metrics(csv, train_rec, medcalc_subset=medcalc_subset)
                         cells[method]['calls_per_case'] = m2['calls_per_case']
+        for method in ['orch_existing_workflow', 'orch_seed_from_ptools']:
+            csv = find_orchestrator_csv(bench, method)
+            if csv:
+                cells[method] = csv_metrics(csv, medcalc_subset=medcalc_subset)
+                cells_v4[method] = cells[method]
+        csv = find_orchestrator_csv(
+            bench, 'orch_induced_seed_ptools', root=COMMON_ORCH_INDUCED)
+        if csv:
+            cells['orch_induced_seed_ptools'] = csv_metrics(
+                csv, medcalc_subset=medcalc_subset)
+            cells_v4['orch_induced_seed_ptools'] = cells['orch_induced_seed_ptools']
         # attach strict opus view as a sibling key
         cells['_v4'] = cells_v4
         out[bench] = cells
@@ -282,7 +360,7 @@ def collect_all():
 def plot1_cost_vs_acc(data, outpath):
     """Plot 1: cost vs accuracy per benchmark.
 
-    X = cost per case ($, symlog), Y = val accuracy (%).
+    X = cost per case ($, symlog), Y = accuracy (%).
     Each benchmark contributes one point per method:
       red ●   baseline
       blue ■  Class 1 (ptool codedistill)
@@ -296,7 +374,13 @@ def plot1_cost_vs_acc(data, outpath):
         ('baseline', 'red',     'o', 'baseline (hand workflow)'),
         ('class1',   'blue',    's', 'Class 1 opus (ptool codedistill)'),
         ('class2',   'green',   '^', 'Class 2 opus (workflow codedistill)'),
-        # v2/mini and Class 3 intentionally omitted: 3 points per benchmark
+        ('orch_existing_workflow', 'purple', 'P',
+         'orch existing workflow (test)'),
+        ('orch_seed_from_ptools', 'orange', 'D',
+         'orch seed from ptools (test)'),
+        ('orch_induced_seed_ptools', 'brown', 'X',
+         'orch induced seed ptools (test)'),
+        # v2/mini and Class 3 intentionally omitted; orchestrator points are test.
     ]
     legend_drawn = set()
 
@@ -304,7 +388,9 @@ def plot1_cost_vs_acc(data, outpath):
         # plot1 uses the strict opus view: baseline + c1_v4 + c2_v4 only
         cells = cells.get('_v4', cells)
         path = []
-        for mkey in ['baseline', 'class1', 'class2']:
+        for mkey in ['baseline', 'class1', 'class2',
+                     'orch_existing_workflow', 'orch_seed_from_ptools',
+                     'orch_induced_seed_ptools']:
             cell = cells.get(mkey)
             if cell:
                 path.append((cell['cost_per_case'], cell['acc'], mkey))
@@ -337,9 +423,9 @@ def plot1_cost_vs_acc(data, outpath):
                             xytext=(5, 3), textcoords='offset points')
 
     ax.set_xlabel('Cost per case ($)')
-    ax.set_ylabel('Val accuracy (%)')
-    ax.set_title('Cost vs accuracy per benchmark — baseline → distilled trajectory\n'
-                 '(up-and-left = better: more accurate, cheaper)')
+    ax.set_ylabel('Accuracy (%)')
+    ax.set_title('Cost vs accuracy per benchmark — val codedistill + test orchestrator\n'
+                 '(orchestrator markers are held-out test results)')
     ax.set_xscale('symlog', linthresh=0.001)
     ax.set_ylim(-5, 105)
     ax.legend(loc='lower right')
@@ -358,19 +444,35 @@ def plot2a_handvs_learned_ptool(data, outpath):
     Diagonal = parity. Above diagonal = ptool distillation helped.
     """
     fig, ax = plt.subplots(figsize=(8, 8))
+    drew_legend = set()
     for bench, cells in data.items():
         b = cells.get('baseline')
         c = cells.get('class1v2') or cells.get('class1')
-        if b is None or c is None:
+        orch = cells.get('orch_existing_workflow')
+        if b is None:
             continue
-        ax.scatter(b['acc'], c['acc'], s=100, zorder=3)
-        ax.annotate(bench, (b['acc'], c['acc']), fontsize=9,
-                    xytext=(6, 6), textcoords='offset points')
+        if c is not None:
+            ax.scatter(
+                b['acc'], c['acc'], s=100, zorder=3, c='tab:blue',
+                label='Class 1 codedistill (val)' if 'class1' not in drew_legend else None,
+            )
+            drew_legend.add('class1')
+            ax.annotate(bench, (b['acc'], c['acc']), fontsize=8,
+                        xytext=(6, 6), textcoords='offset points')
+        if orch is not None:
+            ax.scatter(b['acc'], orch['acc'], s=115, zorder=3, c='tab:purple',
+                       marker='P',
+                       label='Orch improved ptools (test)'
+                       if 'orch_existing_workflow' not in drew_legend else None)
+            drew_legend.add('orch_existing_workflow')
+            ax.annotate(bench + ' (orch)', (b['acc'], orch['acc']), fontsize=8,
+                        xytext=(6, -10), textcoords='offset points',
+                        alpha=0.8, color='tab:purple')
     ax.plot([0, 100], [0, 100], 'k--', alpha=0.4, label='parity (no distill effect)')
     ax.set_xlabel('Hand ptool acc (baseline workflow)  %')
-    ax.set_ylabel('Learned ptool acc (Class 1 codedistill)  %')
+    ax.set_ylabel('Learned/improved ptool acc  %')
     ax.set_title('Plot 2A: ptool replacement effect\n'
-                 '(workflow held constant; hand-written ptool → distilled Python ptool)')
+                 '(workflow held constant where applicable; orchestrator points are test)')
     ax.set_xlim(-5, 105); ax.set_ylim(-5, 105)
     ax.legend()
     ax.grid(alpha=0.3)
@@ -389,13 +491,17 @@ def plot2b_handvs_learned_workflow(data, outpath):
     Diagonal = parity.
     """
     fig, ax = plt.subplots(figsize=(8, 8))
-    drew_legend = {'class2': False, 'class3': False}
+    drew_legend = {'class2': False, 'class3': False,
+                   'orch_seed_from_ptools': False,
+                   'orch_induced_seed_ptools': False}
     for bench, cells in data.items():
         b = cells.get('baseline')
         if b is None:
             continue
         c2 = cells.get('class2')
         c3 = cells.get('class3') or cells.get('class3_v2')
+        orch_seed = cells.get('orch_seed_from_ptools')
+        orch_induced = cells.get('orch_induced_seed_ptools')
         if c2 is not None:
             label = 'Class 2 (learned wf + hand ptool)' if not drew_legend['class2'] else None
             ax.scatter(b['acc'], c2['acc'], s=100, c='tab:blue', zorder=3, label=label)
@@ -408,11 +514,27 @@ def plot2b_handvs_learned_workflow(data, outpath):
             drew_legend['class3'] = True
             ax.annotate(bench + ' (C3)', (b['acc'], c3['acc']), fontsize=8,
                         xytext=(6, -10), textcoords='offset points', alpha=0.8, color='tab:red')
+        if orch_seed is not None:
+            label = 'Orch workflow + orch ptools (test)' if not drew_legend['orch_seed_from_ptools'] else None
+            ax.scatter(b['acc'], orch_seed['acc'], s=120, c='tab:orange',
+                       marker='D', zorder=3, label=label)
+            drew_legend['orch_seed_from_ptools'] = True
+            ax.annotate(bench + ' (orch)', (b['acc'], orch_seed['acc']), fontsize=8,
+                        xytext=(6, -10), textcoords='offset points',
+                        alpha=0.8, color='tab:orange')
+        if orch_induced is not None:
+            label = 'Orch workflow + induced ptools (test)' if not drew_legend['orch_induced_seed_ptools'] else None
+            ax.scatter(b['acc'], orch_induced['acc'], s=125, c='tab:brown',
+                       marker='X', zorder=3, label=label)
+            drew_legend['orch_induced_seed_ptools'] = True
+            ax.annotate(bench + ' (induced)', (b['acc'], orch_induced['acc']),
+                        fontsize=8, xytext=(6, 8), textcoords='offset points',
+                        alpha=0.8, color='tab:brown')
     ax.plot([0, 100], [0, 100], 'k--', alpha=0.4, label='parity')
     ax.set_xlabel('Hand workflow acc (baseline)  %')
     ax.set_ylabel('Learned workflow acc  %')
     ax.set_title('Plot 2B: workflow replacement effect\n'
-                 '(hand workflow → distilled Python workflow; ptool source as colour)')
+                 '(orchestrator points are held-out test results)')
     ax.set_xlim(-5, 105); ax.set_ylim(-5, 105)
     ax.legend()
     ax.grid(alpha=0.3)
@@ -437,23 +559,27 @@ def plot3_5conditions(data, outpath):
 
     width = 0.16
     x = list(range(n))
-    method_labels = ['1. hand workflow (baseline)',
-                     '2. hand ptool + react',
-                     '3. induced ptool + react',
-                     '4. learned wf + hand ptool',
-                     '5. learned wf + induced ptool']
-    for j, key in enumerate(['baseline', 'react_handptool', 'class3', 'class2', 'class3_v2']):
+    method_labels = ['baseline (val)',
+                     'Class 1 ptools (val)',
+                     'Class 2 workflow (val)',
+                     'orch existing workflow (test)',
+                     'orch seed from ptools (test)',
+                     'orch induced seed ptools (test)']
+    keys = ['baseline', 'class1', 'class2',
+            'orch_existing_workflow', 'orch_seed_from_ptools',
+            'orch_induced_seed_ptools']
+    for j, key in enumerate(keys):
         vals = []
         for bench in benches:
             c = data[bench].get(key) if key in data[bench] else None
             vals.append(c['acc'] if c else 0)
-        offsets = [xi + (j - 2) * width for xi in x]
+        offsets = [xi + (j - (len(keys) - 1) / 2) * width for xi in x]
         ax.bar(offsets, vals, width=width, label=method_labels[j])
 
     ax.set_xticks(x)
     ax.set_xticklabels(benches, rotation=45, ha='right', fontsize=8)
-    ax.set_ylabel('Val accuracy %')
-    ax.set_title('5-condition comparison: workflow source × ptool source')
+    ax.set_ylabel('Accuracy %')
+    ax.set_title('Condition comparison: validation codedistill + test orchestrator results')
     ax.legend(fontsize=8, loc='upper right')
     ax.grid(axis='y', alpha=0.3)
     fig.tight_layout()

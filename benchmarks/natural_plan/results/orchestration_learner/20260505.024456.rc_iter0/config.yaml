@@ -1,0 +1,40 @@
+llm:
+  model: gemini/gemini-3.1-flash-lite-preview
+  timeout: 180
+orchestrate:
+  model: gemini/gemini-3.1-pro-preview
+  max_retries: 3
+cachier:
+  cache_dir: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/natural_plan/llm_cache
+  enable_caching: true
+evaluate:
+  result_dir: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/natural_plan/results/orchestration_learner
+  expt_name: rc_iter0
+  entry_point: trip_planning
+  prompt_trace: true
+  max_workers: 1
+  record_details: true
+dataset:
+  split: trip
+  shuffle_seed: 42
+  prompt_mode: 0shot
+  'n': 4
+  stratified: false
+  sample_n: 50
+  sample_seed: 42
+ptools:
+  _define_problem_and_strategy_impl:
+    method: simulate
+  _search_constraint_details_impl:
+    method: simulate
+  _search_flight_network_impl:
+    method: simulate
+  trip_planning:
+    method: direct
+    task_description: 'Solve a trip-planning problem by using the induced helper ptools
+      to extract trip constraints, inspect flight connectivity, and produce a valid
+      itinerary satisfying all constraints.
+
+      '
+    fn: ptools_trip_induced_seed.trip_planning_orchestrated_seed
+root: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/natural_plan

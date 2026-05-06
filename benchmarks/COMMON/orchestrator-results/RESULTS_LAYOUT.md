@@ -5,12 +5,60 @@ orchestrator-results/
 ├── README.md
 ├── RESULTS_LAYOUT.md         (this file)
 ├── show_summary.sh           (run this — prints two tables to terminal)
-├── existing_workflow/<bench>/...   # "handcrafted workflow" — orch_learner ran with seed_orchestrate=False
-├── seed_from_ptools/<bench>/...    # "orchestrator-generated workflow" — seed_orchestrate=True
+├── medcalc/test_results_full/...       # canonical COMMON-style test results
+├── musr/test_results_full/...
+├── natural_plan/test_results_full/...
+├── rulearena/test_results_full/...
+├── existing_workflow/<bench>/...   # preserved legacy/provenance layout
+├── seed_from_ptools/<bench>/...    # preserved legacy/provenance layout
 └── scripts/                  # all helper scripts + infra dirs (logs, train_dirs, etc.)
 ```
 
-Each cell sits at `<class>/<bench>/` and contains:
+## Canonical layout
+
+Canonical cells sit at `<bench>/test_results_full/<run>/`, matching the
+COMMON codedistill result shape:
+
+```
+<bench>/
+└── test_results_full/
+    ├── <TS>.<subbench>_test_full_orch_existing_workflow/
+    │   ├── results.csv
+    │   ├── results.jsonl
+    │   ├── config.yaml
+    │   └── run_summary.json  # where produced by the benchmark
+    └── <TS>.<subbench>_test_full_orch_seed_from_ptools/
+        ├── results.csv
+        ├── results.jsonl
+        └── config.yaml
+```
+
+Conditions:
+
+- `orch_existing_workflow`: hand workflow + orchestrator-improved ptools
+- `orch_seed_from_ptools`: orchestrator-generated workflow + orchestrator-improved ptools
+
+Canonical rows:
+
+- `medcalc_formulas`
+- `medcalc_rules`
+- `musr_murder`
+- `musr_object`
+- `musr_team`
+- `natplan_calendar`
+- `natplan_meeting`
+- `natplan_trip`
+- `rulearena_nba`
+
+`medcalc` is intentionally split into formulas and rules. The overall mixed
+run is preserved in the legacy tree but is not used for headline tables. The
+canonical `rulearena_nba` seed result uses the default `without_rulebook` run;
+the manual rulebook fix remains preserved but is excluded by default.
+
+## Preserved legacy layout
+
+The original layout remains in place. Each legacy cell sits at
+`<class>/<bench>/` and contains:
 
 ```
 <cell>/
@@ -24,7 +72,7 @@ Each cell sits at `<class>/<bench>/` and contains:
 └── PROVENANCE.md                    # which run is canonical and why
 ```
 
-## Variants inside `results/`
+### Variants inside legacy `results/`
 
 A few cells have multiple meaningful variants; their `results/` is split
 into named subdirs:
@@ -65,7 +113,7 @@ with PATCH_NOTES.md alongside.
 
 - `run_test_eval.sh` — single-cell driver
 - `run_parallel.sh` — multi-lane orchestrator
-- `show_results.py` — summary table over canonical `results/` runs
+- `show_results.py` — summary table over canonical `test_results_full/` runs
 - `show_summary.py` — backing impl for the top-level `show_summary.sh`
 - `_replay_failed_cases.py` — surgical rerun of just exception-row cases
 - `_resume_*.sh`, `_bump_*.sh` — watchers used during the main run

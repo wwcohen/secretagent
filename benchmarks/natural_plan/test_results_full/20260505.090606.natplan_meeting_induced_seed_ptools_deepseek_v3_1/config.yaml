@@ -1,0 +1,35 @@
+llm:
+  model: together_ai/deepseek-ai/DeepSeek-V3.1
+  timeout: 180
+cachier:
+  cache_dir: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/natural_plan/llm_cache
+  enable_caching: false
+evaluate:
+  result_dir: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/natural_plan/test_results_full
+  expt_name: natplan_meeting_induced_seed_ptools_deepseek_v3_1
+  entry_point: meeting_planning
+  prompt_trace: true
+  record_details: true
+  max_workers: 1
+dataset:
+  split: meeting
+  shuffle_seed: 42
+  prompt_mode: 0shot
+  'n': null
+  stratified: false
+  sample_n: 50
+  sample_seed: 42
+ptools:
+  parse_meeting_info:
+    method: simulate
+  plan_visit_order:
+    method: simulate
+  build_meeting_plan:
+    method: simulate
+  meeting_planning:
+    method: direct
+    fn: __learned__.meeting_planning_orchestrated_seed
+    learner: orch_learner
+learn:
+  train_dir: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/COMMON/orchestrator-results/_train_dirs/induced_seed_from_ptools/natplan_meeting
+root: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/natural_plan

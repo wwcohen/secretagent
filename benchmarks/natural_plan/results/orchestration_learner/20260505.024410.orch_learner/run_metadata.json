@@ -1,0 +1,19 @@
+{
+  "benchmark": "natural_plan",
+  "benchmark_dir": "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/natural_plan",
+  "config_file": "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/natural_plan/conf/trip_induced_seed_from_ptools.yaml",
+  "entry_point": "trip_planning",
+  "ptools_module": "ptools_trip_induced_seed",
+  "seed_orchestrate": true,
+  "scratch_evolved": true,
+  "evolved_path": "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/natural_plan/.orchestration_learner/ptools_trip_induced_seed_20260505.024410_scratch.py",
+  "results_base": "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/natural_plan/results/orchestration_learner",
+  "resume_from": null,
+  "train_split": "trip",
+  "eval_split": "trip",
+  "n_train": 70,
+  "n_eval": 30,
+  "max_iterations": 5,
+  "target_accuracy": null,
+  "supervisor_model": "gemini/gemini-3.1-pro-preview"
+}

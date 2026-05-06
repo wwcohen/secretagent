@@ -1,0 +1,11 @@
+$prompt
+
+Think step-by-step:
+- Which cities must be visited and for how many days each?
+- What are the required city-pair flight constraints?
+- What ordering of cities satisfies all constraints?
+
+Then state your final trip plan in EXACTLY this format:
+
+<answer>**Day 1-5**: Visit Vienna for 5 days.
+**Day 5-7**: Fly from Vienna to Madrid. Visit Madrid for 3 days.</answer>

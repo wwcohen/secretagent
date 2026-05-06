@@ -1,0 +1,15 @@
+1. What SPECIFIC failure pattern did you identify?
+The base pipeline has two primary failure modes: 
+- **ToM Visibility Reasoning:** The LLM consistently misunderstands whether a character actually witnessed an object being moved. It frequently assumes characters saw a movement simply because they were in the same room, completely ignoring critical contextual descriptors in the text (like being "engrossed", "immersed", "on a call", or "distracted"). 
+- **String Matching:** The final `extract_index` frequently crashes or returns `-1` (e.g. Ex073, Ex068) when the LLM's predicted location is a synonym or slightly reworded string compared to the exact multiple-choice strings provided (e.g., predicted="the set" vs choice="beach set").
+
+2. How many of the shown failures share this pattern?
+Virtually all 23 failures are rooted in these two problems. The vast majority are the ToM visibility issue (where the LLM states a character witnessed a move despite being explicitly "engrossed in an urgent call" or "pampering" someone), and a handful are pure index extraction mismatch failures.
+
+3. What is the MINIMAL change that fixes this pattern?
+- Override the `@interface(method="simulate")` docstrings for `_track_object_movement_timeline_impl` and `_analyze_character_knowledge_impl` to provide strict, explicit rules for MuSR visibility semantics (e.g. "engrossed" -> DO NOT see it; "overseeing" -> DO see it; "no one noticed" -> subconscious action).
+- Redefine the `extract_index` function directly in `ptools_evolved.py` to use fallback substring matching and token-overlap heuristics rather than purely failing on mismatch.
+- Inject the `choices` into the prompt context for `_extract_belief_location_impl` so the LLM is guided to output the exact string format.
+
+4. Why will this change NOT break currently working cases?
+These prompt enhancements do not break working cases because they strictly enforce the canonical logic for the MuSR dataset; cases that were previously correct were either trivial (no distractor events) or correctly evaluated by chance. By maintaining the same modular steps and output formats (json, text reasoning), we keep the LLM workflow identical, just much smarter at extracting semantic visibility and cleanly mapping it to a final array index.

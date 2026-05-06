@@ -3,18 +3,21 @@
 # requires-python = ">=3.11"
 # dependencies = ["pandas"]
 # ///
-"""Print accuracy + cost tables for both workflow types to the terminal.
+"""Print accuracy + cost tables for both orchestrator test conditions.
 
 Two tables:
-  - Handcrafted workflow         (existing_workflow class)
-  - Orchestrator-generated workflow (seed_from_ptools class)
+  - Handcrafted workflow + orchestrator-improved ptools
+  - Orchestrator-generated workflow + orchestrator-improved ptools
 
-NBA fix appears as an extra row in the Orchestrator-generated table
-(seed_from_ptools_nba_fix is not a separate class in the eyes of this
-report, just a patched variant of seed/rulearena_nba).
+The report reads the canonical codedistill-style tree:
+`<bench>/test_results_full/<TS>.<subbench>_test_full_<condition>/`.
 
-medcalc breaks out into its three trained-on-which-traces variants in
-the Handcrafted table (where they all live).
+The old `existing_workflow/` and `seed_from_ptools/` trees remain for
+provenance only. NBA uses the unpatched `without_rulebook` seed run; the
+manual rulebook fix is intentionally excluded.
+
+medcalc is always reported as formulas and rules; the overall mix is not
+used for headline tables.
 """
 
 from __future__ import annotations
@@ -23,6 +26,23 @@ from pathlib import Path
 import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[1]  # orchestrator-results/
+
+CONDITIONS = {
+    "orch_existing_workflow": "Handcrafted workflow + orchestrator-improved ptools",
+    "orch_seed_from_ptools": "Orchestrator-generated workflow + orchestrator-improved ptools",
+}
+
+ROWS = [
+    ("medcalc/formulas", "medcalc", "medcalc_formulas"),
+    ("medcalc/rules", "medcalc", "medcalc_rules"),
+    ("musr_murder", "musr", "musr_murder"),
+    ("musr_object", "musr", "musr_object"),
+    ("musr_team", "musr", "musr_team"),
+    ("natplan_calendar", "natural_plan", "natplan_calendar"),
+    ("natplan_meeting", "natural_plan", "natplan_meeting"),
+    ("natplan_trip", "natural_plan", "natplan_trip"),
+    ("rulearena_nba", "rulearena", "rulearena_nba"),
+]
 
 
 def cell_stats(csv: Path) -> tuple[int, float, float]:
@@ -36,20 +56,25 @@ def cell_stats(csv: Path) -> tuple[int, float, float]:
     return n, acc, cost
 
 
-def find_run(*parts: str) -> Path | None:
-    """Locate the latest <TS>.test_deepseek_v3_1 dir under the given path
-    (or the user's full_test_eval naming for medcalc per-trace runs)."""
-    base = ROOT.joinpath(*parts)
+def find_run(bench_dir: str, row_name: str, condition: str) -> Path | None:
+    """Locate the latest canonical test run for a row/condition."""
+    base = ROOT / bench_dir / "test_results_full"
     if not base.is_dir():
         return None
-    runs = [p for p in base.iterdir() if p.is_dir() and (p / "results.csv").exists()]
+    runs = [
+        p for p in base.iterdir()
+        if p.is_dir()
+        and (p / "results.csv").exists()
+        and row_name in p.name
+        and condition in p.name
+    ]
     if not runs:
         return None
     return sorted(runs, key=lambda p: p.name)[-1]
 
 
-def row(label: str, *parts: str) -> tuple[str, int, float, float]:
-    run = find_run(*parts)
+def row(label: str, bench_dir: str, row_name: str, condition: str) -> tuple[str, int, float, float]:
+    run = find_run(bench_dir, row_name, condition)
     if run is None:
         return (label, 0, float("nan"), float("nan"))
     n, acc, cost = cell_stats(run / "results.csv")
@@ -105,91 +130,34 @@ def render_delta_table(title: str, rows: list[tuple[str, tuple[int, float, float
 
 
 def main() -> None:
-    handcrafted = [
-        # medcalc — split by formula vs rule partition. We never report the
-        # 1100-case "overall" mix because the categories have very different
-        # difficulty profiles.
-        row("medcalc/formulas  (learned: all traces)",
-            "existing_workflow", "medcalc", "results", "learned_from_all_traces", "formulas"),
-        row("medcalc/formulas  (learned: formula only)",
-            "existing_workflow", "medcalc", "results", "learned_from_formula_traces", "overall"),
-        row("medcalc/rules     (learned: all traces)",
-            "existing_workflow", "medcalc", "results", "learned_from_all_traces", "rules"),
-        row("medcalc/rules     (learned: rules only)",
-            "existing_workflow", "medcalc", "results", "learned_from_rules_traces", "overall"),
-        row("musr_murder",      "existing_workflow", "musr_murder", "results"),
-        row("musr_object",      "existing_workflow", "musr_object", "results"),
-        row("musr_team",        "existing_workflow", "musr_team", "results"),
-        row("natplan_calendar", "existing_workflow", "natplan_calendar", "results"),
-        row("natplan_meeting",  "existing_workflow", "natplan_meeting", "results"),
-        row("natplan_trip",     "existing_workflow", "natplan_trip", "results"),
-        row("rulearena_nba",    "existing_workflow", "rulearena_nba", "results"),
+    existing = [
+        row(label, bench_dir, row_name, "orch_existing_workflow")
+        for label, bench_dir, row_name in ROWS
     ]
-    orchestrator = [
-        # medcalc: only learned_from_all_traces exists under seed (we did not
-        # run per-trace orch_learner with seed_orchestrate=True).
-        row("medcalc/formulas  (learned: all traces)",
-            "seed_from_ptools", "medcalc", "results", "learned_from_all_traces", "formulas"),
-        row("medcalc/rules     (learned: all traces)",
-            "seed_from_ptools", "medcalc", "results", "learned_from_all_traces", "rules"),
-        row("musr_murder",      "seed_from_ptools", "musr_murder", "results"),
-        row("musr_object",      "seed_from_ptools", "musr_object", "results"),
-        row("musr_team",        "seed_from_ptools", "musr_team", "results"),
-        row("natplan_calendar", "seed_from_ptools", "natplan_calendar", "results"),
-        row("natplan_meeting",  "seed_from_ptools", "natplan_meeting", "results"),
-        row("natplan_trip",     "seed_from_ptools", "natplan_trip", "results"),
-        row("rulearena_nba (without rulebook in query)",
-            "seed_from_ptools", "rulearena_nba", "results", "without_rulebook"),
-        row("rulearena_nba (with rulebook in query)",
-            "seed_from_ptools", "rulearena_nba", "results", "with_rulebook"),
+    seed = [
+        row(label, bench_dir, row_name, "orch_seed_from_ptools")
+        for label, bench_dir, row_name in ROWS
     ]
     # Build deltas: pair each existing-workflow row with the matching seed row.
-    def _stat(*parts: str) -> tuple[int, float, float]:
-        run = find_run(*parts)
+    def _stat(bench_dir: str, row_name: str, condition: str) -> tuple[int, float, float]:
+        run = find_run(bench_dir, row_name, condition)
         return cell_stats(run / "results.csv") if run else (0, float("nan"), float("nan"))
 
     delta_rows = [
-        # Compare like-for-like on the same partition. We only have seed runs
-        # for learned_from_all_traces, so the delta uses that variant on both
-        # sides.
-        ("medcalc/formulas  (learned: all traces)",
-         _stat("existing_workflow", "medcalc", "results", "learned_from_all_traces", "formulas"),
-         _stat("seed_from_ptools",  "medcalc", "results", "learned_from_all_traces", "formulas")),
-        ("medcalc/rules     (learned: all traces)",
-         _stat("existing_workflow", "medcalc", "results", "learned_from_all_traces", "rules"),
-         _stat("seed_from_ptools",  "medcalc", "results", "learned_from_all_traces", "rules")),
-        ("musr_murder",
-         _stat("existing_workflow", "musr_murder", "results"),
-         _stat("seed_from_ptools",  "musr_murder", "results")),
-        ("musr_object",
-         _stat("existing_workflow", "musr_object", "results"),
-         _stat("seed_from_ptools",  "musr_object", "results")),
-        ("musr_team",
-         _stat("existing_workflow", "musr_team", "results"),
-         _stat("seed_from_ptools",  "musr_team", "results")),
-        ("natplan_calendar",
-         _stat("existing_workflow", "natplan_calendar", "results"),
-         _stat("seed_from_ptools",  "natplan_calendar", "results")),
-        ("natplan_meeting †",
-         _stat("existing_workflow", "natplan_meeting", "results"),
-         _stat("seed_from_ptools",  "natplan_meeting", "results")),
-        ("natplan_trip †",
-         _stat("existing_workflow", "natplan_trip", "results"),
-         _stat("seed_from_ptools",  "natplan_trip", "results")),
-        ("rulearena_nba (seed: with rulebook) ‡",
-         _stat("existing_workflow", "rulearena_nba", "results"),
-         _stat("seed_from_ptools",  "rulearena_nba", "results", "with_rulebook")),
-        ("rulearena_nba (seed: without rulebook) ‡",
-         _stat("existing_workflow", "rulearena_nba", "results"),
-         _stat("seed_from_ptools",  "rulearena_nba", "results", "without_rulebook")),
+        (
+            label,
+            _stat(bench_dir, row_name, "orch_existing_workflow"),
+            _stat(bench_dir, row_name, "orch_seed_from_ptools"),
+        )
+        for label, bench_dir, row_name in ROWS
     ]
 
     print()
-    print(render_table("Handcrafted workflow  (class: existing_workflow)", handcrafted))
+    print(render_table(CONDITIONS["orch_existing_workflow"], existing))
     print()
-    print(render_table("Orchestrator-generated workflow  (class: seed_from_ptools)", orchestrator))
+    print(render_table(CONDITIONS["orch_seed_from_ptools"], seed))
     print()
-    print(render_delta_table("Δ (seed_from_ptools − existing_workflow)", delta_rows))
+    print(render_delta_table("Delta (orch_seed_from_ptools - orch_existing_workflow)", delta_rows))
     print()
     print(_FOOTNOTES)
     print()
@@ -197,28 +165,14 @@ def main() -> None:
 
 _FOOTNOTES = """  Footnotes
   ---------
-  †  Pure Python algorithmic solver (no LLM calls, cost = 0):
-       • existing_workflow/natplan_meeting → meeting_workflow(prompt) is just
-         return solve_meeting(prompt) — a 100-line deterministic graph search.
-       • seed_from_ptools/natplan_trip → trip_workflow is similarly a pure-Python
-         solver. The orch_learner discovered both could be solved without any LLM.
+  All rows are held-out test-set runs with together_ai/deepseek-ai/DeepSeek-V3.1.
 
-  ‡  rulearena_nba seed variants:
-       • without_rulebook: the orch_learner-generated seed as-is. Its NBA branch
-         calls extract_nba_params(problem_text) — passing only the raw problem
-         text, no rules, no structured metadata. avg_input_tokens ≈ 507/case.
-         Result: 26.1% accuracy (12/46), $0.02 total cost.
-       • with_rulebook: manual patch in compute_rulearena_answer_orchestrated_seed
-         that rebuilds the same query the existing-workflow's _build_nba_query
-         uses — CBA rules text + structured team/player/operations metadata.
-         avg_input_tokens ≈ 22,696/case (≈45× more context). Result: 65.2%
-         accuracy (30/46), $0.65 total cost. That's +39.1pp over the seed
-         without_rulebook variant and +13.0pp over the existing workflow.
-         Patched ptools_evolved.py lives in
-         scripts/_patched_artifacts/seed_from_ptools_nba_fix/.../ptools_evolved.py
-         with PATCH_NOTES.md alongside.
-       Conclusion: the seed workflow's control flow isn't the problem — it just
-       needs the same reference material the existing workflow already plumbs in."""
+  medcalc is split into formulas and rules. The overall mixed run is intentionally
+  omitted because the categories have different difficulty profiles.
+
+  rulearena_nba uses the default seed_from_ptools NBA run, which does not include
+  the manual rulebook fix. The with_rulebook/fix artifacts remain under the
+  preserved legacy layout for provenance, but are excluded from these tables."""
 
 
 if __name__ == "__main__":

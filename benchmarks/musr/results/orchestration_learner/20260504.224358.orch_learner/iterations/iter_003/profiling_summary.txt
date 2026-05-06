@@ -1,0 +1,11 @@
+Pipeline accuracy: 85.7%, avg cost: $0.0028/case, 70 cases
+
+Per-ptool breakdown:
+  _analyze_team_allocation_impl: cost_frac=27.8%, calls/case=1.0, avg_cost=$0.0008, lift=N/A, errors=0
+  _define_task_requirements_impl: cost_frac=29.4%, calls/case=1.0, avg_cost=$0.0008, lift=N/A, errors=0
+  _make_final_allocation_decision_impl: cost_frac=42.7%, calls/case=1.0, avg_cost=$0.0012, lift=N/A, errors=0
+
+Ptools called via LLM: ['_analyze_team_allocation_impl', '_define_task_requirements_impl', '_make_final_allocation_decision_impl']
+
+Held-out eval accuracy: 70.0% (train: 85.7%)
+A large train-eval gap means your changes are OVERFITTING. Prefer changes that generalize to unseen cases.

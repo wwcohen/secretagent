@@ -1,0 +1,44 @@
+llm:
+  model: gemini/gemini-3.1-flash-lite-preview
+  timeout: 180
+orchestrate:
+  model: gemini/gemini-3.1-pro-preview
+  max_retries: 3
+cachier:
+  cache_dir: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/natural_plan/llm_cache
+  enable_caching: true
+evaluate:
+  result_dir: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/natural_plan/results/orchestration_learner/20260505.012331.orch_learner/final_eval
+  expt_name: rc_final_eval
+  entry_point: meeting_planning
+  prompt_trace: true
+  max_workers: 1
+  record_details: true
+dataset:
+  split: meeting
+  shuffle_seed: 42
+  prompt_mode: 0shot
+  'n': 4
+  stratified: false
+  sample_n: 50
+  sample_seed: 42
+ptools:
+  _define_meeting_problem_impl:
+    method: simulate
+  _request_travel_times_impl:
+    method: simulate
+  _propose_meeting_schedule_impl:
+    method: simulate
+  _verify_constraints_impl:
+    method: simulate
+  _analyze_constraints_and_requirements_impl:
+    method: simulate
+  meeting_planning:
+    method: direct
+    task_description: 'Solve a meeting-planning problem by using the induced helper
+      ptools to extract constraints, reason about travel times, and produce a schedule
+      that maximizes the number of friends met.
+
+      '
+    fn: ptools_meeting_induced_seed.meeting_planning_orchestrated_seed
+root: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/natural_plan

@@ -48,12 +48,25 @@ def latest_csv(bench_dir: Path, tag: str) -> Path | None:
     return matches[-1] if matches else None
 
 
+def numeric_cell(value: str | None) -> float:
+    if value is None:
+        return 0.0
+    value = value.strip()
+    if not value:
+        return 0.0
+    if value.lower() == "true":
+        return 1.0
+    if value.lower() == "false":
+        return 0.0
+    return float(value)
+
+
 def result_stats(csv_path: Path) -> tuple[int, float, float]:
     with csv_path.open(newline="") as f:
         rows = list(csv.DictReader(f))
     n = len(rows)
-    correct_vals = [float(r.get("correct", "0") or 0) for r in rows]
-    cost_vals = [float(r.get("cost", "0") or 0) for r in rows]
+    correct_vals = [numeric_cell(r.get("correct")) for r in rows]
+    cost_vals = [numeric_cell(r.get("cost")) for r in rows]
     return n, sum(correct_vals) / n if n else 0.0, sum(cost_vals)
 
 

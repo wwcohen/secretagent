@@ -1,0 +1,128 @@
+"""Generated staging ptools for MuSR object induced seed orchestration."""
+
+from pathlib import Path
+import json
+
+from ptools.ptools_common import interface
+from ptools_object import *  # noqa: F401,F403
+
+
+def _load_induced(relative_path: str) -> None:
+    for parent in Path(__file__).resolve().parents:
+        if (parent / "src/secretagent/learn/inducer_results").exists():
+            path = parent / "src/secretagent/learn/inducer_results" / relative_path
+            break
+    else:
+        raise RuntimeError("Could not locate repo root for induced ptools")
+
+    source = path.read_text()
+    source = source.replace(
+        "from ptools.ptools_common import _REACT_STATE",
+        "_REACT_STATE = {}",
+    )
+    exec(compile(source, str(path), "exec"), globals())
+
+
+_load_induced("musr/induced_ptools_seed42_correct_object.py")
+
+@interface(method="simulate")
+def _track_object_movement_timeline_impl(narrative: str, question: str) -> str:
+    """
+    Carefully extract a detailed timeline of movements for the target object in the narrative.
+    
+    CRITICAL RULES FOR MuSR THEORY OF MIND VISIBILITY:
+    1. Assess character visibility STRICTLY. A character DOES NOT witness an object being moved if the text says they are:
+       - "engrossed", "immersed", "absorbed", "distracted", "preoccupied", "focused"
+       - "on a call", "in a conversation", "engaged in a radio conversation", "pampering"
+       - "reading", "looking elsewhere", "working on their own", "in a distant corner"
+    2. A character DOES witness the move if the text says they:
+       - "spotted", "overseeing", "monitoring", "keenly observed", "in a direct sightline", "silent witness", "assisting"
+    3. Watch for statements like "no one noticed as [object] found an unlikely home... due to [Character]'s tidy up spree". If the text says "no one noticed", even the character who moved it did so subconsciously and does NOT know it moved!
+    4. Characters in different rooms or "outside the venue" do not see the move.
+    
+    Output a numbered timeline. For each step, state the object's new location, and explicitly list which characters witnessed it and which characters were unaware (and WHY, citing their exact activity like 'unaware because engrossed in a call').
+    """
+    pass
+
+@interface(method="simulate")
+def _analyze_character_knowledge_impl(narrative: str, question: str) -> str:
+    """
+    Analyze the narrative to determine what a specific character believes about an object's location.
+    
+    CRITICAL RULES:
+    1. A character's belief is the LAST LOCATION they consciously witnessed the object being placed.
+    2. If a character was "engrossed", "immersed", "distracted", "on a call", "pampering", or "focused elsewhere" when the object was moved, they DID NOT see it, and their belief IS NOT updated.
+    3. If a character "oversees", "monitors", or "spots" the action, their belief IS updated.
+    4. If the text says "no one noticed" an object being moved, the person who moved it subconsciously DOES NOT know they moved it, and will look in its prior location.
+    5. NEVER assume a character deduces a location or notices a change later unless explicitly stated in the text.
+    
+    Return a structured analysis including the character's name, the object, known locations, last known location, knowledge gaps, and reasoning. Explicitly debate whether the character witnessed the most recent movements based on the visibility rules above.
+    """
+    pass
+
+@interface(method="simulate")
+def _extract_belief_location_impl(enhanced_narrative: str, question: str) -> str:
+    """
+    Given the enhanced narrative with timeline and knowledge analysis, extract the exact location the character believes the object is in.
+    
+    Return a JSON object with keys: "character", "object", "believed_location", "reasoning", "confidence".
+    IMPORTANT: The "believed_location" MUST exactly match one of the choices provided in the "Available Choices" list within the text, if possible.
+    """
+    pass
+
+def robust_extract_index(belief_state: str, choices: list) -> int:
+    try:
+        clean_state = belief_state.strip()
+        if clean_state.startswith("```json"):
+            clean_state = clean_state[7:]
+        if clean_state.endswith("```"):
+            clean_state = clean_state[:-3]
+            
+        data = json.loads(clean_state.strip())
+        predicted = data.get("believed_location", "").lower().strip()
+    except Exception:
+        predicted = str(belief_state).lower().strip()
+
+    # 1. Exact match
+    for i, choice in enumerate(choices):
+        if choice.lower().strip() == predicted:
+            return i
+
+    # 2. Substring match (longest match first)
+    best_sub_i = -1
+    max_sub_len = 0
+    for i, choice in enumerate(choices):
+        c_lower = choice.lower().strip()
+        if c_lower in predicted or predicted in c_lower:
+            if len(c_lower) > max_sub_len:
+                max_sub_len = len(c_lower)
+                best_sub_i = i
+    if best_sub_i != -1:
+        return best_sub_i
+
+    # 3. Token overlap heuristic
+    best_i = -1
+    max_overlap = 0
+    pred_tokens = set(predicted.replace("the ", "").replace("a ", "").replace("my ", "").split())
+    for i, choice in enumerate(choices):
+        c_tokens = set(choice.lower().replace("the ", "").replace("a ", "").split())
+        overlap = len(pred_tokens.intersection(c_tokens))
+        if overlap > max_overlap and overlap > 0:
+            max_overlap = overlap
+            best_i = i
+            
+    if best_i != -1:
+        return best_i
+        
+    return 0
+
+# --- Auto-generated by orchestration_learner --seed-orchestrate ---
+def answer_question_workflow_orchestrated_seed(narrative: str, question: str, choices: list) -> int:
+    timeline = _track_object_movement_timeline_impl(narrative, question)
+    knowledge = _analyze_character_knowledge_impl(narrative, question)
+
+    enhanced_narrative = f"{narrative}\n\nTimeline:\n{timeline}\n\nKnowledge Analysis:\n{knowledge}\n\nAvailable Choices:\n{choices}"
+
+    belief_state = _extract_belief_location_impl(enhanced_narrative, question)
+
+    return robust_extract_index(belief_state, choices)

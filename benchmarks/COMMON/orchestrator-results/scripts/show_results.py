@@ -6,10 +6,14 @@
 #   "pyyaml",
 # ]
 # ///
-"""Summarise test-set re-evaluations under benchmarks/COMMON/orchestrator-results/.
+"""Summarise orchestrator test-set re-evaluations.
 
-Looks for `<class>/<bench>/<TS>.<expt_tag>/results.csv`, prints a markdown
-matrix (rows=bench, cols=class) and a long-format dump.
+Canonical results use the same layout as the COMMON codedistill exports:
+
+    <bench>/test_results_full/<TS>.<subbench>_test_full_<condition>/results.csv
+
+The older `existing_workflow/<bench>/...` and `seed_from_ptools/<bench>/...`
+trees remain in place for provenance, but this report reads the canonical tree.
 """
 
 from __future__ import annotations
@@ -21,41 +25,31 @@ import pandas as pd
 import yaml
 
 ROOT = Path(__file__).resolve().parents[1]  # orchestrator-results/
-CLASSES = ["existing_workflow", "seed_from_ptools"]
-BENCHES = [
-    "medcalc",
-    "musr_murder", "musr_object", "musr_team",
-    "natplan_calendar", "natplan_meeting", "natplan_trip",
-    "rulearena_nba",
+CONDITIONS = ["orch_existing_workflow", "orch_seed_from_ptools"]
+ROWS = [
+    ("medcalc_formulas", "medcalc"),
+    ("medcalc_rules", "medcalc"),
+    ("musr_murder", "musr"),
+    ("musr_object", "musr"),
+    ("musr_team", "musr"),
+    ("natplan_calendar", "natural_plan"),
+    ("natplan_meeting", "natural_plan"),
+    ("natplan_trip", "natural_plan"),
+    ("rulearena_nba", "rulearena"),
 ]
 
 
-def _latest_run(bench_dir: Path, expt_tag: str | None) -> Path | None:
-    if not bench_dir.is_dir():
+def _latest_run(bench_root: Path, row_name: str, condition: str) -> Path | None:
+    search_root = bench_root / "test_results_full"
+    if not search_root.is_dir():
         return None
-    # Prefer results/ subtree if it exists (post-reorganization layout).
-    # (older runs may still have final/ — fall back to that for backwards compat.)
-    if (bench_dir / "results").is_dir():
-        search_root = bench_dir / "results"
-    elif (bench_dir / "final").is_dir():
-        search_root = bench_dir / "final"
-    else:
-        search_root = bench_dir
-    # medcalc has variant subdirs (learned_from_*_traces/) under results/.
-    # Default the bench-level summary row to learned_from_all_traces/overall/.
-    if (search_root / "learned_from_all_traces").is_dir():
-        search_root = search_root / "learned_from_all_traces" / "overall"
-    elif (search_root / "combined").is_dir():
-        search_root = search_root / "combined"
-    # rulearena_nba seed has variants under results/{without_rulebook,with_rulebook}.
-    # Default the summary row to with_rulebook (the cleaner number).
-    elif (search_root / "with_rulebook").is_dir():
-        search_root = search_root / "with_rulebook"
-    candidates = [p for p in search_root.iterdir()
-                  if p.is_dir() and (p / "results.csv").exists()]
-    if expt_tag:
-        candidates = [p for p in candidates
-                      if p.name.split(".", 2)[-1] == expt_tag]
+    candidates = [
+        p for p in search_root.iterdir()
+        if p.is_dir()
+        and (p / "results.csv").exists()
+        and row_name in p.name
+        and condition in p.name
+    ]
     if not candidates:
         return None
     return sorted(candidates, key=lambda p: p.name)[-1]
@@ -87,13 +81,13 @@ def _summarize(run_dir: Path) -> dict:
     }
 
 
-def collect(expt_tag: str | None) -> pd.DataFrame:
+def collect() -> pd.DataFrame:
     rows = []
-    for bench in BENCHES:
-        for cls in CLASSES:
-            run_dir = _latest_run(ROOT / cls / bench, expt_tag)
+    for row_name, bench_dir in ROWS:
+        for condition in CONDITIONS:
+            run_dir = _latest_run(ROOT / bench_dir, row_name, condition)
             if run_dir is None:
-                rows.append({"bench": bench, "class": cls, "run_dir": None,
+                rows.append({"bench": row_name, "condition": condition, "run_dir": None,
                              "n": 0, "accuracy": float("nan"),
                              "total_cost": float("nan"),
                              "avg_cost": float("nan"),
@@ -101,48 +95,45 @@ def collect(expt_tag: str | None) -> pd.DataFrame:
                              "avg_output_tokens": float("nan"),
                              "model": None, "fn": None})
                 continue
-            row = {"bench": bench, "class": cls, **_summarize(run_dir)}
+            row = {"bench": row_name, "condition": condition, **_summarize(run_dir)}
             rows.append(row)
     return pd.DataFrame(rows)
 
 
 def render_markdown(df: pd.DataFrame) -> str:
-    lines = ["| Bench | existing_workflow | seed_from_ptools |",
+    lines = ["| Bench | orch_existing_workflow | orch_seed_from_ptools |",
              "|---|---|---|"]
-    for bench in BENCHES:
-        cells = [bench]
-        for cls in CLASSES:
-            r = df[(df["bench"] == bench) & (df["class"] == cls)]
+    for row_name, _bench_dir in ROWS:
+        cells = [row_name]
+        for condition in CONDITIONS:
+            r = df[(df["bench"] == row_name) & (df["condition"] == condition)]
             if r.empty or r.iloc[0]["run_dir"] is None:
                 cells.append("—")
                 continue
             r = r.iloc[0]
+            cost = "—" if pd.isna(r["total_cost"]) else f"${r['total_cost']:.2f}"
             cells.append(
-                f"{r['accuracy']:.1f}% (n={int(r['n'])}) / ${r['total_cost']:.2f}"
+                f"{r['accuracy']:.1f}% (n={int(r['n'])}) / {cost}"
             )
         lines.append("| " + " | ".join(cells) + " |")
     return "\n".join(lines)
 
 
 def render_long(df: pd.DataFrame) -> str:
-    cols = ["bench", "class", "n", "accuracy", "total_cost", "avg_cost",
+    cols = ["bench", "condition", "n", "accuracy", "total_cost", "avg_cost",
             "avg_input_tokens", "avg_output_tokens", "model", "fn", "run_dir"]
     return df[cols].to_csv(index=False)
 
 
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("--expt-tag", default="test_deepseek_v3_1",
-                    help="Filter to runs whose dir tag equals this. "
-                         "Use empty string '' to disable.")
     ap.add_argument("--csv", type=Path, default=None,
                     help="Write long-format CSV to this path.")
     ap.add_argument("--md", type=Path, default=None,
                     help="Write markdown table to this path.")
     args = ap.parse_args()
 
-    expt_tag = args.expt_tag or None
-    df = collect(expt_tag)
+    df = collect()
 
     md = render_markdown(df)
     long = render_long(df)

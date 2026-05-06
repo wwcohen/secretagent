@@ -1,0 +1,55 @@
+Iter 0: train=71.4%, eval=63.3% — KEPT
+Iter 1: train=75.7%, eval=63.3% — KEPT
+  What was tried: An analysis of the failure cases reveals a critical flaw in the generated orchestration logic: the `answer_question_workflow_orchestrated_seed` function evaluates suspects sequentially and returns the **first** suspect that gets a `'1'` from the LLM. 
+
+Because the `_determine_if_killer_impl` tool evaluates each suspect in isolation, it frequently hallucinates a `'1'` for "ghost" suspects (distractors who are only mentioned once in the introductory sentence) simply because there is no evidence clearing them. If the ghost suspect happens to be `choices[0]`, the pipeline early-exits and returns them, completely ignoring the primary suspect who actually has the evidence.
+
+To fix this conservatively without blowing up working cases:
+1. **Evaluate All Suspects**: Instead of early-exiting, we will collect scores for all choices.
+2. **Prompt Injection**: We append a strict instruction to the narrative to prevent the LLM from returning `'1'` for barely-mentioned suspects.
+3. **Robust Tie-Breaker**: If the LLM returns `[0, 0]` or `[1, 1]`, we fall back to selecting the suspect with the highest mention count in the narrative, which acts as a very strong prior in this dataset.
+4. **Bypass Unnecessary LLM Call**: We return the integer index directly instead of invoking `extract_index`, effectively removing an unnecessary LLM step and reducing cost/latency.
+Iter 2: train=74.3%, eval=70.0% — ROLLED BACK
+  What was tried: 1. What SPECIFIC failure pattern did you identify?
+In the failure cases, the LLM hallucinates a '1' for innocent suspects. This happens for two reasons: 
+a) It evaluates "ghost" suspects who are mentioned exactly once in the intro paragraph and hallucinates evidence against them.
+b) For suspects that *are* investigated, the LLM gets distracted by red herrings (e.g., bad behavior, arguments, general motives) and misses the core deductive logic of the dataset, which relies on matching the suspect to the specific murder weapon.
+
+2. How many of the shown failures share this pattern?
+All 17 failures share this pattern. In every case, the true expected murderer has a clear, explicit connection to the exact murder weapon in the text (e.g., owns a sai, uses a hatchet for work, has bleach on their boat), while the innocent suspect either has zero mentions after the introduction or no connection to the weapon.
+
+3. What is the MINIMAL change that fixes this pattern?
+- **Python Guardrail:** Short-circuit the LLM call and automatically assign a score of 0 if a suspect is mentioned $\le 1$ time. A suspect mentioned only once cannot be the subject of deductive reasoning.
+- **Precision Prompting:** Replace the vague "strong evidence" prompt injection with a highly structured instruction that explicitly forces the LLM to: (1) Identify the weapon from paragraph 1, (2) Look for a direct link between the suspect and that exact weapon, and (3) Ignore general motives or interpersonal conflicts.
+
+4. Why will this change NOT break currently working cases?
+The `count <= 1` check is mathematically conservative; it only bypasses the LLM for pure distractors, preserving the evaluation of legitimately investigated suspects. The refined prompt directly aligns with the fundamental deductive mechanism of the MuSR dataset (weapon linking), which will solidify true positives that previously worked while preventing false positives caused by red herrings.
+  ⚠ This change HURT accuracy. Do NOT retry this approach.
+Iter 3: train=74.3%, eval=70.0% — ROLLED BACK
+  What was tried: 1. What SPECIFIC failure pattern did you identify?
+The pipeline fails on complex MuSR logic puzzles where the true murderer is obscured by classic mystery tropes: ALIBIS (the suspect with the weapon is observed asleep elsewhere) or DISGUISES (the obvious suspect's hair/eye color changed, indicating an impostor framed them).
+
+2. How many of the shown failures share this pattern?
+All of them. For instance, in ex046, Lucy has an alibi (she went to bed and was observed by John), so Clara must be the killer. In ex002, Paige's hair and eye color changed, indicating Marianne was impersonating her. Because the current prompt evaluates suspects independently without acknowledging these tropes, the LLM takes the most literal path, incorrectly blaming the framed suspect and clearing the true killer.
+
+3. What is the MINIMAL change that fixes this pattern?
+Update the prompt enhancement injected into `_determine_if_killer_impl` to explicitly list the three dataset-specific deductive tropes (Means, Alibis, Disguises) and require the LLM to output a strict string like 'RESULT: 1' or 'RESULT: 0'. We also pass the names of the *other* suspects in the prompt so the LLM can reason comparatively, even though it evaluates one suspect at a time.
+
+4. Why will this change NOT break currently working cases?
+This replaces Iteration 2's failed attempt. Iteration 2 hardcoded Python rules (`count <= 1`) and forced the LLM to *only* look at who owned the weapon, completely destroying accuracy on Alibi/Disguise cases. This new approach does not skip any Python logic; instead, it empowers the LLM by defining the rules of the logic puzzle. The parsing is strictly backward-compatible (falling back to `'1' in is_killer` if the strict format isn't followed), ensuring safe handling of edge cases.
+  ⚠ This change HURT accuracy. Do NOT retry this approach.
+Iter 4: train=58.6%, eval=40.0% — ROLLED BACK
+  What was tried: An analysis of the failure cases uncovers a fundamental flaw in how the orchestration logic queries the LLM: **evaluating the suspects independently causes catastrophic collisions.**
+
+1. **The MuSR Pattern**: In almost every case, exactly ONE suspect is the "main" focal point of the investigation (many mentions), while the other is a "ghost" suspect (barely mentioned). 
+2. **The "Ghost" Hallucination**: When asked to evaluate the ghost suspect, the LLM hallucinates evidence or gets confused because the narrative barely discusses them. 
+3. **The Red Herring**: The narrative always heavily implicates the main suspect. The entire puzzle hinges on whether the main suspect committed the crime, or if there is a subtle clue proving them innocent (e.g., an Alibi, a Disguise/Framing, Fake Evidence like paint instead of blood, or an Obsessed Third Party). 
+4. **The Tie-Breaker Failure**: If the LLM correctly realizes the main suspect has an alibi and returns `0` for both suspects, the current fallback logic returns the suspect with the *most* mentions — effectively returning the main suspect anyway, and failing all Alibi/Disguise cases!
+
+### The Targeted Fix:
+We will **stop evaluating the ghost suspect**. We only need ONE LLM call.
+We will use the mention counts to identify the "main" suspect, and then ask the LLM a strictly binary question: *Is this main suspect the actual killer, or are they an innocent red herring?*
+If the LLM finds definitive exculpatory evidence (Alibi, Disguise, Fake Evidence, etc.), it outputs `0`, and we immediately return the *other* suspect. Otherwise, we return the main suspect. 
+
+This directly maps to the deductive logic of the dataset, fixes the `[0, 0]` tie-breaker bug, eliminates hallucinations on the ghost suspect, and **cuts the LLM cost in half**.
+  ⚠ This change HURT accuracy. Do NOT retry this approach.

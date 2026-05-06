@@ -1,0 +1,34 @@
+Iter 0: train=68.9%, eval=40.6% — KEPT
+Iter 1: train=68.9% — ROLLED BACK
+  What was tried: 1. **Specific failure pattern:** The base knowledge analysis fails to account for characters who are present but distracted (e.g., "engrossed in a call", "preoccupied with boxes", "pampering"). It falsely updates their belief state as if they watched the object being moved.
+2. **Frequency:** ~20 out of the 23 failures exhibit this exact problem of misinterpreting a character's visual attention or missing a logical deduction based on routines/roles.
+3. **Minimal change:** Add a new `@interface` function called `_refine_knowledge_analysis` that reviews the preliminary knowledge output and corrects it using strict ToM rules. Insert this step into the workflow immediately before the final extraction.
+4. **Safety:** By leaving the original 3 functions and their outputs untouched, we avoid regressions in working cases and preserve the expected string formats. The refinement step simply provides a cleaner, highly-scrutinized context string to the final index extractor.
+  ⚠ This change HURT accuracy. Do NOT retry this approach.
+Iter 2: train=68.9% — ROLLED BACK
+  What was tried: 1. What SPECIFIC failure pattern did you identify?
+The base pipeline has two primary failure modes: 
+- **ToM Visibility Reasoning:** The LLM consistently misunderstands whether a character actually witnessed an object being moved. It frequently assumes characters saw a movement simply because they were in the same room, completely ignoring critical contextual descriptors in the text (like being "engrossed", "immersed", "on a call", or "distracted"). 
+- **String Matching:** The final `extract_index` frequently crashes or returns `-1` (e.g. Ex073, Ex068) when the LLM's predicted location is a synonym or slightly reworded string compared to the exact multiple-choice strings provided (e.g., predicted="the set" vs choice="beach set").
+
+2. How many of the shown failures share this pattern?
+Virtually all 23 failures are rooted in these two problems. The vast majority are the ToM visibility issue (where the LLM states a character witnessed a move despite being explicitly "engrossed in an urgent call" or "pampering" someone), and a handful are pure index extraction mismatch failures.
+
+3. What is the MINIMAL change that fixes this pattern?
+- Override the `@interface(method="simulate")` docstrings for `_track_object_movement_timeline_impl` and `_analyze_character_knowledge_impl` to provide strict, explicit rules for MuSR visibility semantics (e.g. "engrossed" -> DO NOT see it; "overseeing" -> DO see it; "no one noticed" -> subconscious action).
+- Redefine the `extract_index` function directly in `ptools_evolved.py` to use fallback substring matching and token-overlap heuristics rather than purely failing on mismatch.
+- Inject the `choices` into the prompt context for `_extract_belief_location_impl` so the LLM is guided to output the exact string format.
+
+4. Why will this change NOT break currently working cases?
+These prompt enhancements do not break working cases because they strictly enforce the canonical logic for the MuSR dataset; cases that were previously correct were either trivial (no distractor events) or correctly evaluated by chance. By maintaining the same modular steps and output formats (json, text reasoning), we keep the LLM workflow identical, just much smarter at extracting semantic visibility and cleanly mapping it to a final array index.
+  ⚠ This change HURT accuracy. Do NOT retry this approach.
+Iter 3: train=68.9% — ROLLED BACK
+  What was tried: An analysis of the failure cases reveals two distinct issues that are causing regressions:
+1. **ToM / Visibility Reasoning Failures:** The underlying LLM frequently struggles with the specific semantic tropes of the MuSR dataset. It assumes characters saw an object move simply because they were in the same room, ignoring critical linguistic cues like being "engrossed", "immersed", or doing a "customary walk". It also fails to realize that if "no one noticed", the belief state is frozen.
+2. **Index Extraction Failures:** The final `extract_index` fails (returning `-1` or crashing) when the LLM's predicted location is a synonym or slightly reworded (e.g., predicting "the set" when the choice is "beach set", or "construction site ground" for "construction site").
+
+To safely fix this without risking a regression (i.e. without wholesale rewriting the `@interface` docstrings which broke working cases in previous iterations), we will:
+1. **Append targeted reading comprehension hints directly to the `question` argument.** This gracefully injects the MuSR visibility rules into the intermediate LLM reasoning steps without breaking their underlying prompt structures.
+2. **Inject the `choices` into the narrative and prompts** to constrain the LLM's vocabulary so it picks valid locations.
+3. **Wrap `extract_index` with a robust Python fallback** that uses substring matching and word overlap to gracefully map ambiguous locations to the correct choice, completely eliminating `-1` errors.
+  ⚠ This change HURT accuracy. Do NOT retry this approach.

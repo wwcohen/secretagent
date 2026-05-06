@@ -1,0 +1,7 @@
+{
+  "reproduce_cmd": "uv run python expt.py run --config-file /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/natural_plan/conf/meeting.yaml llm.model=together_ai/deepseek-ai/DeepSeek-V3.1 cachier.enable_caching=true learn.train_dir=/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/COMMON/orchestrator-results/_train_dirs/seed_from_ptools/natplan_meeting ptools.meeting_planning.method=direct ptools.meeting_planning.fn=__learned__.meeting_planning_orchestrated_seed ptools.meeting_planning.learner=orch_learner evaluate.entry_point=meeting_planning evaluate.result_dir=/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/COMMON/orchestrator-results/seed_from_ptools/natplan_meeting evaluate.expt_name=test_deepseek_v3_1 evaluate.record_details=true evaluate.max_workers=4 dataset.n=null dataset.partition=test",
+  "accuracy": 0.75,
+  "total_cost_usd": 0.974946,
+  "total_time_sec": 9006.58,
+  "n_samples": 100
+}

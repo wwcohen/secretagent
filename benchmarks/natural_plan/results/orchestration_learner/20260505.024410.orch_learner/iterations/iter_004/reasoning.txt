@@ -1,0 +1,15 @@
+1. **What SPECIFIC failure pattern did you identify?** 
+While the current pipeline achieves 100% accuracy on the training set, its string parsing logic is brittle and tightly overfit to specific prompt structures. It manually splits strings by `.` to isolate sentences (failing if multiple cities are in one sentence), expects exactly "European cities", fails on multi-word cities (like "San Marino"), and hardcodes comma-separated lists for flights. This will inevitably fail on held-out evaluation sets if formats vary slightly (e.g., bulleted lists or combined clauses).
+
+2. **How many of the shown failures share this pattern?** 
+This is a pre-emptive architectural generalization targeting unseen/held-out cases to ensure robustness and true generalization, given the 100.0% training accuracy. 
+
+3. **What is the MINIMAL change that fixes this pattern?** 
+Instead of relying on brittle string splitting (`split('.')`), we transition the extraction to robust document-level tokenization. 
+- Upgrade regex to use `re.finditer` across the whole prompt to capture multiple constraints per sentence safely.
+- Introduce `city_pattern` (`([A-Z][a-zA-Z]+(?: [A-Z][a-zA-Z]+)*)`) to natively support multi-word cities.
+- Use **spatial proximity mapping** (pairing time windows to the nearest city mention in the document) rather than strict sentence boundary containment. 
+- Allow flights to be delimited by either commas OR newlines to instantly support bulleted/line-by-line flight lists.
+
+4. **Why will this change NOT break currently working cases?** 
+All parsing logic enhancements are STRICT generalizations/supersets of the current logic. A comma-separated list will still parse perfectly. Single-word cities are a subset of the multi-word regex. Single-sentence constraints will map perfectly via spatial proximity since the city and constraint are natively adjacent. Therefore, this change mathematical preserves the 100% performance on working cases while drastically expanding robustness for unseen variants.

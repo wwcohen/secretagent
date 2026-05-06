@@ -1,0 +1,4 @@
+1. **Specific failure pattern:** The base knowledge analysis fails to account for characters who are present but distracted (e.g., "engrossed in a call", "preoccupied with boxes", "pampering"). It falsely updates their belief state as if they watched the object being moved.
+2. **Frequency:** ~20 out of the 23 failures exhibit this exact problem of misinterpreting a character's visual attention or missing a logical deduction based on routines/roles.
+3. **Minimal change:** Add a new `@interface` function called `_refine_knowledge_analysis` that reviews the preliminary knowledge output and corrects it using strict ToM rules. Insert this step into the workflow immediately before the final extraction.
+4. **Safety:** By leaving the original 3 functions and their outputs untouched, we avoid regressions in working cases and preserve the expected string formats. The refinement step simply provides a cleaner, highly-scrutinized context string to the final index extractor.

@@ -1,0 +1,9 @@
+1. **Specific failure pattern identified:** Although the pipeline achieves 100% on the visible set, text-based data extraction is brittle. Changes in spacing, unilateral travel edges, multi-word names, and time formats (e.g., lowercase "am", extra spaces before "PM") in a held-out evaluation set would currently cause regex and key-lookup failures, reducing the score on unseen cases.
+2. **Impact:** These are highly common perturbations in unstructured LLM problem generators.
+3. **Minimal change applied:**
+   - Improved `time_to_mins` to sanitize string spaces and enforce uppercase AM/PM values.
+   - Refined the regular expressions for constraint extraction to accept dynamic whitespace (`\s*`) before AM/PM markers and to capture multi-word friend names (`[A-Za-z\s]+?`).
+   - Relaxed the colon split from `': '` to `':'` to prevent errors on squashed formatting like `City A to City B:15`.
+   - Populated the dictionary distance matrix symmetrically (`dist[loc2][loc1] = d`) to protect against unidirectional travel declarations in test cases.
+   - Guarded the final output builder with `if not best_path: return "SOLUTION:"` to prevent partially-formatted strings if constraints are mathematically unsatisfiable.
+4. **Why it will NOT break working cases:** These changes are pure generalizations of the existing mathematical matching rules. They strictly loosen constraint-parsing syntax without altering the optimal core Recursive Backtracking logic that currently achieves 100% accuracy.

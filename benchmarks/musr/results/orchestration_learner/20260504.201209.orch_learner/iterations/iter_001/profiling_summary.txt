@@ -1,0 +1,10 @@
+Pipeline accuracy: 71.4%, avg cost: $0.0007/case, 70 cases
+
+Per-ptool breakdown:
+  _determine_if_killer_impl: cost_frac=90.0%, calls/case=1.4, avg_cost=$0.0004, lift=N/A, errors=0
+  extract_index: cost_frac=10.0%, calls/case=1.0, avg_cost=$0.0001, lift=N/A, errors=0
+
+Ptools called via LLM: ['_determine_if_killer_impl', 'extract_index']
+
+Held-out eval accuracy: 63.3% (train: 71.4%)
+A large train-eval gap means your changes are OVERFITTING. Prefer changes that generalize to unseen cases.

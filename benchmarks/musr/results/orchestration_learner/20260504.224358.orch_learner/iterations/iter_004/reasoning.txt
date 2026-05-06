@@ -1,0 +1,11 @@
+1. What SPECIFIC failure pattern did you identify?
+The previous iteration (Iter 2) successfully captured the core logic of the dataset (prioritizing interpersonal dynamics over soft task weaknesses), achieving a high 85.7% training accuracy. However, it severely overfitted by hardcoding highly specific string matches (e.g., `'almos' means 'almost non-existent'`, `'lent a helping hand'`, `'strong rapport'`). This caused a large train-eval gap (70.0% eval) because unseen cases in the evaluation set use different phrasing for positive synergy and truncated words.
+
+2. How many of the shown failures share this pattern?
+The failures are a direct result of the LLM struggling to generalize the rules without those exact strings. Cases like `ex019`, `ex091`, and `ex005` fail to isolate universally toxic members. Cases like `ex021`, `ex046`, `ex055`, and `ex096` fail to leverage positive synergy. `ex052` fails because the LLM hallucinates constraints from truncated words. 
+
+3. What is the MINIMAL change that fixes this pattern?
+I am preserving the exact 4-rule hierarchy from Iter 2 but strictly generalizing the text to remove the overfitted strings. I replaced the 7 specific string examples of positive synergy with broader concepts (`successful past collaboration, strong rapport, shared enjoyment`). I replaced the hyper-specific warning against interpreting `'almos'` as a phobia with a robust general instruction: `"do NOT hallucinate severe constraints or phobias from truncated text."` I also refined the title to `"ISOLATE UNIVERSAL TOXICITY"` to emphasize that the isolated person must clash with *both* teammates.
+
+4. Why will this change NOT break currently working cases?
+The logical constraints and evaluation framework remain semantically identical to Iter 2, which successfully correctly solved 85.7% of the training set. Removing the hardcoded strings simply prevents the LLM from over-anchoring on exact vocabulary. This directly addresses the overfitting warning while strictly adhering to the feedback from Iter 3 (which warned against drastically rewriting the prompt into a 5-step CoT).

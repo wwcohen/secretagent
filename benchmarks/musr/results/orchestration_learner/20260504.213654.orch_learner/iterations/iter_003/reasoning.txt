@@ -1,0 +1,8 @@
+An analysis of the failure cases reveals two distinct issues that are causing regressions:
+1. **ToM / Visibility Reasoning Failures:** The underlying LLM frequently struggles with the specific semantic tropes of the MuSR dataset. It assumes characters saw an object move simply because they were in the same room, ignoring critical linguistic cues like being "engrossed", "immersed", or doing a "customary walk". It also fails to realize that if "no one noticed", the belief state is frozen.
+2. **Index Extraction Failures:** The final `extract_index` fails (returning `-1` or crashing) when the LLM's predicted location is a synonym or slightly reworded (e.g., predicting "the set" when the choice is "beach set", or "construction site ground" for "construction site").
+
+To safely fix this without risking a regression (i.e. without wholesale rewriting the `@interface` docstrings which broke working cases in previous iterations), we will:
+1. **Append targeted reading comprehension hints directly to the `question` argument.** This gracefully injects the MuSR visibility rules into the intermediate LLM reasoning steps without breaking their underlying prompt structures.
+2. **Inject the `choices` into the narrative and prompts** to constrain the LLM's vocabulary so it picks valid locations.
+3. **Wrap `extract_index` with a robust Python fallback** that uses substring matching and word overlap to gracefully map ambiguous locations to the correct choice, completely eliminating `-1` errors.
