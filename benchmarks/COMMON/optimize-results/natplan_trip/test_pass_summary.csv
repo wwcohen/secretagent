@@ -1,0 +1,5 @@
+method,model,valid_correct,valid_cost,test_correct,test_cost,n_test,expt_name
+workflow,DeepSeek-V3.1,0.22,0.0030214719999999,0.22,0.17459829999999898,50,test_pass_workflow_DeepSeek-V3-1
+structured_baseline,DeepSeek-V3,0.2,0.0013172499999999,0.18,0.05328875,50,test_pass_structured_baseline_DeepSeek-V3
+structured_baseline,DeepSeek-V3.1,0.18,0.0009156919999999,0.18,0.0376372999999989,50,test_pass_structured_baseline_DeepSeek-V3-1
+structured_baseline,gemini-2.5-flash-lite,0.16,0.0001451999999999,0.16,0.007048299999998499,50,test_pass_structured_baseline_gemini-2-5-flash-lite

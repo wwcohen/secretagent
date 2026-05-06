@@ -1,0 +1,4 @@
+method,model,valid_correct,valid_cost,test_correct,test_cost,n_test,expt_name
+structured_baseline,gpt-oss-20b,0.44,0.0011453937499999,0.54,0.05905919999999839,50,test_pass_structured_baseline_gpt-oss-20b
+structured_baseline,DeepSeek-V3.1,0.3,0.0010472899999999,0.36,0.0526203999999992,50,test_pass_structured_baseline_DeepSeek-V3-1
+structured_baseline,gemini-2.5-flash-lite,0.26,0.0002053519999999,0.24,0.010451799999998299,50,test_pass_structured_baseline_gemini-2-5-flash-lite
