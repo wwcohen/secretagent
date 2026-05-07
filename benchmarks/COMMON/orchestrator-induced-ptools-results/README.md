@@ -2,12 +2,19 @@
 
 Held-out DeepSeek V3.1 test re-evaluations for orchestrator-generated workflows
 that use induced seed ptools. The canonical layout matches the COMMON
-codedistill result layout:
+codedistill result layout for non-MedCalc benchmarks:
 
 ```
 <bench>/
   test_results_full/
     <TS>.<subbench>_test_full_orch_induced_seed_ptools/
+```
+
+MedCalc is stored as paper-facing split result files:
+
+```
+medcalc/formulas/results.csv
+medcalc/rules/results.csv
 ```
 
 Condition:
@@ -16,12 +23,17 @@ Condition:
 
 Canonical rows:
 
+- `medcalc_formulas`
+- `medcalc_rules`
 - `musr_murder`
 - `musr_object`
 - `musr_team`
 - `natplan_meeting`
 - `natplan_trip`
 - `rulearena_nba`
+
+The mixed `medcalc/overall` result is preserved but intentionally excluded from
+the headline summary table.
 
 The source final eval runs remain in their benchmark-local
 `test_results_full/` directories. Learner outputs remain under each

@@ -4,14 +4,13 @@
 orchestrator-results/
 ├── README.md
 ├── RESULTS_LAYOUT.md         (this file)
-├── show_summary.sh           (run this — prints two tables to terminal)
+├── show_summary.sh           (run this - prints the summary table)
 ├── medcalc/test_results_full/...       # canonical COMMON-style test results
 ├── musr/test_results_full/...
 ├── natural_plan/test_results_full/...
 ├── rulearena/test_results_full/...
 ├── existing_workflow/<bench>/...   # preserved legacy/provenance layout
 ├── seed_from_ptools/<bench>/...    # preserved legacy/provenance layout
-└── scripts/                  # all helper scripts + infra dirs (logs, train_dirs, etc.)
 ```
 
 ## Canonical layout
@@ -109,16 +108,11 @@ The patched `ptools_evolved.py` for the with_rulebook variant lives at
 `scripts/_patched_artifacts/seed_from_ptools_nba_fix/.../ptools_evolved.py`
 with PATCH_NOTES.md alongside.
 
-## Helper scripts (under `scripts/`)
+## Helper scripts
 
-- `run_test_eval.sh` — single-cell driver
-- `run_parallel.sh` — multi-lane orchestrator
-- `show_results.py` — summary table over canonical `test_results_full/` runs
-- `show_summary.py` — backing impl for the top-level `show_summary.sh`
-- `_replay_failed_cases.py` — surgical rerun of just exception-row cases
-- `_resume_*.sh`, `_bump_*.sh` — watchers used during the main run
-- `_reorganize.py`, `_reorganize_medcalc.py` — one-shot reorganization tools
-- `_train_dirs/`, `_patched_artifacts/`, `_replay_patches/`, `_logs/` — infrastructure
+- `show_summary.sh` uses the shared implementation at
+  `../scripts/show_orchestrator_summary.py`, which also backs
+  `orchestrator-induced-ptools-results/show_summary.sh`.
 
 `_train_dirs` entries are portable `*.orch_learner` pointer files, not
 committed directory symlinks. Each pointer file contains a repo-relative path to

@@ -5,14 +5,16 @@ orchestrator-induced-ptools-results/
 ├── README.md
 ├── RESULTS_LAYOUT.md
 ├── show_summary.sh
+├── medcalc/formulas/results.csv
+├── medcalc/rules/results.csv
 ├── musr/test_results_full/...
 ├── natural_plan/test_results_full/...
 ├── rulearena/test_results_full/...
 └── scripts/
 ```
 
-Canonical cells sit at `<bench>/test_results_full/<run>/`, matching the
-COMMON codedistill result shape:
+Canonical non-MedCalc cells sit at `<bench>/test_results_full/<run>/`,
+matching the COMMON codedistill result shape:
 
 ```
 <bench>/
@@ -29,12 +31,18 @@ Condition:
 
 Canonical rows:
 
+- `medcalc_formulas`
+- `medcalc_rules`
 - `musr_murder`
 - `musr_object`
 - `musr_team`
 - `natplan_meeting`
 - `natplan_trip`
 - `rulearena_nba`
+
+MedCalc is reported as `medcalc/formulas/results.csv` and
+`medcalc/rules/results.csv`. The mixed `medcalc/overall/results.csv` file is
+preserved but intentionally excluded from the headline summary table.
 
 Source benchmark-local final eval directories:
 

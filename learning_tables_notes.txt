@@ -1,0 +1,23 @@
+Files created for copy-paste:
+
+- learning_correctness_table_filled.tex
+- learning_cost_table_filled.tex
+
+Notes:
+
+- Added MedCalc as two columns: Formulas and Rules.
+- For human/human MedCalc, used `20260425.233811.workflow`, not `workflowv2_test_full`.
+- For ReAct/human MedCalc, used `20260426.004308.react`.
+- For ReAct/learned MedCalc, used `20260504.143154.react_induced_state_oc1_mp5`.
+- For CodeDist/human MedCalc, used Class 2 Gemini partition numbers from:
+  `benchmarks/COMMON/codedistill-workflow-results/medcalc/test_results_full/formulas/20260502.043152.medcalc_test_full_class2_gemini_cache/results.csv`
+  and
+  `benchmarks/COMMON/codedistill-workflow-results/medcalc/test_results_full/rules/20260502.043152.medcalc_test_full_class2_gemini_cache/results.csv`
+- For CodeDist/learned MedCalc, used Class 3 Gemini partition numbers from:
+  `benchmarks/COMMON/codedistill-workflow-results/medcalc/test_results_full/formulas/20260507.050302.medcalc_test_full_class3_gemini_cache/`
+  and
+  `benchmarks/COMMON/codedistill-workflow-results/medcalc/test_results_full/rules/20260507.050302.medcalc_test_full_class3_gemini_cache/`
+- Orchestrator rows use: `orch_existing_workflow` -> `Orch-WfSeed/human`; `orch_seed_from_ptools` -> `Orch-ToolSeed/human`; `orch_induced_seed_ptools` -> `Orch-ToolSeed/learned`.
+- MedCalc correctness cells are accuracies rounded to two decimals.
+- MedCalc cost cells are converted to USD per 100 examples, matching the rest of the cost table.
+- Cost averages are computed over nonzero-cost entries, matching the draft table convention.

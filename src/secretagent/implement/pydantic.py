@@ -80,14 +80,18 @@ def _run_agent_impl(interface, model_name, return_type, prompt, tools):
         return agent.run_sync(prompt, **run_kwargs)
     if timeout is not None:
         import concurrent.futures
-        with concurrent.futures.ThreadPoolExecutor(max_workers=1) as executor:
-            future = executor.submit(_retry_with_backoff, _do_run_sync)
-            try:
-                result = future.result(timeout=float(timeout))
-            except concurrent.futures.TimeoutError as ex:
-                raise TimeoutError(
-                    f'pydantic-ai agent exceeded llm.timeout={timeout}s'
-                ) from ex
+        executor = concurrent.futures.ThreadPoolExecutor(max_workers=1)
+        future = executor.submit(_retry_with_backoff, _do_run_sync)
+        try:
+            result = future.result(timeout=float(timeout))
+        except concurrent.futures.TimeoutError as ex:
+            future.cancel()
+            executor.shutdown(wait=False, cancel_futures=True)
+            raise TimeoutError(
+                f'pydantic-ai agent exceeded llm.timeout={timeout}s'
+            ) from ex
+        else:
+            executor.shutdown(wait=False)
     else:
         result = _retry_with_backoff(_do_run_sync)
     latency = time.time() - start_time

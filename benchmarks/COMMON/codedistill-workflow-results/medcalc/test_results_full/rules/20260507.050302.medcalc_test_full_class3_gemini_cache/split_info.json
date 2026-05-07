@@ -1,0 +1,21 @@
+{
+  "derived_from": "benchmarks/COMMON/codedistill-workflow-results/medcalc/test_results_full/overall/20260507.050302.medcalc_test_full_class3_gemini_cache",
+  "split": "rules",
+  "included_categories": [
+    "diagnosis",
+    "risk",
+    "severity"
+  ],
+  "excluded_categories_from_overall": [
+    "date",
+    "dosage",
+    "lab test",
+    "physical"
+  ],
+  "rows": 34,
+  "correct": 12,
+  "accuracy": 0.35294117647058826,
+  "exact_match": 0.35294117647058826,
+  "total_cost": 0.044027599999999195,
+  "note": "Derived by filtering the overall MedCalc results by category; config.yaml is copied from the source run."
+}

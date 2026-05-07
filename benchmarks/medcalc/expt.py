@@ -452,6 +452,25 @@ def setup(ctx: typer.Context, config_file: Path | None = None):
             n=n or None,
         )
 
+    case_names_file = config.get('dataset.case_names_file')
+    if case_names_file:
+        case_names_path = Path(case_names_file)
+        wanted = {
+            line.strip()
+            for line in case_names_path.read_text().splitlines()
+            if line.strip()
+        }
+        before = len(dataset.cases)
+        dataset.cases = [case for case in dataset.cases if case.name in wanted]
+        found = {case.name for case in dataset.cases}
+        missing = sorted(wanted - found)
+        if missing:
+            raise ValueError(
+                f'{len(missing)} case names from {case_names_path} were not '
+                f'found in the dataset; first missing: {missing[0]}'
+            )
+        print(f'Case-name filter: {len(dataset.cases)} / {before} cases')
+
     print('dataset is', dataset.summary())
 
     # Bind interfaces from config

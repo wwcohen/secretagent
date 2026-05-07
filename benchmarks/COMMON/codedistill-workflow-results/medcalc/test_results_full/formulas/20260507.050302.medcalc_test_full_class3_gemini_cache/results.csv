@@ -1,0 +1,64 @@
+case_name,predicted_output,predicted_numeric,expected_output,correct,exact_match,within_limits,absolute_error,calculator_name,category,output_type,input_tokens,output_tokens,latency,cost,expt_name
+test.1053,300.0,300.0,31.8,0.0,0.0,0.0,268.2,Morphine Milligram Equivalents (MME) Calculator,dosage,integer,303.0,16.0,0.5171725749969482,0.000209,medcalc_test_full_class3_gemini_cache
+test.0321,92.3,92.3,92.3,1.0,1.0,1.0,0.0,Maintenance Fluids Calculations,physical,decimal,3919.0,555.0,17.590357303619385,0.0032949,medcalc_test_full_class3_gemini_cache
+test.0750,1.484,1.484,1.61761,0.0,0.0,0.0,0.13361,Body Surface Area Calculator,physical,decimal,3485.0,29.0,1.3162956237792969,0.0021403,medcalc_test_full_class3_gemini_cache
+test.0354,21.0,21.0,22.0,1.0,0.0,1.0,1.0,MELD Na (UNOS/OPTN),lab test,decimal,850.0,17.0,0.4587116241455078,0.0005388999999999,medcalc_test_full_class3_gemini_cache
+test.0729,407.0,407.0,228.37778,0.0,0.0,0.0,178.62222,QTc Rautaharju Calculator,physical,decimal,285.0,28.0,0.7516016960144043,0.0002185999999999,medcalc_test_full_class3_gemini_cache
+test.0852,4.65,4.65,4.65,1.0,1.0,1.0,0.0,Albumin Corrected Delta Gap,lab test,decimal,3839.0,1086.0,17.86119318008423,0.0041496,medcalc_test_full_class3_gemini_cache
+test.0347,28.0,28.0,33.0,0.0,0.0,0.0,5.0,MELD Na (UNOS/OPTN),lab test,decimal,3610.0,760.0,17.747615098953247,0.003458,medcalc_test_full_class3_gemini_cache
+test.0536,22.2,22.2,22.2,1.0,1.0,1.0,0.0,Anion Gap,lab test,decimal,3505.0,30.0,1.6493515968322754,0.0021539999999999,medcalc_test_full_class3_gemini_cache
+test.1014,188.276,188.276,188.2054,1.0,0.0,1.0,0.0706000000000131,Steroid Conversion Calculator,dosage,integer,2157.0,252.0,3.4937703609466557,0.0017226,medcalc_test_full_class3_gemini_cache
+test.0163,66.69,66.69,66.8426,1.0,0.0,1.0,0.1526000000000067,Ideal Body Weight,physical,decimal,3228.0,160.0,3.9430086612701416,0.0022088,medcalc_test_full_class3_gemini_cache
+test.0399,146.36,146.36,146.36,1.0,1.0,1.0,0.0,Sodium Correction for Hyperglycemia,lab test,decimal,3310.0,298.0,13.58718204498291,0.0024925999999999,medcalc_test_full_class3_gemini_cache
+test.0394,130.4,130.4,130.408,1.0,1.0,1.0,0.0079999999999813,Sodium Correction for Hyperglycemia,lab test,decimal,3038.0,342.0,14.306260108947754,0.0024042,medcalc_test_full_class3_gemini_cache
+test.0020,63.27,63.27,63.27379,1.0,1.0,1.0,0.003789999999995,Creatinine Clearance (Cockcroft-Gault Equation),lab test,decimal,3344.0,582.0,16.419938564300537,0.0029958,medcalc_test_full_class3_gemini_cache
+test.0506,-2.14,-2.14,-2.14286,1.0,1.0,1.0,0.00286,Free Water Deficit,lab test,decimal,3373.0,840.0,22.772178173065186,0.0034518,medcalc_test_full_class3_gemini_cache
+test.0669,395.6,395.6,395.67477,1.0,0.0,1.0,0.0747700000000008,QTc Fridericia Calculator,physical,decimal,2164.0,2134.0,56.762775897979736,0.0049261999999999,medcalc_test_full_class3_gemini_cache
+test.1031,73.1,73.1,73.07248,1.0,0.0,1.0,0.0275199999999955,Target weight,physical,decimal,279.0,19.0,3.1592447757720947,0.0001997,medcalc_test_full_class3_gemini_cache
+test.0867,-0.038461538461538464,-0.0384615384615384,0.58333,0.0,0.0,0.0,0.6217915384615385,Albumin Corrected Delta Ratio,lab test,decimal,3009.0,35.0,1.8788387775421145,0.0018649,medcalc_test_full_class3_gemini_cache
+test.0061,100.0,100.0,100.0,1.0,1.0,1.0,0.0,Mean Arterial Pressure (MAP),physical,decimal,3487.0,151.0,5.009677171707153,0.0023489,medcalc_test_full_class3_gemini_cache
+test.0154,17.6,17.6,11.46447,0.0,0.0,0.0,6.135530000000001,MDRD GFR Equation,lab test,decimal,3444.0,185.0,6.34473180770874,0.0023809,medcalc_test_full_class3_gemini_cache
+test.0577,0.84,0.84,0.15068,0.0,0.0,0.0,0.6893199999999999,Fractional Excretion of Sodium (FENa),lab test,decimal,1097.0,27.0,1.3226935863494873,0.0007040999999999,medcalc_test_full_class3_gemini_cache
+test.0709,619.75,619.75,619.75061,1.0,1.0,1.0,0.0006100000000515,QTc Hodges Calculator,physical,decimal,2162.0,343.0,14.045525074005129,0.0018803,medcalc_test_full_class3_gemini_cache
+test.0611,16.0,16.0,0.276,0.0,0.0,0.0,15.724,Framingham Risk Score for Hard Coronary Heart Disease,lab test,decimal,4266.0,254.0,8.76682710647583,0.0029914,medcalc_test_full_class3_gemini_cache
+test.0814,0.5,0.5,0.5,1.0,1.0,1.0,0.0,Delta Ratio,lab test,decimal,2963.0,455.0,13.994601726531982,0.0025513,medcalc_test_full_class3_gemini_cache
+test.0101,10.3,10.3,9.32,0.0,0.0,0.0,0.9800000000000004,Calcium Correction for Hypoalbuminemia,lab test,decimal,3225.0,29.0,1.4291269779205322,0.0019843,medcalc_test_full_class3_gemini_cache
+test.0771,93.4,93.4,68.6591,0.0,0.0,0.0,24.74090000000001,Adjusted Body Weight,physical,decimal,516.0,20.0,0.7901158332824707,0.0003436,medcalc_test_full_class3_gemini_cache
+test.0787,21.0,21.0,12.0,0.0,0.0,0.0,9.0,Delta Gap,lab test,decimal,3711.0,123.0,4.365692853927612,0.0024357,medcalc_test_full_class3_gemini_cache
+test.0761,67.8,67.8,67.77564,1.0,0.0,1.0,0.0243600000000014,Adjusted Body Weight,physical,decimal,3580.0,597.0,11.85831069946289,0.0031628999999999,medcalc_test_full_class3_gemini_cache
+test.0156,30.22,30.22,21.54697,0.0,0.0,0.0,8.673029999999997,MDRD GFR Equation,lab test,decimal,2538.0,427.0,13.055235147476196,0.0022487,medcalc_test_full_class3_gemini_cache
+test.0029,11.3,11.3,4.90379,0.0,0.0,0.0,6.396210000000001,CKD-EPI Equations for Glomerular Filtration Rate,lab test,decimal,935.0,63.0,1.049616813659668,0.0006681,medcalc_test_full_class3_gemini_cache
+test.0815,-0.158,-0.158,-0.15789,1.0,1.0,1.0,0.0001099999999999,Delta Ratio,lab test,decimal,3147.0,462.0,12.207419633865356,0.0026736,medcalc_test_full_class3_gemini_cache
+test.0823,13.0,13.0,15.0,0.0,0.0,0.0,2.0,Albumin Corrected Anion Gap,lab test,decimal,3379.0,32.0,3.740607500076294,0.0020818,medcalc_test_full_class3_gemini_cache
+test.0455,5.24,5.24,5.24444,1.0,1.0,1.0,0.0044399999999997,HOMA-IR (Homeostatic Model Assessment for Insulin Resistance),lab test,decimal,1006.0,86.0,5.966367244720459,0.0007497999999999,medcalc_test_full_class3_gemini_cache
+test.0735,544.5,544.5,805.2,0.0,0.0,0.0,260.70000000000005,QTc Rautaharju Calculator,physical,decimal,285.0,19.0,0.9603097438812256,0.0002032999999999,medcalc_test_full_class3_gemini_cache
+test.0794,3.7,3.7,1.0,0.0,0.0,0.0,2.7,Delta Gap,lab test,decimal,4283.0,142.0,8.162747383117676,0.0028112,medcalc_test_full_class3_gemini_cache
+test.0581,101.2,101.2,103.8,1.0,0.0,1.0,2.5999999999999943,LDL Calculated,lab test,decimal,1301.0,21.0,1.082268476486206,0.0008163,medcalc_test_full_class3_gemini_cache
+test.0035,99.2,99.2,68.04278,0.0,0.0,0.0,31.15722000000001,CKD-EPI Equations for Glomerular Filtration Rate,lab test,decimal,476.0,244.0,9.074220657348633,0.0007004,medcalc_test_full_class3_gemini_cache
+test.0282,4.0,4.0,1.11536,0.0,0.0,0.0,2.88464,Fibrosis-4 (FIB-4) Index for Liver Fibrosis,lab test,decimal,1138.0,274.0,7.352393865585327,0.0011486,medcalc_test_full_class3_gemini_cache
+test.0456,5.45679012345679,5.45679012345679,5.45679,1.0,1.0,1.0,1.234567905683548e-07,HOMA-IR (Homeostatic Model Assessment for Insulin Resistance),lab test,decimal,3548.0,61.0,2.681538820266724,0.0022325,medcalc_test_full_class3_gemini_cache
+test.0715,493.75,493.75,493.74963,1.0,1.0,1.0,0.0003699999999753,QTc Hodges Calculator,physical,decimal,283.0,130.0,2.5351498126983643,0.0003907999999999,medcalc_test_full_class3_gemini_cache
+test.0071,126.0,126.0,126.0,1.0,1.0,1.0,0.0,Mean Arterial Pressure (MAP),physical,decimal,392.0,75.0,2.0527608394622803,0.0003627,medcalc_test_full_class3_gemini_cache
+test.0696,382.0,382.0,382.0007,1.0,1.0,1.0,0.0006999999999948,QTc Framingham Calculator,physical,decimal,2162.0,308.0,5.441560745239258,0.0018208,medcalc_test_full_class3_gemini_cache
+test.0290,6.66,6.66,6.65888,1.0,1.0,1.0,0.0011200000000002,Fibrosis-4 (FIB-4) Index for Liver Fibrosis,lab test,decimal,2742.0,759.0,19.390869855880737,0.0029355,medcalc_test_full_class3_gemini_cache
+test.0093,31.4,31.4,31.35358,1.0,0.0,1.0,0.0464199999999976,Body Mass Index (BMI),physical,decimal,6421.0,28.0,1.888324499130249,0.0039001999999999,medcalc_test_full_class3_gemini_cache
+test.0695,218.08,218.08,297.48402,0.0,0.0,0.0,79.40401999999997,QTc Framingham Calculator,physical,decimal,283.0,162.0,4.483722925186157,0.0004452,medcalc_test_full_class3_gemini_cache
+test.0428,304.5,304.5,316.92031,1.0,0.0,1.0,12.420309999999972,Serum Osmolality,lab test,decimal,5325.0,244.0,5.328686952590942,0.0036098,medcalc_test_full_class3_gemini_cache
+test.0110,10.36,10.36,9.16,0.0,0.0,0.0,1.1999999999999993,Calcium Correction for Hypoalbuminemia,lab test,decimal,3874.0,139.0,5.4862096309661865,0.0025607,medcalc_test_full_class3_gemini_cache
+test.0510,0.0,0.0,-1.5,0.0,0.0,0.0,1.5,Free Water Deficit,lab test,decimal,3129.0,134.0,5.045619964599609,0.0021051999999999,medcalc_test_full_class3_gemini_cache
+test.0603,10.0,10.0,0.896,0.0,0.0,0.0,9.104,Framingham Risk Score for Hard Coronary Heart Disease,lab test,decimal,2844.0,25.0,1.9176454544067385,0.0017488999999999,medcalc_test_full_class3_gemini_cache
+test.0092,26.5625,26.5625,26.5625,1.0,1.0,1.0,0.0,Body Mass Index (BMI),physical,decimal,5061.0,29.0,2.174237012863159,0.0030859,medcalc_test_full_class3_gemini_cache
+test.0534,20.0,20.0,28.0,0.0,0.0,0.0,8.0,Anion Gap,lab test,decimal,4209.0,108.0,1.891653537750244,0.0027089999999999,medcalc_test_full_class3_gemini_cache
+test.0181,511.0,511.0,652.34474,0.0,0.0,0.0,141.34474,QTc Bazett Calculator,physical,decimal,283.0,21.0,0.6438682079315186,0.0002054999999999,medcalc_test_full_class3_gemini_cache
+test.0325,85.0,85.0,85.0,1.0,1.0,1.0,0.0,Maintenance Fluids Calculations,physical,decimal,3707.0,560.0,17.89952039718628,0.0031762,medcalc_test_full_class3_gemini_cache
+test.0583,"**exception raised**: could not convert string to float: ""and </answer> tags and since it's a float it should be printed as is without quotes.\n\n<answer>\n153.6""",,153.6,0.0,0.0,0.0,inf,LDL Calculated,lab test,decimal,3651.0,401.0,11.503549575805664,0.0028722999999999,medcalc_test_full_class3_gemini_cache
+test.0006,83.94,83.94,83.93895,1.0,1.0,1.0,0.0010499999999922,Creatinine Clearance (Cockcroft-Gault Equation),lab test,decimal,5463.0,1484.0,38.26383376121521,0.0058005999999999,medcalc_test_full_class3_gemini_cache
+test.0569,1.28,1.28,0.60554,0.0,0.0,0.0,0.6744600000000001,Fractional Excretion of Sodium (FENa),lab test,decimal,1041.0,24.0,0.8186945915222168,0.0006654,medcalc_test_full_class3_gemini_cache
+test.0666,542.272,542.272,577.83474,0.0,0.0,0.0,35.56273999999996,QTc Fridericia Calculator,physical,decimal,2164.0,184.0,3.954612255096436,0.0016111999999999,medcalc_test_full_class3_gemini_cache
+test.0425,322.7,322.7,311.51722,1.0,0.0,1.0,11.18277999999998,Serum Osmolality,lab test,decimal,966.0,24.0,0.8053438663482666,0.0006204,medcalc_test_full_class3_gemini_cache
+test.0757,0.42,0.42,0.41553,1.0,1.0,1.0,0.0044699999999999,Body Surface Area Calculator,physical,decimal,912.0,101.0,2.6631112098693848,0.0007189,medcalc_test_full_class3_gemini_cache
+test.0173,45.5,45.5,56.90952,0.0,0.0,0.0,11.40952,Ideal Body Weight,physical,decimal,3730.0,29.0,1.1483302116394043,0.0022873,medcalc_test_full_class3_gemini_cache
+test.0182,420.0,420.0,420.26511,1.0,0.0,1.0,0.2651099999999928,QTc Bazett Calculator,physical,decimal,283.0,152.0,3.2963690757751465,0.0004282,medcalc_test_full_class3_gemini_cache
+test.0830,8.75,8.75,8.75,1.0,1.0,1.0,0.0,Albumin Corrected Anion Gap,lab test,decimal,5537.0,302.0,2.724539041519165,0.0038356,medcalc_test_full_class3_gemini_cache
+test.0872,1.446,1.446,1.44643,1.0,1.0,1.0,0.0004300000000001,Albumin Corrected Delta Ratio,lab test,decimal,4135.0,1223.0,22.287760019302368,0.0045601,medcalc_test_full_class3_gemini_cache
+test.0847,8.7,8.7,1.0,0.0,0.0,0.0,7.699999999999999,Albumin Corrected Delta Gap,lab test,decimal,1066.0,23.0,0.5973696708679199,0.0006787,medcalc_test_full_class3_gemini_cache

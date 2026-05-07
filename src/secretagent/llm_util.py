@@ -6,6 +6,7 @@ import shutil
 import sys
 import textwrap
 import time
+import errno
 from typing import Any, Callable
 
 from secretagent import config
@@ -14,19 +15,46 @@ from litellm import completion, completion_cost, token_counter
 from litellm import ServiceUnavailableError, InternalServerError, RateLimitError
 
 _RETRYABLE_LLM_ERRORS = (ServiceUnavailableError, InternalServerError, RateLimitError)
+_RETRYABLE_OS_ERRNOS = {
+    errno.EAGAIN,
+    errno.EWOULDBLOCK,
+    errno.ETIMEDOUT,
+    errno.ECONNRESET,
+    errno.ECONNABORTED,
+}
 
 
-def _retry_with_backoff(fn: Callable, *, attempts: int = 3, base: float = 1.0):
+def _is_retryable_llm_error(ex: BaseException) -> bool:
+    if isinstance(ex, _RETRYABLE_LLM_ERRORS):
+        return True
+    if isinstance(ex, TimeoutError):
+        return True
+    if isinstance(ex, OSError) and ex.errno in _RETRYABLE_OS_ERRNOS:
+        return True
+    text = str(ex).lower()
+    return (
+        'resource temporarily unavailable' in text
+        or '[errno 11]' in text
+        or 'rate limit' in text
+        or 'service unavailable' in text
+    )
+
+
+def _retry_with_backoff(fn: Callable, *, attempts: int | None = None, base: float | None = None):
     """Call fn() with retry on transient litellm 5xx/429 errors.
 
     Exponential backoff with jitter; up to `attempts` total tries.
     Re-raises on the final attempt or on non-retryable exceptions
     (4xx auth/schema errors propagate immediately).
     """
+    attempts = int(attempts or config.get('llm.retry_attempts', 3))
+    base = float(base or config.get('llm.retry_base', 1.0))
     for i in range(attempts):
         try:
             return fn()
-        except _RETRYABLE_LLM_ERRORS as ex:
+        except Exception as ex:
+            if not _is_retryable_llm_error(ex):
+                raise
             if i == attempts - 1:
                 raise
             sleep_s = base * (2 ** i) + random.random()

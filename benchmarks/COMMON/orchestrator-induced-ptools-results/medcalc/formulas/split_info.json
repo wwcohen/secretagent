@@ -1,0 +1,22 @@
+{
+  "derived_from": "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/COMMON/orchestrator-induced-ptools-results/medcalc/overall",
+  "group": "orchestrator-induced-ptools-results/medcalc",
+  "split": "formulas",
+  "included_categories": [
+    "dosage",
+    "lab test",
+    "physical"
+  ],
+  "excluded_categories_from_overall": [
+    "date",
+    "diagnosis",
+    "risk",
+    "severity"
+  ],
+  "rows": 660,
+  "correct": 528,
+  "accuracy": 0.8,
+  "exact_match": 0.5257575757575758,
+  "total_cost": 3.6332455999999826,
+  "note": "Derived by filtering the overall MedCalc results by category; config.yaml is copied from the source run."
+}

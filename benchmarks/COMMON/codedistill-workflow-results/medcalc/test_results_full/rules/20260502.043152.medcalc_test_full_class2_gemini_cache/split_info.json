@@ -1,0 +1,21 @@
+{
+  "derived_from": "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/COMMON/codedistill-workflow-results/medcalc/test_results_full/overall/20260502.043152.medcalc_test_full_class2_gemini_cache",
+  "split": "rules",
+  "included_categories": [
+    "diagnosis",
+    "risk",
+    "severity"
+  ],
+  "excluded_categories_from_overall": [
+    "date",
+    "dosage",
+    "lab test",
+    "physical"
+  ],
+  "rows": 34,
+  "correct": 17,
+  "accuracy": 0.5,
+  "exact_match": 0.5,
+  "total_cost": 0.1289769999999994,
+  "note": "Derived by filtering the overall MedCalc results by category; config.yaml is copied from the source run."
+}

@@ -1,0 +1,22 @@
+{
+  "derived_from": "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/COMMON/learner-results/medcalc/overall/20260504.143154.react_induced_state_oc1_mp5",
+  "group": "learner-results/medcalc/react_induced_state_oc1_mp5",
+  "split": "formulas",
+  "included_categories": [
+    "dosage",
+    "lab test",
+    "physical"
+  ],
+  "excluded_categories_from_overall": [
+    "date",
+    "diagnosis",
+    "risk",
+    "severity"
+  ],
+  "rows": 63,
+  "correct": 37,
+  "accuracy": 0.5873015873015873,
+  "exact_match": 0.38095238095238093,
+  "total_cost": 0.46088624999999994,
+  "note": "Derived by filtering the overall MedCalc results by category; config.yaml is copied from the source run."
+}

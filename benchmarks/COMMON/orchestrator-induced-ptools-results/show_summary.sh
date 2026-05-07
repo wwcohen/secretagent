@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
-cd "$(dirname "$0")"
-uv run --script scripts/show_summary.py
+
+HERE=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+COMMON=$(cd "$HERE/.." && pwd)
+exec uv run --script "$COMMON/scripts/show_orchestrator_summary.py" "$HERE" "$@"

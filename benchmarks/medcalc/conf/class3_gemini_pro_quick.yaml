@@ -1,0 +1,12 @@
+llm:
+  model: gemini/gemini-3.1-pro-preview
+  max_tokens: 65536
+  retry_attempts: 8
+  retry_base: 2
+  timeout: 240
+
+cachier:
+  cache_dir: llm_cache
+  enable_caching: true
+
+ptools: {}

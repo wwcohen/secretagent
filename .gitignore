@@ -253,3 +253,8 @@ docs/superpowers/
 benchmarks/designbench/data/
 benchmarks/designbench/results/
 benchmarks/results/designbench/*/*/artifacts/
+
+learning_correctness_table_filled.tex
+learning_cost_table_filled.tex
+learning_notes.txt
+medcalc_codedistill_partitions.tex
