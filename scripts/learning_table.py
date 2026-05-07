@@ -16,9 +16,9 @@ KEYTASKS = [
     "natural_plan/meeting",
     "natural_plan/trip",
     "rulearena/nba",
-#    "medcalc/overall",
-#    "medcalc/formula",
-#    "medcalc/rules",
+    "medcalc/overall",
+    "medcalc/formula",
+    "medcalc/rules",
 ]
 
 BASE = os.path.join(os.path.dirname(__file__), "..", "benchmarks", "COMMON")
@@ -102,21 +102,16 @@ def find_react_learned_csv(task, subtask):
     return None
 
 
-ORCHESTRATOR_EXISTING_DIR = os.path.join(BASE, "orchestrator-results", "existing_workflow")
-ORCHESTRATOR_DIR = os.path.join(BASE, "orchestrator-results", "seed_from_ptools")
+ORCHESTRATOR_DIR = os.path.join(BASE, "orchestrator-results")
+ORCHESTRATOR_INDUCED_DIR = os.path.join(BASE, "orchestrator-induced-ptools-results")
 
 
-def find_orchestrator_existing_csv(task, subtask):
-    """Find orchestrator/existing_workflow results CSV for a task/subtask."""
-    if task == "medcalc":
-        subtask_dir = os.path.join(ORCHESTRATOR_EXISTING_DIR, "medcalc", "results",
-                                   "learned_from_all_traces", subtask)
-    else:
-        task_subtask = f"{task}_{subtask}".replace("natural_plan", "natplan")
-        subtask_dir = os.path.join(ORCHESTRATOR_EXISTING_DIR, task_subtask, "results")
-    if not os.path.isdir(subtask_dir):
+def _find_orchestrator_csv(base_dir, task, subtask, suffix):
+    """Find orchestrator results CSV, mirroring find_codedistill_csv layout."""
+    task_dir = os.path.join(base_dir, task, "test_results_full")
+    if not os.path.isdir(task_dir):
         return None
-    result = find_latest_dir(subtask_dir, "*test*")
+    result = find_latest_dir(task_dir, f"*{subtask}_test_full_{suffix}")
     if result:
         csv_path = os.path.join(result, "results.csv")
         if os.path.isfile(csv_path):
@@ -124,26 +119,16 @@ def find_orchestrator_existing_csv(task, subtask):
     return None
 
 
-def find_orchestrator_csv(task, subtask):
-    """Find orchestrator results CSV for a task/subtask."""
-    if task == "medcalc":
-        subtask_dir = os.path.join(ORCHESTRATOR_DIR, "medcalc", "results",
-                                   "learned_from_all_traces", subtask)
-    elif task == "rulearena" and subtask == "nba":
-        # with_rulebook used a custom benchmark-specific prompting scheme
-        subtask_dir = os.path.join(ORCHESTRATOR_DIR, "rulearena_nba", "results",
-                                   "without_rulebook")
-    else:
-        task_subtask = f"{task}_{subtask}".replace("natural_plan", "natplan")
-        subtask_dir = os.path.join(ORCHESTRATOR_DIR, task_subtask, "results")
-    if not os.path.isdir(subtask_dir):
-        return None
-    result = find_latest_dir(subtask_dir, "*test*")
-    if result:
-        csv_path = os.path.join(result, "results.csv")
-        if os.path.isfile(csv_path):
-            return csv_path
-    return None
+def find_orchestrator_human_csv(task, subtask):
+    """Find orchestrator results CSV with human ptools."""
+    return _find_orchestrator_csv(ORCHESTRATOR_DIR, task, subtask,
+                                  "orch_seed_from_ptools")
+
+
+def find_orchestrator_learned_csv(task, subtask):
+    """Find orchestrator results CSV with induced/learned ptools."""
+    return _find_orchestrator_csv(ORCHESTRATOR_INDUCED_DIR, task, subtask,
+                                  "orch_induced_seed_ptools")
 
 
 def find_optimizer_csv(task, subtask):
@@ -205,9 +190,10 @@ def _add_row(correct_rows, cost_rows, label_cols, col_names, find_fn, tasks):
     cost_rows.append(cost_row)
 
 
-def build_dataframes(include_opus=False, suppress=None, transpose=False):
+def build_dataframes(include_opus=False, suppress_tasks=None, suppress_rows=None, transpose=False):
     """Build DataFrames for correctness and cost (USD per 100 examples)."""
-    tasks = [t for t in KEYTASKS if t not in (suppress or [])]
+    tasks = [t for t in KEYTASKS if t not in (suppress_tasks or [])]
+    suppress_rows = set(suppress_rows or [])
     col_names = [
         f"{t.split('/')[0].replace('natural_plan', 'natplan')}/{t.split('/')[1]}"
         for t in tasks
@@ -240,15 +226,15 @@ def build_dataframes(include_opus=False, suppress=None, transpose=False):
                      lambda t, s, ll=learner_llm, pc=ptool_class: find_codedistill_csv(t, s, learner_llm=ll, ptool_class=pc),
                      tasks)
 
-    # Orchestrator (existing workflow) row
+    # Orchestrator with human ptools row
     _add_row(correct_rows, cost_rows,
              {"workflow": "orchest", "model": "-", "toolkit": "human"},
-             col_names, find_orchestrator_existing_csv, tasks)
+             col_names, find_orchestrator_human_csv, tasks)
 
-    # Orchestrator (seed from ptools) row
+    # Orchestrator with learned/induced ptools row
     _add_row(correct_rows, cost_rows,
              {"workflow": "orchest", "model": "-", "toolkit": "learned"},
-             col_names, find_orchestrator_csv, tasks)
+             col_names, find_orchestrator_learned_csv, tasks)
 
     # Optimizer row: NSGA-II Pareto top-1 by test accuracy.
     _add_row(correct_rows, cost_rows,
@@ -257,6 +243,12 @@ def build_dataframes(include_opus=False, suppress=None, transpose=False):
 
     correct_df = pd.DataFrame(correct_rows)
     cost_df = pd.DataFrame(cost_rows)
+
+    if suppress_rows:
+        key = correct_df["workflow"] + "/" + correct_df["toolkit"]
+        mask = ~key.isin(suppress_rows)
+        correct_df = correct_df[mask].reset_index(drop=True)
+        cost_df = cost_df[mask].reset_index(drop=True)
 
     if transpose:
         # Tasks as rows, methods as columns
@@ -298,19 +290,176 @@ def build_dataframes(include_opus=False, suppress=None, transpose=False):
     return correct_df, cost_df
 
 
+def _parse_cell(cell):
+    """Parse a 'mean+/-sem' or plain number cell, returning (mean, sem) or None."""
+    if not isinstance(cell, str):
+        return None
+    if "+/-" in cell:
+        parts = cell.split("+/-")
+        return float(parts[0].strip()), float(parts[1].strip())
+    try:
+        return float(cell.strip()), 0.0
+    except ValueError:
+        return None
+
+
+def _print_latex(df, caption, minimize=False, transpose=False):
+    """Print a LaTeX table from a DataFrame with 'mean+/-sem' cells.
+
+    Bold the best value in each task column (max for correctness, min for cost).
+    """
+    if transpose:
+        # tasks are rows, methods are columns
+        task_cols = list(df.columns)
+        print(r"\begin{table*}[ht]")
+        print(r"\centering")
+        print(r"\begin{tabular}{l" + "c" * len(task_cols) + "}")
+        print(r"\toprule")
+        print("Task & " + " & ".join(c.replace("_", r"\_") for c in task_cols) + r" \\")
+        print(r"\midrule")
+        for task in df.index:
+            parsed = {c: _parse_cell(df.loc[task, c]) for c in task_cols}
+            means = [p[0] for p in parsed.values() if p is not None]
+            best = (min(means) if minimize else max(means)) if means else None
+            cells = []
+            for c in task_cols:
+                p = parsed[c]
+                if p is None:
+                    cells.append("--")
+                else:
+                    mean, sem = p
+                    if mean == best:
+                        cells.append(f"$\\mathbf{{{mean:.2f}}}$")
+                    else:
+                        cells.append(f"${mean:.2f}$")
+            label = task.replace("_", r"\_")
+            if task == "average":
+                print(r"\midrule")
+                label = r"\textrm{Average}"
+            print(label + " & " + " & ".join(cells) + r" \\")
+        print(r"\bottomrule")
+        print(r"\end{tabular}")
+        print(r"\caption{" + caption + "}")
+        print(r"\end{table*}")
+    else:
+        # methods are rows, tasks are columns
+        label_cols = [c for c in ["workflow", "ptools", "model"] if c in df.columns]
+        task_cols = [c for c in df.columns if c not in label_cols]
+
+        # Build grouped two-line header
+        _GROUP_NAMES = {
+            "musr": "MuSR",
+            "natplan": "NaturalPlan",
+            "rulearena": "RuleArena",
+        }
+        groups = []  # list of (group_name, [col_names])
+        for col in task_cols:
+            if col == "average":
+                groups.append((None, [col]))
+            else:
+                prefix = col.split("/")[0]
+                if groups and groups[-1][0] == prefix:
+                    groups[-1][1].append(col)
+                else:
+                    groups.append((prefix, [col]))
+
+        _SUBTASK_NAMES = {"nba": "NBA"}
+
+        def _subtask_label(col):
+            if col == "average":
+                return "Average"
+            sub = col.split("/")[1]
+            return _SUBTASK_NAMES.get(sub, sub.capitalize())
+
+        n_task_cols = len(task_cols)
+        print(r"\begin{table*}[ht]")
+        print(r"\centering")
+        print(r"\begin{tabular}{l" + "c" * n_task_cols + "}")
+        print(r"\toprule")
+
+        # First header line: group names with \multicolumn
+        group_cells = [""]  # empty cell for the label column
+        for prefix, cols in groups:
+            n = len(cols)
+            if prefix is None:
+                group_cells.append(f"\\multicolumn{{{n}}}{{c}}{{}}")
+            else:
+                name = _GROUP_NAMES.get(prefix, prefix)
+                group_cells.append(f"\\multicolumn{{{n}}}{{c}}{{{name}}}")
+        print(" & ".join(group_cells) + r" \\")
+
+        # Cmidrules for each group (skip ungrouped "average")
+        col_idx = 2  # 1-indexed, column 1 is the label
+        for prefix, cols in groups:
+            n = len(cols)
+            if prefix is not None:
+                print(f"\\cmidrule(lr){{{col_idx}-{col_idx + n - 1}}}")
+            col_idx += n
+
+        # Second header line: subtask names
+        subtask_cells = ["Workflow/Ptools"]
+        for col in task_cols:
+            subtask_cells.append(_subtask_label(col))
+        print(" & ".join(subtask_cells) + r" \\")
+        print(r"\midrule")
+
+        # Find best per task column
+        best_per_col = {}
+        for col in task_cols:
+            vals = [_parse_cell(v) for v in df[col]]
+            means = [p[0] for p in vals if p is not None]
+            if means:
+                best_per_col[col] = min(means) if minimize else max(means)
+
+        for _, row in df.iterrows():
+            # Combined workflow/ptools label
+            wf = str(row.get("workflow", ""))
+            pt = str(row.get("ptools", row.get("toolkit", "")))
+            label = f"{wf}/{pt}"
+            cells = [label.replace("_", r"\_")]
+            for c in task_cols:
+                p = _parse_cell(row[c])
+                if p is None:
+                    cells.append("--")
+                else:
+                    mean, sem = p
+                    if c in best_per_col and mean == best_per_col[c]:
+                        cells.append(f"$\\mathbf{{{mean:.2f}}}$")
+                    else:
+                        cells.append(f"${mean:.2f}$")
+            print(" & ".join(cells) + r" \\")
+        print(r"\bottomrule")
+        print(r"\end{tabular}")
+        print(r"\caption{" + caption + "}")
+        print(r"\end{table*}")
+
+
 def main():
     import argparse
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--include-opus", action="store_true",
                         help="Include codedistill rows for model=opus")
-    parser.add_argument("--suppress", nargs="+", default=[], metavar="TASK/SUBTASK",
+    parser.add_argument("--suppress-tasks", nargs="+", default=[], metavar="TASK/SUBTASK",
                         help="Omit specified TASK/SUBTASK entries from the table")
+    parser.add_argument("--suppress", nargs="+", default=[], metavar="WORKFLOW/PTOOLS",
+                        help="Omit rows matching workflow/ptools (e.g. ReAct/human)")
     parser.add_argument("--transpose", action="store_true",
                         help="Show tasks as rows and methods as columns")
+    parser.add_argument("--format", choices=["table", "latex-correct", "latex-cost"],
+                        default="table", help="Output format")
     args = parser.parse_args()
 
     correct_df, cost_df = build_dataframes(
-        include_opus=args.include_opus, suppress=args.suppress, transpose=args.transpose)
+        include_opus=args.include_opus, suppress_tasks=args.suppress_tasks,
+        suppress_rows=args.suppress, transpose=args.transpose)
+
+    if args.format == "latex-correct":
+        _print_latex(correct_df, "Correctness", minimize=False, transpose=args.transpose)
+        return
+    if args.format == "latex-cost":
+        _print_latex(cost_df, "Cost (USD per 100 examples)", minimize=True, transpose=args.transpose)
+        return
+
     print("=== Correctness ===")
     show_index = args.transpose
     print(correct_df.to_string(index=show_index))
