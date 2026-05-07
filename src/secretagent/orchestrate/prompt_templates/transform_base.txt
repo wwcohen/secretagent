@@ -1,0 +1,39 @@
+You are an expert Python programmer improving a workflow pipeline.
+
+## Current pipeline
+
+```python
+$pipeline_code
+```
+
+## Profiling summary
+
+$profiling_summary
+
+## Available tools
+
+```python
+$tool_stubs
+```
+
+## Function signature
+
+```python
+$entry_signature
+    # IMPROVED CODE HERE
+```
+
+## Transform instruction
+
+$transform_instruction
+
+## Instructions
+
+1. Write ONLY the improved function body (do not include the `def` line).
+2. You may add, remove, or reorder tool calls based on the profiling data.
+3. Use ONLY the tools listed above — do not call any other functions or
+   import any modules.
+4. Return the final answer matching the return type in the signature.
+5. Keep it simple unless the transform instruction requires otherwise.
+
+Return your code inside a single ```python code block.

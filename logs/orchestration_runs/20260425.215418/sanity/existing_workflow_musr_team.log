@@ -1,0 +1,121 @@
+Created scratch module .orchestration_learner/ptools_team_20260425.222211_scratch.py from ptools_team.py
+┌───────────────────────────orchestrated pipeline───────────────────────────┐
+│ def answer_question(narrative: str, question: str, choices: list) -> int: │
+│     answer_text = raw_answer(narrative, question, choices)                │
+│     return extract_index(answer_text, choices)                            │
+└───────────────────────────────────────────────────────────────────────────┘
+
+=== Loading datasets ===
+Shuffled with seed 42
+Train: 2 cases from team_allocation_test
+Eval: 1 cases from team_allocation_test
+Train: 2 cases
+Eval: 1 cases
+Sampling: adapter:musr_team
+
+=== Orchestration Learner ===
+Benchmark: musr
+Config: team_orchestrated.yaml
+Ptools module: ptools_team (ptools_team_20260425.222211_scratch.py)
+Scratch evolved: benchmarks/musr/.orchestration_learner/ptools_team_20260425.222211_scratch.py
+Entry point: answer_question
+Supervisor: gemini/gemini-3.1-pro-preview
+Train: 2 cases, Eval: 1 cases
+Max iterations: 1
+Output: benchmarks/musr/results/orchestration_learner/20260425.222210.orch_learner
+[supervisor] evolved ptools: ptools_team_20260425.222211_scratch.py
+
+[supervisor] === Initial Evaluation ===
+
+  0%|          | 0/2 [00:00<?, ?it/s]
+ 50%|█████     | 1/2 [00:00<00:00,  3.53it/s]
+100%|██████████| 2/2 [00:00<00:00,  3.55it/s]
+100%|██████████| 2/2 [00:00<00:00,  3.54it/s]
+saved in benchmarks/musr/results/orchestration_learner/20260425.222222.rc_iter0/results.csv
+[supervisor] evaluating baseline on held-out set...
+
+  0%|          | 0/1 [00:00<?, ?it/s]
+100%|██████████| 1/1 [00:00<00:00,  4.40it/s]
+100%|██████████| 1/1 [00:00<00:00,  4.39it/s]
+saved in benchmarks/musr/results/orchestration_learner/20260425.222223.rc_iter0_eval/results.csv
+[supervisor] baseline eval accuracy: 0.0%
+[supervisor] baseline: accuracy=100.0%, avg_cost=$0.0010
+[supervisor] baseline eval: 0.0%
+Pipeline accuracy: 100.0%, avg cost: $0.0010/case, 2 cases
+
+Per-ptool breakdown:
+  extract_index: cost_frac=38.6%, calls/case=1.0, avg_cost=$0.0004, lift=N/A, errors=0
+  raw_answer: cost_frac=61.4%, calls/case=1.0, avg_cost=$0.0006, lift=N/A, errors=0
+
+[supervisor] === Iteration 1/1 ===
+[supervisor] calling supervisor LLM...
+[supervisor] supervisor cost: $0.1146
+[supervisor] reasoning: 1.  **Identify specific failure pattern**: The single-ptool approach `answer_question` achieves 100% on the training set but 0% on the held-out eval set. This massive train-eval gap implies that the base `raw_answer` interface (which has no specific prompt constraints or reasoning strategy for this 
+┌───────────────────────────orchestrated pipeline───────────────────────────┐
+│ def answer_question(narrative: str, question: str, choices: list) -> int: │
+│     answer_text = raw_answer(narrative, question, choices)                │
+│     return extract_index(answer_text, choices)                            │
+└───────────────────────────────────────────────────────────────────────────┘
+[supervisor] re-evaluating on train set...
+
+  0%|          | 0/2 [00:00<?, ?it/s]
+ 50%|█████     | 1/2 [00:00<00:00,  7.07it/s]
+100%|██████████| 2/2 [00:00<00:00,  6.47it/s]
+100%|██████████| 2/2 [00:00<00:00,  6.54it/s]
+saved in benchmarks/musr/results/orchestration_learner/20260425.222227.rc_iter1/results.csv
+[supervisor] train: 100.0% (2/2 correct, 0 timeouts)
+[supervisor] cost: $0.0010/case
+[supervisor] evaluating on held-out set...
+
+  0%|          | 0/1 [00:00<?, ?it/s]
+100%|██████████| 1/1 [00:00<00:00,  5.62it/s]
+100%|██████████| 1/1 [00:00<00:00,  5.58it/s]
+saved in benchmarks/musr/results/orchestration_learner/20260425.222227.rc_iter1_eval/results.csv
+[supervisor] eval:  0.0% (0/1 correct)
+[supervisor] ROLLED BACK: train 100.0%→100.0%, eval 0.0%→0.0%, best=100.0%
+┌───────────────────────────orchestrated pipeline───────────────────────────┐
+│ def answer_question(narrative: str, question: str, choices: list) -> int: │
+│     answer_text = raw_answer(narrative, question, choices)                │
+│     return extract_index(answer_text, choices)                            │
+└───────────────────────────────────────────────────────────────────────────┘
+[supervisor] ROLLED BACK (accuracy dropped)
+[report] saved benchmarks/musr/results/orchestration_learner/20260425.222210.orch_learner/report.html
+
+[supervisor] === Summary ===
+Iterations: 1
+Best accuracy: 100.0% (iteration 0)
+Total supervisor cost: $0.1146
+Evolved ptools saved to: benchmarks/musr/.orchestration_learner/ptools_team_20260425.222211_scratch.py
+
+=== Final Evaluation on Held-Out Set (1 cases) ===
+
+  0%|          | 0/1 [00:00<?, ?it/s]
+100%|██████████| 1/1 [00:00<00:00,  8.01it/s]
+100%|██████████| 1/1 [00:00<00:00,  7.98it/s]
+saved in benchmarks/musr/results/orchestration_learner/20260425.222210.orch_learner/final_eval/20260425.222232.rc_final_eval/results.csv
+Final eval accuracy: 0.0%
+Final eval avg cost: $0.0012
+
+=== Generating Plots & Report ===
+[plots] saved benchmarks/musr/results/orchestration_learner/20260425.222210.orch_learner/plots/accuracy_over_iterations.png
+[plots] saved benchmarks/musr/results/orchestration_learner/20260425.222210.orch_learner/plots/cost_over_iterations.png
+[plots] saved benchmarks/musr/results/orchestration_learner/20260425.222210.orch_learner/plots/accuracy_vs_cost.png
+[report] saved benchmarks/musr/results/orchestration_learner/20260425.222210.orch_learner/report.html
+best train accuracy: 100.0% (iteration 0)
+iterations: 2
+supervisor cost: $0.1146
+final eval accuracy: 0.0%
+saved output to benchmarks/musr/results/orchestration_learner/20260425.222210.orch_learner/implementation.yaml
+
+============================================================
+=== Orchestration Learner Complete ===
+============================================================
+Best train accuracy: 100.0% (iteration 0)
+Final eval accuracy: 0.0%
+Total supervisor cost: $0.1146
+Output saved to: benchmarks/musr/results/orchestration_learner/20260425.222210.orch_learner
+
+Iteration log:
+  Iter     Train  Fail   TO      Eval    Sup $      Status
+     0   100.0%     0    0     0.0%  $0.0000        KEPT
+     1   100.0%     0    0     0.0%  $0.1146    ROLLBACK

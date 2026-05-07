@@ -1,0 +1,27 @@
+normalize_date_order
+    identifies what order the components of a date are in and returns it in american style (MM/DD/YYYY).
+    input: str, output: str
+
+convert_to_date
+    accepts a date in string format (MM/DD/YYYY) and returns it as a readable date object
+    input: str, output: date
+
+find_time_difference
+    accepts two dates and returns the difference in time between them as an integer of hours
+    input: date & date, output: int
+
+adjust_date_by_hours
+    accepts a date and an integer in hours and returns the date after applying that count of hours
+    input: date & int, output: date
+
+convert_to_str
+    accepts a date object and returns it as a string (MM/DD/YYYY)
+    input: date, output: str
+
+identify_time_difference
+    accepts a string describing a relationship between two dates and returns the difference in an integer of hours
+    input: str, output: int
+
+find_date_from_sentance
+    accepts a string describing a date and returns that date as a string (MM/DD/YYYY)
+    input: str, output: str

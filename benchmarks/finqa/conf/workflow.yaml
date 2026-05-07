@@ -1,0 +1,36 @@
+# Workflow strategy for FinQA.  See the docstrings in ptools.py for what
+# each ptool does and why it's bound the way it is.
+
+llm:
+  model: together_ai/deepseek-ai/DeepSeek-V3.1
+
+cachier:
+  cache_dir: llm_cache
+
+evaluate:
+  result_dir: results
+  expt_name: DEFAULT
+
+dataset:
+  split: valid
+  shuffle_seed: null
+  n: null
+
+ptools:
+  extract_reasoning_plan:
+    method: prompt_llm
+    prompt_template_file: prompt_templates/reasoning_plan.txt
+    answer_pattern: null
+  parse_plan_fields:
+    method: direct
+  substitute_values:
+    method: direct
+  compute:
+    method: direct
+  format_for_scale:
+    method: direct
+  extract_final_number:
+    method: simulate
+  answer_finqa:
+    method: direct
+    fn: ptools.answer_finqa_workflow

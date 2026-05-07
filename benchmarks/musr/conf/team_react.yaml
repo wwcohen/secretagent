@@ -1,0 +1,29 @@
+# ReAct baseline: pydantic-ai agent over the narrative
+# Tools: search(query), lookup(string), finish(answer_index)
+# Test split (seed-42 partition: train=75 / val=75 / test=remainder=100)
+llm:
+  model: together_ai/deepseek-ai/DeepSeek-V3.1
+
+cachier:
+  cache_dir: llm_cache
+  enable_caching: false
+
+evaluate:
+  expt_name: team_react
+  result_dir: results
+  entry_point: answer_question
+
+dataset:
+  split: team_allocation_test
+  shuffle_seed: 42
+
+ptools:
+  react_solve:
+    method: simulate_pydantic
+    tools:
+      - ptools_common.search
+      - ptools_common.lookup
+      - ptools_common.finish
+  answer_question:
+    method: direct
+    fn: ptools_common.react_answer_impl

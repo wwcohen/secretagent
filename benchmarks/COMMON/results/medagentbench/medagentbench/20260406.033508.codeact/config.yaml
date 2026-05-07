@@ -1,0 +1,20 @@
+llm:
+  model: together_ai/deepseek-ai/DeepSeek-V3.1
+  max_tokens: 4096
+cachier:
+  cache_dir: benchmarks/medagentbench/llm_cache
+  enable_caching: true
+fhir:
+  api_base: http://localhost:8080/fhir/
+  max_round: 8
+evaluate:
+  result_dir: benchmarks/medagentbench/results
+  expt_name: codeact
+  record_details: true
+  max_workers: 1
+dataset:
+  version: v2
+ptools:
+  solve_medical_task:
+    method: direct
+    fn: medagent_loop.codeact_loop

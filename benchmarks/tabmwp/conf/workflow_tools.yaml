@@ -1,0 +1,37 @@
+# Option B: hand-coded workflow, table accessed via tool calls
+llm:
+  model: together_ai/deepseek-ai/DeepSeek-V3.1
+
+cachier:
+  cache_dir: llm_cache
+
+evaluate:
+  expt_name: workflow_tools
+  result_dir: results
+  record_details: true
+
+dataset:
+  split: test1k
+  shuffle_seed: 42
+  n: 4
+
+ptools:
+  identify_operation:
+    method: simulate
+  extract_relevant_values:
+    method: simulate
+  compute_answer:
+    method: simulate
+  format_answer:
+    method: simulate
+  get_table_schema:
+    method: direct
+  lookup_value:
+    method: direct
+  query_column:
+    method: direct
+  query_table:
+    method: direct
+  tabmwp_solve:
+    method: direct
+    fn: ptools.tools_workflow

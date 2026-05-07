@@ -1,0 +1,36 @@
+# Simplified Unstructured Baseline — airline.
+# True zero-shot: drops "Work through the problem step by step" from the
+# unstructured prompt. Reuses the existing unstructured_workflow + numeric
+# parser; only the prompt template changes.
+#
+# This file documents the run. The Makefile target
+# `simplified_unstructured_baseline:` applies these overrides via CLI
+# dotpairs on top of conf.yaml (which is auto-loaded by secretagent.cli.expt).
+llm:
+  model: together_ai/deepseek-ai/DeepSeek-V3.1
+  max_tokens: 8192
+
+cachier:
+  cache_dir: llm_cache
+
+evaluate:
+  result_dir: results
+  expt_name: simplified_unstructured_baseline
+
+dataset:
+  split: valid
+  shuffle_seed: 137
+
+ptools:
+  extract_airline_params:
+    method: simulate_pydantic
+  compute_airline_calculator:
+    method: direct
+    fn: ptools._airline_calc_fn
+  zeroshot_airline:
+    method: prompt_llm
+    prompt_template_file: prompt_templates/simplified_unstructured.txt
+    answer_pattern: null  # critical: matches the original decorator; otherwise PromptLLMFactory defaults to <answer>(.*)</answer> and strips tags before _parse_numeric_answer can find them
+  compute_airline_answer:
+    method: direct
+    fn: ptools.unstructured_workflow

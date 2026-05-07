@@ -1,0 +1,67 @@
+# Unstructured baseline: single simulate call, no tools.
+# The agent just describes what it would do without executing any tool calls.
+# Expected to score near 0% — establishes that tools are required for this benchmark.
+llm:
+  model: together_ai/deepseek-ai/DeepSeek-V3.1
+
+cachier:
+  cache_dir: llm_cache
+  enable_caching: false   # disable: retail tools are stateful (DB-modifying)
+
+evaluate:
+  expt_name: unstructured_baseline
+  result_dir: results
+  record_details: true
+  max_turns: 15
+
+dataset:
+  split: dev
+  shuffle_seed: 42
+  n: 60
+
+ptools:
+  # retail tools: direct (still defined for reference, but not injected into agent)
+  calculate:
+    method: direct
+  find_user_id_by_name_zip:
+    method: direct
+  find_user_id_by_email:
+    method: direct
+  get_order_details:
+    method: direct
+  get_product_details:
+    method: direct
+  get_item_details:
+    method: direct
+  get_user_details:
+    method: direct
+  list_all_product_types:
+    method: direct
+  cancel_pending_order:
+    method: direct
+  modify_pending_order_address:
+    method: direct
+  modify_pending_order_items:
+    method: direct
+  modify_pending_order_payment:
+    method: direct
+  modify_user_address:
+    method: direct
+  exchange_delivered_order_items:
+    method: direct
+  return_delivered_order_items:
+    method: direct
+  transfer_to_human_agents:
+    method: direct
+  # agent: simulate only — no tools, just predicts what it would say
+  retail_agent:
+    method: simulate
+  # user simulator: GPT-5.2
+  user_simulator:
+    method: prompt_llm
+    prompt_template_file: prompt_templates/user_simulator.txt
+    answer_pattern: null
+    model: gpt-5.2
+  # top-level
+  tau_solve:
+    method: direct

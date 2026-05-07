@@ -1,0 +1,33 @@
+llm:
+  model: together_ai/Qwen/Qwen3.5-9B
+  max_tokens: 65536
+
+cachier:
+  cache_dir: llm_cache
+  enable_caching: true
+
+evaluate:
+  expt_name: murder_baseline_qwen
+  result_dir: results
+  entry_point: answer_question_workflow
+
+dataset:
+  split: murder_mysteries
+  shuffle_seed: 42
+  n: 10
+
+ptools:
+  raw_answer:
+    method: simulate
+  extract_index:
+    method: simulate
+  extract_suspects_and_evidence:
+    method: simulate
+  verify_alibis:
+    method: simulate
+  deduce_murderer:
+    method: simulate
+  answer_question:
+    method: direct
+  answer_question_workflow:
+    method: direct

@@ -1,0 +1,27 @@
+llm:
+  model: together_ai/deepseek-ai/DeepSeek-V3.1
+cachier:
+  cache_dir: benchmarks/musr/llm_cache
+  enable_caching: false
+evaluate:
+  expt_name: simplified_unstructured_baseline
+  result_dir: benchmarks/musr/results
+  entry_point: answer_question
+dataset:
+  split: object_placements_test
+  shuffle_seed: 42
+  'n': null
+ptools:
+  raw_answer:
+    method: prompt_llm
+    prompt_template_file: benchmarks/musr/prompt_templates/simplified_unstructured.txt
+    answer_pattern: null
+  extract_index:
+    method: simulate
+  infer_belief:
+    method: simulate
+  answer_question:
+    method: direct
+  answer_question_workflow:
+    method: direct
+root: benchmarks/musr

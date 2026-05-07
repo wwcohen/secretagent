@@ -1,0 +1,42 @@
+# Ablation: drop workflow, keep ptools (ReAct via pydantic-ai agent).
+# Toolset matches pot.yaml so the two ablations share the same
+# capabilities — only the orchestration mechanism (ReAct loop vs PoT)
+# differs. answer_finqa is bound to react_workflow so the agent's
+# freeform output is piped through extract_final_number for cleanup,
+# matching the standard pattern across benchmarks.
+llm:
+  model: together_ai/deepseek-ai/DeepSeek-V3.1
+
+cachier:
+  cache_dir: llm_cache
+
+evaluate:
+  result_dir: results
+  expt_name: DEFAULT
+
+dataset:
+  split: valid
+  shuffle_seed: null
+  n: null
+
+ptools:
+  parse_table:
+    method: direct
+  lookup_cell:
+    method: direct
+  compute:
+    method: direct
+  extract_reasoning_plan:
+    method: simulate
+  extract_final_number:
+    method: simulate
+  react_solve_finqa:
+    method: simulate_pydantic
+    tools:
+      - ptools.call_parse_table
+      - ptools.call_lookup_cell
+      - ptools.call_compute
+      - ptools.call_extract_reasoning_plan
+  answer_finqa:
+    method: direct
+    fn: ptools.react_workflow

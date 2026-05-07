@@ -1,0 +1,42 @@
+llm:
+  model: gemini/gemini-3.1-flash-lite-preview
+  max_tokens: 65536
+
+orchestrate:
+  model: gemini/gemini-3.1-pro-preview
+  max_retries: 3
+
+cachier:
+  cache_dir: llm_cache
+  enable_caching: true
+
+evaluate:
+  expt_name: murder_induced_seed_from_ptools
+  result_dir: results
+  entry_point: answer_question_workflow
+
+dataset:
+  split: murder_mysteries
+  shuffle_seed: 42
+  n: 10
+
+ptools:
+  extract_index:
+    method: simulate
+  _investigate_evidence_impl:
+    method: simulate
+  _initialize_suspect_analysis_impl:
+    method: simulate
+  _determine_if_killer_impl:
+    method: simulate
+  _summarize_investigation_progress_impl:
+    method: simulate
+  _evaluate_suspect_evidence_impl:
+    method: simulate
+  answer_question_workflow:
+    method: orchestrate
+    task_description: >
+      Solve a murder mystery. You receive a narrative, a question about who
+      committed the murder, and a list of answer choices. Use the induced
+      investigation helper ptools to analyze evidence and return the 0-based
+      index of the correct answer choice.

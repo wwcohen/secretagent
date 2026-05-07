@@ -1,0 +1,24 @@
+# Unstructured baseline: single LLM call, table in-context, no decomposition
+llm:
+  model: together_ai/deepseek-ai/DeepSeek-V3.1
+
+cachier:
+  cache_dir: llm_cache
+
+evaluate:
+  expt_name: unstructured_baseline
+  result_dir: results
+  record_details: true
+
+dataset:
+  split: test
+  shuffle_seed: 42
+  n: 100
+
+ptools:
+  zeroshot_tabmwp_solve:
+    method: prompt_llm
+    prompt_template_file: prompt_templates/zeroshot.txt
+  tabmwp_solve:
+    method: direct
+    fn: ptools.zeroshot_unstructured_workflow

@@ -1,0 +1,29 @@
+# AWM (Agent Workflow Memory) baseline for MUSR team allocation.
+llm:
+  model: together_ai/deepseek-ai/DeepSeek-V3
+
+cachier:
+  cache_dir: llm_cache
+  enable_caching: false
+
+evaluate:
+  expt_name: team_awm
+  result_dir: results
+  entry_point: answer_question
+
+dataset:
+  split: team_allocation_test
+  shuffle_seed: 42
+
+ptools:
+  react_solve:
+    method: simulate_pydantic_with_workflow
+    workflow_file: awm_workflows.json
+    workflow_key: team
+    tools:
+      - ptools_common.search
+      - ptools_common.lookup
+      - ptools_common.finish
+  answer_question:
+    method: direct
+    fn: ptools_common.react_answer_impl

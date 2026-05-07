@@ -1,0 +1,26 @@
+# Self-Consistency baseline (Wang et al. ICLR 2023) on MUSR team allocation.
+llm:
+  model: together_ai/deepseek-ai/DeepSeek-V3
+
+cachier:
+  cache_dir: llm_cache
+  enable_caching: false
+
+evaluate:
+  expt_name: team_self_consistency
+  result_dir: results
+  entry_point: answer_question
+
+dataset:
+  split: team_allocation_test
+  shuffle_seed: 42
+
+self_consistency:
+  n_samples: 5
+  temperature: 0.7
+  prompt_template_file: prompt_templates/zero_shot_cot.txt
+
+ptools:
+  answer_question:
+    method: direct
+    fn: ptools_common.self_consistency_impl

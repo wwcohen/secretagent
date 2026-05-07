@@ -1,0 +1,189 @@
+"""Tools for the geometric_shapes benchmark.
+
+The task: given an SVG path element, identify which geometric shape it draws,
+returning the correct multiple-choice letter (e.g. "(J)").
+
+Derived from the program trace mock in geometric_shapes_tuned.py
+(doctest-prompting project).
+"""
+
+from typing import Dict, List, Optional, Tuple, Union
+from pydantic import BaseModel, ConfigDict
+
+from secretagent.core import interface, implement_via
+
+# ── type aliases ──────────────────────────────────────────────────────────────
+
+class Point(BaseModel):
+    model_config = ConfigDict(frozen=True)
+    x: float
+    y: float
+
+class SVGCommand(BaseModel):
+    model_config = ConfigDict(frozen=True)
+    command: str
+    arg: Point
+    start: Optional[Point] = None
+
+class Sqrt(BaseModel):
+    model_config = ConfigDict(frozen=True)
+    val: float
+
+SegmentName = str
+
+class LengthCluster(BaseModel):
+    model_config = ConfigDict(frozen=True)
+    length: Sqrt
+    segments: List[SegmentName]
+
+class LengthClusters(BaseModel):
+    model_config = ConfigDict(frozen=True)
+    clusters: List[LengthCluster]
+
+# ── sub-tools ────────────────────────────────────────────────────────────────
+
+@interface
+def extract_path(input_str: str) -> str:
+    """Extract the SVG path element from the input string.
+    """
+    ...
+
+@interface
+def extract_options(input_str: str) -> List[Tuple[str, str]]:
+    """Extract the possible answers from the input string.
+
+    Each answer is a (letter, shape_name) pair, e.g. ('A', 'circle').
+
+    Examples:
+    >>> extract_options('This SVG path element <path d="M 1,2 L 3,4"/> draws a\\nOptions:\\n(A) circle\\n(B) triangle\\n')
+    [('A', 'circle'), ('B', 'triangle')]
+    """
+    ...
+
+@interface
+def explain_path(path: str) -> str:
+    """Generate a string giving background information on the SVG commands used in a path.
+
+    Examples:
+    >>> explain_path('<path d="M 31.00,73.00 L 32.00,59.00"/>')
+    'This SVG path element contains "M" and "L" commands. M takes two parameters (x,y) and moves the current point to the coordinates (x,y). L takes two parameters (x,y) and draws a line from the previous coordinate to the new coordinate (x,y).'
+    """
+    ...
+
+@interface
+def decompose_path(path: str) -> List[SVGCommand]:
+    """Convert an SVG path string to a list of SVGCommand objects.
+
+    Unnecessary M (move) commands that do not change the position are removed.
+
+    Examples:
+    >>> decompose_path('<path d="M 33.00,18.00 L 36.00,26.00 M 36.00,26.00 L 33.33,26.00 M 33.33,26.00 L 31.00,27.00"/>')
+    [SVGCommand(command='M', arg=Point(x=33.0, y=18.0), start=None), SVGCommand(command='L', arg=Point(x=36.0, y=26.0), start=Point(x=33.0, y=18.0)), SVGCommand(command='L', arg=Point(x=33.33, y=26.0), start=Point(x=36.0, y=26.0)), SVGCommand(command='L', arg=Point(x=31.0, y=27.0), start=Point(x=33.33, y=26.0))]
+    """
+    ...
+
+@interface
+def summarize_decomposed_path(path_decomposition: List[SVGCommand]) -> Dict[str, Union[str, int]]:
+    """Extract important properties of a decomposed path as a dictionary.
+    """
+    ...
+
+@interface
+def summary_matches_option(
+        path_summary: Dict[str, Union[str, int]], option: Tuple[str, str]) -> bool:
+    """Determine if a path summary describes the shape associated with option.
+
+    Examples:
+    >>> summary_matches_option({'num_consecutive_touching_lines': 5, 'num_curved_lines': 0}, ('G', 'pentagon'))
+    True
+    >>> summary_matches_option({'num_consecutive_touching_lines': 4, 'num_curved_lines': 0}, ('H', 'rectangle'))
+    True
+    >>> summary_matches_option({'num_consecutive_touching_lines': 7, 'num_curved_lines': 0}, ('B', 'heptagon'))
+    True
+    >>> summary_matches_option({'num_consecutive_touching_lines': 3, 'num_curved_lines': 0}, ('J', 'triangle'))
+    True
+    >>> summary_matches_option({'num_consecutive_touching_lines': 6, 'num_curved_lines': 0}, ('C', 'hexagon'))
+    False
+    """
+    ...
+
+@interface
+def compute_length_clusters(path_decomposition: List[SVGCommand]) -> LengthClusters:
+    """Cluster line segments by length.
+
+    Returns a LengthClusters object whose clusters field is a list of
+    LengthCluster entries, each with a Sqrt length and a list of segment
+    names ('A', 'B', ...) in the order they appear in the decomposition.
+    """
+    ...
+
+@interface
+def relate_length_clusters_to_option(length_clusters: LengthClusters, option: Tuple[str, str]) -> str:
+    """Return a string summarising the relationship between the length clusters
+    and the shape associated with option.
+    """
+    ...
+
+@interface
+def length_clusters_match_option(length_clusters: LengthClusters, option: Tuple[str, str]) -> bool:
+    """Determine if the length clusters are consistent with the shape associated with option.
+    """
+    ...
+
+@interface
+def is_unique_answer(matching_options: List[Tuple[str, str]]) -> bool:
+    """Check if there is exactly one answer in the set of matching options.
+    """
+    ...
+
+# ── hand-coded workflow ───────────────────────────────────────────────────────
+
+def geometric_shapes_workflow(input: str) -> str:
+    """Hand-coded workflow implementing identify_shape.
+
+    To use:
+        ptools.identify_shape.method=direct
+        ptools.identify_shape.fn=ptools.geometric_shapes_workflow
+    """
+    # print("Attempting extract_path")
+    path = extract_path(input)
+    # print("Finished extract_path. Attempting explain_path")
+    explain_path(path)  # provides SVG command context; result used by PoT
+    # print("Finished explain_path. Attempting decompose_path")
+    decomposition = decompose_path(path)
+    # print("Finished decompose_path. Attempting summarize_decomposed_path")
+    summary = summarize_decomposed_path(decomposition)
+    # print("Finished summarize_decomposed_path. Attempting extract_options")
+    options = extract_options(input)
+    # print("Finished extract_options. Attempting summary_matches_option")
+
+    matching_options = [opt for opt in options if summary_matches_option(summary, opt)]
+    # print(matching_options)
+
+    if is_unique_answer(matching_options):
+        letter = matching_options[0][0]
+        return f'({letter})'
+
+    # Ambiguous on summary alone — use length clusters to disambiguate
+    length_clusters = compute_length_clusters(decomposition)
+    final_matches = [opt for opt in matching_options if length_clusters_match_option(length_clusters, opt)]
+
+    letter = final_matches[0][0]
+    return f'({letter})'
+
+# ── alternate compute_angle docstring (with exact degrees) ──────────────────
+
+@interface
+def compute_angle(prev_command: str, current_command: str, next_command: str) -> str:
+    """Compute the angle formed at the point where two line segments meet.
+
+    prev_command and current_command define the incoming segment;
+    current_command and next_command define the outgoing segment.
+    The angle is measured at the endpoint of current_command.
+
+    Returns a description with the exact angle in degrees, e.g.
+    'acute angle (16 degrees)', 'right angle (90 degrees)',
+    'slightly obtuse angle (94 degrees)', or indicates that no angle
+    applies (e.g. for a move command).
+    """
+    ...

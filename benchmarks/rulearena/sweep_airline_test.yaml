@@ -1,0 +1,5 @@
+ptools.compute_rulearena_answer.method:
+    - direct
+ptools.compute_rulearena_answer.fn:
+    - ptools.l1_extract_workflow
+    - ptools.l0f_cot_workflow

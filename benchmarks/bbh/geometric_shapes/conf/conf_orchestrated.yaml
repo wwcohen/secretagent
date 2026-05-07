@@ -1,0 +1,36 @@
+llm:
+  model: claude-haiku-4-5-20251001
+
+orchestrate:
+  model: claude-haiku-4-5-20251001
+  max_retries: 3
+
+echo:
+  orchestrate: true
+
+cachier:
+  cache_dir: llm_cache
+
+evaluate:
+  result_dir: results
+  expt_name: orchestrated
+
+dataset:
+  split: valid
+  shuffle_seed: 137
+
+ptools:
+  extract_path_and_options:
+    method: simulate
+  decompose_path:
+    method: simulate
+  describe_command:
+    method: simulate
+  compute_angle:
+    method: simulate
+  describe_shape:
+    method: simulate
+  select_option:
+    method: simulate
+  identify_shape_orchestrated:
+    method: orchestrate

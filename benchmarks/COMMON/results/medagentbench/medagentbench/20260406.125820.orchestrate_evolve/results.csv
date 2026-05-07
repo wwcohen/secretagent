@@ -1,0 +1,301 @@
+case_name,predicted_output,expected_output,task_type,num_posts,correct,input_tokens,output_tokens,latency,cost,post_log,expt_name
+task1_1,['S6534835'],['S6534835'],task1,0,1.0,3692.0,124.0,1.9051809310913086,0.002426,[],orchestrate_evolve
+task1_2,['S6426560'],['S6426560'],task1,0,1.0,3692.0,124.0,2.4723620414733887,0.002426,[],orchestrate_evolve
+task1_3,['S1986380'],['S1986380'],task1,0,1.0,3693.0,125.0,3.8270928859710693,0.0024283,[],orchestrate_evolve
+task1_4,['S6484983'],['S6484983'],task1,0,1.0,3692.0,124.0,1.6048462390899658,0.002426,[],orchestrate_evolve
+task1_5,['S2703270'],['S2703270'],task1,0,1.0,3692.0,124.0,1.4449210166931152,0.002426,[],orchestrate_evolve
+task1_6,['S6534835'],['S2874099'],task1,0,0.0,3692.0,279.0,10.065665006637573,0.0026895,[],orchestrate_evolve
+task1_7,['S6200102'],['S6200102'],task1,0,1.0,3693.0,125.0,4.543013095855713,0.0024283,[],orchestrate_evolve
+task1_8,['S6530532'],['S6530532'],task1,0,1.0,3692.0,125.0,1.6152360439300537,0.0024277,[],orchestrate_evolve
+task1_9,['S6539215'],['S6539215'],task1,0,1.0,3692.0,124.0,1.916841983795166,0.002426,[],orchestrate_evolve
+task1_10,['S6264184'],['S6264184'],task1,0,1.0,3692.0,125.0,2.0770530700683594,0.0024277,[],orchestrate_evolve
+task1_11,['S6521727'],['S6521727'],task1,0,1.0,3693.0,124.0,4.026011228561401,0.0024266,[],orchestrate_evolve
+task1_12,['S0789363'],['S0789363'],task1,0,1.0,3693.0,124.0,3.5397939682006836,0.0024266,[],orchestrate_evolve
+task1_13,['S2154941'],['S2154941'],task1,0,1.0,3692.0,124.0,9.097529172897339,0.002426,[],orchestrate_evolve
+task1_14,['S2197736'],['S2197736'],task1,0,1.0,3693.0,126.0,5.631913900375366,0.00243,[],orchestrate_evolve
+task1_15,['S3228213'],['S3228213'],task1,0,1.0,3693.0,126.0,2.5246589183807373,0.00243,[],orchestrate_evolve
+task1_16,['S6551923'],['S6551923'],task1,0,1.0,3693.0,125.0,4.118841886520386,0.0024283,[],orchestrate_evolve
+task1_17,['S2119664'],['S2119664'],task1,0,1.0,3692.0,119.0,5.8890581130981445,0.0024175,[],orchestrate_evolve
+task1_18,['S2863714'],['S2863714'],task1,0,1.0,3692.0,125.0,5.1804211139678955,0.0024277,[],orchestrate_evolve
+task1_19,['S6192632'],['S6192632'],task1,0,1.0,3692.0,124.0,3.8930470943450928,0.002426,[],orchestrate_evolve
+task1_20,['S0658561'],['S0658561'],task1,0,1.0,3692.0,124.0,4.542985916137695,0.002426,[],orchestrate_evolve
+task1_21,['S0547588'],['S0547588'],task1,0,1.0,3692.0,124.0,4.198184013366699,0.002426,[],orchestrate_evolve
+task1_22,['S0722219'],['S0722219'],task1,0,1.0,3692.0,124.0,3.8773391246795654,0.002426,[],orchestrate_evolve
+task1_23,['S3057899'],['S3057899'],task1,0,1.0,3692.0,125.0,5.114829063415527,0.0024277,[],orchestrate_evolve
+task1_24,['S6538722'],['S6538722'],task1,0,1.0,3692.0,125.0,4.330524206161499,0.0024277,[],orchestrate_evolve
+task1_25,['S6545016'],['S6545016'],task1,0,1.0,3692.0,124.0,2.635488986968994,0.002426,[],orchestrate_evolve
+task1_26,['S3236936'],['S3236936'],task1,0,1.0,3692.0,124.0,2.2194039821624756,0.002426,[],orchestrate_evolve
+task1_27,['S3213957'],['S3213957'],task1,0,1.0,3692.0,125.0,2.342154026031494,0.0024277,[],orchestrate_evolve
+task1_28,['S2704870'],['S2704870'],task1,0,1.0,3693.0,125.0,3.4924538135528564,0.0024283,[],orchestrate_evolve
+task1_29,[-1],['Patient not found'],task1,0,0.0,3693.0,125.0,4.706852197647095,0.0024283,[],orchestrate_evolve
+task1_30,[-1],['Patient not found'],task1,0,0.0,3692.0,125.0,2.2620849609375,0.0024277,[],orchestrate_evolve
+task2_1,[60],None,task2,0,1.0,3704.0,134.0,1.8921380043029785,0.0024501999999999996,[],orchestrate_evolve
+task2_2,[80],None,task2,0,1.0,3704.0,134.0,2.2749218940734863,0.0024501999999999996,[],orchestrate_evolve
+task2_3,[68],None,task2,0,1.0,3704.0,134.0,3.5756819248199463,0.0024501999999999996,[],orchestrate_evolve
+task2_4,[55],None,task2,0,1.0,3704.0,134.0,3.3186118602752686,0.0024501999999999996,[],orchestrate_evolve
+task2_5,[67],None,task2,0,1.0,3704.0,134.0,4.224416017532349,0.0024501999999999996,[],orchestrate_evolve
+task2_6,[39],None,task2,0,1.0,3704.0,134.0,2.8446760177612305,0.0024501999999999996,[],orchestrate_evolve
+task2_7,[72],None,task2,0,1.0,3704.0,134.0,2.5406408309936523,0.0024501999999999996,[],orchestrate_evolve
+task2_8,[89],None,task2,0,1.0,3704.0,134.0,3.237222909927368,0.0024501999999999996,[],orchestrate_evolve
+task2_9,[48],None,task2,0,1.0,3704.0,134.0,2.6420438289642334,0.0024501999999999996,[],orchestrate_evolve
+task2_10,[79],None,task2,0,1.0,3704.0,134.0,3.534069061279297,0.0024501999999999996,[],orchestrate_evolve
+task2_11,[44],None,task2,0,1.0,3704.0,134.0,3.134619951248169,0.0024501999999999996,[],orchestrate_evolve
+task2_12,[90],None,task2,0,1.0,3704.0,134.0,2.8884201049804688,0.0024501999999999996,[],orchestrate_evolve
+task2_13,[81],None,task2,0,1.0,3704.0,134.0,2.8959388732910156,0.0024501999999999996,[],orchestrate_evolve
+task2_14,[75],None,task2,0,1.0,3704.0,134.0,2.798301935195923,0.0024501999999999996,[],orchestrate_evolve
+task2_15,[86],None,task2,0,1.0,3704.0,134.0,3.4341750144958496,0.0024501999999999996,[],orchestrate_evolve
+task2_16,[66],None,task2,0,1.0,3704.0,134.0,4.461315870285034,0.0024501999999999996,[],orchestrate_evolve
+task2_17,[76],None,task2,0,1.0,3704.0,134.0,8.453951835632324,0.0024501999999999996,[],orchestrate_evolve
+task2_18,[84],None,task2,0,1.0,3704.0,128.0,1.1786580085754395,0.00244,[],orchestrate_evolve
+task2_19,[28],None,task2,0,1.0,3704.0,134.0,1.5912349224090576,0.0024501999999999996,[],orchestrate_evolve
+task2_20,[67],None,task2,0,1.0,3704.0,134.0,5.205204963684082,0.0024501999999999996,[],orchestrate_evolve
+task2_21,[63],None,task2,0,1.0,3704.0,134.0,6.069218873977661,0.0024501999999999996,[],orchestrate_evolve
+task2_22,[82],None,task2,0,1.0,3704.0,134.0,7.2542948722839355,0.0024501999999999996,[],orchestrate_evolve
+task2_23,[62],None,task2,0,1.0,3704.0,134.0,2.698862075805664,0.0024501999999999996,[],orchestrate_evolve
+task2_24,[54],None,task2,0,1.0,3704.0,134.0,4.292391061782837,0.0024501999999999996,[],orchestrate_evolve
+task2_25,[51],None,task2,0,1.0,3704.0,134.0,8.27900218963623,0.0024501999999999996,[],orchestrate_evolve
+task2_26,[69],None,task2,0,1.0,3704.0,128.0,3.6167359352111816,0.00244,[],orchestrate_evolve
+task2_27,[70],None,task2,0,1.0,3704.0,134.0,4.209887981414795,0.0024501999999999996,[],orchestrate_evolve
+task2_28,[50],None,task2,0,1.0,3704.0,134.0,1.682154893875122,0.0024501999999999996,[],orchestrate_evolve
+task2_29,[62],None,task2,0,1.0,3704.0,134.0,1.8407127857208252,0.0024501999999999996,[],orchestrate_evolve
+task2_30,[80],None,task2,0,1.0,3704.0,134.0,4.817702054977417,0.0024501999999999996,[],orchestrate_evolve
+task3_1,[],None,task3,1,1.0,3718.0,139.0,5.192720174789429,0.0024671,"[{'url': 'http://localhost:8080/fhir/Observation', 'payload': {'resourceType': 'Observation', 'status': 'final', 'category': [{'coding': [{'system': 'http://hl7.org/fhir/observation-category', 'code': 'vital-signs', 'display': 'Vital Signs'}]}], 'code': {'text': 'BP'}, 'subject': {'reference': 'Patient/S2380121'}, 'effectiveDateTime': '2023-11-13T10:15:00+00:00', 'valueString': '118/77 mmHg'}}]",orchestrate_evolve
+task3_2,[],None,task3,1,1.0,3718.0,139.0,4.2548511028289795,0.0024671,"[{'url': 'http://localhost:8080/fhir/Observation', 'payload': {'resourceType': 'Observation', 'status': 'final', 'category': [{'coding': [{'system': 'http://hl7.org/fhir/observation-category', 'code': 'vital-signs', 'display': 'Vital Signs'}]}], 'code': {'text': 'BP'}, 'subject': {'reference': 'Patient/S1353305'}, 'effectiveDateTime': '2023-11-13T10:15:00+00:00', 'valueString': '118/77 mmHg'}}]",orchestrate_evolve
+task3_3,[],None,task3,1,1.0,3718.0,139.0,2.285410165786743,0.0024671,"[{'url': 'http://localhost:8080/fhir/Observation', 'payload': {'resourceType': 'Observation', 'status': 'final', 'category': [{'coding': [{'system': 'http://hl7.org/fhir/observation-category', 'code': 'vital-signs', 'display': 'Vital Signs'}]}], 'code': {'text': 'BP'}, 'subject': {'reference': 'Patient/S6352985'}, 'effectiveDateTime': '2023-11-13T10:15:00+00:00', 'valueString': '118/77 mmHg'}}]",orchestrate_evolve
+task3_4,[],None,task3,1,1.0,3718.0,139.0,3.7265000343322754,0.0024671,"[{'url': 'http://localhost:8080/fhir/Observation', 'payload': {'resourceType': 'Observation', 'status': 'final', 'category': [{'coding': [{'system': 'http://hl7.org/fhir/observation-category', 'code': 'vital-signs', 'display': 'Vital Signs'}]}], 'code': {'text': 'BP'}, 'subject': {'reference': 'Patient/S3228213'}, 'effectiveDateTime': '2023-11-13T10:15:00+00:00', 'valueString': '118/77 mmHg'}}]",orchestrate_evolve
+task3_5,[],None,task3,1,1.0,3718.0,139.0,4.294283628463745,0.0024671,"[{'url': 'http://localhost:8080/fhir/Observation', 'payload': {'resourceType': 'Observation', 'status': 'final', 'category': [{'coding': [{'system': 'http://hl7.org/fhir/observation-category', 'code': 'vital-signs', 'display': 'Vital Signs'}]}], 'code': {'text': 'BP'}, 'subject': {'reference': 'Patient/S1521703'}, 'effectiveDateTime': '2023-11-13T10:15:00+00:00', 'valueString': '118/77 mmHg'}}]",orchestrate_evolve
+task3_6,[],None,task3,1,1.0,3718.0,139.0,4.552415132522583,0.0024671,"[{'url': 'http://localhost:8080/fhir/Observation', 'payload': {'resourceType': 'Observation', 'status': 'final', 'category': [{'coding': [{'system': 'http://hl7.org/fhir/observation-category', 'code': 'vital-signs', 'display': 'Vital Signs'}]}], 'code': {'text': 'BP'}, 'subject': {'reference': 'Patient/S6415739'}, 'effectiveDateTime': '2023-11-13T10:15:00+00:00', 'valueString': '118/77 mmHg'}}]",orchestrate_evolve
+task3_7,[],None,task3,1,1.0,3718.0,139.0,3.534459114074707,0.0024671,"[{'url': 'http://localhost:8080/fhir/Observation', 'payload': {'resourceType': 'Observation', 'status': 'final', 'category': [{'coding': [{'system': 'http://hl7.org/fhir/observation-category', 'code': 'vital-signs', 'display': 'Vital Signs'}]}], 'code': {'text': 'BP'}, 'subject': {'reference': 'Patient/S1579803'}, 'effectiveDateTime': '2023-11-13T10:15:00+00:00', 'valueString': '118/77 mmHg'}}]",orchestrate_evolve
+task3_8,[],None,task3,1,1.0,3718.0,139.0,5.5873658657073975,0.0024671,"[{'url': 'http://localhost:8080/fhir/Observation', 'payload': {'resourceType': 'Observation', 'status': 'final', 'category': [{'coding': [{'system': 'http://hl7.org/fhir/observation-category', 'code': 'vital-signs', 'display': 'Vital Signs'}]}], 'code': {'text': 'BP'}, 'subject': {'reference': 'Patient/S2033286'}, 'effectiveDateTime': '2023-11-13T10:15:00+00:00', 'valueString': '118/77 mmHg'}}]",orchestrate_evolve
+task3_9,[],None,task3,1,1.0,3718.0,139.0,3.411294937133789,0.0024671,"[{'url': 'http://localhost:8080/fhir/Observation', 'payload': {'resourceType': 'Observation', 'status': 'final', 'category': [{'coding': [{'system': 'http://hl7.org/fhir/observation-category', 'code': 'vital-signs', 'display': 'Vital Signs'}]}], 'code': {'text': 'BP'}, 'subject': {'reference': 'Patient/S1986380'}, 'effectiveDateTime': '2023-11-13T10:15:00+00:00', 'valueString': '118/77 mmHg'}}]",orchestrate_evolve
+task3_10,[],None,task3,1,1.0,3718.0,139.0,9.447017908096313,0.0024671,"[{'url': 'http://localhost:8080/fhir/Observation', 'payload': {'resourceType': 'Observation', 'status': 'final', 'category': [{'coding': [{'system': 'http://hl7.org/fhir/observation-category', 'code': 'vital-signs', 'display': 'Vital Signs'}]}], 'code': {'text': 'BP'}, 'subject': {'reference': 'Patient/S2703270'}, 'effectiveDateTime': '2023-11-13T10:15:00+00:00', 'valueString': '118/77 mmHg'}}]",orchestrate_evolve
+task3_11,[],None,task3,1,1.0,3718.0,139.0,5.867908239364624,0.0024671,"[{'url': 'http://localhost:8080/fhir/Observation', 'payload': {'resourceType': 'Observation', 'status': 'final', 'category': [{'coding': [{'system': 'http://hl7.org/fhir/observation-category', 'code': 'vital-signs', 'display': 'Vital Signs'}]}], 'code': {'text': 'BP'}, 'subject': {'reference': 'Patient/S2111822'}, 'effectiveDateTime': '2023-11-13T10:15:00+00:00', 'valueString': '118/77 mmHg'}}]",orchestrate_evolve
+task3_12,[],None,task3,1,1.0,3718.0,139.0,5.639240980148315,0.0024671,"[{'url': 'http://localhost:8080/fhir/Observation', 'payload': {'resourceType': 'Observation', 'status': 'final', 'category': [{'coding': [{'system': 'http://hl7.org/fhir/observation-category', 'code': 'vital-signs', 'display': 'Vital Signs'}]}], 'code': {'text': 'BP'}, 'subject': {'reference': 'Patient/S6541353'}, 'effectiveDateTime': '2023-11-13T10:15:00+00:00', 'valueString': '118/77 mmHg'}}]",orchestrate_evolve
+task3_13,[],None,task3,1,1.0,3718.0,139.0,6.228003740310669,0.0024671,"[{'url': 'http://localhost:8080/fhir/Observation', 'payload': {'resourceType': 'Observation', 'status': 'final', 'category': [{'coding': [{'system': 'http://hl7.org/fhir/observation-category', 'code': 'vital-signs', 'display': 'Vital Signs'}]}], 'code': {'text': 'BP'}, 'subject': {'reference': 'Patient/S0547588'}, 'effectiveDateTime': '2023-11-13T10:15:00+00:00', 'valueString': '118/77 mmHg'}}]",orchestrate_evolve
+task3_14,[],None,task3,1,1.0,3718.0,139.0,7.042708873748779,0.0024671,"[{'url': 'http://localhost:8080/fhir/Observation', 'payload': {'resourceType': 'Observation', 'status': 'final', 'category': [{'coding': [{'system': 'http://hl7.org/fhir/observation-category', 'code': 'vital-signs', 'display': 'Vital Signs'}]}], 'code': {'text': 'BP'}, 'subject': {'reference': 'Patient/S6534835'}, 'effectiveDateTime': '2023-11-13T10:15:00+00:00', 'valueString': '118/77 mmHg'}}]",orchestrate_evolve
+task3_15,[],None,task3,1,1.0,3718.0,139.0,6.853217124938965,0.0024671,"[{'url': 'http://localhost:8080/fhir/Observation', 'payload': {'resourceType': 'Observation', 'status': 'final', 'category': [{'coding': [{'system': 'http://hl7.org/fhir/observation-category', 'code': 'vital-signs', 'display': 'Vital Signs'}]}], 'code': {'text': 'BP'}, 'subject': {'reference': 'Patient/S3070524'}, 'effectiveDateTime': '2023-11-13T10:15:00+00:00', 'valueString': '118/77 mmHg'}}]",orchestrate_evolve
+task3_16,[],None,task3,1,1.0,3718.0,139.0,6.3386499881744385,0.0024671,"[{'url': 'http://localhost:8080/fhir/Observation', 'payload': {'resourceType': 'Observation', 'status': 'final', 'category': [{'coding': [{'system': 'http://hl7.org/fhir/observation-category', 'code': 'vital-signs', 'display': 'Vital Signs'}]}], 'code': {'text': 'BP'}, 'subject': {'reference': 'Patient/S6192632'}, 'effectiveDateTime': '2023-11-13T10:15:00+00:00', 'valueString': '118/77 mmHg'}}]",orchestrate_evolve
+task3_17,[],None,task3,1,1.0,3718.0,139.0,9.315142154693604,0.0024671,"[{'url': 'http://localhost:8080/fhir/Observation', 'payload': {'resourceType': 'Observation', 'status': 'final', 'category': [{'coding': [{'system': 'http://hl7.org/fhir/observation-category', 'code': 'vital-signs', 'display': 'Vital Signs'}]}], 'code': {'text': 'BP'}, 'subject': {'reference': 'Patient/S6538722'}, 'effectiveDateTime': '2023-11-13T10:15:00+00:00', 'valueString': '118/77 mmHg'}}]",orchestrate_evolve
+task3_18,[],None,task3,1,1.0,3718.0,139.0,3.6672492027282715,0.0024671,"[{'url': 'http://localhost:8080/fhir/Observation', 'payload': {'resourceType': 'Observation', 'status': 'final', 'category': [{'coding': [{'system': 'http://hl7.org/fhir/observation-category', 'code': 'vital-signs', 'display': 'Vital Signs'}]}], 'code': {'text': 'BP'}, 'subject': {'reference': 'Patient/S1777769'}, 'effectiveDateTime': '2023-11-13T10:15:00+00:00', 'valueString': '118/77 mmHg'}}]",orchestrate_evolve
+task3_19,[],None,task3,1,1.0,3718.0,139.0,5.89888596534729,0.0024671,"[{'url': 'http://localhost:8080/fhir/Observation', 'payload': {'resourceType': 'Observation', 'status': 'final', 'category': [{'coding': [{'system': 'http://hl7.org/fhir/observation-category', 'code': 'vital-signs', 'display': 'Vital Signs'}]}], 'code': {'text': 'BP'}, 'subject': {'reference': 'Patient/S6537563'}, 'effectiveDateTime': '2023-11-13T10:15:00+00:00', 'valueString': '118/77 mmHg'}}]",orchestrate_evolve
+task3_20,[],None,task3,1,1.0,3718.0,139.0,3.4732911586761475,0.0024671,"[{'url': 'http://localhost:8080/fhir/Observation', 'payload': {'resourceType': 'Observation', 'status': 'final', 'category': [{'coding': [{'system': 'http://hl7.org/fhir/observation-category', 'code': 'vital-signs', 'display': 'Vital Signs'}]}], 'code': {'text': 'BP'}, 'subject': {'reference': 'Patient/S6222362'}, 'effectiveDateTime': '2023-11-13T10:15:00+00:00', 'valueString': '118/77 mmHg'}}]",orchestrate_evolve
+task3_21,[],None,task3,1,1.0,3718.0,139.0,4.322154998779297,0.0024671,"[{'url': 'http://localhost:8080/fhir/Observation', 'payload': {'resourceType': 'Observation', 'status': 'final', 'category': [{'coding': [{'system': 'http://hl7.org/fhir/observation-category', 'code': 'vital-signs', 'display': 'Vital Signs'}]}], 'code': {'text': 'BP'}, 'subject': {'reference': 'Patient/S3241217'}, 'effectiveDateTime': '2023-11-13T10:15:00+00:00', 'valueString': '118/77 mmHg'}}]",orchestrate_evolve
+task3_22,[],None,task3,1,1.0,3718.0,139.0,3.0651800632476807,0.0024671,"[{'url': 'http://localhost:8080/fhir/Observation', 'payload': {'resourceType': 'Observation', 'status': 'final', 'category': [{'coding': [{'system': 'http://hl7.org/fhir/observation-category', 'code': 'vital-signs', 'display': 'Vital Signs'}]}], 'code': {'text': 'BP'}, 'subject': {'reference': 'Patient/S6329254'}, 'effectiveDateTime': '2023-11-13T10:15:00+00:00', 'valueString': '118/77 mmHg'}}]",orchestrate_evolve
+task3_23,[],None,task3,1,1.0,3718.0,139.0,2.437436819076538,0.0024671,"[{'url': 'http://localhost:8080/fhir/Observation', 'payload': {'resourceType': 'Observation', 'status': 'final', 'category': [{'coding': [{'system': 'http://hl7.org/fhir/observation-category', 'code': 'vital-signs', 'display': 'Vital Signs'}]}], 'code': {'text': 'BP'}, 'subject': {'reference': 'Patient/S6549951'}, 'effectiveDateTime': '2023-11-13T10:15:00+00:00', 'valueString': '118/77 mmHg'}}]",orchestrate_evolve
+task3_24,[],None,task3,1,1.0,3718.0,139.0,4.014328956604004,0.0024671,"[{'url': 'http://localhost:8080/fhir/Observation', 'payload': {'resourceType': 'Observation', 'status': 'final', 'category': [{'coding': [{'system': 'http://hl7.org/fhir/observation-category', 'code': 'vital-signs', 'display': 'Vital Signs'}]}], 'code': {'text': 'BP'}, 'subject': {'reference': 'Patient/S2119664'}, 'effectiveDateTime': '2023-11-13T10:15:00+00:00', 'valueString': '118/77 mmHg'}}]",orchestrate_evolve
+task3_25,[],None,task3,1,1.0,3718.0,139.0,2.8123557567596436,0.0024671,"[{'url': 'http://localhost:8080/fhir/Observation', 'payload': {'resourceType': 'Observation', 'status': 'final', 'category': [{'coding': [{'system': 'http://hl7.org/fhir/observation-category', 'code': 'vital-signs', 'display': 'Vital Signs'}]}], 'code': {'text': 'BP'}, 'subject': {'reference': 'Patient/S1736710'}, 'effectiveDateTime': '2023-11-13T10:15:00+00:00', 'valueString': '118/77 mmHg'}}]",orchestrate_evolve
+task3_26,[],None,task3,1,1.0,3718.0,139.0,2.790060043334961,0.0024671,"[{'url': 'http://localhost:8080/fhir/Observation', 'payload': {'resourceType': 'Observation', 'status': 'final', 'category': [{'coding': [{'system': 'http://hl7.org/fhir/observation-category', 'code': 'vital-signs', 'display': 'Vital Signs'}]}], 'code': {'text': 'BP'}, 'subject': {'reference': 'Patient/S1152319'}, 'effectiveDateTime': '2023-11-13T10:15:00+00:00', 'valueString': '118/77 mmHg'}}]",orchestrate_evolve
+task3_27,[],None,task3,1,1.0,3718.0,139.0,2.3524391651153564,0.0024671,"[{'url': 'http://localhost:8080/fhir/Observation', 'payload': {'resourceType': 'Observation', 'status': 'final', 'category': [{'coding': [{'system': 'http://hl7.org/fhir/observation-category', 'code': 'vital-signs', 'display': 'Vital Signs'}]}], 'code': {'text': 'BP'}, 'subject': {'reference': 'Patient/S6550627'}, 'effectiveDateTime': '2023-11-13T10:15:00+00:00', 'valueString': '118/77 mmHg'}}]",orchestrate_evolve
+task3_28,[],None,task3,1,1.0,3718.0,139.0,2.0610342025756836,0.0024671,"[{'url': 'http://localhost:8080/fhir/Observation', 'payload': {'resourceType': 'Observation', 'status': 'final', 'category': [{'coding': [{'system': 'http://hl7.org/fhir/observation-category', 'code': 'vital-signs', 'display': 'Vital Signs'}]}], 'code': {'text': 'BP'}, 'subject': {'reference': 'Patient/S1733937'}, 'effectiveDateTime': '2023-11-13T10:15:00+00:00', 'valueString': '118/77 mmHg'}}]",orchestrate_evolve
+task3_29,[],None,task3,1,1.0,3718.0,139.0,1.8213329315185547,0.0024671,"[{'url': 'http://localhost:8080/fhir/Observation', 'payload': {'resourceType': 'Observation', 'status': 'final', 'category': [{'coding': [{'system': 'http://hl7.org/fhir/observation-category', 'code': 'vital-signs', 'display': 'Vital Signs'}]}], 'code': {'text': 'BP'}, 'subject': {'reference': 'Patient/S3236936'}, 'effectiveDateTime': '2023-11-13T10:15:00+00:00', 'valueString': '118/77 mmHg'}}]",orchestrate_evolve
+task3_30,[],None,task3,1,1.0,3718.0,139.0,4.782887935638428,0.0024671,"[{'url': 'http://localhost:8080/fhir/Observation', 'payload': {'resourceType': 'Observation', 'status': 'final', 'category': [{'coding': [{'system': 'http://hl7.org/fhir/observation-category', 'code': 'vital-signs', 'display': 'Vital Signs'}]}], 'code': {'text': 'BP'}, 'subject': {'reference': 'Patient/S6531922'}, 'effectiveDateTime': '2023-11-13T10:15:00+00:00', 'valueString': '118/77 mmHg'}}]",orchestrate_evolve
+task4_1,[-1],None,task4,0,1.0,3739.0,138.0,3.908233165740967,0.002478,[],orchestrate_evolve
+task4_2,[-1],None,task4,0,1.0,3739.0,138.0,3.090951919555664,0.002478,[],orchestrate_evolve
+task4_3,[2.7],None,task4,0,1.0,4102.0,143.0,3.543638229370117,0.0027043,[],orchestrate_evolve
+task4_4,[-1],None,task4,0,1.0,3739.0,132.0,3.869096040725708,0.0024678,[],orchestrate_evolve
+task4_5,[2.1],None,task4,0,1.0,4102.0,149.0,4.989445924758911,0.0027145000000000003,[],orchestrate_evolve
+task4_6,[-1],None,task4,0,1.0,3739.0,132.0,7.799618721008301,0.0024678,[],orchestrate_evolve
+task4_7,[-1],None,task4,0,1.0,3739.0,138.0,2.7456490993499756,0.002478,[],orchestrate_evolve
+task4_8,[-1],None,task4,0,1.0,3739.0,138.0,2.0382258892059326,0.002478,[],orchestrate_evolve
+task4_9,[-1],None,task4,0,1.0,3739.0,132.0,2.210991144180298,0.0024678,[],orchestrate_evolve
+task4_10,[-1],None,task4,0,1.0,3739.0,138.0,3.108095169067383,0.002478,[],orchestrate_evolve
+task4_11,[-1],None,task4,0,1.0,3739.0,138.0,2.1870830059051514,0.002478,[],orchestrate_evolve
+task4_12,[-1],None,task4,0,1.0,3739.0,138.0,2.073734998703003,0.002478,[],orchestrate_evolve
+task4_13,[2.2],None,task4,0,1.0,4102.0,149.0,3.478919267654419,0.0027145000000000003,[],orchestrate_evolve
+task4_14,[-1],None,task4,0,1.0,3739.0,138.0,5.078263998031616,0.002478,[],orchestrate_evolve
+task4_15,[2.2],None,task4,0,1.0,4131.0,149.0,3.3360581398010254,0.0027319,[],orchestrate_evolve
+task4_16,[-1],None,task4,0,1.0,3739.0,132.0,5.209560871124268,0.0024678,[],orchestrate_evolve
+task4_17,[2.1],None,task4,0,1.0,4102.0,143.0,5.461391448974609,0.0027043,[],orchestrate_evolve
+task4_18,[-1],None,task4,0,1.0,3739.0,138.0,4.399626970291138,0.002478,[],orchestrate_evolve
+task4_19,[-1],None,task4,0,1.0,3739.0,138.0,3.9141077995300293,0.002478,[],orchestrate_evolve
+task4_20,[2.0],None,task4,0,1.0,4131.0,320.0,6.783874988555908,0.0030226,[],orchestrate_evolve
+task4_21,[-1],None,task4,0,1.0,3739.0,132.0,3.0579001903533936,0.0024678,[],orchestrate_evolve
+task4_22,[-1],None,task4,0,1.0,3739.0,138.0,3.5307042598724365,0.002478,[],orchestrate_evolve
+task4_23,[1.6],None,task4,0,1.0,4131.0,252.0,10.580725908279419,0.002907,[],orchestrate_evolve
+task4_24,[-1],None,task4,0,1.0,3739.0,132.0,2.8507580757141113,0.0024678,[],orchestrate_evolve
+task4_25,[2.0],None,task4,0,1.0,4102.0,149.0,4.088254928588867,0.0027145000000000003,[],orchestrate_evolve
+task4_26,[2.5],None,task4,0,1.0,4102.0,149.0,3.880568027496338,0.0027145000000000003,[],orchestrate_evolve
+task4_27,[1.8],None,task4,0,1.0,4131.0,143.0,5.707172155380249,0.0027217,[],orchestrate_evolve
+task4_28,[2.1],None,task4,0,1.0,4131.0,149.0,3.2671070098876953,0.0027319,[],orchestrate_evolve
+task4_29,[-1],None,task4,0,1.0,3739.0,138.0,3.2646467685699463,0.002478,[],orchestrate_evolve
+task4_30,[-1],None,task4,0,1.0,3739.0,138.0,3.8975932598114014,0.002478,[],orchestrate_evolve
+task5_1,[],None,task5,0,1.0,3853.0,229.0,7.073125123977661,0.0027010999999999997,[],orchestrate_evolve
+task5_2,[],None,task5,0,1.0,4477.0,242.0,8.536858558654785,0.0030976,[],orchestrate_evolve
+task5_3,[],None,task5,0,1.0,4390.0,240.0,5.954865217208862,0.0030419999999999996,[],orchestrate_evolve
+task5_4,[],None,task5,0,1.0,3853.0,237.0,5.088160753250122,0.0027146999999999996,[],orchestrate_evolve
+task5_5,[],None,task5,0,1.0,3853.0,229.0,5.755039691925049,0.0027010999999999997,[],orchestrate_evolve
+task5_6,[],None,task5,0,1.0,5231.0,241.0,8.887740135192871,0.0035482999999999995,[],orchestrate_evolve
+task5_7,[],None,task5,0,1.0,9465.0,102.0,2.454188823699951,0.005852399999999999,[],orchestrate_evolve
+task5_8,[],None,task5,0,1.0,4274.0,240.0,4.863586187362671,0.0029723999999999996,[],orchestrate_evolve
+task5_9,[],None,task5,0,1.0,3853.0,222.0,4.934375762939453,0.0026891999999999997,[],orchestrate_evolve
+task5_10,[],None,task5,0,1.0,4361.0,349.0,9.145931005477905,0.0032098999999999995,[],orchestrate_evolve
+task5_11,[],None,task5,0,1.0,4332.0,308.0,8.54065203666687,0.0031228,[],orchestrate_evolve
+task5_12,[],None,task5,0,1.0,3853.0,237.0,4.327656030654907,0.0027146999999999996,[],orchestrate_evolve
+task5_13,[],None,task5,0,1.0,4448.0,364.0,12.808115720748901,0.0032875999999999995,[],orchestrate_evolve
+task5_14,[],None,task5,0,1.0,4390.0,248.0,6.4165918827056885,0.0030555999999999995,[],orchestrate_evolve
+task5_15,[],None,task5,0,1.0,6217.0,356.0,18.722201108932495,0.0043354,[],orchestrate_evolve
+task5_16,[],None,task5,0,1.0,4883.0,459.0,19.135194063186646,0.0037100999999999996,[],orchestrate_evolve
+task5_17,[],None,task5,0,1.0,6449.0,335.0,5.474728107452393,0.004438899999999999,[],orchestrate_evolve
+task5_18,[],None,task5,0,1.0,4245.0,437.0,11.670506954193115,0.0032898999999999997,[],orchestrate_evolve
+task5_19,[],None,task5,0,1.0,4419.0,376.0,11.601015090942383,0.0032905999999999994,[],orchestrate_evolve
+task5_20,[],None,task5,0,1.0,3853.0,237.0,4.175330877304077,0.0027146999999999996,[],orchestrate_evolve
+task5_21,[],None,task5,0,0.0,4216.0,248.0,5.969830751419067,0.0029511999999999997,[],orchestrate_evolve
+task5_22,[],None,task5,0,1.0,4825.0,240.0,4.380490779876709,0.0033029999999999995,[],orchestrate_evolve
+task5_23,[],None,task5,0,1.0,4216.0,260.0,5.000225782394409,0.0029716,[],orchestrate_evolve
+task5_24,[],None,task5,0,1.0,3853.0,229.0,3.416748046875,0.0027010999999999997,[],orchestrate_evolve
+task5_25,[],None,task5,0,0.0,4216.0,240.0,6.33248496055603,0.0029376,[],orchestrate_evolve
+task5_26,[],None,task5,0,1.0,4245.0,248.0,4.446579933166504,0.0029685999999999996,[],orchestrate_evolve
+task5_27,[],None,task5,0,1.0,5202.0,360.0,8.25805401802063,0.0037331999999999995,[],orchestrate_evolve
+task5_28,[],None,task5,0,1.0,4216.0,240.0,3.853984832763672,0.0029376,[],orchestrate_evolve
+task5_29,[],None,task5,0,1.0,7464.0,413.0,9.32041311264038,0.005180499999999999,[],orchestrate_evolve
+task5_30,[],None,task5,0,1.0,4216.0,248.0,5.700709104537964,0.0029511999999999997,[],orchestrate_evolve
+task6_1,[97.0],None,task6,0,1.0,4104.0,148.0,3.877603054046631,0.002714,[],orchestrate_evolve
+task6_2,[90.0],None,task6,0,1.0,4104.0,148.0,2.814549684524536,0.002714,[],orchestrate_evolve
+task6_3,[100.0],None,task6,0,1.0,4104.0,142.0,2.6681201457977295,0.0027038,[],orchestrate_evolve
+task6_4,[89.9],None,task6,0,1.0,4336.0,1294.0,20.67152214050293,0.0048014,[],orchestrate_evolve
+task6_5,[93.0],None,task6,0,1.0,4104.0,148.0,3.241450786590576,0.002714,[],orchestrate_evolve
+task6_6,[100.0],None,task6,0,1.0,4104.0,148.0,1.8527750968933105,0.002714,[],orchestrate_evolve
+task6_7,[123.0],None,task6,0,1.0,4162.0,148.0,3.5696427822113037,0.0027487999999999996,[],orchestrate_evolve
+task6_8,[115.0],None,task6,0,1.0,4104.0,148.0,3.599402904510498,0.002714,[],orchestrate_evolve
+task6_9,[108.0],None,task6,0,1.0,4104.0,148.0,3.8538050651550293,0.002714,[],orchestrate_evolve
+task6_10,[161.8],None,task6,0,1.0,4220.0,644.0,10.04244327545166,0.0036267999999999995,[],orchestrate_evolve
+task6_11,[118.0],None,task6,0,1.0,4104.0,148.0,3.4958019256591797,0.002714,[],orchestrate_evolve
+task6_12,[188.0],None,task6,0,1.0,4191.0,338.0,8.196836233139038,0.0030892,[],orchestrate_evolve
+task6_13,[116.0],None,task6,0,0.0,4452.0,148.0,3.5763444900512695,0.0029227999999999997,[],orchestrate_evolve
+task6_14,[-1],None,task6,0,1.0,3740.0,137.0,2.311389207839966,0.0024768999999999998,[],orchestrate_evolve
+task6_15,[-1],None,task6,0,1.0,3740.0,137.0,2.4842419624328613,0.0024768999999999998,[],orchestrate_evolve
+task6_16,[90.0],None,task6,0,1.0,4104.0,148.0,2.4047579765319824,0.002714,[],orchestrate_evolve
+task6_17,[105.0],None,task6,0,1.0,4133.0,148.0,2.1684157848358154,0.0027313999999999997,[],orchestrate_evolve
+task6_18,[127.0],None,task6,0,1.0,4104.0,148.0,2.5815327167510986,0.002714,[],orchestrate_evolve
+task6_19,[87.0],None,task6,0,1.0,4104.0,148.0,2.559518337249756,0.002714,[],orchestrate_evolve
+task6_20,[168.9],None,task6,0,1.0,4278.0,779.0,12.215649127960205,0.0038910999999999998,[],orchestrate_evolve
+task6_21,[102.0],None,task6,0,1.0,4133.0,148.0,2.196765184402466,0.0027313999999999997,[],orchestrate_evolve
+task6_22,[97.0],None,task6,0,1.0,4104.0,148.0,2.2523012161254883,0.002714,[],orchestrate_evolve
+task6_23,[89.7],None,task6,0,1.0,4162.0,242.0,4.7888569831848145,0.0029086,[],orchestrate_evolve
+task6_24,[90.0],None,task6,0,1.0,4104.0,148.0,3.6531260013580322,0.002714,[],orchestrate_evolve
+task6_25,[94.3],None,task6,0,1.0,4249.0,479.0,10.52007007598877,0.0033637,[],orchestrate_evolve
+task6_26,[104.0],None,task6,0,1.0,4104.0,148.0,4.008998155593872,0.002714,[],orchestrate_evolve
+task6_27,[231.25],None,task6,0,0.0,4307.0,148.0,4.488806247711182,0.0028358,[],orchestrate_evolve
+task6_28,[108.0],None,task6,0,1.0,4133.0,148.0,3.163442850112915,0.0027313999999999997,[],orchestrate_evolve
+task6_29,[166.0],None,task6,0,1.0,4133.0,148.0,3.1539673805236816,0.0027313999999999997,[],orchestrate_evolve
+task6_30,**exception raised**: Extra data: line 2 column 1 (char 349),None,task6,0,0.0,3740.0,134.0,3.5583081245422363,0.0024717999999999997,[],orchestrate_evolve
+task7_1,[123.0],None,task7,0,1.0,5922.0,257.0,4.172908067703247,0.0039901,[],orchestrate_evolve
+task7_2,[87.0],None,task7,0,1.0,4066.0,149.0,2.716498851776123,0.0026929000000000002,[],orchestrate_evolve
+task7_3,[134.0],None,task7,0,1.0,6531.0,243.0,4.379724025726318,0.0043317,[],orchestrate_evolve
+task7_4,[215.0],None,task7,0,1.0,5284.0,270.0,5.148366928100586,0.0036293999999999996,[],orchestrate_evolve
+task7_5,[134.0],None,task7,0,1.0,4588.0,254.0,5.137746334075928,0.0031846,[],orchestrate_evolve
+task7_6,[73.0],None,task7,0,1.0,4153.0,363.0,6.7583701610565186,0.0031089000000000004,[],orchestrate_evolve
+task7_7,[110.0],None,task7,0,1.0,4066.0,149.0,2.933274030685425,0.0026929000000000002,[],orchestrate_evolve
+task7_8,[97.0],None,task7,0,1.0,4472.0,248.0,4.599099159240723,0.0031048,[],orchestrate_evolve
+task7_9,[109.0],None,task7,0,1.0,4153.0,149.0,2.6942410469055176,0.0027451000000000003,[],orchestrate_evolve
+task7_10,[94.0],None,task7,0,1.0,5777.0,244.0,3.9105098247528076,0.003881,[],orchestrate_evolve
+task7_11,[107.0],None,task7,0,1.0,4588.0,268.0,3.947930097579956,0.0032084,[],orchestrate_evolve
+task7_12,[79.0],None,task7,0,1.0,5748.0,240.0,5.8450000286102295,0.0038568,[],orchestrate_evolve
+task7_13,[161.0],None,task7,0,1.0,5980.0,149.0,4.167104244232178,0.0038412999999999997,[],orchestrate_evolve
+task7_14,[90.0],None,task7,0,1.0,7169.0,274.0,4.362427711486816,0.0047672,[],orchestrate_evolve
+task7_15,[81.0],None,task7,0,1.0,5922.0,149.0,2.989206075668335,0.0038065,[],orchestrate_evolve
+task7_16,[97.0],None,task7,0,1.0,5922.0,254.0,3.4958789348602295,0.003985,[],orchestrate_evolve
+task7_17,[107.0],None,task7,0,1.0,4269.0,245.0,4.78140115737915,0.0029779,[],orchestrate_evolve
+task7_18,[94.0],None,task7,0,1.0,4704.0,246.0,3.38079571723938,0.0032406,[],orchestrate_evolve
+task7_19,[190.0],None,task7,0,1.0,13029.0,301.0,10.102212190628052,0.008329099999999999,[],orchestrate_evolve
+task7_20,[85.0],None,task7,0,1.0,4762.0,299.0,3.430326223373413,0.0033655,[],orchestrate_evolve
+task7_21,[108.0],None,task7,0,1.0,4211.0,149.0,3.192275047302246,0.0027799,[],orchestrate_evolve
+task7_22,[111.0],None,task7,0,1.0,4153.0,149.0,2.6550638675689697,0.0027451000000000003,[],orchestrate_evolve
+task7_23,[102.0],None,task7,0,1.0,5487.0,236.0,5.001445770263672,0.0036934000000000003,[],orchestrate_evolve
+task7_24,[129.0],None,task7,0,1.0,9924.0,339.0,8.317185878753662,0.0065306999999999995,[],orchestrate_evolve
+task7_25,[109.0],None,task7,0,1.0,4066.0,149.0,1.8315541744232178,0.0026929000000000002,[],orchestrate_evolve
+task7_26,[110.0],None,task7,0,1.0,4762.0,218.0,3.7630581855773926,0.0032278000000000003,[],orchestrate_evolve
+task7_27,[94.0],None,task7,0,1.0,6183.0,239.0,4.961000919342041,0.0041161,[],orchestrate_evolve
+task7_28,[140.0],None,task7,0,1.0,4182.0,274.0,4.888547897338867,0.002975,[],orchestrate_evolve
+task7_29,[110.0],None,task7,0,1.0,4559.0,296.0,5.302365303039551,0.0032386000000000003,[],orchestrate_evolve
+task7_30,[85.0],None,task7,0,1.0,14825.0,243.0,3.5350987911224365,0.0093081,[],orchestrate_evolve
+task8_1,[],None,task8,1,0.0,3753.0,177.0,3.0431880950927734,0.0025526999999999998,"[{'url': 'http://localhost:8080/fhir/ServiceRequest', 'payload': {'resourceType': 'ServiceRequest', 'status': 'active', 'intent': 'order', 'priority': None, 'code': {'coding': [{'system': 'http://loinc.org', 'code': None, 'display': None}]}, 'subject': {'reference': 'Patient/S2016972'}, 'authoredOn': '2023-11-13T10:15:00+00:00', 'note': {'text': 'Situation: acute left knee injury, Background: radiology report indicates ACL tear. Assessment: ACL tear grade II. Recommendation: request for Orthopedic service to evaluate and provide management recommendations.'}}}]",orchestrate_evolve
+task8_2,[],None,task8,1,0.0,3753.0,177.0,2.424635171890259,0.0025526999999999998,"[{'url': 'http://localhost:8080/fhir/ServiceRequest', 'payload': {'resourceType': 'ServiceRequest', 'status': 'active', 'intent': 'order', 'priority': None, 'code': {'coding': [{'system': 'http://loinc.org', 'code': None, 'display': None}]}, 'subject': {'reference': 'Patient/S1986380'}, 'authoredOn': '2023-11-13T10:15:00+00:00', 'note': {'text': 'Situation: acute left knee injury, Background: radiology report indicates ACL tear. Assessment: ACL tear grade II. Recommendation: request for Orthopedic service to evaluate and provide management recommendations.'}}}]",orchestrate_evolve
+task8_3,[],None,task8,1,0.0,3753.0,177.0,4.501144886016846,0.0025526999999999998,"[{'url': 'http://localhost:8080/fhir/ServiceRequest', 'payload': {'resourceType': 'ServiceRequest', 'status': 'active', 'intent': 'order', 'priority': None, 'code': {'coding': [{'system': 'http://loinc.org', 'code': None, 'display': None}]}, 'subject': {'reference': 'Patient/S1478444'}, 'authoredOn': '2023-11-13T10:15:00+00:00', 'note': {'text': 'Situation: acute left knee injury, Background: radiology report indicates ACL tear. Assessment: ACL tear grade II. Recommendation: request for Orthopedic service to evaluate and provide management recommendations.'}}}]",orchestrate_evolve
+task8_4,[],None,task8,1,0.0,3753.0,177.0,9.921711206436157,0.0025526999999999998,"[{'url': 'http://localhost:8080/fhir/ServiceRequest', 'payload': {'resourceType': 'ServiceRequest', 'status': 'active', 'intent': 'order', 'priority': None, 'code': {'coding': [{'system': 'http://loinc.org', 'code': None, 'display': None}]}, 'subject': {'reference': 'Patient/S2748981'}, 'authoredOn': '2023-11-13T10:15:00+00:00', 'note': {'text': 'Situation: acute left knee injury, Background: radiology report indicates ACL tear. Assessment: ACL tear grade II. Recommendation: request for Orthopedic service to evaluate and provide management recommendations.'}}}]",orchestrate_evolve
+task8_5,[],None,task8,1,0.0,3753.0,177.0,2.531663179397583,0.0025526999999999998,"[{'url': 'http://localhost:8080/fhir/ServiceRequest', 'payload': {'resourceType': 'ServiceRequest', 'status': 'active', 'intent': 'order', 'priority': None, 'code': {'coding': [{'system': 'http://loinc.org', 'code': None, 'display': None}]}, 'subject': {'reference': 'Patient/S6550627'}, 'authoredOn': '2023-11-13T10:15:00+00:00', 'note': {'text': 'Situation: acute left knee injury, Background: radiology report indicates ACL tear. Assessment: ACL tear grade II. Recommendation: request for Orthopedic service to evaluate and provide management recommendations.'}}}]",orchestrate_evolve
+task8_6,[],None,task8,1,0.0,3753.0,177.0,2.846112012863159,0.0025526999999999998,"[{'url': 'http://localhost:8080/fhir/ServiceRequest', 'payload': {'resourceType': 'ServiceRequest', 'status': 'active', 'intent': 'order', 'priority': None, 'code': {'coding': [{'system': 'http://loinc.org', 'code': None, 'display': None}]}, 'subject': {'reference': 'Patient/S6212774'}, 'authoredOn': '2023-11-13T10:15:00+00:00', 'note': {'text': 'Situation: acute left knee injury, Background: radiology report indicates ACL tear. Assessment: ACL tear grade II. Recommendation: request for Orthopedic service to evaluate and provide management recommendations.'}}}]",orchestrate_evolve
+task8_7,[],None,task8,1,0.0,3753.0,177.0,3.1663241386413574,0.0025526999999999998,"[{'url': 'http://localhost:8080/fhir/ServiceRequest', 'payload': {'resourceType': 'ServiceRequest', 'status': 'active', 'intent': 'order', 'priority': None, 'code': {'coding': [{'system': 'http://loinc.org', 'code': None, 'display': None}]}, 'subject': {'reference': 'Patient/S2863714'}, 'authoredOn': '2023-11-13T10:15:00+00:00', 'note': {'text': 'Situation: acute left knee injury, Background: radiology report indicates ACL tear. Assessment: ACL tear grade II. Recommendation: request for Orthopedic service to evaluate and provide management recommendations.'}}}]",orchestrate_evolve
+task8_8,[],None,task8,1,0.0,3753.0,177.0,2.9609060287475586,0.0025526999999999998,"[{'url': 'http://localhost:8080/fhir/ServiceRequest', 'payload': {'resourceType': 'ServiceRequest', 'status': 'active', 'intent': 'order', 'priority': None, 'code': {'coding': [{'system': 'http://loinc.org', 'code': None, 'display': None}]}, 'subject': {'reference': 'Patient/S6534835'}, 'authoredOn': '2023-11-13T10:15:00+00:00', 'note': {'text': 'Situation: acute left knee injury, Background: radiology report indicates ACL tear. Assessment: ACL tear grade II. Recommendation: request for Orthopedic service to evaluate and provide management recommendations.'}}}]",orchestrate_evolve
+task8_9,[],None,task8,1,0.0,3753.0,177.0,3.364240884780884,0.0025526999999999998,"[{'url': 'http://localhost:8080/fhir/ServiceRequest', 'payload': {'resourceType': 'ServiceRequest', 'status': 'active', 'intent': 'order', 'priority': None, 'code': {'coding': [{'system': 'http://loinc.org', 'code': None, 'display': None}]}, 'subject': {'reference': 'Patient/S1023381'}, 'authoredOn': '2023-11-13T10:15:00+00:00', 'note': {'text': 'Situation: acute left knee injury, Background: radiology report indicates ACL tear. Assessment: ACL tear grade II. Recommendation: request for Orthopedic service to evaluate and provide management recommendations.'}}}]",orchestrate_evolve
+task8_10,[],None,task8,1,0.0,3753.0,177.0,2.3447699546813965,0.0025526999999999998,"[{'url': 'http://localhost:8080/fhir/ServiceRequest', 'payload': {'resourceType': 'ServiceRequest', 'status': 'active', 'intent': 'order', 'priority': None, 'code': {'coding': [{'system': 'http://loinc.org', 'code': None, 'display': None}]}, 'subject': {'reference': 'Patient/S6415739'}, 'authoredOn': '2023-11-13T10:15:00+00:00', 'note': {'text': 'Situation: acute left knee injury, Background: radiology report indicates ACL tear. Assessment: ACL tear grade II. Recommendation: request for Orthopedic service to evaluate and provide management recommendations.'}}}]",orchestrate_evolve
+task8_11,[],None,task8,1,0.0,3753.0,171.0,1.9646039009094238,0.0025425,"[{'url': 'http://localhost:8080/fhir/ServiceRequest', 'payload': {'resourceType': 'ServiceRequest', 'status': 'active', 'intent': 'order', 'priority': None, 'code': {'coding': [{'system': 'http://loinc.org', 'code': None, 'display': None}]}, 'subject': {'reference': 'Patient/S3114648'}, 'authoredOn': '2023-11-13T10:15:00+00:00', 'note': {'text': 'Situation: acute left knee injury, Background: radiology report indicates ACL tear. Assessment: ACL tear grade II. Recommendation: request for Orthopedic service to evaluate and provide management recommendations.'}}}]",orchestrate_evolve
+task8_12,[],None,task8,1,0.0,3753.0,177.0,2.922060012817383,0.0025526999999999998,"[{'url': 'http://localhost:8080/fhir/ServiceRequest', 'payload': {'resourceType': 'ServiceRequest', 'status': 'active', 'intent': 'order', 'priority': None, 'code': {'coding': [{'system': 'http://loinc.org', 'code': None, 'display': None}]}, 'subject': {'reference': 'Patient/S1521703'}, 'authoredOn': '2023-11-13T10:15:00+00:00', 'note': {'text': 'Situation: acute left knee injury, Background: radiology report indicates ACL tear. Assessment: ACL tear grade II. Recommendation: request for Orthopedic service to evaluate and provide management recommendations.'}}}]",orchestrate_evolve
+task8_13,[],None,task8,1,0.0,3753.0,177.0,2.5510599613189697,0.0025526999999999998,"[{'url': 'http://localhost:8080/fhir/ServiceRequest', 'payload': {'resourceType': 'ServiceRequest', 'status': 'active', 'intent': 'order', 'priority': None, 'code': {'coding': [{'system': 'http://loinc.org', 'code': None, 'display': None}]}, 'subject': {'reference': 'Patient/S6547257'}, 'authoredOn': '2023-11-13T10:15:00+00:00', 'note': {'text': 'Situation: acute left knee injury, Background: radiology report indicates ACL tear. Assessment: ACL tear grade II. Recommendation: request for Orthopedic service to evaluate and provide management recommendations.'}}}]",orchestrate_evolve
+task8_14,[],None,task8,1,0.0,3753.0,177.0,1.8425250053405762,0.0025526999999999998,"[{'url': 'http://localhost:8080/fhir/ServiceRequest', 'payload': {'resourceType': 'ServiceRequest', 'status': 'active', 'intent': 'order', 'priority': None, 'code': {'coding': [{'system': 'http://loinc.org', 'code': None, 'display': None}]}, 'subject': {'reference': 'Patient/S3241217'}, 'authoredOn': '2023-11-13T10:15:00+00:00', 'note': {'text': 'Situation: acute left knee injury, Background: radiology report indicates ACL tear. Assessment: ACL tear grade II. Recommendation: request for Orthopedic service to evaluate and provide management recommendations.'}}}]",orchestrate_evolve
+task8_15,[],None,task8,1,0.0,3753.0,177.0,2.416750192642212,0.0025526999999999998,"[{'url': 'http://localhost:8080/fhir/ServiceRequest', 'payload': {'resourceType': 'ServiceRequest', 'status': 'active', 'intent': 'order', 'priority': None, 'code': {'coding': [{'system': 'http://loinc.org', 'code': None, 'display': None}]}, 'subject': {'reference': 'Patient/S6227720'}, 'authoredOn': '2023-11-13T10:15:00+00:00', 'note': {'text': 'Situation: acute left knee injury, Background: radiology report indicates ACL tear. Assessment: ACL tear grade II. Recommendation: request for Orthopedic service to evaluate and provide management recommendations.'}}}]",orchestrate_evolve
+task8_16,[],None,task8,1,0.0,3753.0,177.0,2.7635128498077393,0.0025526999999999998,"[{'url': 'http://localhost:8080/fhir/ServiceRequest', 'payload': {'resourceType': 'ServiceRequest', 'status': 'active', 'intent': 'order', 'priority': None, 'code': {'coding': [{'system': 'http://loinc.org', 'code': None, 'display': None}]}, 'subject': {'reference': 'Patient/S6541609'}, 'authoredOn': '2023-11-13T10:15:00+00:00', 'note': {'text': 'Situation: acute left knee injury, Background: radiology report indicates ACL tear. Assessment: ACL tear grade II. Recommendation: request for Orthopedic service to evaluate and provide management recommendations.'}}}]",orchestrate_evolve
+task8_17,[],None,task8,1,0.0,3753.0,177.0,2.049654006958008,0.0025526999999999998,"[{'url': 'http://localhost:8080/fhir/ServiceRequest', 'payload': {'resourceType': 'ServiceRequest', 'status': 'active', 'intent': 'order', 'priority': None, 'code': {'coding': [{'system': 'http://loinc.org', 'code': None, 'display': None}]}, 'subject': {'reference': 'Patient/S2111822'}, 'authoredOn': '2023-11-13T10:15:00+00:00', 'note': {'text': 'Situation: acute left knee injury, Background: radiology report indicates ACL tear. Assessment: ACL tear grade II. Recommendation: request for Orthopedic service to evaluate and provide management recommendations.'}}}]",orchestrate_evolve
+task8_18,[],None,task8,1,0.0,3753.0,177.0,2.444957971572876,0.0025526999999999998,"[{'url': 'http://localhost:8080/fhir/ServiceRequest', 'payload': {'resourceType': 'ServiceRequest', 'status': 'active', 'intent': 'order', 'priority': None, 'code': {'coding': [{'system': 'http://loinc.org', 'code': None, 'display': None}]}, 'subject': {'reference': 'Patient/S6426560'}, 'authoredOn': '2023-11-13T10:15:00+00:00', 'note': {'text': 'Situation: acute left knee injury, Background: radiology report indicates ACL tear. Assessment: ACL tear grade II. Recommendation: request for Orthopedic service to evaluate and provide management recommendations.'}}}]",orchestrate_evolve
+task8_19,[],None,task8,1,0.0,3753.0,171.0,2.914381742477417,0.0025425,"[{'url': 'http://localhost:8080/fhir/ServiceRequest', 'payload': {'resourceType': 'ServiceRequest', 'status': 'active', 'intent': 'order', 'priority': None, 'code': {'coding': [{'system': 'http://loinc.org', 'code': None, 'display': None}]}, 'subject': {'reference': 'Patient/S6530813'}, 'authoredOn': '2023-11-13T10:15:00+00:00', 'note': {'text': 'Situation: acute left knee injury, Background: radiology report indicates ACL tear. Assessment: ACL tear grade II. Recommendation: request for Orthopedic service to evaluate and provide management recommendations.'}}}]",orchestrate_evolve
+task8_20,[],None,task8,1,0.0,3753.0,177.0,3.5186731815338135,0.0025526999999999998,"[{'url': 'http://localhost:8080/fhir/ServiceRequest', 'payload': {'resourceType': 'ServiceRequest', 'status': 'active', 'intent': 'order', 'priority': None, 'code': {'coding': [{'system': 'http://loinc.org', 'code': None, 'display': None}]}, 'subject': {'reference': 'Patient/S2197736'}, 'authoredOn': '2023-11-13T10:15:00+00:00', 'note': {'text': 'Situation: acute left knee injury, Background: radiology report indicates ACL tear. Assessment: ACL tear grade II. Recommendation: request for Orthopedic service to evaluate and provide management recommendations.'}}}]",orchestrate_evolve
+task8_21,[],None,task8,1,0.0,3753.0,177.0,3.959620237350464,0.0025526999999999998,"[{'url': 'http://localhost:8080/fhir/ServiceRequest', 'payload': {'resourceType': 'ServiceRequest', 'status': 'active', 'intent': 'order', 'priority': None, 'code': {'coding': [{'system': 'http://loinc.org', 'code': None, 'display': None}]}, 'subject': {'reference': 'Patient/S6330912'}, 'authoredOn': '2023-11-13T10:15:00+00:00', 'note': {'text': 'Situation: acute left knee injury, Background: radiology report indicates ACL tear. Assessment: ACL tear grade II. Recommendation: request for Orthopedic service to evaluate and provide management recommendations.'}}}]",orchestrate_evolve
+task8_22,[],None,task8,1,0.0,3753.0,177.0,4.61916971206665,0.0025526999999999998,"[{'url': 'http://localhost:8080/fhir/ServiceRequest', 'payload': {'resourceType': 'ServiceRequest', 'status': 'active', 'intent': 'order', 'priority': None, 'code': {'coding': [{'system': 'http://loinc.org', 'code': None, 'display': None}]}, 'subject': {'reference': 'Patient/S1715871'}, 'authoredOn': '2023-11-13T10:15:00+00:00', 'note': {'text': 'Situation: acute left knee injury, Background: radiology report indicates ACL tear. Assessment: ACL tear grade II. Recommendation: request for Orthopedic service to evaluate and provide management recommendations.'}}}]",orchestrate_evolve
+task8_23,[],None,task8,1,0.0,3753.0,177.0,4.596402883529663,0.0025526999999999998,"[{'url': 'http://localhost:8080/fhir/ServiceRequest', 'payload': {'resourceType': 'ServiceRequest', 'status': 'active', 'intent': 'order', 'priority': None, 'code': {'coding': [{'system': 'http://loinc.org', 'code': None, 'display': None}]}, 'subject': {'reference': 'Patient/S6545016'}, 'authoredOn': '2023-11-13T10:15:00+00:00', 'note': {'text': 'Situation: acute left knee injury, Background: radiology report indicates ACL tear. Assessment: ACL tear grade II. Recommendation: request for Orthopedic service to evaluate and provide management recommendations.'}}}]",orchestrate_evolve
+task8_24,[],None,task8,1,0.0,3753.0,177.0,3.237968921661377,0.0025526999999999998,"[{'url': 'http://localhost:8080/fhir/ServiceRequest', 'payload': {'resourceType': 'ServiceRequest', 'status': 'active', 'intent': 'order', 'priority': None, 'code': {'coding': [{'system': 'http://loinc.org', 'code': None, 'display': None}]}, 'subject': {'reference': 'Patient/S3032536'}, 'authoredOn': '2023-11-13T10:15:00+00:00', 'note': {'text': 'Situation: acute left knee injury, Background: radiology report indicates ACL tear. Assessment: ACL tear grade II. Recommendation: request for Orthopedic service to evaluate and provide management recommendations.'}}}]",orchestrate_evolve
+task8_25,[],None,task8,1,0.0,3753.0,177.0,4.336165904998779,0.0025526999999999998,"[{'url': 'http://localhost:8080/fhir/ServiceRequest', 'payload': {'resourceType': 'ServiceRequest', 'status': 'active', 'intent': 'order', 'priority': None, 'code': {'coding': [{'system': 'http://loinc.org', 'code': None, 'display': None}]}, 'subject': {'reference': 'Patient/S6192632'}, 'authoredOn': '2023-11-13T10:15:00+00:00', 'note': {'text': 'Situation: acute left knee injury, Background: radiology report indicates ACL tear. Assessment: ACL tear grade II. Recommendation: request for Orthopedic service to evaluate and provide management recommendations.'}}}]",orchestrate_evolve
+task8_26,[],None,task8,1,0.0,3753.0,177.0,3.103837013244629,0.0025526999999999998,"[{'url': 'http://localhost:8080/fhir/ServiceRequest', 'payload': {'resourceType': 'ServiceRequest', 'status': 'active', 'intent': 'order', 'priority': None, 'code': {'coding': [{'system': 'http://loinc.org', 'code': None, 'display': None}]}, 'subject': {'reference': 'Patient/S6549951'}, 'authoredOn': '2023-11-13T10:15:00+00:00', 'note': {'text': 'Situation: acute left knee injury, Background: radiology report indicates ACL tear. Assessment: ACL tear grade II. Recommendation: request for Orthopedic service to evaluate and provide management recommendations.'}}}]",orchestrate_evolve
+task8_27,[],None,task8,1,0.0,3753.0,177.0,2.0859761238098145,0.0025526999999999998,"[{'url': 'http://localhost:8080/fhir/ServiceRequest', 'payload': {'resourceType': 'ServiceRequest', 'status': 'active', 'intent': 'order', 'priority': None, 'code': {'coding': [{'system': 'http://loinc.org', 'code': None, 'display': None}]}, 'subject': {'reference': 'Patient/S1579803'}, 'authoredOn': '2023-11-13T10:15:00+00:00', 'note': {'text': 'Situation: acute left knee injury, Background: radiology report indicates ACL tear. Assessment: ACL tear grade II. Recommendation: request for Orthopedic service to evaluate and provide management recommendations.'}}}]",orchestrate_evolve
+task8_28,[],None,task8,1,0.0,3753.0,177.0,3.5705459117889404,0.0025526999999999998,"[{'url': 'http://localhost:8080/fhir/ServiceRequest', 'payload': {'resourceType': 'ServiceRequest', 'status': 'active', 'intent': 'order', 'priority': None, 'code': {'coding': [{'system': 'http://loinc.org', 'code': None, 'display': None}]}, 'subject': {'reference': 'Patient/S3236936'}, 'authoredOn': '2023-11-13T10:15:00+00:00', 'note': {'text': 'Situation: acute left knee injury, Background: radiology report indicates ACL tear. Assessment: ACL tear grade II. Recommendation: request for Orthopedic service to evaluate and provide management recommendations.'}}}]",orchestrate_evolve
+task8_29,[],None,task8,1,0.0,3753.0,177.0,3.058431386947632,0.0025526999999999998,"[{'url': 'http://localhost:8080/fhir/ServiceRequest', 'payload': {'resourceType': 'ServiceRequest', 'status': 'active', 'intent': 'order', 'priority': None, 'code': {'coding': [{'system': 'http://loinc.org', 'code': None, 'display': None}]}, 'subject': {'reference': 'Patient/S6307599'}, 'authoredOn': '2023-11-13T10:15:00+00:00', 'note': {'text': 'Situation: acute left knee injury, Background: radiology report indicates ACL tear. Assessment: ACL tear grade II. Recommendation: request for Orthopedic service to evaluate and provide management recommendations.'}}}]",orchestrate_evolve
+task8_30,[],None,task8,1,0.0,3753.0,177.0,2.5492398738861084,0.0025526999999999998,"[{'url': 'http://localhost:8080/fhir/ServiceRequest', 'payload': {'resourceType': 'ServiceRequest', 'status': 'active', 'intent': 'order', 'priority': None, 'code': {'coding': [{'system': 'http://loinc.org', 'code': None, 'display': None}]}, 'subject': {'reference': 'Patient/S0722219'}, 'authoredOn': '2023-11-13T10:15:00+00:00', 'note': {'text': 'Situation: acute left knee injury, Background: radiology report indicates ACL tear. Assessment: ACL tear grade II. Recommendation: request for Orthopedic service to evaluate and provide management recommendations.'}}}]",orchestrate_evolve
+task9_1,[],None,task9,0,1.0,5937.0,366.0,14.04067087173462,0.0041844,[],orchestrate_evolve
+task9_2,[],None,task9,0,1.0,5618.0,349.0,10.732563018798828,0.0039641,[],orchestrate_evolve
+task9_3,[],None,task9,0,0.0,5473.0,301.0,5.229711055755615,0.0037955,[],orchestrate_evolve
+task9_4,[],None,task9,0,1.0,4632.0,313.0,7.456845760345459,0.0033112999999999997,[],orchestrate_evolve
+task9_5,[],None,task9,0,1.0,6082.0,359.0,11.69409465789795,0.004259499999999999,[],orchestrate_evolve
+task9_6,[],None,task9,0,1.0,4806.0,194.0,4.84286904335022,0.0032134,[],orchestrate_evolve
+task9_7,[],None,task9,0,1.0,6256.0,277.0,4.349705934524536,0.0042245,[],orchestrate_evolve
+task9_8,[],None,task9,0,1.0,4342.0,194.0,4.3880720138549805,0.0029349999999999997,[],orchestrate_evolve
+task9_9,[],None,task9,0,1.0,22061.0,329.0,8.371577024459839,0.0137959,[],orchestrate_evolve
+task9_10,[],None,task9,0,1.0,4168.0,195.0,13.358701467514038,0.0028323,[],orchestrate_evolve
+task9_11,[],None,task9,0,1.0,5183.0,346.0,10.7363440990448,0.003698,[],orchestrate_evolve
+task9_12,[],None,task9,0,1.0,5038.0,286.0,8.140646934509277,0.003509,[],orchestrate_evolve
+task9_13,[],None,task9,0,1.0,5386.0,293.0,6.8147101402282715,0.0037297,[],orchestrate_evolve
+task9_14,[],None,task9,0,1.0,5792.0,194.0,2.280453681945801,0.003805,[],orchestrate_evolve
+task9_15,[],None,task9,0,1.0,14724.0,194.0,2.888399362564087,0.009164199999999999,[],orchestrate_evolve
+task9_16,[],None,task9,0,1.0,5357.0,296.0,6.479487895965576,0.0037173999999999996,[],orchestrate_evolve
+task9_17,[],None,task9,0,1.0,4284.0,301.0,7.494606018066406,0.0030821,[],orchestrate_evolve
+task9_18,[],None,task9,0,1.0,5154.0,402.0,9.005633115768433,0.0037757999999999997,[],orchestrate_evolve
+task9_19,[],None,task9,0,1.0,4168.0,195.0,3.0907349586486816,0.0028323,[],orchestrate_evolve
+task9_20,[],None,task9,0,1.0,5850.0,343.0,8.9385666847229,0.0040931,[],orchestrate_evolve
+task9_21,[],None,task9,0,1.0,7184.0,302.0,5.263344764709473,0.0048238,[],orchestrate_evolve
+task9_22,[],None,task9,0,1.0,4197.0,194.0,2.850761651992798,0.002848,[],orchestrate_evolve
+task9_23,[],None,task9,0,1.0,40708.0,269.0,11.651940822601318,0.024882099999999997,[],orchestrate_evolve
+task9_24,[],None,task9,0,1.0,4226.0,367.0,14.582767009735107,0.0031595,[],orchestrate_evolve
+task9_25,[],None,task9,0,1.0,5502.0,276.0,11.284264326095581,0.0037704,[],orchestrate_evolve
+task9_26,[],None,task9,0,1.0,4197.0,280.0,10.21926474571228,0.0029942000000000002,[],orchestrate_evolve
+task9_27,[],None,task9,0,1.0,4284.0,326.0,15.210547924041748,0.0031246,[],orchestrate_evolve
+task9_28,[],None,task9,0,1.0,4168.0,194.0,5.886764049530029,0.0028306,[],orchestrate_evolve
+task9_29,[],None,task9,0,1.0,4864.0,195.0,5.929222345352173,0.0032498999999999996,[],orchestrate_evolve
+task9_30,[],None,task9,0,1.0,6140.0,314.0,13.240179777145386,0.0042178,[],orchestrate_evolve
+task10_1,[],None,task10,0,0.0,3780.0,91.0,1.843122959136963,0.0024227,[],orchestrate_evolve
+task10_2,[],None,task10,0,1.0,4143.0,102.0,4.642995119094849,0.0026592,[],orchestrate_evolve
+task10_3,[],None,task10,0,0.0,3780.0,91.0,1.5429530143737793,0.0024227,[],orchestrate_evolve
+task10_4,[],None,task10,0,1.0,4230.0,149.0,3.718472957611084,0.0027913,[],orchestrate_evolve
+task10_5,[],None,task10,0,1.0,4259.0,226.0,11.14327883720398,0.0029395999999999997,[],orchestrate_evolve
+task10_6,[],None,task10,0,0.0,3780.0,144.0,2.9508869647979736,0.0025128,[],orchestrate_evolve
+task10_7,[],None,task10,0,0.0,3780.0,91.0,1.2461676597595215,0.0024227,[],orchestrate_evolve
+task10_8,[],None,task10,0,1.0,4172.0,231.0,17.76495862007141,0.0028959,[],orchestrate_evolve
+task10_9,[],None,task10,0,1.0,4433.0,553.0,9.916574001312256,0.0035999,[],orchestrate_evolve
+task10_10,[],None,task10,0,0.0,3780.0,91.0,1.4793779850006104,0.0024227,[],orchestrate_evolve
+task10_11,[],None,task10,0,0.0,3780.0,144.0,1.6550078392028809,0.0025128,[],orchestrate_evolve
+task10_12,[],None,task10,0,0.0,3780.0,91.0,1.575685977935791,0.0024227,[],orchestrate_evolve
+task10_13,[-1],None,task10,0,0.0,3780.0,135.0,6.434441089630127,0.0024975,[],orchestrate_evolve
+task10_14,[],None,task10,0,0.0,4172.0,149.0,4.073885917663574,0.0027565000000000003,[],orchestrate_evolve
+task10_15,[],None,task10,0,1.0,4201.0,155.0,3.9731462001800537,0.0027841,[],orchestrate_evolve
+task10_16,[],None,task10,0,0.0,3780.0,144.0,2.0779387950897217,0.0025128,[],orchestrate_evolve
+task10_17,[],None,task10,0,1.0,4143.0,102.0,3.2417492866516113,0.0026592,[],orchestrate_evolve
+task10_18,[],None,task10,0,1.0,4230.0,153.0,4.017804861068726,0.0027981000000000004,[],orchestrate_evolve
+task10_19,[],None,task10,0,1.0,4404.0,298.0,9.394103765487671,0.0031490000000000003,[],orchestrate_evolve
+task10_20,[],None,task10,0,0.0,4143.0,155.0,3.305968999862671,0.0027493,[],orchestrate_evolve
+task10_21,[],None,task10,0,0.0,3780.0,144.0,2.647937774658203,0.0025128,[],orchestrate_evolve
+task10_22,[],None,task10,0,0.0,3780.0,144.0,1.6415138244628906,0.0025128,[],orchestrate_evolve
+task10_23,[],None,task10,0,0.0,3780.0,91.0,1.0693180561065674,0.0024227,[],orchestrate_evolve
+task10_24,[],None,task10,0,0.0,4404.0,239.0,4.691610097885132,0.0030486999999999997,[],orchestrate_evolve
+task10_25,[],None,task10,0,0.0,3780.0,144.0,3.5284109115600586,0.0025128,[],orchestrate_evolve
+task10_26,[],None,task10,0,0.0,3780.0,144.0,2.050039052963257,0.0025128,[],orchestrate_evolve
+task10_27,[],None,task10,0,1.0,4143.0,153.0,4.199341773986816,0.0027459000000000003,[],orchestrate_evolve
+task10_28,[],None,task10,0,1.0,4143.0,102.0,2.9875848293304443,0.0026592,[],orchestrate_evolve
+task10_29,[],None,task10,0,1.0,3780.0,145.0,3.311195135116577,0.0025145000000000002,[],orchestrate_evolve
+task10_30,[],None,task10,0,1.0,4143.0,155.0,4.250377893447876,0.0027493,[],orchestrate_evolve

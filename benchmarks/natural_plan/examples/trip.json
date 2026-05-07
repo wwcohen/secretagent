@@ -1,0 +1,29 @@
+{
+  "extract_constraints": [
+    {
+      "input_args": ["Visit Paris (2 days), London (3 days), Amsterdam (2 days) in 7 days total. Flights: Paris-London, London-Amsterdam, Amsterdam-Paris. Must be in Paris between day 1-3."],
+      "expected_output": "Cities: Paris, London, Amsterdam. Durations: Paris 2d, London 3d, Amsterdam 2d. Total: 7 days. Flights: Paris-London, London-Amsterdam, Amsterdam-Paris. Constraint: Paris day 1-3."
+    }
+  ],
+  "solve_problem": [
+    {
+      "input_args": [
+        "Visit Paris, London, Amsterdam. 7 days total.",
+        "Paris 2d, London 3d, Amsterdam 2d. Flights: Paris-London, London-Amsterdam, Amsterdam-Paris. Paris day 1-3."
+      ],
+      "expected_output": "Day 1-2: Paris. Day 3: Fly Paris to London. Day 3-5: London. Day 6: Fly London to Amsterdam. Day 6-7: Amsterdam."
+    }
+  ],
+  "format_answer": [
+    {
+      "input_args": ["Day 1-2 Paris. Day 3 fly to London. Day 3-5 London. Day 6 fly to Amsterdam. Day 6-7 Amsterdam."],
+      "expected_output": "Here is the trip plan for visiting the 3 European cities for 7 days:\n**Day 1-2:** Visit Paris for 2 days.\n**Day 3:** Fly from Paris to London.\n**Day 3-5:** Visit London for 3 days.\n**Day 6:** Fly from London to Amsterdam.\n**Day 6-7:** Visit Amsterdam for 2 days."
+    }
+  ],
+  "trip_planning": [
+    {
+      "input_args": ["Visit Paris (2 days), London (3 days) in 5 days. Flights: Paris-London, London-Paris."],
+      "expected_output": "Here is the trip plan for visiting the 2 European cities for 5 days:\n**Day 1-2:** Visit Paris for 2 days.\n**Day 3:** Fly from Paris to London.\n**Day 3-5:** Visit London for 3 days."
+    }
+  ]
+}

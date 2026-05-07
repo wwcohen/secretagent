@@ -1,0 +1,30 @@
+# 4-step workflow with full context passed to every ptool
+# Tests hypothesis: the original workflow fails because ptools lack context
+llm:
+  model: together_ai/deepseek-ai/DeepSeek-V3.1
+
+cachier:
+  cache_dir: llm_cache
+
+evaluate:
+  expt_name: workflow_rich
+  result_dir: results
+  record_details: true
+
+dataset:
+  split: test1k
+  shuffle_seed: 42
+  n: 4
+
+ptools:
+  identify_operation_rich:
+    method: simulate
+  extract_relevant_values:
+    method: simulate
+  compute_answer_rich:
+    method: simulate
+  format_answer_rich:
+    method: simulate
+  tabmwp_solve:
+    method: direct
+    fn: ptools.rich_workflow

@@ -1,0 +1,108 @@
+You are an expert ML engineer making a TARGETED improvement to an existing
+pipeline. The pipeline already works at a certain accuracy — your job is to
+make it BETTER, not blow it up.
+
+You have FULL CONTROL over the ptools module. You can modify ANY function,
+ANY docstring, ANY logic. Your changes will be written to ptools_evolved.py
+and evaluated.
+
+## Current ptools_evolved.py (FULL SOURCE — you own this file)
+
+```python
+$ptools_source
+```
+
+## Performance on training set
+
+$profiling_summary
+
+## Failure cases with full context
+
+$failure_traces
+
+## Previous iterations
+
+$iteration_history
+$model_choices_section
+$custom_instructions_section
+
+## HOW CHANGES WORK
+
+- @interface-decorated functions with method=simulate use their DOCSTRING as
+  the LLM prompt. Improving the docstring improves the LLM's output.
+- Functions bound with method=direct run as pure Python.
+- You can modify ANY function: workflow logic, extraction helpers, validation,
+  computation, docstrings, everything.
+- The entire file is reloaded after your changes, so all modifications take effect.
+
+## STRATEGY — READ THIS CAREFULLY
+
+Your changes are evaluated on ALL cases, not just the failures shown above.
+A change that fixes 5 failures but breaks 15 working cases is a NET REGRESSION.
+This has happened in previous iterations — learn from it.
+
+**CONSERVATIVE APPROACH REQUIRED:**
+- Changes to docstrings/prompts affect ALL cases that go through that code path.
+  If you add instructions that help edge cases but confuse the LLM on common
+  cases, accuracy drops. Be surgical.
+- Changes to Python logic (extraction, validation, computation) are SAFER because
+  they only fire when their conditions are met.
+- Prefer adding NEW conditional branches or fallback logic over modifying
+  existing working code paths.
+- If a previous iteration was rolled back, DO NOT try a more aggressive version
+  of the same idea. Try a completely different approach or a much smaller change.
+
+**PRIORITIZE THESE CHANGE TYPES (safest to riskiest):**
+1. Fix a bug in Python computation logic (zero risk to other cases)
+2. Add a new fallback/recovery path for a specific failure pattern
+3. Improve validation to catch and fix a category of extraction errors
+4. Add a small, specific instruction to a docstring (low risk if well-scoped)
+5. Rewrite extraction/prompt logic (HIGH RISK — only if you are very confident)
+
+**AVOID:**
+- Rewriting the extraction prompt wholesale — this breaks working cases
+- Adding many instructions at once — impossible to know what helped vs hurt
+- Changing unit conversion logic broadly — most values are already correct
+
+## CRITICAL RULES
+
+1. **DO NOT REWARD-HACK.** DO NOT overfit to specific failing cases by adding
+   hard-coded lookups, case-specific if/else for training examples, or
+   special-casing by patient name or case ID. Changes MUST generalize to
+   unseen cases. A held-out test set will expose overfitting.
+
+2. Make ONE targeted change per iteration. Don't rewrite everything at once.
+
+3. Return the COMPLETE modified ptools_evolved.py inside a <ptools_file> block.
+   Include ALL imports, ALL functions, everything. The block replaces the
+   entire file.
+
+4. Keep the file syntactically valid Python. Do not break existing imports
+   or function signatures that are referenced by the config.
+
+## Examples of GOOD changes
+- Fixing a specific computation bug (e.g. wrong formula for a calculator type)
+- Adding a validation check that catches a common extraction error pattern
+- Adding a small, specific docstring instruction scoped to a failure class
+- Adding a new fallback path for cases where extraction fails
+
+## Examples of BAD changes (cause regressions)
+- Rewriting the extraction prompt with many new instructions
+- Adding unit conversion logic that fires on all cases
+- Changing the workflow control flow
+- if calculator_name == "CHA2DS2-VASc": return 5
+
+<reasoning>
+1. What SPECIFIC failure pattern did you identify?
+2. How many of the shown failures share this pattern?
+3. What is the MINIMAL change that fixes this pattern?
+4. Why will this change NOT break currently working cases?
+</reasoning>
+
+<ptools_file>
+# Complete modified ptools_evolved.py here
+</ptools_file>
+
+<config>
+# Optional dotlist config overrides (e.g. model switches), one per line
+</config>

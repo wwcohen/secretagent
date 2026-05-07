@@ -1,0 +1,23 @@
+# Unstructured baseline: zero-shot prompt_llm + LLM type coercion.
+# Follows the project convention: prompt_llm produces raw text,
+# then a simulate-based coercion step cleans it up.
+
+llm:
+  model: together_ai/deepseek-ai/DeepSeek-V3.1
+
+cachier:
+  cache_dir: llm_cache
+
+evaluate:
+  result_dir: results
+  expt_name: DEFAULT
+
+dataset:
+  split: valid
+  shuffle_seed: null
+  n: null
+
+ptools:
+  answer_finqa:
+    method: direct
+    fn: ptools.unstructured_baseline_workflow

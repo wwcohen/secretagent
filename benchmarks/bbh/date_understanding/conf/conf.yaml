@@ -1,0 +1,39 @@
+llm:
+  # model: together_ai/deepseek-ai/DeepSeek-V3.1
+  # model: together_ai/meta-llama/Llama-4-Maverick-17B-128E-Instruct-FP8
+  # model: together_ai/meta-llama/Llama-4-Scout-17B-16E-Instruct
+  # model: together_ai/Qwen/Qwen3-235B-A22B-fp8
+  # model: together_ai/Qwen/Qwen3-30B-A3B
+  # model: together_ai/google/gemma-3-27b-it
+  # model: together_ai/mistralai/Mistral-Small-24B-Instruct-2501
+  # model: gemini/gemini-2.5-flash
+  # model: gemini/gemini-2.5-pro
+  # model: gemini/gemini-2.0-flash
+  model: together_ai/deepseek-ai/DeepSeek-V3.1
+
+cachier:
+  cache_dir: llm_cache
+
+evaluate:
+  result_dir: results
+  expt_name: DEFAULT # means the expt isn't fully configured and should be discarded
+
+dataset:
+  split: test
+  shuffle_seed: 137
+
+ptools:
+  extract_options:
+    method: simulate
+  extract_date_facts:
+    method: simulate
+  extract_question:
+    method: simulate
+  make_inference:
+    method: simulate
+  answer_question:
+    method: simulate
+  match_option:
+    method: simulate
+  answer_date_question:
+    method: DEFAULT #should raise an error

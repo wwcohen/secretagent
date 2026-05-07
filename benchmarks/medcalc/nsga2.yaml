@@ -1,0 +1,48 @@
+command: uv run python expt.py run --config-file conf/pipeline.yaml
+
+models:
+  - together_ai/deepseek-ai/DeepSeek-V3.1
+  - together_ai/deepseek-ai/DeepSeek-V3
+  - together_ai/openai/gpt-oss-20b
+  - together_ai/openai/gpt-oss-120b
+  - gemini/gemini-2.5-flash
+  - gemini/gemini-2.5-flash-lite
+
+methods:
+  structured_baseline:
+    - ptools.calculate_medical_value.method=simulate
+  workflow:
+    - ptools.calculate_medical_value.method=direct
+    - ptools.calculate_medical_value.fn=ptools.workflow
+  pot:
+    - ptools.calculate_medical_value.method=direct
+    - ptools.calculate_medical_value.fn=ptools.pot_workflow
+    - ptools.pot_medical_value.method=program_of_thought
+    - ptools.pot_medical_value.tools=[ptools.extract_clinical_values,ptools.compute_calculation]
+  react:
+    - ptools.calculate_medical_value.method=simulate_pydantic
+    - ptools.calculate_medical_value.tools=[ptools.identify_calculator,ptools.extract_clinical_values,ptools.compute_calculation]
+  react_learned:
+    - ptools.calculate_medical_value.method=simulate_pydantic
+    - ptools.calculate_medical_value.tool_module=__learned__
+    - ptools.calculate_medical_value.learner=ptool_inducer
+    - ptools.calculate_medical_value.tools=__all__
+    - learn.train_dir=learned
+  wf_orch:
+    # The medcalc orch_learner ran in non-seed mode — it evolved a toolkit
+    # (ptools_induced_rule_evolved.py at the benchmark top level), not a
+    # seeded workflow function. So `fn=__learned__.calculate_medical_value`
+    # would resolve to an unbound @interface stub that crashes on call.
+    # Instead, bind calculate_medical_value as a simulate_pydantic agent
+    # over the evolved toolkit — that mirrors how the orch_learner ran.
+    - ptools.calculate_medical_value.method=simulate_pydantic
+    - ptools.calculate_medical_value.tool_module=ptools_induced_rule_evolved
+    - ptools.calculate_medical_value.tools=__all__
+
+sub_interfaces:
+  ptools.identify_calculator:
+    methods: [simulate]
+  ptools.extract_clinical_values:
+    methods: [simulate]
+  ptools.compute_calculation:
+    methods: [direct]

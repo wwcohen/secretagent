@@ -1,0 +1,29 @@
+# ReAct on the MUSR murder TRAIN split — used to source trajectories
+# for AWM workflow induction. Identical config to murder_react.yaml but
+# split=_train so we don't leak test labels into induced workflows.
+llm:
+  model: together_ai/deepseek-ai/DeepSeek-V3
+
+cachier:
+  cache_dir: llm_cache
+  enable_caching: false
+
+evaluate:
+  expt_name: murder_react_train
+  result_dir: results
+  entry_point: answer_question
+
+dataset:
+  split: murder_mysteries_train
+  shuffle_seed: 42
+
+ptools:
+  react_solve:
+    method: simulate_pydantic
+    tools:
+      - ptools_common.search
+      - ptools_common.lookup
+      - ptools_common.finish
+  answer_question:
+    method: direct
+    fn: ptools_common.react_answer_impl

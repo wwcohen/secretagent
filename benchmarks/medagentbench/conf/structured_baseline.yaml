@@ -1,0 +1,25 @@
+# Structured baseline: single simulate call on solve_medical_task.
+# LLM sees only the top-level interface signature + docstring and
+# returns a structured answer directly. No tools, no FHIR access —
+# the model hallucinates answers. Serves as the "no-tool" floor.
+llm:
+  model: together_ai/deepseek-ai/DeepSeek-V3.1
+  max_tokens: 2048
+
+cachier:
+  enable_caching: false
+
+fhir:
+  api_base: "http://localhost:8080/fhir/"
+
+evaluate:
+  result_dir: results
+  expt_name: structured_baseline
+  record_details: true
+
+dataset:
+  version: v2
+
+ptools:
+  solve_medical_task:
+    method: simulate

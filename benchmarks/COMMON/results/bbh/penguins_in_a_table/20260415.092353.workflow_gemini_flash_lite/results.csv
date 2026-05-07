@@ -1,0 +1,21 @@
+case_name,predicted_output,expected_output,correct,input_tokens,output_tokens,latency,cost,expt_name
+valid.017,(B),(A),0.0,2157.0,1392.0,15.828669309616089,0.00262725,workflow_gemini_flash_lite
+valid.001,(C),(C),1.0,2143.0,1417.0,13.072622776031494,0.0026612500000000004,workflow_gemini_flash_lite
+valid.009,(C),(C),1.0,2143.0,1418.0,13.106707096099854,0.00266275,workflow_gemini_flash_lite
+valid.037,(C),(C),1.0,1448.0,817.0,6.556955575942993,0.0015875,workflow_gemini_flash_lite
+valid.021,(E),(E),1.0,1626.0,842.0,11.399238109588623,0.0016695,workflow_gemini_flash_lite
+valid.018,(A),(A),1.0,1546.0,861.0,8.092365503311157,0.0016779999999999998,workflow_gemini_flash_lite
+valid.036,(D),(D),1.0,1439.0,784.0,7.823228120803833,0.00153575,workflow_gemini_flash_lite
+valid.008,(C),(C),1.0,1797.0,1063.0,12.075358152389526,0.00204375,workflow_gemini_flash_lite
+valid.023,(E),(B),0.0,1616.0,825.0,11.602167129516602,0.0016414999999999997,workflow_gemini_flash_lite
+valid.006,(C),(C),1.0,1616.0,866.0,8.933155059814453,0.001703,workflow_gemini_flash_lite
+valid.007,**exception raised**: cannot unpack non-iterable NoneType object,(C),0.0,1442.0,789.0,7.409811496734619,0.001544,workflow_gemini_flash_lite
+valid.003,(B),(B),1.0,1090.0,568.0,10.543970108032227,0.0011245,workflow_gemini_flash_lite
+valid.029,(C),(C),1.0,1446.0,772.0,12.438129425048828,0.0015194999999999998,workflow_gemini_flash_lite
+valid.005,(B),(B),1.0,1218.0,564.0,5.393737316131592,0.0011505,workflow_gemini_flash_lite
+valid.002,**exception raised**: cannot unpack non-iterable NoneType object,(A),0.0,2137.0,1394.0,12.08872127532959,0.00262525,workflow_gemini_flash_lite
+valid.041,(B),(B),1.0,1094.0,583.0,6.365515232086182,0.0011480000000000001,workflow_gemini_flash_lite
+valid.033,(B),(B),1.0,2148.0,1369.0,12.888988018035889,0.0025905,workflow_gemini_flash_lite
+valid.024,(A),(A),1.0,2133.0,1358.0,10.830113172531128,0.00257025,workflow_gemini_flash_lite
+valid.019,(A),(A),1.0,2137.0,1383.0,12.122709274291992,0.0026087500000000004,workflow_gemini_flash_lite
+valid.034,(D),(D),1.0,2239.0,1361.0,11.608925104141235,0.00260125,workflow_gemini_flash_lite

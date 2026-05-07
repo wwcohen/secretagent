@@ -1,0 +1,7 @@
+{
+  "reproduce_cmd": "uv run python expt.py run --config-file conf/meeting.yaml llm.model=together_ai/openai/gpt-oss-20b ptools.meeting_planning.method=simulate dataset.split=meeting dataset.partition=test dataset.n=50 evaluate.expt_name=test_pass_structured_baseline_gpt-oss-20b",
+  "accuracy": 0.54,
+  "total_cost_usd": 0.059059,
+  "total_time_sec": 932.03,
+  "n_samples": 50
+}

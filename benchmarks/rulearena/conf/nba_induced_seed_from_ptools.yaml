@@ -1,0 +1,42 @@
+llm:
+  model: gemini/gemini-3.1-flash-lite-preview
+  max_tokens: 8192
+
+orchestrate:
+  model: gemini/gemini-3.1-pro-preview
+  max_retries: 3
+
+cachier:
+  cache_dir: llm_cache
+  enable_caching: true
+
+evaluate:
+  result_dir: results
+  expt_name: nba_induced_seed_from_ptools
+  entry_point: compute_rulearena_answer
+
+dataset:
+  domain: nba
+  split: valid
+  complexity: all
+  shuffle_seed: 137
+  n: 30
+
+ptools:
+  _search_cba_rule_impl:
+    method: simulate
+  _analyze_operation_compliance_impl:
+    method: simulate
+  _search_cba_term_impl:
+    method: simulate
+  _search_cba_section_impl:
+    method: simulate
+  _search_cba_exception_impl:
+    method: simulate
+  compute_rulearena_answer:
+    method: orchestrate
+    task_description: >
+      Decide whether any proposed NBA team operation violates the CBA salary
+      cap rules. Use the induced CBA search and compliance helper ptools,
+      then return 1.0 if any violation exists and 0.0 if all operations are
+      compliant.

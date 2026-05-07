@@ -1,0 +1,39 @@
+# Program of Thought: LLM generates Python code that calls FHIR tools.
+# fhir_get_iface and fhir_post_iface are Interface wrappers so their
+# signatures appear in the PoT prompt (plain callables are silently omitted).
+llm:
+  model: together_ai/deepseek-ai/DeepSeek-V3.1
+  max_tokens: 4096
+
+cachier:
+  cache_dir: llm_cache
+  enable_caching: true
+
+fhir:
+  api_base: "http://localhost:8080/fhir/"
+
+evaluate:
+  result_dir: results
+  expt_name: pot
+  record_details: true
+  max_workers: 1
+
+dataset:
+  version: v2
+
+ptools:
+  fhir_get_iface:
+    method: direct
+    fn: fhir_tools.fhir_get
+  fhir_post_iface:
+    method: direct
+    fn: fhir_tools.fhir_post
+  solve_medical_task:
+    method: program_of_thought
+    # inject_args: true  # requires PR #10 (inject_args feature)
+    tools:
+      - ptools.fhir_get_iface
+      - ptools.fhir_post_iface
+    additional_imports:
+      - json
+      - re

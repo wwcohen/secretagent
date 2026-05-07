@@ -1,0 +1,32 @@
+llm:
+  model: Qwen/Qwen3.5-9B
+cachier:
+  cache_dir: benchmarks/designbench/llm_cache
+evaluate:
+  result_dir: benchmarks/designbench/results
+  expt_name: db_vue_default
+  entry_point: generate_code
+  clip_threshold: 0.75
+dataset:
+  framework: vue
+  shuffle_seed: 42
+  max_reference_chars: 20000
+benchmark:
+  output_framework: null
+  skip_eval: false
+  case_timeout_seconds: 120
+vlm:
+  max_tokens: 2048
+  timeout_seconds: 45
+  retries: 2
+  retry_sleep_seconds: 1.0
+  enable_thinking: false
+  model: Qwen/Qwen3.5-9B
+ptools:
+  generate_code:
+    method: vlm
+    prompt_mode: docstring
+    output_mode: freeform
+    user_text: 'The webpage screenshot:
+
+      '

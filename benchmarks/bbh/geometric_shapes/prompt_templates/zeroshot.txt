@@ -1,0 +1,12 @@
+Identify the geometric shape drawn by the given SVG path element.
+
+Choose the correct option from the multiple-choice answers provided.
+
+Your answer should be the option letter in parentheses, e.g. '(A)' or '(J)'.
+Use the following format:
+
+<answer>
+YOUR ANSWER
+</answer>
+
+The question is: $input

@@ -1,0 +1,26 @@
+llm:
+  model: together_ai/deepseek-ai/DeepSeek-V3
+cachier:
+  cache_dir: /Users/anon/reasoning_primitives/benchmarks/musr/llm_cache
+  enable_caching: false
+evaluate:
+  expt_name: object_induced_d_test_seed42
+  result_dir: /Users/anon/reasoning_primitives/benchmarks/musr/results
+  entry_point: answer_question
+  record_details: true
+dataset:
+  split: object_placements_test
+  shuffle_seed: 42
+ptools:
+  react_solve:
+    method: react_pydantic
+    tools:
+    - ptools_common.finish
+    - induced_ptools_seed42_correct_object.formulate_search_query
+    - induced_ptools_seed42_correct_object.analyze_character_knowledge
+    - induced_ptools_seed42_correct_object.extract_belief_location
+    - induced_ptools_seed42_correct_object.infer_character_belief
+    - induced_ptools_seed42_correct_object.track_object_movement_timeline
+  answer_question:
+    method: direct
+    fn: ptools_common.react_answer_impl

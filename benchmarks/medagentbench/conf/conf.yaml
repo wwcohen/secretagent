@@ -1,0 +1,30 @@
+# Default config — same as unstructured_baseline.yaml
+# Use --config-file conf/<experiment>.yaml for other experiments:
+#   L0: unstructured_baseline — raw text loop (paper's protocol)
+#   L1: react                  — pydantic-ai structured tool calling
+#   L2: pot                    — LLM generates Python code with tools
+#   L3: codeact                — iterative code generation with feedback
+#   L4: orchestrate            — auto-composed workflow
+llm:
+  model: together_ai/deepseek-ai/DeepSeek-V3.1
+  max_tokens: 2048
+
+cachier:
+  enable_caching: false
+
+fhir:
+  api_base: "http://localhost:8080/fhir/"
+  max_round: 8
+
+evaluate:
+  result_dir: results
+  expt_name: unstructured_baseline
+  record_details: true
+
+dataset:
+  version: v2
+
+ptools:
+  solve_medical_task:
+    method: direct
+    fn: medagent_loop.medagent_loop

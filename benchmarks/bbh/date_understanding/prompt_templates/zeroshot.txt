@@ -1,0 +1,9 @@
+Answer the following date understanding question.
+
+Your answer should be one of the option labels, e.g. "(A)".  Use the following format:
+
+<answer>
+YOUR ANSWER
+</answer>
+
+$question

@@ -1,0 +1,23 @@
+llm:
+  model: together_ai/deepseek-ai/DeepSeek-V3.1
+
+cachier:
+  cache_dir: llm_cache
+
+evaluate:
+  result_dir: results
+  expt_name: DEFAULT # means the expt isn't fully configured and should be discarded
+
+dataset:
+  split: valid
+  shuffle_seed: 137
+
+ptools:
+  analyze_sentence:
+    method: simulate
+  sport_for:
+    method: simulate
+  consistent_sports:
+    method: simulate
+  are_sports_in_sentence_consistent:
+    method: DEFAULT #should raise an error

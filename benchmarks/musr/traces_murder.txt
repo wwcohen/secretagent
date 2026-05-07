@@ -1,0 +1,31 @@
+Here are some example traces showing how to solve similar problems:
+
+Example 1:
+>>> evidence = extract_suspects_and_evidence(narrative)
+'victim: Jimmy\ncrime_details: Murdered in a dimly lit corner of a rundown motel just out of town, killed by the ominous echo of a revolver. Body was found at the crime scene.\n\nsuspects:\n- name: Randy\n ...'
+>>> alibis = verify_alibis(narrative, evidence)
+"Suspect Randy:\n- alibi_holds: False. Randy was seen at the motel and entering Jimmy's room on the day of the murder, directly contradicting any alibi claim. His revolver matches the murder weapon, and..."
+>>> murderer = deduce_murderer(narrative, alibis, 'Who is the most likely murderer?', ['Isla', 'Randy'])
+'Randy'
+>>> extract_index(murderer, ['Isla', 'Randy'])
+1
+
+Example 2:
+>>> evidence = extract_suspects_and_evidence(narrative)
+'victim: Eleanor\ncrime_details: Murdered by a halberd in a wrestling ring during a public wrestling match that coincided with the weekend market. Body was found at the crime scene.\n\nsuspects:\n- name: E...'
+>>> alibis = verify_alibis(narrative, evidence)
+'Suspect: Elizabeth\n- alibi_holds: False\n- alibi_gaps: The alibi is implied (theatre or home showers) but not explicitly stated. The crime occurred during a public wrestling match, and there is no conf...'
+>>> murderer = deduce_murderer(narrative, alibis, 'Who is the most likely murderer?', ['Elizabeth', 'Freya'])
+'Freya'
+>>> extract_index(murderer, ['Elizabeth', 'Freya'])
+1
+
+Example 3:
+>>> evidence = extract_suspects_and_evidence(narrative)
+'victim: Frances\ncrime_details: Frances was murdered by a shotgun blast in the heart of the rainforest. Her body was found cold and lifeless with her Golden Retriever, Buster, whining nearby. The murde...'
+>>> alibis = verify_alibis(narrative, evidence)
+"suspect: Meredith\nalibi_holds: False\nalibi_gaps: Meredith's alibi lacks specific time verification and does not account for the entire crime window. She was seen near the crime scene but claims to hav..."
+>>> murderer = deduce_murderer(narrative, alibis, 'Who is the most likely murderer?', ['Meredith', 'Kinsley'])
+'Meredith'
+>>> extract_index(murderer, ['Meredith', 'Kinsley'])
+0

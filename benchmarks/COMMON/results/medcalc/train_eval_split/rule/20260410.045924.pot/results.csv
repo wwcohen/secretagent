@@ -1,0 +1,65 @@
+case_name,predicted_output,predicted_numeric,expected_output,correct,exact_match,within_limits,absolute_error,calculator_name,category,output_type,input_tokens,output_tokens,latency,cost,expt_name
+train.6764,0,0.0,0.0,1.0,1.0,1.0,0.0,SIRS Criteria,diagnosis,integer,4496.0,1505.0,142.9741988182068,0.0052561,pot
+train.4160,4,4.0,3.0,0.0,0.0,0.0,1.0,HEART Score for Major Cardiac Events,risk,integer,3248.0,874.0,31.03681826591492,0.0034346,pot
+train.6707,2,2.0,2.0,1.0,1.0,1.0,0.0,SIRS Criteria,diagnosis,integer,4674.0,1515.0,45.43078255653381,0.0053799,pot
+train.3072,0.0,0.0,0.0,1.0,1.0,1.0,0.0,Wells' Criteria for Pulmonary Embolism,risk,integer,4468.0,1495.0,44.7377245426178,0.0052223,pot
+train.10096,13.0,13.0,13.0,1.0,1.0,1.0,0.0,Glasgow Coma Score (GCS),severity,integer,3589.0,1735.0,31.542832374572757,0.0051029,pot
+train.2867,0.0,0.0,1.5,0.0,0.0,0.0,1.5,Wells' Criteria for Pulmonary Embolism,risk,integer,3665.0,1320.0,17.96713638305664,0.004443,pot
+train.6535,2,2.0,2.0,1.0,1.0,1.0,0.0,PERC Rule for Pulmonary Embolism,diagnosis,integer,3802.0,1501.0,26.5740818977356,0.0048329,pot
+train.6594,0,0.0,1.0,0.0,0.0,0.0,1.0,PERC Rule for Pulmonary Embolism,diagnosis,integer,4144.0,1345.0,24.59520125389099,0.0047729,pot
+train.10336,5,5.0,3.0,0.0,0.0,0.0,2.0,HAS-BLED Score for Major Bleeding Risk,risk,integer,5196.0,4562.0,70.69984912872314,0.010873,pot
+train.10272,5,5.0,6.0,0.0,0.0,0.0,1.0,Charlson Comorbidity Index (CCI),risk,integer,5561.0,2193.0,36.67460322380066,0.0070647,pot
+train.2753,0.0,0.0,0.0,1.0,1.0,1.0,0.0,Wells' Criteria for Pulmonary Embolism,risk,integer,3885.0,1181.0,25.08722472190857,0.0043387,pot
+train.10358,0,0.0,3.0,0.0,0.0,0.0,3.0,HAS-BLED Score for Major Bleeding Risk,risk,integer,5187.0,2138.0,77.21229481697083,0.0067468,pot
+train.9481,7.0,7.0,7.0,1.0,1.0,1.0,0.0,Child-Pugh Score for Cirrhosis Mortality,severity,integer,5187.0,2063.0,48.72225475311279,0.0066193,pot
+train.10283,8,8.0,8.0,1.0,1.0,1.0,0.0,Charlson Comorbidity Index (CCI),risk,integer,5431.0,1931.0,40.50450229644776,0.0065413,pot
+train.9643,3.0,3.0,2.0,0.0,0.0,0.0,1.0,Glasgow-Blatchford Bleeding Score (GBS),risk,integer,4450.0,1771.0,44.22262620925903,0.0056807,pot
+train.0974,0.0,0.0,3.0,0.0,0.0,0.0,3.0,CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk,risk,integer,3908.0,1262.0,32.38406825065613,0.0044902,pot
+train.6419,3,3.0,3.0,1.0,1.0,1.0,0.0,CURB-65 Score for Pneumonia Severity,risk,integer,3734.0,949.0,46.500062704086304,0.0038537,pot
+train.2797,1.5,1.5,1.5,1.0,1.0,1.0,0.0,Wells' Criteria for Pulmonary Embolism,risk,integer,3947.0,1255.0,28.03456211090088,0.0045017,pot
+train.3041,3.0,3.0,4.5,0.0,0.0,0.0,1.5,Wells' Criteria for Pulmonary Embolism,risk,integer,3710.0,1688.0,49.751184940338135,0.0050956,pot
+train.6778,0,0.0,0.0,1.0,1.0,1.0,0.0,SIRS Criteria,diagnosis,integer,5329.0,2065.0,57.26593399047852,0.0067079,pot
+train.0706,5,5.0,3.0,0.0,0.0,0.0,2.0,CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk,risk,integer,6414.0,2248.0,46.50810098648071,0.0076699999999999,pot
+train.6581,3,3.0,4.0,0.0,0.0,0.0,1.0,PERC Rule for Pulmonary Embolism,diagnosis,integer,4279.0,1499.0,26.532726764678955,0.0051157,pot
+train.4108,1.0,1.0,3.0,0.0,0.0,0.0,2.0,HEART Score for Major Cardiac Events,risk,integer,3064.0,680.0,12.642757654190063,0.0029944,pot
+train.4139,2,2.0,1.0,0.0,0.0,0.0,1.0,HEART Score for Major Cardiac Events,risk,integer,3484.0,1139.0,27.971806287765503,0.0040266999999999,pot
+train.9660,5,5.0,4.0,0.0,0.0,0.0,1.0,Glasgow-Blatchford Bleeding Score (GBS),risk,integer,4903.0,1962.0,29.56640124320984,0.0062772,pot
+train.0665,3,3.0,3.0,1.0,1.0,1.0,0.0,CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk,risk,integer,3716.0,1007.0,29.396509647369385,0.0039415,pot
+train.3025,1.5,1.5,1.5,1.0,1.0,1.0,0.0,Wells' Criteria for Pulmonary Embolism,risk,integer,4190.0,1520.0,32.64298152923584,0.005098,pot
+train.0661,4.0,4.0,4.0,1.0,1.0,1.0,0.0,CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk,risk,integer,4095.0,1300.0,32.911720752716064,0.0046669999999999,pot
+train.0842,2,2.0,2.0,1.0,1.0,1.0,0.0,CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk,risk,integer,3434.0,994.0,14.335079908370972,0.0037502,pot
+train.10510,5.0,5.0,4.0,0.0,0.0,0.0,1.0,APACHE II Score,risk,integer,4863.0,1668.0,58.54141092300415,0.0057534,pot
+train.9949,70.0,70.0,120.0,0.0,0.0,0.0,50.0,PSI Score: Pneumonia Severity Index for CAP,severity,integer,3468.0,2091.0,69.72971630096436,0.0056355,pot
+train.10421,1,1.0,2.0,0.0,0.0,0.0,1.0,Revised Cardiac Risk Index for Pre-Operative Risk,risk,integer,5534.0,2395.0,40.4434814453125,0.0073919,pot
+train.9959,14,14.0,16.0,0.0,0.0,0.0,2.0,Caprini Score for Venous Thromboembolism (2005),risk,integer,5202.0,1965.0,40.9053966999054,0.0064616999999999,pot
+train.0779,4,4.0,4.0,1.0,1.0,1.0,0.0,CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk,risk,integer,3961.0,975.0,22.82723879814148,0.0040341,pot
+train.10017,0.0,0.0,11.0,0.0,0.0,0.0,11.0,Caprini Score for Venous Thromboembolism (2005),risk,integer,5337.0,2179.0,56.080735206604,0.0069064999999999,pot
+train.4437,3,3.0,3.0,1.0,1.0,1.0,0.0,Centor Score (Modified/McIsaac) for Strep Pharyngitis,severity,integer,3126.0,890.0,20.76693153381348,0.0033886,pot
+train.10432,2,2.0,2.0,1.0,1.0,1.0,0.0,Revised Cardiac Risk Index for Pre-Operative Risk,risk,integer,5567.0,1913.0,35.89033055305481,0.0065923,pot
+train.0870,1,1.0,1.0,1.0,1.0,1.0,0.0,CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk,risk,integer,4912.0,1701.0,55.95488619804382,0.0058389,pot
+train.0979,1.0,1.0,3.0,0.0,0.0,0.0,2.0,CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk,risk,integer,3558.0,1026.0,24.768157482147217,0.003879,pot
+train.9572,13,13.0,9.0,0.0,0.0,0.0,4.0,Sequential Organ Failure Assessment (SOFA) Score,risk,integer,4867.0,2667.0,58.81594443321228,0.0074540999999999,pot
+train.6621,3,3.0,3.0,1.0,1.0,1.0,0.0,SIRS Criteria,diagnosis,integer,4493.0,1554.0,28.07805275917053,0.0053376,pot
+train.1005,4,4.0,4.0,1.0,1.0,1.0,0.0,CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk,risk,integer,4490.0,1575.0,27.594387769699097,0.0053715,pot
+train.9439,8,8.0,12.0,0.0,0.0,0.0,4.0,Child-Pugh Score for Cirrhosis Mortality,severity,integer,4712.0,1412.0,30.28750681877136,0.0052276,pot
+train.5885,0,0.0,2.0,0.0,0.0,0.0,2.0,FeverPAIN Score for Strep Pharyngitis,diagnosis,integer,5810.0,2034.0,32.95562410354614,0.0069438,pot
+train.2733,**exception raised**: litellm.InternalServerError: InternalServerError: Together_aiException - Internal server error,,7.0,0.0,0.0,0.0,inf,Wells' Criteria for Pulmonary Embolism,risk,integer,4510.0,3615.0,55.695451498031616,0.0088514999999999,pot
+train.6682,3,3.0,3.0,1.0,1.0,1.0,0.0,SIRS Criteria,diagnosis,integer,4454.0,1443.0,29.208489894866943,0.0051254999999999,pot
+train.2766,0.0,0.0,0.0,1.0,1.0,1.0,0.0,Wells' Criteria for Pulmonary Embolism,risk,integer,3812.0,1036.0,19.534016370773315,0.0040484,pot
+train.0734,2.0,2.0,4.0,0.0,0.0,0.0,2.0,CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk,risk,integer,4007.0,1204.0,26.16851162910461,0.004451,pot
+train.9895,153.0,153.0,153.0,1.0,1.0,1.0,0.0,PSI Score: Pneumonia Severity Index for CAP,severity,integer,5151.0,2727.0,63.67207646369934,0.0077265,pot
+train.4407,1.0,1.0,2.0,0.0,0.0,0.0,1.0,Centor Score (Modified/McIsaac) for Strep Pharyngitis,severity,integer,6690.0,2676.0,54.500030517578125,0.0085632,pot
+train.6641,3,3.0,3.0,1.0,1.0,1.0,0.0,SIRS Criteria,diagnosis,integer,4694.0,1471.0,39.0982551574707,0.0053171,pot
+train.6408,0.0,0.0,2.0,0.0,0.0,0.0,2.0,CURB-65 Score for Pneumonia Severity,risk,integer,5381.0,1688.0,26.810287952423096,0.0060982,pot
+train.4121,8.0,8.0,6.0,0.0,0.0,0.0,2.0,HEART Score for Major Cardiac Events,risk,integer,3990.0,1178.0,21.63160276412964,0.0043966,pot
+train.2942,0,0.0,1.5,0.0,0.0,0.0,1.5,Wells' Criteria for Pulmonary Embolism,risk,integer,4830.0,1556.0,25.22453451156616,0.0055432,pot
+train.4154,6,6.0,4.0,0.0,0.0,0.0,2.0,HEART Score for Major Cardiac Events,risk,integer,3443.0,1172.0,22.058607816696167,0.0040582,pot
+train.0826,2.0,2.0,2.0,1.0,1.0,1.0,0.0,CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk,risk,integer,5195.0,1812.0,41.2188766002655,0.0061974,pot
+train.9615,0,0.0,0.0,1.0,1.0,1.0,0.0,Sequential Organ Failure Assessment (SOFA) Score,risk,integer,5266.0,3246.0,62.860143184661865,0.0086778,pot
+train.2932,1.5,1.5,1.5,1.0,1.0,1.0,0.0,Wells' Criteria for Pulmonary Embolism,risk,integer,5498.0,1856.0,43.8008131980896,0.006454,pot
+train.2956,0,0.0,1.5,0.0,0.0,0.0,1.5,Wells' Criteria for Pulmonary Embolism,risk,integer,4444.0,1704.0,38.57347297668457,0.0055632,pot
+train.0912,4,4.0,3.0,0.0,0.0,0.0,1.0,CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk,risk,integer,3890.0,1253.0,38.461145877838135,0.0044640999999999,pot
+train.10039,8,8.0,8.0,1.0,1.0,1.0,0.0,Glasgow Coma Score (GCS),severity,integer,3112.0,1188.0,17.07259726524353,0.0038867999999999,pot
+train.9510,3.0,3.0,3.0,1.0,1.0,1.0,0.0,Wells' Criteria for DVT,risk,decimal,5025.0,1915.0,39.292664527893066,0.0062705,pot
+train.0897,1.0,1.0,5.0,0.0,0.0,0.0,4.0,CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk,risk,integer,3336.0,929.0,35.058497190475464,0.0035808999999999,pot
+train.10534,3.0,3.0,7.0,0.0,0.0,0.0,4.0,APACHE II Score,risk,integer,5125.0,2240.0,39.4581458568573,0.006883,pot

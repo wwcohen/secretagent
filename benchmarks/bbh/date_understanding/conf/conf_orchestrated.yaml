@@ -1,0 +1,38 @@
+llm:
+  model: together_ai/deepseek-ai/DeepSeek-V3.1
+
+orchestrate:
+  model: together_ai/deepseek-ai/DeepSeek-V3.1
+  max_retries: 3
+
+echo:
+  orchestrate: true
+
+cachier:
+  cache_dir: llm_cache
+
+evaluate:
+  result_dir: results
+  expt_name: orchestrated
+
+dataset:
+  split: valid
+  shuffle_seed: 137
+
+ptools:
+  find_date_from_sentence:
+    method: simulate
+  normalize_date_order:
+    method: simulate
+  find_time_difference:
+    method: simulate
+  identify_time_difference:
+    method: simulate
+  adjust_date_by_hours:
+    method: simulate
+  parse_question:
+    method: simulate
+  select_closest_option:
+    method: simulate
+  answer_date_question_orchestrated:
+    method: orchestrate

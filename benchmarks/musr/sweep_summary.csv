@@ -1,0 +1,5 @@
+config_idx,expt_name,evaluate.entry_point,llm.thinking,accuracy,elapsed,csv_path,status,total_cost,cost_per_q,total_latency,latency_per_q,input_tokens_per_q,output_tokens_per_q
+0,sweep_000,answer_question,true,1.0,35.38606119155884,benchmarks/musr/results/20260325.172630.sweep_000/results.csv,ok,0.00998875,0.0024971875,30.260271310806274,7.565067827701569,1661.75,336.0
+1,sweep_001,answer_question,false,0.5,14.399608850479126,benchmarks/musr/results/20260325.172705.sweep_001/results.csv,ok,0.008815,0.00220375,10.054221630096436,2.513555407524109,1637.75,125.25
+2,sweep_002,answer_question_workflow,true,0.5,245.4041337966919,benchmarks/musr/results/20260325.172719.sweep_002/results.csv,ok,0.039511250000000005,0.009877812500000001,241.21199488639832,60.30299872159958,5578.25,2324.0
+3,sweep_003,answer_question_workflow,false,0.5,83.36004090309143,benchmarks/musr/results/20260325.173126.sweep_003/results.csv,ok,0.033215,0.00830375,77.35204458236694,19.338011145591736,5775.5,867.5

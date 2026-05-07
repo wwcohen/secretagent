@@ -1,0 +1,37 @@
+llm:
+  model: together_ai/deepseek-ai/DeepSeek-V3
+  thinking: true
+
+orchestrate:
+  model: together_ai/deepseek-ai/DeepSeek-V3
+  max_retries: 3
+
+cachier:
+  cache_dir: llm_cache
+
+echo:
+  orchestrate: true
+
+evaluate:
+  expt_name: team_orchestrated
+  result_dir: results
+  entry_point: answer_question
+
+dataset:
+  split: team_allocation
+  shuffle_seed: 42
+  n: 4
+
+ptools:
+  raw_answer:
+    method: simulate
+  extract_index:
+    method: simulate
+  answer_question:
+    method: orchestrate
+    task_description: >
+      Determine the best team allocation. You receive a narrative about
+      people with different skills and constraints, a question about how
+      to assign them to roles, and answer choices. Use the available tools
+      to reason about the allocation, then return the 0-based index of
+      the correct choice.

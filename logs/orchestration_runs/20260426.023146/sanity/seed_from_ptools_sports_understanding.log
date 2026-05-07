@@ -1,0 +1,108 @@
+Created scratch module .orchestration_learner/ptools_20260426.032323_scratch.py from ptools.py
+[seed] composing initial workflow for are_sports_in_sentence_consistent from 3 tools with gemini/gemini-3.1-pro-preview
+[seed] wrote are_sports_in_sentence_consistent_orchestrated_seed to benchmarks/bbh/sports_understanding/.orchestration_learner/ptools_20260426.032323_scratch.py
+
+=== Loading datasets ===
+Shuffled with seed 137
+Train: 2 cases from valid
+Eval: 1 cases from valid
+Train: 2 cases
+Eval: 1 cases
+Sampling: adapter:sports_understanding
+
+=== Orchestration Learner ===
+Benchmark: sports_understanding
+Config: conf.yaml
+Ptools module: ptools (ptools_20260426.032323_scratch.py)
+Scratch evolved: benchmarks/bbh/sports_understanding/.orchestration_learner/ptools_20260426.032323_scratch.py
+Entry point: are_sports_in_sentence_consistent
+Supervisor: gemini/gemini-3.1-pro-preview
+Train: 2 cases, Eval: 1 cases
+Max iterations: 1
+Output: benchmarks/bbh/sports_understanding/results/orchestration_learner/20260426.032323.orch_learner
+[supervisor] evolved ptools: ptools_20260426.032323_scratch.py
+
+[supervisor] === Initial Evaluation ===
+
+  0%|          | 0/2 [00:00<?, ?it/s]
+ 50%|█████     | 1/2 [00:00<00:00,  2.35it/s]
+100%|██████████| 2/2 [00:00<00:00,  2.20it/s]
+100%|██████████| 2/2 [00:00<00:00,  2.22it/s]
+saved in benchmarks/bbh/sports_understanding/results/orchestration_learner/20260426.032327.rc_iter0/results.csv
+[supervisor] evaluating baseline on held-out set...
+
+  0%|          | 0/1 [00:00<?, ?it/s]
+100%|██████████| 1/1 [00:00<00:00,  2.24it/s]
+100%|██████████| 1/1 [00:00<00:00,  2.24it/s]
+saved in benchmarks/bbh/sports_understanding/results/orchestration_learner/20260426.032328.rc_iter0_eval/results.csv
+[supervisor] baseline eval accuracy: 100.0%
+[supervisor] baseline: accuracy=50.0%, avg_cost=$0.0003
+[supervisor] baseline eval: 100.0%
+Pipeline accuracy: 50.0%, avg cost: $0.0003/case, 2 cases
+
+Per-ptool breakdown:
+  analyze_sentence: cost_frac=20.8%, calls/case=1.0, avg_cost=$0.0001, lift=N/A, errors=0
+  consistent_sports: cost_frac=47.0%, calls/case=1.0, avg_cost=$0.0003, lift=N/A, errors=0
+  sport_for: cost_frac=32.1%, calls/case=2.0, avg_cost=$0.0001, lift=N/A, errors=0
+
+[supervisor] === Iteration 1/1 ===
+[supervisor] calling supervisor LLM...
+[supervisor] supervisor cost: $0.0708
+[supervisor] reasoning: 1. **Specific Failure Pattern:** The `are_sports_in_sentence_consistent_orchestrated_seed` pipeline occasionally crashes with a `TypeError: cannot unpack non-iterable NoneType object`. This happens because `analyze_sentence` fails to parse the LLM output into a 3-element tuple, returning `None` inst
+[supervisor] re-evaluating on train set...
+
+  0%|          | 0/2 [00:00<?, ?it/s]
+ 50%|█████     | 1/2 [00:00<00:00,  1.53it/s]
+100%|██████████| 2/2 [00:01<00:00,  1.47it/s]
+100%|██████████| 2/2 [00:01<00:00,  1.48it/s]
+saved in benchmarks/bbh/sports_understanding/results/orchestration_learner/20260426.032329.rc_iter1/results.csv
+[supervisor] train: 100.0% (2/2 correct, 0 timeouts)
+[supervisor] cost: $0.0007/case
+[supervisor] evaluating on held-out set...
+
+  0%|          | 0/1 [00:00<?, ?it/s]
+100%|██████████| 1/1 [00:01<00:00,  1.01s/it]
+100%|██████████| 1/1 [00:01<00:00,  1.01s/it]
+saved in benchmarks/bbh/sports_understanding/results/orchestration_learner/20260426.032331.rc_iter1_eval/results.csv
+[supervisor] eval:  100.0% (1/1 correct)
+[supervisor] KEPT: train 50.0%→100.0%, eval 100.0%→100.0%, best=50.0%
+[report] saved benchmarks/bbh/sports_understanding/results/orchestration_learner/20260426.032323.orch_learner/report.html
+
+[supervisor] === Summary ===
+Iterations: 1
+Best accuracy: 100.0% (iteration 1)
+Total supervisor cost: $0.0708
+Evolved ptools saved to: benchmarks/bbh/sports_understanding/.orchestration_learner/ptools_20260426.032323_scratch.py
+
+=== Final Evaluation on Held-Out Set (1 cases) ===
+
+  0%|          | 0/1 [00:00<?, ?it/s]
+100%|██████████| 1/1 [00:00<00:00,  1.14it/s]
+100%|██████████| 1/1 [00:00<00:00,  1.14it/s]
+saved in benchmarks/bbh/sports_understanding/results/orchestration_learner/20260426.032323.orch_learner/final_eval/20260426.032332.rc_final_eval/results.csv
+Final eval accuracy: 100.0%
+Final eval avg cost: $0.0014
+
+=== Generating Plots & Report ===
+[plots] saved benchmarks/bbh/sports_understanding/results/orchestration_learner/20260426.032323.orch_learner/plots/accuracy_over_iterations.png
+[plots] saved benchmarks/bbh/sports_understanding/results/orchestration_learner/20260426.032323.orch_learner/plots/cost_over_iterations.png
+[plots] saved benchmarks/bbh/sports_understanding/results/orchestration_learner/20260426.032323.orch_learner/plots/accuracy_vs_cost.png
+[report] saved benchmarks/bbh/sports_understanding/results/orchestration_learner/20260426.032323.orch_learner/report.html
+best train accuracy: 100.0% (iteration 1)
+iterations: 2
+supervisor cost: $0.0708
+final eval accuracy: 100.0%
+saved output to benchmarks/bbh/sports_understanding/results/orchestration_learner/20260426.032323.orch_learner/implementation.yaml
+
+============================================================
+=== Orchestration Learner Complete ===
+============================================================
+Best train accuracy: 100.0% (iteration 1)
+Final eval accuracy: 100.0%
+Total supervisor cost: $0.0708
+Output saved to: benchmarks/bbh/sports_understanding/results/orchestration_learner/20260426.032323.orch_learner
+
+Iteration log:
+  Iter     Train  Fail   TO      Eval    Sup $      Status
+     0    50.0%     1    0   100.0%  $0.0000        KEPT
+     1   100.0%     0    0   100.0%  $0.0708        KEPT

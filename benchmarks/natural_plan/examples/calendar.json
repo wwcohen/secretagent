@@ -1,0 +1,29 @@
+{
+  "extract_constraints": [
+    {
+      "input_args": ["You need to schedule a meeting for Roger, Karen and Dorothy for half an hour between 9:00 to 17:00 on Monday. Roger's calendar is wide open. Karen has meetings 10:00-10:30, 11:30-12:00. Dorothy is busy 9:00-10:00, 10:30-11:00. Find earliest availability."],
+      "expected_output": "Participants: Roger, Karen, Dorothy. Duration: 30 min. Work hours: 9:00-17:00 Monday. Roger: free. Karen: busy 10:00-10:30, 11:30-12:00. Dorothy: busy 9:00-10:00, 10:30-11:00. Preference: earliest."
+    }
+  ],
+  "solve_problem": [
+    {
+      "input_args": [
+        "Schedule meeting for Roger, Karen, Dorothy, 30 min, Monday 9-17.",
+        "Roger free. Karen busy 10:00-10:30, 11:30-12:00. Dorothy busy 9:00-10:00, 10:30-11:00."
+      ],
+      "expected_output": "Monday 11:00-11:30"
+    }
+  ],
+  "format_answer": [
+    {
+      "input_args": ["Monday 11:00-11:30"],
+      "expected_output": "Here is the proposed time: Monday, 11:00 - 11:30"
+    }
+  ],
+  "calendar_scheduling": [
+    {
+      "input_args": ["You need to schedule a meeting for Roger, Karen and Dorothy for half an hour between 9:00 to 17:00 on Monday. Roger's calendar is wide open. Karen has meetings 10:00-10:30, 11:30-12:00. Dorothy is busy 9:00-10:00, 10:30-11:00. Find earliest availability."],
+      "expected_output": "Here is the proposed time: Monday, 11:00 - 11:30"
+    }
+  ]
+}

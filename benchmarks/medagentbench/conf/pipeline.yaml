@@ -1,0 +1,43 @@
+# Pipeline: Python-orchestrated read→act stages with specialist sub-interfaces.
+# Stage 1 (search_fhir_data): pydantic-ai agent with fhir_get only (read phase)
+# Stage 2 (act_on_results): pydantic-ai agent with fhir_get + fhir_post (can
+#   do supplementary reads if the read phase missed data)
+# Fallback: simulate_medical_task with both tools if pipeline fails.
+llm:
+  model: together_ai/deepseek-ai/DeepSeek-V3.1
+  max_tokens: 2048
+
+cachier:
+  cache_dir: llm_cache
+  enable_caching: true
+
+fhir:
+  api_base: "http://localhost:8080/fhir/"
+
+evaluate:
+  result_dir: results
+  expt_name: read_act
+  record_details: false
+  max_workers: 10
+
+dataset:
+  version: v2
+
+ptools:
+  search_fhir_data:
+    method: simulate_pydantic
+    tools:
+      - fhir_tools.fhir_get
+  act_on_results:
+    method: simulate_pydantic
+    tools:
+      - fhir_tools.fhir_get
+      - fhir_tools.fhir_post
+  simulate_medical_task:
+    method: simulate_pydantic
+    tools:
+      - fhir_tools.fhir_get
+      - fhir_tools.fhir_post
+  solve_medical_task:
+    method: direct
+    fn: ptools.pipeline_workflow

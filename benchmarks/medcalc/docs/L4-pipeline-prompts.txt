@@ -1,0 +1,327 @@
+L4 makes 1-4 LLM calls depending on the calculator type.
+Below are ALL possible prompts shown for both systems.
+
+========== SECRETAGENT: Call 1 — identify calculator ==========
+
+Consider the following documentation stub for a Python function.  Note
+that this is documentation, not a full implementation.
+```python
+def identify_calculator(question: str, available_calculators: list[str]) -> dict:
+    """Identify which medical calculator is needed based on the question.
+
+    Analyze the question and match it to one of the available calculators.
+
+    Return a dict with:
+    - "calculator_name": exact name from the available list
+    - "confidence": 0.0-1.0 confidence score
+    - "reasoning": brief explanation
+
+    Examples:
+    >>> identify_calculator("What is the patient's BMI?", ["Body Mass Index (BMI)", "Ideal Body Weight (Devine)"])
+    {'calculator_name': 'Body Mass Index (BMI)', 'confidence': 0.99, 'reasoning': 'BMI directly asked'}
+    """
+    ...
+
+```
+
+
+Imagine that this function was fully implemented as suggested by the
+documentation stub, and that function were called with these arguments:
+
+question = "What is the patient's BMI?"; available_calculators = ['Body Mass Index (BMI)', 'Mean Arterial Pressure (MAP)', 'Ideal Body Weight (Devine)', 'Adjusted Body Weight', 'Body Surface Area (Mosteller)', 'Target Weight', 'Maintenance Fluids (4-2-1 Rule)', 'Creatinine Clearance (Cockcroft-Gault)', 'CKD-EPI GFR (2021)', 'MDRD GFR', 'Anion Gap', 'Delta Gap', 'Delta Ratio', 'Albumin Corrected Anion Gap', 'Serum Osmolality', 'Free Water Deficit', 'Sodium Correction for Hyperglycemia', 'Calcium Correction for Hypoalbuminemia', 'LDL Calculated (Friedewald)', 'Fractional Excretion of Sodium (FENa)', 'QTc (Bazett)', 'QTc (Fridericia)', 'QTc (Framingham)', 'QTc (Hodges)', 'QTc (Rautaharju)', 'CHA2DS2-VASc Score', 'HEART Score', 'Revised Cardiac Risk Index (RCRI)', "Wells' Criteria for PE", 'FIB-4 Index', 'MELD-Na Score', 'Child-Pugh Score', 'Steroid Conversion', 'CURB-65 Score', 'PSI/PORT Score', 'PERC Rule', 'SOFA Score', 'Centor Score (McIsaac)', 'FeverPAIN Score', 'SIRS Criteria', 'Glasgow-Blatchford Score (GBS)', 'HAS-BLED Score', "Wells' Criteria for DVT", 'Caprini VTE Score', 'Morphine Milligram Equivalents (MME)', 'APACHE II Score', 'Charlson Comorbidity Index (CCI)', 'Gestational Age', 'Estimated Due Date', 'Date of Conception', 'Glasgow Coma Scale (GCS)', 'HOMA-IR', 'Framingham Risk Score']
+
+Propose a possible output of the function for these inputs that is
+consistent with the documentation. Use the following output format:
+
+
+<answer>
+FINAL ANSWER
+</answer>
+
+If your answer is x, show it as it would printed by a Python
+interpreter called by print(x). Specifically if x is a string do NOT
+include quotes around it.  Also, do not include any text other than
+the final answer between the <answer> and </answer> tags.
+
+
+========== AGENTPROJECT: Call 1 — identify calculator ==========
+
+Consider the following documentation stub for a Python function.  Note
+that this is documentation, not a full implementation.
+
+```python
+def identify_calculator_l4(question: str, available_calculators: List[str]) -> Dict[str, Any]:
+    """
+    Identify which medical calculator is needed based on the question.
+
+    Analyze the question and match it to one of the available calculators.
+
+    Return:
+    {
+        "calculator_name": "exact name from the list",
+        "confidence": 0.0-1.0,
+        "reasoning": "brief explanation"
+    }
+    """
+    ...
+```
+
+Imagine that this function was fully implemented as suggested by the
+documentation stub, and that function were called with these arguments:
+
+question = "What is the patient's BMI?"; available_calculators = ['Body Mass Index (BMI)', 'Mean Arterial Pressure (MAP)', 'Ideal Body Weight (Devine)', 'Adjusted Body Weight', 'Body Surface Area (Mosteller)', 'Target Weight', 'Maintenance Fluids (4-2-1 Rule)', 'Creatinine Clearance (Cockcroft-Gault)', 'CKD-EPI GFR (2021)', 'MDRD GFR', 'Anion Gap', 'Delta Gap', 'Delta Ratio', 'Albumin Corrected Anion Gap', 'Serum Osmolality', 'Free Water Deficit', 'Sodium Correction for Hyperglycemia', 'Calcium Correction for Hypoalbuminemia', 'LDL Calculated (Friedewald)', 'Fractional Excretion of Sodium (FENa)', 'QTc (Bazett)', 'QTc (Fridericia)', 'QTc (Framingham)', 'QTc (Hodges)', 'QTc (Rautaharju)', 'CHA2DS2-VASc Score', 'HEART Score', 'Revised Cardiac Risk Index (RCRI)', "Wells' Criteria for PE", 'FIB-4 Index', 'MELD-Na Score', 'Child-Pugh Score', 'Steroid Conversion', 'CURB-65 Score', 'PSI/PORT Score', 'PERC Rule', 'SOFA Score', 'Centor Score (McIsaac)', 'FeverPAIN Score', 'SIRS Criteria', 'Glasgow-Blatchford Score (GBS)', 'HAS-BLED Score', "Wells' Criteria for DVT", 'Caprini VTE Score', 'Morphine Milligram Equivalents (MME)', 'APACHE II Score', 'Charlson Comorbidity Index (CCI)', 'Gestational Age', 'Estimated Due Date', 'Date of Conception', 'Glasgow Coma Scale (GCS)', 'HOMA-IR', 'Framingham Risk Score']
+
+Propose a possible output of the function for these inputs that is
+consistent with the documentation.  Use the following output format:
+
+<thought>
+ANY THOUGHTS
+</thought>
+<answer>
+FINAL ANSWER
+</answer>
+
+If your answer is x, show it as it would printed by a Python
+interpreter called by print(x). Specifically if x is a string do NOT
+include quotes around it.  Also, do not include any text other than
+the final answer between the <answer> and </answer> tags.
+
+
+========== SECRETAGENT: Call 2a — scoring system reasoning (only for scoring calcs) ==========
+
+You are a medical expert analyzing a patient note for the CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk.
+
+PATIENT NOTE:
+A 72-year-old woman with history of hypertension and diabetes, prior stroke.
+
+TASK: Identify ALL conditions/criteria relevant to this calculator.
+Look for both explicit mentions AND clinical findings that imply conditions.
+
+Return JSON:
+{"reasoning": "step-by-step analysis", "conditions_present": ["list"], "conditions_absent": ["list"], "demographics": {"age": number, "sex": "male/female"}}
+
+
+========== AGENTPROJECT: Call 2a — scoring system reasoning (only for scoring calcs) ==========
+
+You are a medical expert analyzing a patient note for the CHA2DS2-VASc Score for Atrial Fibrillation Stroke Risk.
+
+PATIENT NOTE:
+A 72-year-old woman with history of hypertension and diabetes, prior stroke.
+
+TASK: Carefully analyze this note and identify ALL conditions/criteria relevant to this calculator.
+Think step-by-step like a physician reviewing the chart.
+
+CRITICAL - You must identify conditions from BOTH:
+1. **Explicit mentions**: "history of diabetes", "has hypertension", "prior stroke"
+2. **Clinical findings that IMPLY conditions** - this is crucial:
+   - DWI/MRI showing high signal intensity, infarcts → STROKE
+   - Dysarthria, facial palsy, hemiparesis, Babinski sign → STROKE/TIA symptoms
+   - Troponin elevation, ST changes, chest pain → possible MI (vascular disease)
+   - Claudication, ABI <0.9, peripheral pulses absent → peripheral arterial disease
+   - Cancer, malignancy, tumor → may count as vascular disease in some scores
+   - Ascites, encephalopathy, varices → liver disease
+   - Edema, JVD, S3 gallop, reduced EF → CHF
+   - On warfarin/anticoagulation → consider why (prior DVT/PE/AF?)
+   - Elevated creatinine, dialysis → renal disease
+
+3. **Negations** - if explicitly denied, note as FALSE:
+   - "no history of diabetes" → diabetes = false
+   - "denies chest pain" → relevant for some scores
+
+REASONING FORMAT:
+First, reason through each finding:
+- Finding: [what you see in the note]
+- Implies: [what condition this indicates]
+- Confidence: [high/medium/low]
+
+Then provide your conclusions.
+
+Return JSON:
+{
+    "reasoning": "Your step-by-step medical reasoning here",
+    "conditions_present": ["list of conditions that ARE present based on explicit mentions OR clinical findings"],
+    "conditions_absent": ["list of conditions explicitly denied or clearly absent"],
+    "demographics": {"age": number, "sex": "male/female"}
+}
+
+========== SECRETAGENT: Call 2b — value extraction ==========
+
+Extract values from the patient note for the Body Mass Index (BMI) calculator.
+
+CALCULATOR DESCRIPTION:
+Calculate Body Mass Index.
+
+    Formula: BMI = weight_kg / (height_m)^2
+
+    Input:
+        weight_kg: Patient weight in kilograms (e.g., 80.0)
+            - If given in lbs, convert: lbs * 0.453592 = kg
+        height_cm: Patient height in centimeters (e.g., 175.0)
+            - If given in feet/inches, convert: (feet * 12 + inches) * 2.54 = cm
+            - If given in meters, convert: meters * 100 = cm
+
+    Output:
+        float: BMI value (e.g., 26.12)
+            - Underweight: < 18.5
+            - Normal: 18.5-24.9
+            - Overweight: 25-29.9
+            - Obese: >= 30
+
+    Example:
+        >>> bmi(weight_kg=80.0, height_cm=175.0)
+        26.122
+    
+
+PATIENT NOTE:
+A 70-year-old male weighing 80 kg, height 175 cm.
+
+INSTRUCTIONS:
+- Extract numeric values with proper units (age in years, weight in kg, height in cm)
+- Convert units as needed (lbs→kg: ×0.453592, feet/inches→cm)
+- For sex: "man"/"male"/"he" → "male", "woman"/"female"/"she" → "female"
+- For boolean conditions: True if present, False if absent
+
+Return ONLY valid JSON:
+{"extracted": {"param_name": value, ...}, "missing": ["required values not found"]}
+
+========== AGENTPROJECT: Call 2b — value extraction ==========
+
+Extract values from the patient note for the Body Mass Index (BMI) calculator.
+
+OFFICIAL CALCULATOR IMPLEMENTATION (reference for parameter names):
+```python
+def bmi_explanation(input_parameters):
+    weight = input_parameters["weight"]
+    height = input_parameters["height"]
+    weight_kg = convert_to_kg_explanation(weight)
+    height_m = convert_to_m_explanation(height)
+    bmi = weight_kg / (height_m ** 2)
+    return {"Explanation": ..., "Answer": round(bmi, 2)}
+```
+
+PATIENT NOTE:
+A 70-year-old male weighing 80 kg, height 175 cm.
+
+EXTRACTION INSTRUCTIONS:
+
+1. **Parameter Names**: Use EXACT parameter names from the official implementation
+2. **NUMERIC values ALWAYS with units**:
+   - age → [actual_age_number, "years"] e.g., [33, "years"], [68, "years"]
+   - weight → [value, "kg"] or convert lbs to kg
+   - height → [value, "cm"] or convert feet/inches to cm
+   - Lab values → [value, "unit"] e.g., [1.2, "mg/dL"], [140, "mmol/L"]
+3. **Boolean conditions**: Return True if present, False if absent
+
+COMMON CONVERSIONS:
+- Weight: lbs × 0.453592 = kg
+- Height: (feet × 30.48) + (inches × 2.54) = cm
+- Sex: "man/male/he/him/Mr." → "Male", "woman/female/she/her" → "Female"
+
+Return ONLY valid JSON:
+{"extracted": {"age": [numeric_value, "years"], "param_name": value, ...}, "missing": ["required values not found"], "inferred": ["conditions inferred from clinical findings"]}
+
+========== BOTH: Call 3 — fallback (only if pipeline fails) ==========
+
+Consider the following documentation stub for a Python function.  Note
+that this is documentation, not a full implementation.
+```python
+def calculate_medical_value(patient_note: str, question: str) -> float:
+    """Calculate a medical value from a patient note.
+
+    Calculate a medical value from a patient note.
+    
+    Given a patient note and a calculation question:
+    1. Carefully read the patient note to extract all relevant clinical values
+    2. Identify what medical calculation/score is needed
+    3. Apply the appropriate formula from the reference below
+    4. Show your calculation step by step
+    
+    FORMULAS (use these exact formulas):
+    - APACHE II Score: Acute Physiology Score + Age Points + Chronic Health Points
+    - Adjusted Body Weight: ABW = IBW + 0.4 * (actual_weight - IBW)
+    - Albumin Corrected Anion Gap: Corrected AG = AG + 2.5 * (4 - albumin)
+    - Anion Gap: AG = Na - (Cl + HCO3)
+    - Body Mass Index (BMI): BMI = weight_kg / (height_m)^2
+    - Body Surface Area (Mosteller): BSA = sqrt((height_cm * weight_kg) / 3600)
+    - CHA2DS2-VASc Score: Sum of: CHF(+1), HTN(+1), Age>=75(+2)/65-74(+1), DM(+1), Stroke/TIA(+2), Vascular(+1), Female(+1)
+    - CKD-EPI GFR (2021): 142 * min(Cr/kappa,1)^alpha * max(Cr/kappa,1)^-1.200 * 0.9938^age * sex_coef
+    - CURB-65 Score: C + U + R + B + 65 (0-5 points)
+    - Calcium Correction for Hypoalbuminemia: Corrected Ca = Ca + 0.8 * (4 - albumin)
+    - Caprini VTE Score: Sum of weighted risk factors
+    - Centor Score (McIsaac): Sum with age modifier
+    - Charlson Comorbidity Index (CCI): Sum of weighted comorbidity points + age points
+    - Child-Pugh Score: Sum of points for bilirubin, albumin, INR, ascites, encephalopathy
+    - Creatinine Clearance (Cockcroft-Gault): CrCl = ((140 - age) * adjusted_weight * gender_coef) / (Cr * 72)
+    - Date of Conception: gestational_weeks - 2 (conception ~2 weeks after LMP)
+    - Delta Gap: Delta Gap = AG - 12 (where 12 is normal AG)
+    - Delta Ratio: Delta Ratio = Delta Gap / (24 - HCO3)
+    - Estimated Due Date: 40 - current_gestational_age
+    - FIB-4 Index: FIB-4 = (Age * AST) / (Platelets * sqrt(ALT))
+    - FeverPAIN Score: Fever + Purulence + Attend rapidly + Inflamed tonsils + No cough/coryza (0-5)
+    - Fractional Excretion of Sodium (FENa): FENa = (UNa * SCr) / (SNa * UCr) * 100
+    - Framingham Risk Score: Complex multivariate equation based on age, sex, lipids, BP, smoking
+    - Free Water Deficit: FWD = TBW% * weight * (Na/140 - 1)
+    - Gestational Age: weeks + days/7
+    - Glasgow Coma Scale (GCS): Eye + Verbal + Motor (3-15)
+    - Glasgow-Blatchford Score (GBS): Sum of clinical and lab criteria (0-23)
+    - HAS-BLED Score: H-A-S-B-L-E-D criteria (0-9 points)
+    - HEART Score: Sum of History + ECG + Age + Risk factors + Troponin (each 0-2 points)
+    - HOMA-IR: HOMA-IR = (Glucose * Insulin) / 405
+    - Ideal Body Weight (Devine): Male: IBW = 50 + 2.3 * (height_in - 60), Female: IBW = 45.5 + 2.3 * (height_in - 60)
+    - LDL Calculated (Friedewald): LDL = Total Cholesterol - HDL - (Triglycerides / 5)
+    - MDRD GFR: 175 * (Cr)^-1.154 * (age)^-0.203 * sex_coef
+    - MELD-Na Score: MELD = 10 * (0.957*ln(Cr) + 0.378*ln(Bili) + 1.120*ln(INR) + 0.643)
+    - Maintenance Fluids (4-2-1 Rule): First 10kg: 4ml/kg/hr, Next 10kg: 2ml/kg/hr, Remaining: 1ml/kg/hr
+    - Mean Arterial Pressure (MAP): MAP = (2 * DBP + SBP) / 3
+    - Morphine Milligram Equivalents (MME): Sum of (opioid dose * conversion factor)
+    - PERC Rule: 8 criteria; PERC negative if all 0
+    - PSI/PORT Score: Demographics + Comorbidities + Physical Exam + Labs
+    - QTc (Bazett): QTc = QT / sqrt(RR) where RR = 60/HR in seconds
+    - QTc (Framingham): QTc = QT + 154 * (1 - RR) where RR = 60/HR in seconds
+    - QTc (Fridericia): QTc = QT / RR^(1/3) where RR = 60/HR in seconds
+    - QTc (Hodges): QTc = QT + 1.75 * (HR - 60)
+    - QTc (Rautaharju): QTc = QT + 154 * (1 - RR) where RR = 60/HR in seconds
+    - Revised Cardiac Risk Index (RCRI): Sum of 6 risk factors (0-6 points)
+    - SIRS Criteria: Count of criteria met (>= 2 = SIRS positive)
+    - SOFA Score: Sum of 6 organ system scores (0-24)
+    - Serum Osmolality: Osm = 2*Na + BUN/2.8 + Glucose/18
+    - Sodium Correction for Hyperglycemia: Corrected Na = Na + 0.024 * (glucose - 100)
+    - Steroid Conversion: Prednisone equivalent = dose * conversion_factor
+    - Target Weight: Target Weight = target_bmi * (height_m)^2
+    - Wells' Criteria for DVT: Sum of clinical criteria points
+    - Wells' Criteria for PE: Sum of weighted criteria
+    
+    Important: Be precise with extracted values. Double-check your arithmetic.
+    For sex/gender: "man"/"male"/"he" → male, "woman"/"female"/"she" → female.
+    Convert units as needed (lbs→kg: ×0.453592, feet/inches→cm: (ft×12+in)×2.54).
+    
+    Return ONLY the final numeric answer.
+    
+    Examples:
+    >>> calculate_medical_value("A 70-year-old male weighing 80 kg, height 175 cm.", "What is the patient's BMI?")
+    26.122
+    >>> calculate_medical_value("A 65-year-old female, BP 130/85 mmHg.", "What is the patient's Mean Arterial Pressure (MAP)?")
+    100.0
+    """
+    ...
+
+```
+
+
+Imagine that this function was fully implemented as suggested by the
+documentation stub, and that function were called with these arguments:
+
+patient_note = 'A 70-year-old male weighing 80 kg, height 175 cm.'; question = "What is the patient's BMI?"
+
+Propose a possible output of the function for these inputs that is
+consistent with the documentation. Use the following output format:
+
+
+<answer>
+FINAL ANSWER
+</answer>
+
+If your answer is x, show it as it would printed by a Python
+interpreter called by print(x). Specifically if x is a string do NOT
+include quotes around it.  Also, do not include any text other than
+the final answer between the <answer> and </answer> tags.

@@ -1,0 +1,29 @@
+{
+  "extract_constraints": [
+    {
+      "input_args": ["You start at Office at 9:00. Meet Alice at Cafe (10 min travel). Alice available 9:30-11:00, 30 min meeting. Meet Bob at Library (15 min from Cafe). Bob available 10:00-12:00, 45 min meeting. Maximize meetings."],
+      "expected_output": "Start: Office at 9:00. Alice: Cafe, 10 min from Office, available 9:30-11:00, 30 min. Bob: Library, 15 min from Cafe, available 10:00-12:00, 45 min."
+    }
+  ],
+  "solve_problem": [
+    {
+      "input_args": [
+        "Meet Alice at Cafe, Bob at Library. Start Office 9:00.",
+        "Alice: Cafe, 10 min travel, 9:30-11:00, 30 min. Bob: Library, 15 min from Cafe, 10:00-12:00, 45 min."
+      ],
+      "expected_output": "Travel to Cafe 10 min, arrive 9:10. Wait until 9:30. Meet Alice 9:30-10:00. Travel to Library 15 min, arrive 10:15. Meet Bob 10:15-11:00."
+    }
+  ],
+  "format_answer": [
+    {
+      "input_args": ["Travel to Cafe 10 min, arrive 9:10. Meet Alice 9:30-10:00. Travel to Library 15 min. Meet Bob 10:15-11:00."],
+      "expected_output": "SOLUTION: You start at Office at 9:00.\nYou travel to Cafe in 10 minutes and arrive at 9:10.\nYou wait until 9:30.\nYou meet Alice for 30 minutes from 9:30 to 10:00.\nYou travel to Library in 15 minutes and arrive at 10:15.\nYou meet Bob for 45 minutes from 10:15 to 11:00."
+    }
+  ],
+  "meeting_planning": [
+    {
+      "input_args": ["You start at Office at 9:00. Meet Alice at Cafe (10 min travel). Alice available 9:30-11:00, 30 min meeting. Maximize meetings."],
+      "expected_output": "SOLUTION: You start at Office at 9:00.\nYou travel to Cafe in 10 minutes and arrive at 9:10.\nYou wait until 9:30.\nYou meet Alice for 30 minutes from 9:30 to 10:00."
+    }
+  ]
+}

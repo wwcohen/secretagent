@@ -1,0 +1,84 @@
+# Hand-coded workflow: human-written pipeline that calls sub-ptools.
+# parse_task (simulate) extracts params -> Python branches on task_type
+# -> dispatches to mid-level ptools (find_patient, get_observations,
+# record_vital, create_order, etc.). Same structure as orchestrate's
+# task_description but authored by hand instead of LLM-generated.
+llm:
+  model: together_ai/deepseek-ai/DeepSeek-V3.1
+  max_tokens: 2048
+
+cachier:
+  enable_caching: false
+
+fhir:
+  api_base: "http://localhost:8080/fhir/"
+
+evaluate:
+  result_dir: results
+  expt_name: workflow
+  record_details: true
+
+dataset:
+  version: v2
+
+ptools:
+  # LLM extractors (simulate). One classifier + one extractor per task type.
+  classify_medical_task:
+    method: simulate
+  extract_patient_lookup:
+    method: simulate
+  extract_mrn:
+    method: simulate
+  extract_now_iso:
+    method: simulate
+  extract_record_vital:
+    method: simulate
+  extract_lab_query:
+    method: simulate
+  extract_referral:
+    method: simulate
+  extract_cond_med_order:
+    method: simulate
+  extract_multi_step_order:
+    method: simulate
+  extract_stale_check:
+    method: simulate
+
+  # Legacy interfaces kept bound so the ptools module loads cleanly.
+  parse_task:
+    method: simulate
+  extract_answer:
+    method: simulate
+
+  # Mid-level deterministic Python
+  find_patient:
+    method: direct
+    fn: ptool_impls.find_patient_impl
+  get_patient_dob:
+    method: direct
+    fn: ptool_impls.get_patient_dob_impl
+  get_observations:
+    method: direct
+    fn: ptool_impls.get_observations_impl
+  calculate_age:
+    method: direct
+    fn: ptool_impls.calculate_age_impl
+  record_vital:
+    method: direct
+    fn: ptool_impls.record_vital_impl
+  create_order:
+    method: direct
+    fn: ptool_impls.create_order_impl
+
+  # Low-level FHIR (registered for completeness; workflow doesn't call these directly)
+  fhir_get_iface:
+    method: direct
+    fn: fhir_tools.fhir_get
+  fhir_post_iface:
+    method: direct
+    fn: fhir_tools.fhir_post
+
+  # Entry point: hand-coded workflow
+  solve_medical_task:
+    method: direct
+    fn: ptool_impls.solve_medical_task_workflow

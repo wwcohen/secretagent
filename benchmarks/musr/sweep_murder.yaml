@@ -1,0 +1,7 @@
+search_space:
+  evaluate.entry_point:
+    - answer_question
+    - answer_question_workflow
+  llm.thinking:
+    - "true"
+    - "false"

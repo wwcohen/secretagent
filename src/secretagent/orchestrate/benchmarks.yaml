@@ -1,0 +1,257 @@
+# Central benchmark configuration for the orchestration learner.
+# Keys match bench.py registry. CLI flags override any value here.
+
+defaults:
+  supervisor_model: gemini/gemini-3.1-pro-preview
+  agent_model: null                   # null = use config_file's llm.model
+  reasoning:
+    agent: null                       # null = model default
+    supervisor: high                  # always high for supervisor
+  shuffle_seed: 42
+  max_workers: 1
+
+benchmarks:
+
+  # -- FinQA -----------------------------------------------------------------
+  finqa:
+    directory: finqa
+    config_file: conf/conf.yaml
+    entry_point: answer_finqa
+    ptools_module: ptools
+    evaluator: FinQAEvaluator
+    evaluator_module: evaluator
+    loader: finqa
+    train:
+      split: valid
+      size: 50
+    eval:
+      split: valid
+      size: 25
+
+  # -- MedCalc ---------------------------------------------------------------
+  medcalc:
+    directory: medcalc
+    config_file: conf/workflow.yaml
+    entry_point: calculate_medical_value
+    ptools_module: ptools
+    evaluator: MedCalcEvaluator       # class name in expt.py
+    loader: medcalc                   # adapter dispatch key
+    train:
+      split: train                    # HuggingFace split name
+      size: 110                       # n cases
+    eval:
+      split: train                    # same pool, disjoint via stratified_split
+      size: 110
+    strat_key: calculator_name        # stratification key
+    disjoint_split: true              # use expt.stratified_split for train/eval
+
+  # -- MuSR ------------------------------------------------------------------
+  musr_murder:
+    directory: musr
+    config_file: conf/murder_orchestrated.yaml
+    entry_point: answer_question_workflow
+    ptools_module: ptools_murder
+    evaluator: MUSREvaluator
+    loader: musr
+    train:
+      split: murder_mysteries_train
+      size: 50
+    eval:
+      split: murder_mysteries_val
+      size: 25
+
+  musr_object:
+    directory: musr
+    config_file: conf/object_orchestrated.yaml
+    entry_point: answer_question_workflow
+    ptools_module: ptools_object
+    evaluator: MUSREvaluator
+    loader: musr
+    train:
+      split: object_placements_train
+      size: 50
+    eval:
+      split: object_placements_val
+      size: 25
+
+  musr_team:
+    directory: musr
+    config_file: conf/team_orchestrated.yaml
+    entry_point: answer_question
+    ptools_module: ptools_team
+    evaluator: MUSREvaluator
+    loader: musr
+    train:
+      split: team_allocation_train
+      size: 50
+    eval:
+      split: team_allocation_val
+      size: 25
+
+  # -- NaturalPlan -----------------------------------------------------------
+  natural_plan_calendar:
+    directory: natural_plan
+    config_file: conf/calendar.yaml
+    entry_point: calendar_scheduling
+    ptools_module: ptools_calendar
+    evaluator: NaturalPlanEvaluator
+    evaluator_args:
+      task: calendar
+    loader: natural_plan
+    loader_args:
+      task: calendar
+      prompt_mode: 0shot
+    train:
+      split: train
+      size: 35
+    eval:
+      split: valid
+      size: 15
+
+  natural_plan_meeting:
+    directory: natural_plan
+    config_file: conf/meeting.yaml
+    entry_point: meeting_planning
+    ptools_module: ptools_meeting
+    evaluator: NaturalPlanEvaluator
+    evaluator_args:
+      task: meeting
+    loader: natural_plan
+    loader_args:
+      task: meeting
+      prompt_mode: 0shot
+    train:
+      split: train
+      size: 35
+    eval:
+      split: valid
+      size: 15
+
+  natural_plan_trip:
+    directory: natural_plan
+    config_file: conf/trip.yaml
+    entry_point: trip_planning
+    ptools_module: ptools_trip
+    evaluator: NaturalPlanEvaluator
+    evaluator_args:
+      task: trip
+    loader: natural_plan
+    loader_args:
+      task: trip
+      prompt_mode: 0shot
+    train:
+      split: train
+      size: 34
+    eval:
+      split: valid
+      size: 14
+
+  # -- RuleArena -------------------------------------------------------------
+  rulearena_airline:
+    directory: rulearena
+    config_file: conf/conf.yaml
+    entry_point: compute_rulearena_answer
+    ptools_module: ptools
+    evaluator: RuleArenaEvaluator
+    loader: rulearena
+    loader_args:
+      domain: airline
+    train:
+      split: train
+      size: 40
+    eval:
+      split: valid
+      size: 20
+
+  rulearena_nba:
+    directory: rulearena
+    config_file: conf/conf.yaml
+    entry_point: compute_rulearena_answer
+    ptools_module: ptools
+    evaluator: RuleArenaEvaluator
+    loader: rulearena
+    loader_args:
+      domain: nba
+    train:
+      split: train
+      size: 28
+    eval:
+      split: valid
+      size: 14
+
+  rulearena_tax:
+    directory: rulearena
+    config_file: conf/conf.yaml
+    entry_point: compute_rulearena_answer
+    ptools_module: ptools
+    evaluator: RuleArenaEvaluator
+    loader: rulearena
+    loader_args:
+      domain: tax
+    train:
+      split: train
+      size: 40
+    eval:
+      split: valid
+      size: 20
+
+  # -- TabMWP ----------------------------------------------------------------
+  tabmwp:
+    directory: tabmwp
+    config_file: conf/conf.yaml
+    entry_point: tabmwp_solve
+    ptools_module: ptools
+    evaluator: TabMWPEvaluator
+    loader: tabmwp
+    train:
+      split: dev1k
+      size: 100
+    eval:
+      split: test1k
+      size: 100
+    strat_key: ques_type
+    setup_hook: tabmwp_table_store    # calls ptools.load_table_store()
+
+  # -- BBH benchmarks --------------------------------------------------------
+  sports_understanding:
+    directory: bbh/sports_understanding
+    config_file: conf/conf.yaml
+    entry_point: are_sports_in_sentence_consistent
+    ptools_module: ptools
+    evaluator: null                   # ExactMatchEvaluator
+    loader: bbh
+    train:
+      split: train
+      size: 50
+    eval:
+      split: valid
+      size: 25
+
+  geometric_shapes:
+    directory: bbh/geometric_shapes
+    config_file: conf/conf.yaml
+    entry_point: identify_shape
+    ptools_module: ptools
+    evaluator: null
+    loader: bbh
+    train:
+      split: train
+      size: 50
+    eval:
+      split: valid
+      size: 25
+
+  penguins_in_a_table:
+    directory: bbh/penguins_in_a_table
+    config_file: conf/conf.yaml
+    entry_point: answer_penguin_question
+    ptools_module: ptools
+    evaluator: PenguinsEvaluator
+    evaluator_module: ptools          # evaluator lives in ptools.py, not expt.py
+    loader: bbh
+    train:
+      split: train
+      size: 30
+    eval:
+      split: valid
+      size: 13

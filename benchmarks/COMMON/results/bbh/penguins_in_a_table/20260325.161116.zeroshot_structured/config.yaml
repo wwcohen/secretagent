@@ -1,0 +1,21 @@
+llm:
+  model: claude-haiku-4-5-20251001
+cachier:
+  cache_dir: C:\Users\Cassandra\Desktop\Work Projects\Secret Agent Project\secretagent\benchmarks\penguins_in_a_table\llm_cache
+evaluate:
+  result_dir: C:\Users\Cassandra\Desktop\Work Projects\Secret Agent Project\secretagent\benchmarks\penguins_in_a_table\results
+  expt_name: zeroshot_structured
+dataset:
+  split: valid
+  shuffle_seed: 137
+ptools:
+  analyze_input:
+    method: simulate
+  table_operation:
+    method: simulate
+  answer_question:
+    method: simulate
+  choose_response:
+    method: simulate
+  answer_penguin_question:
+    method: simulate

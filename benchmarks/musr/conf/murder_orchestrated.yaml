@@ -1,0 +1,46 @@
+llm:
+  model: together_ai/Qwen/Qwen3.5-9B
+  max_tokens: 65536
+
+orchestrate:
+  model: together_ai/Qwen/Qwen3.5-9B
+  max_retries: 3
+
+cachier:
+  cache_dir: llm_cache
+  enable_caching: true
+
+echo:
+  orchestrate: true
+
+evaluate:
+  expt_name: murder_orchestrated
+  result_dir: results
+  entry_point: answer_question_workflow
+
+dataset:
+  split: murder_mysteries
+  shuffle_seed: 42
+  n: 10
+
+ptools:
+  raw_answer:
+    method: simulate
+  extract_index:
+    method: simulate
+  extract_suspects_and_evidence:
+    method: simulate
+  verify_alibis:
+    method: simulate
+  deduce_murderer:
+    method: simulate
+  answer_question:
+    method: direct
+  answer_question_workflow:
+    method: orchestrate
+    task_description: >
+      Solve a murder mystery. You receive a narrative, a question about
+      who committed the murder, and a list of answer choices. Use the
+      available tools to extract suspects and evidence from the narrative,
+      verify alibis, deduce the murderer, then return the 0-based index
+      of the correct answer choice.

@@ -1,0 +1,30 @@
+llm:
+  model: together_ai/deepseek-ai/DeepSeek-V3.1
+  max_tokens: 4096
+cachier:
+  cache_dir: benchmarks/medagentbench/llm_cache
+  enable_caching: true
+fhir:
+  api_base: http://localhost:8080/fhir/
+evaluate:
+  result_dir: benchmarks/medagentbench/results
+  expt_name: pot
+  record_details: true
+  max_workers: 1
+dataset:
+  version: v2
+ptools:
+  fhir_get_iface:
+    method: direct
+    fn: fhir_tools.fhir_get
+  fhir_post_iface:
+    method: direct
+    fn: fhir_tools.fhir_post
+  solve_medical_task:
+    method: program_of_thought
+    tools:
+    - ptools.fhir_get_iface
+    - ptools.fhir_post_iface
+    additional_imports:
+    - json
+    - re

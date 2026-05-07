@@ -1,0 +1,84 @@
+Created scratch module .orchestration_learner/ptools_20260426.031449_scratch.py from ptools.py
+
+=== Loading datasets ===
+Shuffled with seed 137
+Train: 2 cases from valid
+Eval: 1 cases from valid
+Train: 2 cases
+Eval: 1 cases
+Sampling: adapter:rulearena_tax
+
+=== Orchestration Learner ===
+Benchmark: rulearena
+Config: conf.yaml
+Ptools module: ptools (ptools_20260426.031449_scratch.py)
+Scratch evolved: benchmarks/rulearena/.orchestration_learner/ptools_20260426.031449_scratch.py
+Entry point: compute_rulearena_answer
+Supervisor: gemini/gemini-3.1-pro-preview
+Train: 2 cases, Eval: 1 cases
+Max iterations: 1
+Output: benchmarks/rulearena/results/orchestration_learner/20260426.031449.orch_learner
+[supervisor] evolved ptools: ptools_20260426.031449_scratch.py
+
+[supervisor] === Initial Evaluation ===
+
+  0%|          | 0/2 [00:00<?, ?it/s]
+ 50%|█████     | 1/2 [00:03<00:03,  3.08s/it]
+100%|██████████| 2/2 [00:03<00:00,  1.56s/it]
+saved in benchmarks/rulearena/results/orchestration_learner/20260426.031449.rc_iter0/results.csv
+[supervisor] evaluating baseline on held-out set...
+
+  0%|          | 0/1 [00:00<?, ?it/s]
+100%|██████████| 1/1 [00:00<00:00,  6.79it/s]
+100%|██████████| 1/1 [00:00<00:00,  6.77it/s]
+saved in benchmarks/rulearena/results/orchestration_learner/20260426.031452.rc_iter0_eval/results.csv
+[supervisor] baseline eval accuracy: 0.0%
+[supervisor] baseline: accuracy=0.0%, avg_cost=$0.0028
+[supervisor] baseline eval: 0.0%
+Pipeline accuracy: 0.0%, avg cost: $0.0028/case, 2 cases
+
+Per-ptool breakdown:
+  extract_tax_params: cost_frac=100.0%, calls/case=1.0, avg_cost=$0.0028, lift=N/A, errors=0
+
+[supervisor] === Iteration 1/1 ===
+[supervisor] calling supervisor LLM...
+[supervisor] supervisor cost: $0.1217
+[supervisor] no changes proposed, skipping
+
+[supervisor] === Summary ===
+Iterations: 1
+Best accuracy: 0.0% (iteration 0)
+Total supervisor cost: $0.1217
+Evolved ptools saved to: benchmarks/rulearena/.orchestration_learner/ptools_20260426.031449_scratch.py
+
+=== Final Evaluation on Held-Out Set (1 cases) ===
+
+  0%|          | 0/1 [00:00<?, ?it/s]
+100%|██████████| 1/1 [00:00<00:00, 31.20it/s]
+saved in benchmarks/rulearena/results/orchestration_learner/20260426.031449.orch_learner/final_eval/20260426.031453.rc_final_eval/results.csv
+Final eval accuracy: 0.0%
+Final eval avg cost: $0.0046
+
+=== Generating Plots & Report ===
+[plots] saved benchmarks/rulearena/results/orchestration_learner/20260426.031449.orch_learner/plots/accuracy_over_iterations.png
+[plots] saved benchmarks/rulearena/results/orchestration_learner/20260426.031449.orch_learner/plots/cost_over_iterations.png
+[plots] saved benchmarks/rulearena/results/orchestration_learner/20260426.031449.orch_learner/plots/accuracy_vs_cost.png
+[report] saved benchmarks/rulearena/results/orchestration_learner/20260426.031449.orch_learner/report.html
+best train accuracy: 0.0% (iteration 0)
+iterations: 2
+supervisor cost: $0.1217
+final eval accuracy: 0.0%
+saved output to benchmarks/rulearena/results/orchestration_learner/20260426.031449.orch_learner/implementation.yaml
+
+============================================================
+=== Orchestration Learner Complete ===
+============================================================
+Best train accuracy: 0.0% (iteration 0)
+Final eval accuracy: 0.0%
+Total supervisor cost: $0.1217
+Output saved to: benchmarks/rulearena/results/orchestration_learner/20260426.031449.orch_learner
+
+Iteration log:
+  Iter     Train  Fail   TO      Eval    Sup $      Status
+     0     0.0%     2    0     0.0%  $0.0000        KEPT
+     1     0.0%     0    0         —  $0.1217    ROLLBACK

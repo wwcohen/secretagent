@@ -1,0 +1,44 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "src/secretagent/cli/orchestration_learner.py", line 242, in <module>
+    app()
+  File ".venv/lib/python3.11/site-packages/typer/main.py", line 1152, in __call__
+    raise e
+  File ".venv/lib/python3.11/site-packages/typer/main.py", line 1135, in __call__
+    return get_command(self)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ".venv/lib/python3.11/site-packages/click/core.py", line 1485, in __call__
+    return self.main(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ".venv/lib/python3.11/site-packages/typer/core.py", line 795, in main
+    return _main(
+           ^^^^^^
+  File ".venv/lib/python3.11/site-packages/typer/core.py", line 188, in _main
+    rv = self.invoke(ctx)
+         ^^^^^^^^^^^^^^^^
+  File ".venv/lib/python3.11/site-packages/click/core.py", line 1873, in invoke
+    return _process_result(sub_ctx.command.invoke(sub_ctx))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ".venv/lib/python3.11/site-packages/click/core.py", line 1269, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ".venv/lib/python3.11/site-packages/click/core.py", line 824, in invoke
+    return callback(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ".venv/lib/python3.11/site-packages/typer/main.py", line 1514, in wrapper
+    return callback(**use_params)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "src/secretagent/cli/orchestration_learner.py", line 135, in run
+    learner.learn()
+  File "src/secretagent/learn/orchestrate_learner.py", line 1313, in learn
+    self.fit()
+  File "src/secretagent/learn/orchestrate_learner.py", line 1041, in fit
+    implement_via_config(ptools_module_obj, config.require('ptools'))
+  File "src/secretagent/core.py", line 162, in implement_via_config
+    iface.implement_via(method, **factory_kws)
+  File "src/secretagent/core.py", line 54, in implement_via
+    factory = _FACTORIES[method]
+              ~~~~~~~~~~^^^^^^^^
+KeyError: 'DEFAULT'
+Created scratch module .orchestration_learner/ptools_calendar_20260425.215045_scratch.py from ptools_calendar.py

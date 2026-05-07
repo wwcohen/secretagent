@@ -1,0 +1,309 @@
+=== PROMPT ===
+You are consolidating reasoning-action-type labels extracted from an AI
+agent solving this task:
+
+Team allocation: given a narrative describing people with different strengths, weaknesses and interpersonal dynamics plus a set of tasks, pick the assignment of people to tasks that best matches skills to requirements.
+
+Here are the current labels with their counts:
+
+  "Searching for specific skill information" — 28
+  "Searching for specific information" — 22
+  "Executing targeted information search" — 16
+  "Initializing task analysis" — 10
+  "Selecting final answer" — 9
+  "Searching for specific skill details" — 9
+  "Searching for Specific Skills" — 8
+  "Searching for specific person attribute" — 8
+  "Searching for specific trait information" — 8
+  "Summarizing Evidence for Allocation" — 7
+  "Synthesizing evidence for allocation" — 7
+  "Searching for specific skill" — 7
+  "Selecting Final Answer" — 6
+  "Defining Task Objective" — 6
+  "Summarizing evidence for each person" — 6
+  "Selecting a multiple-choice answer" — 6
+  "Examining question and choices" — 5
+  "Confirming thought enumeration" — 5
+  "Initiating problem-solving methodology" — 5
+  "Analyzing task requirements" — 5
+  "Making a final selection" — 5
+  "Searching for background information" — 5
+  "Confirming final answer selection" — 5
+  "Summarizing person attributes from narrative" — 5
+  "Selecting multiple-choice answer" — 5
+  "Defining the problem-solving approach" — 5
+  "Summarizing character analysis findings" — 5
+  "Confirming analysis completion" — 5
+  "Reading question and choices" — 5
+  "Searching for specific weakness" — 5
+  "Gathering specific attribute information" — 4
+  "Summarizing evidence for assignment" — 4
+  "Searching for task requirements" — 4
+  "Summarizing narrative analysis findings" — 4
+  "Summarizing analysis of multiple candidates" — 4
+  "Formulating initial search strategy" — 4
+  "Searching for candidate qualifications" — 4
+  "Searching for specific candidate skills" — 4
+  "Identifying problem type" — 4
+  "Summarizing character-task suitability" — 4
+  "Analyzing task requirements and options" — 4
+  "Summarizing individual capabilities" — 4
+  "Selecting an answer option" — 4
+  "Searching for Interpersonal Dynamics" — 3
+  "Deepening search for details" — 3
+  "Checking specific skill details" — 3
+  "Initializing reasoning process" — 3
+  "Defining task and objective" — 3
+  "Searching for specific weaknesses" — 3
+  "Summarizing individual profiles" — 3
+  "Analyzing question and choices" — 3
+  "Searching for character attributes" — 3
+  "Searching for specific weakness details" — 3
+  "Searching for task-specific attributes" — 3
+  "Summarizing worker capabilities" — 3
+  "Searching for specific weakness information" — 3
+  "Searching for interpersonal relationship information" — 3
+  "Paginating search results" — 3
+  "Summarizing individual capabilities and constraints" — 3
+  "Reasoning about task-person suitability" — 3
+  "Searching for character skills" — 3
+  "Initializing problem-solving framework" — 3
+  "Planning evidence gathering strategy" — 3
+  "Searching specific skill information" — 2
+  "Identifying specific skill requirements" — 2
+  "Searching for specific background information" — 2
+  "Searching for specific abilities" — 2
+  "Evaluating person-task match" — 2
+  "Searching for role requirements" — 2
+  "Searching for specific experience" — 2
+  "Searching for specific skills" — 2
+  "Searching for specific strengths" — 2
+  "Searching for individual preferences" — 2
+  "Formulating search strategy" — 2
+  "Analyzing interpersonal dynamics" — 2
+  "Providing numeric answer" — 2
+  "Summarizing skill assessment findings" — 2
+  "Outputting final answer" — 2
+  "Defining task and initial plan" — 2
+  "Searching for interpersonal relationship data" — 2
+  "Comparing evidence against provided choices" — 2
+  "Examining specific character weakness" — 2
+  "Gathering detailed character information" — 2
+  "Targeted information retrieval" — 2
+  "Summarizing character attributes" — 2
+  "Extracting specific skill details" — 2
+  "Broadening search criteria" — 2
+  "Broadening search for attributes" — 1
+  "Searching for specific person details" — 1
+  "Searching for specific background details" — 1
+  "Analyzing found attribute evidence" — 1
+  "Analyzing found preference evidence" — 1
+  "Analyzing person-specific capabilities" — 1
+  "Searching role suitability information" — 1
+  "Searching individual capabilities" — 1
+  "Searching detailed skill assessments" — 1
+  "Broadening search scope" — 1
+  "Searching individual background information" — 1
+  "Searching skill domain information" — 1
+  "Using lookup tool matching" — 1
+  "Searching interaction-related skills" — 1
+  "Searching individual service capabilities" — 1
+  "Searching service-related information" — 1
+  "Searching background role information" — 1
+  "Searching role-specific capabilities" — 1
+  "Searching individual skill assessments" — 1
+  "Searching for technical skills" — 1
+  "Searching for leadership experience" — 1
+  "Evaluating allocation against evidence" — 1
+  "Searching for performance issues" — 1
+  "Searching for specific performance issues" — 1
+  "Searching for specific details" — 1
+  "Identifying specific skill evidence" — 1
+  "Reasoning from evidence to allocation" — 1
+  "Examining candidate attributes" — 1
+  "Searching for physical limitations" — 1
+  "Looking up specific candidate details" — 1
+  "Considering constraints and re-evaluating" — 1
+  "Searching for specific role requirements" — 1
+  "Summarizing narrative information" — 1
+  "Searching for specific qualifications" — 1
+  "Comparing identified information" — 1
+  "Searching for detailed characteristics" — 1
+  "Evaluating search results" — 1
+  "Searching for individual interests" — 1
+  "Searching for performance details" — 1
+  "Refining search query" — 1
+  "Stating overall goal" — 1
+  "Searching for interpersonal dynamics" — 1
+  "Broadening search strategy" — 1
+  "Adjusting search parameters" — 1
+  "Proposing team assignment based on analysis" — 1
+  "Drawing logical conclusion from evidence" — 1
+  "Examining specific character strength" — 1
+  "Examining specific character traits" — 1
+  "Searching for conflict information" — 1
+  "Searching for coordination issues" — 1
+  "Searching for required skill information" — 1
+  "Examining specific character skills" — 1
+  "Examining specific character capabilities" — 1
+  "Examining specific character issues" — 1
+  "Analyzing character-task suitability" — 1
+  "Proposing final allocation" — 1
+  "Summarizing Key Evidence Points" — 1
+  "Affirming Initial Analysis" — 1
+
+Merge synonyms and near-duplicates so we end up with 5 to
+10 canonical labels. Each canonical label must be:
+- 3 to 6 words
+- functionally distinct from the others
+- describe WHAT the agent is doing (the reasoning move), not case specifics
+
+Output a JSON object mapping each ORIGINAL label (verbatim, exactly as
+shown above) to its canonical label. Wrap in <answer>...</answer>.
+
+<answer>
+{"original label 1": "canonical label", "original label 2": "canonical label", ...}
+</answer>
+
+
+=== RESPONSE ===
+Looking at the labels, I can identify several distinct reasoning actions. The most frequent ones are various types of information search, task analysis, evidence summarization, and final answer selection. I'll group these into 8 canonical labels that are functionally distinct and describe the agent's reasoning moves.
+
+```json
+{
+  "Searching for specific skill information": "Executing targeted information search",
+  "Searching for specific information": "Executing targeted information search",
+  "Executing targeted information search": "Executing targeted information search",
+  "Searching for specific skill details": "Executing targeted information search",
+  "Searching for Specific Skills": "Executing targeted information search",
+  "Searching for specific person attribute": "Executing targeted information search",
+  "Searching for specific trait information": "Executing targeted information search",
+  "Searching for specific skill": "Executing targeted information search",
+  "Searching for background information": "Executing targeted information search",
+  "Searching for specific weakness": "Executing targeted information search",
+  "Gathering specific attribute information": "Executing targeted information search",
+  "Searching for task requirements": "Executing targeted information search",
+  "Searching for candidate qualifications": "Executing targeted information search",
+  "Searching for specific candidate skills": "Executing targeted information search",
+  "Searching for specific weaknesses": "Executing targeted information search",
+  "Searching for character attributes": "Executing targeted information search",
+  "Searching for specific weakness details": "Executing targeted information search",
+  "Searching for task-specific attributes": "Executing targeted information search",
+  "Searching for specific weakness information": "Executing targeted information search",
+  "Searching for interpersonal relationship information": "Executing targeted information search",
+  "Searching for specific background information": "Executing targeted information search",
+  "Searching for specific abilities": "Executing targeted information search",
+  "Searching for role requirements": "Executing targeted information search",
+  "Searching for specific experience": "Executing targeted information search",
+  "Searching for specific skills": "Executing targeted information search",
+  "Searching for specific strengths": "Executing targeted information search",
+  "Searching for individual preferences": "Executing targeted information search",
+  "Searching for interpersonal relationship data": "Executing targeted information search",
+  "Searching for specific background details": "Executing targeted information search",
+  "Searching role suitability information": "Executing targeted information search",
+  "Searching individual capabilities": "Executing targeted information search",
+  "Searching detailed skill assessments": "Executing targeted information search",
+  "Searching individual background information": "Executing targeted information search",
+  "Searching skill domain information": "Executing targeted information search",
+  "Searching interaction-related skills": "Executing targeted information search",
+  "Searching individual service capabilities": "Executing targeted information search",
+  "Searching service-related information": "Executing targeted information search",
+  "Searching background role information": "Executing targeted information search",
+  "Searching role-specific capabilities": "Executing targeted information search",
+  "Searching individual skill assessments": "Executing targeted information search",
+  "Searching for technical skills": "Executing targeted information search",
+  "Searching for leadership experience": "Executing targeted information search",
+  "Searching for performance issues": "Executing targeted information search",
+  "Searching for specific performance issues": "Executing targeted information search",
+  "Searching for specific details": "Executing targeted information search",
+  "Searching for physical limitations": "Executing targeted information search",
+  "Searching for specific role requirements": "Executing targeted information search",
+  "Searching for specific qualifications": "Executing targeted information search",
+  "Searching for detailed characteristics": "Executing targeted information search",
+  "Searching for individual interests": "Executing targeted information search",
+  "Searching for performance details": "Executing targeted information search",
+  "Searching for interpersonal dynamics": "Executing targeted information search",
+  "Searching for conflict information": "Executing targeted information search",
+  "Searching for coordination issues": "Executing targeted information search",
+  "Searching for required skill information": "Executing targeted information search",
+  "Initializing task analysis": "Initializing task analysis",
+  "Examining question and choices": "Initializing task analysis",
+  "Initiating problem-solving methodology": "Initializing task analysis",
+  "Analyzing task requirements": "Initializing task analysis",
+  "Reading question and choices": "Initializing task analysis",
+  "Identifying problem type": "Initializing task analysis",
+  "Initializing reasoning process": "Initializing task analysis",
+  "Defining task and objective": "Initializing task analysis",
+  "Analyzing question and choices": "Initializing task analysis",
+  "Initializing problem-solving framework": "Initializing task analysis",
+  "Defining task and initial plan": "Initializing task analysis",
+  "Stating overall goal": "Initializing task analysis",
+  "Summarizing Evidence for Allocation": "Summarizing evidence for allocation",
+  "Synthesizing evidence for allocation": "Summarizing evidence for allocation",
+  "Summarizing evidence for each person": "Summarizing evidence for allocation",
+  "Summarizing person attributes from narrative": "Summarizing evidence for allocation",
+  "Summarizing character analysis findings": "Summarizing evidence for allocation",
+  "Summarizing evidence for assignment": "Summarizing evidence for allocation",
+  "Summarizing narrative analysis findings": "Summarizing evidence for allocation",
+  "Summarizing analysis of multiple candidates": "Summarizing evidence for allocation",
+  "Summarizing character-task suitability": "Summarizing evidence for allocation",
+  "Summarizing individual capabilities": "Summarizing evidence for allocation",
+  "Summarizing individual profiles": "Summarizing evidence for allocation",
+  "Summarizing worker capabilities": "Summarizing evidence for allocation",
+  "Summarizing individual capabilities and constraints": "Summarizing evidence for allocation",
+  "Summarizing skill assessment findings": "Summarizing evidence for allocation",
+  "Summarizing character attributes": "Summarizing evidence for allocation",
+  "Summarizing narrative information": "Summarizing evidence for allocation",
+  "Summarizing Key Evidence Points": "Summarizing evidence for allocation",
+  "Selecting final answer": "Selecting final answer",
+  "Selecting Final Answer": "Selecting final answer",
+  "Selecting a multiple-choice answer": "Selecting final answer",
+  "Making a final selection": "Selecting final answer",
+  "Confirming final answer selection": "Selecting final answer",
+  "Selecting multiple-choice answer": "Selecting final answer",
+  "Selecting an answer option": "Selecting final answer",
+  "Outputting final answer": "Selecting final answer",
+  "Proposing final allocation": "Selecting final answer",
+  "Confirming thought enumeration": "Meta-cognitive verification",
+  "Confirming analysis completion": "Meta-cognitive verification",
+  "Affirming Initial Analysis": "Meta-cognitive verification",
+  "Deepening search for details": "Refining search strategy",
+  "Checking specific skill details": "Refining search strategy",
+  "Paginating search results": "Refining search strategy",
+  "Broadening search criteria": "Refining search strategy",
+  "Broadening search for attributes": "Refining search strategy",
+  "Broadening search scope": "Refining search strategy",
+  "Refining search query": "Refining search strategy",
+  "Broadening search strategy": "Refining search strategy",
+  "Adjusting search parameters": "Refining search strategy",
+  "Analyzing interpersonal dynamics": "Analyzing team dynamics",
+  "Searching for Interpersonal Dynamics": "Analyzing team dynamics",
+  "Reasoning about task-person suitability": "Evaluating person-task matches",
+  "Evaluating person-task match": "Evaluating person-task matches",
+  "Comparing evidence against provided choices": "Evaluating person-task matches",
+  "Analyzing found attribute evidence": "Evaluating person-task matches",
+  "Analyzing found preference evidence": "Evaluating person-task matches",
+  "Analyzing person-specific capabilities": "Evaluating person-task matches",
+  "Evaluating allocation against evidence": "Evaluating person-task matches",
+  "Reasoning from evidence to allocation": "Evaluating person-task matches",
+  "Examining candidate attributes": "Evaluating person-task matches",
+  "Considering constraints and re-evaluating": "Evaluating person-task matches",
+  "Comparing identified information": "Evaluating person-task matches",
+  "Evaluating search results": "Evaluating person-task matches",
+  "Examining specific character weakness": "Evaluating person-task matches",
+  "Examining specific character strength": "Evaluating person-task matches",
+  "Examining specific character traits": "Evaluating person-task matches",
+  "Examining specific character skills": "Evaluating person-task matches",
+  "Examining specific character capabilities": "Evaluating person-task matches",
+  "Examining specific character issues": "Evaluating person-task matches",
+  "Analyzing character-task suitability": "Evaluating person-task matches",
+  "Formulating initial search strategy": "Formulating search strategy",
+  "Planning evidence gathering strategy": "Formulating search strategy",
+  "Formulating search strategy": "Formulating search strategy",
+  "Defining Task Objective": "Defining problem-solving approach",
+  "Defining the problem-solving approach": "Defining problem-solving approach",
+  "Search specific skill information": "Executing targeted information search",
+  "Identifying specific skill requirements": "Initializing task analysis",
+  "Searching for specific person details": "Executing targeted information search",
+  "Using lookup tool matching": "Executing targeted information search",
+  "Identifying specific skill evidence": "Initializing

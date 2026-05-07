@@ -1,0 +1,3 @@
+$prompt
+
+Think step by step, then provide your final answer as <answer>xxx</answer>.

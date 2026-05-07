@@ -1,0 +1,53 @@
+case_name,predicted_output,expected_output,correct,input_tokens,output_tokens,latency,cost,expt_name
+ex042,2,2,True,1972.0,1738.0,32.488274574279785,0.0041378000000000005,test_pass_pot_DeepSeek-V3-1
+ex041,1,1,True,2245.0,2619.0,70.89552807807922,0.0057993,test_pass_pot_DeepSeek-V3-1
+ex091,0,2,False,2246.0,3157.0,73.17273616790771,0.0067145,test_pass_pot_DeepSeek-V3-1
+ex009,2,2,True,2120.0,2723.0,43.371201515197754,0.005901099999999999,test_pass_pot_DeepSeek-V3-1
+ex065,1,1,True,2158.0,3003.0,63.86295557022095,0.0063999,test_pass_pot_DeepSeek-V3-1
+ex050,2,2,True,2120.0,1816.0,26.96943688392639,0.0043592,test_pass_pot_DeepSeek-V3-1
+ex001,2,2,True,2366.0,5588.0,98.98635959625244,0.0109192,test_pass_pot_DeepSeek-V3-1
+ex070,1,1,True,2258.0,2896.0,86.00636148452759,0.006278,test_pass_pot_DeepSeek-V3-1
+ex015,2,2,True,2320.0,1908.0,52.53976058959961,0.0046356,test_pass_pot_DeepSeek-V3-1
+ex078,0,0,True,2380.0,3739.0,81.63098931312561,0.007784300000000001,test_pass_pot_DeepSeek-V3-1
+ex073,1,1,True,2012.0,2557.0,410.9971694946289,0.0055541,test_pass_pot_DeepSeek-V3-1
+ex010,2,2,True,2306.0,1811.0,37.897789478302,0.0044623,test_pass_pot_DeepSeek-V3-1
+ex055,0,2,False,2042.0,1903.0,399.9391026496887,0.0044603,test_pass_pot_DeepSeek-V3-1
+ex056,0,2,False,2198.0,3888.0,105.23347163200378,0.007928399999999999,test_pass_pot_DeepSeek-V3-1
+ex072,0,0,True,2178.0,2146.0,50.642279386520386,0.004954999999999999,test_pass_pot_DeepSeek-V3-1
+ex045,2,2,True,2050.0,3025.0,72.49819540977478,0.0063725,test_pass_pot_DeepSeek-V3-1
+ex048,1,0,False,2350.0,1763.0,20.83985161781311,0.0044071,test_pass_pot_DeepSeek-V3-1
+ex092,0,0,True,2232.0,2613.0,73.12226223945618,0.0057813,test_pass_pot_DeepSeek-V3-1
+ex076,1,1,True,2002.0,3681.0,69.03859090805054,0.007458899999999999,test_pass_pot_DeepSeek-V3-1
+ex037,2,2,True,2028.0,3157.0,86.05341410636902,0.0065837000000000005,test_pass_pot_DeepSeek-V3-1
+ex030,1,1,True,2268.0,2369.0,52.04457926750183,0.0053881,test_pass_pot_DeepSeek-V3-1
+ex021,2,1,False,2036.0,4105.0,237.74247360229492,0.0082001,test_pass_pot_DeepSeek-V3-1
+ex032,1,1,True,2270.0,1787.0,215.61090731620789,0.0043999,test_pass_pot_DeepSeek-V3-1
+ex096,0,0,True,2236.0,3998.0,51.61458492279053,0.0081382,test_pass_pot_DeepSeek-V3-1
+ex080,2,2,True,2098.0,2887.0,50.340381383895874,0.0061667,test_pass_pot_DeepSeek-V3-1
+ex049,1,1,True,2306.0,2008.0,33.05532741546631,0.0047972,test_pass_pot_DeepSeek-V3-1
+ex083,2,2,True,2252.0,2624.0,61.17389106750488,0.0058119999999999995,test_pass_pot_DeepSeek-V3-1
+ex026,2,2,True,2174.0,3967.0,72.5464518070221,0.0080483,test_pass_pot_DeepSeek-V3-1
+ex087,0,1,False,2052.0,2430.0,68.59546613693237,0.0053622,test_pass_pot_DeepSeek-V3-1
+ex033,2,1,False,2118.0,4003.0,111.2511568069458,0.0080759,test_pass_pot_DeepSeek-V3-1
+ex008,1,1,True,2344.0,1977.0,60.21747970581055,0.0047673,test_pass_pot_DeepSeek-V3-1
+ex047,0,0,True,2308.0,1936.0,252.00190949440002,0.004676,test_pass_pot_DeepSeek-V3-1
+ex059,"**exception raised**: Code execution failed at line 'answer_text = raw_answer(narrative, question, choices)' due to: Timeout: litellm.Timeout: APITimeoutError - Request timed out. Error_str: Request timed out.",2,False,1022.0,1826.0,54.756351947784424,0.0037174,test_pass_pot_DeepSeek-V3-1
+ex063,"**exception raised**: Code execution failed at line 'result = extract_index(answer_text, choices)' due to: ValueError: cannot find final answer",1,False,2249.0,1491.0,201.05818629264832,0.0038840999999999997,test_pass_pot_DeepSeek-V3-1
+ex074,1,2,False,2340.0,3087.0,65.24291849136353,0.0066519,test_pass_pot_DeepSeek-V3-1
+ex044,2,2,True,2160.0,3207.0,51.2079644203186,0.0067479,test_pass_pot_DeepSeek-V3-1
+ex098,2,2,True,2360.0,2734.0,116.6208655834198,0.0060638,test_pass_pot_DeepSeek-V3-1
+ex052,1,1,True,2370.0,4480.0,99.07845854759216,0.009038000000000001,test_pass_pot_DeepSeek-V3-1
+ex085,"**exception raised**: Code execution failed at line 'index = extract_index(answer_text, choices)' due to: Timeout: litellm.Timeout: APITimeoutError - Request timed out. Error_str: Request timed out.",0,False,2001.0,2208.0,44.47526025772095,0.004954200000000001,test_pass_pot_DeepSeek-V3-1
+ex012,**exception raised**: litellm.Timeout: APITimeoutError - Request timed out. Error_str: Request timed out.,2,False,,,,,test_pass_pot_DeepSeek-V3-1
+ex036,"Website Maintenance: Robert, Dispatch and Deliveries: Lisa and Mike",2,False,1068.0,3682.0,97.7946834564209,0.0069002,test_pass_pot_DeepSeek-V3-1
+ex023,"Managing roller coaster: Samantha, Operating snack station: Arthur and Timothy",1,False,963.0,5322.0,136.02313876152039,0.0096252,test_pass_pot_DeepSeek-V3-1
+ex039,1,1,True,2260.0,1570.0,39.63304829597473,0.004025,test_pass_pot_DeepSeek-V3-1
+ex040,"Organize Books: Emily, Track Borrowings:  Ava and Thomas",2,False,1071.0,4132.0,103.73917508125305,0.007667,test_pass_pot_DeepSeek-V3-1
+ex018,"Painting: Mike, Construction: Emma and Robert",2,False,1032.0,3244.0,86.01561641693115,0.0061340000000000006,test_pass_pot_DeepSeek-V3-1
+ex066,"Scouting for food: Alice, Fortification of base: Mark and Paul",0,False,1147.0,1756.0,62.424288749694824,0.0036734,test_pass_pot_DeepSeek-V3-1
+ex061,"**exception raised**: Code parsing failed on line 1 due to: SyntaxError
+narrative = ""The aroma of freshly brewed coffee wafted through the room, mingling with the scent of ink and paper. The rustic wooden table was a battlefield of pens and scattered sheets, the silent symphony of typing the only sound. As the novelist in charge, I was the conductor of this creative orchestra, with Emily, Rachel, and Michael as my virtuosos. The tasks at hand were clear - character development and plot progression - and it was my responsibility to assign them.\n\nEmily, Rachel and Michael, the members of my creative team, each uniquely talented and compelling in their own way. Emily, a delicate introvert, she had an incisive understanding of human emotions, perhaps one of the reasons she resonated so strongly with character development. When it came to understanding the intricate fabric of character traits, their motivations and inner turmoil, Emily was a natural.\n\nIn university, Emily would busy herself with one-act plays, always character-driven, neatly delving into the psyche of her characters. The praise she received was testament to her talent. Emily would sometimes veer off the plot, disregarding the linear sequence of events. She had little patience for timelines not of her own design, something that often caused ripples of discontent amongst the team. Yet her perfectionistic nature and tendency to work alone would eventually birth characters that were nothing short of real.\n\nAcross from her, Michael sat, entirely engrossed in his work. His knack for creating timelines was remarkable. Though character emotions were a language he often struggled with, his understanding of plots and structure was second to none. He was methodical, each plot point sheathed in layers of meticulous detail. He thrived on collaboration and contributed significantly to the team's dynamic. Despite his tendency to dismiss creative inputs that deviated from the established structure, he was no stranger to analyzing the plots of popular novels, drawing inspiration from their intricately woven stories.\n\nFinally, there was Rachel. A curious blend of creativity intertwined with understanding. Armed with a degree in psychology, she had an in-depth understanding of motivations and behavior, which were mirrored in her love for exploring the complexities of characters. Her innovative, creative suggestions would often deviate from the established structure, causing momentary lapses in the stringent order Michael upheld. Yet, that was her strength, she would take her understanding of characters and construct her own timelines for their development, intertwining momentary events into the bigger picture. Rachel particularly excelled at screenwriting, which spoke volumes about her understanding of plot structures.\n\nAs I watched them work, each absorbed in their tasks, it became clear that amongst the brilliance of their strengths and the shadows of their limitations, the perfect assignment of each person to a single skill was emerging, painting a_choices = ['Character Development: Michael, Plot Progression: Emily and Rachel', 'Character Development: Emily, Plot Progression: Michael and Rachel', 'Character Development: Rachel, Plot Progression: Emily and Michael']             ^
+Error: unterminated string literal (detected at line 1) (<unknown>, line 1)",1,False,1032.0,2797.0,77.98598766326904,0.005374100000000001,test_pass_pot_DeepSeek-V3-1
+ex060,2,2,True,1986.0,2775.0,74.36955666542053,0.0059091,test_pass_pot_DeepSeek-V3-1
+ex007,0,0,True,2236.0,1969.0,59.639951944351196,0.0046889,test_pass_pot_DeepSeek-V3-1
+ex034,**exception raised**: cannot find answer matching pattern '```python\n(.*?)\n```',2,False,1001.0,1496.0,225.31204533576965,0.0031438000000000004,test_pass_pot_DeepSeek-V3-1

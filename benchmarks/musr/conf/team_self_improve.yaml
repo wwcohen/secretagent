@@ -1,0 +1,31 @@
+llm:
+  model: together_ai/deepseek-ai/DeepSeek-V3.1
+
+improve:
+  model: together_ai/Qwen/Qwen3.5-397B-A17B
+
+orchestrate:
+  model: together_ai/Qwen/Qwen3.5-397B-A17B
+
+cachier:
+  cache_dir: llm_cache
+  enable_caching: false
+
+evaluate:
+  expt_name: team_self_improve
+  result_dir: results
+  entry_point: answer_question
+  record_details: true
+
+dataset:
+  split: team_allocation
+  shuffle_seed: 42
+  n: 75
+
+ptools:
+  raw_answer:
+    method: simulate
+  extract_index:
+    method: simulate
+  answer_question:
+    method: direct

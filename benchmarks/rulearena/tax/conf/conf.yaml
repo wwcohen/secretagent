@@ -1,0 +1,23 @@
+llm:
+  model: together_ai/deepseek-ai/DeepSeek-V3.1
+  max_tokens: 8192
+
+cachier:
+  cache_dir: llm_cache
+
+evaluate:
+  result_dir: results
+  expt_name: DEFAULT  # must be overridden by a strategy config
+
+dataset:
+  split: valid
+  shuffle_seed: 137
+
+ptools:
+  extract_tax_params:
+    method: simulate_pydantic
+  compute_tax_calculator:
+    method: direct
+    fn: ptools._tax_calc_fn
+  compute_tax_answer:
+    method: DEFAULT  # must be overridden by a strategy config

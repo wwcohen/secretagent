@@ -1,0 +1,33 @@
+# L1 React: pydantic-ai agent with native tool calling (structured tools).
+# Same FHIR tools as the unstructured_baseline, but uses structured function
+# calls instead of raw text parsing. Tests whether native tool calling
+# improves accuracy over the paper's text-based protocol.
+#
+# Note: simulate_pydantic wraps the prompt in "imagine this function was
+# implemented" framing (from simulate_pydantic.txt). The ptools docstring
+# overrides this with "You have access to two tools..." and pydantic-ai's
+# tool-calling loop works correctly despite the framing mismatch.
+llm:
+  model: together_ai/deepseek-ai/DeepSeek-V3.1
+  max_tokens: 2048
+
+cachier:
+  enable_caching: false
+
+fhir:
+  api_base: "http://localhost:8080/fhir/"
+
+evaluate:
+  result_dir: results
+  expt_name: react
+  record_details: true
+
+dataset:
+  version: v2
+
+ptools:
+  solve_medical_task:
+    method: simulate_pydantic
+    tools:
+      - fhir_tools.fhir_get
+      - fhir_tools.fhir_post

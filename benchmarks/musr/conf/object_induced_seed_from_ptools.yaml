@@ -1,0 +1,41 @@
+llm:
+  model: gemini/gemini-3.1-flash-lite-preview
+
+orchestrate:
+  model: gemini/gemini-3.1-pro-preview
+  max_retries: 3
+
+cachier:
+  cache_dir: llm_cache
+  enable_caching: true
+
+evaluate:
+  expt_name: object_induced_seed_from_ptools
+  result_dir: results
+  entry_point: answer_question_workflow
+
+dataset:
+  split: object_placements
+  shuffle_seed: 42
+  n: 4
+
+ptools:
+  extract_index:
+    method: simulate
+  _formulate_search_query_impl:
+    method: simulate
+  _analyze_character_knowledge_impl:
+    method: simulate
+  _extract_belief_location_impl:
+    method: simulate
+  _infer_character_belief_impl:
+    method: simulate
+  _track_object_movement_timeline_impl:
+    method: simulate
+  answer_question_workflow:
+    method: orchestrate
+    task_description: >
+      Determine where a person would look for an object based on their
+      beliefs. Use the induced helper ptools to track object movement,
+      character knowledge, and belief state, then return the 0-based index
+      of the correct answer choice.

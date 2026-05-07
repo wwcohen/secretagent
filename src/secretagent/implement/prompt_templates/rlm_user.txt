@@ -1,0 +1,5 @@
+$iteration_prompt
+
+$context_section
+
+Your next action:

@@ -1,0 +1,59 @@
+Here are some example traces showing how to solve similar problems:
+
+Example 1:
+>>> sentence = analyze_sentence(narrative)
+['Cooper Kupp', 'scored', 'in the third period in the Stanley Cup.']
+>>> for = sport_for('Cooper Kupp')
+'American football and rugby'
+>>> for_1 = sport_for('scored')
+'basketball, soccer, American football and rugby'
+>>> sports = consistent_sports(for, for_1)
+True
+>>> for_2 = sport_for('in the third period in the Stanley Cup.')
+'hockey'
+>>> consistent_sports(for, for_2)
+False
+
+Example 2:
+>>> sentence = analyze_sentence('Adam Thielen got on base.')
+['Adam Thielen', 'got on base', '']
+>>> for = sport_for('Adam Thielen')
+'American football and rugby'
+>>> for_1 = sport_for('got on base')
+'baseball'
+>>> consistent_sports(for, for_1)
+False
+
+Example 3:
+>>> sentence = analyze_sentence('Klaas Jan Huntelaar scored the easy layup.')
+['Klaas Jan Huntelaar', 'scored the easy layup', '']
+>>> for = sport_for('Klaas Jan Huntelaar')
+'soccer'
+>>> for_1 = sport_for('scored the easy layup')
+'basketball'
+>>> consistent_sports(for, for_1)
+False
+
+Example 4:
+>>> sentence = analyze_sentence('Fernando Tatis Jr. earned a red card.')
+['Fernando Tatis Jr.', 'earned a red card', '']
+>>> for = sport_for('Fernando Tatis Jr.')
+'baseball'
+>>> for_1 = sport_for('earned a red card')
+'soccer'
+>>> consistent_sports(for, for_1)
+False
+
+Example 5:
+>>> sentence = analyze_sentence('A.J. Green scored in the third period.')
+['A.J. Green', 'scored', 'in the third period.']
+>>> for = sport_for('A.J. Green')
+'American football and rugby'
+>>> for_1 = sport_for('scored')
+'American football and rugby'
+>>> sports = consistent_sports(for, for)
+True
+>>> for_2 = sport_for('in the third period.')
+'basketball'
+>>> consistent_sports(for, for_2)
+False

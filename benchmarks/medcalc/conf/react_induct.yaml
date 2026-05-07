@@ -1,0 +1,45 @@
+# Stateless ReAct, induction-train split (110 cases, seed=42).
+# gemini-3.1-flash-lite-preview with thinking=high and the
+# simulate_pydantic_thinking template, which instructs the agent to emit
+# a short reasoning paragraph before each tool call. Without this
+# scaffolding gemini stays silent in tool-calling mode and the inducer
+# would see zero step_info[].thought entries.
+llm:
+  model: gemini/gemini-3.1-flash-lite-preview
+  max_tokens: 65536
+  thinking: true
+  reasoning_effort: high
+
+simulate_pydantic:
+  template: simulate_pydantic_thinking.txt
+
+cachier:
+  cache_dir: llm_cache
+  enable_caching: true
+
+evaluate:
+  result_dir: results
+  expt_name: react_train
+  entry_point: calculate_medical_value
+  record_details: true
+
+dataset:
+  split: train
+  stratified: true
+  n: 110
+  shuffle_seed: 42
+
+ptools:
+  identify_calculator:
+    method: simulate
+  extract_clinical_values:
+    method: simulate
+  compute_calculation:
+    method: direct
+    fn: ptools.compute_calculation_impl
+  calculate_medical_value:
+    method: simulate_pydantic
+    tools:
+      - ptools.identify_calculator
+      - ptools.extract_clinical_values
+      - ptools.compute_calculation

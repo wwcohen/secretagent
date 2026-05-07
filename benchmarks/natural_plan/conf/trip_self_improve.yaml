@@ -1,0 +1,36 @@
+llm:
+  model: together_ai/deepseek-ai/DeepSeek-V3.1
+
+improve:
+  model: together_ai/Qwen/Qwen3.5-397B-A17B
+
+orchestrate:
+  model: together_ai/Qwen/Qwen3.5-397B-A17B
+
+cachier:
+  cache_dir: llm_cache
+  enable_caching: false
+
+evaluate:
+  result_dir: results
+  expt_name: trip_self_improve
+  entry_point: trip_planning
+  record_details: true
+
+dataset:
+  split: trip
+  shuffle_seed: 42
+  prompt_mode: 0shot
+  stratified: true
+  sample_n: 50
+  sample_seed: 42
+
+ptools:
+  extract_constraints:
+    method: simulate
+  solve_problem:
+    method: simulate
+  format_answer:
+    method: simulate
+  trip_planning:
+    method: simulate

@@ -1,0 +1,34 @@
+# React: pydantic-ai Agent with tool use (simulate_pydantic)
+llm:
+  model: together_ai/deepseek-ai/DeepSeek-V3.1
+  max_tokens: 65536
+
+cachier:
+  cache_dir: llm_cache
+  enable_caching: true
+
+evaluate:
+  result_dir: results
+  expt_name: react
+  entry_point: calculate_medical_value
+
+dataset:
+  split: train
+  stratified: true
+  n: 275
+  shuffle_seed: 42
+
+ptools:
+  identify_calculator:
+    method: simulate
+  extract_clinical_values:
+    method: simulate
+  compute_calculation:
+    method: direct
+    fn: ptools.compute_calculation_impl
+  calculate_medical_value:
+    method: simulate_pydantic
+    tools:
+      - ptools.identify_calculator
+      - ptools.extract_clinical_values
+      - ptools.compute_calculation

@@ -1,0 +1,82 @@
+# L4 Orchestrate: LLM auto-generates a workflow composing all ptool tiers.
+# Low-level: fhir_get_iface, fhir_post_iface (raw HTTP)
+# Mid-level: find_patient, get_observations, calculate_age, record_vital, create_order (direct Python)
+# High-level: parse_task, extract_answer (LLM reasoning via simulate)
+llm:
+  model: together_ai/deepseek-ai/DeepSeek-V3.1
+  max_tokens: 4096
+
+orchestrate:
+  model: together_ai/deepseek-ai/DeepSeek-V3.1
+  max_retries: 3
+
+cachier:
+  cache_dir: llm_cache
+  enable_caching: true
+
+fhir:
+  api_base: "http://localhost:8080/fhir/"
+
+echo:
+  orchestrate: true
+
+evaluate:
+  result_dir: results
+  expt_name: orchestrate
+  record_details: true
+  max_workers: 1
+
+dataset:
+  version: v2
+
+ptools:
+  # High-level: LLM reasoning
+  parse_task:
+    method: simulate
+  extract_answer:
+    method: simulate
+
+  # Mid-level: deterministic Python
+  find_patient:
+    method: direct
+    fn: ptool_impls.find_patient_impl
+  get_patient_dob:
+    method: direct
+    fn: ptool_impls.get_patient_dob_impl
+  get_observations:
+    method: direct
+    fn: ptool_impls.get_observations_impl
+  calculate_age:
+    method: direct
+    fn: ptool_impls.calculate_age_impl
+  record_vital:
+    method: direct
+    fn: ptool_impls.record_vital_impl
+  create_order:
+    method: direct
+    fn: ptool_impls.create_order_impl
+
+  # Low-level: raw FHIR HTTP (fallback)
+  fhir_get_iface:
+    method: direct
+    fn: fhir_tools.fhir_get
+  fhir_post_iface:
+    method: direct
+    fn: fhir_tools.fhir_post
+
+  # Entry point: orchestrate composes all of the above
+  solve_medical_task:
+    method: orchestrate
+    task_description: >
+      Solve a medical EHR task. The function receives an instruction string
+      and a context string. Use parse_task to extract structured parameters
+      from the instruction (returns JSON string — use json.loads on it).
+      Then use the mid-level tools based on the task_type:
+      "lookup" -> find_patient, "age" -> get_patient_dob + calculate_age,
+      "record" -> record_vital, "get_lab"/"recent_value" -> get_observations + extract_answer,
+      "conditional_order" -> get_observations + conditional create_order,
+      "average" -> get_observations + compute average,
+      "referral" -> create_order with type="service",
+      "multi_step" -> get_observations + conditional create_order (medication + service),
+      "check_stale" -> get_observations + check date + conditional create_order.
+      Return answer as a list. Numbers as numbers, [] for write tasks, [-1] if not found.

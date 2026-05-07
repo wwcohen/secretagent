@@ -1,0 +1,25 @@
+# Preserved old zero-shot chain-of-thought prompt with formula reference.
+llm:
+  model: together_ai/deepseek-ai/DeepSeek-V3.1
+  max_tokens: 65536
+
+cachier:
+  cache_dir: llm_cache
+  enable_caching: true
+
+evaluate:
+  result_dir: results
+  expt_name: zs_cot_prompt
+  entry_point: calculate_medical_value
+
+dataset:
+  split: train
+  stratified: true
+  n: null
+  shuffle_seed: 42
+
+ptools:
+  calculate_medical_value:
+    method: prompt_llm
+    prompt_template_file: prompt_templates/zs_cot_prompt.txt
+    answer_pattern: "(?:ANSWER|answer|Answer)[:\\s]*([-\\d.eE+]+)"

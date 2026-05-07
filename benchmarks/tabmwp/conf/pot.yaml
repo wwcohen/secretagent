@@ -1,0 +1,24 @@
+# Program of Thought: LLM generates Python code executed in sandbox
+# table_for_pd (dict) passed so generated code can do pd.DataFrame(table_for_pd)
+llm:
+  model: together_ai/deepseek-ai/DeepSeek-V3.1
+
+cachier:
+  cache_dir: llm_cache
+
+evaluate:
+  expt_name: pot
+  result_dir: results
+  record_details: true
+
+dataset:
+  split: test
+  shuffle_seed: 42
+  n: 100
+
+ptools:
+  tabmwp_solve_pot:
+    method: program_of_thought
+  tabmwp_solve:
+    method: direct
+    fn: ptools.pot_workflow

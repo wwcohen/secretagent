@@ -1,0 +1,22 @@
+# Single LLM call with ptool signatures as reasoning scaffolding
+# Tests hypothesis: decomposition helps as prompt structure even without modular execution
+llm:
+  model: together_ai/deepseek-ai/DeepSeek-V3.1
+
+cachier:
+  cache_dir: llm_cache
+
+evaluate:
+  expt_name: guided
+  result_dir: results
+  record_details: true
+
+dataset:
+  split: test1k
+  shuffle_seed: 42
+  n: 4
+
+ptools:
+  tabmwp_solve:
+    method: prompt_llm
+    prompt_template_file: prompt_templates/guided.txt

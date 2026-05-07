@@ -1,0 +1,49 @@
+llm:
+  model: together_ai/deepseek-ai/DeepSeek-V3.1
+  max_tokens: 65536
+cachier:
+  cache_dir: benchmarks/medcalc/llm_cache_workflowv2
+  enable_caching: true
+evaluate:
+  result_dir: benchmarks/medcalc/results
+  expt_name: workflowv2_test_full
+  entry_point: calculate_medical_value
+  max_workers: 4
+dataset:
+  split: test
+  stratified: false
+  'n': null
+  shuffle_seed: 42
+ptools:
+  select_calculator_from_question:
+    method: direct
+    fn: ptools.select_calculator_from_question_impl
+  identify_calculator:
+    method: simulate
+  extract_clinical_values:
+    method: simulate
+  analyze_scoring_conditions:
+    method: simulate
+  extract_calculator_values:
+    method: simulate
+  extract_calculator_values_v2:
+    method: simulate
+  refine_calculator_values_v2:
+    method: simulate
+  repair_missing_values:
+    method: simulate
+  compute_calculation:
+    method: direct
+    fn: ptools.compute_calculation_impl
+  simulate_medical_value:
+    method: simulate
+  simulate_medical_value_text:
+    method: simulate
+  calculate_medical_value:
+    method: direct
+    fn: ptools.workflow_v2
+root: benchmarks/medcalc
+medcalc_partition:
+  name: rules
+  source: benchmarks/results/medcalc/test/20260427.021249.workflowv2_test_full
+  categories: ['diagnosis', 'risk', 'severity']

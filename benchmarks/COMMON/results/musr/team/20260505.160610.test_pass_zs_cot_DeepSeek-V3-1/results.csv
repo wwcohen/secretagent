@@ -1,0 +1,51 @@
+case_name,predicted_output,expected_output,correct,input_tokens,output_tokens,latency,cost,expt_name
+ex042,2,2,True,623.0,480.0,17.46001625061035,0.0011898,test_pass_zs_cot_DeepSeek-V3-1
+ex041,1,1,True,760.0,995.0,30.05998992919922,0.0021475,test_pass_zs_cot_DeepSeek-V3-1
+ex091,0,2,False,752.0,1265.0,33.89947462081909,0.0026017,test_pass_zs_cot_DeepSeek-V3-1
+ex009,2,2,True,696.0,1247.0,23.45223641395569,0.0025375,test_pass_zs_cot_DeepSeek-V3-1
+ex065,**exception raised**: litellm.Timeout: APITimeoutError - Request timed out. Error_str: Request timed out.,1,False,,,,,test_pass_zs_cot_DeepSeek-V3-1
+ex050,**exception raised**: litellm.Timeout: APITimeoutError - Request timed out. Error_str: Request timed out.,2,False,,,,,test_pass_zs_cot_DeepSeek-V3-1
+ex001,**exception raised**: litellm.Timeout: APITimeoutError - Request timed out. Error_str: Request timed out.,2,False,,,,,test_pass_zs_cot_DeepSeek-V3-1
+ex070,**exception raised**: litellm.Timeout: APITimeoutError - Request timed out. Error_str: Request timed out.,1,False,,,,,test_pass_zs_cot_DeepSeek-V3-1
+ex015,**exception raised**: litellm.Timeout: APITimeoutError - Request timed out. Error_str: Request timed out.,2,False,,,,,test_pass_zs_cot_DeepSeek-V3-1
+ex078,**exception raised**: litellm.Timeout: APITimeoutError - Request timed out. Error_str: Request timed out.,0,False,,,,,test_pass_zs_cot_DeepSeek-V3-1
+ex073,**exception raised**: litellm.Timeout: APITimeoutError - Request timed out. Error_str: Request timed out.,1,False,,,,,test_pass_zs_cot_DeepSeek-V3-1
+ex010,**exception raised**: litellm.Timeout: APITimeoutError - Request timed out. Error_str: Request timed out.,2,False,,,,,test_pass_zs_cot_DeepSeek-V3-1
+ex055,**exception raised**: litellm.Timeout: APITimeoutError - Request timed out. Error_str: Request timed out.,2,False,,,,,test_pass_zs_cot_DeepSeek-V3-1
+ex056,**exception raised**: litellm.Timeout: APITimeoutError - Request timed out. Error_str: Request timed out.,2,False,,,,,test_pass_zs_cot_DeepSeek-V3-1
+ex072,**exception raised**: litellm.Timeout: APITimeoutError - Request timed out. Error_str: Request timed out.,0,False,,,,,test_pass_zs_cot_DeepSeek-V3-1
+ex045,**exception raised**: litellm.Timeout: APITimeoutError - Request timed out. Error_str: Request timed out.,2,False,,,,,test_pass_zs_cot_DeepSeek-V3-1
+ex048,**exception raised**: litellm.Timeout: APITimeoutError - Request timed out. Error_str: Request timed out.,0,False,,,,,test_pass_zs_cot_DeepSeek-V3-1
+ex092,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',0,False,750.0,513.0,63.695631980895996,0.0013221,test_pass_zs_cot_DeepSeek-V3-1
+ex076,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',1,False,634.0,1276.0,41.566524028778076,0.0025496,test_pass_zs_cot_DeepSeek-V3-1
+ex037,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',2,False,642.0,1059.0,34.74127650260925,0.0021855,test_pass_zs_cot_DeepSeek-V3-1
+ex030,1,1,True,770.0,902.0,27.92923617362976,0.0019954,test_pass_zs_cot_DeepSeek-V3-1
+ex021,2,1,False,656.0,744.0,24.59656572341919,0.0016584,test_pass_zs_cot_DeepSeek-V3-1
+ex032,1,1,True,767.0,514.0,16.714768171310425,0.001334,test_pass_zs_cot_DeepSeek-V3-1
+ex096,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',0,False,750.0,1532.0,48.49539089202881,0.0030544,test_pass_zs_cot_DeepSeek-V3-1
+ex080,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',2,False,678.0,1110.0,31.44308829307556,0.0022938,test_pass_zs_cot_DeepSeek-V3-1
+ex049,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',1,False,780.0,1026.0,28.25865077972412,0.0022122,test_pass_zs_cot_DeepSeek-V3-1
+ex083,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',2,False,757.0,716.0,25.093197345733643,0.0016714,test_pass_zs_cot_DeepSeek-V3-1
+ex026,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',2,False,722.0,1020.0,31.722508668899536,0.0021672,test_pass_zs_cot_DeepSeek-V3-1
+ex087,0,1,False,659.0,1204.0,43.084306955337524,0.0024422000000000003,test_pass_zs_cot_DeepSeek-V3-1
+ex033,2,1,False,692.0,1086.0,37.3939151763916,0.0022614,test_pass_zs_cot_DeepSeek-V3-1
+ex008,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',1,False,802.0,2048.0,57.63748216629028,0.0039628,test_pass_zs_cot_DeepSeek-V3-1
+ex047,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',0,False,784.0,2048.0,52.33092713356018,0.003952,test_pass_zs_cot_DeepSeek-V3-1
+ex059,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',2,False,710.0,2048.0,129.78031492233276,0.0039076,test_pass_zs_cot_DeepSeek-V3-1
+ex063,1,1,True,760.0,663.0,44.912721395492554,0.0015831,test_pass_zs_cot_DeepSeek-V3-1
+ex074,2,2,True,803.0,605.0,40.350120306015015,0.0015103,test_pass_zs_cot_DeepSeek-V3-1
+ex044,2,2,True,712.0,867.0,69.58387422561646,0.0019011,test_pass_zs_cot_DeepSeek-V3-1
+ex098,2,2,True,801.0,573.0,45.730117321014404,0.0014547,test_pass_zs_cot_DeepSeek-V3-1
+ex052,2,1,False,816.0,1548.0,96.89361667633057,0.0031212,test_pass_zs_cot_DeepSeek-V3-1
+ex085,0,0,True,763.0,660.0,37.86907649040222,0.0015798,test_pass_zs_cot_DeepSeek-V3-1
+ex012,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',2,False,776.0,2048.0,61.833048820495605,0.0039472,test_pass_zs_cot_DeepSeek-V3-1
+ex036,2,2,True,756.0,1059.0,40.28942084312439,0.0022539,test_pass_zs_cot_DeepSeek-V3-1
+ex023,1,1,True,651.0,1020.0,55.3776752948761,0.0021246,test_pass_zs_cot_DeepSeek-V3-1
+ex039,0,1,False,760.0,476.0,16.20043134689331,0.0012652,test_pass_zs_cot_DeepSeek-V3-1
+ex040,2,2,True,750.0,1188.0,22.321661710739136,0.0024695999999999997,test_pass_zs_cot_DeepSeek-V3-1
+ex018,2,2,True,722.0,645.0,18.473654985427856,0.0015297,test_pass_zs_cot_DeepSeek-V3-1
+ex066,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',0,False,831.0,2048.0,55.960540771484375,0.0039802,test_pass_zs_cot_DeepSeek-V3-1
+ex061,1,1,True,720.0,1132.0,8.562854051589966,0.0023564,test_pass_zs_cot_DeepSeek-V3-1
+ex060,2,2,True,625.0,907.0,8.134344816207886,0.0019169,test_pass_zs_cot_DeepSeek-V3-1
+ex007,0,0,True,747.0,607.0,13.148506164550781,0.0014801,test_pass_zs_cot_DeepSeek-V3-1
+ex034,1,2,False,691.0,1091.0,28.918644428253174,0.0022693,test_pass_zs_cot_DeepSeek-V3-1

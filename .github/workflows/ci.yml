@@ -1,0 +1,30 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  lint-and-unit-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v4
+      - run: uv sync && uv pip install -e .
+      - name: Lint
+        run: uv run ruff check src
+      - name: Unit tests (no API key — integration tests skip automatically)
+        run: uv run pytest tests/ -v
+
+  integration-tests:
+    runs-on: ubuntu-latest
+    continue-on-error: true  # LLM responses can be flaky; don't block on this
+    env:
+      TOGETHERAI_API_KEY: ${{ secrets.TOGETHERAI_API_KEY }}
+      CI_TEST_MODEL: ${{ vars.CI_TEST_MODEL }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v4
+      - run: uv sync && uv pip install -e .
+      - name: Integration tests
+        run: uv run pytest tests/ -v

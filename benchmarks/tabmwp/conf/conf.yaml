@@ -1,0 +1,35 @@
+llm:
+  model: together_ai/deepseek-ai/DeepSeek-V3.1
+
+cachier:
+  cache_dir: llm_cache
+
+evaluate:
+  result_dir: results
+  expt_name: DEFAULT  # must be overridden per experiment
+
+dataset:
+  split: test1k
+  shuffle_seed: 42
+  n: 4
+
+# Default: all reasoning ptools simulated, top-level must be overridden
+ptools:
+  identify_operation:
+    method: simulate
+  extract_relevant_values:
+    method: simulate
+  compute_answer:
+    method: simulate
+  format_answer:
+    method: simulate
+  get_table_schema:
+    method: direct
+  lookup_value:
+    method: direct
+  query_column:
+    method: direct
+  query_table:
+    method: direct
+  tabmwp_solve:
+    method: DEFAULT  # must be overridden

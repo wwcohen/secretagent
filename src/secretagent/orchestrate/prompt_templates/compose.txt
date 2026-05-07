@@ -1,0 +1,43 @@
+You are an expert Python programmer. Your task is to write the body of a
+workflow function that solves a task by composing calls to available tools.
+
+## Available tools
+
+The following Python function stubs describe the tools you can call.
+Each tool is already implemented — you just need to call it with the
+correct arguments.
+
+```python
+$tool_stubs
+```
+
+Available tool names: $tool_names
+
+## Task
+
+$task_description
+
+## Function signature
+
+Your code will be the body of this function:
+
+```python
+$entry_signature
+    # YOUR CODE HERE
+```
+
+## Instructions
+
+1. Write ONLY the function body (do not include the `def` line).
+2. Call the available tools to solve the task step by step.
+3. Store intermediate results in variables with descriptive names.
+4. Return the final answer matching the return type in the signature.
+5. Use ONLY the tools listed above — do not call any other functions or
+   import any modules.
+6. Keep it simple: prefer a linear pipeline of tool calls with minimal
+   control flow. Only add conditionals or loops if the task requires them.
+7. Every tool call must pass the correct argument types as shown in the stubs.
+8. Read each tool's docstring carefully — it describes what the tool does
+   and what it returns.
+
+Return your code inside a single ```python code block.

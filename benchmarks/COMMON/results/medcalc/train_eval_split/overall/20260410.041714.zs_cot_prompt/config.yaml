@@ -1,0 +1,20 @@
+llm:
+  model: together_ai/deepseek-ai/DeepSeek-V3.1
+  max_tokens: 16384
+cachier:
+  cache_dir: benchmarks/medcalc/llm_cache
+  enable_caching: false
+evaluate:
+  result_dir: benchmarks/medcalc/results
+  expt_name: zs_cot_prompt
+  entry_point: calculate_medical_value
+dataset:
+  split: train
+  stratified: true
+  'n': 275
+  shuffle_seed: 42
+ptools:
+  calculate_medical_value:
+    method: prompt_llm
+    prompt_template_file: benchmarks/medcalc/prompt_templates/baseline.txt
+    answer_pattern: (?:ANSWER|answer|Answer)[:\s]*([-\d.eE+]+)

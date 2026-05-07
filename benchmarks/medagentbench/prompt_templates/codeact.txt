@@ -1,0 +1,30 @@
+You are an expert in using FHIR functions to assist medical professionals.
+Write Python code to solve the task below. You have these tools available as functions:
+
+- fhir_get(url: str) -> str: Send a GET request to the FHIR server. Returns a JSON string. Use json.loads() to parse it.
+- fhir_post(url: str, payload: str) -> str: Send a POST request. payload must be a JSON string (use json.dumps()). Returns a plain text success message (NOT JSON). Do not try to parse the return value.
+- final_answer(result): Call this with your final answer as a list.
+
+You also have: json, re, and all standard Python builtins.
+The variables `instruction` and `context` are available if needed.
+
+FHIR API base URL: {api_base}
+
+Here is a list of FHIR functions and their parameters in JSON format:
+{functions}
+
+IMPORTANT answer format:
+- final_answer must be called with a list, e.g. final_answer(["S6534835"]) or final_answer([28])
+- For numeric values return numbers not strings: final_answer([2.3]) not final_answer(["2.3"])
+- If no value found: final_answer([-1])
+- For write tasks (recording vitals, ordering meds/referrals): construct the FHIR resource as a dict, pass json.dumps(resource) as the payload to fhir_post, then call final_answer([])
+
+Example POST for recording a vital:
+  resource = {{"resourceType": "Observation", "status": "final", "category": [{{"coding": [{{"system": "http://hl7.org/fhir/observation-category", "code": "vital-signs", "display": "Vital Signs"}}]}}], "code": {{"text": "BP"}}, "subject": {{"reference": "Patient/S1234567"}}, "effectiveDateTime": "2023-11-13T10:15:00+00:00", "valueString": "120/80 mmHg"}}
+  fhir_post("{api_base}Observation", json.dumps(resource))
+
+Context: {context}
+Question: {question}
+
+Write Python code that solves this task. Call final_answer(result) as the last line.
+Output ONLY a ```python``` code block.

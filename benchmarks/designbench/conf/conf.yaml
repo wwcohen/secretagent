@@ -1,0 +1,45 @@
+# Choose any litellm-compatible model.
+llm:
+  model: Qwen/Qwen3.5-9B
+
+cachier:
+  cache_dir: llm_cache
+
+evaluate:
+  result_dir: results
+  expt_name: designbench_ptool
+  entry_point: generate_code
+  clip_threshold: 0.75
+
+dataset:
+  framework: vanilla
+  shuffle_seed: 42
+  # Limit long HTML pages so prompts stay tractable.
+  max_reference_chars: 20000
+
+benchmark:
+  # If null, output framework follows dataset.framework.
+  output_framework: null
+  skip_eval: false
+  case_timeout_seconds: 120
+
+# Optional path to local DesignBench repo.
+# designbench:
+#   root: /absolute/path/to/DesignBench
+
+vlm:
+  max_tokens: 2048
+  timeout_seconds: 45
+  retries: 2
+  retry_sleep_seconds: 1.0
+  enable_thinking: false
+  enabled: true
+
+ptools:
+  generate_code:
+    method: react
+    max_steps: 20
+    tools:
+      - ptools.generate_code.func
+      - ptools.render_generated_image
+      - ptools.fix_code_from_rendered_and_reference

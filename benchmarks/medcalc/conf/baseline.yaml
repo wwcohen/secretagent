@@ -1,0 +1,25 @@
+# L0: Baseline — raw prompt_llm, no structure
+llm:
+  model: together_ai/deepseek-ai/DeepSeek-V3.1
+  max_tokens: 65536
+
+cachier:
+  cache_dir: llm_cache
+  enable_caching: true
+
+evaluate:
+  result_dir: results
+  expt_name: baseline
+  entry_point: calculate_medical_value
+
+dataset:
+  split: train
+  stratified: true
+  n: null
+  shuffle_seed: 42
+
+ptools:
+  calculate_medical_value:
+    method: prompt_llm
+    prompt_template_file: prompt_templates/baseline.txt
+    answer_pattern: "(?:ANSWER|answer|Answer)[:\\s]*([-\\d.eE+]+)"
