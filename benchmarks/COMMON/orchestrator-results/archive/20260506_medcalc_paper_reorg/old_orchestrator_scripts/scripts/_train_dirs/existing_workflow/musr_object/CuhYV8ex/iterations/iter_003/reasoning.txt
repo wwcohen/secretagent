@@ -1,0 +1,10 @@
+An analysis of the failing cases shows that the `raw_answer` model struggles with Theory of Mind (ToM) belief tracking in zero-shot settings. When characters are distracted ("engrossed in a call", "immersed in cleaning") while an object is moved, they maintain a false belief about its location. The direct `raw_answer` call fails to track these subtle attentional states and simply outputs the object's actual final location instead.
+
+Previous iterations attempted to fix this by:
+1. Routing through a rigid 4-step extraction pipeline (which dropped details).
+2. Changing the output interface to Chain-of-Thought (which completely broke the regex index-matching downstream).
+
+**My Strategy:** 
+We will introduce a targeted `get_tom_summary` step that explicitly asks the LLM to trace the target object's movements and evaluate the target character's attentional state during each move (e.g., were they observing, or were they distracted/in another room?). 
+
+Instead of writing risky regex parsers for this analysis, we simply **append this summary to the narrative** before passing it into the existing, perfectly robust `raw_answer` + `extract_index` pipeline. This gives `raw_answer` the reasoning step it desperately needs while keeping the extraction mechanics 100% stable.

@@ -1,0 +1,169 @@
+"""Task-specific interfaces for NaturalPlan trip planning.
+
+Decomposition derived from LLM reasoning traces:
+1. parse_trip_constraints — extract cities, durations, flights, time windows
+2. find_valid_route — find city ordering respecting all constraints
+3. build_trip_plan — assign day ranges and format itinerary
+"""
+
+import json
+from secretagent.core import interface
+
+
+@interface
+def parse_trip_constraints(problem_text: str) -> str:
+    """Parse a trip-planning problem into structured JSON.
+
+    Args:
+        problem_text: The ENTIRE trip-planning problem as a single string
+            (total trip days, each city's required stay duration, direct
+            flight connections, time-window constraints, etc.). Pass the
+            whole problem text as one argument — do NOT split it into
+            multiple arguments.
+
+    Returns:
+        A JSON string encoding a dict with these keys:
+        - total_days: total trip duration (int)
+        - cities: dict mapping city name to required stay duration in days
+            e.g. {"Helsinki": 5, "Barcelona": 3, "Florence": 5}
+        - flights: adjacency list of direct flights
+            e.g. {"Helsinki": ["Barcelona"], "Barcelona": ["Helsinki","Florence"]}
+            CRITICAL INSTRUCTION: For undirected flights ("A and B"), add A to B's list AND B to A's list.
+            CRITICAL INSTRUCTION: For directed flights ("from A to B"), ONLY add B to A's list. DO NOT add A to B's list!
+        - time_windows: list of time-window constraints, each with keys
+            city, earliest_day, latest_day.
+
+    Example:
+        >>> parse_trip_constraints("Visit 3 cities over 13 days: Helsinki 5 days, Barcelona 3 days, Florence 5 days. Flights: Helsinki and Barcelona, from Barcelona to Florence. Meet a friend in Florence between day 9 and 14.")
+        '{"total_days": 13, "cities": {"Helsinki": 5, "Barcelona": 3, "Florence": 5}, "flights": {"Helsinki": ["Barcelona"], "Barcelona": ["Helsinki", "Florence"], "Florence": []}, "time_windows": [{"city": "Florence", "earliest_day": 9, "latest_day": 14}]}'
+    """
+
+
+@interface(method="direct")
+def find_valid_route(problem_text: str, constraints_json: str) -> str:
+    """Find a valid ordering of cities that respects all constraints."""
+    try:
+        constraints = json.loads(constraints_json)
+    except Exception:
+        return "[]"
+        
+    cities = constraints.get("cities", {})
+    flights = constraints.get("flights", {})
+    time_windows = constraints.get("time_windows", [])
+    
+    all_cities = list(cities.keys())
+    if not all_cities:
+        return "[]"
+        
+    def dfs(current_order, current_day):
+        if len(current_order) == len(all_cities):
+            return current_order
+            
+        last_city = current_order[-1] if current_order else None
+        candidates = all_cities if last_city is None else flights.get(last_city, [])
+            
+        for nxt in candidates:
+            if nxt in current_order:
+                continue
+                
+            dur = int(cities.get(nxt, 0))
+            arr = current_day
+            dep = current_day + dur - 1
+            
+            valid = True
+            for tw in time_windows:
+                if tw.get("city") == nxt:
+                    if not (arr <= int(tw.get("earliest_day", 0)) and dep >= int(tw.get("latest_day", 0))):
+                        valid = False
+                        break
+            if not valid:
+                continue
+                
+            res = dfs(current_order + [nxt], dep)
+            if res:
+                return res
+                
+        return None
+        
+    route = dfs([], 1)
+    return json.dumps(route if route else [])
+
+
+@interface(method="direct")
+def build_trip_plan(problem_text: str, constraints_json: str, route_json: str) -> str:
+    """Assign day ranges to each city and format the day-by-day itinerary."""
+    try:
+        constraints = json.loads(constraints_json)
+        route = json.loads(route_json)
+        
+        if not route:
+            return "No valid route found."
+            
+        num_cities = len(route)
+        total_days = int(constraints.get("total_days", 0))
+        cities = constraints.get("cities", {})
+        
+        lines = []
+        lines.append(f"Here is the trip plan for visiting the {num_cities} European cities for {total_days} days:")
+        lines.append("")
+        
+        current_day = 1
+        for i, city in enumerate(route):
+            dur = int(cities.get(city, 0))
+            start_day = current_day
+            end_day = current_day + dur - 1
+            
+            if i == 0:
+                lines.append(f"**Day {start_day}-{end_day}:** Arriving in {city} and visit {city} for {dur} days.")
+            else:
+                lines.append(f"**Day {start_day}-{end_day}:** Visit {city} for {dur} days.")
+                
+            if i < len(route) - 1:
+                next_city = route[i+1]
+                lines.append(f"**Day {end_day}:** Fly from {city} to {next_city}.")
+                
+            current_day = end_day
+            
+        return "\n".join(lines)
+    except Exception:
+        return "Error building trip plan."
+
+
+@interface
+def trip_planning(prompt: str) -> str:
+    """Solve a trip-planning problem.
+
+    Given a problem describing total trip days, required stay durations
+    for each city, direct flights between cities, and any time-window
+    constraints, produce a day-by-day itinerary that satisfies all
+    constraints.
+
+    Args:
+        prompt: The full trip-planning problem as one string.
+
+    Returns:
+        A string itinerary in EXACTLY this format:
+        - First line: a header that MUST include the phrase
+          'European cities for {N} days'
+        - Then one line per city visit with '**Day A-B:**' day-range prefix
+        - Then one line per flight with '**Day D:** Fly from {City1} to {City2}.'
+        Flight days count as the last day of the departing stay AND the
+        first day of the arriving stay (overlapping).
+
+    Example:
+        'Here is the trip plan for visiting the 3 European cities for 14 days:\\n**Day 1-5:** Visit Helsinki for 5 days.\\n**Day 5:** Fly from Helsinki to Barcelona.\\n**Day 5-9:** Visit Barcelona for 5 days.\\n**Day 9:** Fly from Barcelona to Florence.\\n**Day 9-14:** Visit Florence for 6 days.'
+    """
+    ...
+
+
+def trip_workflow(prompt: str) -> str:
+    constraints = parse_trip_constraints(prompt)
+    route = find_valid_route(prompt, constraints)
+    return build_trip_plan(prompt, constraints, route)
+
+# --- Auto-generated by orchestration_learner --seed-orchestrate ---
+def trip_planning_orchestrated_seed(prompt: str) -> str:
+    constraints_json = parse_trip_constraints(prompt)
+    route_json = find_valid_route(prompt, constraints_json)
+    itinerary = build_trip_plan(prompt, constraints_json, route_json)
+    return itinerary

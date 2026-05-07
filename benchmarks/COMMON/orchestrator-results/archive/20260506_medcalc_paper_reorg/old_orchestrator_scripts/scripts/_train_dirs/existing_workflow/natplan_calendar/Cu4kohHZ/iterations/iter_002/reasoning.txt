@@ -1,0 +1,9 @@
+An analysis of the failures reveals two main issues:
+1. **Hallucinated Math:** The `find_available_slots` tool frequently hallucinates slots that overlap with explicitly stated busy blocks (e.g., proposing 11:00-11:30 when a participant is busy 10:30-11:30).
+2. **Hardcoded Earliest Preference:** The pipeline's workflow hardcodes `"earliest"` as the preference for the final selector. However, the NaturalPlan dataset has hidden rules (implied by the 5-shot examples) where it selects later slots if participants have negative constraints like "avoids after 14:00".
+
+### Strategy
+Instead of blindly trusting the LLM's math or hardcoding "earliest", we will:
+1. **Expose `calendar_scheduling` as a `direct` tool** that orchestrates the workflow end-to-end, steering the agent away from error-prone manual orchestration.
+2. **Add a Pure Python Validator:** Inside the orchestration, we parse the JSON and strictly filter out any slots proposed by `find_available_slots` that mathematically overlap with the extracted busy blocks. We also clean up the time formatting (e.g., `"09:00"` -> `"9:00"`).
+3. **Pass the 5-shot Prompt to the Final Selector:** We update `select_and_format` to accept the original `problem_text` instead of a hardcoded preference. This empowers the LLM to deduce the correct slot by looking at the 5-shot examples and filtering out any remaining negative constraints that were missed during schedule parsing.

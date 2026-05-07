@@ -1,0 +1,9 @@
+Pipeline accuracy: 89.7%, avg cost: $0.0065/case, 29 cases
+
+Per-ptool breakdown:
+  extract_nba_params: cost_frac=100.0%, calls/case=1.0, avg_cost=$0.0065, lift=N/A, errors=0
+
+Ptools called via LLM: ['extract_nba_params']
+
+Held-out eval accuracy: 61.5% (train: 89.7%)
+A large train-eval gap means your changes are OVERFITTING. Prefer changes that generalize to unseen cases.

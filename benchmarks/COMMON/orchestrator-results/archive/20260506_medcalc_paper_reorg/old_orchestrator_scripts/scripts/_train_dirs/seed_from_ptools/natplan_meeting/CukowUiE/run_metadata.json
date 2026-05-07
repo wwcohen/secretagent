@@ -1,0 +1,19 @@
+{
+  "benchmark": "natural_plan",
+  "benchmark_dir": "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/natural_plan",
+  "config_file": "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/natural_plan/conf/meeting.yaml",
+  "entry_point": "meeting_planning",
+  "ptools_module": "ptools_meeting",
+  "seed_orchestrate": true,
+  "scratch_evolved": true,
+  "evolved_path": "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/natural_plan/.orchestration_learner/ptools_meeting_20260427.050955_scratch.py",
+  "results_base": "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/natural_plan/results/orchestration_learner",
+  "resume_from": null,
+  "train_split": "meeting",
+  "eval_split": "meeting",
+  "n_train": 70,
+  "n_eval": 30,
+  "max_iterations": 5,
+  "target_accuracy": null,
+  "supervisor_model": "gemini/gemini-3.1-pro-preview"
+}

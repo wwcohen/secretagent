@@ -1,0 +1,6 @@
+An analysis of the failures reveals that the zero-shot LLM approach (`raw_answer`) is still struggling to maintain robust Theory of Mind (ToM) tracking. Specifically:
+1. **Self-moves**: In cases like `ex105` and `ex020`, the target character moves the object themselves, but the LLM incorrectly predicts they have a false belief and look in the old location. 
+2. **Distractors**: In cases like `ex089`, the LLM tracks the movement of an irrelevant object (pottery) instead of the target object (the ancient coin).
+3. **Sequential Tracking**: In cases like `ex054`, the LLM fails to read to the end of the text and misses secondary object movements.
+
+To fix this securely without breaking the fragile downstream `extract_index` integer matcher (which caused the 0.0% accuracy rollbacks in Iterations 2 & 3), we modify the `answer_question` prompt to enforce a highly structured **Chain of Thought Scratchpad** directly inside the single `raw_answer` call. We then safely parse out the final string in pure Python before handing it to `extract_index`. This gives the LLM the cognitive scaffolding it needs without confusing the automated grader.

@@ -1,0 +1,4 @@
+trip_planning:
+  method: direct
+  fn: __learned__.trip_workflow
+  learner: orch_learner

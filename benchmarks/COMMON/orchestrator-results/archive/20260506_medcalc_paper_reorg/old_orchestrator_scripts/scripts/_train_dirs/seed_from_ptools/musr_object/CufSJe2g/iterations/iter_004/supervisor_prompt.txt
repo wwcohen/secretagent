@@ -1,0 +1,862 @@
+You are an expert ML engineer making a TARGETED improvement to an existing
+pipeline. The pipeline already works at a certain accuracy — your job is to
+make it BETTER, not blow it up.
+
+You have FULL CONTROL over the ptools module. You can modify ANY function,
+ANY docstring, ANY logic. Your changes will be written to ptools_evolved.py
+and evaluated.
+
+## Current ptools_evolved.py (FULL SOURCE — you own this file)
+
+```python
+"""Interfaces for MUSR object placement (theory of mind)."""
+
+from secretagent.core import interface
+from ptools_common import (  # noqa: F401  (re-export so the loaded ptools module exposes them)
+    raw_answer,
+    extract_index,
+    react_solve,
+)
+
+
+@interface
+def extract_movements(narrative: str) -> str:
+    """Extract a chronological list of every object-movement event in the narrative.
+
+    For each move event, record:
+    - object: which object is being moved
+    - from_location: where it was before the move
+    - to_location: where it ends up after the move
+    - actor: who performed the move (the mover)
+    - present: list of OTHER characters who were in the scene and witnessed the move
+    - absent: list of characters who are mentioned in the story but were NOT in the scene
+      when this move happened (and therefore did not witness it)
+
+    Be exhaustive — include EVERY move of EVERY object, in the order they
+    happen in the narrative. Do not paraphrase locations: use the exact
+    place names that appear in the story so they match the answer choices
+    later. Do not infer moves that are not described.
+
+    Format the output as a numbered list:
+        1. object=<X>, from=<L1>, to=<L2>, actor=<A>, present=[...], absent=[...]
+        2. object=<Y>, from=<L1>, to=<L3>, actor=<B>, present=[...], absent=[...]
+        ...
+
+    This list is the load-bearing structure for false-belief reasoning, so
+    accuracy of who-was-present-when matters more than prose quality.
+    """
+
+
+@interface
+def extract_discoveries(narrative: str) -> str:
+    """Extract incidental discoveries from the narrative.
+
+    A "discovery" is a moment where a character notices/sees/learns the
+    location of an object WITHOUT witnessing the move that put it there.
+    These update a character's belief about the object's location even
+    though they were not present when it was moved.
+
+    Examples of discoveries:
+    - "Bob walked past the kitchen and saw the keys on the counter."
+    - "Alice looked into the box and noticed the necklace inside."
+    - "Tom told Sarah that the wrench was in the toolshed."  (verbal report
+      counts as a discovery — Sarah now believes that)
+
+    For each discovery, record:
+    - observer: the character who learned the location
+    - object: which object they learned about
+    - location: where they observed/were-told the object is
+    - mode: 'saw_directly' | 'told_by_<name>' | 'inferred_from_<event>'
+
+    Format as a numbered list:
+        1. observer=<X>, object=<O>, location=<L>, mode=<M>
+        2. ...
+
+    If there are no incidental discoveries, return: "No discoveries."
+    Be conservative — only include events explicitly stated in the narrative.
+    """
+
+
+@interface
+def infer_belief(narrative: str, movements: str, question: str, choices: list) -> str:
+    """Determine where the target person believes the target object is located.
+
+    You receive:
+    1. The FULL original narrative (re-read it for details extraction may have missed)
+    2. Extracted object movements with presence/absence info
+    3. Incidental discoveries (someone saw/noticed an object without witnessing the move)
+    4. The question identifying the target person and object, and answer choices
+
+    Your task — determine the person's BELIEF about the object's location:
+
+    Step 1: Start with the object's initial location (everyone knows this)
+    Step 2: For each movement of the target_object (in chronological order):
+       - If target_person is in "present" → they know the new location
+       - If target_person is in "absent" → they still believe the old location
+    Step 3: Check discoveries — if target_person discovered the target_object
+       at a location, that UPDATES their belief to that location
+    Step 4: Re-read the narrative to check for anything the extraction missed:
+       - Did someone TELL the target person where the object is?
+       - Did the target person GO TO the object's location and see it there?
+       - Did the target person interact with something NEAR the object?
+    Step 5: Match the believed location to one of the answer choices
+
+    IMPORTANT: The question asks where the person would LOOK, which means
+    where they BELIEVE the object is — not necessarily where it actually is.
+    """
+
+
+@interface
+def answer_question(narrative: str, question: str, choices: list) -> int:
+    """Read the narrative and answer where someone would look for an object.
+    This is a theory-of-mind task: the answer is based on what the person
+    believes, not the object's actual location.
+    Return the 0-based index of the correct choice.
+    """
+    text = raw_answer(narrative, question, choices)
+    return extract_index(text, choices)
+
+
+@interface
+def answer_question_workflow(narrative: str, question: str, choices: list) -> int:
+    """Solve by extracting movements + discoveries, inferring belief, then matching.
+
+    4-step hand-designed workflow:
+      1. extract_movements — chronological list of who-saw-which-move
+      2. extract_discoveries — incidental observations of object locations
+      3. infer_belief — combine narrative + movements + discoveries to
+         determine the target person's belief about the target object
+      4. extract_index — match the inferred belief to one of the choices
+    """
+    movements = extract_movements(narrative)
+    discoveries = extract_discoveries(narrative)
+    combined = (
+        f"## Object movements\n{movements}\n\n"
+        f"## Incidental discoveries\n{discoveries}"
+    )
+    text = infer_belief(narrative, combined, question, choices)
+    return extract_index(text, choices)
+
+# --- Auto-generated by orchestration_learner --seed-orchestrate ---
+def answer_question_workflow_orchestrated_seed(narrative: str, question: str, choices: list) -> int:
+    return answer_question(narrative, question, choices)
+
+```
+
+## Performance on training set
+
+Pipeline accuracy: 55.4%, avg cost: $0.0008/case, 74 cases
+
+Per-ptool breakdown:
+  extract_index: cost_frac=32.0%, calls/case=1.0, avg_cost=$0.0003, lift=N/A, errors=0
+  raw_answer: cost_frac=68.0%, calls/case=1.0, avg_cost=$0.0006, lift=N/A, errors=0
+
+Ptools called via LLM: ['extract_index', 'raw_answer']
+
+Held-out eval accuracy: 46.9% (train: 55.4%)
+A large train-eval gap means your changes are OVERFITTING. Prefer changes that generalize to unseen cases.
+
+## Failure cases with full context
+
+Total failures: 33 / showing 33:
+
+Failure counts by category:
+  unknown: 33 failures
+
+--- Case ex096: ---
+  Input arg 0: The office buzzed with tension and the tick of the clock seemed to echo louder as Claire, the marketing manager, was preparing for an important board meeting. She was presenting an updated marketing strategy and the smooth function of the slideshow was crucial. Claire's desk held her sleek laptop with all the important data, ready to be taken to the conference room.
+
+Mark, the diligent IT technician, was bustling about, his chief concern being the office's electronic equipment and their functionality. On the other hand, Hailey, the new intern, was there to assist Claire with every bit of preparation needed for the meeting, eager to demonstrate her efficiency and worth. Her eyes focused on the presentation clicker located in the conference room, a key player for the afternoon's events.
+
+They were all aware of each item's location. The laptop sat on Claire's desk and the presentation clicker was in the conference room. Their silent, unspoken agreement united them in this pre-meeting hour, each absorbed in their respective roles and ready for the important board meeting ahead.
+
+Grasping the small remote firmly, Claire strode back to her desk with purpose. Slipping into her chair, she pointed the clicker at her laptop and began to test it, ensuring it would work flawlessly for the presentation. Claire, with an impending board meeting, was industriously orchestrating the final touches of her marketing strategy presentation. Aided by Hailey, the enthusiastic intern, they formed an efficient two-woman team. Their eyes were on the prize, a successful board presentation. In a different corner, Mark, the office's IT technician, was operating in the server room. The room buzzed and beeped with familiar tones as he busily ensured all electronic components were functional and run to perfection.
+
+Though the server room was considerably distanced from Claire's office, the digital waves that Mark conducted connected them all. Each was in their space, the conference room on one side
+  Input arg 1: Which location is the most likely place Claire would look to find the presentation clicker given the story?
+  Input arg 2: ["Claire's desk", 'conference room']
+  Execution trace (2 LLM calls):
+    raw_answer(["The office buzzed with tension and the tick of the clock seemed to echo louder as Claire, the marketing manager, was preparing for an important board meeting. She was presenting an updated marketing)
+      -> conference room [$0.0006]
+    extract_index(['conference room', ["Claire's desk", 'conference room']])
+      -> 1 [$0.0002]
+  RESULT: predicted=1, expected=0
+
+--- Case ex031: ---
+  Input arg 0: Jennifer, the Tech CEO, was battling against the clock to contain a critical data breach that could jeopardize the future of her company. Vital information was stored on her personal laptop, situated on a shelf in her office. No one but her knew how vital it was in resolving the issue. 
+
+Mike, who was the IT manager, was equally stressed trying to isolate the breach without disrupting operations too much. His part of the solution rested on the company server key, safely tucked away in the office safe. He could almost visualize the key sitting there.
+
+Carol, the Office Manager, was trying her best to manage the office chaos while supporting both Jennifer and Mike. The involved parties all knew where the necessary items were located. She knew that the laptop on the shelf in Jennifer's office and the server key in the office safe were both vital.
+
+Indeed, despite their individual roles in dealing with the crisis, Jennifer, Mike, and Carol were each aware of the location of the laptop on the shelf and the server key in the safe. Their internal clock was ticking, and their personal missions combined to a shared goal: saving the company from the breach.
+
+So, taking a deep breath, Jennifer, with a sense of purpose, reached for her laptop. She cradled it and headed towards the boardroom, knowing that the future of her tech company hinged on this meeting. Concurrently, in another part of the premises, Mike had sunk into the challenge of tracing and rectifying the breach and had retreated into solitude. Working on his own, he had elected a quieter area of the office as his temporary command centre, trying to solve the technical puzzle that was the issue at hand. 
+
+Meanwhile, Carol, feeling the pressure as evenly as anyone, was balancing her role as the office manager and assistant to both Jennifer and Mike. She was approached by Jennifer earlier, requesting her help with the upcoming meeting. Carol understood that the significance of the gathering was immeasurable so she spru
+  Input arg 1: Which location is the most likely place Jennifer would look to find the server key given the story?
+  Input arg 2: ["Jennifer's office", 'meeting room', 'safe', 'server room', 'shelf']
+  Execution trace (2 LLM calls):
+    raw_answer(["Jennifer, the Tech CEO, was battling against the clock to contain a critical data breach that could jeopardize the future of her company. Vital information was stored on her personal laptop, situate)
+      -> safe [$0.0007]
+    extract_index(['safe', ["Jennifer's office", 'meeting room', 'safe', 'server room', 'shelf']])
+      -> 2 [$0.0003]
+  RESULT: predicted=2, expected=3
+
+--- Case ex025: ---
+  Input arg 0: Oscar was summoned for an imminent rescue operation. As he was swiftly prepping for the mission, Emily, the astute dispatcher, relayed the operation details to him. As the firefighter braced himself for the urgent call of duty, he glanced toward Joe, the meticulous firefighter on his crew. As part of their routine, Joe was scrutinizing the safety gear, aware that any oversight could lead to irreversible mishaps. His attention was particularly drawn towards Oscar's helmet that had been moved earlier to the cleaning section. Joe was methodically tending to the helmet, ensuring it was in prime condition for the mission. Meanwhile, Emily kept a close eye on the unfolding scene while multitasking at her desk, ensuring the walkie-talkie was at the charging dock, ready for use. They were all aware of each item's location; they functioned like a well-oiled machine, each cog integral to the operation's success. Emily, while overseeing the entire operation, gently nudged Joe to expedite the checks, the urgency of the situation setting the pace.
+
+With a nod of satisfaction, Joe hoisted Oscar's helmet and swiftly moved it to the equipment rack. His eyes scanned the room for any other gear out of place, but everything was ready. Their preparations were complete, only the mission lay ahead. As the team was ensuring their gear, Emily was engrossed in an urgent call, fine-tuning the evacuation procedures with local authorities. Oscar keenly observed Joe's actions, as was customary before each mission, ensuring that every piece of his equipment was properly checked and ready for use. The urgency of the call demanded Emily's full attention, yet her eyes were also duly monitoring the actions around the firehouse.
+
+With command in her voice, Emily instructs for the walkie-talkie to be placed by her on the main desk. It landed with a thud, a reminder of the immediacy of the rescue operation, communication was critical, and Emily wanted it close. Oscar, fully geared and ready, kept himse
+  Input arg 1: Which location is the most likely place Emily would look to find the helmet given the story?
+  Input arg 2: ['charging dock', 'cleaning section', 'equipment rack', 'firetruck', 'main desk']
+  Execution trace (2 LLM calls):
+    raw_answer(["Oscar was summoned for an imminent rescue operation. As he was swiftly prepping for the mission, Emily, the astute dispatcher, relayed the operation details to him. As the firefighter braced himself)
+      -> firetruck [$0.0005]
+    extract_index(['firetruck', ['charging dock', 'cleaning section', 'equipment rack', 'firetruck', 'main desk']])
+      -> 3 [$0.0003]
+  RESULT: predicted=3, expected=1
+
+--- Case ex077: ---
+  Input arg 0: At the bustling office, famous journalist Kate and intern Henry were focused intently on their work. Kate, working on an influential and important article, relied on crucial information from interviews saved on a micro recorder. The device was placed strategically on the desk by her side, along with a notepad full of bullet points and scribbles. Each knew the placement of these items and accessed them as required; such was the synergy of their work.
+
+Henry, the aspiring intern, willingly took up the task of organizing Kate's chaotic workspace. His aim was to prove his value in this bustling journalism office, and he did so by ensuring every item had a place and was easily accessible, especially the micro recorder and notepad, which were on the desk ready for Kate's use.
+
+In the same room, Nancy, Kate's meticulous and hawk-eyed editor, carefully watched the productivity of the room. Her sole aim was to guarantee a smooth process for the impending deadline, so every second and every object's placement mattered. She knew, just like Kate and Henry, exactly where the essential tools for this operation, namely the micro recorder and the notepad, placed at the desk under their watchful gaze.
+
+They were all aware of each of these essentials' exact location, a testament to the systematic efficiency of the office and their collective dedication to this significant project.
+
+Seeing the scattered mess on the desk, Henry decided to tidy up. Having collected up the micro recorder, he secured it safely in the drawer wanting nothing more than to support Kate in creating a clear workspace. Working to prove himself, Henry was very considerate. He respected Kate's possessions and sought her permission before moving anything. Meanwhile, a conversation ensued between Kate and Henry about the need for organization in the workspace, shedding more light on the organized chaos that was Kate's desk.
+
+Parallel to this, Nancy was engaged in a phone conversation with an author, who increasingly
+  Input arg 1: Which location is the most likely place Nancy would look to find the notepad given the story?
+  Input arg 2: ['desk', 'drawer', 'shelf']
+  Execution trace (2 LLM calls):
+    raw_answer(["At the bustling office, famous journalist Kate and intern Henry were focused intently on their work. Kate, working on an influential and important article, relied on crucial information from intervi)
+      -> shelf [$0.0006]
+    extract_index(['shelf', ['desk', 'drawer', 'shelf']])
+      -> 2 [$0.0002]
+  RESULT: predicted=2, expected=0
+
+--- Case ex089: ---
+  Input arg 0: In the mid of the day, the archaeologist Martha, fervently trying to finish her excavation work at the site, felt the ominous presence of upcoming rains. Motivated by her cravings for discoveries, her eyes were distracted by the precious ancient coin, discovered with care, held firmly in the grasp of earth. Her assistant Tom, just a laborer with an ambition of a career in archeology, worked diligently at the marked areas, covertly observing Martha’s every movement. On the other hand, Jenny, the recent graduate and enthusiastic volunteer, was eager to aid in the excavation in any way she could.
+
+The magnifying glass was at reach, inside the well-equipped excavation kit, radiant under the scorching sun, vital for Martha’s meticulous inspection of any artifact. A collective understanding among them about the location of each tool was inherent. After all, in the vast realm of an excavation site, chaos was not spared a location.
+
+Quickly, Martha rushed to the well-equipped excavation kit, snatching the magnifying glass and moving it over to the inspection area. The glass glistened under the sun as she handled it with a sense of urgency, her eyes eager to delve into the secrets the ancient coin held within. Meanwhile, Tom found himself drawn to an unearthed piece of pottery, a treasured find from the burial of the sands. Paying intense attention, he studied the object in his hands, both unfamiliar and uncanny. It was remarkably similar to a specimen he had seen in a textbook during his aspirations for a more academic role in archeology.
+
+In tandem, Jenny keenly observed Martha, standing a little off to the side, helping when directed, her eyes darting between Martha's skilled handling of the artifacts and Tom's steady digging. The underway operation was a captivating orchestration of trowels, brushes, and screens, capturing not just their interest but their collective dedication to the archaeological process.
+
+Handling the coin delicately, Tom passed it to the inspection 
+  Input arg 1: Which location is the most likely place Jenny would look to find the ancient coin given the story?
+  Input arg 2: ['Earth', 'Excavation kit', 'Inspection area']
+  Execution trace (2 LLM calls):
+    raw_answer(["In the mid of the day, the archaeologist Martha, fervently trying to finish her excavation work at the site, felt the ominous presence of upcoming rains. Motivated by her cravings for discoveries, h)
+      -> Inspection area [$0.0007]
+    extract_index(['Inspection area', ['Earth', 'Excavation kit', 'Inspection area']])
+      -> 2 [$0.0003]
+  RESULT: predicted=2, expected=0
+
+--- Case ex070: ---
+  Input arg 0: Entering the house right after a grueling gym session, Tyler spotted his essential protein shaker on the counter. He was in desperate need of his routine shake. Meanwhile, Rachel, the cleanliness enthusiast roommate, was on her mission of tidying up the kitchen. Her eyes had located the usual items, including the shaker on the counter, reaffirming her adeptness in organizing the kitchen space freely.
+
+Sam, the short-statured friend, had also joined them. He eyed the bag of chips perched high on the top shelf. Despite him being unable to reach it because of his height, he marked its whereabouts. He was known for uncovering hidden nooks and corners of pantry treasures.
+
+Despite the commotion, the three of them were well aware of each item's location in the room. Tyler, approaching the counter for his protein shake, Rachel continuing her cleaning process, and Sam strategizing how to reach the bag of chips on the high shelf, had their motivation driving them.
+
+As the clatter of the kitchen abounded, no one noticed as the protein shaker Mexico found an unlikely home on the top shelf due to Rachel's tidy up spree. Tyler, energized yet also depleted from his arduous workout, found himself in the vicinity of fitness-focused Rachel who was immersed in her mission to de-clutter the kitchen. Meanwhile, not far away in the separate living room, sweet toothed Sam found himself interlocked in a lively dialog with gym junkie Tyler. Throughout this commotion in the heart of the household, each character was strategically positioned, their individual objectives unknowingly intermingling as each scene unfolded.
+
+Spying the tantalizing bag of chips, Sam cleverly fetched a stool to aid in his snack-snatching endeavor; an amusing dance ensued as he balanced precariously, reaching for the coveted prize. His victory complete, the rustling of the chip bag echoed through the room as Sam decided that the dining table would be his snack hub. Fresh from breaking a sweat, Tyler's eyes landed on
+  Input arg 1: Which location is the most likely place Tyler would look to find the bag of chips given the story?
+  Input arg 2: ['counter', 'dining table', 'top shelf']
+  Execution trace (2 LLM calls):
+    raw_answer(["Entering the house right after a grueling gym session, Tyler spotted his essential protein shaker on the counter. He was in desperate need of his routine shake. Meanwhile, Rachel, the cleanliness en)
+      -> dining table [$0.0009]
+    extract_index(['dining table', ['counter', 'dining table', 'top shelf']])
+      -> 1 [$0.0003]
+  RESULT: predicted=1, expected=2
+
+--- Case ex105: ---
+  Input arg 0: Jennifer, the Tech CEO, was battling against the clock to contain a critical data breach that could jeopardize the future of her company. Vital information was stored on her personal laptop, situated on a shelf in her office. No one but her knew how vital it was in resolving the issue. 
+
+Mike, who was the IT manager, was equally stressed trying to isolate the breach without disrupting operations too much. His part of the solution rested on the company server key, safely tucked away in the office safe. He could almost visualize the key sitting there.
+
+Carol, the Office Manager, was trying her best to manage the office chaos while supporting both Jennifer and Mike. The involved parties all knew where the necessary items were located. She knew that the laptop on the shelf in Jennifer's office and the server key in the office safe were both vital.
+
+Indeed, despite their individual roles in dealing with the crisis, Jennifer, Mike, and Carol were each aware of the location of the laptop on the shelf and the server key in the safe. Their internal clock was ticking, and their personal missions combined to a shared goal: saving the company from the breach.
+
+So, taking a deep breath, Jennifer, with a sense of purpose, reached for her laptop. She cradled it and headed towards the boardroom, knowing that the future of her tech company hinged on this meeting. Concurrently, in another part of the premises, Mike had sunk into the challenge of tracing and rectifying the breach and had retreated into solitude. Working on his own, he had elected a quieter area of the office as his temporary command centre, trying to solve the technical puzzle that was the issue at hand. 
+
+Meanwhile, Carol, feeling the pressure as evenly as anyone, was balancing her role as the office manager and assistant to both Jennifer and Mike. She was approached by Jennifer earlier, requesting her help with the upcoming meeting. Carol understood that the significance of the gathering was immeasurable so she spru
+  Input arg 1: Which location is the most likely place Jennifer would look to find the laptop given the story?
+  Input arg 2: ["Jennifer's office", 'meeting room', 'safe', 'server room', 'shelf']
+  Execution trace (2 LLM calls):
+    raw_answer(["Jennifer, the Tech CEO, was battling against the clock to contain a critical data breach that could jeopardize the future of her company. Vital information was stored on her personal laptop, situate)
+      -> Jennifer's office [$0.0006]
+    extract_index(["Jennifer's office", ["Jennifer's office", 'meeting room', 'safe', 'server room', 'shelf']])
+      -> 0 [$0.0002]
+  RESULT: predicted=0, expected=1
+
+--- Case ex061: ---
+  Input arg 0: Simon, the watch owner, had an antique pocket watch that he held dear and often kept at his study desk. The room was a special place for Simon, his private sanctuary where he spent his time. Maria, Simon's dedicated housekeeper, was a hardworking woman who respected her employer's space, always maintaining its cleanliness and ensuring everything was in its perfect place. Such as the prized pocket watch that was always placed atop the desk and a particular book that was always seen on the shelf. 
+
+On that day, she was extra careful, knowing Simon's friend, Fred, would be coming by. Fred had always treated Simon's possessions with care and mutual appreciation, but he was here to borrow a book. The house was familiar to him - the antique pocket watch on the desk, the specific book on the shelf - everyone, including Fred, was fully aware and respected their locations.
+
+With meticulous care, Maria relocated the antique pocket watch to the drawer, enabling her to dust off Simon's desk. The sparkle returned to the dark wood as she wiped it clean, the pocket watch now secure in the drawer. While Maria was busy tidying up, Fred had started engaging in pleasant chatter with Maria, standing firmly in the same space as she moved objects around him. She had careful movements and precise placements, her nimbleness an art form in itself. Fred, always polite, stayed clear of her path, his eyes darting occasionally to the locations of Simon's cherished items, a silent acknowledgment of their importance.
+
+All the while, Maria continued her work diligently, rearranging various items in the room while engaging in light-hearted conversation with Fred. Simon, engrossed in his world, was present in the same room, his eyes flitting between his precious pocket watch, safely in the drawer, and the cheerful pair of Fred and Maria. Their laughter echoed in the room just as Maria placed the last object in its rightful place.
+
+Simon carefully set the antique pocket watch back on the desk, the go
+  Input arg 1: Which location is the most likely place Simon would look to find the book given the story?
+  Input arg 2: ['desk', 'drawer', 'shelf']
+  Execution trace (2 LLM calls):
+    raw_answer(["Simon, the watch owner, had an antique pocket watch that he held dear and often kept at his study desk. The room was a special place for Simon, his private sanctuary where he spent his time. Maria, )
+      -> desk [$0.0005]
+    extract_index(['desk', ['desk', 'drawer', 'shelf']])
+      -> 0 [$0.0002]
+  RESULT: predicted=0, expected=2
+
+--- Case ex060: ---
+  Input arg 0: With the morning light filtering through the high glazed windows of the art gallery, Arnold, the devoted curator, was preparing for an important day. A day of changing out displays, a task that was executed with precision and care. Mabel, an artist bristling with anticipation and creativity, had set up residence in the studio downstairs. Her canvases, still fresh with paint, echoed a symphony of brush strokes that were ready to be unveiled. As an artist prepping for her first solo exhibit, she understood the significance of the gallery's delicate balance between showcasing the art and respecting the artist's work. Humming in the background, Brian the gallery assistant, whose responsibility reached from the pristine floors to the precious art displays, ran a diligent eye through his domain.
+
+Despite each individual's personal tasks, they were all privy to the crucial detail of the master key's location, safe at the front desk. And they were all well-aware that Mabel's wonderful new work was still in the throes of creation at the studio. Whether it was in the thoroughness of Brian's job, Mabel's anxiety about her work's debut, or Arnold's planned gallery rearrangement, they were linked together through the master key at the front desk and the awaiting masterpiece in the studio.
+
+Suddenly, the key to the gallery was in Arnold's hands as he rushed through the staff room. A moment of distraction, fueled by the day's anxiety and time pressure, and Arnold had unknowingly taken the key along. In the heart of the gallery, Brian, in his unwavering dedication, was commencing the showcasing of an eye-catching sculpture. The new addition was incased in a lithe vessel of reflective glass, patiently waiting to bear the impressed gazes of art enthusiasts. This remarkable piece echoed the same kind of creativity and passion that could be found in the isolated section of the gallery, removed from the usual buzz. There, Mabel, whose name was making waves in the world of art, was engro
+  Input arg 1: Which location is the most likely place Arnold would look to find the painting given the story?
+  Input arg 2: ['front desk', 'main gallery', 'staff room', 'studio']
+  Execution trace (2 LLM calls):
+    raw_answer(["With the morning light filtering through the high glazed windows of the art gallery, Arnold, the devoted curator, was preparing for an important day. A day of changing out displays, a task that was )
+      -> main gallery [$0.0006]
+    extract_index(['main gallery', ['front desk', 'main gallery', 'staff room', 'studio']])
+      -> 1 [$0.0002]
+  RESULT: predicted=1, expected=3
+
+--- Case ex049: ---
+  Input arg 0: In the mid of the day, the archaeologist Martha, fervently trying to finish her excavation work at the site, felt the ominous presence of upcoming rains. Motivated by her cravings for discoveries, her eyes were distracted by the precious ancient coin, discovered with care, held firmly in the grasp of earth. Her assistant Tom, just a laborer with an ambition of a career in archeology, worked diligently at the marked areas, covertly observing Martha’s every movement. On the other hand, Jenny, the recent graduate and enthusiastic volunteer, was eager to aid in the excavation in any way she could.
+
+The magnifying glass was at reach, inside the well-equipped excavation kit, radiant under the scorching sun, vital for Martha’s meticulous inspection of any artifact. A collective understanding among them about the location of each tool was inherent. After all, in the vast realm of an excavation site, chaos was not spared a location.
+
+Quickly, Martha rushed to the well-equipped excavation kit, snatching the magnifying glass and moving it over to the inspection area. The glass glistened under the sun as she handled it with a sense of urgency, her eyes eager to delve into the secrets the ancient coin held within. Meanwhile, Tom found himself drawn to an unearthed piece of pottery, a treasured find from the burial of the sands. Paying intense attention, he studied the object in his hands, both unfamiliar and uncanny. It was remarkably similar to a specimen he had seen in a textbook during his aspirations for a more academic role in archeology.
+
+In tandem, Jenny keenly observed Martha, standing a little off to the side, helping when directed, her eyes darting between Martha's skilled handling of the artifacts and Tom's steady digging. The underway operation was a captivating orchestration of trowels, brushes, and screens, capturing not just their interest but their collective dedication to the archaeological process.
+
+Handling the coin delicately, Tom passed it to the inspection 
+  Input arg 1: Which location is the most likely place Tom would look to find the magnifying glass given the story?
+  Input arg 2: ['Earth', 'Excavation kit', 'Inspection area']
+  Execution trace (2 LLM calls):
+    raw_answer(["In the mid of the day, the archaeologist Martha, fervently trying to finish her excavation work at the site, felt the ominous presence of upcoming rains. Motivated by her cravings for discoveries, h)
+      -> Excavation kit [$0.0007]
+    extract_index(['Excavation kit', ['Earth', 'Excavation kit', 'Inspection area']])
+      -> 1 [$0.0003]
+  RESULT: predicted=1, expected=2
+
+--- Case ex023: ---
+  Input arg 0: Sophia's drawing table was her personal sanctuary, her sketchbook always nearby; favorites among the countless artistic materials that filled the vivacious studio. The shelves, arranged by an ever-efficient Eric, held various pencils, among other art supplies. Out of sight, but never out of reach. Sophia sketched with an unparalleled zeal, the realm of her imagination transferred onto paper. As Sophia’s assistant, Eric ensured that all the items were mechanically cataloged on the shelves for smooth retrieval. While Sophia created art, and Eric arranged materials, Mia, usually found working diligently to maintain the lively aesthetics of the studio. Each individual, aware of the sketchbook's place on the drawing table and the pencils location among the shelves. United in their roles, they cultivated an environment that cherished art. The studio was a visual testimony of their collective efforts.
+
+Sophia cherishes her sketchbook, placing it carefully into the storage locker. This routine move, as she leaves for her break, signifies a pause in creativity but also promises the creation of new masterpiece upon her return. Today, Eric was preoccupied with a new shipment of supplies that had just arrived. The art assistant was busy, his attention fully absorbed by the numerous boxes stacked around him. Unfortunately, the height and strategic placement of these boxes impeded his view of most of the studio. This didn't bother Eric -- his mind was centered on efficiently organizing these supplies as soon as possible. 
+
+On the other side of the studio, Mia found her attention drawn to a different area. Brand new canvases had arrived, ready to be set up for Sophia's next grand idea. Working in the corner of the room, these canvases captivated Mia. Her goal was to clean and maintain this area to ensure Sophia would have the best environment to paint her next masterpiece. However, the corner where Mia was concentrating her efforts was distinctly cut off from where Sophia's person
+  Input arg 1: Which location is the most likely place Mia would look to find the sketchbook given the story?
+  Input arg 2: ['drawing table', 'shelves', 'storage locker']
+  Execution trace (2 LLM calls):
+    raw_answer(["Sophia's drawing table was her personal sanctuary, her sketchbook always nearby; favorites among the countless artistic materials that filled the vivacious studio. The shelves, arranged by an ever-e)
+      -> storage locker [$0.0005]
+    extract_index(['storage locker', ['drawing table', 'shelves', 'storage locker']])
+      -> 2 [$0.0002]
+  RESULT: predicted=2, expected=0
+
+--- Case ex053: ---
+  Input arg 0: The construction site bustled with activity under the watchful eye of Alice, the project leader. Her goal was the successful and timely completion of her construction project. The key team members were well acquainted with the location of essential items, the blueprint and the toolbox, necessary for a smooth operation. 
+
+Bob, the industrious construction worker, known for his impeccable efficiency, was well informed that the important project blueprint resided at the management office. He made ample use of the blueprint for his tasks, strengthening the spine of the ongoing project. He was also the one usually seen maneuvering the toolbox that was stationed permanently at the storage shed, maintaining the humming rhythm of the organized chaos.
+
+Meanwhile, Charlie, the eye of safety atop this whirlwind, was satisfied. He was there to ensure that safety protocols were followed to the tee, including all the proper placements of blueprints and equipment. And he made sure that everyone was equally aware of the locations of the blueprint and the toolbox. Between Alice's leadership, Bob's diligence, and Charlie's vigilance, the worksite was a well-oiled machine of construction.
+
+Methodically, Alice carried the blueprint from the office to the bustling construction site. Her bringing the vital document showed the importance of informed teamwork in this complex project. At the same time, Bob was deep in conversation with his co-worker, mulling over the resolution of a problem they had encountered. The difficulties faced were part and parcel of the job; however, it was through efficient use of their resources that they tackled these challenges head on. Meanwhile, Charlie, in his ever-vigilant state, carried on his regular surveillance rounds, ensuring the site's adherence to safety protocols. The route of his rounds took him past the management office, fostering a sense of constancy and vigilance throughout the site.
+
+Bob, with a determined stride, hauled the heavy toolbox fro
+  Input arg 1: Which location is the most likely place Charlie would look to find the toolbox given the story?
+  Input arg 2: [" site manager's cabin", 'construction site', 'management office ', 'storage shed']
+  Execution trace (2 LLM calls):
+    raw_answer(["The construction site bustled with activity under the watchful eye of Alice, the project leader. Her goal was the successful and timely completion of her construction project. The key team members w)
+      -> construction site [$0.0007]
+    extract_index(['construction site', [" site manager's cabin", 'construction site', 'management office ', 'storage shed']])
+      -> 1 [$0.0002]
+  RESULT: predicted=1, expected=3
+
+--- Case ex017: ---
+  Input arg 0: Eddy, a devoted astronomer with a sharp eye for space, was keenly studying the night sky, scanning for unusual patterns for his imminent publication. Alongside him was his zealous assistant, Alex, eager to learn from Eddy and support his studies of the celestial bodies. They both knew the importance of using top-notch equipment for such delicate observations, finding solace in having their trusted telescope safely stored in the storage room. Assisting them behind the scenes with equal fervor was Brian, the observatory caretaker. Brian, with his crucial role, ensured that the observatory was always clean and conducive for acute astronomical studies. They were all aware of each items location been crucial to their night's work. The telescope was tucked away in the storage room awaiting its nightly performance, whilst Eddy's observational notebook was safely ensconced in the office, ready to record any potential scientific revelations.
+
+Eddy, eager in his pursuit of celestial understanding, moved his beloved telescope to the view deck, aspiring to capture the most pristine image of the night sky. The sound of the telescope grinding on the observation deck broke the persistent silence encompassing the sacred observatory. Amid the soft hum of activity, the observatory was ripe with enthusiasm. Eddy, in his ceaseless pursuit of knowledge, moved efficiently, passing Brian in his stride. There was an air of curiosity as he carried something of undisclosed importance. Not far from the action, Alex was deeply engrossed in his task, assembling arrays of before him on the floor. His attention riveted to the neat piles of charts, concentrating on their myriad details that were essential to their study. Meanwhile, Brian, responsibly continued to tidy up the area, ensuring a crisp and clean observing environment for the celestial enthusiasts. Their shared passion and respect for the study was as evident as the stars in their beloved night sky.
+
+Carefully holding Eddy's observation
+  Input arg 1: Which location is the most likely place Alex would look to find the telescope given the story?
+  Input arg 2: ['office', 'storage room', 'view deck']
+  Execution trace (2 LLM calls):
+    raw_answer(['Eddy, a devoted astronomer with a sharp eye for space, was keenly studying the night sky, scanning for unusual patterns for his imminent publication. Alongside him was his zealous assistant, Alex, e)
+      -> storage room [$0.0005]
+    extract_index(['storage room', ['office', 'storage room', 'view deck']])
+      -> 1 [$0.0002]
+  RESULT: predicted=1, expected=2
+
+--- Case ex006: ---
+  Input arg 0: Eddy, a devoted astronomer with a sharp eye for space, was keenly studying the night sky, scanning for unusual patterns for his imminent publication. Alongside him was his zealous assistant, Alex, eager to learn from Eddy and support his studies of the celestial bodies. They both knew the importance of using top-notch equipment for such delicate observations, finding solace in having their trusted telescope safely stored in the storage room. Assisting them behind the scenes with equal fervor was Brian, the observatory caretaker. Brian, with his crucial role, ensured that the observatory was always clean and conducive for acute astronomical studies. They were all aware of each items location been crucial to their night's work. The telescope was tucked away in the storage room awaiting its nightly performance, whilst Eddy's observational notebook was safely ensconced in the office, ready to record any potential scientific revelations.
+
+Eddy, eager in his pursuit of celestial understanding, moved his beloved telescope to the view deck, aspiring to capture the most pristine image of the night sky. The sound of the telescope grinding on the observation deck broke the persistent silence encompassing the sacred observatory. Amid the soft hum of activity, the observatory was ripe with enthusiasm. Eddy, in his ceaseless pursuit of knowledge, moved efficiently, passing Brian in his stride. There was an air of curiosity as he carried something of undisclosed importance. Not far from the action, Alex was deeply engrossed in his task, assembling arrays of before him on the floor. His attention riveted to the neat piles of charts, concentrating on their myriad details that were essential to their study. Meanwhile, Brian, responsibly continued to tidy up the area, ensuring a crisp and clean observing environment for the celestial enthusiasts. Their shared passion and respect for the study was as evident as the stars in their beloved night sky.
+
+Carefully holding Eddy's observation
+  Input arg 1: Which location is the most likely place Brian would look to find the observational notebook given the story?
+  Input arg 2: ['office', 'storage room', 'view deck']
+  Execution trace (2 LLM calls):
+    raw_answer(['Eddy, a devoted astronomer with a sharp eye for space, was keenly studying the night sky, scanning for unusual patterns for his imminent publication. Alongside him was his zealous assistant, Alex, e)
+      -> view deck [$0.0006]
+    extract_index(['view deck', ['office', 'storage room', 'view deck']])
+      -> 2 [$0.0003]
+  RESULT: predicted=2, expected=0
+
+--- Case ex039: ---
+  Input arg 0: Lisa, a passionate antique collector, was distraught over the recent theft of her beloved locket. To retrieve it, she had no choice but to hire Kevin, a private investigator renowned for his meticulous work. His badge rested confidently in his coat pocket, a quiet testament to his credibility. Meanwhile, Lisa's friend Jenny was present to lend a hand, helping her organize her priceless collectibles. An exquisite antique vase, symbolic of Lisa's fine taste, resonated a subtle gleam from its place in the showcase even in its enforced solitude. Even as they faced the adversity, they were all keenly aware of the positions of these objects. This marked the beginning of their collective pursuit to recover the stolen locket.
+
+While discussing the case details, Kevin methodically placed his private investigator's badge on the office desk, a deliberate move aimed to reassure Lisa of his expertise and to instil confidence in his ability to retrieve her precious locket. Simultaneously, Jenny found herself occupying the telecommunication area, in a different room, diligently making a call to the security company arranging for the upcoming upgrade. Across the hall, Lisa was engrossed in a book she found about locket recovery techniques, her eyes not wavering from the possibly enlightening content. The urgency of the situation resonated in each action they took, and surely enough an air of anticipation filled the room. Each one of them engrossed in their individual responsibilities, mirroring the gravity and urgency in their current aims. Jenny continued her discourse with the security company while the book held Lisa captive.
+
+Carefully, Lisa lifted the intricate antique vase, its ornate patterns more meaningful to her now than ever. As she gently placed it inside the safe, she hoped her other treasures would soon be as secure as this one when the new security system was installed. Amidst the hustle, Kevin could be found pouring extensively over a stack of pertinent case files s
+  Input arg 1: Which location is the most likely place Lisa would look to find the antique vase given the story?
+  Input arg 2: ['coat pocket', 'office desk', 'packing box', 'safe', 'showcase']
+  Execution trace (2 LLM calls):
+    raw_answer(["Lisa, a passionate antique collector, was distraught over the recent theft of her beloved locket. To retrieve it, she had no choice but to hire Kevin, a private investigator renowned for his meticul)
+      -> packing box [$0.0005]
+    extract_index(['packing box', ['coat pocket', 'office desk', 'packing box', 'safe', 'showcase']])
+      -> 2 [$0.0003]
+  RESULT: predicted=2, expected=3
+
+--- Case ex005: ---
+  Input arg 0: The restaurant was bustling with customers, hanging onto the savoury scent of Louis's celebrated dishes. The maestro of the kitchen himself was preparing his signature dish, requiring his cherished spice rack which everyone knew was smartly sorted in the pantry. Louis's brow would furrow in concentration as he selected the perfect blend of spices, knowing each order was crucial for the restaurant's reputation. 
+
+Emily, the attentive waitress, was proficiently darting among the tables, delivering orders to Louis with graceful speed. She was a blur of efficiency, her eyes constantly tracking the salt shakers which were conspicuously placed on each dinner table. The knowledge of their location would come handy when her customers needed a bit more seasoning.
+
+Robert, was a quiet, but steadfast presence. The attendant was always amidst the clamour, skillfully manoeuvring to keep the kitchen immaculate despite the constant rush. But they all worked in harmony, each fully aware of the other's needs, and the optimum locations of all kitchen equipment and ingredients. The dining room echoed with laughter, glasses clinked and cutlery clattered. Everyone knew exactly where everything was, from Louis's important spice rack to the humble salt shaker on the dining tables, making the evening run like a well-oiled machine.
+
+As anticipation coursed through his veins, Louis meticulously moved his cherished spice rack from the pantry to his bustling cooking station, laying the groundwork for his world-renowned signature dish. In the bustling heart of the establishment, Louis, the sought-after culinary expert, was absorbed in his work. His treasured assortment of spices in transit from pantry to stove, a key player in the creation of the day's special. Simultaneously, Emily was skillfully managing a customer's request away in the remote corner. Smoothly dancing through the tables and chairs, her focus never wavering from her key responsibility - ensuring all orders were accurate and pr
+  Input arg 1: Which location is the most likely place Louis would look to find the spice rack given the story?
+  Input arg 2: ['cooking station', 'dining tables', 'pantry', 'pantry ', 'upper cabinet']
+  Execution trace (2 LLM calls):
+    raw_answer(["The restaurant was bustling with customers, hanging onto the savoury scent of Louis's celebrated dishes. The maestro of the kitchen himself was preparing his signature dish, requiring his cherished )
+      -> upper cabinet [$0.0006]
+    extract_index(['upper cabinet', ['cooking station', 'dining tables', 'pantry', 'pantry ', 'upper cabinet']])
+      -> 4 [$0.0003]
+  RESULT: predicted=4, expected=0
+
+--- Case ex018: ---
+  Input arg 0: June's Antique Shop was a misty memory trapped in a bottle, a maelstrom of tales from a time long past that Clara, the diligent curator, found irresistible. Every piece had a rich history attached, caricatures of the past, an ancient vase perched precariously at the topmost shelf being one. It was an emblem of a forgotten era, lipstick red and golden, gleaming imperiously. The ever-busy Danny, with his nose always buried in the corners of the shop, was organizing the shelves, his eyes already glinting with the excitement of unearthing timeless treasures.
+
+There, at the very heart of the shop, under the hazy glow, sat June - the guardian of these inanimate storytellers, with her pride and joy, the coded ledger at the front desk. It was an ordinary piece of paper by appearance but held what almost seemed like a secret language, a catalogue of these items' history and more importantly, their true value.
+
+The vocabulary of the ledger was elusive, a strategic mystery June wasn't keen on unraveling for everyone. Only those deeply invested in the art of antiquities like Clara could decipher any meaning out of it. But both Clara and Danny were well aware of its location, as was June of course. Each one of them knew, almost instinctively, the locations of each antique in the shop, their cream and pastels layouts becoming more familiar with each passing day.
+
+With gentle precision, Clara slid the coded ledger off the aged wood counter and carried it towards the quiet sanctuary of the study room. She was determined to decode and appraise the historical value and stories behind June's unique antiques for her upcoming exhibit. Simultaneously, in another corner of the shop, Danny found himself entranced by a particularly complicated timepiece. Detailed craftsmanship and etched history danced across its complexion, exerting a pull Danny could hardly resist. Amid the chaotic beauty of countless antiques, it demanded his undivided attention. His every effort was bent on understandin
+  Input arg 1: Which location is the most likely place Clara would look to find the coded ledger given the story?
+  Input arg 2: ['display window', 'front desk', 'study room', 'top shelf']
+  Execution trace (2 LLM calls):
+    raw_answer(["June's Antique Shop was a misty memory trapped in a bottle, a maelstrom of tales from a time long past that Clara, the diligent curator, found irresistible. Every piece had a rich history attached, )
+      -> front desk [$0.0005]
+    extract_index(['front desk', ['display window', 'front desk', 'study room', 'top shelf']])
+      -> 1 [$0.0002]
+  RESULT: predicted=1, expected=2
+
+--- Case ex014: ---
+  Input arg 0: The evening air was salty over the rhythm of the tides, as the ship, under Captain Jake's command, was smoothly cruising north. His navigation charts were tucked away safely in the cabin where he spent most of his time plotting the course of their journey. Alex, his reliable shipmate, was well aware of the chart's location and was tasked with bringing them out to the main deck every bright morning, ensuring they were ready for a day's voyage. Meanwhile, Dean, the ship's cook, had a different kind of preparation to undergo. His focus was on the storeroom, stuffed to the brim with food provisions for the long voyage. 
+
+Captain Jake, Alex, and Dean all understood the interdependence of their roles and responsibilities. They were all aware of the importance of their daily tasks and the location of all crucial items on board — the navigation charts in the cabin and the food provisions in the storeroom. This understanding boosted their trust in each other and ensured the ship's voyage sailed as smoothly as possible.
+
+Alex briskly carried the navigation charts to the ship's main deck under the dim evening light, preparing for Captain Jake's early morning voyage planning. His tasks were keenly coordinated, he knew every movement mattered for the ship to stay on course. While Captain Jake and his first mate were deeply engrossed in their conversation about the ship's route, Dean began his customary morning walk about the ship, a routine that allowed him to oversee the ship's operations and keep a close eye on his kitchen. At the same time, in a different part of the ship, Alex was silently going about his own duties. His synchronized movements and utmost concentration underlined the significance of his task in the ship's successful voyage.
+
+As the day bowed to twilight, Alex painstakingly relocated the battered navigation charts to the seclusion of the captain's cabin, a necessary precaution to safeguard them from the encroaching night's chill. Under a canopy of distant, twi
+  Input arg 1: Which location is the most likely place Dean would look to find the navigation charts given the story?
+  Input arg 2: ['cabin', 'galley', 'main deck', 'storeroom']
+  Execution trace (2 LLM calls):
+    raw_answer(["The evening air was salty over the rhythm of the tides, as the ship, under Captain Jake's command, was smoothly cruising north. His navigation charts were tucked away safely in the cabin where he sp)
+      -> cabin [$0.0004]
+    extract_index(['cabin', ['cabin', 'galley', 'main deck', 'storeroom']])
+      -> 0 [$0.0003]
+  RESULT: predicted=0, expected=2
+
+--- Case ex010: ---
+  Input arg 0: In an airy studio filled with purposeful bustle, George, the resident sculptor, was waiting eagerly to embark on his new project. His apprentice, Susan, was assisting him with an unwavering enthusiasm that was almost infectious. Together, they were making the necessary preparations, one of which was to gather the necessary tools for the day's work. They knew that their chisel box, a paramount collection for their sculpture work, was resting somewhere in the storage room.
+
+At the same time, the studio manager, Paul, was busy sweeping and arranging the area to bring about a sense of order. Always aiming for perfection, Paul even remembered the discarded sculpture resting on the working table, a testament to the artistic process's trials and tribulations.
+
+Overall, despite their different roles in this creative venture, they were all aware of each item's location. Susan knew where the chisel box had been stored. George was aware of the discarded sculpture on the work table that he planned to start afresh, and Paul had already started to clean the area, fully aware of the locations of all the objects. The studio was buzzing with conscious energy, everyone performing a role in harmony to bring the artist's creation to life.
+
+With an eagerness that mirrored her drive, Susan picked up the chisel box from the storage, the cold, smooth metal in her hands further fueling her resolve. Setting it down on the work table, she could almost feel her excitement spark off the air; the prospect of learning and assisting in George's new project was now more real than ever. While George and Susan's lively exchange about the project resonated with anticipation, Paul found himself stationed at the entrance, engaging in an important phone call. Tucked away from George's workspace, he discussed potential collaborations with a prospective artist. Simultaneously, Susan was spotted carrying an object amidst her enlightening conversation with George, her grip firm and her gaze steady, reminding
+  Input arg 1: Which location is the most likely place Susan would look to find the discarded sculpture given the story?
+  Input arg 2: ['garbage bin', 'storage room', 'working table']
+  Execution trace (2 LLM calls):
+    raw_answer(["In an airy studio filled with purposeful bustle, George, the resident sculptor, was waiting eagerly to embark on his new project. His apprentice, Susan, was assisting him with an unwavering enthusia)
+      -> garbage bin [$0.0006]
+    extract_index(['garbage bin', ['garbage bin', 'storage room', 'working table']])
+      -> 0 [$0.0003]
+  RESULT: predicted=0, expected=2
+
+--- Case ex045: ---
+  Input arg 0: In the bustle of pre-show excitement, the concert hall resonated with a sense of urgent dedication. Francesca, the star violinist for the night, was meticulously preparing her precious antique violin which was carefully stowed in its case, waiting for its moment to shine. Martin, the sound technician, was deeply engrossed in ensuring the perfect tuning for the microphone residing in the sound booth, his keen ears picking up every nuance. Sarah, always vigilant as the stage manager, was superintendently overseeing the course of events for the show, her eyes darting around the room making sure everything was in order for Francesca's concert. Everyone involved was quite familiar with their surroundings, the locations of the essential instruments and tools for the night's success were already well known by each.
+
+Gently cradling her antique violin, Francesca made her way across the room to the stage. The luminous draw of the stage lights filled her with a surge of anticipation as the beautiful wooden instrument found its temporary home on the stage in preparation for the concert. Without missing a beat, Francesca moved past Sarah who was fully engaged in a radio conversation with Martin. The sound technician was busy running the sound checks at this instance, letting the timbre fill the room as he strived for the optimum balance required for Francesca's violin notes to perfectly resonate across the hall. Sarah was there on the radio with him, making sure that the audio setup was perfect for the concert. Francesca's pathway to the stage was clearly visible to Martin who, despite being engrossed in his technical adjustments, didn't miss her moving figure on his line of sight.
+
+In the midst of the prepping hustle, Martin carefully maneuvered the microphone onto the stage for the crucial sound check. His focus was undeterred from ensuring that tonight, the hall would reverberate with the melodious strings of the Italian violin flawlessly. Ensuring that all operations ran li
+  Input arg 1: Which location is the most likely place Sarah would look to find the microphone given the story?
+  Input arg 2: ['instrument case', 'sound booth', 'stage']
+  Execution trace (2 LLM calls):
+    raw_answer(["In the bustle of pre-show excitement, the concert hall resonated with a sense of urgent dedication. Francesca, the star violinist for the night, was meticulously preparing her precious antique violi)
+      -> stage [$0.0004]
+    extract_index(['stage', ['instrument case', 'sound booth', 'stage']])
+      -> 2 [$0.0003]
+  RESULT: predicted=2, expected=1
+
+--- Case ex104: ---
+  Input arg 0: Richard, ever the diligent pilot, keeps his eye on the horizon and his flight manual. He keeps it conveniently placed in the cockpit, within arm’s reach. Lisa, with the same dedication to the job, ensures that the safety booklet is tucked away in storage for quick access. Tom, the copilot, is always ready to assist Richard, familiar with the careful locations of the flight manual and safety booklet. Their tireless commitment to safety and preparedness was evident; everyone was aware, ready, and knew exactly where the crucial objects were located.
+
+With a disciplined stride, Richard carries the flight manual to his office. Placing it down, he feels a sense of satisfaction, knowing he can review and improve his protocol knowledge at his leisure. Despite the din of commotion around her, flight attendant, Lisa, was caught up in instructing a fresh recruit on the necessity of excellent beverage service, ensuring that passenger comfort was meticulously addressed. In tandem with this, pilot Richard left the vicinity, clutching something tightly as he intrepidly ventured forth. With a show of respect for his partner's goal of constant preparation, Tom, the reliable copilot was closely following Richard, heading in the same direction. All actions undeniably affirmed their unwavering commitment to safety, readiness, and flawless execution of cabin operations.
+
+
+Slipping the flight manual under his arm, Tom headed straight toward the cockpit. His determined footsteps echoed his intent - another successful and incident-free flight. Whilst Richard found himself deeply engrossed in a task elsewhere, Lisa was indulging a passenger in pleasant banter, discussing their travel experiences. The hums of the conversation did little to fill the vast distance that separated Lisa and the engaged passenger from Tom and Richard. Lisa's laughter, dancing on the edge of the lively chatter within the aircraft, signaled her absorption in the conversation.
+
+Simultaneously, Tom navigated the plane
+  Input arg 1: Which location is the most likely place Richard would look to find the safety booklet given the story?
+  Input arg 2: ['cockpit', 'office', 'passenger seating area', 'storage']
+  Execution trace (2 LLM calls):
+    raw_answer(["Richard, ever the diligent pilot, keeps his eye on the horizon and his flight manual. He keeps it conveniently placed in the cockpit, within arm’s reach. Lisa, with the same dedication to the job, e)
+      -> passenger seating area [$0.0008]
+    extract_index(['passenger seating area', ['cockpit', 'office', 'passenger seating area', 'storage']])
+      -> 2 [$0.0003]
+  RESULT: predicted=2, expected=3
+
+--- Case ex073: ---
+  Input arg 0: When Tim, the photographer, received an unexpected call for a sudden beach shoot, he was initially taken aback. It had been a long day, and he had been looking forward to some much-needed rest. But the golden hue of the setting sun provided an opportunity too tempting to pass up. Elisa, Tim's prudently professional assistant, was poised and ready to set up the required equipment. Meanwhile, Mario, from the location staff, was in charge of ensuring a clean and organized location. Everything seemed to be in order - the camera was in the truck, and the tripod resided neatly in the equipment bag. All three were well aware of where everything was situated, making the process go smoother.
+
+As the glow from the golden sunset bathed the beach, Tim hurriedly retrieved his camera from the truck and moved it to the set, ready to capture the enchanting scenery against the fading day. At the time of the magnificent sunset, Elisa, the assistant, was discussing the shot list with a model in a shaded area. She was effectively juggling her responsibilities and managing aspects of the photo shoot. This was nothing new for her; she was used to multitasking in these types of scenarios. On the other side, Mario, the staff member responsible for location maintenance, was doing his part by cleaning up around Tim's designated area. He made sure no trace of untidiness was left, allowing the location to maintain its natural beauty. While performing his duties, Mario had a clear view of Tim's workspace, making his task easier to manage.
+
+With a swift motion, Elisa carried the tripod towards the sandy shoreline, the perfect spot for the photoshoot. The burnished rays of the setting sun bathed the area, reflecting off the delicate frame of the tripod as she set it up securely on the fine sand. Elisa, as diligent as ever, was adjusting said intricate equipment, precisely placing each piece within Mario's eyeshot. Attentive and diligent, Mario was ensuring a spotless environment for the shoot, ch
+  Input arg 1: Which location is the most likely place Tim would look to find the camera given the story?
+  Input arg 2: ['beach set', 'equipment bag', 'sand', 'truck']
+  Execution trace (2 LLM calls):
+    raw_answer(["When Tim, the photographer, received an unexpected call for a sudden beach shoot, he was initially taken aback. It had been a long day, and he had been looking forward to some much-needed rest. But )
+      -> equipment bag [$0.0005]
+    extract_index(['equipment bag', ['beach set', 'equipment bag', 'sand', 'truck']])
+      -> 1 [$0.0003]
+  RESULT: predicted=1, expected=0
+
+--- Case ex050: ---
+  Input arg 0: Marta was nervously awaiting her performance tonight on her treasured violin that had once belonged to her late teacher. The bow, full of sentimental value, was already waiting for her in the instrument room, readied by Tim the stagehand. He was an integral character in such moments, and his diligence at setting each instrument in its assigned place, especially Marta’s bow, was unswerving. While Marta geared up for her noticeable performance, her diligent assistant, Ada, was making strides in the study room. She was arranging the necessary music sheets, a crucial cog in the wheel of the evening’s success. As different as their respective roles and motivations were, they were all aware of each item's location. There was a united front of support and anticipation for Marta's forthcoming recital.
+
+Tim, with swift precision, placed the cherished violin bow on the stage. The backstage area suddenly felt alive as the touching remembrance came closer to fulfilling its purpose at the recital. Ada was partnering with Tim in the flurry of pre-recital preparations. As the backstage area buzzed with activity, Marta, the night's virtuoso violinist, was deeply engrossed in a review session with her conductor. The high-pressure situation unfolded in a private room. Meanwhile, in the dynamic environment of the back stage, the footprint of Tim, carrying out his duties, was often trailed by Ada’s.
+
+In the midst of the humming backstage activity, Ada carefully lifts the sheet music for Marta's recital, making her way to the backstage. With diligence and precision, she strategically places them for easy access, ensuring a seamless performance for the anticipated night. At the same time, Marta herself was completely engrossed in the process of tuning her violin. Ensuring that every string was pitch perfect was a craft she had honed through years of practice. She was located away from the stirring backstage, absorbed in her private tune-up.
+
+Meanwhile, outside the venue, Tim had a crucia
+  Input arg 1: Which location is the most likely place Tim would look to find the music sheet given the story?
+  Input arg 2: ["Marta's study room", 'backstage ', 'instrument room', 'stage']
+  Execution trace (2 LLM calls):
+    raw_answer(["Marta was nervously awaiting her performance tonight on her treasured violin that had once belonged to her late teacher. The bow, full of sentimental value, was already waiting for her in the instru)
+      -> backstage [$0.0005]
+    extract_index(['backstage', ["Marta's study room", 'backstage ', 'instrument room', 'stage']])
+      -> 1 [$0.0004]
+  RESULT: predicted=1, expected=0
+
+--- Case ex029: ---
+  Input arg 0: Thomas was dedicated to baking the perfect wedding cake today, using his mother's cherished recipe. Diana, his mother, knew what she had to do. Determined and armed with the passion to help her son, she started her mission to dig through her old cooking notebooks, which everyone knew were tucked away deep within the kitchen cabinets. She wasn't going to rest until the special cake recipe was found. On the other hand, Thomas's assistant, Jake was eager to be of service. He was already busy in the bakery, quickly moving towards the storage room where the bag of flour, a necessary ingredient for the cake, was kept. All three of them were well aware of each item’s location within the bustling bakery, contributing their energy and effort in the race against time.
+
+With a hint of triumph, Diana pulled out a dusty recipe notebook from the depths of the cabinet. Gently brushing off the years of neglect, she moved the precious relic to the well-worn kitchen table, ready to unveil the treasured recipe for Thomas. While Diana was on her mission, she did not forget her other duty which was to keep the kitchen tidy. She hated a mess and even during this stressful time, she made sure to clean up and put everything away immediately after use. As Diana concentrated on her search and cleanup tasks, Thomas heeded her instructions and started to knead the dough for the impending cake. 
+
+In the meantime, Jake was engrossed in an intense conversation. He was on the phone with a supplier, discussing an urgent last-minute order that needed to be placed. Despite the chaos of the moving day, Jake ensured that he prioritized the bakery's needs, ensuring everything would be in place to make the special wedding cake. It was an action-packed day; with Thomas kneading, Diana cleaning, and Jake talking, all of them were working hard to make the special day successful.
+
+After Diana retrieved the cherished recipe, Thomas took the age-worn notebook and made his way to the bustling bakery, ready to t
+  Input arg 1: Which location is the most likely place Diana would look to find the recipe notebook given the story?
+  Input arg 2: ['bakery', 'cabinets', 'kitchen table', 'storage room']
+  Execution trace (2 LLM calls):
+    raw_answer(["Thomas was dedicated to baking the perfect wedding cake today, using his mother's cherished recipe. Diana, his mother, knew what she had to do. Determined and armed with the passion to help her son,)
+      -> cabinets [$0.0004]
+    extract_index(['cabinets', ['bakery', 'cabinets', 'kitchen table', 'storage room']])
+      -> 1 [$0.0002]
+  RESULT: predicted=1, expected=2
+
+--- Case ex007: ---
+  Input arg 0: At the bustling office, famous journalist Kate and intern Henry were focused intently on their work. Kate, working on an influential and important article, relied on crucial information from interviews saved on a micro recorder. The device was placed strategically on the desk by her side, along with a notepad full of bullet points and scribbles. Each knew the placement of these items and accessed them as required; such was the synergy of their work.
+
+Henry, the aspiring intern, willingly took up the task of organizing Kate's chaotic workspace. His aim was to prove his value in this bustling journalism office, and he did so by ensuring every item had a place and was easily accessible, especially the micro recorder and notepad, which were on the desk ready for Kate's use.
+
+In the same room, Nancy, Kate's meticulous and hawk-eyed editor, carefully watched the productivity of the room. Her sole aim was to guarantee a smooth process for the impending deadline, so every second and every object's placement mattered. She knew, just like Kate and Henry, exactly where the essential tools for this operation, namely the micro recorder and the notepad, placed at the desk under their watchful gaze.
+
+They were all aware of each of these essentials' exact location, a testament to the systematic efficiency of the office and their collective dedication to this significant project.
+
+Seeing the scattered mess on the desk, Henry decided to tidy up. Having collected up the micro recorder, he secured it safely in the drawer wanting nothing more than to support Kate in creating a clear workspace. Working to prove himself, Henry was very considerate. He respected Kate's possessions and sought her permission before moving anything. Meanwhile, a conversation ensued between Kate and Henry about the need for organization in the workspace, shedding more light on the organized chaos that was Kate's desk.
+
+Parallel to this, Nancy was engaged in a phone conversation with an author, who increasingly
+  Input arg 1: Which location is the most likely place Henry would look to find the micro recorder given the story?
+  Input arg 2: ['desk', 'drawer', 'shelf']
+  Execution trace (2 LLM calls):
+    raw_answer(["At the bustling office, famous journalist Kate and intern Henry were focused intently on their work. Kate, working on an influential and important article, relied on crucial information from intervi)
+      -> desk [$0.0006]
+    extract_index(['desk', ['desk', 'drawer', 'shelf']])
+      -> 0 [$0.0002]
+  RESULT: predicted=0, expected=1
+
+--- Case ex052: ---
+  Input arg 0: The construction site bustled with activity under the watchful eye of Alice, the project leader. Her goal was the successful and timely completion of her construction project. The key team members were well acquainted with the location of essential items, the blueprint and the toolbox, necessary for a smooth operation. 
+
+Bob, the industrious construction worker, known for his impeccable efficiency, was well informed that the important project blueprint resided at the management office. He made ample use of the blueprint for his tasks, strengthening the spine of the ongoing project. He was also the one usually seen maneuvering the toolbox that was stationed permanently at the storage shed, maintaining the humming rhythm of the organized chaos.
+
+Meanwhile, Charlie, the eye of safety atop this whirlwind, was satisfied. He was there to ensure that safety protocols were followed to the tee, including all the proper placements of blueprints and equipment. And he made sure that everyone was equally aware of the locations of the blueprint and the toolbox. Between Alice's leadership, Bob's diligence, and Charlie's vigilance, the worksite was a well-oiled machine of construction.
+
+Methodically, Alice carried the blueprint from the office to the bustling construction site. Her bringing the vital document showed the importance of informed teamwork in this complex project. At the same time, Bob was deep in conversation with his co-worker, mulling over the resolution of a problem they had encountered. The difficulties faced were part and parcel of the job; however, it was through efficient use of their resources that they tackled these challenges head on. Meanwhile, Charlie, in his ever-vigilant state, carried on his regular surveillance rounds, ensuring the site's adherence to safety protocols. The route of his rounds took him past the management office, fostering a sense of constancy and vigilance throughout the site.
+
+Bob, with a determined stride, hauled the heavy toolbox fro
+  Input arg 1: Which location is the most likely place Alice would look to find the blueprint given the story?
+  Input arg 2: [" site manager's cabin", 'construction site', 'management office ', 'storage shed']
+  Execution trace (2 LLM calls):
+    raw_answer(["The construction site bustled with activity under the watchful eye of Alice, the project leader. Her goal was the successful and timely completion of her construction project. The key team members w)
+      -> site manager's cabin [$0.0007]
+    extract_index(["site manager's cabin", [" site manager's cabin", 'construction site', 'management office ', 'storage shed']])
+      -> 0 [$0.0004]
+  RESULT: predicted=0, expected=1
+
+--- Case ex022: ---
+  Input arg 0: Neil, the dedicated astrophysicist, had been extensively researching a unique galaxy. He meticulously recorded every observation and prediction in his diary, which was prominently placed on the desk in the observatory. Today, Alice, a zealous scientist who often bounced ideas off Neil about this galaxy, was with him, ready to delve into deep discussions about new theories. Their exchange of ideas made this place a hub of intellectual conversations. 
+
+Bob, the unsung hero among them, was the observatory's janitor. He diligently kept the vast expanse of the observatory neat and clean to maintain an ambiance conducive to science.
+
+Within the observatory, in the corner on the shelves, stood the prized galactic model. This creation was a testament to their dedication and served as a physical manifestation of all their discussions regarding the galaxy. 
+
+Their silent yet significant partner in this scientific endeavor, Bob, despite not understanding their work, ensured the observatory was always in perfect condition, ready for these grand brainstorming sessions. 
+
+They were all aware of these items' locations; it contributed to the rhythm they had established in the observatory. The diary on the desk, the galactic model on the shelves, and Bob tidying up the space at all times, it was all a part of their typical day in the world of untangling cosmic mysteries.
+
+With a careful motion, Neil relocated his diary to the shelves beside the galactic model, clearing room on his busy desk for his laptop. His primary tool for simulations now had a clear space, bringing him one step closer to unlocking the secrets of the unique galaxy he'd been studying. Alice, engrossed in exploration, was scrutinizing a celestial chart located in a remote corner of the observatory, oblivious to her surroundings. Bob, always diligent in his duties, was maintaining cleanliness around Neil's work area. As he dispatched debris and dust, he found himself within a direct sightline of Neil; a silent witn
+  Input arg 1: Which location is the most likely place Bob would look to find the galactic model given the story?
+  Input arg 2: ['desk', 'display cabinet', 'shelves']
+  Execution trace (2 LLM calls):
+    raw_answer(["Neil, the dedicated astrophysicist, had been extensively researching a unique galaxy. He meticulously recorded every observation and prediction in his diary, which was prominently placed on the desk)
+      -> display cabinet [$0.0005]
+    extract_index(['display cabinet', ['desk', 'display cabinet', 'shelves']])
+      -> 1 [$0.0003]
+  RESULT: predicted=1, expected=2
+
+--- Case ex081: ---
+  Input arg 0: The restaurant was bustling with customers, hanging onto the savoury scent of Louis's celebrated dishes. The maestro of the kitchen himself was preparing his signature dish, requiring his cherished spice rack which everyone knew was smartly sorted in the pantry. Louis's brow would furrow in concentration as he selected the perfect blend of spices, knowing each order was crucial for the restaurant's reputation. 
+
+Emily, the attentive waitress, was proficiently darting among the tables, delivering orders to Louis with graceful speed. She was a blur of efficiency, her eyes constantly tracking the salt shakers which were conspicuously placed on each dinner table. The knowledge of their location would come handy when her customers needed a bit more seasoning.
+
+Robert, was a quiet, but steadfast presence. The attendant was always amidst the clamour, skillfully manoeuvring to keep the kitchen immaculate despite the constant rush. But they all worked in harmony, each fully aware of the other's needs, and the optimum locations of all kitchen equipment and ingredients. The dining room echoed with laughter, glasses clinked and cutlery clattered. Everyone knew exactly where everything was, from Louis's important spice rack to the humble salt shaker on the dining tables, making the evening run like a well-oiled machine.
+
+As anticipation coursed through his veins, Louis meticulously moved his cherished spice rack from the pantry to his bustling cooking station, laying the groundwork for his world-renowned signature dish. In the bustling heart of the establishment, Louis, the sought-after culinary expert, was absorbed in his work. His treasured assortment of spices in transit from pantry to stove, a key player in the creation of the day's special. Simultaneously, Emily was skillfully managing a customer's request away in the remote corner. Smoothly dancing through the tables and chairs, her focus never wavering from her key responsibility - ensuring all orders were accurate and pr
+  Input arg 1: Which location is the most likely place Robert would look to find the salt shaker given the story?
+  Input arg 2: ['cooking station', 'dining tables', 'pantry', 'pantry ', 'upper cabinet']
+  Execution trace (2 LLM calls):
+    raw_answer(["The restaurant was bustling with customers, hanging onto the savoury scent of Louis's celebrated dishes. The maestro of the kitchen himself was preparing his signature dish, requiring his cherished )
+      -> pantry [$0.0007]
+    extract_index(['pantry', ['cooking station', 'dining tables', 'pantry', 'pantry ', 'upper cabinet']])
+      -> 2 [$0.0003]
+  RESULT: predicted=2, expected=1
+
+--- Case ex072: ---
+  Input arg 0: As light filtered through the windows of the gymnasium, Marc, the season's highlight professional athlete, found himself at the locker. Everyone, from Luke, the stringent coach, to Emma, the attentive nurse, knew of Marc's adherence to tradition - he never practiced without his lucky socks that had seen better days but guaranteed his peace of mind. They were always there, at the locker, waiting for him before each practice.
+
+Beside the locker, the medical kit was ready for anything it might face - from a minor scrape to a more serious injury. Emma, armed with an empathetic heart and nimble fingers, always ensured the ankle brace was there in the kit. Luke, a coach who understood the mental games as well as the physical ones, acknowledged Marc’s reliance on these particular pre-practice rituals. 
+
+Each one of them understood the unique roles they played and were fully aware of these items’ locations, understanding the often-superstitious nature of athletes, the physical demands of the sport and the importance of traditions in the grand scheme of practice-day preparations.
+
+With a gleam of determination in his eyes, Marc delicately picked up the lucky socks and moved them to his kit bag. This small act, almost symbolic, signaled the start his practice day, boosting his confidence and appeasing his superstitions simultaneously. Luke, the stoic coach, was on the other end of the practice field. His eyes focused on another player, discussing the minor tweaks in his gameplay and strategies. This distance from Marc's locker, however unintentional, was a tacit acknowledgement of his player's need for privacy during his ritualistic preparation.
+
+On the outskirts of the action, Emma was seen arranging the first aid kit meticulously, aware of every possible physical exertion today's practice might bring. The kit was away from Marc's actions, but close enough to respond at a moment's notice. 
+
+Each character, absorbed in their individual roles, subtly contributed to the ambianc
+  Input arg 1: Which location is the most likely place Luke would look to find the ankle brace given the story?
+  Input arg 2: ['kit bag', 'locker', 'medical kit']
+  Execution trace (2 LLM calls):
+    raw_answer(["As light filtered through the windows of the gymnasium, Marc, the season's highlight professional athlete, found himself at the locker. Everyone, from Luke, the stringent coach, to Emma, the attenti)
+      -> kit bag [$0.0006]
+    extract_index(['kit bag', ['kit bag', 'locker', 'medical kit']])
+      -> 0 [$0.0002]
+  RESULT: predicted=0, expected=1
+
+--- Case ex001: ---
+  Input arg 0: In a bustling architectural office, tucked in the heart of the city, Zach, the resident Architect, was deeply immersed in his latest project, carefully working the blueprint drafts spread out across the drafting table. His unique mix of creativity and order made him a talented professional. Anna, meticulous and efficient as always, was striving to manage the chaos that creative genius brought. As Zach's trusted assistant, she took pride in ensuring a smooth workflow by meticulously arranging the workspace. 
+
+Carl, the keen intern, watched everything, every movement in rapt attention. Eager to learn and impress, he absorbed every interaction, every task, every detail about the way Zach and Anna functioned, even aware of where each of their necessary items was neatly kept. He knew, just like the other two, that Zach's must-have engineering calculator was in the storage closet. 
+
+Indeed, they were all aware of each item's location, their unique roles creating a harmony where organization and chaos ebbed and flowed seamlessly.
+
+Zach carefully got up from his crowded desk and intricately waded through the sea of blueprints towards the storage closet. He gingerly retrieved his engineering calculator and strode back to his drafting table, the calculator nestled in his hands like a precious artifact. The innocence of the bustling office noise dimmed to a murmur as he focused his insight on the task at hand. Amidst the fluent chaos of Zach's workflow, Anna was busily engaged in a call with an important client. It was a tricky conversation, requiring all her diplomatic skills and undistracted attention. Her mind could not afford to stray from the pressing matters being discussed. However, her physical presence was still engaged in the milieu of the office.
+
+Elsewhere, Carl, the enthusiastic intern, had been given the task of sorting through a stack of documents. The delicate paperwork that needed care and precision occupied a separate area of the office, distinct from Zach's 
+  Input arg 1: Which location is the most likely place Carl would look to find the blueprint drafts given the story?
+  Input arg 2: ["Zach's office cubby", 'drafting table', 'storage closet']
+  Execution trace (2 LLM calls):
+    raw_answer(["In a bustling architectural office, tucked in the heart of the city, Zach, the resident Architect, was deeply immersed in his latest project, carefully working the blueprint drafts spread out across)
+      -> storage closet [$0.0006]
+    extract_index(['storage closet', ["Zach's office cubby", 'drafting table', 'storage closet']])
+      -> 2 [$0.0003]
+  RESULT: predicted=2, expected=1
+
+--- Case ex086: ---
+  Input arg 0: June's Antique Shop was a misty memory trapped in a bottle, a maelstrom of tales from a time long past that Clara, the diligent curator, found irresistible. Every piece had a rich history attached, caricatures of the past, an ancient vase perched precariously at the topmost shelf being one. It was an emblem of a forgotten era, lipstick red and golden, gleaming imperiously. The ever-busy Danny, with his nose always buried in the corners of the shop, was organizing the shelves, his eyes already glinting with the excitement of unearthing timeless treasures.
+
+There, at the very heart of the shop, under the hazy glow, sat June - the guardian of these inanimate storytellers, with her pride and joy, the coded ledger at the front desk. It was an ordinary piece of paper by appearance but held what almost seemed like a secret language, a catalogue of these items' history and more importantly, their true value.
+
+The vocabulary of the ledger was elusive, a strategic mystery June wasn't keen on unraveling for everyone. Only those deeply invested in the art of antiquities like Clara could decipher any meaning out of it. But both Clara and Danny were well aware of its location, as was June of course. Each one of them knew, almost instinctively, the locations of each antique in the shop, their cream and pastels layouts becoming more familiar with each passing day.
+
+With gentle precision, Clara slid the coded ledger off the aged wood counter and carried it towards the quiet sanctuary of the study room. She was determined to decode and appraise the historical value and stories behind June's unique antiques for her upcoming exhibit. Simultaneously, in another corner of the shop, Danny found himself entranced by a particularly complicated timepiece. Detailed craftsmanship and etched history danced across its complexion, exerting a pull Danny could hardly resist. Amid the chaotic beauty of countless antiques, it demanded his undivided attention. His every effort was bent on understandin
+  Input arg 1: Which location is the most likely place June would look to find the ancient vase given the story?
+  Input arg 2: ['display window', 'front desk', 'study room', 'top shelf']
+  Execution trace (2 LLM calls):
+    raw_answer(["June's Antique Shop was a misty memory trapped in a bottle, a maelstrom of tales from a time long past that Clara, the diligent curator, found irresistible. Every piece had a rich history attached, )
+      -> display window [$0.0005]
+    extract_index(['display window', ['display window', 'front desk', 'study room', 'top shelf']])
+      -> 0 [$0.0002]
+  RESULT: predicted=0, expected=3
+
+--- Case ex101: ---
+  Input arg 0: Emily, gripped by a sudden panic, realizes what she’s missing minutes before she needs to head out for her meditation class – the highlight of her week. She cannot afford to miss it and frantically begins her search for her yoga mat. Sophia, her friend and fellow yogi, who came over to join her for the class, senses Emily's urgency and helps her in the hunt. Kyle, who was busy doing housework and tidying the apartment, knew exactly where everything was. 
+
+The yoga mat, they noticed, had ended up in the laundry room — most probably during Kyle's cleaning extravaganza. Ironically, Emily's iPhone was right before her eyes, sitting conveniently on the kitchen table. Each of them was acutely aware of the location of these items, making the frantic search a rather short one.
+
+As Kyle continued his cleaning efforts, he spotted Emily's elusive yoga mat nestled in a corner of the laundry room. Picking it up, he relocated it to its usual spot in the living room, placing it where Emily could easily find it before her class. Throughout this flurry of activity, Sophia found herself engrossed in an engaging novel, an ice-cool calm amidst the storm of Emily's panic. The chaos went unnoticed by her, her chair conveniently oriented away from the action. She remained undisturbed by the frenzy, her focus resting solely on the captivating world within the pages of her book. All the while, Kyle caught glimpses of Emily's frantic search, unaware of the catalyst that had sparked it. Emily's voyage through the apartment persisted, the urgency in her movements clear to any observer.
+
+A surge of relief washed over Emily as she finally spotted her yoga mat in the living room. With a quick swoop, she picked it up and promptly moved it to her bedroom, ready for her meditation class. Emily was in a shuffle and raced to the room while Kyle was scrubbing away at the dishes. In her haste, she skidded past Sophia, who was unsettlingly moved from her static position. Determined not to let the chaos a
+  Input arg 1: Which location is the most likely place Kyle would look to find the yoga mat given the story?
+  Input arg 2: ["Emily's bedroom", 'kitchen table', 'laundry room', 'living room']
+  Execution trace (2 LLM calls):
+    raw_answer(["Emily, gripped by a sudden panic, realizes what she’s missing minutes before she needs to head out for her meditation class – the highlight of her week. She cannot afford to miss it and frantically )
+      -> laundry room [$0.0004]
+    extract_index(['laundry room', ["Emily's bedroom", 'kitchen table', 'laundry room', 'living room']])
+      -> 2 [$0.0003]
+  RESULT: predicted=2, expected=3
+
+--- Case ex068: ---
+  Input arg 0: Thomas was dedicated to baking the perfect wedding cake today, using his mother's cherished recipe. Diana, his mother, knew what she had to do. Determined and armed with the passion to help her son, she started her mission to dig through her old cooking notebooks, which everyone knew were tucked away deep within the kitchen cabinets. She wasn't going to rest until the special cake recipe was found. On the other hand, Thomas's assistant, Jake was eager to be of service. He was already busy in the bakery, quickly moving towards the storage room where the bag of flour, a necessary ingredient for the cake, was kept. All three of them were well aware of each item’s location within the bustling bakery, contributing their energy and effort in the race against time.
+
+With a hint of triumph, Diana pulled out a dusty recipe notebook from the depths of the cabinet. Gently brushing off the years of neglect, she moved the precious relic to the well-worn kitchen table, ready to unveil the treasured recipe for Thomas. While Diana was on her mission, she did not forget her other duty which was to keep the kitchen tidy. She hated a mess and even during this stressful time, she made sure to clean up and put everything away immediately after use. As Diana concentrated on her search and cleanup tasks, Thomas heeded her instructions and started to knead the dough for the impending cake. 
+
+In the meantime, Jake was engrossed in an intense conversation. He was on the phone with a supplier, discussing an urgent last-minute order that needed to be placed. Despite the chaos of the moving day, Jake ensured that he prioritized the bakery's needs, ensuring everything would be in place to make the special wedding cake. It was an action-packed day; with Thomas kneading, Diana cleaning, and Jake talking, all of them were working hard to make the special day successful.
+
+After Diana retrieved the cherished recipe, Thomas took the age-worn notebook and made his way to the bustling bakery, ready to t
+  Input arg 1: Which location is the most likely place Jake would look to find the recipe notebook given the story?
+  Input arg 2: ['bakery', 'cabinets', 'kitchen table', 'storage room']
+  Execution trace (2 LLM calls):
+    raw_answer(["Thomas was dedicated to baking the perfect wedding cake today, using his mother's cherished recipe. Diana, his mother, knew what she had to do. Determined and armed with the passion to help her son,)
+      -> cabinets [$0.0005]
+    extract_index(['cabinets', ['bakery', 'cabinets', 'kitchen table', 'storage room']])
+      -> 1 [$0.0002]
+  RESULT: predicted=1, expected=0
+
+
+## Previous iterations
+
+Iter 0: train=55.4%, eval=46.9% — KEPT
+Iter 1: train=0.0%, eval=0.0% — ROLLED BACK
+  What was tried: 1. **Identify the specific failure pattern**: The current orchestration seed maps the task directly to `answer_question`, which in turn just uses a naive zero-shot `raw_answer` LLM call. This completely bypasses the robust, hand-designed 4-step Theory of Mind workflow (`answer_question_workflow`) built into the file. Zero-shot LLM calls consistently fail on MUSR because they lose track of distractor objects, misattribute object movements, and ignore whether a specific character actually witnessed a move (e.g., in Case ex104, the LLM hallucinates the location of the *safety booklet* when the text was discussing the *flight manual*).
+2. **How many failures share this pattern?**: All 33 unknown failures are fundamentally due to poor zero-shot reasoning regarding spatial states, object distractors, and character presence/absence. 
+3. **What is the minimal change?**: Modify `answer_question_workflow_orchestrated_seed` (and `answer_question` for redundancy) to point directly to `answer_question_workflow`. I also added a brief instruction to `extract_movements` to be careful about characters who are physically nearby but "distracted" (addressing edge cases like ex025 and ex070), and explicitly enforce a final output format in `infer_belief` so `extract_index` works reliably.
+4. **Why will this change NOT break currently working cases?**: By activating the pre-built 4-step workflow, we give the LLM structured scaffolding (chronological movement extraction, incidental discoveries, and explicit step-by-step state tracking). This greatly increases generalizability on false-belief reasoning without altering any unit conversions or specific hard-coded logic. The change purely enforces the intended cognitive architecture.
+  ⚠ This change HURT accuracy. Do NOT retry this approach.
+Iter 2: train=0.0%, eval=0.0% — ROLLED BACK
+  What was tried: 1. **Identify the specific failure pattern**: The model currently routes the task through `answer_question_workflow_orchestrated_seed` directly to `answer_question`. In turn, `answer_question` invokes `raw_answer(narrative, question, choices)` which is a purely zero-shot LLM call. Theory of mind (ToM) tasks intrinsically require state-tracking (e.g., initial state -> moves -> who was present/distracted). Zero-shot LLMs routinely misattribute movements and fail to account for distraction or absence, leading to "false belief" evaluation errors.
+2. **How many of the shown failures share this pattern?**: All 33 failures show a zero-shot misinterpretation. Characters who are explicitly described as "engrossed", "in another room", or "on a call" miss an object moving, meaning their belief stays frozen. The zero-shot prompt ignores this and predicts the new location, or gets confused by distractor objects.
+3. **What is the MINIMAL change that fixes this pattern?**: Introduce a dedicated `@interface` function called `reason_and_answer` that forces the LLM to execute a concise, step-by-step Chain of Thought (CoT). The CoT logic explicitly guides the LLM to track the object's movements and severely scrutinize whether the target person was "distracted/immersed/away" during the move. We then update `answer_question` to call this `reason_and_answer` function instead of the naive `raw_answer`.
+4. **Why will this change NOT break currently working cases?**: This approach maintains a single-turn reasoning trace, avoiding the budget/cost/timeout blowouts that broke Iter 1 (which attempted a bulky 4-step pipeline). The final integer extraction logic (`extract_index`) is strictly preserved and merely handed a much cleaner, explicitly structured input text. The function signatures remain entirely unchanged.
+  ⚠ This change HURT accuracy. Do NOT retry this approach.
+Iter 3: train=0.0%, eval=0.0% — ROLLED BACK
+  What was tried: An analysis of the failures reveals a consistent pattern: the pipeline attempts to perform complex Theory of Mind (ToM) spatial tracking using a purely zero-shot LLM call (`raw_answer`). Zero-shot LLMs frequently fail at this because they lose track of distractor objects, miss whether characters were "engrossed" or "in another room" during a move, or even fail to realize when the target character moved the object themselves.
+
+In Iteration 2, a single-step Chain of Thought (CoT) prompt was attempted, but it caused a regression (0.0% accuracy). This is a known architectural issue: `extract_index` is a fragile string-matching function. When fed a long CoT string containing multiple referenced locations (e.g., "It moved from the desk to the shelf, but she thinks it is at the desk"), `extract_index` often matches the wrong string and fails.
+
+### The Fix
+To safely solve this without breaking the extraction step, we use a **two-stage LLM approach**:
+1. Add a new explicit `@interface` function called `analyze_belief_state`. This function forces the LLM to output a highly structured, 5-step spatial tracking analysis scoped *only* to the target character and target object.
+2. Update `answer_question` to prepend this explicit `=== CAREFUL ANALYSIS ===` to the narrative before calling `raw_answer`. 
+
+This guarantees that `raw_answer` receives an airtight logical conclusion, allowing it to output the clean, short string the system requires for `extract_index` to work flawlessly.
+  ⚠ This change HURT accuracy. Do NOT retry this approach.
+
+
+
+## HOW CHANGES WORK
+
+- @interface-decorated functions with method=simulate use their DOCSTRING as
+  the LLM prompt. Improving the docstring improves the LLM's output.
+- Functions bound with method=direct run as pure Python.
+- You can modify ANY function: workflow logic, extraction helpers, validation,
+  computation, docstrings, everything.
+- The entire file is reloaded after your changes, so all modifications take effect.
+
+## STRATEGY — READ THIS CAREFULLY
+
+Your changes are evaluated on ALL cases, not just the failures shown above.
+A change that fixes 5 failures but breaks 15 working cases is a NET REGRESSION.
+This has happened in previous iterations — learn from it.
+
+**CONSERVATIVE APPROACH REQUIRED:**
+- Changes to docstrings/prompts affect ALL cases that go through that code path.
+  If you add instructions that help edge cases but confuse the LLM on common
+  cases, accuracy drops. Be surgical.
+- Changes to Python logic (extraction, validation, computation) are SAFER because
+  they only fire when their conditions are met.
+- Prefer adding NEW conditional branches or fallback logic over modifying
+  existing working code paths.
+- If a previous iteration was rolled back, DO NOT try a more aggressive version
+  of the same idea. Try a completely different approach or a much smaller change.
+
+**PRIORITIZE THESE CHANGE TYPES (safest to riskiest):**
+1. Fix a bug in Python computation logic (zero risk to other cases)
+2. Add a new fallback/recovery path for a specific failure pattern
+3. Improve validation to catch and fix a category of extraction errors
+4. Add a small, specific instruction to a docstring (low risk if well-scoped)
+5. Rewrite extraction/prompt logic (HIGH RISK — only if you are very confident)
+
+**AVOID:**
+- Rewriting the extraction prompt wholesale — this breaks working cases
+- Adding many instructions at once — impossible to know what helped vs hurt
+- Changing unit conversion logic broadly — most values are already correct
+
+## CRITICAL RULES
+
+1. **DO NOT REWARD-HACK.** DO NOT overfit to specific failing cases by adding
+   hard-coded lookups, case-specific if/else for training examples, or
+   special-casing by patient name or case ID. Changes MUST generalize to
+   unseen cases. A held-out test set will expose overfitting.
+
+2. Make ONE targeted change per iteration. Don't rewrite everything at once.
+
+3. Return the COMPLETE modified ptools_evolved.py inside a <ptools_file> block.
+   Include ALL imports, ALL functions, everything. The block replaces the
+   entire file.
+
+4. Keep the file syntactically valid Python. Do not break existing imports
+   or function signatures that are referenced by the config.
+
+## Examples of GOOD changes
+- Fixing a specific computation bug (e.g. wrong formula for a calculator type)
+- Adding a validation check that catches a common extraction error pattern
+- Adding a small, specific docstring instruction scoped to a failure class
+- Adding a new fallback path for cases where extraction fails
+
+## Examples of BAD changes (cause regressions)
+- Rewriting the extraction prompt with many new instructions
+- Adding unit conversion logic that fires on all cases
+- Changing the workflow control flow
+- if calculator_name == "CHA2DS2-VASc": return 5
+
+<reasoning>
+1. What SPECIFIC failure pattern did you identify?
+2. How many of the shown failures share this pattern?
+3. What is the MINIMAL change that fixes this pattern?
+4. Why will this change NOT break currently working cases?
+</reasoning>
+
+<ptools_file>
+# Complete modified ptools_evolved.py here
+</ptools_file>
+
+<config>
+# Optional dotlist config overrides (e.g. model switches), one per line
+</config>

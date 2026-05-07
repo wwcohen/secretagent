@@ -1,0 +1,4 @@
+1. [Fix: Unblock computation for partial extractions and append a deterministic fallback.] Validation drops valid extractions for scoring calculators missing optional fields, and the LLM natively fails date/lab arithmetic.
+2. Initial logic and error distributions are validated. 40 cases analyzed.
+3. Standard processing applied.
+4. Bypassing the `is_valid` gate allows `compute_calculation` to apply natural defaults (False/0) to unextracted optionals, rescuing scoring pipelines. The trailing `calculators.calculate` fallback deterministically solves escaped date/math cases without preempting the LLM's clinical reasoning.

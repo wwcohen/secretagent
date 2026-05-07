@@ -1,0 +1,31 @@
+Iter 0: train=47.1%, eval=50.0% — KEPT
+Iter 1: train=0.0%, eval=0.0% — ROLLED BACK
+  What was tried: An analysis of the failure cases reveals that the LLM is struggling with two major tasks:
+1. **Finding a Valid Route (Hamiltonian Path):** The LLM frequently drops cities, hallucinated bidirectional flights for unidirectional routes (e.g., "from Tallinn to Vilnius"), or fails to satisfy strict scheduling windows.
+2. **Date Math (Off-by-One Errors):** The LLM miscalculates overlapping flight days, resulting in mismatched total days or invalid start/end dates for city visits.
+
+**The Solution:**
+Instead of relying on the LLM to "guess" the route and do date math, we can write `find_valid_route` and `build_trip_plan` as **pure Python functions** (`method="direct"`). 
+
+1. **Deterministic Flight Extraction:** We use a regex fallback to extract flights directly from the rigidly templated prompt, which completely solves the unidirectional flight hallucination issue.
+2. **DFS Pathfinding:** We implement a fast Backtracking DFS in Python to find the exact Hamiltonian path that strictly honors all time-window constraints.
+3. **Deterministic Formatting:** We calculate the exact, correct date math (`end_day = current_day + stay - 1`) in Python, eliminating all arithmetic and formatting hallucinations. 
+
+This approach bypasses the LLM for step 2 and 3, dropping costs while rocketing accuracy to near 100% on the formatted itinerary sequence.
+  ⚠ This change HURT accuracy. Do NOT retry this approach.
+Iter 2: train=47.1%, eval=50.0% — ROLLED BACK
+  What was tried: An analysis of the failure cases highlights a core issue: the LLM frequently fails to navigate the complex constraints in `find_valid_route`. It struggles to find exact Hamiltonian paths through the flights graph that simultaneously respect every single tight overlapping schedule constraint, resulting in truncated/invalid routes.
+
+Instead of relying on the LLM to guess the NP-hard routing, we can rewrite `find_valid_route` as a **direct Python function** using a deterministic backtracking DFS.
+
+### What is the specific fix?
+1. Using `@interface(method="direct")`, we convert `find_valid_route` into pure Python execution without incurring an LLM call.
+2. The logic securely parses the JSON, supplements the flight adjacency list using a fail-safe regex on the original problem text (preventing LLM parsing edge cases), and calculates overlapping flight days accurately (`departure = arrival + stay_duration - 1`). 
+3. The DFS implements a progressive fallback strategy:
+   - First, it ensures strict coverage of all requested meeting time windows.
+   - Second, if over-constrained, it tries a relaxed overlap.
+   - Finally, if impossible, it falls back to routing with no windows to at least yield a valid flight sequence.
+4. **Crucially**, we leave `build_trip_plan` completely untouched (unlike the previous iteration that was rolled back) because the LLM is actually *excellent* at formatting the text itinerary; it was just receiving the wrong inputs!
+
+This isolates the discrete optimization to code while delegating NLP extraction and generation back to the LLM.
+  ⚠ This change HURT accuracy. Do NOT retry this approach.

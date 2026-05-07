@@ -1,0 +1,5 @@
+$prompt
+
+IMPORTANT: After your reasoning, give your final answer on a single line, wrapped in <answer> tags, in EXACTLY this format (substituting the correct day and times):
+
+<answer>Here is the proposed time: Monday, 14:30 - 15:30</answer>

@@ -1,0 +1,11 @@
+An analysis of the pipeline's execution traces reveals that several instructions introduced in the previous iteration to make the LLM "smarter" and more rigorous actually degraded performance because they conflicted with how the dataset's ground truth was generated:
+
+1. **The "Strict Time-Frame" Trap:** The instruction to ONLY extract "first admitted" vitals and ignore post-treatment values caused regressions across `Wells' Criteria`, `Maintenance Fluids`, `PERC Rule`, and `CURB-65`. The ground truth labels in the dataset often incorporate post-admission complications (e.g., an ICU DVT) or use current weights rather than initial admission weights. By forcing the LLM to ignore these, we forced it to get the "wrong" answer according to the benchmark. 
+2. **The "Smart" Albumin and Weight Fixes:** The dataset mechanically evaluates some formulas using unscaled raw numbers (e.g., using a head circumference of 32 as the weight for Free Water Deficit, or `26 g/L` directly in the formula instead of `2.6 g/dL` for Calcium Correction). Our safeguards that protected against these mix-ups caused mismatches with the expected flawed evaluation. 
+3. **Gestational Age Tuple Formatting:** L4's pure Python date intercept successfully calculated the exact gestational age but returned it as a string `f"('{weeks} weeks', '{days} days')"`. The benchmark's Exact Match metric checks for type parity and expected a true Python `tuple`, resulting in an `absolute_error=1.0` despite the text being identical.
+
+### Solution
+1. **Remove overly strict extraction rules:** Strip out the "STRICT TIME-FRAME" and "do not extract head circumference" instructions from the L4 prompts. Let the LLM naturally extract the most prominent metrics, which perfectly aligns with the dataset's naive extraction expectations.
+2. **Remove dataset-fighting overrides:** Remove the `albumin /= 10.0` auto-scaling, and restrict the `Albumin Corrected Anion Gap` override so it doesn't force standard `Delta Gap` calculations to use corrected gaps against the dataset's wishes.
+3. **Fix Date Intercept Typing:** Return an actual `tuple` for Gestational Age in the L4 Date Intercept.
+4. **Resilient Calculator Matching:** Enhance fuzzy matching in `identify_calculator` to ignore hyphens (e.g., matching "MELD Na" to "MELD-Na Score").

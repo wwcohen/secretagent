@@ -1,48 +1,21 @@
 # Orchestrator Results
 
-Test-set re-evaluation of the eight orchestration_learner workflows
-documented in `docs/orchestration_learner_sweep_results.md`. Every cell
-was run on the held-out test split with
-`together_ai/deepseek-ai/DeepSeek-V3.1`.
+This directory keeps the orchestrator result summaries by workflow family. Non-MedCalc benchmarks retain their original sibling layout. MedCalc is split into paper-facing formula and rules partitions so it matches the sibling benchmark shape.
 
-The canonical layout now matches the COMMON codedistill result layout:
+MedCalc paper-facing result sets:
 
-```
-<bench>/
-  test_results_full/
-    <TS>.<subbench>_test_full_orch_existing_workflow/
-    <TS>.<subbench>_test_full_orch_seed_from_ptools/
-```
+- `existing_workflow/medcalc_formulas/results/20260504.025838.test_deepseek_v3_1`
+- `existing_workflow/medcalc_rules/results/20260504.025838.test_deepseek_v3_1`
+- `seed_from_ptools/medcalc_formulas/results/20260504.084524.test_deepseek_v3_1`
+- `seed_from_ptools/medcalc_rules/results/20260504.084524.test_deepseek_v3_1`
 
-The preserved legacy layout is still present under `existing_workflow/` and
-`seed_from_ptools/` for provenance and debugging. The canonical test table uses:
+Each selected result directory keeps:
 
-- `orch_existing_workflow`: hand workflow + orchestrator-improved ptools
-- `orch_seed_from_ptools`: orchestrator-generated workflow + orchestrator-improved ptools
+- `results.csv`
+- `results.jsonl`
+- `config.yaml`
+- `split_info.json`
 
-`medcalc` is always split into `medcalc_formulas` and `medcalc_rules`; the
-overall mixed result is not used for headline tables. `rulearena_nba` uses the
-default unpatched seed run (`without_rulebook`); manual rulebook-fix artifacts
-remain in the legacy tree but are excluded by default.
+Archived material is under `archive/20260506_medcalc_paper_reorg/`. That archive includes older top-level benchmark result buckets, backup copies of non-MedCalc benchmark summaries, the old nested MedCalc layout, full/overall MedCalc results, and old local orchestration scripts/logs.
 
-```bash
-# Print the two canonical test-set summary tables:
-bash benchmarks/COMMON/orchestrator-results/show_summary.sh
-
-# Machine-readable extraction:
-uv run --script benchmarks/COMMON/orchestrator-results/scripts/show_results.py \
-  --md /tmp/orchestrator_results.md \
-  --csv /tmp/orchestrator_results.csv
-```
-
-See `RESULTS_LAYOUT.md` for the directory layout and the meaning of the
-`with_rulebook` / `without_rulebook` and `learned_from_*_traces`
-variants.
-
-Helper scripts and infra dirs live under `scripts/`.
-
-`_train_dirs` indexes use portable `*.orch_learner` pointer files instead of
-committed directory symlinks. Each pointer file contains a repo-relative path to
-the real learner output under `benchmarks/*/results/orchestration_learner/`.
-The evaluation helpers resolve both pointer files and real symlinks, so the
-tree is safe on Windows checkouts with `core.symlinks=false`.
+The old `_train_dirs/` operational index is not kept at the paper-facing root because symlink-style indexes cause commit issues. Its target paths are recorded in `TRAIN_DIRS_MANIFEST.md`, and the old text-file index is archived under `archive/20260506_medcalc_paper_reorg/operational_manifests/`.

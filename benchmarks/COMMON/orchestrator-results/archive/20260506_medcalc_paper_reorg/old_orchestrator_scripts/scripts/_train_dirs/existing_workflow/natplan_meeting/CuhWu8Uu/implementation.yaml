@@ -1,0 +1,4 @@
+meeting_planning:
+  method: direct
+  fn: __learned__.meeting_workflow
+  learner: orch_learner

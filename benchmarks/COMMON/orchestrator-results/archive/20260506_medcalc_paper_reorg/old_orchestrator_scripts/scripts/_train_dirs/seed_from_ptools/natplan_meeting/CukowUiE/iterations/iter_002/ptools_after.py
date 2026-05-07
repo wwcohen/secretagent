@@ -1,0 +1,245 @@
+"""Task-specific interfaces for NaturalPlan meeting planning.
+
+Decomposition derived from LLM reasoning traces:
+1. parse_meeting_info — extract locations, friends, travel times, availability
+2. plan_visit_order — determine optimal visit order to maximize meetings
+3. build_meeting_plan — simulate schedule step-by-step and format answer
+"""
+
+from secretagent.core import interface
+
+
+@interface
+def parse_meeting_info(problem_text: str) -> str:
+    """Parse a meeting-planning problem into structured JSON.
+
+    Args:
+        problem_text: The ENTIRE meeting-planning problem as a single string
+            (your starting location/time, travel distances between locations,
+            each friend's location / availability window / desired meeting
+            duration, etc.). Pass the whole problem text as one argument —
+            do NOT split it into multiple arguments.
+
+    Returns:
+        A JSON string encoding a dict with these keys:
+        - my_location: starting location name
+        - my_start_time: start time string e.g. "9:00 AM"
+        - friends: list of dicts, each with:
+            name, location, available_from, available_to, duration_minutes
+        - travel_times: dict mapping "LocationA->LocationB" to minutes (int)
+
+    Example:
+        >>> parse_meeting_info("You arrive at Alamo Square at 9:00 AM. James will be at Nob Hill from 9:00 AM to 5:30 PM; you want to meet for 30 min. Travel: Alamo Square to Nob Hill: 11 min.")
+        '{"my_location": "Alamo Square", "my_start_time": "9:00 AM", "friends": [{"name": "James", "location": "Nob Hill", "available_from": "9:00 AM", "available_to": "5:30 PM", "duration_minutes": 30}], "travel_times": {"Alamo Square->Nob Hill": 11}}'
+    """
+
+
+@interface
+def plan_visit_order(problem_text: str, info_json: str) -> str:
+    """Determine the optimal order of friends to visit to maximize meetings.
+
+    Args:
+        problem_text: The original problem text (same string you passed to
+            parse_meeting_info).
+        info_json: The JSON STRING output returned by parse_meeting_info.
+            Pass the raw JSON string as-is — do NOT parse it into a dict first.
+
+    Returns:
+        A JSON string encoding an ordered list of friend names (strings).
+        Consider travel times, each friend's availability window, and
+        required meeting durations. Your GOAL is to maximize the NUMBER of 
+        friends met. Carefully track the current time, travel time, wait 
+        time, and meeting duration for each friend in the sequence to 
+        ensure the schedule is strictly valid (no overlapping meetings, 
+        cannot meet outside their available window). Travel times are 
+        asymmetric, so use the correct A->B duration.
+
+    Example:
+        >>> plan_visit_order("...", '{"friends": [...], ...}')
+        '["James", "Nancy", "William"]'
+    """
+
+
+@interface
+def build_meeting_plan(problem_text: str, info_json: str, order_json: str) -> str:
+    """Build a step-by-step meeting schedule and format the final answer.
+
+    Args:
+        problem_text: The original problem text.
+        info_json: The JSON STRING output from parse_meeting_info. Pass the
+            raw JSON string as-is.
+        order_json: The JSON STRING output from plan_visit_order (a JSON
+            array of friend names). Pass the raw JSON string as-is.
+
+    Returns:
+        The final answer as a string that MUST start with 'SOLUTION:',
+        followed by step lines in EXACTLY these formats (note times use
+        'HH:MMAM' or 'HH:MMPM' with no space before AM/PM):
+        'You start at {location} at {time}.'
+        'You travel to {location} in {N} minutes and arrive at {time}.'
+        'You wait until {time}.'
+        'You meet {name} for {N} minutes from {time} to {time}.'
+
+        Simulate the schedule: for each friend in order, compute travel time,
+        wait if needed, meet for the required duration. 
+
+        RULES:
+        1. Skip friends who cannot be met for their FULL required duration within their availability window.
+        2. ONLY output a 'You wait until {time}.' line if your arrival time is STRICTLY BEFORE the friend's availability starts. If you arrive at or after their availability starts, DO NOT include a wait line.
+        3. CAUTION: Travel times are NOT symmetric! The time from A to B may be different from B to A. Look up the exact travel time for the specific direction you are traveling.
+
+    Example:
+        >>> build_meeting_plan("...", '{"my_location": "Alamo Square", ...}', '["James"]')
+        'SOLUTION: You start at Alamo Square at 9:00AM. You travel to Nob Hill in 11 minutes and arrive at 9:11AM. You meet James for 30 minutes from 9:11AM to 9:41AM.'
+    """
+
+
+@interface
+def meeting_planning(prompt: str) -> str:
+    """Solve a meeting-planning problem.
+
+    Given a problem describing your start location/time, friend locations
+    and availability windows, travel times, and desired meeting durations,
+    produce a schedule that maximizes the number of friends met.
+
+    Args:
+        prompt: The full meeting-planning problem as one string.
+
+    Returns:
+        A string starting with 'SOLUTION:' followed by action lines in
+        EXACTLY these formats (times use 'HH:MMAM' or 'HH:MMPM' with no
+        space before AM/PM):
+        'You start at {location} at {time}.'
+        'You travel to {location} in {N} minutes and arrive at {time}.'
+        'You wait until {time}.'
+        'You meet {name} for {N} minutes from {time} to {time}.'
+
+    Example:
+        'SOLUTION: You start at Marina District at 9:00AM. You travel to Mission District in 20 minutes and arrive at 9:20AM. You wait until 10:30AM. You meet Stephanie for 120 minutes from 10:30AM to 12:30PM.'
+    """
+    try:
+        import re
+        from datetime import datetime
+        
+        # 1. Parse distances
+        distances = {}
+        for match in re.finditer(r"([A-Za-z \'-]+)\s+to\s+([A-Za-z \'-]+):\s+(\d+)\.?", prompt):
+            src, dst, dist = match.groups()
+            src = src.strip()
+            dst = dst.strip()
+            if src not in distances:
+                distances[src] = {}
+            distances[src][dst] = int(dist)
+            
+        # 2. Parse starting conditions
+        arr_match = re.search(r"You arrive at ([A-Za-z \'-]+) at (\d{1,2}:\d{2}\s*[AP]M)\.?", prompt)
+        if not arr_match:
+            raise ValueError("Start not found")
+        start_loc = arr_match.group(1).strip()
+        
+        def parse_time(time_str):
+            time_str = time_str.strip().replace(" ", "")
+            dt = datetime.strptime(time_str, "%I:%M%p")
+            return dt.hour * 60 + dt.minute
+            
+        def format_time(minutes):
+            hour = (minutes // 60) % 24
+            minute = minutes % 60
+            ampm = "AM" if hour < 12 else "PM"
+            hour_12 = hour % 12
+            if hour_12 == 0:
+                hour_12 = 12
+            return f"{hour_12}:{minute:02d}{ampm}"
+
+        start_time = parse_time(arr_match.group(2))
+        
+        # 3. Parse friends & constraints
+        friends = []
+        for match in re.finditer(r"([A-Za-z]+)\s+will be at\s+([A-Za-z \'-]+)\s+from\s+(\d{1,2}:\d{2}\s*[AP]M)\s+to\s+(\d{1,2}:\d{2}\s*[AP]M)\.\s+You'd like to meet \1 for a minimum of\s+(\d+)\s+minutes\.?", prompt):
+            name, loc, t_start, t_end, duration = match.groups()
+            friends.append({
+                "name": name.strip(),
+                "loc": loc.strip(),
+                "start": parse_time(t_start),
+                "end": parse_time(t_end),
+                "duration": int(duration)
+            })
+            
+        if not friends:
+            raise ValueError("No friends found")
+            
+        # Optimization heuristic: Try friends that have tighter end schedules first
+        friends.sort(key=lambda x: x['end'])
+            
+        # 4. Exhaustive Search (DFS) with branch and bound
+        best_path = []
+        best_count = -1
+        best_end_time = 999999
+        memo = {}
+        
+        def dfs(current_loc, current_time, unvisited, path):
+            nonlocal best_path, best_count, best_end_time
+            
+            # Prune using memoization (TSP DP state formulation)
+            visited_names = tuple(sorted(step[0]['name'] for step in path))
+            state = (current_loc, visited_names)
+            if state in memo and memo[state] <= current_time:
+                return
+            memo[state] = current_time
+            
+            # Prune branch if we can't possibly beat the best count
+            max_possible = len(path) + len(unvisited)
+            if max_possible < best_count:
+                return
+            if max_possible == best_count and current_time >= best_end_time:
+                return
+                
+            if len(path) > best_count or (len(path) == best_count and current_time < best_end_time):
+                best_count = len(path)
+                best_path = list(path)
+                best_end_time = current_time
+                
+            for i, friend in enumerate(unvisited):
+                if current_loc == friend['loc']:
+                    travel_time = 0
+                else:
+                    travel_time = distances.get(current_loc, {}).get(friend['loc'])
+                    if travel_time is None:
+                        continue
+                    
+                arrive_time = current_time + travel_time
+                if arrive_time + friend['duration'] > friend['end']:
+                    continue
+                    
+                meet_start = max(arrive_time, friend['start'])
+                meet_end = meet_start + friend['duration']
+                
+                if meet_end <= friend['end']:
+                    next_unvisited = unvisited[:i] + unvisited[i+1:]
+                    dfs(friend['loc'], meet_end, next_unvisited, path + [(friend, travel_time, arrive_time, meet_start, meet_end)])
+                    
+        dfs(start_loc, start_time, friends, [])
+        
+        # 5. Format valid schedule path exactly
+        lines = []
+        lines.append(f"You start at {start_loc} at {format_time(start_time)}.")
+        for step in best_path:
+            friend, travel_time, arrive_time, meet_start, meet_end = step
+            if travel_time > 0:
+                lines.append(f"You travel to {friend['loc']} in {travel_time} minutes and arrive at {format_time(arrive_time)}.")
+            if meet_start > arrive_time:
+                lines.append(f"You wait until {format_time(meet_start)}.")
+            lines.append(f"You meet {friend['name']} for {friend['duration']} minutes from {format_time(meet_start)} to {format_time(meet_end)}.")
+            
+        return "SOLUTION: " + " ".join(lines)
+    except Exception as e:
+        # Fallback to LLM standard reasoning if regex parsing fails
+        return meeting_planning_orchestrated_seed(prompt)
+
+
+# --- Auto-generated by orchestration_learner --seed-orchestrate ---
+def meeting_planning_orchestrated_seed(prompt: str) -> str:
+    info_json = parse_meeting_info(prompt)
+    order_json = plan_visit_order(prompt, info_json)
+    plan = build_meeting_plan(prompt, info_json, order_json)
+    return plan

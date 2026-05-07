@@ -1,0 +1,10 @@
+An analysis of the failure cases reveals that the LLM struggles with two main tasks:
+1. **Hamiltonian Path Optimization:** The LLM frequently drops cities, hallucinates bidirectional routes for unidirectional flights (e.g., `from Tallinn to Vilnius`), or misaligns its stays causing it to fail strict overlapping time-window constraints.
+2. **Date Math & Formatting (Off-by-one errors):** Even when the LLM guesses the correct route, it often computes the duration math incorrectly (e.g. `Day 8-12` = 2 days) and uses the wrong format for the first city (e.g. `Visit {City}` instead of the expected `Arriving in {City} and visit {City}`). This causes perfectly valid routes to fail string-matching evaluation.
+
+**The Strategy:**
+To fix this reliably without disrupting extraction, we convert `find_valid_route` and `build_trip_plan` to **direct Python execution** (`method="direct"`). 
+1. **Deterministic DFS Routing:** We apply a highly efficient backtracking DFS in Python to compute the exact Hamiltonian path. To ensure complete safety from LLM hallucinations, we parse the exact flight adjacency list directly from the rigid `problem_text` prompt using Regex, securely handling unidirectional rules.
+2. **Deterministic String Formatting:** We bypass LLM date-math entirely. The Python script generates the itinerary directly, ensuring precise math (`end_day = current_day + duration - 1`) and the exact double-newline `\n\n` spacing with the `Arriving in {City}` prefix required by the evaluation harness.
+
+This bypasses the optimization and formatting bottlenecks while allowing the LLM to continue performing its core NLP extraction task reliably.
