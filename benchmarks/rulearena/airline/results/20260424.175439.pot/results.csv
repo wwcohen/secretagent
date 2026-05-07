@@ -1,4 +1,0 @@
-case_name,predicted_output,expected_output,correct,correct_tolerance,failure_mode,expt_name
-airline_0_6,**exception raised**: litellm.Timeout: APITimeoutError - Request timed out. Error_str: Request timed out.,1131,0.0,0.0,extraction_failure,pot
-airline_1_28,**exception raised**: litellm.Timeout: APITimeoutError - Request timed out. Error_str: Request timed out.,2296,0.0,0.0,extraction_failure,pot
-airline_1_10,**exception raised**: litellm.Timeout: APITimeoutError - Request timed out. Error_str: Request timed out.,2682,0.0,0.0,extraction_failure,pot

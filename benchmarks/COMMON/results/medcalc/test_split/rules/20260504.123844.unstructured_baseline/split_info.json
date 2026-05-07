@@ -1,5 +1,5 @@
 {
-  "derived_from": "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/COMMON/results/medcalc/test_split/overall/20260504.123844.unstructured",
+  "derived_from": "benchmarks/COMMON/results/medcalc/test_split/overall/20260504.123844.unstructured",
   "split": "rules",
   "included_categories": [
     "diagnosis",

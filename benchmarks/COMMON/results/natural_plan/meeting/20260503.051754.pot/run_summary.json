@@ -1,7 +1,0 @@
-{
-  "reproduce_cmd": "uv run python expt.py run --config-file conf/meeting.yaml dataset.n=100 dataset.partition=test evaluate.result_dir=results-test evaluate.expt_name=pot ptools.meeting_planning.method=program_of_thought ptools.meeting_planning.tools=[ptools_meeting.parse_meeting_info,ptools_meeting.plan_visit_order,ptools_meeting.build_meeting_plan]",
-  "accuracy": 0.29,
-  "total_cost_usd": 0.788344,
-  "total_time_sec": 4704.22,
-  "n_samples": 100
-}

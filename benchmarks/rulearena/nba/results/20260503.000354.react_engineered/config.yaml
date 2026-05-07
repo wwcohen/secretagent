@@ -3,9 +3,9 @@ llm:
   max_tokens: 8192
   timeout: 600
 cachier:
-  cache_dir: /Users/lexl/Research_group/secretagent/benchmarks/rulearena/nba/llm_cache
+  cache_dir: benchmarks/rulearena/nba/llm_cache
 evaluate:
-  result_dir: /Users/lexl/Research_group/secretagent/benchmarks/rulearena/nba/results
+  result_dir: benchmarks/rulearena/nba/results
   expt_name: react_engineered
 dataset:
   split: test
@@ -17,4 +17,4 @@ ptools:
     method: simulate_pydantic
     tools:
     - ptools.extract_nba_params
-root: /Users/lexl/Research_group/secretagent/benchmarks/rulearena/nba
+root: benchmarks/rulearena/nba

@@ -1,2 +1,0 @@
-{"predicted_output": "J", "expected_output": "(J)", "correct": 0.0, "input_tokens": 3110.0, "output_tokens": 850.0, "latency": 48.85431146621704, "cost": 0.0033110000000000006, "case_name": "valid.043", "expt_name": "workflow"}
-{"predicted_output": "E", "expected_output": "(E)", "correct": 0.0, "input_tokens": 1769.0, "output_tokens": 217.0, "latency": 6.639636993408203, "cost": 0.0014302999999999998, "case_name": "valid.002", "expt_name": "workflow"}

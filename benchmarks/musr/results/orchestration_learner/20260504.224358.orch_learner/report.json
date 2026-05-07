@@ -15,8 +15,8 @@
       "kept": true,
       "code_snapshot": "# ptools_evolved.py (1464 chars)",
       "config_overrides": [],
-      "train_result_dir": "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/musr/results/orchestration_learner/20260504.224440.rc_iter0",
-      "eval_result_dir": "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/musr/results/orchestration_learner/20260504.230758.rc_iter0_eval",
+      "train_result_dir": "benchmarks/musr/results/orchestration_learner/20260504.224440.rc_iter0",
+      "eval_result_dir": "benchmarks/musr/results/orchestration_learner/20260504.230758.rc_iter0_eval",
       "config_before_path": null,
       "config_after_path": null
     },
@@ -35,8 +35,8 @@
       "kept": true,
       "code_snapshot": "",
       "config_overrides": [],
-      "train_result_dir": "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/musr/results/orchestration_learner/20260504.232700.rc_iter1",
-      "eval_result_dir": "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/musr/results/orchestration_learner/20260504.234703.rc_iter1_eval",
+      "train_result_dir": "benchmarks/musr/results/orchestration_learner/20260504.232700.rc_iter1",
+      "eval_result_dir": "benchmarks/musr/results/orchestration_learner/20260504.234703.rc_iter1_eval",
       "config_before_path": "iterations/iter_001/config_before.yaml",
       "config_after_path": null
     },
@@ -55,8 +55,8 @@
       "kept": true,
       "code_snapshot": "",
       "config_overrides": [],
-      "train_result_dir": "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/musr/results/orchestration_learner/20260504.235801.rc_iter2",
-      "eval_result_dir": "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/musr/results/orchestration_learner/20260505.001328.rc_iter2_eval",
+      "train_result_dir": "benchmarks/musr/results/orchestration_learner/20260504.235801.rc_iter2",
+      "eval_result_dir": "benchmarks/musr/results/orchestration_learner/20260505.001328.rc_iter2_eval",
       "config_before_path": "iterations/iter_002/config_before.yaml",
       "config_after_path": null
     },
@@ -75,8 +75,8 @@
       "kept": false,
       "code_snapshot": "",
       "config_overrides": [],
-      "train_result_dir": "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/musr/results/orchestration_learner/20260505.002105.rc_iter3",
-      "eval_result_dir": "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/musr/results/orchestration_learner/20260505.003708.rc_iter3_eval",
+      "train_result_dir": "benchmarks/musr/results/orchestration_learner/20260505.002105.rc_iter3",
+      "eval_result_dir": "benchmarks/musr/results/orchestration_learner/20260505.003708.rc_iter3_eval",
       "config_before_path": "iterations/iter_003/config_before.yaml",
       "config_after_path": null
     },
@@ -95,8 +95,8 @@
       "kept": false,
       "code_snapshot": "",
       "config_overrides": [],
-      "train_result_dir": "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/musr/results/orchestration_learner/20260505.004447.rc_iter4",
-      "eval_result_dir": "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/musr/results/orchestration_learner/20260505.005747.rc_iter4_eval",
+      "train_result_dir": "benchmarks/musr/results/orchestration_learner/20260505.004447.rc_iter4",
+      "eval_result_dir": "benchmarks/musr/results/orchestration_learner/20260505.005747.rc_iter4_eval",
       "config_before_path": "iterations/iter_004/config_before.yaml",
       "config_after_path": null
     },
@@ -115,8 +115,8 @@
       "kept": false,
       "code_snapshot": "",
       "config_overrides": [],
-      "train_result_dir": "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/musr/results/orchestration_learner/20260505.010223.rc_iter5",
-      "eval_result_dir": "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/musr/results/orchestration_learner/20260505.011151.rc_iter5_eval",
+      "train_result_dir": "benchmarks/musr/results/orchestration_learner/20260505.010223.rc_iter5",
+      "eval_result_dir": "benchmarks/musr/results/orchestration_learner/20260505.011151.rc_iter5_eval",
       "config_before_path": "iterations/iter_005/config_before.yaml",
       "config_after_path": null
     }

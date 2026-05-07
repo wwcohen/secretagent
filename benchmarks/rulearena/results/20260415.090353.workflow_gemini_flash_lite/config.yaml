@@ -2,9 +2,9 @@ llm:
   model: gemini/gemini-3.1-flash-lite-preview
   max_tokens: 8192
 cachier:
-  cache_dir: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/rulearena/llm_cache
+  cache_dir: benchmarks/rulearena/llm_cache
 evaluate:
-  result_dir: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/rulearena/results
+  result_dir: benchmarks/rulearena/results
   expt_name: workflow_gemini_flash_lite
   max_workers: 4
 dataset:

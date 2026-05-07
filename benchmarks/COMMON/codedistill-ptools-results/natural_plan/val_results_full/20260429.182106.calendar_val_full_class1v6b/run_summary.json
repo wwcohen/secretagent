@@ -1,5 +1,5 @@
 {
-  "reproduce_cmd": "uv run python expt.py run --config-file conf/calendar.yaml ptools.calendar_scheduling.method=direct ptools.calendar_scheduling.fn=ptools_calendar.calendar_workflow ptools.select_and_format.backoff=True ptools.select_and_format.learner=codedistill ptools.select_and_format.method=learned_code learn.train_dir=/Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/natural_plan/learned_v6b dataset.partition=valid dataset.n=100 evaluate.expt_name=calendar_val_full_class1v6b evaluate.result_dir=val_results_full",
+  "reproduce_cmd": "uv run python expt.py run --config-file conf/calendar.yaml ptools.calendar_scheduling.method=direct ptools.calendar_scheduling.fn=ptools_calendar.calendar_workflow ptools.select_and_format.backoff=True ptools.select_and_format.learner=codedistill ptools.select_and_format.method=learned_code learn.train_dir=benchmarks/natural_plan/learned_v6b dataset.partition=valid dataset.n=100 evaluate.expt_name=calendar_val_full_class1v6b evaluate.result_dir=val_results_full",
   "accuracy": 0.55,
   "total_cost_usd": 0.281368,
   "total_time_sec": 2839.12,

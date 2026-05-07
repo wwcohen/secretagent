@@ -4,7 +4,7 @@
 # - Pass --n-candidates 5 (instead of 9) so each round is faster
 # - Run all distills in parallel (different cwd / output dirs)
 set +e
-ROOT="/Users/yanjiarui/Desktop/Will_research/secretagent"
+ROOT="/Users/anon/Desktop/anon_research/secretagent"
 LOG_DIR="$ROOT/benchmarks/codedistill_logs_v2"
 mkdir -p "$LOG_DIR"
 set -a; source "$ROOT/.env"; set +a

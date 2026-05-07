@@ -1,8 +1,0 @@
-1. What SPECIFIC failure pattern did you identify?
-The extraction step (`extract_calculator_values`) occasionally hallucinates standard physiological values when they are completely missing from the clinical text. For instance, in the "Maintenance Fluids Calculations" case, the patient's weight is never stated, but the LLM confidently extracts `75.0` kg (a standard adult weight), leading to an incorrect 4-2-1 calculation of 115 mL/hr instead of recognizing it's missing.
-2. How many of the shown failures share this pattern?
-Several cases have hallucinated inputs for missing data, leading to wildly inaccurate deterministic calculations instead of appropriately falling back or throwing an error.
-3. What is the MINIMAL change that fixes this pattern?
-Add a strong `CRITICAL` anti-hallucination constraint to the `extract_calculator_values` docstring explicitly forbidding guessing or using "standard" physiological values (like 70kg or 75kg) when unmentioned.
-4. Why will this change NOT break currently working cases?
-This only enforces stricter adherence to the source text. For cases where values *are* present, they will still be extracted. For cases where they are missing, it prevents wrong deterministic calculations and properly defers to the fallback mechanism, improving the overall reliability of the pipeline.

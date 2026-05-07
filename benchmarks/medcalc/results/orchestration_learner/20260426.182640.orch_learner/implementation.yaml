@@ -1,4 +1,0 @@
-calculate_medical_value:
-  method: direct
-  fn: __learned__.calculate_medical_value_orchestrated_seed
-  learner: orch_learner

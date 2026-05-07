@@ -4,7 +4,7 @@
 # Each benchmark uses the same seed, same n, same split across all strategies.
 
 set -e
-cd /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent
+cd "$(dirname "$0")/.."
 source .env
 
 MODEL="gemini/gemini-3.1-flash-lite-preview"

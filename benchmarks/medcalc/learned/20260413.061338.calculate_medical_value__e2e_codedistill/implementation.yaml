@@ -1,4 +1,0 @@
-calculate_medical_value:
-  backoff: 'true'
-  learner: e2e_codedistill
-  method: learned_code

@@ -1,9 +1,0 @@
-Pipeline accuracy: 59.1%, avg cost: $0.0012/case, 110 cases
-
-Per-ptool breakdown:
-  calculate_medical_value: cost_frac=100.0%, calls/case=1.0, avg_cost=$0.0012, lift=N/A, errors=0
-
-Ptools called via LLM: ['calculate_medical_value']
-
-Held-out eval accuracy: 60.9% (train: 59.1%)
-A large train-eval gap means your changes are OVERFITTING. Prefer changes that generalize to unseen cases.

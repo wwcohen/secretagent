@@ -1,6 +1,0 @@
-1. **Specific failure pattern:** The LLM hallucinates the wrong mathematical formula for "QTc Rautaharju" (likely implicitly defaulting to Bazett's) and uses the "Albumin Corrected" variant of Delta Ratio when the standard uncorrected "Delta Ratio" is requested (because only the Albumin Corrected formula is currently listed in the prompt instructions).
-2. **Failure count:** 4 cases fail on QTc Rautaharju, and 2 cases fail on Delta Ratio. This represents 6 out of the 22 remaining failures (~27% of the total failures).
-3. **Minimal change:** I will append two explicitly defined formulas to the `CRITICAL FORMULAS AND RULES` section in the docstring for `calculate_medical_value`:
-    - `13. QTc Rautaharju Calculator: Formula is QT * (HR + 120) / 180. Do not use Bazett's formula.`
-    - `14. Delta Ratio (uncorrected): Anion Gap = Na - Cl - HCO3. Delta Ratio = (Anion Gap - 12) / (24 - HCO3). Do not apply Albumin correction unless explicitly requested.`
-4. **Why it won't break working cases:** It isolates the correction to just these two specific clinical calculators by name, ensuring other medical logic paths are untouched. It directly addresses the exact mathematical cause of failure for these 6 cases without altering any existing, brittle rules (like Cockcroft-Gault or MELD-Na) which caused unintended regressions in Iteration 2.

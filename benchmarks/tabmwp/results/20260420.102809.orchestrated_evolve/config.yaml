@@ -9,12 +9,12 @@ orchestrate:
     stratify_key: ques_type
     train_n: 100
 cachier:
-  cache_dir: /Users/lauhityareddy/secretagent/benchmarks/tabmwp/llm_cache
+  cache_dir: benchmarks/tabmwp/llm_cache
 echo:
   orchestrate: true
 evaluate:
   expt_name: orchestrated_evolve
-  result_dir: /Users/lauhityareddy/secretagent/benchmarks/tabmwp/results
+  result_dir: benchmarks/tabmwp/results
   record_details: true
   max_workers: 6
 dataset:

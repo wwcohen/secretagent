@@ -4,11 +4,11 @@ orchestrate:
   model: gemini/gemini-3.1-pro-preview
   max_retries: 3
 cachier:
-  cache_dir: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/musr/llm_cache
+  cache_dir: benchmarks/musr/llm_cache
   enable_caching: true
 evaluate:
   expt_name: rc_iter2_eval
-  result_dir: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/musr/results/orchestration_learner
+  result_dir: benchmarks/musr/results/orchestration_learner
   entry_point: answer_question
   max_workers: 1
   record_details: false
@@ -38,4 +38,4 @@ ptools:
 
       '
     fn: ptools_team_induced_seed.answer_question_orchestrated_seed
-root: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/musr
+root: benchmarks/musr

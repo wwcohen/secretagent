@@ -1,8 +1,0 @@
-An analysis of the previous rollbacks and failure cases reveals that changing the Python signature of `compute_answer` (e.g., adding a `question` argument) breaks the evaluation framework's positional calling expectations. 
-
-However, we can achieve the **exact same contextual capability safely** by slightly adjusting the prompting instructions for the pipeline's tools. Since the LLM uses the `operation` string output by `identify_operation` as an input to `compute_answer`, we can encourage `identify_operation` to act as a **descriptive plan** (e.g. outputting `"multiply price by 1/5"` or `"argmin"` instead of a simple `"sum"`). We can also instruct `extract_relevant_values` to fetch key numbers from the question itself, enabling `compute_answer` to compute the correct values without needing direct access to the question.
-
-### Targeted Improvements
-1. **`identify_operation`**: Encouraged to return a short descriptive phrase instead of a single word, injecting the necessary question intent (e.g. `"argmin"`, `"check if budget is enough"`, `"probability (target is X)"`) so `compute_answer` knows exactly what to do.
-2. **`extract_relevant_values`**: Explicitly instructed to extract necessary quantities/budgets from the *question* (e.g. `"1/5"`, `"4"`, `"$306"`) and to pull BOTH labels and values for "argmin/argmax" questions. It is also told to properly handle stem-and-leaf plot digits and shortage/surplus extractions.
-3. **`compute_answer`**: Provided explicit rules for handling descriptive operations like `argmin/argmax` (returning labels, not values), `multiply` (calculating exact fraction/price combinations), and comparisons (budgeting and shortage vs. surplus).

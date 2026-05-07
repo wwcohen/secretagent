@@ -2,9 +2,9 @@ llm:
   model: together_ai/deepseek-ai/DeepSeek-V3.1
   max_tokens: 8192
 cachier:
-  cache_dir: /home/rafacabrera7/DesktopUbuntu/secretagent/benchmarks/rulearena/tax/llm_cache
+  cache_dir: benchmarks/rulearena/tax/llm_cache
 evaluate:
-  result_dir: /home/rafacabrera7/DesktopUbuntu/secretagent/benchmarks/rulearena/tax/results
+  result_dir: benchmarks/rulearena/tax/results
   expt_name: simplified_unstructured_baseline
 dataset:
   split: test
@@ -20,6 +20,6 @@ ptools:
     fn: ptools.unstructured_workflow
   zeroshot_tax:
     method: prompt_llm
-    prompt_template_file: /home/rafacabrera7/DesktopUbuntu/secretagent/benchmarks/rulearena/tax/prompt_templates/simplified_unstructured.txt
+    prompt_template_file: benchmarks/rulearena/tax/prompt_templates/simplified_unstructured.txt
     answer_pattern: null
-root: /home/rafacabrera7/DesktopUbuntu/secretagent/benchmarks/rulearena/tax
+root: benchmarks/rulearena/tax

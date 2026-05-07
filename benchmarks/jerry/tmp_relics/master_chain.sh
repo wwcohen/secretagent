@@ -10,7 +10,7 @@
 # Each phase output goes into a clearly named dir; logs in benchmarks/*_logs/.
 
 set +e
-ROOT="/Users/yanjiarui/Desktop/Will_research/secretagent"
+ROOT="/Users/anon/Desktop/anon_research/secretagent"
 LOG="$ROOT/benchmarks/master_chain.log"
 exec >> "$LOG" 2>&1
 echo "============================================================"

@@ -1,7 +1,0 @@
-{
-  "reproduce_cmd": "uv run python expt.py run --config-file conf/meeting.yaml dataset.n=100 dataset.partition=test evaluate.result_dir=results-test evaluate.expt_name=structured_baseline ptools.meeting_planning.method=simulate",
-  "accuracy": 0.26,
-  "total_cost_usd": 0.113399,
-  "total_time_sec": 864.68,
-  "n_samples": 100
-}

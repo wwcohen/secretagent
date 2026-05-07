@@ -1,6 +1,6 @@
 """Auto-generated workflow-distilled implementation for answer_question.
 
-Tools from /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/musr/learned_class3/20260428.104811.answer_question__ptool_inducer/learned_ptools.py are inlined below.
+Tools from benchmarks/musr/learned_class3/20260428.104811.answer_question__ptool_inducer/learned_ptools.py are inlined below.
 """
 
 """Induced ptools for answer_question."""

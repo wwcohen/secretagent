@@ -1,10 +1,10 @@
 llm:
   model: together_ai/deepseek-ai/DeepSeek-V3.1
 cachier:
-  cache_dir: /home/rafacabrera7/DesktopUbuntu/secretagent/benchmarks/tabmwp/llm_cache
+  cache_dir: benchmarks/tabmwp/llm_cache
 evaluate:
   expt_name: react
-  result_dir: /home/rafacabrera7/DesktopUbuntu/secretagent/benchmarks/tabmwp/results
+  result_dir: benchmarks/tabmwp/results
   record_details: true
   entry_point: tabmwp_react
 dataset:
@@ -40,4 +40,4 @@ ptools:
     - ptools.query_table
   tabmwp_react:
     method: direct
-root: /home/rafacabrera7/DesktopUbuntu/secretagent/benchmarks/tabmwp
+root: benchmarks/tabmwp

@@ -2,11 +2,11 @@ llm:
   model: together_ai/deepseek-ai/DeepSeek-V3.1
   thinking: true
 cachier:
-  cache_dir: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/musr/llm_cache
+  cache_dir: benchmarks/musr/llm_cache
   enable_caching: false
 evaluate:
   expt_name: musr_object_induced_seed_ptools_deepseek_v3_1
-  result_dir: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/musr/test_results_full
+  result_dir: benchmarks/musr/test_results_full
   entry_point: answer_question_workflow
   record_details: true
   max_workers: 1
@@ -28,5 +28,5 @@ ptools:
     fn: __learned__.answer_question_workflow_orchestrated_seed
     learner: orch_learner
 learn:
-  train_dir: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/COMMON/orchestrator-results/_train_dirs/induced_seed_from_ptools/musr_object
-root: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/musr
+  train_dir: benchmarks/COMMON/orchestrator-results/_train_dirs/induced_seed_from_ptools/musr_object
+root: benchmarks/musr

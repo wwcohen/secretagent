@@ -3,7 +3,7 @@
 # raw data files are not in Dataset-model JSON format.
 # Then re-run Class 2 val + Class 3 val correctly (induced ptools as simulate, not learned_code).
 set +e
-ROOT="/Users/yanjiarui/Desktop/Will_research/secretagent"
+ROOT="/Users/anon/Desktop/anon_research/secretagent"
 LOG_DIR="$ROOT/benchmarks/codedistill_logs_v2"
 mkdir -p "$LOG_DIR"
 set -a; source "$ROOT/.env"; set +a

@@ -7,7 +7,7 @@
 #   D: class 3 codedistill-induced-ptools 4-stage on react train
 #   E: val for each class
 set +e
-ROOT="/Users/yanjiarui/Desktop/Will_research/secretagent"
+ROOT="/Users/anon/Desktop/anon_research/secretagent"
 MUSR="$ROOT/benchmarks/musr"
 LOG_DIR="$ROOT/benchmarks/codedistill_logs_v2"
 mkdir -p "$LOG_DIR"

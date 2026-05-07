@@ -1,11 +1,11 @@
 llm:
   model: together_ai/deepseek-ai/DeepSeek-V3
 cachier:
-  cache_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/musr/llm_cache
+  cache_dir: benchmarks/musr/llm_cache
   enable_caching: false
 evaluate:
   expt_name: musr_murder_val_full_class3_gemini
-  result_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/musr/val_results_full
+  result_dir: benchmarks/musr/val_results_full
   entry_point: answer_question_workflow
   record_details: true
 dataset:
@@ -30,5 +30,5 @@ ptools:
     learner: workflow_distill
     backoff: true
 learn:
-  train_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/COMMON/codedistill-workflow-results/musr/learned_class3_gemini_murder
-root: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/musr
+  train_dir: benchmarks/COMMON/codedistill-workflow-results/musr/learned_class3_gemini_murder
+root: benchmarks/musr

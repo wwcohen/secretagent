@@ -72,4 +72,4 @@ FINAL REWARD: 1.0
 
   >>> reward=1.0, steps=4
 
-Traces saved to /home/rafacabrera7/DesktopUbuntu/secretagent/benchmarks/tau_bench_retail/traces/ptp.md
+Traces saved to benchmarks/tau_bench_retail/traces/ptp.md

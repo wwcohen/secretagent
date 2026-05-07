@@ -1,9 +1,0 @@
-CONCLUSION: Added a deterministic `calculators.calculate` fast-path strictly scoped to date/gestational calculators, and injected targeted temporal constraints ("baseline/initial values from the time of admission, BEFORE any treatment") into the LLM extraction prompts.
-
-Initial logic and parameters are validated. The train-eval gap and specific errors stem from the LLM's fundamental inability to perform date arithmetic and a tendency to extract post-treatment labs or over-infer acute presentations as chronic history. 
-
-Leaping to final transformations:
-1.  **Date/Gestational Fast-Path**: Inserted a Stage 1.5 bypass in `workflow` using `calc_name.lower()`. If `'date'`, `'conception'`, or `'gestational'` is present, it routes directly to the Python regex engine (`from calculators import calculate`). This entirely bypasses the LLM for arithmetic it cannot reliably execute, resolving `Estimated Due Date` and `Date of Conception` failures deterministically without risking the broader extraction pipeline.
-2.  **Prompt Constraints**: 
-    *   `analyze_scoring_conditions`: Added constraints to evaluate status only at initial admission, differentiate chronic history from acute presentation, and actively scan Family History.
-    *   `extract_calculator_values`: Added constraints to strictly extract baseline/initial values before interventions and logically verify parameter matching (e.g., not extracting head circumference as weight).

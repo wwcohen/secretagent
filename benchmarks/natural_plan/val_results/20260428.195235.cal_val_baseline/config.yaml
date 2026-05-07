@@ -2,9 +2,9 @@ llm:
   model: together_ai/deepseek-ai/DeepSeek-V3.1
   timeout: 180
 cachier:
-  cache_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/natural_plan/llm_cache
+  cache_dir: benchmarks/natural_plan/llm_cache
 evaluate:
-  result_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/natural_plan/val_results
+  result_dir: benchmarks/natural_plan/val_results
   expt_name: cal_val_baseline
   entry_point: calendar_scheduling
   prompt_trace: true

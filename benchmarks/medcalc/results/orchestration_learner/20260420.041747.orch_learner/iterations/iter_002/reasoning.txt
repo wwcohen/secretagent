@@ -1,8 +1,0 @@
-1. What SPECIFIC failure pattern did you identify?
-Scoring calculators (like CHA2DS2-VASc, APACHE II, Centor) occasionally misinterpret the absence of a condition or over-infer points, leading to slight off-by-one errors in risk scores.
-2. How many of the shown failures share this pattern?
-Several scoring cases (CHA2DS2-VASc, Centor, PERC, Wells, GBS) show 1-2 point absolute errors due to hallucinated or overly aggressive condition inference.
-3. What is the MINIMAL change that fixes this pattern?
-Add a strong negative constraint to the `analyze_scoring_conditions` docstring to explicitly state: "DO NOT assume conditions are present unless explicitly mentioned or strongly implied. If uncertain, mark as absent."
-4. Why will this change NOT break currently working cases?
-It only applies to the reasoning stage for scoring calculators and acts as a conservative regularizer against hallucination. It does not touch Python logic or alter extraction rules for labs/measurements.

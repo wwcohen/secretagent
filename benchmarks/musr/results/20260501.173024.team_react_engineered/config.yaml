@@ -1,11 +1,11 @@
 llm:
   model: together_ai/deepseek-ai/DeepSeek-V3.1
 cachier:
-  cache_dir: /Users/lexl/Research_group/secretagent/benchmarks/musr/llm_cache
+  cache_dir: benchmarks/musr/llm_cache
   enable_caching: false
 evaluate:
   expt_name: team_react_engineered
-  result_dir: /Users/lexl/Research_group/secretagent/benchmarks/musr/results
+  result_dir: benchmarks/musr/results
   entry_point: answer_question
 dataset:
   split: team_allocation_test
@@ -23,4 +23,4 @@ ptools:
   answer_question:
     method: direct
     fn: ptools_common.react_engineered_answer_impl
-root: /Users/lexl/Research_group/secretagent/benchmarks/musr
+root: benchmarks/musr

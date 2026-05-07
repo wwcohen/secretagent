@@ -1,11 +1,11 @@
 llm:
   model: together_ai/deepseek-ai/DeepSeek-V3
 cachier:
-  cache_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/musr/llm_cache
+  cache_dir: benchmarks/musr/llm_cache
   enable_caching: false
 evaluate:
   expt_name: musr_object_react_train_full
-  result_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/musr/recordings_full
+  result_dir: benchmarks/musr/recordings_full
   entry_point: answer_question
   record_details: true
 dataset:
@@ -22,4 +22,4 @@ ptools:
   answer_question:
     method: direct
     fn: ptools_common.react_answer_impl
-root: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/musr
+root: benchmarks/musr

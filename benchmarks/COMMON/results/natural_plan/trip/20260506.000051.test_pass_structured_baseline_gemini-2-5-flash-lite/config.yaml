@@ -2,9 +2,9 @@ llm:
   model: gemini/gemini-2.5-flash-lite
   timeout: 180
 cachier:
-  cache_dir: /Users/arthurkajiyama/Documents/CMU/Research/secret_agents/secretagent/benchmarks/natural_plan/llm_cache
+  cache_dir: benchmarks/natural_plan/llm_cache
 evaluate:
-  result_dir: /Users/arthurkajiyama/Documents/CMU/Research/secret_agents/secretagent/benchmarks/natural_plan/results
+  result_dir: benchmarks/natural_plan/results
   expt_name: test_pass_structured_baseline_gemini-2-5-flash-lite
   entry_point: trip_planning
   prompt_trace: true
@@ -26,4 +26,4 @@ ptools:
     method: simulate
   trip_planning:
     method: simulate
-root: /Users/arthurkajiyama/Documents/CMU/Research/secret_agents/secretagent/benchmarks/natural_plan
+root: benchmarks/natural_plan

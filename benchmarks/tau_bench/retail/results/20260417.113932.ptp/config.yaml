@@ -1,11 +1,11 @@
 llm:
   model: together_ai/deepseek-ai/DeepSeek-V3.1
 cachier:
-  cache_dir: /home/rafacabrera7/DesktopUbuntu/secretagent/benchmarks/tau_bench_retail/llm_cache
+  cache_dir: benchmarks/tau_bench_retail/llm_cache
   enable_caching: false
 evaluate:
   expt_name: ptp
-  result_dir: /home/rafacabrera7/DesktopUbuntu/secretagent/benchmarks/tau_bench_retail/results
+  result_dir: benchmarks/tau_bench_retail/results
   record_details: true
   max_turns: 15
 dataset:
@@ -69,7 +69,7 @@ ptools:
     fn: ptools.ptp_agent_turn
   user_simulator:
     method: prompt_llm
-    prompt_template_file: /home/rafacabrera7/DesktopUbuntu/secretagent/benchmarks/tau_bench_retail/prompt_templates/user_simulator.txt
+    prompt_template_file: benchmarks/tau_bench_retail/prompt_templates/user_simulator.txt
     answer_pattern: null
     model: gpt-5.2
   tau_solve:

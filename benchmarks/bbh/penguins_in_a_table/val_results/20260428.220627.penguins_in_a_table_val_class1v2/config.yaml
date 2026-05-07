@@ -1,9 +1,9 @@
 llm:
   model: together_ai/deepseek-ai/DeepSeek-V3.1
 cachier:
-  cache_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/bbh/penguins_in_a_table/llm_cache
+  cache_dir: benchmarks/bbh/penguins_in_a_table/llm_cache
 evaluate:
-  result_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/bbh/penguins_in_a_table/val_results
+  result_dir: benchmarks/bbh/penguins_in_a_table/val_results
   expt_name: penguins_in_a_table_val_class1v2
 dataset:
   split: valid
@@ -26,4 +26,4 @@ ptools:
     method: direct
     fn: ptools.penguins_workflow
 learn:
-  train_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/bbh/penguins_in_a_table/learned_v2
+  train_dir: benchmarks/bbh/penguins_in_a_table/learned_v2

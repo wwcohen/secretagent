@@ -1,6 +1,0 @@
-1. **Specific failure pattern:** For calculators involving daily dosages (like Morphine Milligram Equivalents / MME), the LLM extracts the single dose (e.g., 40mg) but fails to multiply it by the daily frequency (e.g., "2 times a day"), leading to severe underestimations. Also, `analyze_scoring_conditions` occasionally fails with an `unterminated string literal` syntax error because the LLM generates malformed dictionary strings.
-2. **How many failures share this:** At least 1 clear MME failure due to frequency, and 1 complete crash (Centor Score) due to the string literal exception.
-3. **Minimal change:**
-   - Add a specific instruction to `extract_calculator_values`: `- For daily dosages, multiply the dose by the frequency per day (e.g., "10 mg 3 times a day" = 30).`
-   - Explicitly instruct `analyze_scoring_conditions` to return a `STRICTLY VALID JSON dictionary` to reduce syntax errors.
-4. **Why it won't break working cases:** The dosage instruction only applies when extracting dosages with frequencies, which are currently being extracted incorrectly as single doses. The JSON instruction is a standard prompt engineering fix that acts as a regularizer without altering clinical logic.

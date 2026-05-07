@@ -1,9 +1,0 @@
-Pipeline accuracy: 28.6%, avg cost: $0.0039/case, 42 cases
-
-Per-ptool breakdown:
-  extract_airline_params: cost_frac=100.0%, calls/case=1.0, avg_cost=$0.0039, lift=N/A, errors=0
-
-Ptools called via LLM: ['extract_airline_params']
-
-Held-out eval accuracy: 16.7% (train: 28.6%)
-A large train-eval gap means your changes are OVERFITTING. Prefer changes that generalize to unseen cases.

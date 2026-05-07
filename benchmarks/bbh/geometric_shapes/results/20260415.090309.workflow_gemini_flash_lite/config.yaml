@@ -1,9 +1,9 @@
 llm:
   model: gemini/gemini-3.1-flash-lite-preview
 cachier:
-  cache_dir: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/bbh/geometric_shapes/llm_cache
+  cache_dir: benchmarks/bbh/geometric_shapes/llm_cache
 evaluate:
-  result_dir: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/bbh/geometric_shapes/results
+  result_dir: benchmarks/bbh/geometric_shapes/results
   expt_name: workflow_gemini_flash_lite
   max_workers: 4
 dataset:

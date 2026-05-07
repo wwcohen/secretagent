@@ -4,9 +4,6 @@ PTP shows execution traces of a workflow as in-context examples,
 using variable names instead of full values for long inputs.
 This is much more compact than full I/O examples.
 
-Reference: "Watch Your Steps: Observable and Modular Chains of Thought"
-(Cohen et al., arXiv:2409.15359)
-
 Usage::
 
     from secretagent.learn.traces import extract_ptp_traces

@@ -1,9 +1,9 @@
 llm:
   model: together_ai/deepseek-ai/DeepSeek-V3.1
 cachier:
-  cache_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/finqa/llm_cache
+  cache_dir: benchmarks/finqa/llm_cache
 evaluate:
-  result_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/finqa/val_results
+  result_dir: benchmarks/finqa/val_results
   expt_name: finqa_val_class1v2
 dataset:
   split: valid
@@ -25,4 +25,4 @@ ptools:
 learned_v2/codedistill_config:
   yaml: null
 learn:
-  train_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/finqa/learned_v2
+  train_dir: benchmarks/finqa/learned_v2

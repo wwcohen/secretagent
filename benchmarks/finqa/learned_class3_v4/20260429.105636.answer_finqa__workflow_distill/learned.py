@@ -1,6 +1,6 @@
 """Auto-generated workflow-distilled implementation for answer_finqa.
 
-Tools from /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/finqa/learned_class3_v3/20260428.234731.answer_finqa__ptool_inducer/learned_ptools.py are inlined below.
+Tools from benchmarks/finqa/learned_class3_v3/20260428.234731.answer_finqa__ptool_inducer/learned_ptools.py are inlined below.
 """
 
 """Induced ptools for answer_finqa."""

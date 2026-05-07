@@ -5,13 +5,13 @@ orchestrate:
   model: together_ai/Qwen/Qwen3.5-9B
   max_retries: 3
 cachier:
-  cache_dir: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/.claude/worktrees/migration-orchestrator/benchmarks/musr/llm_cache
+  cache_dir: benchmarks/musr/llm_cache
   enable_caching: false
 echo:
   orchestrate: true
 evaluate:
   expt_name: murder_orchestrated_64k
-  result_dir: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/.claude/worktrees/migration-orchestrator/benchmarks/musr/results
+  result_dir: benchmarks/musr/results
   entry_point: answer_question_workflow
 dataset:
   split: murder_mysteries

@@ -1,4 +1,0 @@
-identify_shape:
-  method: direct
-  fn: __learned__.geometric_shapes_workflow
-  learner: orch_learner

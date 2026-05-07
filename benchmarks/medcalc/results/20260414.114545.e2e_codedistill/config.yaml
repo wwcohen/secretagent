@@ -2,10 +2,10 @@ llm:
   model: together_ai/Qwen/Qwen3.5-9B
   max_tokens: 16384
 cachier:
-  cache_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/medcalc/llm_cache
+  cache_dir: benchmarks/medcalc/llm_cache
   enable_caching: true
 evaluate:
-  result_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/medcalc/results
+  result_dir: benchmarks/medcalc/results
   expt_name: e2e_codedistill
   entry_point: calculate_medical_value
 dataset:
@@ -16,9 +16,9 @@ dataset:
 ptools:
   calculate_medical_value:
     method: learned_code
-    prompt_template_file: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/medcalc/prompt_templates/baseline.txt
+    prompt_template_file: benchmarks/medcalc/prompt_templates/baseline.txt
     answer_pattern: (?:ANSWER|answer|Answer)[:\s]*([-\d.eE+]+)
     learner: e2e_codedistill
     backoff: false
 learn:
-  train_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/medcalc/learned
+  train_dir: benchmarks/medcalc/learned

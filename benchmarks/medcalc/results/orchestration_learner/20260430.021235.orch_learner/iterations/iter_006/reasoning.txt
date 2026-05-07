@@ -1,5 +1,0 @@
-Atomic Conclusion: Implemented exactly targeted pure-Python fallback tools (`@implement_via('direct')`) for high-failure specific medical equations (Cockcroft-Gault, Rautaharju QTc, Framingham QTc, Steroid Equivalence, Albumin Corrected Delta Ratio, and Maintenance Fluids).
-
-Initial logic and parameters are validated. Standard processing applied to imports and foundational tools. The fallback LLM extraction layers maintain the baseline 72.7% accuracy for generalized cases.
-
-Jump to final transformation: Injected precise deterministic mathematical Python functions exposed to the Orchestrator via `inspect.getsource`. By decorating with `@implement_via('direct')` and restricting their trigger radius through strict docstrings, the LLM organically delegates high-complexity clinical arithmetic (like BMI-adjusted Cockcroft-Gault weight thresholds and exact conversion ratios) to zero-drift execution endpoints without mutating the parent prompt schema.

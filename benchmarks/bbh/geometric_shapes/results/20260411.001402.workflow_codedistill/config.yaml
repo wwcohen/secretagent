@@ -1,9 +1,9 @@
 llm:
   model: claude-haiku-4-5-20251001
 cachier:
-  cache_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/bbh/geometric_shapes/llm_cache
+  cache_dir: benchmarks/bbh/geometric_shapes/llm_cache
 evaluate:
-  result_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/bbh/geometric_shapes/results
+  result_dir: benchmarks/bbh/geometric_shapes/results
   expt_name: workflow_codedistill
 dataset:
   split: valid
@@ -33,4 +33,4 @@ ptools:
     method: direct
     fn: ptools.geometric_shapes_workflow
 learn:
-  train_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/bbh/geometric_shapes/learned
+  train_dir: benchmarks/bbh/geometric_shapes/learned

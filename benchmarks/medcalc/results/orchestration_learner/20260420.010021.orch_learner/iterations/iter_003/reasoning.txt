@@ -1,8 +1,0 @@
-1. What SPECIFIC failure pattern did you identify?
-When extracting numeric values, the LLM sometimes includes the `%` symbol (e.g., "50%"), which causes `float()` conversion to fail in `_validate_extracted_values`. This results in the value remaining a string, potentially causing validation or downstream calculation failures and triggering the LLM fallback.
-2. How many of the shown failures share this pattern?
-Several failures involving percentages or fractional values can suffer from formatting mismatches (similar to the comma issue fixed in Iter 2).
-3. What is the MINIMAL change that fixes this pattern?
-In `_validate_extracted_values`, chain `.replace('%', '')` along with `.replace(',', '')` before casting to `float()`.
-4. Why will this change NOT break currently working cases?
-It only affects strings that contain a `%` sign that are destined to be parsed as floats, making the extraction pipeline slightly more robust to LLM formatting quirks without altering any prompts or core logic.

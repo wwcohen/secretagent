@@ -1,10 +1,10 @@
 llm:
   model: gemini/gemini-3.1-flash-lite-preview
 cachier:
-  cache_dir: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/bbh/penguins_in_a_table/llm_cache
+  cache_dir: benchmarks/bbh/penguins_in_a_table/llm_cache
   enable_caching: true
 evaluate:
-  result_dir: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/bbh/penguins_in_a_table/results/orchestration_learner
+  result_dir: benchmarks/bbh/penguins_in_a_table/results/orchestration_learner
   expt_name: rc_iter2_eval
   max_workers: 1
   entry_point: answer_penguin_question
@@ -26,4 +26,4 @@ ptools:
     fn: ptools.answer_penguin_question_orchestrated_seed
 orchestrate:
   model: gemini/gemini-3.1-pro-preview
-root: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/bbh/penguins_in_a_table
+root: benchmarks/bbh/penguins_in_a_table

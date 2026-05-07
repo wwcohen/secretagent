@@ -4,11 +4,11 @@ llm:
 pydantic:
   request_limit: 200
 cachier:
-  cache_dir: /Users/lexl/reasoning_primitives/benchmarks/rulearena/llm_cache
+  cache_dir: /Users/anon/reasoning_primitives/benchmarks/rulearena/llm_cache
   enable_caching: true
 evaluate:
   expt_name: nba_induced_enh_test_full_seed42
-  result_dir: /Users/lexl/reasoning_primitives/benchmarks/rulearena/results
+  result_dir: /Users/anon/reasoning_primitives/benchmarks/rulearena/results
   record_details: true
 dataset:
   domain: nba

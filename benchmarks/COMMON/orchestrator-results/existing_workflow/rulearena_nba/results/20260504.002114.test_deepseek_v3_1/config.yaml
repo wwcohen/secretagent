@@ -2,10 +2,10 @@ llm:
   model: together_ai/deepseek-ai/DeepSeek-V3.1
   max_tokens: 8192
 cachier:
-  cache_dir: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/rulearena/llm_cache
+  cache_dir: benchmarks/rulearena/llm_cache
   enable_caching: true
 evaluate:
-  result_dir: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/COMMON/orchestrator-results/existing_workflow/rulearena_nba
+  result_dir: benchmarks/COMMON/orchestrator-results/existing_workflow/rulearena_nba
   expt_name: test_deepseek_v3_1
   entry_point: compute_rulearena_answer
   record_details: true
@@ -34,5 +34,5 @@ ptools:
     fn: __learned__.l1_extract_workflow
     learner: orch_learner
 learn:
-  train_dir: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/COMMON/orchestrator-results/_train_dirs/existing_workflow/rulearena_nba
-root: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/rulearena
+  train_dir: benchmarks/COMMON/orchestrator-results/_train_dirs/existing_workflow/rulearena_nba
+root: benchmarks/rulearena

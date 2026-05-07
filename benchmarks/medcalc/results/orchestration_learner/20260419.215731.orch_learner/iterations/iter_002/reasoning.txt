@@ -1,8 +1,0 @@
-1. What SPECIFIC failure pattern did you identify?
-Many scoring calculators fail because boolean conditions are extracted as "None", "N/A", or "unknown" instead of explicit `True` or `False`. When these get parsed, they cause missing value cascades or validation errors, falling back to the less structured reasoning pathway.
-2. How many of the shown failures share this pattern?
-Several scoring calculators (CHA2DS2-VASc, Wells, Caprini, APACHE II, SOFA) have optional/required boolean fields that suffer from this type of ambiguous extraction.
-3. What is the MINIMAL change that fixes this pattern?
-In `_extract_values_two_stage`, explicitly instruct the LLM to use `False` for boolean conditions when they are absent or not mentioned, and explicitly forbid returning "None", "N/A", or "unknown" for boolean fields.
-4. Why will this change NOT break currently working cases?
-This is a pure clarification of how boolean fields should be formatted. It doesn't change the workflow logic, unit conversions, or trigger conditions for any tools. It just ensures the JSON returned by the LLM contains actual boolean values for conditions rather than ambiguous strings.

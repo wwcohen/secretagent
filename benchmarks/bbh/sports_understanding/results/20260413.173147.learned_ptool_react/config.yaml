@@ -1,9 +1,9 @@
 llm:
   model: together_ai/deepseek-ai/DeepSeek-V3.1
 cachier:
-  cache_dir: /Users/wcohen/Documents/code/secretagent/benchmarks/bbh/sports_understanding/llm_cache
+  cache_dir: benchmarks/bbh/sports_understanding/llm_cache
 evaluate:
-  result_dir: /Users/wcohen/Documents/code/secretagent/benchmarks/bbh/sports_understanding/results
+  result_dir: benchmarks/bbh/sports_understanding/results
   expt_name: learned_ptool_react
 dataset:
   split: valid
@@ -22,4 +22,4 @@ ptools:
     learner: ptool_editer
     tools: __all__
 learn:
-  train_dir: /Users/wcohen/Documents/code/secretagent/benchmarks/bbh/sports_understanding/learned
+  train_dir: benchmarks/bbh/sports_understanding/learned

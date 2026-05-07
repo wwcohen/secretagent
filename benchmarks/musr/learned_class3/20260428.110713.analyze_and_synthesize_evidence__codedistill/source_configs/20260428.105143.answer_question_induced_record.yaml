@@ -1,10 +1,10 @@
 llm:
   model: claude-haiku-4-5-20251001
 cachier:
-  cache_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/musr/llm_cache
+  cache_dir: benchmarks/musr/llm_cache
 evaluate:
   expt_name: answer_question_induced_record
-  result_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/musr/learned_class3/induced_recordings
+  result_dir: benchmarks/musr/learned_class3/induced_recordings
   entry_point: answer_question
   record_details: true
 dataset:
@@ -35,4 +35,4 @@ ptools:
   answer_question_workflow:
     method: direct
 learn:
-  train_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/musr/learned_class3
+  train_dir: benchmarks/musr/learned_class3

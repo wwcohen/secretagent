@@ -4,10 +4,10 @@ llm:
   thinking: true
   reasoning_effort: high
 cachier:
-  cache_dir: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/medcalc/llm_cache
+  cache_dir: benchmarks/medcalc/llm_cache
   enable_caching: true
 evaluate:
-  result_dir: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/medcalc/results
+  result_dir: benchmarks/medcalc/results
   expt_name: gemini_thinking_v4
   entry_point: calculate_medical_value
   record_details: true
@@ -32,4 +32,4 @@ ptools:
     - ptools.compute_calculation
 simulate_pydantic:
   template: simulate_pydantic_thinking.txt
-root: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/medcalc
+root: benchmarks/medcalc

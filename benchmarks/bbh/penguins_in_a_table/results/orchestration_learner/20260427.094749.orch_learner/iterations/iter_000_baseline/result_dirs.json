@@ -1,4 +1,4 @@
 {
-  "train_result_dir": "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/bbh/penguins_in_a_table/results/orchestration_learner/20260427.094752.rc_iter0",
-  "eval_result_dir": "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/bbh/penguins_in_a_table/results/orchestration_learner/20260427.094803.rc_iter0_eval"
+  "train_result_dir": "benchmarks/bbh/penguins_in_a_table/results/orchestration_learner/20260427.094752.rc_iter0",
+  "eval_result_dir": "benchmarks/bbh/penguins_in_a_table/results/orchestration_learner/20260427.094803.rc_iter0_eval"
 }

@@ -1,4 +1,0 @@
-KEPT
-accuracy: 85.6% -> 85.6%
-cost: $nan -> $nan
-best so far: 85.6%

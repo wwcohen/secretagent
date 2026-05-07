@@ -1,5 +1,0 @@
-An analysis of the failures reveals two primary issues with the LLM-based logic:
-1. **Sub-optimal Scheduling:** The `plan_visit_order` LLM prompt struggles to correctly search all combinations, often dropping valid friends and producing a sub-optimal schedule compared to the expected golden path.
-2. **Hallucinated Waiting Times:** The `build_meeting_plan` LLM prompt frequently hallucinates redundant "wait until" statements when arriving *after* a friend's availability window has already started.
-
-Since the problem size is constrained (up to 10 friends to meet), we can solve this problem mathematically by parsing the prompt directly in Python and using a Depth First Search (DFS) with branch-and-bound pruning. This guarantees an optimal schedule 100% of the time, entirely bypasses LLM hallucination issues, and significantly reduces generation costs. We keep the LLM functions around and improve their docstrings to serve as a robust fallback.

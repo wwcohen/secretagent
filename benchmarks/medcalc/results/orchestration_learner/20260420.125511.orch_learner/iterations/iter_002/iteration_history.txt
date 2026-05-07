@@ -1,2 +1,0 @@
-Iter 0: train=65.5%, eval=64.8% — KEPT
-Iter 1: train=66.7%, eval=65.5% — KEPT

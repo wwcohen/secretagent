@@ -1,9 +1,9 @@
 llm:
   model: together_ai/deepseek-ai/DeepSeek-V3.1
 cachier:
-  cache_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/bbh/penguins_in_a_table/llm_cache
+  cache_dir: benchmarks/bbh/penguins_in_a_table/llm_cache
 evaluate:
-  result_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/bbh/penguins_in_a_table/recordings_full
+  result_dir: benchmarks/bbh/penguins_in_a_table/recordings_full
   expt_name: bbh_penguins_in_a_table_valid_train_full
   record_details: true
 dataset:
@@ -22,4 +22,4 @@ ptools:
   answer_penguin_question:
     method: direct
     fn: ptools.penguins_workflow
-root: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/bbh/penguins_in_a_table
+root: benchmarks/bbh/penguins_in_a_table

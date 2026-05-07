@@ -1,9 +1,9 @@
 llm:
   model: Qwen/Qwen3.5-9B
 cachier:
-  cache_dir: /Users/goku/Work/Spring_26/IS/secretagent/benchmarks/designbench/llm_cache
+  cache_dir: benchmarks/designbench/llm_cache
 evaluate:
-  result_dir: /Users/goku/Work/Spring_26/IS/secretagent/benchmarks/designbench/results
+  result_dir: benchmarks/designbench/results
   expt_name: db_vanilla_default
   entry_point: generate_code
   clip_threshold: 0.75

@@ -1,4 +1,0 @@
-case_name,predicted_output,expected_output,correct,correct_tolerance,failure_mode,input_tokens,output_tokens,latency,cost,expt_name
-airline_0_6,1281.0,1131,0.0,0.0,calculation_error,12006.0,235.0,11.78240966796875,0.0076031,workflow
-airline_1_28,2296.0,2296,1.0,1.0,none,25556.0,1068.0,52.24868440628052,0.0171492,workflow
-airline_1_10,2427.0,2682,0.0,0.0,calculation_error,12067.0,420.0,24.84049153327942,0.0079542,workflow

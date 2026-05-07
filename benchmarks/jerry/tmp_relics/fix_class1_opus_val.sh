@@ -1,7 +1,7 @@
 #!/bin/bash
 # Fix class1 opus val for BBH benchmarks — pass dotlist as array, not single string.
 set +e
-ROOT="/Users/yanjiarui/Desktop/Will_research/secretagent"
+ROOT="/Users/anon/Desktop/anon_research/secretagent"
 set -a; source "$ROOT/.env"; set +a
 
 run_bbh_class1_opus_val() {

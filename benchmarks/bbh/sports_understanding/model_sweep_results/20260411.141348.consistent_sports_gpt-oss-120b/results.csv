@@ -1,5 +1,0 @@
-case_name,predicted_output,expected_output,correct,input_tokens,output_tokens,latency,cost,expt_name
-valid.043,True,True,1.0,1166.0,404.0,7.735636949539185,0.0009555999999999999,consistent_sports_gpt-oss-120b
-valid.002,False,False,1.0,1454.0,854.0,9.651228904724121,0.0016546999999999998,consistent_sports_gpt-oss-120b
-valid.013,False,False,1.0,1458.0,587.0,5.8848347663879395,0.0012738,consistent_sports_gpt-oss-120b
-valid.006,False,False,1.0,1172.0,389.0,5.014687776565552,0.0010590999999999999,consistent_sports_gpt-oss-120b

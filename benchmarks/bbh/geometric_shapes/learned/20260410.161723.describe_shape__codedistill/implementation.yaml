@@ -1,4 +1,0 @@
-describe_shape:
-  backoff: 'true'
-  learner: codedistill
-  method: learned_code

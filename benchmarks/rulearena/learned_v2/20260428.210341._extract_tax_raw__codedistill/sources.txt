@@ -1,1 +1,1 @@
-/Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/rulearena/recordings/20260428.093646.tax_train_record
+benchmarks/rulearena/recordings/20260428.093646.tax_train_record

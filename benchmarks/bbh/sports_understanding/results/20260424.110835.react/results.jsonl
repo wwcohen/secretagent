@@ -1,8 +1,0 @@
-{"predicted_output": true, "expected_output": true, "correct": 1.0, "input_tokens": 3059.0, "output_tokens": 178.0, "latency": 11.65345311164856, "cost": 0.0021379999999999997, "case_name": "valid.043", "expt_name": "react"}
-{"predicted_output": false, "expected_output": false, "correct": 1.0, "input_tokens": 4769.0, "output_tokens": 238.0, "latency": 17.34519100189209, "cost": 0.0032660000000000002, "case_name": "valid.002", "expt_name": "react"}
-{"predicted_output": false, "expected_output": false, "correct": 1.0, "input_tokens": 5701.0, "output_tokens": 297.0, "latency": 15.594255208969116, "cost": 0.0039255, "case_name": "valid.013", "expt_name": "react"}
-{"predicted_output": false, "expected_output": false, "correct": 1.0, "input_tokens": 3101.0, "output_tokens": 246.0, "latency": 13.667539358139038, "cost": 0.0022788, "case_name": "valid.006", "expt_name": "react"}
-{"predicted_output": true, "expected_output": true, "correct": 1.0, "input_tokens": 3890.0, "output_tokens": 225.0, "latency": 13.489397048950195, "cost": 0.0027164999999999997, "case_name": "valid.048", "expt_name": "react"}
-{"predicted_output": true, "expected_output": true, "correct": 1.0, "input_tokens": 3036.0, "output_tokens": 200.0, "latency": 21.558732986450195, "cost": 0.0021615999999999996, "case_name": "valid.035", "expt_name": "react"}
-{"predicted_output": false, "expected_output": false, "correct": 1.0, "input_tokens": 2254.0, "output_tokens": 171.0, "latency": 18.59500789642334, "cost": 0.0016431, "case_name": "valid.036", "expt_name": "react"}
-{"predicted_output": false, "expected_output": false, "correct": 1.0, "input_tokens": 3112.0, "output_tokens": 210.0, "latency": 10.321054935455322, "cost": 0.0022242, "case_name": "valid.072", "expt_name": "react"}

@@ -1,9 +1,9 @@
 llm:
   model: together_ai/deepseek-ai/DeepSeek-V3.1
 cachier:
-  cache_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/bbh/date_understanding/llm_cache
+  cache_dir: benchmarks/bbh/date_understanding/llm_cache
 evaluate:
-  result_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/bbh/date_understanding/results
+  result_dir: benchmarks/bbh/date_understanding/results
   expt_name: e2e_codedistill
 dataset:
   split: valid
@@ -31,4 +31,4 @@ ptools:
   answer_date_question_orchestrated:
     method: simulate
 learn:
-  train_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/bbh/date_understanding/learned
+  train_dir: benchmarks/bbh/date_understanding/learned

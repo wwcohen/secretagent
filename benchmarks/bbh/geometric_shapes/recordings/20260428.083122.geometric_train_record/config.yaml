@@ -1,9 +1,9 @@
 llm:
   model: claude-haiku-4-5-20251001
 cachier:
-  cache_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/bbh/geometric_shapes/llm_cache
+  cache_dir: benchmarks/bbh/geometric_shapes/llm_cache
 evaluate:
-  result_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/bbh/geometric_shapes/recordings
+  result_dir: benchmarks/bbh/geometric_shapes/recordings
   expt_name: geometric_train_record
   record_details: true
 dataset:

@@ -1,11 +1,11 @@
 llm:
   model: together_ai/deepseek-ai/DeepSeek-V3
 cachier:
-  cache_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/musr/llm_cache
+  cache_dir: benchmarks/musr/llm_cache
   enable_caching: false
 evaluate:
   expt_name: object_val_full_class1_opus
-  result_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/musr/val_results_full
+  result_dir: benchmarks/musr/val_results_full
   entry_point: answer_question_workflow
   record_details: true
 dataset:
@@ -30,5 +30,5 @@ ptools:
   answer_question_workflow:
     method: direct
 learn:
-  train_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/musr/learned_opus
-root: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/musr
+  train_dir: benchmarks/musr/learned_opus
+root: benchmarks/musr

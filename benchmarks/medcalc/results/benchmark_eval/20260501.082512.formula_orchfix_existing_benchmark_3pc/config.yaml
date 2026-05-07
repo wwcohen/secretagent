@@ -6,10 +6,10 @@ llm:
 simulate_pydantic:
   template: simulate_pydantic_thinking.txt
 cachier:
-  cache_dir: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/medcalc/llm_cache
+  cache_dir: benchmarks/medcalc/llm_cache
   enable_caching: true
 evaluate:
-  result_dir: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/medcalc/results/benchmark_eval
+  result_dir: benchmarks/medcalc/results/benchmark_eval
   expt_name: equation_orchfix_existing_benchmark_3pc
   entry_point: calculate_medical_value
   record_details: false
@@ -25,4 +25,4 @@ ptools:
     method: simulate_pydantic
     tools: __all__
     tool_module: ptools_evolved
-root: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/medcalc
+root: benchmarks/medcalc

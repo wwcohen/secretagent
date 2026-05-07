@@ -1,6 +1,6 @@
 # Induction report — team (original method)
 
-- Trace: `/Users/lexl/Research_group/secretagent/benchmarks/musr/results/20260409.023902.team_react_train/results.jsonl`
+- Trace: `benchmarks/musr/results/20260409.023902.team_react_train/results.jsonl`
 - Model: `together_ai/deepseek-ai/DeepSeek-V3`
 - Thoughts: 452 loaded, 451 labeled
 - Unique categories: 11

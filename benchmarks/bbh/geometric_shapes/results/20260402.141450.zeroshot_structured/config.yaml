@@ -1,9 +1,9 @@
 llm:
   model: claude-haiku-4-5-20251001
 cachier:
-  cache_dir: /Users/wcohen/Documents/code/secretagent/benchmarks/bbh/geometric_shapes/llm_cache
+  cache_dir: benchmarks/bbh/geometric_shapes/llm_cache
 evaluate:
-  result_dir: /Users/wcohen/Documents/code/secretagent/benchmarks/bbh/geometric_shapes/results
+  result_dir: benchmarks/bbh/geometric_shapes/results
   expt_name: zeroshot_structured
 dataset:
   split: valid

@@ -1,4 +1,0 @@
-{"predicted_output": true, "expected_output": true, "correct": 1.0, "input_tokens": 1155.0, "output_tokens": 48.0, "latency": 3.0002479553222656, "cost": 0.00043919999999999994, "case_name": "valid.043", "expt_name": "sport_for_gemma-3n-E4B-it"}
-{"predicted_output": false, "expected_output": false, "correct": 1.0, "input_tokens": 1466.0, "output_tokens": 64.0, "latency": 3.226090908050537, "cost": 0.00048239999999999996, "case_name": "valid.002", "expt_name": "sport_for_gemma-3n-E4B-it"}
-{"predicted_output": false, "expected_output": false, "correct": 1.0, "input_tokens": 1471.0, "output_tokens": 68.0, "latency": 2.8661956787109375, "cost": 0.0004864, "case_name": "valid.013", "expt_name": "sport_for_gemma-3n-E4B-it"}
-{"predicted_output": false, "expected_output": false, "correct": 1.0, "input_tokens": 1161.0, "output_tokens": 51.0, "latency": 7.308283805847168, "cost": 0.0004464, "case_name": "valid.006", "expt_name": "sport_for_gemma-3n-E4B-it"}

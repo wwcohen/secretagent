@@ -1,11 +1,11 @@
 llm:
   model: together_ai/deepseek-ai/DeepSeek-V3.1
 cachier:
-  cache_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/natural_plan/llm_cache
+  cache_dir: benchmarks/natural_plan/llm_cache
   enable_caching: false
 evaluate:
   expt_name: calendar_zs_cot_train
-  result_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/natural_plan/recordings_class3
+  result_dir: benchmarks/natural_plan/recordings_class3
   entry_point: calendar_scheduling
   prompt_trace: true
   record_details: true
@@ -24,4 +24,4 @@ ptools:
     method: simulate
   calendar_scheduling:
     method: prompt_llm
-    prompt_template_file: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/natural_plan/prompt_templates/calendar_zs_cot.txt
+    prompt_template_file: benchmarks/natural_plan/prompt_templates/calendar_zs_cot.txt

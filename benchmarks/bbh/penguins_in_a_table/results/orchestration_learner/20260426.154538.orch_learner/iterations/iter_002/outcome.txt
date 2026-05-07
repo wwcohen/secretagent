@@ -1,4 +1,0 @@
-ROLLED BACK
-accuracy: 93.3% -> 90.0%
-cost: $0.0010 -> $0.0008
-best so far: 93.3%

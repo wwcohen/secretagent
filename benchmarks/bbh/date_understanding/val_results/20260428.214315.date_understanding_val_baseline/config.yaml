@@ -1,9 +1,9 @@
 llm:
   model: together_ai/deepseek-ai/DeepSeek-V3.1
 cachier:
-  cache_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/bbh/date_understanding/llm_cache
+  cache_dir: benchmarks/bbh/date_understanding/llm_cache
 evaluate:
-  result_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/bbh/date_understanding/val_results
+  result_dir: benchmarks/bbh/date_understanding/val_results
   expt_name: date_understanding_val_baseline
 dataset:
   split: valid

@@ -1,4 +1,0 @@
-KEPT
-accuracy: 96.2% -> 96.2%
-cost: $0.0007 -> $0.0007
-best so far: 96.2%

@@ -245,3 +245,7 @@ See [docs/CLI.md](docs/CLI.md) for full CLI documentation.
   - `GEMINI_API_KEY` for Gemini models
   - `TOGETHER_API_KEY` for Together AI models (DeepSeek, Qwen, etc.)
   - `ANTHROPIC_API_KEY` for Claude models
+
+## License
+
+This project is licensed under the Apache License 2.0. See [LICENSE](LICENSE) for the full text.

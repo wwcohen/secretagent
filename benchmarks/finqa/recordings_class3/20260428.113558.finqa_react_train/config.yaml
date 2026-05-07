@@ -1,9 +1,9 @@
 llm:
   model: together_ai/deepseek-ai/DeepSeek-V3.1
 cachier:
-  cache_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/finqa/llm_cache
+  cache_dir: benchmarks/finqa/llm_cache
 evaluate:
-  result_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/finqa/recordings_class3
+  result_dir: benchmarks/finqa/recordings_class3
   expt_name: finqa_react_train
   record_details: true
 dataset:

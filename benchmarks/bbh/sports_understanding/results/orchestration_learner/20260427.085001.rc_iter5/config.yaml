@@ -1,10 +1,10 @@
 llm:
   model: gemini/gemini-3.1-flash-lite-preview
 cachier:
-  cache_dir: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/bbh/sports_understanding/llm_cache
+  cache_dir: benchmarks/bbh/sports_understanding/llm_cache
   enable_caching: true
 evaluate:
-  result_dir: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/bbh/sports_understanding/results/orchestration_learner
+  result_dir: benchmarks/bbh/sports_understanding/results/orchestration_learner
   expt_name: rc_iter5
   max_workers: 1
   entry_point: are_sports_in_sentence_consistent
@@ -24,4 +24,4 @@ ptools:
     fn: ptools.are_sports_in_sentence_consistent_orchestrated_seed
 orchestrate:
   model: gemini/gemini-3.1-pro-preview
-root: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/bbh/sports_understanding
+root: benchmarks/bbh/sports_understanding

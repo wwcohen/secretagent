@@ -1,9 +1,9 @@
 llm:
   model: together_ai/deepseek-ai/DeepSeek-V3.1
 cachier:
-  cache_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/finqa/llm_cache
+  cache_dir: benchmarks/finqa/llm_cache
 evaluate:
-  result_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/finqa/val_results_full
+  result_dir: benchmarks/finqa/val_results_full
   expt_name: finqa_val_full_class1v6
 dataset:
   split: valid
@@ -24,5 +24,5 @@ ptools:
     method: direct
     fn: ptools.answer_finqa_workflow
 learn:
-  train_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/finqa/learned_v6
-root: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/finqa
+  train_dir: benchmarks/finqa/learned_v6
+root: benchmarks/finqa

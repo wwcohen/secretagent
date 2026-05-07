@@ -1,9 +1,9 @@
 llm:
   model: together_ai/deepseek-ai/DeepSeek-V3.1
 cachier:
-  cache_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/bbh/sports_understanding/llm_cache
+  cache_dir: benchmarks/bbh/sports_understanding/llm_cache
 evaluate:
-  result_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/bbh/sports_understanding/val_results_full
+  result_dir: benchmarks/bbh/sports_understanding/val_results_full
   expt_name: bbh_sports_val_full_class2_gemini
   record_details: true
 dataset:
@@ -22,5 +22,5 @@ ptools:
     learner: workflow_distill
     backoff: true
 learn:
-  train_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/bbh/sports_understanding/learned_class2_gemini
-root: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/bbh/sports_understanding
+  train_dir: benchmarks/bbh/sports_understanding/learned_class2_gemini
+root: benchmarks/bbh/sports_understanding

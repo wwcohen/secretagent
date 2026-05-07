@@ -3,9 +3,9 @@ llm:
   max_tokens: 8192
   timeout: 600
 cachier:
-  cache_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/rulearena/nba/llm_cache
+  cache_dir: benchmarks/rulearena/nba/llm_cache
 evaluate:
-  result_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/rulearena/nba/val_results_full
+  result_dir: benchmarks/rulearena/nba/val_results_full
   expt_name: rulearena_nba_val_full_class3_gemini
   record_details: true
 dataset:
@@ -20,5 +20,5 @@ ptools:
     learner: workflow_distill
     backoff: true
 learn:
-  train_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/COMMON/codedistill-workflow-results/rulearena/learned_class3_gemini_nba
-root: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/rulearena/nba
+  train_dir: benchmarks/COMMON/codedistill-workflow-results/rulearena/learned_class3_gemini_nba
+root: benchmarks/rulearena/nba

@@ -1,9 +1,9 @@
 llm:
   model: together_ai/openai/gpt-oss-20b
 cachier:
-  cache_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/bbh/penguins_in_a_table/llm_cache
+  cache_dir: benchmarks/bbh/penguins_in_a_table/llm_cache
 evaluate:
-  result_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/bbh/penguins_in_a_table/results
+  result_dir: benchmarks/bbh/penguins_in_a_table/results
   expt_name: e2e_codedistill
 dataset:
   split: valid
@@ -22,4 +22,4 @@ ptools:
     learner: e2e_codedistill
     backoff: false
 learn:
-  train_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/bbh/penguins_in_a_table/learned
+  train_dir: benchmarks/bbh/penguins_in_a_table/learned

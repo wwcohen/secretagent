@@ -1,9 +1,9 @@
 llm:
   model: gemini/gemini-2.5-pro
 cachier:
-  cache_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/bbh/penguins_in_a_table/llm_cache
+  cache_dir: benchmarks/bbh/penguins_in_a_table/llm_cache
 evaluate:
-  result_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/bbh/penguins_in_a_table/recordings
+  result_dir: benchmarks/bbh/penguins_in_a_table/recordings
   expt_name: penguins_train_record
   record_details: true
 dataset:

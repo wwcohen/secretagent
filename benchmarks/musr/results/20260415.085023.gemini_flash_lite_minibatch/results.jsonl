@@ -1,4 +1,0 @@
-{"predicted_output": 1, "expected_output": 1, "correct": true, "input_tokens": 1111.0, "output_tokens": 842.0, "latency": 5.368427276611328, "cost": 0.00154075, "case_name": "ex008", "expt_name": "gemini_flash_lite_minibatch"}
-{"predicted_output": 0, "expected_output": 0, "correct": true, "input_tokens": 1223.0, "output_tokens": 1052.0, "latency": 7.16349458694458, "cost": 0.00188375, "case_name": "ex036", "expt_name": "gemini_flash_lite_minibatch"}
-{"predicted_output": 1, "expected_output": 0, "correct": false, "input_tokens": 1277.0, "output_tokens": 1349.0, "latency": 8.731549263000488, "cost": 0.0023427499999999998, "case_name": "ex018", "expt_name": "gemini_flash_lite_minibatch"}
-{"predicted_output": 0, "expected_output": 0, "correct": true, "input_tokens": 1250.0, "output_tokens": 1051.0, "latency": 9.725298166275024, "cost": 0.001889, "case_name": "ex046", "expt_name": "gemini_flash_lite_minibatch"}

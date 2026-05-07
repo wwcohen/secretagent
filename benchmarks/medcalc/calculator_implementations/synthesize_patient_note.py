@@ -241,7 +241,7 @@ def target_weight():
     return note, input_parameters
 
 
-with open("/Users/nikhilkhandekar/Documents/MedCalc-Bench/calculator_implementations/name_to_python.json") as file:
+with open("/Users/anon/Documents/MedCalc-Bench/calculator_implementations/name_to_python.json") as file:
     calc_info  = json.load(file)
 
 problems = {}

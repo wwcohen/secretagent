@@ -1,7 +1,0 @@
-Iter 0: train=76.4%, eval=67.3% — KEPT
-Iter 1: train=76.4%, eval=67.3% — ROLLED BACK
-  What was tried: 1. **Specific failure pattern:** The pipeline is crashing or returning malformed outputs for non-numeric results (dates, tuples) like in "Estimated Due Date", "Estimated of Conception", and "Estimated Gestational Age". The error `could not convert string to float: '06/10/2002'` reveals that the framework is aggressively attempting to cast the LLM's return value to a `float` because of the type hints.
-2. **How many failures:** At least 3 failures are directly caused by this type coercion (the date and gestational age calculators).
-3. **Minimal change:** Change the return type annotation of the main entry points (`calculate_medical_value`, `simulate_medical_value`, `pot_medical_value`, `pot_workflow`, `distilled_workflow`, `workflow`) from `-> float:` to `-> Any:`. I will also update the docstring slightly to acknowledge that some answers may be dates or tuples if requested.
-4. **Why it won't break working cases:** Working cases already return numeric values which are naturally floats or ints. Removing the strict `float` type hint allows the existing logic to pass through strings and tuples unchanged when appropriate, while numeric answers will still be generated accurately by the LLM or computation logic.
-  ⚠ This change HURT accuracy. Do NOT retry this approach.

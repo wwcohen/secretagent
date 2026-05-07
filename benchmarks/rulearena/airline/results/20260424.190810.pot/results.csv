@@ -1,4 +1,0 @@
-case_name,predicted_output,expected_output,correct,correct_tolerance,failure_mode,input_tokens,output_tokens,latency,cost,expt_name
-airline_0_6,1281,1131,0.0,0.0,calculation_error,25802.0,7458.0,43.97606897354126,0.026385600000000002,pot
-airline_1_28,2296,2296,1.0,1.0,none,13570.0,3765.0,22.056013107299805,0.0134835,pot
-airline_1_10,2427,2682,0.0,0.0,calculation_error,25942.0,4999.0,26.993091106414795,0.020280100000000002,pot

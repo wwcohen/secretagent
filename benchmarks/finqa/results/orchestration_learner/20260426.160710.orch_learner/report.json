@@ -15,8 +15,8 @@
       "kept": true,
       "code_snapshot": "# ptools_evolved.py (9928 chars)",
       "config_overrides": [],
-      "train_result_dir": "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/finqa/results/orchestration_learner/20260426.160714.rc_iter0",
-      "eval_result_dir": "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/finqa/results/orchestration_learner/20260426.161854.rc_iter0_eval",
+      "train_result_dir": "benchmarks/finqa/results/orchestration_learner/20260426.160714.rc_iter0",
+      "eval_result_dir": "benchmarks/finqa/results/orchestration_learner/20260426.161854.rc_iter0_eval",
       "config_before_path": null,
       "config_after_path": null
     },
@@ -35,8 +35,8 @@
       "kept": true,
       "code_snapshot": "",
       "config_overrides": [],
-      "train_result_dir": "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/finqa/results/orchestration_learner/20260426.162757.rc_iter1",
-      "eval_result_dir": "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/finqa/results/orchestration_learner/20260426.164247.rc_iter1_eval",
+      "train_result_dir": "benchmarks/finqa/results/orchestration_learner/20260426.162757.rc_iter1",
+      "eval_result_dir": "benchmarks/finqa/results/orchestration_learner/20260426.164247.rc_iter1_eval",
       "config_before_path": "iterations/iter_001/config_before.yaml",
       "config_after_path": null
     },
@@ -75,8 +75,8 @@
       "kept": false,
       "code_snapshot": "",
       "config_overrides": [],
-      "train_result_dir": "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/finqa/results/orchestration_learner/20260426.165812.rc_iter3",
-      "eval_result_dir": "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/finqa/results/orchestration_learner/20260426.171439.rc_iter3_eval",
+      "train_result_dir": "benchmarks/finqa/results/orchestration_learner/20260426.165812.rc_iter3",
+      "eval_result_dir": "benchmarks/finqa/results/orchestration_learner/20260426.171439.rc_iter3_eval",
       "config_before_path": "iterations/iter_003/config_before.yaml",
       "config_after_path": null
     },
@@ -95,8 +95,8 @@
       "kept": true,
       "code_snapshot": "",
       "config_overrides": [],
-      "train_result_dir": "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/finqa/results/orchestration_learner/20260426.172505.rc_iter4",
-      "eval_result_dir": "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/finqa/results/orchestration_learner/20260426.174256.rc_iter4_eval",
+      "train_result_dir": "benchmarks/finqa/results/orchestration_learner/20260426.172505.rc_iter4",
+      "eval_result_dir": "benchmarks/finqa/results/orchestration_learner/20260426.174256.rc_iter4_eval",
       "config_before_path": "iterations/iter_004/config_before.yaml",
       "config_after_path": null
     },
@@ -115,8 +115,8 @@
       "kept": false,
       "code_snapshot": "",
       "config_overrides": [],
-      "train_result_dir": "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/finqa/results/orchestration_learner/20260426.175405.rc_iter5",
-      "eval_result_dir": "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/finqa/results/orchestration_learner/20260426.181448.rc_iter5_eval",
+      "train_result_dir": "benchmarks/finqa/results/orchestration_learner/20260426.175405.rc_iter5",
+      "eval_result_dir": "benchmarks/finqa/results/orchestration_learner/20260426.181448.rc_iter5_eval",
       "config_before_path": "iterations/iter_005/config_before.yaml",
       "config_after_path": null
     }

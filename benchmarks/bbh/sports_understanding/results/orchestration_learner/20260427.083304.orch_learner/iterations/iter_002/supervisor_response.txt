@@ -9,10 +9,6 @@
 """A demo of secretagent, based on the 'sports_understanding' task in
 BBH.
 
-Backstory: These tools were derived from the program trace prompt
-'mock' for sports_understanding in
-https://github.com/wwcohen/doctest-prompting.
-
 """
 
 from secretagent.core import interface, implement_via

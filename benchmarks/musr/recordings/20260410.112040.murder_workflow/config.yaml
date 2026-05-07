@@ -1,10 +1,10 @@
 llm:
   model: claude-haiku-4-5-20251001
 cachier:
-  cache_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/musr/llm_cache
+  cache_dir: benchmarks/musr/llm_cache
 evaluate:
   expt_name: murder_workflow
-  result_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/musr/recordings
+  result_dir: benchmarks/musr/recordings
   entry_point: answer_question_workflow
   record_details: true
 dataset:

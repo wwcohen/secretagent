@@ -1,8 +1,0 @@
-1. What SPECIFIC failure pattern did you identify?
-When the LLM cannot find a value, it sometimes explicitly outputs the string `"missing"`, `"unknown"`, or `"none"` for that field instead of omitting it or using `null`. The validation logic in `_validate_extracted_values` parses these as valid strings, which prevents the missing value repair mechanism from triggering and can cause downstream type errors during computation.
-2. How many of the shown failures share this pattern?
-At least 2 failures explicitly show `{'gestational_weeks': 'missing'}` or `{'weight_kg': None}` bypassing the correct checks or acting weirdly because 'missing' is a string.
-3. What is the MINIMAL change that fixes this pattern?
-In `_validate_extracted_values`, add a check for string values that match "missing", "unknown", "none", or "null" (case-insensitive) and ignore them (so they don't get added to the `cleaned` dictionary, thus properly triggering the missing value fallback).
-4. Why will this change NOT break currently working cases?
-It only filters out literal strings meaning "missing", which would never be valid inputs for any of the mathematical or scoring calculators anyway. It routes these safely to the repair/fallback mechanism.

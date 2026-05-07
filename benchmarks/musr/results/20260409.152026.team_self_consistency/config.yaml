@@ -1,11 +1,11 @@
 llm:
   model: together_ai/deepseek-ai/DeepSeek-V3
 cachier:
-  cache_dir: /Users/lexl/Research_group/secretagent/benchmarks/musr/llm_cache
+  cache_dir: benchmarks/musr/llm_cache
   enable_caching: false
 evaluate:
   expt_name: team_self_consistency
-  result_dir: /Users/lexl/Research_group/secretagent/benchmarks/musr/results
+  result_dir: benchmarks/musr/results
   entry_point: answer_question
   record_details: true
 dataset:
@@ -14,7 +14,7 @@ dataset:
 self_consistency:
   n_samples: 5
   temperature: 0.7
-  prompt_template_file: /Users/lexl/Research_group/secretagent/benchmarks/musr/prompt_templates/zero_shot_cot.txt
+  prompt_template_file: benchmarks/musr/prompt_templates/zero_shot_cot.txt
 ptools:
   answer_question:
     method: direct

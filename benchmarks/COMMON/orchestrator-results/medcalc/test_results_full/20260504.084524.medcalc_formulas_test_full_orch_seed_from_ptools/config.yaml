@@ -2,10 +2,10 @@ llm:
   model: together_ai/deepseek-ai/DeepSeek-V3.1
   max_tokens: 65536
 cachier:
-  cache_dir: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/medcalc/llm_cache
+  cache_dir: benchmarks/medcalc/llm_cache
   enable_caching: true
 evaluate:
-  result_dir: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/COMMON/orchestrator-results/seed_from_ptools/medcalc
+  result_dir: benchmarks/COMMON/orchestrator-results/seed_from_ptools/medcalc
   expt_name: test_deepseek_v3_1
   entry_point: calculate_medical_value
   record_details: true
@@ -36,5 +36,5 @@ ptools:
     fn: __learned__.calculate_medical_value_orchestrated_seed
     learner: orch_learner
 learn:
-  train_dir: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/COMMON/orchestrator-results/_train_dirs/seed_from_ptools/medcalc
-root: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/medcalc
+  train_dir: benchmarks/COMMON/orchestrator-results/_train_dirs/seed_from_ptools/medcalc
+root: benchmarks/medcalc

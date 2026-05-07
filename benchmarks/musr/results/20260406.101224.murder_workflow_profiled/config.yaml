@@ -2,11 +2,11 @@ llm:
   model: together_ai/Qwen/Qwen3.5-9B
   max_tokens: 4096
 cachier:
-  cache_dir: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/musr/llm_cache
+  cache_dir: benchmarks/musr/llm_cache
   enable_caching: false
 evaluate:
   expt_name: murder_workflow_profiled
-  result_dir: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/musr/results
+  result_dir: benchmarks/musr/results
   entry_point: answer_question_workflow
   record_details: true
 dataset:

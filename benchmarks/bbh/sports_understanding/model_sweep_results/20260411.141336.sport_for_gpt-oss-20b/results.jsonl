@@ -1,4 +1,0 @@
-{"predicted_output": true, "expected_output": true, "correct": 1.0, "input_tokens": 1221.0, "output_tokens": 374.0, "latency": 4.440950155258179, "cost": 0.0006826, "case_name": "valid.043", "expt_name": "sport_for_gpt-oss-20b"}
-{"predicted_output": false, "expected_output": false, "correct": 1.0, "input_tokens": 1565.0, "output_tokens": 1008.0, "latency": 7.8030078411102295, "cost": 0.0009845000000000001, "case_name": "valid.002", "expt_name": "sport_for_gpt-oss-20b"}
-{"predicted_output": false, "expected_output": false, "correct": 1.0, "input_tokens": 1568.0, "output_tokens": 445.0, "latency": 4.271439552307129, "cost": 0.0008187999999999997, "case_name": "valid.013", "expt_name": "sport_for_gpt-oss-20b"}
-{"predicted_output": false, "expected_output": false, "correct": 1.0, "input_tokens": 1226.0, "output_tokens": 386.0, "latency": 5.965790510177612, "cost": 0.0006928, "case_name": "valid.006", "expt_name": "sport_for_gpt-oss-20b"}

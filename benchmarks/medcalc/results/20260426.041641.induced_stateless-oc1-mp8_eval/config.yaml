@@ -6,10 +6,10 @@ llm:
 simulate_pydantic:
   template: simulate_pydantic_thinking.txt
 cachier:
-  cache_dir: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/medcalc/llm_cache
+  cache_dir: benchmarks/medcalc/llm_cache
   enable_caching: true
 evaluate:
-  result_dir: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/medcalc/results
+  result_dir: benchmarks/medcalc/results
   expt_name: induced_stateless-oc1-mp8_eval
   entry_point: calculate_medical_value
   record_details: true
@@ -33,5 +33,5 @@ ptools:
     tool_module: __learned__
     learner: ptool_inducer
 learn:
-  train_dir: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/medcalc/learned/stateless-oc1-mp8
-root: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/medcalc
+  train_dir: benchmarks/medcalc/learned/stateless-oc1-mp8
+root: benchmarks/medcalc

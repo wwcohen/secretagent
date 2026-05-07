@@ -1,4 +1,0 @@
-{"predicted_output": true, "expected_output": true, "correct": 1.0, "input_tokens": 1162.0, "output_tokens": 516.0, "latency": 8.108299016952515, "cost": 0.0010106999999999998, "case_name": "valid.043", "expt_name": "analyze_sentence_gpt-oss-20b"}
-{"predicted_output": false, "expected_output": false, "correct": 1.0, "input_tokens": 1450.0, "output_tokens": 721.0, "latency": 9.529504776000977, "cost": 0.0014619, "case_name": "valid.002", "expt_name": "analyze_sentence_gpt-oss-20b"}
-{"predicted_output": false, "expected_output": false, "correct": 1.0, "input_tokens": 1453.0, "output_tokens": 392.0, "latency": 4.935631036758423, "cost": 0.0010808, "case_name": "valid.013", "expt_name": "analyze_sentence_gpt-oss-20b"}
-{"predicted_output": false, "expected_output": false, "correct": 1.0, "input_tokens": 1455.0, "output_tokens": 1600.0, "latency": 16.910834074020386, "cost": 0.0018330999999999998, "case_name": "valid.006", "expt_name": "analyze_sentence_gpt-oss-20b"}

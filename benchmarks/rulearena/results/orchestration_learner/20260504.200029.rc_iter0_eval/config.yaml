@@ -5,10 +5,10 @@ orchestrate:
   model: gemini/gemini-3.1-pro-preview
   max_retries: 3
 cachier:
-  cache_dir: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/rulearena/llm_cache
+  cache_dir: benchmarks/rulearena/llm_cache
   enable_caching: true
 evaluate:
-  result_dir: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/rulearena/results/orchestration_learner
+  result_dir: benchmarks/rulearena/results/orchestration_learner
   expt_name: rc_iter0_eval
   entry_point: compute_rulearena_answer
   max_workers: 1
@@ -38,4 +38,4 @@ ptools:
 
       '
     fn: ptools_nba_induced_seed.compute_rulearena_answer_orchestrated_seed
-root: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/rulearena
+root: benchmarks/rulearena

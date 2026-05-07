@@ -1,6 +1,6 @@
 """Auto-generated workflow-distilled implementation for calendar_scheduling.
 
-Tools from /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/natural_plan/learned_class3_v3/20260428.234714.calendar_scheduling__ptool_inducer/learned_ptools.py are inlined below.
+Tools from benchmarks/natural_plan/learned_class3_v3/20260428.234714.calendar_scheduling__ptool_inducer/learned_ptools.py are inlined below.
 """
 
 """Induced ptools for calendar_scheduling."""

@@ -2,9 +2,9 @@ llm:
   model: together_ai/deepseek-ai/DeepSeek-V3.1
   timeout: 180
 cachier:
-  cache_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/natural_plan/llm_cache
+  cache_dir: benchmarks/natural_plan/llm_cache
 evaluate:
-  result_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/natural_plan/val_results_full
+  result_dir: benchmarks/natural_plan/val_results_full
   expt_name: meeting_val_full_class2_opus_v2
   entry_point: meeting_planning
   prompt_trace: true
@@ -30,5 +30,5 @@ ptools:
     learner: workflow_distill
     backoff: true
 learn:
-  train_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/natural_plan/learned_class2_opus
-root: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/natural_plan
+  train_dir: benchmarks/natural_plan/learned_class2_opus
+root: benchmarks/natural_plan

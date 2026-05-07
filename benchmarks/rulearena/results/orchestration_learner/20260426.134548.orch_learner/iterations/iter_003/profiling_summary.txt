@@ -1,9 +1,0 @@
-Pipeline accuracy: 0.0%, avg cost: $0.0035/case, 42 cases
-
-Per-ptool breakdown:
-  extract_tax_params: cost_frac=100.0%, calls/case=1.0, avg_cost=$0.0035, lift=N/A, errors=0
-
-Ptools called via LLM: ['extract_tax_params']
-
-Held-out eval accuracy: 0.0% (train: 0.0%)
-A large train-eval gap means your changes are OVERFITTING. Prefer changes that generalize to unseen cases.

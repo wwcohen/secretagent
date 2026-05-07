@@ -1,6 +1,0 @@
-case_name,predicted_output,expected_output,correct,input_tokens,output_tokens,latency,cost,expt_name
-valid.043,(J),(J),1.0,7239.0,6275.0,49.284196853637695,0.038614,workflow
-valid.002,**exception raised**: malformed node or string on line 1: <ast.Call object at 0x0000028D16FEC700>,(E),0.0,6988.0,6275.0,52.08342528343201,0.03836300000000001,workflow
-valid.013,**exception raised**: malformed node or string on line 1: <ast.Call object at 0x0000028D15F86EC0>,(B),0.0,7594.0,7088.0,53.36057758331299,0.043034,workflow
-valid.006,(D),(D),1.0,7282.0,6430.0,51.78157663345337,0.039432,workflow
-valid.048,**exception raised**: list index out of range,(E),0.0,7223.0,6117.0,50.029096364974976,0.037808,workflow

@@ -5,9 +5,6 @@ examples. Instead of showing full I/O pairs (which are too long for
 tasks with long inputs like MUSR), PTP shows the chain of function
 calls with abbreviated inputs and outputs.
 
-Reference: "Watch Your Steps: Observable and Modular Chains of Thought"
-(Cohen et al., arXiv:2409.15359)
-
 Usage via config::
 
     ptools:

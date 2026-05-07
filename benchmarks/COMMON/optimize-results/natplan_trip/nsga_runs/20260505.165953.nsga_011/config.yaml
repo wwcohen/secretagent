@@ -2,9 +2,9 @@ llm:
   model: gemini/gemini-2.5-flash
   timeout: 180
 cachier:
-  cache_dir: /Users/arthurkajiyama/Documents/CMU/Research/secret_agents/secretagent/benchmarks/natural_plan/llm_cache
+  cache_dir: benchmarks/natural_plan/llm_cache
 evaluate:
-  result_dir: /Users/arthurkajiyama/Documents/CMU/Research/secret_agents/secretagent/benchmarks/natural_plan/results
+  result_dir: benchmarks/natural_plan/results
   expt_name: nsga_011
   entry_point: trip_planning
   prompt_trace: true
@@ -26,5 +26,5 @@ ptools:
     method: simulate
   trip_planning:
     method: prompt_llm
-    prompt_template_file: /Users/arthurkajiyama/Documents/CMU/Research/secret_agents/secretagent/benchmarks/natural_plan/prompt_templates/trip_zs_cot.txt
-root: /Users/arthurkajiyama/Documents/CMU/Research/secret_agents/secretagent/benchmarks/natural_plan
+    prompt_template_file: benchmarks/natural_plan/prompt_templates/trip_zs_cot.txt
+root: benchmarks/natural_plan

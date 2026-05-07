@@ -1,4 +1,0 @@
-extract_final_number:
-  backoff: 'true'
-  learner: codedistill
-  method: learned_code

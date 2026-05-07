@@ -2,9 +2,9 @@ llm:
   model: together_ai/deepseek-ai/DeepSeek-V3
   max_tokens: 8192
 cachier:
-  cache_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/rulearena/llm_cache
+  cache_dir: benchmarks/rulearena/llm_cache
 evaluate:
-  result_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/rulearena/val_results
+  result_dir: benchmarks/rulearena/val_results
   expt_name: airline_val_class2
 dataset:
   domain: airline
@@ -30,4 +30,4 @@ ptools:
     learner: workflow_distill
     backoff: false
 learn:
-  train_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/rulearena/learned_class2
+  train_dir: benchmarks/rulearena/learned_class2

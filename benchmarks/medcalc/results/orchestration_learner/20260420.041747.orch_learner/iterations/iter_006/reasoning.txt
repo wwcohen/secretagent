@@ -1,8 +1,0 @@
-1. What SPECIFIC failure pattern did you identify?
-In several cases, the extraction prompt misses important details or hallucinates values when dealing with dates or specific numerical formats, and occasionally scoring conditions are overly sensitive.
-2. How many of the shown failures share this pattern?
-There are a few cases involving dates (Estimated Due Date, Estimated Gestational Age) and precise values where extraction struggles.
-3. What is the MINIMAL change that fixes this pattern?
-Add a small, safe instruction to `extract_calculator_values` to ensure exact extraction of dates and numbers without hallucination, specifically telling it to preserve date formats exactly.
-4. Why will this change NOT break currently working cases?
-This is a very mild regularization on the extraction behavior that simply encourages fidelity to the source text for dates and numbers, which should strictly improve or maintain accuracy on all cases.

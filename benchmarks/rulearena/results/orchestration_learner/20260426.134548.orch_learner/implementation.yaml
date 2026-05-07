@@ -1,4 +1,0 @@
-compute_rulearena_answer:
-  method: direct
-  fn: __learned__.l1_extract_workflow
-  learner: orch_learner

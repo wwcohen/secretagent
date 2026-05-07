@@ -1,4 +1,0 @@
-{"predicted_output": "**exception raised**: no implementation registered for interface \"extract_movements\"", "expected_output": 3, "correct": false, "case_name": "ex046", "expt_name": "gemini_flash_lite_minibatch"}
-{"predicted_output": "**exception raised**: no implementation registered for interface \"extract_movements\"", "expected_output": 1, "correct": false, "case_name": "ex018", "expt_name": "gemini_flash_lite_minibatch"}
-{"predicted_output": "**exception raised**: no implementation registered for interface \"extract_movements\"", "expected_output": 2, "correct": false, "case_name": "ex008", "expt_name": "gemini_flash_lite_minibatch"}
-{"predicted_output": "**exception raised**: no implementation registered for interface \"extract_movements\"", "expected_output": 2, "correct": false, "case_name": "ex036", "expt_name": "gemini_flash_lite_minibatch"}

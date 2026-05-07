@@ -1,6 +1,6 @@
 Created scratch module .orchestration_learner/ptools_20260427.081905_scratch.py from ptools.py
 [seed] composing initial workflow for tabmwp_solve from 8 tools with gemini/gemini-3.1-pro-preview
-[seed] wrote tabmwp_solve_orchestrated_seed to /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/tabmwp/.orchestration_learner/ptools_20260427.081905_scratch.py
+[seed] wrote tabmwp_solve_orchestrated_seed to benchmarks/tabmwp/.orchestration_learner/ptools_20260427.081905_scratch.py
 [adapter] loaded table store from dev1k (1000 entries)
 
 === Loading datasets ===
@@ -15,20 +15,124 @@ Sampling: adapter:tabmwp
 Benchmark: tabmwp
 Config: conf.yaml
 Ptools module: ptools (ptools_20260427.081905_scratch.py)
-Scratch evolved: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/tabmwp/.orchestration_learner/ptools_20260427.081905_scratch.py
+Scratch evolved: benchmarks/tabmwp/.orchestration_learner/ptools_20260427.081905_scratch.py
 Entry point: tabmwp_solve
 Supervisor: gemini/gemini-3.1-pro-preview
 Train: 70 cases, Eval: 30 cases
 Max iterations: 5
-Output: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/tabmwp/results/orchestration_learner/20260427.081905.orch_learner
+Output: benchmarks/tabmwp/results/orchestration_learner/20260427.081905.orch_learner
 [supervisor] evolved ptools: ptools_20260427.081905_scratch.py
 
 [supervisor] === Initial Evaluation ===
-  0%|          | 0/70 [00:00<?, ?it/s]  1%|▏         | 1/70 [00:00<00:14,  4.70it/s]  3%|▎         | 2/70 [00:00<00:14,  4.76it/s]  4%|▍         | 3/70 [00:00<00:13,  5.02it/s]  6%|▌         | 4/70 [00:00<00:13,  4.96it/s]  7%|▋         | 5/70 [00:01<00:19,  3.29it/s]  9%|▊         | 6/70 [00:01<00:19,  3.25it/s] 10%|█         | 7/70 [00:01<00:20,  3.06it/s] 11%|█▏        | 8/70 [00:02<00:17,  3.47it/s] 13%|█▎        | 9/70 [00:02<00:17,  3.54it/s] 14%|█▍        | 10/70 [00:02<00:17,  3.47it/s] 16%|█▌        | 11/70 [00:02<00:15,  3.72it/s] 17%|█▋        | 12/70 [00:03<00:17,  3.28it/s] 19%|█▊        | 13/70 [00:03<00:21,  2.63it/s] 20%|██        | 14/70 [00:04<00:19,  2.92it/s] 21%|██▏       | 15/70 [00:04<00:17,  3.13it/s] 23%|██▎       | 16/70 [00:04<00:17,  3.12it/s] 24%|██▍       | 17/70 [00:05<00:17,  3.05it/s] 26%|██▌       | 18/70 [00:05<00:15,  3.26it/s] 27%|██▋       | 19/70 [00:05<00:15,  3.27it/s] 29%|██▊       | 20/70 [00:06<00:17,  2.93it/s] 30%|███       | 21/70 [00:06<00:20,  2.39it/s] 31%|███▏      | 22/70 [00:07<00:18,  2.58it/s] 33%|███▎      | 23/70 [00:07<00:16,  2.88it/s] 34%|███▍      | 24/70 [00:07<00:14,  3.18it/s] 36%|███▌      | 25/70 [00:07<00:13,  3.42it/s] 37%|███▋      | 26/70 [00:07<00:11,  3.69it/s] 39%|███▊      | 27/70 [00:08<00:10,  4.01it/s] 40%|████      | 28/70 [00:08<00:10,  4.15it/s] 41%|████▏     | 29/70 [00:08<00:12,  3.17it/s] 43%|████▎     | 30/70 [00:09<00:11,  3.41it/s] 44%|████▍     | 31/70 [00:09<00:10,  3.75it/s] 46%|████▌     | 32/70 [00:09<00:10,  3.46it/s] 47%|████▋     | 33/70 [00:09<00:09,  3.82it/s] 49%|████▊     | 34/70 [00:10<00:08,  4.13it/s] 50%|█████     | 35/70 [00:10<00:07,  4.39it/s] 51%|█████▏    | 36/70 [00:13<00:39,  1.17s/it] 53%|█████▎    | 37/70 [00:13<00:29,  1.14it/s] 54%|█████▍    | 38/70 [00:13<00:21,  1.50it/s] 56%|█████▌    | 39/70 [00:14<00:16,  1.92it/s] 57%|█████▋    | 40/70 [00:14<00:12,  2.39it/s] 59%|█████▊    | 41/70 [00:14<00:09,  2.91it/s] 60%|██████    | 42/70 [00:14<00:08,  3.41it/s] 61%|██████▏   | 43/70 [00:14<00:07,  3.82it/s] 63%|██████▎   | 44/70 [00:15<00:06,  4.11it/s] 64%|██████▍   | 45/70 [00:15<00:07,  3.34it/s] 66%|██████▌   | 46/70 [00:15<00:06,  3.61it/s] 67%|██████▋   | 47/70 [00:15<00:06,  3.82it/s] 69%|██████▊   | 48/70 [00:16<00:05,  4.00it/s] 70%|███████   | 49/70 [00:16<00:05,  4.14it/s] 71%|███████▏  | 50/70 [00:16<00:04,  4.31it/s] 73%|███████▎  | 51/70 [00:16<00:04,  4.53it/s] 74%|███████▍  | 52/70 [00:17<00:03,  4.69it/s] 76%|███████▌  | 53/70 [00:17<00:03,  4.70it/s] 77%|███████▋  | 54/70 [00:17<00:05,  3.11it/s] 79%|███████▊  | 55/70 [00:18<00:04,  3.37it/s] 80%|████████  | 56/70 [00:18<00:03,  3.61it/s] 81%|████████▏ | 57/70 [00:18<00:03,  3.65it/s] 83%|████████▎ | 58/70 [00:18<00:03,  3.68it/s] 84%|████████▍ | 59/70 [00:19<00:03,  3.66it/s] 86%|████████▌ | 60/70 [00:19<00:02,  3.72it/s] 87%|████████▋ | 61/70 [00:19<00:02,  3.94it/s] 89%|████████▊ | 62/70 [00:19<00:01,  4.11it/s] 90%|█████████ | 63/70 [00:20<00:02,  3.12it/s] 91%|█████████▏| 64/70 [00:20<00:01,  3.50it/s] 93%|█████████▎| 65/70 [00:20<00:01,  3.88it/s] 94%|█████████▍| 66/70 [00:20<00:00,  4.27it/s] 96%|█████████▌| 67/70 [00:21<00:00,  4.34it/s] 97%|█████████▋| 68/70 [00:21<00:00,  3.84it/s] 99%|█████████▊| 69/70 [00:21<00:00,  4.18it/s]100%|██████████| 70/70 [00:21<00:00,  4.42it/s]100%|██████████| 70/70 [00:21<00:00,  3.21it/s]
-saved in /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/tabmwp/results/orchestration_learner/20260427.081913.rc_iter0/results.csv
+
+  0%|          | 0/70 [00:00<?, ?it/s]
+  1%|▏         | 1/70 [00:00<00:14,  4.70it/s]
+  3%|▎         | 2/70 [00:00<00:14,  4.76it/s]
+  4%|▍         | 3/70 [00:00<00:13,  5.02it/s]
+  6%|▌         | 4/70 [00:00<00:13,  4.96it/s]
+  7%|▋         | 5/70 [00:01<00:19,  3.29it/s]
+  9%|▊         | 6/70 [00:01<00:19,  3.25it/s]
+ 10%|█         | 7/70 [00:01<00:20,  3.06it/s]
+ 11%|█▏        | 8/70 [00:02<00:17,  3.47it/s]
+ 13%|█▎        | 9/70 [00:02<00:17,  3.54it/s]
+ 14%|█▍        | 10/70 [00:02<00:17,  3.47it/s]
+ 16%|█▌        | 11/70 [00:02<00:15,  3.72it/s]
+ 17%|█▋        | 12/70 [00:03<00:17,  3.28it/s]
+ 19%|█▊        | 13/70 [00:03<00:21,  2.63it/s]
+ 20%|██        | 14/70 [00:04<00:19,  2.92it/s]
+ 21%|██▏       | 15/70 [00:04<00:17,  3.13it/s]
+ 23%|██▎       | 16/70 [00:04<00:17,  3.12it/s]
+ 24%|██▍       | 17/70 [00:05<00:17,  3.05it/s]
+ 26%|██▌       | 18/70 [00:05<00:15,  3.26it/s]
+ 27%|██▋       | 19/70 [00:05<00:15,  3.27it/s]
+ 29%|██▊       | 20/70 [00:06<00:17,  2.93it/s]
+ 30%|███       | 21/70 [00:06<00:20,  2.39it/s]
+ 31%|███▏      | 22/70 [00:07<00:18,  2.58it/s]
+ 33%|███▎      | 23/70 [00:07<00:16,  2.88it/s]
+ 34%|███▍      | 24/70 [00:07<00:14,  3.18it/s]
+ 36%|███▌      | 25/70 [00:07<00:13,  3.42it/s]
+ 37%|███▋      | 26/70 [00:07<00:11,  3.69it/s]
+ 39%|███▊      | 27/70 [00:08<00:10,  4.01it/s]
+ 40%|████      | 28/70 [00:08<00:10,  4.15it/s]
+ 41%|████▏     | 29/70 [00:08<00:12,  3.17it/s]
+ 43%|████▎     | 30/70 [00:09<00:11,  3.41it/s]
+ 44%|████▍     | 31/70 [00:09<00:10,  3.75it/s]
+ 46%|████▌     | 32/70 [00:09<00:10,  3.46it/s]
+ 47%|████▋     | 33/70 [00:09<00:09,  3.82it/s]
+ 49%|████▊     | 34/70 [00:10<00:08,  4.13it/s]
+ 50%|█████     | 35/70 [00:10<00:07,  4.39it/s]
+ 51%|█████▏    | 36/70 [00:13<00:39,  1.17s/it]
+ 53%|█████▎    | 37/70 [00:13<00:29,  1.14it/s]
+ 54%|█████▍    | 38/70 [00:13<00:21,  1.50it/s]
+ 56%|█████▌    | 39/70 [00:14<00:16,  1.92it/s]
+ 57%|█████▋    | 40/70 [00:14<00:12,  2.39it/s]
+ 59%|█████▊    | 41/70 [00:14<00:09,  2.91it/s]
+ 60%|██████    | 42/70 [00:14<00:08,  3.41it/s]
+ 61%|██████▏   | 43/70 [00:14<00:07,  3.82it/s]
+ 63%|██████▎   | 44/70 [00:15<00:06,  4.11it/s]
+ 64%|██████▍   | 45/70 [00:15<00:07,  3.34it/s]
+ 66%|██████▌   | 46/70 [00:15<00:06,  3.61it/s]
+ 67%|██████▋   | 47/70 [00:15<00:06,  3.82it/s]
+ 69%|██████▊   | 48/70 [00:16<00:05,  4.00it/s]
+ 70%|███████   | 49/70 [00:16<00:05,  4.14it/s]
+ 71%|███████▏  | 50/70 [00:16<00:04,  4.31it/s]
+ 73%|███████▎  | 51/70 [00:16<00:04,  4.53it/s]
+ 74%|███████▍  | 52/70 [00:17<00:03,  4.69it/s]
+ 76%|███████▌  | 53/70 [00:17<00:03,  4.70it/s]
+ 77%|███████▋  | 54/70 [00:17<00:05,  3.11it/s]
+ 79%|███████▊  | 55/70 [00:18<00:04,  3.37it/s]
+ 80%|████████  | 56/70 [00:18<00:03,  3.61it/s]
+ 81%|████████▏ | 57/70 [00:18<00:03,  3.65it/s]
+ 83%|████████▎ | 58/70 [00:18<00:03,  3.68it/s]
+ 84%|████████▍ | 59/70 [00:19<00:03,  3.66it/s]
+ 86%|████████▌ | 60/70 [00:19<00:02,  3.72it/s]
+ 87%|████████▋ | 61/70 [00:19<00:02,  3.94it/s]
+ 89%|████████▊ | 62/70 [00:19<00:01,  4.11it/s]
+ 90%|█████████ | 63/70 [00:20<00:02,  3.12it/s]
+ 91%|█████████▏| 64/70 [00:20<00:01,  3.50it/s]
+ 93%|█████████▎| 65/70 [00:20<00:01,  3.88it/s]
+ 94%|█████████▍| 66/70 [00:20<00:00,  4.27it/s]
+ 96%|█████████▌| 67/70 [00:21<00:00,  4.34it/s]
+ 97%|█████████▋| 68/70 [00:21<00:00,  3.84it/s]
+ 99%|█████████▊| 69/70 [00:21<00:00,  4.18it/s]
+100%|██████████| 70/70 [00:21<00:00,  4.42it/s]
+100%|██████████| 70/70 [00:21<00:00,  3.21it/s]
+saved in benchmarks/tabmwp/results/orchestration_learner/20260427.081913.rc_iter0/results.csv
 [supervisor] evaluating baseline on held-out set...
-  0%|          | 0/30 [00:00<?, ?it/s]  3%|▎         | 1/30 [00:00<00:06,  4.82it/s]  7%|▋         | 2/30 [00:00<00:11,  2.49it/s] 10%|█         | 3/30 [00:00<00:08,  3.08it/s] 13%|█▎        | 4/30 [00:01<00:07,  3.48it/s] 17%|█▋        | 5/30 [00:01<00:06,  3.62it/s] 20%|██        | 6/30 [00:01<00:06,  3.89it/s] 23%|██▎       | 7/30 [00:01<00:05,  3.87it/s] 27%|██▋       | 8/30 [00:02<00:05,  4.07it/s] 30%|███       | 9/30 [00:02<00:04,  4.20it/s] 33%|███▎      | 10/30 [00:02<00:04,  4.13it/s] 37%|███▋      | 11/30 [00:02<00:04,  4.09it/s] 40%|████      | 12/30 [00:03<00:05,  3.51it/s] 43%|████▎     | 13/30 [00:03<00:05,  2.86it/s] 47%|████▋     | 14/30 [00:03<00:04,  3.26it/s] 50%|█████     | 15/30 [00:04<00:04,  3.68it/s] 53%|█████▎    | 16/30 [00:04<00:03,  4.08it/s] 57%|█████▋    | 17/30 [00:04<00:02,  4.42it/s] 60%|██████    | 18/30 [00:04<00:02,  4.17it/s] 63%|██████▎   | 19/30 [00:04<00:02,  4.44it/s] 67%|██████▋   | 20/30 [00:05<00:03,  3.32it/s] 70%|███████   | 21/30 [00:05<00:02,  3.74it/s] 73%|███████▎  | 22/30 [00:05<00:01,  4.16it/s] 77%|███████▋  | 23/30 [00:06<00:01,  4.53it/s] 80%|████████  | 24/30 [00:06<00:01,  4.79it/s] 83%|████████▎ | 25/30 [00:06<00:01,  4.85it/s] 87%|████████▋ | 26/30 [00:06<00:00,  4.72it/s] 90%|█████████ | 27/30 [00:07<00:00,  3.19it/s] 93%|█████████▎| 28/30 [00:07<00:00,  3.62it/s] 97%|█████████▋| 29/30 [00:07<00:00,  3.90it/s]100%|██████████| 30/30 [00:07<00:00,  4.26it/s]100%|██████████| 30/30 [00:07<00:00,  3.87it/s]
-saved in /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/tabmwp/results/orchestration_learner/20260427.081935.rc_iter0_eval/results.csv
+
+  0%|          | 0/30 [00:00<?, ?it/s]
+  3%|▎         | 1/30 [00:00<00:06,  4.82it/s]
+  7%|▋         | 2/30 [00:00<00:11,  2.49it/s]
+ 10%|█         | 3/30 [00:00<00:08,  3.08it/s]
+ 13%|█▎        | 4/30 [00:01<00:07,  3.48it/s]
+ 17%|█▋        | 5/30 [00:01<00:06,  3.62it/s]
+ 20%|██        | 6/30 [00:01<00:06,  3.89it/s]
+ 23%|██▎       | 7/30 [00:01<00:05,  3.87it/s]
+ 27%|██▋       | 8/30 [00:02<00:05,  4.07it/s]
+ 30%|███       | 9/30 [00:02<00:04,  4.20it/s]
+ 33%|███▎      | 10/30 [00:02<00:04,  4.13it/s]
+ 37%|███▋      | 11/30 [00:02<00:04,  4.09it/s]
+ 40%|████      | 12/30 [00:03<00:05,  3.51it/s]
+ 43%|████▎     | 13/30 [00:03<00:05,  2.86it/s]
+ 47%|████▋     | 14/30 [00:03<00:04,  3.26it/s]
+ 50%|█████     | 15/30 [00:04<00:04,  3.68it/s]
+ 53%|█████▎    | 16/30 [00:04<00:03,  4.08it/s]
+ 57%|█████▋    | 17/30 [00:04<00:02,  4.42it/s]
+ 60%|██████    | 18/30 [00:04<00:02,  4.17it/s]
+ 63%|██████▎   | 19/30 [00:04<00:02,  4.44it/s]
+ 67%|██████▋   | 20/30 [00:05<00:03,  3.32it/s]
+ 70%|███████   | 21/30 [00:05<00:02,  3.74it/s]
+ 73%|███████▎  | 22/30 [00:05<00:01,  4.16it/s]
+ 77%|███████▋  | 23/30 [00:06<00:01,  4.53it/s]
+ 80%|████████  | 24/30 [00:06<00:01,  4.79it/s]
+ 83%|████████▎ | 25/30 [00:06<00:01,  4.85it/s]
+ 87%|████████▋ | 26/30 [00:06<00:00,  4.72it/s]
+ 90%|█████████ | 27/30 [00:07<00:00,  3.19it/s]
+ 93%|█████████▎| 28/30 [00:07<00:00,  3.62it/s]
+ 97%|█████████▋| 29/30 [00:07<00:00,  3.90it/s]
+100%|██████████| 30/30 [00:07<00:00,  4.26it/s]
+100%|██████████| 30/30 [00:07<00:00,  3.87it/s]
+saved in benchmarks/tabmwp/results/orchestration_learner/20260427.081935.rc_iter0_eval/results.csv
 [supervisor] baseline eval accuracy: 50.0%
 [supervisor] baseline: accuracy=55.7%, avg_cost=$0.0004
 [supervisor] baseline eval: 50.0%
@@ -47,17 +151,21 @@ Per-ptool breakdown:
 
 Because it only receives `operation` (e.g., "sum", "max", "comparison") and the extracted `values` (e.g., `['$0.55', '$0.70']`), it 
 [supervisor] re-evaluating on train set...
-  0%|          | 0/70 [00:00<?, ?it/s]100%|██████████| 70/70 [00:00<00:00, 22472.35it/s]
-saved in /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/tabmwp/results/orchestration_learner/20260427.082239.rc_iter1/results.csv
+
+  0%|          | 0/70 [00:00<?, ?it/s]
+100%|██████████| 70/70 [00:00<00:00, 22472.35it/s]
+saved in benchmarks/tabmwp/results/orchestration_learner/20260427.082239.rc_iter1/results.csv
 [supervisor] train: 0.0% (0/70 correct, 0 timeouts)
 [supervisor] cost: $0.0000/case
 [supervisor] evaluating on held-out set...
-  0%|          | 0/30 [00:00<?, ?it/s]100%|██████████| 30/30 [00:00<00:00, 38095.40it/s]
-saved in /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/tabmwp/results/orchestration_learner/20260427.082239.rc_iter1_eval/results.csv
+
+  0%|          | 0/30 [00:00<?, ?it/s]
+100%|██████████| 30/30 [00:00<00:00, 38095.40it/s]
+saved in benchmarks/tabmwp/results/orchestration_learner/20260427.082239.rc_iter1_eval/results.csv
 [supervisor] eval:  0.0% (0/30 correct)
 [supervisor] ROLLED BACK: train 55.7%→0.0%, eval 50.0%→0.0%, best=55.7%
 [supervisor] ROLLED BACK (accuracy dropped)
-[report] saved /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/tabmwp/results/orchestration_learner/20260427.081905.orch_learner/report.html
+[report] saved benchmarks/tabmwp/results/orchestration_learner/20260427.081905.orch_learner/report.html
 
 [supervisor] === Iteration 2/5 ===
 [supervisor] calling supervisor LLM...
@@ -67,17 +175,21 @@ saved in /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/ben
 Specifically:
 1. **Missing Quantities/Budgets:** Questions specifying quantities (e.g. "buy 6 
 [supervisor] re-evaluating on train set...
-  0%|          | 0/70 [00:00<?, ?it/s]100%|██████████| 70/70 [00:00<00:00, 13834.11it/s]
-saved in /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/tabmwp/results/orchestration_learner/20260427.082523.rc_iter2/results.csv
+
+  0%|          | 0/70 [00:00<?, ?it/s]
+100%|██████████| 70/70 [00:00<00:00, 13834.11it/s]
+saved in benchmarks/tabmwp/results/orchestration_learner/20260427.082523.rc_iter2/results.csv
 [supervisor] train: 0.0% (0/70 correct, 0 timeouts)
 [supervisor] cost: $0.0000/case
 [supervisor] evaluating on held-out set...
-  0%|          | 0/30 [00:00<?, ?it/s]100%|██████████| 30/30 [00:00<00:00, 16187.97it/s]
-saved in /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/tabmwp/results/orchestration_learner/20260427.082523.rc_iter2_eval/results.csv
+
+  0%|          | 0/30 [00:00<?, ?it/s]
+100%|██████████| 30/30 [00:00<00:00, 16187.97it/s]
+saved in benchmarks/tabmwp/results/orchestration_learner/20260427.082523.rc_iter2_eval/results.csv
 [supervisor] eval:  0.0% (0/30 correct)
 [supervisor] ROLLED BACK: train 55.7%→0.0%, eval 50.0%→0.0%, best=55.7%
 [supervisor] ROLLED BACK (accuracy dropped)
-[report] saved /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/tabmwp/results/orchestration_learner/20260427.081905.orch_learner/report.html
+[report] saved benchmarks/tabmwp/results/orchestration_learner/20260427.081905.orch_learner/report.html
 
 [supervisor] === Iteration 3/5 ===
 [supervisor] calling supervisor LLM...
@@ -86,17 +198,21 @@ saved in /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/ben
 
 Even though `extract_relevant_values` correctly extracts the numbers from the table, `compute_answer` only receives the gen
 [supervisor] re-evaluating on train set...
-  0%|          | 0/70 [00:00<?, ?it/s]100%|██████████| 70/70 [00:00<00:00, 22463.76it/s]
-saved in /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/tabmwp/results/orchestration_learner/20260427.082815.rc_iter3/results.csv
+
+  0%|          | 0/70 [00:00<?, ?it/s]
+100%|██████████| 70/70 [00:00<00:00, 22463.76it/s]
+saved in benchmarks/tabmwp/results/orchestration_learner/20260427.082815.rc_iter3/results.csv
 [supervisor] train: 0.0% (0/70 correct, 0 timeouts)
 [supervisor] cost: $0.0000/case
 [supervisor] evaluating on held-out set...
-  0%|          | 0/30 [00:00<?, ?it/s]100%|██████████| 30/30 [00:00<00:00, 27277.07it/s]
-saved in /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/tabmwp/results/orchestration_learner/20260427.082815.rc_iter3_eval/results.csv
+
+  0%|          | 0/30 [00:00<?, ?it/s]
+100%|██████████| 30/30 [00:00<00:00, 27277.07it/s]
+saved in benchmarks/tabmwp/results/orchestration_learner/20260427.082815.rc_iter3_eval/results.csv
 [supervisor] eval:  0.0% (0/30 correct)
 [supervisor] ROLLED BACK: train 55.7%→0.0%, eval 50.0%→0.0%, best=55.7%
 [supervisor] ROLLED BACK (accuracy dropped)
-[report] saved /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/tabmwp/results/orchestration_learner/20260427.081905.orch_learner/report.html
+[report] saved benchmarks/tabmwp/results/orchestration_learner/20260427.081905.orch_learner/report.html
 
 [supervisor] === Iteration 4/5 ===
 [supervisor] calling supervisor LLM...
@@ -104,17 +220,21 @@ saved in /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/ben
 [supervisor] reasoning: 1. STRATEGIC ANCHOR: The message-passing capacity of the `operation` and `values` arguments must be maximized to resolve computation blind spots.
 2. CONTEXT COMPRESSION: Previous iterations established that modifying function signatures or control flow breaks the orchestrator's implicit validation s
 [supervisor] re-evaluating on train set...
-  0%|          | 0/70 [00:00<?, ?it/s]100%|██████████| 70/70 [00:00<00:00, 4535.71it/s]
-saved in /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/tabmwp/results/orchestration_learner/20260427.082933.rc_iter4/results.csv
+
+  0%|          | 0/70 [00:00<?, ?it/s]
+100%|██████████| 70/70 [00:00<00:00, 4535.71it/s]
+saved in benchmarks/tabmwp/results/orchestration_learner/20260427.082933.rc_iter4/results.csv
 [supervisor] train: 0.0% (0/70 correct, 0 timeouts)
 [supervisor] cost: $0.0000/case
 [supervisor] evaluating on held-out set...
-  0%|          | 0/30 [00:00<?, ?it/s]100%|██████████| 30/30 [00:00<00:00, 19319.69it/s]
-saved in /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/tabmwp/results/orchestration_learner/20260427.082933.rc_iter4_eval/results.csv
+
+  0%|          | 0/30 [00:00<?, ?it/s]
+100%|██████████| 30/30 [00:00<00:00, 19319.69it/s]
+saved in benchmarks/tabmwp/results/orchestration_learner/20260427.082933.rc_iter4_eval/results.csv
 [supervisor] eval:  0.0% (0/30 correct)
 [supervisor] ROLLED BACK: train 55.7%→0.0%, eval 50.0%→0.0%, best=55.7%
 [supervisor] ROLLED BACK (accuracy dropped)
-[report] saved /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/tabmwp/results/orchestration_learner/20260427.081905.orch_learner/report.html
+[report] saved benchmarks/tabmwp/results/orchestration_learner/20260427.081905.orch_learner/report.html
 
 [supervisor] === Iteration 5/5 ===
 [supervisor] calling supervisor LLM...
@@ -123,41 +243,47 @@ saved in /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/ben
 
 Initial logic and parameters are validated. The orchestrator's implicit validation schema strictly 
 [supervisor] re-evaluating on train set...
-  0%|          | 0/70 [00:00<?, ?it/s]100%|██████████| 70/70 [00:00<00:00, 17126.60it/s]
-saved in /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/tabmwp/results/orchestration_learner/20260427.083128.rc_iter5/results.csv
+
+  0%|          | 0/70 [00:00<?, ?it/s]
+100%|██████████| 70/70 [00:00<00:00, 17126.60it/s]
+saved in benchmarks/tabmwp/results/orchestration_learner/20260427.083128.rc_iter5/results.csv
 [supervisor] train: 0.0% (0/70 correct, 0 timeouts)
 [supervisor] cost: $0.0000/case
 [supervisor] evaluating on held-out set...
-  0%|          | 0/30 [00:00<?, ?it/s]100%|██████████| 30/30 [00:00<00:00, 22270.64it/s]
-saved in /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/tabmwp/results/orchestration_learner/20260427.083128.rc_iter5_eval/results.csv
+
+  0%|          | 0/30 [00:00<?, ?it/s]
+100%|██████████| 30/30 [00:00<00:00, 22270.64it/s]
+saved in benchmarks/tabmwp/results/orchestration_learner/20260427.083128.rc_iter5_eval/results.csv
 [supervisor] eval:  0.0% (0/30 correct)
 [supervisor] ROLLED BACK: train 55.7%→0.0%, eval 50.0%→0.0%, best=55.7%
 [supervisor] ROLLED BACK (accuracy dropped)
-[report] saved /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/tabmwp/results/orchestration_learner/20260427.081905.orch_learner/report.html
+[report] saved benchmarks/tabmwp/results/orchestration_learner/20260427.081905.orch_learner/report.html
 [supervisor] 5 consecutive non-improvements, stopping
 
 [supervisor] === Summary ===
 Iterations: 5
 Best accuracy: 55.7% (iteration 0)
 Total supervisor cost: $1.1567
-Evolved ptools saved to: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/tabmwp/.orchestration_learner/ptools_20260427.081905_scratch.py
+Evolved ptools saved to: benchmarks/tabmwp/.orchestration_learner/ptools_20260427.081905_scratch.py
 
 === Final Evaluation on Held-Out Set (30 cases) ===
-  0%|          | 0/30 [00:00<?, ?it/s]100%|██████████| 30/30 [00:00<00:00, 19322.65it/s]
-saved in /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/tabmwp/results/orchestration_learner/20260427.081905.orch_learner/final_eval/20260427.083129.rc_final_eval/results.csv
+
+  0%|          | 0/30 [00:00<?, ?it/s]
+100%|██████████| 30/30 [00:00<00:00, 19322.65it/s]
+saved in benchmarks/tabmwp/results/orchestration_learner/20260427.081905.orch_learner/final_eval/20260427.083129.rc_final_eval/results.csv
 Final eval accuracy: 0.0%
 Final eval avg cost: $0.0000
 
 === Generating Plots & Report ===
-[plots] saved /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/tabmwp/results/orchestration_learner/20260427.081905.orch_learner/plots/accuracy_over_iterations.png
-[plots] saved /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/tabmwp/results/orchestration_learner/20260427.081905.orch_learner/plots/cost_over_iterations.png
-[plots] saved /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/tabmwp/results/orchestration_learner/20260427.081905.orch_learner/plots/accuracy_vs_cost.png
-[report] saved /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/tabmwp/results/orchestration_learner/20260427.081905.orch_learner/report.html
+[plots] saved benchmarks/tabmwp/results/orchestration_learner/20260427.081905.orch_learner/plots/accuracy_over_iterations.png
+[plots] saved benchmarks/tabmwp/results/orchestration_learner/20260427.081905.orch_learner/plots/cost_over_iterations.png
+[plots] saved benchmarks/tabmwp/results/orchestration_learner/20260427.081905.orch_learner/plots/accuracy_vs_cost.png
+[report] saved benchmarks/tabmwp/results/orchestration_learner/20260427.081905.orch_learner/report.html
 best train accuracy: 55.7% (iteration 0)
 iterations: 6
 supervisor cost: $1.1567
 final eval accuracy: 0.0%
-saved output to /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/tabmwp/results/orchestration_learner/20260427.081905.orch_learner/implementation.yaml
+saved output to benchmarks/tabmwp/results/orchestration_learner/20260427.081905.orch_learner/implementation.yaml
 
 ============================================================
 === Orchestration Learner Complete ===
@@ -165,7 +291,7 @@ saved output to /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretag
 Best train accuracy: 55.7% (iteration 0)
 Final eval accuracy: 0.0%
 Total supervisor cost: $1.1567
-Output saved to: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/tabmwp/results/orchestration_learner/20260427.081905.orch_learner
+Output saved to: benchmarks/tabmwp/results/orchestration_learner/20260427.081905.orch_learner
 
 Iteration log:
   Iter     Train  Fail   TO      Eval    Sup $      Status

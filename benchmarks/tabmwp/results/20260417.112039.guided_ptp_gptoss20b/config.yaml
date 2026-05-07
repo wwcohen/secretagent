@@ -1,10 +1,10 @@
 llm:
   model: together_ai/openai/gpt-oss-20b
 cachier:
-  cache_dir: /home/rafacabrera7/DesktopUbuntu/secretagent/benchmarks/tabmwp/llm_cache
+  cache_dir: benchmarks/tabmwp/llm_cache
 evaluate:
   expt_name: guided_ptp_gptoss20b
-  result_dir: /home/rafacabrera7/DesktopUbuntu/secretagent/benchmarks/tabmwp/results
+  result_dir: benchmarks/tabmwp/results
   record_details: true
 dataset:
   split: test1k
@@ -13,4 +13,4 @@ dataset:
 ptools:
   tabmwp_solve:
     method: prompt_llm
-    prompt_template_file: /home/rafacabrera7/DesktopUbuntu/secretagent/benchmarks/tabmwp/prompt_templates/guided.txt
+    prompt_template_file: benchmarks/tabmwp/prompt_templates/guided.txt

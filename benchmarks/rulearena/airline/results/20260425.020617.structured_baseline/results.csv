@@ -1,4 +1,0 @@
-case_name,predicted_output,expected_output,correct,correct_tolerance,failure_mode,input_tokens,output_tokens,latency,cost,expt_name
-airline_0_6,1201.0,1131,0.0,0.0,calculation_error,12720.0,4619.0,20.12099027633667,0.0153635,structured_baseline
-airline_1_28,2496.0,2296,0.0,0.0,calculation_error,12795.0,7498.0,30.100038051605225,0.0225835,structured_baseline
-airline_1_10,2682.0,2682,1.0,1.0,none,12790.0,5148.0,21.55020236968994,0.016707,structured_baseline

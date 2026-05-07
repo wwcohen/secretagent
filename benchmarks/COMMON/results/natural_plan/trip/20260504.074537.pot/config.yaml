@@ -2,9 +2,9 @@ llm:
   model: together_ai/deepseek-ai/DeepSeek-V3.1
   timeout: 180
 cachier:
-  cache_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/natural_plan/llm_cache
+  cache_dir: benchmarks/natural_plan/llm_cache
 evaluate:
-  result_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/natural_plan/results-test
+  result_dir: benchmarks/natural_plan/results-test
   expt_name: pot
   entry_point: trip_planning
   prompt_trace: true
@@ -30,4 +30,4 @@ ptools:
     - ptools_trip.parse_trip_constraints
     - ptools_trip.find_valid_route
     - ptools_trip.build_trip_plan
-root: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/natural_plan
+root: benchmarks/natural_plan

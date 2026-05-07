@@ -1,8 +1,0 @@
-1. **Failure Pattern Identified**: The LLM heavily struggles with two critical algorithmic components: finding a Hamiltonian path that respects exact time windows (e.g., `find_valid_route` outputs paths that place cities outside their mandatory dates), and strictly adhering to the requested output format in `build_trip_plan`. The LLM often realizes a time-window constraint is violated and outputs an apology instead of an itinerary. Additionally, the LLM treats "from A to B" directed flights as bidirectional.
-2. **Impact**: Almost all 37 failures share this algorithmic logic and constraint-satisfaction failure pattern. 
-3. **Minimal Fix**: 
-    - Keep `parse_trip_constraints` as an LLM call to flexibly and accurately extract data from raw text, but add a strict prompt rule explicitly detailing how to handle directed vs. undirected flights.
-    - Convert `find_valid_route` and `build_trip_plan` to `method="direct"` pure Python functions. 
-    - `find_valid_route` now executes a programmatic Depth First Search (DFS) against the JSON output to algorithmically guarantee connectivity and time window satisfaction.
-    - `build_trip_plan` deterministically formats the string exactly as required.
-4. **Why it's Safe**: By removing the LLM from the routing and formatting steps, we eliminate 100% of hallucinations and formatting mistakes while significantly dropping inference cost. We retain the LLM for information extraction (`parse_trip_constraints`), meaning we don't introduce brittle regex that could break on unseen problem phrasing.

@@ -7,10 +7,10 @@ llm:
 simulate_pydantic:
   template: simulate_pydantic_thinking.txt
 cachier:
-  cache_dir: /mnt/d/aditya/cmu/research/william_cohen_group/codebase/secretagent/benchmarks/medcalc/llm_cache
+  cache_dir: benchmarks/medcalc/llm_cache
   enable_caching: false
 evaluate:
-  result_dir: /mnt/d/aditya/cmu/research/william_cohen_group/codebase/secretagent/benchmarks/medcalc/results/full_test_eval
+  result_dir: benchmarks/medcalc/results/full_test_eval
   expt_name: rule_evolved_deepseek_v31_failed_retry1
   entry_point: calculate_medical_value
   record_details: false
@@ -30,4 +30,4 @@ ptools:
     tool_module: ptools_evolved
 pydantic:
   retries: 3
-root: /mnt/d/aditya/cmu/research/william_cohen_group/codebase/secretagent/benchmarks/medcalc
+root: benchmarks/medcalc

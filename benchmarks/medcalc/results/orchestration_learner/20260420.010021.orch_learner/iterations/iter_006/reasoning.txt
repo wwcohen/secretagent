@@ -1,8 +1,0 @@
-1. What SPECIFIC failure pattern did you identify?
-When extracting values, the LLM sometimes outputs explicit placeholder strings (like `"missing"`, `"unknown"`) or `null` for fields it cannot find, instead of omitting them from the `extracted` dictionary. This bypasses the validation and repair mechanism because the key technically exists in the dictionary, leading to downstream type errors or incorrect computations.
-2. How many of the shown failures share this pattern?
-Several failures show this pattern explicitly (e.g., `{'gestational_weeks': 'missing'}` or `{'weight_kg': None}`).
-3. What is the MINIMAL change that fixes this pattern?
-Add a targeted instruction to the `extract_calculator_values` docstring: "If a required numeric value or field is entirely unmentioned and cannot be inferred, OMIT it from the 'extracted' dictionary completely instead of writing 'missing' or null."
-4. Why will this change NOT break currently working cases?
-It only affects how the LLM handles genuinely missing data. By instructing it to omit the key entirely, we ensure that the existing robust Python logic in `_validate_extracted_values` properly flags the missing keys and triggers the `_repair_extraction` fallback, without altering the extraction of successfully found values.

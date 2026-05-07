@@ -1,9 +1,0 @@
-Pipeline accuracy: 80.0%, avg cost: $0.0004/case, 110 cases
-
-Per-ptool breakdown:
-  identify_calculator: cost_frac=100.0%, calls/case=1.0, avg_cost=$0.0005, lift=N/A, errors=0
-
-Ptools called via LLM: ['identify_calculator']
-
-Held-out eval accuracy: 73.6% (train: 80.0%)
-A large train-eval gap means your changes are OVERFITTING. Prefer changes that generalize to unseen cases.

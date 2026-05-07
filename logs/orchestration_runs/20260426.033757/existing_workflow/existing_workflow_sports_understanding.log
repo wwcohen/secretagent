@@ -12,75 +12,154 @@ Sampling: adapter:sports_understanding
 Benchmark: sports_understanding
 Config: conf.yaml
 Ptools module: ptools (ptools_20260426.141927_scratch.py)
-Scratch evolved: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/bbh/sports_understanding/.orchestration_learner/ptools_20260426.141927_scratch.py
+Scratch evolved: benchmarks/bbh/sports_understanding/.orchestration_learner/ptools_20260426.141927_scratch.py
 Entry point: are_sports_in_sentence_consistent
 Supervisor: gemini/gemini-3.1-pro-preview
 Train: 53 cases, Eval: 22 cases
 Max iterations: 5
-Output: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/bbh/sports_understanding/results/orchestration_learner/20260426.141927.orch_learner
+Output: benchmarks/bbh/sports_understanding/results/orchestration_learner/20260426.141927.orch_learner
 [supervisor] evolved ptools: ptools_20260426.141927_scratch.py
 
 [supervisor] === Initial Evaluation ===
-  0%|          | 0/53 [00:00<?, ?it/s]  2%|▏         | 1/53 [00:02<02:06,  2.44s/it]  4%|▍         | 2/53 [00:02<01:06,  1.30s/it]  6%|▌         | 3/53 [00:03<00:41,  1.21it/s]  8%|▊         | 4/53 [00:03<00:35,  1.39it/s]  9%|▉         | 5/53 [00:10<02:17,  2.86s/it] 11%|█▏        | 6/53 [00:20<04:05,  5.22s/it] 13%|█▎        | 7/53 [00:25<04:01,  5.25s/it] 15%|█▌        | 8/53 [00:29<03:34,  4.76s/it] 17%|█▋        | 9/53 [00:33<03:26,  4.69s/it] 19%|█▉        | 10/53 [00:38<03:19,  4.63s/it] 21%|██        | 11/53 [00:41<03:01,  4.33s/it] 23%|██▎       | 12/53 [00:42<02:10,  3.17s/it] 25%|██▍       | 13/53 [00:48<02:38,  3.97s/it] 26%|██▋       | 14/53 [00:48<01:53,  2.91s/it] 28%|██▊       | 15/53 [00:54<02:19,  3.67s/it] 30%|███       | 16/53 [00:57<02:16,  3.69s/it] 32%|███▏      | 17/53 [00:58<01:35,  2.66s/it] 34%|███▍      | 18/53 [01:01<01:43,  2.96s/it] 36%|███▌      | 19/53 [01:02<01:15,  2.23s/it] 38%|███▊      | 20/53 [01:08<01:53,  3.45s/it] 40%|███▉      | 21/53 [01:14<02:17,  4.30s/it] 42%|████▏     | 22/53 [01:19<02:14,  4.35s/it] 43%|████▎     | 23/53 [01:29<02:59,  5.97s/it] 45%|████▌     | 24/53 [01:34<02:47,  5.79s/it] 47%|████▋     | 25/53 [01:41<02:48,  6.00s/it] 49%|████▉     | 26/53 [01:44<02:21,  5.25s/it] 51%|█████     | 27/53 [01:45<01:40,  3.85s/it] 53%|█████▎    | 28/53 [01:45<01:12,  2.92s/it] 55%|█████▍    | 29/53 [01:46<00:51,  2.14s/it] 57%|█████▋    | 30/53 [01:46<00:38,  1.66s/it] 58%|█████▊    | 31/53 [01:50<00:49,  2.25s/it] 60%|██████    | 32/53 [01:50<00:37,  1.77s/it] 62%|██████▏   | 33/53 [01:51<00:26,  1.32s/it] 64%|██████▍   | 34/53 [01:58<00:57,  3.03s/it] 66%|██████▌   | 35/53 [02:01<00:53,  2.97s/it] 68%|██████▊   | 36/53 [02:01<00:38,  2.26s/it] 70%|██████▉   | 37/53 [02:05<00:42,  2.69s/it] 72%|███████▏  | 38/53 [02:08<00:43,  2.93s/it] 74%|███████▎  | 39/53 [02:11<00:39,  2.86s/it] 75%|███████▌  | 40/53 [02:15<00:40,  3.09s/it] 77%|███████▋  | 41/53 [02:19<00:42,  3.51s/it] 79%|███████▉  | 42/53 [02:23<00:39,  3.57s/it] 81%|████████  | 43/53 [02:26<00:33,  3.34s/it] 83%|████████▎ | 44/53 [02:26<00:21,  2.42s/it] 85%|████████▍ | 45/53 [02:31<00:25,  3.21s/it] 87%|████████▋ | 46/53 [02:31<00:16,  2.34s/it] 89%|████████▊ | 47/53 [02:37<00:19,  3.32s/it] 91%|█████████ | 48/53 [02:40<00:15,  3.14s/it] 92%|█████████▏| 49/53 [02:43<00:12,  3.10s/it] 94%|█████████▍| 50/53 [02:46<00:09,  3.26s/it] 96%|█████████▌| 51/53 [02:53<00:08,  4.27s/it] 98%|█████████▊| 52/53 [02:57<00:04,  4.15s/it]100%|██████████| 53/53 [03:02<00:00,  4.33s/it]100%|██████████| 53/53 [03:02<00:00,  3.43s/it]
-saved in /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/bbh/sports_understanding/results/orchestration_learner/20260426.141928.rc_iter0/results.csv
+
+  0%|          | 0/53 [00:00<?, ?it/s]
+  2%|▏         | 1/53 [00:02<02:06,  2.44s/it]
+  4%|▍         | 2/53 [00:02<01:06,  1.30s/it]
+  6%|▌         | 3/53 [00:03<00:41,  1.21it/s]
+  8%|▊         | 4/53 [00:03<00:35,  1.39it/s]
+  9%|▉         | 5/53 [00:10<02:17,  2.86s/it]
+ 11%|█▏        | 6/53 [00:20<04:05,  5.22s/it]
+ 13%|█▎        | 7/53 [00:25<04:01,  5.25s/it]
+ 15%|█▌        | 8/53 [00:29<03:34,  4.76s/it]
+ 17%|█▋        | 9/53 [00:33<03:26,  4.69s/it]
+ 19%|█▉        | 10/53 [00:38<03:19,  4.63s/it]
+ 21%|██        | 11/53 [00:41<03:01,  4.33s/it]
+ 23%|██▎       | 12/53 [00:42<02:10,  3.17s/it]
+ 25%|██▍       | 13/53 [00:48<02:38,  3.97s/it]
+ 26%|██▋       | 14/53 [00:48<01:53,  2.91s/it]
+ 28%|██▊       | 15/53 [00:54<02:19,  3.67s/it]
+ 30%|███       | 16/53 [00:57<02:16,  3.69s/it]
+ 32%|███▏      | 17/53 [00:58<01:35,  2.66s/it]
+ 34%|███▍      | 18/53 [01:01<01:43,  2.96s/it]
+ 36%|███▌      | 19/53 [01:02<01:15,  2.23s/it]
+ 38%|███▊      | 20/53 [01:08<01:53,  3.45s/it]
+ 40%|███▉      | 21/53 [01:14<02:17,  4.30s/it]
+ 42%|████▏     | 22/53 [01:19<02:14,  4.35s/it]
+ 43%|████▎     | 23/53 [01:29<02:59,  5.97s/it]
+ 45%|████▌     | 24/53 [01:34<02:47,  5.79s/it]
+ 47%|████▋     | 25/53 [01:41<02:48,  6.00s/it]
+ 49%|████▉     | 26/53 [01:44<02:21,  5.25s/it]
+ 51%|█████     | 27/53 [01:45<01:40,  3.85s/it]
+ 53%|█████▎    | 28/53 [01:45<01:12,  2.92s/it]
+ 55%|█████▍    | 29/53 [01:46<00:51,  2.14s/it]
+ 57%|█████▋    | 30/53 [01:46<00:38,  1.66s/it]
+ 58%|█████▊    | 31/53 [01:50<00:49,  2.25s/it]
+ 60%|██████    | 32/53 [01:50<00:37,  1.77s/it]
+ 62%|██████▏   | 33/53 [01:51<00:26,  1.32s/it]
+ 64%|██████▍   | 34/53 [01:58<00:57,  3.03s/it]
+ 66%|██████▌   | 35/53 [02:01<00:53,  2.97s/it]
+ 68%|██████▊   | 36/53 [02:01<00:38,  2.26s/it]
+ 70%|██████▉   | 37/53 [02:05<00:42,  2.69s/it]
+ 72%|███████▏  | 38/53 [02:08<00:43,  2.93s/it]
+ 74%|███████▎  | 39/53 [02:11<00:39,  2.86s/it]
+ 75%|███████▌  | 40/53 [02:15<00:40,  3.09s/it]
+ 77%|███████▋  | 41/53 [02:19<00:42,  3.51s/it]
+ 79%|███████▉  | 42/53 [02:23<00:39,  3.57s/it]
+ 81%|████████  | 43/53 [02:26<00:33,  3.34s/it]
+ 83%|████████▎ | 44/53 [02:26<00:21,  2.42s/it]
+ 85%|████████▍ | 45/53 [02:31<00:25,  3.21s/it]
+ 87%|████████▋ | 46/53 [02:31<00:16,  2.34s/it]
+ 89%|████████▊ | 47/53 [02:37<00:19,  3.32s/it]
+ 91%|█████████ | 48/53 [02:40<00:15,  3.14s/it]
+ 92%|█████████▏| 49/53 [02:43<00:12,  3.10s/it]
+ 94%|█████████▍| 50/53 [02:46<00:09,  3.26s/it]
+ 96%|█████████▌| 51/53 [02:53<00:08,  4.27s/it]
+ 98%|█████████▊| 52/53 [02:57<00:04,  4.15s/it]
+100%|██████████| 53/53 [03:02<00:00,  4.33s/it]
+100%|██████████| 53/53 [03:02<00:00,  3.43s/it]
+saved in benchmarks/bbh/sports_understanding/results/orchestration_learner/20260426.141928.rc_iter0/results.csv
 [supervisor] evaluating baseline on held-out set...
-  0%|          | 0/22 [00:00<?, ?it/s]  5%|▍         | 1/22 [00:03<01:13,  3.51s/it]  9%|▉         | 2/22 [00:07<01:13,  3.66s/it] 14%|█▎        | 3/22 [00:10<01:09,  3.65s/it] 18%|█▊        | 4/22 [00:14<01:06,  3.72s/it] 23%|██▎       | 5/22 [00:17<00:57,  3.38s/it] 27%|██▋       | 6/22 [00:18<00:39,  2.45s/it] 32%|███▏      | 7/22 [00:24<00:55,  3.67s/it] 36%|███▋      | 8/22 [00:27<00:51,  3.65s/it] 41%|████      | 9/22 [00:31<00:48,  3.71s/it] 45%|████▌     | 10/22 [00:39<00:58,  4.92s/it] 50%|█████     | 11/22 [00:43<00:52,  4.76s/it] 55%|█████▍    | 12/22 [00:47<00:43,  4.35s/it] 59%|█████▉    | 13/22 [00:50<00:37,  4.12s/it] 64%|██████▎   | 14/22 [00:51<00:24,  3.06s/it] 68%|██████▊   | 15/22 [00:54<00:21,  3.12s/it] 73%|███████▎  | 16/22 [00:58<00:19,  3.32s/it] 77%|███████▋  | 17/22 [01:01<00:15,  3.15s/it] 82%|████████▏ | 18/22 [01:05<00:13,  3.44s/it] 86%|████████▋ | 19/22 [01:12<00:13,  4.44s/it] 91%|█████████ | 20/22 [01:16<00:08,  4.42s/it] 95%|█████████▌| 21/22 [01:19<00:03,  3.94s/it]100%|██████████| 22/22 [01:19<00:00,  2.88s/it]100%|██████████| 22/22 [01:19<00:00,  3.62s/it]
+
+  0%|          | 0/22 [00:00<?, ?it/s]
+  5%|▍         | 1/22 [00:03<01:13,  3.51s/it]
+  9%|▉         | 2/22 [00:07<01:13,  3.66s/it]
+ 14%|█▎        | 3/22 [00:10<01:09,  3.65s/it]
+ 18%|█▊        | 4/22 [00:14<01:06,  3.72s/it]
+ 23%|██▎       | 5/22 [00:17<00:57,  3.38s/it]
+ 27%|██▋       | 6/22 [00:18<00:39,  2.45s/it]
+ 32%|███▏      | 7/22 [00:24<00:55,  3.67s/it]
+ 36%|███▋      | 8/22 [00:27<00:51,  3.65s/it]
+ 41%|████      | 9/22 [00:31<00:48,  3.71s/it]
+ 45%|████▌     | 10/22 [00:39<00:58,  4.92s/it]
+ 50%|█████     | 11/22 [00:43<00:52,  4.76s/it]
+ 55%|█████▍    | 12/22 [00:47<00:43,  4.35s/it]
+ 59%|█████▉    | 13/22 [00:50<00:37,  4.12s/it]
+ 64%|██████▎   | 14/22 [00:51<00:24,  3.06s/it]
+ 68%|██████▊   | 15/22 [00:54<00:21,  3.12s/it]
+ 73%|███████▎  | 16/22 [00:58<00:19,  3.32s/it]
+ 77%|███████▋  | 17/22 [01:01<00:15,  3.15s/it]
+ 82%|████████▏ | 18/22 [01:05<00:13,  3.44s/it]
+ 86%|████████▋ | 19/22 [01:12<00:13,  4.44s/it]
+ 91%|█████████ | 20/22 [01:16<00:08,  4.42s/it]
+ 95%|█████████▌| 21/22 [01:19<00:03,  3.94s/it]
+100%|██████████| 22/22 [01:19<00:00,  2.88s/it]
+100%|██████████| 22/22 [01:19<00:00,  3.62s/it]
 Traceback (most recent call last):
-  File "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/.venv/lib/python3.11/site-packages/httpx/_transports/default.py", line 101, in map_httpcore_exceptions
+  File ".venv/lib/python3.11/site-packages/httpx/_transports/default.py", line 101, in map_httpcore_exceptions
     yield
-  File "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/.venv/lib/python3.11/site-packages/httpx/_transports/default.py", line 250, in handle_request
+  File ".venv/lib/python3.11/site-packages/httpx/_transports/default.py", line 250, in handle_request
     resp = self._pool.handle_request(req)
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/.venv/lib/python3.11/site-packages/httpcore/_sync/connection_pool.py", line 256, in handle_request
+  File ".venv/lib/python3.11/site-packages/httpcore/_sync/connection_pool.py", line 256, in handle_request
     raise exc from None
-  File "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/.venv/lib/python3.11/site-packages/httpcore/_sync/connection_pool.py", line 236, in handle_request
+  File ".venv/lib/python3.11/site-packages/httpcore/_sync/connection_pool.py", line 236, in handle_request
     response = connection.handle_request(
                ^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/.venv/lib/python3.11/site-packages/httpcore/_sync/connection.py", line 103, in handle_request
+  File ".venv/lib/python3.11/site-packages/httpcore/_sync/connection.py", line 103, in handle_request
     return self._connection.handle_request(request)
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/.venv/lib/python3.11/site-packages/httpcore/_sync/http11.py", line 136, in handle_request
+  File ".venv/lib/python3.11/site-packages/httpcore/_sync/http11.py", line 136, in handle_request
     raise exc
-  File "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/.venv/lib/python3.11/site-packages/httpcore/_sync/http11.py", line 106, in handle_request
+  File ".venv/lib/python3.11/site-packages/httpcore/_sync/http11.py", line 106, in handle_request
     ) = self._receive_response_headers(**kwargs)
         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/.venv/lib/python3.11/site-packages/httpcore/_sync/http11.py", line 177, in _receive_response_headers
+  File ".venv/lib/python3.11/site-packages/httpcore/_sync/http11.py", line 177, in _receive_response_headers
     event = self._receive_event(timeout=timeout)
             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/.venv/lib/python3.11/site-packages/httpcore/_sync/http11.py", line 217, in _receive_event
+  File ".venv/lib/python3.11/site-packages/httpcore/_sync/http11.py", line 217, in _receive_event
     data = self._network_stream.read(
            ^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/.venv/lib/python3.11/site-packages/httpcore/_backends/sync.py", line 126, in read
+  File ".venv/lib/python3.11/site-packages/httpcore/_backends/sync.py", line 126, in read
     with map_exceptions(exc_map):
-  File "/home/aditya/.local/share/uv/python/cpython-3.11.13-linux-x86_64-gnu/lib/python3.11/contextlib.py", line 158, in __exit__
+  File "/home/anon/.local/share/uv/python/cpython-3.11.13-linux-x86_64-gnu/lib/python3.11/contextlib.py", line 158, in __exit__
     self.gen.throw(typ, value, traceback)
-  File "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/.venv/lib/python3.11/site-packages/httpcore/_exceptions.py", line 14, in map_exceptions
+  File ".venv/lib/python3.11/site-packages/httpcore/_exceptions.py", line 14, in map_exceptions
     raise to_exc(exc) from exc
 httpcore.ReadTimeout: The read operation timed out
 
 The above exception was the direct cause of the following exception:
 
 Traceback (most recent call last):
-  File "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/.venv/lib/python3.11/site-packages/litellm/llms/custom_httpx/http_handler.py", line 1028, in post
+  File ".venv/lib/python3.11/site-packages/litellm/llms/custom_httpx/http_handler.py", line 1028, in post
     response = self.client.send(req, stream=stream)
                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/.venv/lib/python3.11/site-packages/httpx/_client.py", line 914, in send
+  File ".venv/lib/python3.11/site-packages/httpx/_client.py", line 914, in send
     response = self._send_handling_auth(
                ^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/.venv/lib/python3.11/site-packages/httpx/_client.py", line 942, in _send_handling_auth
+  File ".venv/lib/python3.11/site-packages/httpx/_client.py", line 942, in _send_handling_auth
     response = self._send_handling_redirects(
                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/.venv/lib/python3.11/site-packages/httpx/_client.py", line 979, in _send_handling_redirects
+  File ".venv/lib/python3.11/site-packages/httpx/_client.py", line 979, in _send_handling_redirects
     response = self._send_single_request(request)
                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/.venv/lib/python3.11/site-packages/httpx/_client.py", line 1014, in _send_single_request
+  File ".venv/lib/python3.11/site-packages/httpx/_client.py", line 1014, in _send_single_request
     response = transport.handle_request(request)
                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/.venv/lib/python3.11/site-packages/httpx/_transports/default.py", line 249, in handle_request
+  File ".venv/lib/python3.11/site-packages/httpx/_transports/default.py", line 249, in handle_request
     with map_httpcore_exceptions():
-  File "/home/aditya/.local/share/uv/python/cpython-3.11.13-linux-x86_64-gnu/lib/python3.11/contextlib.py", line 158, in __exit__
+  File "/home/anon/.local/share/uv/python/cpython-3.11.13-linux-x86_64-gnu/lib/python3.11/contextlib.py", line 158, in __exit__
     self.gen.throw(typ, value, traceback)
-  File "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/.venv/lib/python3.11/site-packages/httpx/_transports/default.py", line 118, in map_httpcore_exceptions
+  File ".venv/lib/python3.11/site-packages/httpx/_transports/default.py", line 118, in map_httpcore_exceptions
     raise mapped_exc(message) from exc
 httpx.ReadTimeout: The read operation timed out
 
@@ -89,79 +168,79 @@ During handling of the above exception, another exception occurred:
 Traceback (most recent call last):
   File "<frozen runpy>", line 198, in _run_module_as_main
   File "<frozen runpy>", line 88, in _run_code
-  File "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/src/secretagent/cli/orchestration_learner.py", line 242, in <module>
+  File "src/secretagent/cli/orchestration_learner.py", line 242, in <module>
     app()
-  File "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/.venv/lib/python3.11/site-packages/typer/main.py", line 1152, in __call__
+  File ".venv/lib/python3.11/site-packages/typer/main.py", line 1152, in __call__
     raise e
-  File "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/.venv/lib/python3.11/site-packages/typer/main.py", line 1135, in __call__
+  File ".venv/lib/python3.11/site-packages/typer/main.py", line 1135, in __call__
     return get_command(self)(*args, **kwargs)
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/.venv/lib/python3.11/site-packages/click/core.py", line 1485, in __call__
+  File ".venv/lib/python3.11/site-packages/click/core.py", line 1485, in __call__
     return self.main(*args, **kwargs)
            ^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/.venv/lib/python3.11/site-packages/typer/core.py", line 795, in main
+  File ".venv/lib/python3.11/site-packages/typer/core.py", line 795, in main
     return _main(
            ^^^^^^
-  File "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/.venv/lib/python3.11/site-packages/typer/core.py", line 188, in _main
+  File ".venv/lib/python3.11/site-packages/typer/core.py", line 188, in _main
     rv = self.invoke(ctx)
          ^^^^^^^^^^^^^^^^
-  File "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/.venv/lib/python3.11/site-packages/click/core.py", line 1873, in invoke
+  File ".venv/lib/python3.11/site-packages/click/core.py", line 1873, in invoke
     return _process_result(sub_ctx.command.invoke(sub_ctx))
                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/.venv/lib/python3.11/site-packages/click/core.py", line 1269, in invoke
+  File ".venv/lib/python3.11/site-packages/click/core.py", line 1269, in invoke
     return ctx.invoke(self.callback, **ctx.params)
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/.venv/lib/python3.11/site-packages/click/core.py", line 824, in invoke
+  File ".venv/lib/python3.11/site-packages/click/core.py", line 824, in invoke
     return callback(*args, **kwargs)
            ^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/.venv/lib/python3.11/site-packages/typer/main.py", line 1514, in wrapper
+  File ".venv/lib/python3.11/site-packages/typer/main.py", line 1514, in wrapper
     return callback(**use_params)
            ^^^^^^^^^^^^^^^^^^^^^^
-  File "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/src/secretagent/cli/orchestration_learner.py", line 135, in run
+  File "src/secretagent/cli/orchestration_learner.py", line 135, in run
     learner.learn()
-  File "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/src/secretagent/learn/orchestrate_learner.py", line 1354, in learn
+  File "src/secretagent/learn/orchestrate_learner.py", line 1354, in learn
     self.fit()
-  File "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/src/secretagent/learn/orchestrate_learner.py", line 1214, in fit
+  File "src/secretagent/learn/orchestrate_learner.py", line 1214, in fit
     report = improve_with_supervisor(
              ^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/src/secretagent/orchestrate/improve.py", line 592, in improve_with_supervisor
+  File "src/secretagent/orchestrate/improve.py", line 592, in improve_with_supervisor
     new_source, reasoning, cfg_overrides, sup_stats = recompose(
                                                       ^^^^^^^^^^
-  File "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/src/secretagent/orchestrate/composer.py", line 191, in recompose
+  File "src/secretagent/orchestrate/composer.py", line 191, in recompose
     llm_output, stats = llm(prompt, model)
                         ^^^^^^^^^^^^^^^^^^
-  File "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/src/secretagent/llm_util.py", line 163, in llm
+  File "src/secretagent/llm_util.py", line 163, in llm
     model_output, stats = cached(_llm_impl)(prompt, model)
                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/.venv/lib/python3.11/site-packages/cachier/core.py", line 606, in func_wrapper
+  File ".venv/lib/python3.11/site-packages/cachier/core.py", line 606, in func_wrapper
     return _call(*args, **kwargs)
            ^^^^^^^^^^^^^^^^^^^^^^
-  File "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/.venv/lib/python3.11/site-packages/cachier/core.py", line 459, in _call
+  File ".venv/lib/python3.11/site-packages/cachier/core.py", line 459, in _call
     return _calc_entry(core, key, func, args, kwds, _print)
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/.venv/lib/python3.11/site-packages/cachier/core.py", line 84, in _calc_entry
+  File ".venv/lib/python3.11/site-packages/cachier/core.py", line 84, in _calc_entry
     func_res = func(*args, **kwds)
                ^^^^^^^^^^^^^^^^^^^
-  File "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/src/secretagent/llm_util.py", line 120, in _llm_impl
+  File "src/secretagent/llm_util.py", line 120, in _llm_impl
     response = completion(model=model, messages=messages, **extra_kw)
                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/.venv/lib/python3.11/site-packages/litellm/utils.py", line 1771, in wrapper
+  File ".venv/lib/python3.11/site-packages/litellm/utils.py", line 1771, in wrapper
     raise e
-  File "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/.venv/lib/python3.11/site-packages/litellm/utils.py", line 1592, in wrapper
+  File ".venv/lib/python3.11/site-packages/litellm/utils.py", line 1592, in wrapper
     result = original_function(*args, **kwargs)
              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/.venv/lib/python3.11/site-packages/litellm/main.py", line 4411, in completion
+  File ".venv/lib/python3.11/site-packages/litellm/main.py", line 4411, in completion
     raise exception_type(
-  File "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/.venv/lib/python3.11/site-packages/litellm/main.py", line 3442, in completion
+  File ".venv/lib/python3.11/site-packages/litellm/main.py", line 3442, in completion
     response = vertex_chat_completion.completion(  # type: ignore
                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/.venv/lib/python3.11/site-packages/litellm/llms/vertex_ai/gemini/vertex_and_google_ai_studio_gemini.py", line 2982, in completion
+  File ".venv/lib/python3.11/site-packages/litellm/llms/vertex_ai/gemini/vertex_and_google_ai_studio_gemini.py", line 2982, in completion
     response = client.post(url=url, headers=headers, json=data, logging_obj=logging_obj)  # type: ignore
                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/.venv/lib/python3.11/site-packages/litellm/llms/custom_httpx/http_handler.py", line 1032, in post
+  File ".venv/lib/python3.11/site-packages/litellm/llms/custom_httpx/http_handler.py", line 1032, in post
     raise litellm.Timeout(
 litellm.exceptions.Timeout: litellm.Timeout: Connection timed out after None seconds.
-saved in /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/bbh/sports_understanding/results/orchestration_learner/20260426.142230.rc_iter0_eval/results.csv
+saved in benchmarks/bbh/sports_understanding/results/orchestration_learner/20260426.142230.rc_iter0_eval/results.csv
 [supervisor] baseline eval accuracy: 100.0%
 [supervisor] baseline: accuracy=90.6%, avg_cost=$0.0007
 [supervisor] baseline eval: 100.0%

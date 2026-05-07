@@ -11,7 +11,7 @@ Use this file to track the benchmark runs you want to keep.
 
 ## Dataset Setup
 
-- DesignBench root (default lookup): `/Users/goku/Work/Spring_26/IS/DesignBench` (exists)
+- DesignBench root (default lookup): `/Users/anon/Work/Spring_26/IS/DesignBench` (exists)
 - Local benchmark data path required by `expt.py`: `benchmarks/designbench/data/generation/<framework>`
 - Local data status in this repo: **present** (`vanilla/react/vue/angular` dirs available)
 - Source dataset stats (from sibling DesignBench repo):

@@ -1,9 +1,9 @@
 llm:
   model: together_ai/deepseek-ai/DeepSeek-V3.1
 cachier:
-  cache_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/bbh/geometric_shapes/llm_cache
+  cache_dir: benchmarks/bbh/geometric_shapes/llm_cache
 evaluate:
-  result_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/bbh/geometric_shapes/val_results
+  result_dir: benchmarks/bbh/geometric_shapes/val_results
   expt_name: geometric_shapes_val_class2
 dataset:
   split: valid
@@ -27,4 +27,4 @@ ptools:
     learner: workflow_distill
     backoff: false
 learn:
-  train_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/bbh/geometric_shapes/learned_class2
+  train_dir: benchmarks/bbh/geometric_shapes/learned_class2

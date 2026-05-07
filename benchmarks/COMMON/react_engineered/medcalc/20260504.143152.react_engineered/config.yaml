@@ -2,10 +2,10 @@ llm:
   model: together_ai/deepseek-ai/DeepSeek-V3
   max_tokens: 65536
 cachier:
-  cache_dir: /Users/lexl/Research_group/secretagent/benchmarks/medcalc/llm_cache
+  cache_dir: benchmarks/medcalc/llm_cache
   enable_caching: true
 evaluate:
-  result_dir: /Users/lexl/Research_group/secretagent/benchmarks/medcalc/results
+  result_dir: benchmarks/medcalc/results
   expt_name: react_engineered
   entry_point: calculate_medical_value
 dataset:
@@ -31,4 +31,4 @@ ptools:
       the available tools to identify the right calculator, extract clinical values,
       and run the calculation. Return the final numeric value as the structured output.
       Stop calling tools after deciding.
-root: /Users/lexl/Research_group/secretagent/benchmarks/medcalc
+root: benchmarks/medcalc

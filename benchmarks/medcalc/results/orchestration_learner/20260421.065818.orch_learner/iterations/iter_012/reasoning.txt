@@ -1,7 +1,0 @@
-An analysis of the pipeline's failure traces reveals two main categories of errors that can be cleanly resolved without rewriting prompts or overhauling the L4 workflow:
-
-1. **HOMA-IR Dataset Scaling Regression:**
-   A previous iteration added a hardcoded `val *= 6.0` multiplier to HOMA-IR calculations in an attempt to correct a perceived dataset unit conversion error. However, a deeper look at the evaluations (e.g., Case train.9846 vs Case train.5880) shows this multiplier is factually incorrect for standard extractions and actively breaks previously working cases. We will remove this artificial scalar.
-
-2. **Scoring Calculator Hallucinations (GBS, Caprini, FeverPAIN, APACHE II, Child-Pugh):**
-   The pipeline extracts complex scoring systems using a two-stage process: `analyze_scoring_conditions` (reasoning) followed by `extract_calculator_values` (structured JSON). While the *extraction* stage received explicit instructions on point thresholds (e.g., GBS BUN score intervals) and boolean rules (e.g., "absence_of_cough"), the *reasoning* stage did not. As a result, the reasoning LLM frequently hallucinated intervals, missed implied negative conditions, and generated a flawed medical context that corrupted the extraction stage. By surfacing a dynamic `$calculator_hints` parameter into the `analyze_scoring_conditions` interface and pushing exact threshold intervals into both stages, we natively align the LLM's step-by-step reasoning with the calculator's definitions.

@@ -1,4 +1,0 @@
-case_name,predicted_output,expected_output,correct,correct_tolerance,failure_mode,input_tokens,output_tokens,latency,cost,expt_name
-airline_0_6,**exception raised**: cannot find answer matching pattern '```python\n([^`]*)\n```',1131,0.0,0.0,extraction_failure,12984.0,8188.0,42.924994468688965,0.024365200000000004,pot
-airline_1_28,**exception raised**: cannot find answer matching pattern '```python\n([^`]*)\n```',2296,0.0,0.0,extraction_failure,13059.0,2375.0,12.803366661071777,0.0098552,pot
-airline_1_10,**exception raised**: cannot find answer matching pattern '```python\n([^`]*)\n```',2682,0.0,0.0,extraction_failure,13054.0,6045.0,29.328221559524536,0.019028700000000003,pot

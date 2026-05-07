@@ -2,7 +2,7 @@
 # Fill missing full-size vals across all (bench, class, version) combos.
 # For each combo: check if learned dir exists w/ ENABLED ptools; if no val_full exists, run val.
 set +e
-ROOT="/Users/yanjiarui/Desktop/Will_research/secretagent"
+ROOT="/Users/anon/Desktop/anon_research/secretagent"
 LOG_DIR="$ROOT/benchmarks/codedistill_logs_v2"
 mkdir -p "$LOG_DIR"
 set -a; source "$ROOT/.env"; set +a

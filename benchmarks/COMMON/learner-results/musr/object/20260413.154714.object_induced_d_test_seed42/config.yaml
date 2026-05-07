@@ -1,11 +1,11 @@
 llm:
   model: together_ai/deepseek-ai/DeepSeek-V3
 cachier:
-  cache_dir: /Users/lexl/reasoning_primitives/benchmarks/musr/llm_cache
+  cache_dir: /Users/anon/reasoning_primitives/benchmarks/musr/llm_cache
   enable_caching: false
 evaluate:
   expt_name: object_induced_d_test_seed42
-  result_dir: /Users/lexl/reasoning_primitives/benchmarks/musr/results
+  result_dir: /Users/anon/reasoning_primitives/benchmarks/musr/results
   entry_point: answer_question
   record_details: true
 dataset:

@@ -3,10 +3,10 @@ llm:
   max_tokens: 65536
   timeout: 300
 cachier:
-  cache_dir: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/medcalc/llm_cache
+  cache_dir: benchmarks/medcalc/llm_cache
   enable_caching: true
 evaluate:
-  result_dir: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/medcalc/results/orchestration_learner
+  result_dir: benchmarks/medcalc/results/orchestration_learner
   expt_name: rc_iter7_eval
   entry_point: calculate_medical_value
   record_details: false

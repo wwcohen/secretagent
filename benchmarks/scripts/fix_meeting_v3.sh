@@ -1,7 +1,7 @@
 #!/bin/bash
 # Re-distill meeting class 2 with golden_plan list → str conversion
 set +e
-ROOT="/Users/yanjiarui/Desktop/Will_research/secretagent"
+ROOT="/Users/anon/Desktop/anon_research/secretagent"
 LOG_DIR="$ROOT/benchmarks/codedistill_logs_v2"
 set -a; source "$ROOT/.env"; set +a
 CD_MODEL="${CD_MODEL:-claude-opus-4-6}"

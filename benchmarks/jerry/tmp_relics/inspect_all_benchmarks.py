@@ -12,7 +12,7 @@ import json
 from pathlib import Path
 import yaml
 
-ROOT = Path("/Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks")
+ROOT = Path("benchmarks")
 
 # (sub_bench_label, bench_dir, sub_specific_check_str)
 BENCHES = [

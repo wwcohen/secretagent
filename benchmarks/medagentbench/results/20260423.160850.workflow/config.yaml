@@ -6,7 +6,7 @@ cachier:
 fhir:
   api_base: http://localhost:8080/fhir/
 evaluate:
-  result_dir: /Users/lauhityareddy/secretagent/benchmarks/medagentbench/results
+  result_dir: benchmarks/medagentbench/results
   expt_name: workflow
   record_details: true
 dataset:

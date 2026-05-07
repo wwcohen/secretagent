@@ -1,1 +1,1 @@
-/Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/natural_plan/learned_class3_v3/induced_recordings/20260428.234718.calendar_scheduling_induced_record
+benchmarks/natural_plan/learned_class3_v3/induced_recordings/20260428.234718.calendar_scheduling_induced_record

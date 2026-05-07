@@ -2,9 +2,9 @@ llm:
   model: together_ai/deepseek-ai/DeepSeek-V3
   timeout: 180
 cachier:
-  cache_dir: /Users/arthurkajiyama/Documents/CMU/Research/secret_agents/secretagent/benchmarks/natural_plan/llm_cache
+  cache_dir: benchmarks/natural_plan/llm_cache
 evaluate:
-  result_dir: /Users/arthurkajiyama/Documents/CMU/Research/secret_agents/secretagent/benchmarks/natural_plan/results
+  result_dir: benchmarks/natural_plan/results
   expt_name: nsga_002
   entry_point: trip_planning
   prompt_trace: true
@@ -26,4 +26,4 @@ ptools:
     method: simulate
   trip_planning:
     method: simulate
-root: /Users/arthurkajiyama/Documents/CMU/Research/secret_agents/secretagent/benchmarks/natural_plan
+root: benchmarks/natural_plan

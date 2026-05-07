@@ -1,7 +1,7 @@
 #!/bin/bash
 # Fill missing vals (c1_v4 / c2_v4 / c3_v4 only — NO c1_v1).
 set +e
-ROOT="/Users/yanjiarui/Desktop/Will_research/secretagent"
+ROOT="/Users/anon/Desktop/anon_research/secretagent"
 LOG_DIR="$ROOT/benchmarks/codedistill_logs_v2"
 mkdir -p "$LOG_DIR"
 set -a; source "$ROOT/.env"; set +a

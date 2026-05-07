@@ -1,6 +1,6 @@
 #!/bin/bash
 set +e
-ROOT="/Users/yanjiarui/Desktop/Will_research/secretagent"
+ROOT="/Users/anon/Desktop/anon_research/secretagent"
 LOG_DIR="$ROOT/benchmarks/val_eval_logs"
 set -a; source "$ROOT/.env"; set +a
 N=30

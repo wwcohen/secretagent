@@ -2,12 +2,12 @@ llm:
   model: together_ai/deepseek-ai/DeepSeek-V3.1
   max_tokens: 4096
 cachier:
-  cache_dir: /Users/lauhityareddy/secretagent/benchmarks/medagentbench/llm_cache
+  cache_dir: benchmarks/medagentbench/llm_cache
   enable_caching: true
 fhir:
   api_base: http://localhost:8080/fhir/
 evaluate:
-  result_dir: /Users/lauhityareddy/secretagent/benchmarks/medagentbench/results
+  result_dir: benchmarks/medagentbench/results
   expt_name: pot
   record_details: true
   max_workers: 1

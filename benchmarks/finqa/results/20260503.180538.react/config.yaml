@@ -1,9 +1,9 @@
 llm:
   model: together_ai/deepseek-ai/DeepSeek-V3.1
 cachier:
-  cache_dir: /Users/arthurkajiyama/Documents/CMU/Research/secret_agents/secretagent/benchmarks/finqa/llm_cache
+  cache_dir: benchmarks/finqa/llm_cache
 evaluate:
-  result_dir: /Users/arthurkajiyama/Documents/CMU/Research/secret_agents/secretagent/benchmarks/finqa/results
+  result_dir: benchmarks/finqa/results
   expt_name: react
   record_details: true
 dataset:
@@ -19,7 +19,7 @@ ptools:
     method: direct
   extract_reasoning_plan:
     method: simulate
-    prompt_template_file: /Users/arthurkajiyama/Documents/CMU/Research/secret_agents/secretagent/benchmarks/finqa/prompt_templates/reasoning_plan.txt
+    prompt_template_file: benchmarks/finqa/prompt_templates/reasoning_plan.txt
     answer_pattern: null
   parse_plan_fields:
     method: direct
@@ -31,7 +31,7 @@ ptools:
     method: simulate
   zeroshot_answer_finqa:
     method: prompt_llm
-    prompt_template_file: /Users/arthurkajiyama/Documents/CMU/Research/secret_agents/secretagent/benchmarks/finqa/prompt_templates/zeroshot.txt
+    prompt_template_file: benchmarks/finqa/prompt_templates/zeroshot.txt
     answer_pattern: null
   coerce_to_answer:
     method: direct
@@ -45,4 +45,4 @@ ptools:
     - ptools.call_lookup_cell
     - ptools.call_compute
     - ptools.call_extract_reasoning_plan
-root: /Users/arthurkajiyama/Documents/CMU/Research/secret_agents/secretagent/benchmarks/finqa
+root: benchmarks/finqa

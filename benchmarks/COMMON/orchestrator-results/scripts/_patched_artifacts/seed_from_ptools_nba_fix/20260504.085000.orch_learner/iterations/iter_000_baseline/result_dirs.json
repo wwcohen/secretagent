@@ -1,4 +1,4 @@
 {
-  "train_result_dir": "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/rulearena/results/orchestration_learner/20260427.080248.rc_iter0",
-  "eval_result_dir": "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/rulearena/results/orchestration_learner/20260427.080250.rc_iter0_eval"
+  "train_result_dir": "benchmarks/rulearena/results/orchestration_learner/20260427.080248.rc_iter0",
+  "eval_result_dir": "benchmarks/rulearena/results/orchestration_learner/20260427.080250.rc_iter0_eval"
 }

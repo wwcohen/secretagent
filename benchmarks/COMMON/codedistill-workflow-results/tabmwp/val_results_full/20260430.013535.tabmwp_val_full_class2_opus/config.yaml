@@ -1,10 +1,10 @@
 llm:
   model: together_ai/deepseek-ai/DeepSeek-V3.1
 cachier:
-  cache_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/tabmwp/llm_cache
+  cache_dir: benchmarks/tabmwp/llm_cache
 evaluate:
   expt_name: tabmwp_val_full_class2_opus
-  result_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/tabmwp/val_results_full
+  result_dir: benchmarks/tabmwp/val_results_full
   record_details: true
 dataset:
   split: dev1k
@@ -25,5 +25,5 @@ ptools:
     learner: workflow_distill
     backoff: true
 learn:
-  train_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/tabmwp/learned_class2_opus
-root: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/tabmwp
+  train_dir: benchmarks/tabmwp/learned_class2_opus
+root: benchmarks/tabmwp

@@ -1,7 +1,0 @@
-{
-  "reproduce_cmd": "uv run python expt.py run --config-file conf/trip.yaml dataset.partition=valid ptools.trip_planning.method=direct ptools.trip_planning.fn=ptools_trip.trip_workflow llm.model=gemini/gemini-3.1-flash-lite-preview evaluate.expt_name=workflow_gemini_flash_lite evaluate.max_workers=4 dataset.n=10",
-  "accuracy": 0.1,
-  "total_cost_usd": 0.017368,
-  "total_time_sec": 79.28,
-  "n_samples": 10
-}

@@ -6,7 +6,7 @@ cachier:
 fhir:
   api_base: http://localhost:8080/fhir/
 evaluate:
-  result_dir: /Users/wcohen/Documents/code/secretagent/benchmarks/medagentbench/results
+  result_dir: benchmarks/medagentbench/results
   expt_name: structured_baseline
   record_details: true
 dataset:
@@ -14,4 +14,4 @@ dataset:
 ptools:
   solve_medical_task:
     method: simulate
-root: /Users/wcohen/Documents/code/secretagent/benchmarks/medagentbench
+root: benchmarks/medagentbench

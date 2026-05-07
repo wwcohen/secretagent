@@ -12,20 +12,25 @@ Sampling: adapter:finqa
 Benchmark: finqa
 Config: conf.yaml
 Ptools module: ptools (ptools_20260426.023329_scratch.py)
-Scratch evolved: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/finqa/.orchestration_learner/ptools_20260426.023329_scratch.py
+Scratch evolved: benchmarks/finqa/.orchestration_learner/ptools_20260426.023329_scratch.py
 Entry point: answer_finqa
 Supervisor: gemini/gemini-3.1-pro-preview
 Train: 2 cases, Eval: 1 cases
 Max iterations: 1
-Output: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/finqa/results/orchestration_learner/20260426.023329.orch_learner
+Output: benchmarks/finqa/results/orchestration_learner/20260426.023329.orch_learner
 [supervisor] evolved ptools: ptools_20260426.023329_scratch.py
 
 [supervisor] === Initial Evaluation ===
-  0%|          | 0/2 [00:00<?, ?it/s] 50%|█████     | 1/2 [00:03<00:03,  3.19s/it]100%|██████████| 2/2 [00:03<00:00,  1.62s/it]
-saved in /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/finqa/results/orchestration_learner/20260426.023330.rc_iter0/results.csv
+
+  0%|          | 0/2 [00:00<?, ?it/s]
+ 50%|█████     | 1/2 [00:03<00:03,  3.19s/it]
+100%|██████████| 2/2 [00:03<00:00,  1.62s/it]
+saved in benchmarks/finqa/results/orchestration_learner/20260426.023330.rc_iter0/results.csv
 [supervisor] evaluating baseline on held-out set...
-  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00, 17.86it/s]
-saved in /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/finqa/results/orchestration_learner/20260426.023333.rc_iter0_eval/results.csv
+
+  0%|          | 0/1 [00:00<?, ?it/s]
+100%|██████████| 1/1 [00:00<00:00, 17.86it/s]
+saved in benchmarks/finqa/results/orchestration_learner/20260426.023333.rc_iter0_eval/results.csv
 [supervisor] baseline eval accuracy: 0.0%
 [supervisor] baseline: accuracy=0.0%, avg_cost=$0.0003
 [supervisor] baseline eval: 0.0%
@@ -39,40 +44,47 @@ Per-ptool breakdown:
 [supervisor] supervisor cost: $0.1663
 [supervisor] reasoning: An analysis of the failure patterns in FinQA reveals that the workflow relies on python `eval` to compute the math expression extracted from the LLM's plan. When the LLM ignores instructions and outputs formulas that contain equations (e.g., `Formula: (A - B) / B = 0.05`), the formula extraction kee
 [supervisor] re-evaluating on train set...
-  0%|          | 0/2 [00:00<?, ?it/s]100%|██████████| 2/2 [00:00<00:00, 17.77it/s]100%|██████████| 2/2 [00:00<00:00, 17.72it/s]
-saved in /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/finqa/results/orchestration_learner/20260426.023334.rc_iter1/results.csv
+
+  0%|          | 0/2 [00:00<?, ?it/s]
+100%|██████████| 2/2 [00:00<00:00, 17.77it/s]
+100%|██████████| 2/2 [00:00<00:00, 17.72it/s]
+saved in benchmarks/finqa/results/orchestration_learner/20260426.023334.rc_iter1/results.csv
 [supervisor] train: 0.0% (0/2 correct, 0 timeouts)
 [supervisor] cost: $0.0003/case
 [supervisor] evaluating on held-out set...
-  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00, 17.28it/s]
-saved in /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/finqa/results/orchestration_learner/20260426.023334.rc_iter1_eval/results.csv
+
+  0%|          | 0/1 [00:00<?, ?it/s]
+100%|██████████| 1/1 [00:00<00:00, 17.28it/s]
+saved in benchmarks/finqa/results/orchestration_learner/20260426.023334.rc_iter1_eval/results.csv
 [supervisor] eval:  0.0% (0/1 correct)
 [supervisor] ROLLED BACK: train 0.0%→0.0%, eval 0.0%→0.0%, best=0.0%
 [supervisor] ROLLED BACK (accuracy dropped)
-[report] saved /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/finqa/results/orchestration_learner/20260426.023329.orch_learner/report.html
+[report] saved benchmarks/finqa/results/orchestration_learner/20260426.023329.orch_learner/report.html
 
 [supervisor] === Summary ===
 Iterations: 1
 Best accuracy: 0.0% (iteration 0)
 Total supervisor cost: $0.1663
-Evolved ptools saved to: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/finqa/.orchestration_learner/ptools_20260426.023329_scratch.py
+Evolved ptools saved to: benchmarks/finqa/.orchestration_learner/ptools_20260426.023329_scratch.py
 
 === Final Evaluation on Held-Out Set (1 cases) ===
-  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00, 17.66it/s]
-saved in /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/finqa/results/orchestration_learner/20260426.023329.orch_learner/final_eval/20260426.023334.rc_final_eval/results.csv
+
+  0%|          | 0/1 [00:00<?, ?it/s]
+100%|██████████| 1/1 [00:00<00:00, 17.66it/s]
+saved in benchmarks/finqa/results/orchestration_learner/20260426.023329.orch_learner/final_eval/20260426.023334.rc_final_eval/results.csv
 Final eval accuracy: 0.0%
 Final eval avg cost: $0.0004
 
 === Generating Plots & Report ===
-[plots] saved /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/finqa/results/orchestration_learner/20260426.023329.orch_learner/plots/accuracy_over_iterations.png
-[plots] saved /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/finqa/results/orchestration_learner/20260426.023329.orch_learner/plots/cost_over_iterations.png
-[plots] saved /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/finqa/results/orchestration_learner/20260426.023329.orch_learner/plots/accuracy_vs_cost.png
-[report] saved /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/finqa/results/orchestration_learner/20260426.023329.orch_learner/report.html
+[plots] saved benchmarks/finqa/results/orchestration_learner/20260426.023329.orch_learner/plots/accuracy_over_iterations.png
+[plots] saved benchmarks/finqa/results/orchestration_learner/20260426.023329.orch_learner/plots/cost_over_iterations.png
+[plots] saved benchmarks/finqa/results/orchestration_learner/20260426.023329.orch_learner/plots/accuracy_vs_cost.png
+[report] saved benchmarks/finqa/results/orchestration_learner/20260426.023329.orch_learner/report.html
 best train accuracy: 0.0% (iteration 0)
 iterations: 2
 supervisor cost: $0.1663
 final eval accuracy: 0.0%
-saved output to /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/finqa/results/orchestration_learner/20260426.023329.orch_learner/implementation.yaml
+saved output to benchmarks/finqa/results/orchestration_learner/20260426.023329.orch_learner/implementation.yaml
 
 ============================================================
 === Orchestration Learner Complete ===
@@ -80,7 +92,7 @@ saved output to /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretag
 Best train accuracy: 0.0% (iteration 0)
 Final eval accuracy: 0.0%
 Total supervisor cost: $0.1663
-Output saved to: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/finqa/results/orchestration_learner/20260426.023329.orch_learner
+Output saved to: benchmarks/finqa/results/orchestration_learner/20260426.023329.orch_learner
 
 Iteration log:
   Iter     Train  Fail   TO      Eval    Sup $      Status

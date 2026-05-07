@@ -3,7 +3,7 @@
 # Uses workflow_incontext.yaml as decomposable baseline (4 sub-ptools simulate
 # + tabmwp_solve = direct: ptools.incontext_workflow).
 set +e
-ROOT="/Users/yanjiarui/Desktop/Will_research/secretagent"
+ROOT="/Users/anon/Desktop/anon_research/secretagent"
 TM="$ROOT/benchmarks/tabmwp"
 LOG_DIR="$ROOT/benchmarks/codedistill_logs_v2"
 mkdir -p "$LOG_DIR"

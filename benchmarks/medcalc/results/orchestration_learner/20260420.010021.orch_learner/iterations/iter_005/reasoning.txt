@@ -1,8 +1,0 @@
-1. What SPECIFIC failure pattern did you identify?
-In `workflow()`, when `identify_calculator()` returns a dictionary, the fuzzy string matching for the calculator name can sometimes match an incorrect calculator if the predicted name is a short substring of multiple calculators, or it might fail to find a match and leave `calc_name = None`. When `calc_name` is wrongly assigned, the downstream extraction asks for the wrong fields, causing validation to fail or extract garbage, and ultimately forces a fallback to the LLM. 
-2. How many of the shown failures share this pattern?
-Several date/pregnancy-related calculations (e.g. Estimated Due Date, Estimated of Conception) show the extraction stage asking for `gestational_weeks` instead of the date parameters, meaning they were routed to the wrong calculator signature during fuzzy matching.
-3. What is the MINIMAL change that fixes this pattern?
-Enhance the fuzzy matching in `workflow()` to prefer exact matches (case-insensitive) first before falling back to substring matching. This prevents "Estimated Due Date" from being incorrectly matched to another calculator just because of a partial string overlap.
-4. Why will this change NOT break currently working cases?
-It only improves the accuracy of mapping the LLM-identified calculator name to the exact keys in the `signatures` registry. Exact matches are prioritized, which is strictly safer than immediate substring matching.

@@ -2,10 +2,10 @@ llm:
   model: together_ai/Qwen/Qwen3.5-9B
   max_tokens: 16384
 cachier:
-  cache_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/medcalc/llm_cache
+  cache_dir: benchmarks/medcalc/llm_cache
   enable_caching: true
 evaluate:
-  result_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/medcalc/results
+  result_dir: benchmarks/medcalc/results
   expt_name: pipeline_codedistill
   entry_point: calculate_medical_value
 dataset:
@@ -24,4 +24,4 @@ ptools:
     method: direct
     fn: ptools.pipeline_workflow
 learn:
-  train_dir: /Users/yanjiarui/Desktop/Will_research/secretagent/benchmarks/medcalc/learned
+  train_dir: benchmarks/medcalc/learned

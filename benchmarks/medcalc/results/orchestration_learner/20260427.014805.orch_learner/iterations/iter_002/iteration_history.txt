@@ -1,4 +1,0 @@
-Iter 0: train=10.9%, eval=0.0% — KEPT
-Iter 1: train=10.9% — ROLLED BACK
-  What was tried: Supervisor call failed: UnpicklingError: unpickling stack underflow
-  ⚠ This change HURT accuracy. Do NOT retry this approach.

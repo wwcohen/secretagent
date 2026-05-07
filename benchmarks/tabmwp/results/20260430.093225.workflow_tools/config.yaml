@@ -1,10 +1,10 @@
 llm:
   model: together_ai/deepseek-ai/DeepSeek-V3.1
 cachier:
-  cache_dir: /home/rafacabrera7/DesktopUbuntu/secretagent/benchmarks/tabmwp/llm_cache
+  cache_dir: benchmarks/tabmwp/llm_cache
 evaluate:
   expt_name: workflow_tools
-  result_dir: /home/rafacabrera7/DesktopUbuntu/secretagent/benchmarks/tabmwp/results
+  result_dir: benchmarks/tabmwp/results
   record_details: true
 dataset:
   split: train
@@ -30,4 +30,4 @@ ptools:
   tabmwp_solve:
     method: direct
     fn: ptools.tools_workflow
-root: /home/rafacabrera7/DesktopUbuntu/secretagent/benchmarks/tabmwp
+root: benchmarks/tabmwp

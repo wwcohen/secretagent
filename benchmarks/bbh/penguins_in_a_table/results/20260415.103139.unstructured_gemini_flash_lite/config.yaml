@@ -1,9 +1,9 @@
 llm:
   model: gemini/gemini-3.1-flash-lite-preview
 cachier:
-  cache_dir: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/bbh/penguins_in_a_table/llm_cache
+  cache_dir: benchmarks/bbh/penguins_in_a_table/llm_cache
 evaluate:
-  result_dir: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/bbh/penguins_in_a_table/results
+  result_dir: benchmarks/bbh/penguins_in_a_table/results
   expt_name: unstructured_gemini_flash_lite
   max_workers: 1
 dataset:

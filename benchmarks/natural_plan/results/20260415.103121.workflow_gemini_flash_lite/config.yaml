@@ -1,9 +1,9 @@
 llm:
   model: gemini/gemini-3.1-flash-lite-preview
 cachier:
-  cache_dir: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/natural_plan/llm_cache
+  cache_dir: benchmarks/natural_plan/llm_cache
 evaluate:
-  result_dir: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/natural_plan/results
+  result_dir: benchmarks/natural_plan/results
   expt_name: workflow_gemini_flash_lite
   entry_point: meeting_planning
   prompt_trace: true

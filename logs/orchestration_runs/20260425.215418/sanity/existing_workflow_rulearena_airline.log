@@ -1,41 +1,41 @@
 Traceback (most recent call last):
   File "<frozen runpy>", line 198, in _run_module_as_main
   File "<frozen runpy>", line 88, in _run_code
-  File "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/src/secretagent/cli/orchestration_learner.py", line 242, in <module>
+  File "src/secretagent/cli/orchestration_learner.py", line 242, in <module>
     app()
-  File "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/.venv/lib/python3.11/site-packages/typer/main.py", line 1152, in __call__
+  File ".venv/lib/python3.11/site-packages/typer/main.py", line 1152, in __call__
     raise e
-  File "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/.venv/lib/python3.11/site-packages/typer/main.py", line 1135, in __call__
+  File ".venv/lib/python3.11/site-packages/typer/main.py", line 1135, in __call__
     return get_command(self)(*args, **kwargs)
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/.venv/lib/python3.11/site-packages/click/core.py", line 1485, in __call__
+  File ".venv/lib/python3.11/site-packages/click/core.py", line 1485, in __call__
     return self.main(*args, **kwargs)
            ^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/.venv/lib/python3.11/site-packages/typer/core.py", line 795, in main
+  File ".venv/lib/python3.11/site-packages/typer/core.py", line 795, in main
     return _main(
            ^^^^^^
-  File "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/.venv/lib/python3.11/site-packages/typer/core.py", line 188, in _main
+  File ".venv/lib/python3.11/site-packages/typer/core.py", line 188, in _main
     rv = self.invoke(ctx)
          ^^^^^^^^^^^^^^^^
-  File "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/.venv/lib/python3.11/site-packages/click/core.py", line 1873, in invoke
+  File ".venv/lib/python3.11/site-packages/click/core.py", line 1873, in invoke
     return _process_result(sub_ctx.command.invoke(sub_ctx))
                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/.venv/lib/python3.11/site-packages/click/core.py", line 1269, in invoke
+  File ".venv/lib/python3.11/site-packages/click/core.py", line 1269, in invoke
     return ctx.invoke(self.callback, **ctx.params)
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/.venv/lib/python3.11/site-packages/click/core.py", line 824, in invoke
+  File ".venv/lib/python3.11/site-packages/click/core.py", line 824, in invoke
     return callback(*args, **kwargs)
            ^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/.venv/lib/python3.11/site-packages/typer/main.py", line 1514, in wrapper
+  File ".venv/lib/python3.11/site-packages/typer/main.py", line 1514, in wrapper
     return callback(**use_params)
            ^^^^^^^^^^^^^^^^^^^^^^
-  File "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/src/secretagent/cli/orchestration_learner.py", line 135, in run
+  File "src/secretagent/cli/orchestration_learner.py", line 135, in run
     learner.learn()
-  File "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/src/secretagent/learn/orchestrate_learner.py", line 1339, in learn
+  File "src/secretagent/learn/orchestrate_learner.py", line 1339, in learn
     self.fit()
-  File "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/src/secretagent/learn/orchestrate_learner.py", line 983, in fit
+  File "src/secretagent/learn/orchestrate_learner.py", line 983, in fit
     ptools_cfg = _normalize_ptools_config(
                  ^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/src/secretagent/learn/orchestrate_learner.py", line 775, in _normalize_ptools_config
+  File "src/secretagent/learn/orchestrate_learner.py", line 775, in _normalize_ptools_config
     raise ValueError(
 ValueError: No DEFAULT ptools workflow mapping for 'compute_rulearena_answer'

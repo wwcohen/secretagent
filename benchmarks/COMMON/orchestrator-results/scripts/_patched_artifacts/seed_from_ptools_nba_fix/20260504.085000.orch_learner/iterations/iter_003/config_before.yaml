@@ -2,10 +2,10 @@ llm:
   model: gemini/gemini-3.1-flash-lite-preview
   max_tokens: 8192
 cachier:
-  cache_dir: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/rulearena/llm_cache
+  cache_dir: benchmarks/rulearena/llm_cache
   enable_caching: true
 evaluate:
-  result_dir: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/rulearena/results/orchestration_learner
+  result_dir: benchmarks/rulearena/results/orchestration_learner
   expt_name: DEFAULT
   max_workers: 1
   entry_point: compute_rulearena_answer
@@ -33,4 +33,4 @@ ptools:
     fn: ptools.compute_rulearena_answer_orchestrated_seed
 orchestrate:
   model: gemini/gemini-3.1-pro-preview
-root: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/rulearena
+root: benchmarks/rulearena

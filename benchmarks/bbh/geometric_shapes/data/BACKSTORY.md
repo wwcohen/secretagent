@@ -1,6 +1,6 @@
 This data was taken from 
 
- * https://github.com/wwcohen/doctest-prompting  
+ * https://github.com/anon/doctest-prompting  
 
 Specifically these two files were merged into data.json
 

@@ -1,8 +1,0 @@
-An analysis of the pipeline's failures reveals two main issues:
-1. **Type Coercion Crashes on Dates:** The `simulate_medical_value` function has a `-> float:` type hint. `secretagent` attempts to cast the LLM's string outputs (like `"09/10/2003"` or `"('33 weeks', '5 days')"`) into floats, causing hard crashes (`ValueError: could not convert string to float`).
-2. **LLM Calculation Errors:** The LLM consistently fails on specific calculations (Maintenance Fluids, Free Water Deficit, Delta Gap, QTc, etc.) because it doesn't know the exact formulas or rules used by the dataset evaluators (e.g., standardizing Total Body Water to `0.6 * weight` for everyone in Free Water Deficit, or strictly applying the 4-2-1 rule for fluids).
-
-**The Solution:**
-1. Change the return type hints of the medical calculation endpoints from `float` to `Any`. This tells `secretagent` to return the raw string.
-2. Implement a robust `_parse_final_answer` parser to safely extract dates, tuples (for gestational age), and numbers before passing the answer to the evaluator.
-3. Inject the exact calculation formulas and extraction rules into the LLM's `_CALCULATE_DOCSTRING` for the top 10 failing medical scores. Because it runs for `simulate_medical_value` across all workflows, it directly improves pipeline accuracy safely.

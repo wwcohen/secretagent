@@ -7,7 +7,7 @@ fhir:
   api_base: http://localhost:8080/fhir/
   max_round: 8
 evaluate:
-  result_dir: /Users/wcohen/Documents/code/secretagent/benchmarks/medagentbench/results
+  result_dir: benchmarks/medagentbench/results
   expt_name: unstructured_baseline
   record_details: true
 dataset:
@@ -15,5 +15,5 @@ dataset:
 ptools:
   solve_medical_task:
     method: prompt_llm
-    prompt_template_file: /Users/wcohen/Documents/code/secretagent/benchmarks/medagentbench/prompt_templates/unstructured_baseline.txt
-root: /Users/wcohen/Documents/code/secretagent/benchmarks/medagentbench
+    prompt_template_file: benchmarks/medagentbench/prompt_templates/unstructured_baseline.txt
+root: benchmarks/medagentbench

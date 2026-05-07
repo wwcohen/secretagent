@@ -1,4 +1,0 @@
-case_name,predicted_output,expected_output,correct,input_tokens,output_tokens,latency,cost,expt_name
-valid.043,(J),(J),1.0,3416.0,2667.0,21.39058566093445,0.016751000000000002,workflow
-valid.002,(E),(E),1.0,1924.0,648.0,8.41537594795227,0.005164,workflow
-valid.013,(B),(B),1.0,6471.0,6110.0,48.22783946990967,0.037021,workflow

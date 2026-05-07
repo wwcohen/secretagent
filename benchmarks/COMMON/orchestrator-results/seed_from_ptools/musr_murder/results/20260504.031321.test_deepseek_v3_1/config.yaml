@@ -5,13 +5,13 @@ orchestrate:
   model: together_ai/Qwen/Qwen3.5-9B
   max_retries: 3
 cachier:
-  cache_dir: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/musr/llm_cache
+  cache_dir: benchmarks/musr/llm_cache
   enable_caching: true
 echo:
   orchestrate: true
 evaluate:
   expt_name: test_deepseek_v3_1
-  result_dir: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/COMMON/orchestrator-results/seed_from_ptools/musr_murder
+  result_dir: benchmarks/COMMON/orchestrator-results/seed_from_ptools/musr_murder
   entry_point: answer_question_workflow
   record_details: true
   max_workers: 4
@@ -43,5 +43,5 @@ ptools:
     fn: __learned__.answer_question_workflow_orchestrated_seed
     learner: orch_learner
 learn:
-  train_dir: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/COMMON/orchestrator-results/_train_dirs/seed_from_ptools/musr_murder
-root: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/musr
+  train_dir: benchmarks/COMMON/orchestrator-results/_train_dirs/seed_from_ptools/musr_murder
+root: benchmarks/musr

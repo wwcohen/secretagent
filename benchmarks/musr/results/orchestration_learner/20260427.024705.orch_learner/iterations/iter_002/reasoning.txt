@@ -1,9 +1,0 @@
-An analysis of the failures reveals a very clear and consistent pattern across almost all cases (e.g., `ex013`, `ex000`, `ex064`, `ex096`, `ex091`, etc.): the zero-shot approach incorrectly prioritizes individual skills over interpersonal conflicts. When two team members explicitly argue, dislike, or blame each other, they cannot be assigned to the same 2-person task. Furthermore, if a single toxic individual conflicts with *both* of the other two, they must be isolated into the 1-person task. 
-
-In Iteration 1, an attempt was made to introduce Chain-of-Thought (CoT) to solve this, but it resulted in a catastrophic 0.0% accuracy. This happened because large CoT responses were fed directly into `extract_index`, which broke the simplistic downstream parsing (since the CoT inevitably mentions multiple answer choices during its reasoning steps). 
-
-To fix this securely:
-1. We introduce a new `analyze_team_allocation` CoT step that explicitly checks for interpersonal conflicts and enforces them as **hard rules** before evaluating skills.
-2. We require the LLM to output its final choice inside `<FINAL_CHOICE>` XML tags.
-3. We perform safe, robust Python-based regex extraction.
-4. We include a safe fallback where, if the regex fails, the analysis is seamlessly injected as context into the original `raw_answer` -> `extract_index` pipeline. This provides the accuracy boost of CoT while guaranteeing 100% extraction stability.
