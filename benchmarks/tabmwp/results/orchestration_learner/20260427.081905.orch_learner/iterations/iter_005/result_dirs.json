@@ -1,5 +1,0 @@
-{
-  "train_result_dir": "benchmarks/tabmwp/results/orchestration_learner/20260427.083128.rc_iter5",
-  "eval_result_dir": "benchmarks/tabmwp/results/orchestration_learner/20260427.083128.rc_iter5_eval",
-  "kept": false
-}

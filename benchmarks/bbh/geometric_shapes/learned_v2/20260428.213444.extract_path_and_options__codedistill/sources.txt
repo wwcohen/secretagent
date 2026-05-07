@@ -1,1 +1,0 @@
-benchmarks/bbh/geometric_shapes/recordings/20260428.083524.bbh_geometric_train_record_v2

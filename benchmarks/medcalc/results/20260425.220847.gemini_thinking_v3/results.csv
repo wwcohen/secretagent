@@ -1,4 +1,0 @@
-case_name,predicted_output,predicted_numeric,expected_output,correct,exact_match,within_limits,absolute_error,calculator_name,category,output_type,input_tokens,output_tokens,latency,cost,expt_name
-train.4278,10.0,10.0,5.0,0.0,0.0,0.0,5.0,HEART Score for Major Cardiac Events,risk,integer,15849.0,941.0,28.265899419784546,0.00537375,gemini_thinking_v3
-train.9258,184.0,184.0,297.8,0.0,0.0,0.0,113.80000000000001,Morphine Milligram Equivalents (MME) Calculator,dosage,integer,12935.0,675.0,21.881064891815186,0.00424625,gemini_thinking_v3
-train.5372,148.8,148.8,1390.8,0.0,0.0,0.0,1242.0,Sodium Correction for Hyperglycemia,lab test,decimal,18923.0,679.0,12.606199502944946,0.00574925,gemini_thinking_v3

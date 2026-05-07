@@ -1,5 +1,0 @@
-{
-  "train_result_dir": "benchmarks/bbh/sports_understanding/results/orchestration_learner/20260427.085001.rc_iter5",
-  "eval_result_dir": "benchmarks/bbh/sports_understanding/results/orchestration_learner/20260427.085042.rc_iter5_eval",
-  "kept": false
-}

@@ -1,5 +1,0 @@
-{
-  "train_result_dir": "benchmarks/medcalc/results/orchestration_learner/20260501.063231.rc_iter5",
-  "eval_result_dir": "benchmarks/medcalc/results/orchestration_learner/20260501.065021.rc_iter5_eval",
-  "kept": false
-}

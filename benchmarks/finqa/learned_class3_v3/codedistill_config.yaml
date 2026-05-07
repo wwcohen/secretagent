@@ -1,9 +1,0 @@
-ptools:
-  perform_numerical_calculation:
-    backoff: true
-    learner: codedistill
-    method: learned_code
-  provide_final_answer:
-    backoff: true
-    learner: codedistill
-    method: learned_code

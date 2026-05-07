@@ -1,3 +1,0 @@
-ptools:
-  are_sports_in_sentence_consistent:
-    method: simulate

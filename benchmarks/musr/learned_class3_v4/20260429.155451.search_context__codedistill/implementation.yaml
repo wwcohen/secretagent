@@ -1,4 +1,0 @@
-search_context:
-  backoff: true
-  learner: codedistill
-  method: learned_code

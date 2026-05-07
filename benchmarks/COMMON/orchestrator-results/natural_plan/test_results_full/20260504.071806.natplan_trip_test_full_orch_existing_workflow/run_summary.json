@@ -1,7 +1,0 @@
-{
-  "reproduce_cmd": "uv run python expt.py run --config-file benchmarks/natural_plan/conf/trip.yaml llm.model=together_ai/deepseek-ai/DeepSeek-V3.1 cachier.enable_caching=true learn.train_dir=benchmarks/COMMON/orchestrator-results/_train_dirs/existing_workflow/natplan_trip ptools.trip_planning.method=direct ptools.trip_planning.fn=__learned__.trip_workflow ptools.trip_planning.learner=orch_learner evaluate.entry_point=trip_planning evaluate.result_dir=benchmarks/COMMON/orchestrator-results/existing_workflow/natplan_trip evaluate.expt_name=test_deepseek_v3_1 evaluate.record_details=true evaluate.max_workers=4 dataset.n=null dataset.partition=test",
-  "accuracy": 0.11,
-  "total_cost_usd": 0.38716,
-  "total_time_sec": 3267.63,
-  "n_samples": 100
-}

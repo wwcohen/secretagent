@@ -1,5 +1,0 @@
-{
-  "train_result_dir": "benchmarks/natural_plan/results/orchestration_learner/20260505.032644.rc_iter2",
-  "eval_result_dir": "benchmarks/natural_plan/results/orchestration_learner/20260505.032645.rc_iter2_eval",
-  "kept": true
-}

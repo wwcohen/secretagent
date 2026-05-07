@@ -1,7 +1,0 @@
-{
-  "reproduce_cmd": "uv run python expt.py run --config-file conf/meeting.yaml dataset.n=100 evaluate.expt_name=meeting_react_engineered llm.model=together_ai/deepseek-ai/DeepSeek-V3 ptools.meeting_planning.method=react_pydantic ptools.meeting_planning.preamble=Answer the planning task using the available tools. Each tool has a docstring describing its purpose. After enough evidence, return your final plan as the structured output. Stop calling tools after producing the answer. ptools.meeting_planning.tools=[ptools_meeting.parse_meeting_info,ptools_meeting.plan_visit_order,ptools_meeting.build_meeting_plan]",
-  "accuracy": 0.1,
-  "total_cost_usd": 1.053599,
-  "total_time_sec": 6901.87,
-  "n_samples": 100
-}

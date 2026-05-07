@@ -1,5 +1,0 @@
-ptools:
-  format_answer:
-    backoff: true
-    learner: codedistill
-    method: learned_code

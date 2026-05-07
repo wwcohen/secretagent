@@ -1,4 +1,0 @@
-answer_date_question:
-  backoff: true
-  learner: workflow_distill
-  method: learned_code

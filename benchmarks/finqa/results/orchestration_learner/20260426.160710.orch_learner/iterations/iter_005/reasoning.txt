@@ -1,9 +1,0 @@
-An analysis of the failure cases reveals two key issues causing regressions or accuracy caps:
-
-1. **Format/Scaling Conflict:** The pipeline strictly forces the `extract_reasoning_plan` LLM to evaluate percentages as decimals (e.g., `0.3385`), which successfully resolved many arithmetic syntax errors. However, the final `extract_final_number` LLM was blindly extracting this decimal because it didn't have access to the original question to know if the ground truth actually expected a scaled percentage (e.g., `33.85`).
-2. **Formula Missing Fallback:** Occasionally, the reasoning plan simply outputs a bare number or equation without the "Formula:" prefix (e.g., Case 00536, Case 00609). `_extract_formula` failed to capture this, triggering a false "ERROR" state which poisoned the final extraction.
-
-**Targeted Improvements:**
-1. **Context-Aware Extraction:** Changed the signature of `extract_final_number` to accept the original `problem` string. Updated its docstring to instruct the LLM to read the original question to determine whether to scale decimals into percentages.
-2. **Robust Equation Fallback:** Enhanced `_extract_formula` to safely fall back to the last line of the plan if the "Formula:" prefix is missing.
-3. **Clarified Reasoning Rules:** Added minor safeguards to the `extract_reasoning_plan` docstring to prevent thousands-scaling errors (Case 00074) and absolute vs. relative "difference" errors (Case 00458).

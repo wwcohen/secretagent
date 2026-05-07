@@ -1,3 +1,0 @@
-case_name,predicted_output,expected_output,correct,input_tokens,output_tokens,latency,cost,expt_name
-ex042,1,1,True,6524.0,633.0,5.618129014968872,0.008946250000000001,smoke_murder_workflow_v1
-ex041,0,0,True,5335.0,719.0,16.29650616645813,0.007567500000000001,smoke_murder_workflow_v1

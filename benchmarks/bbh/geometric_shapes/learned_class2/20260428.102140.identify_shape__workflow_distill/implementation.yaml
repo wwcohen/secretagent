@@ -1,4 +1,0 @@
-identify_shape:
-  backoff: false
-  learner: workflow_distill
-  method: learned_code

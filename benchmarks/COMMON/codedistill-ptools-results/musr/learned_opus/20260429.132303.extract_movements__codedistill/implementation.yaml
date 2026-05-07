@@ -1,4 +1,0 @@
-extract_movements:
-  backoff: true
-  learner: codedistill
-  method: learned_code

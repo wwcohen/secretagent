@@ -1,4 +1,0 @@
-score_team_assignments:
-  backoff: true
-  learner: codedistill
-  method: learned_code

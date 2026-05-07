@@ -1,5 +1,0 @@
-{
-  "train_result_dir": "benchmarks/bbh/penguins_in_a_table/results/orchestration_learner/20260427.095344.rc_iter2",
-  "eval_result_dir": "benchmarks/bbh/penguins_in_a_table/results/orchestration_learner/20260427.095551.rc_iter2_eval",
-  "kept": true
-}

@@ -1,2 +1,0 @@
-case_name,predicted_output,expected_output,correct,correct_tolerance,failure_mode,input_tokens,output_tokens,latency,cost,expt_name
-nba_2_31,**exception raised**: Exceeded maximum retries (3) for output validation,True,1.0,1.0,extraction_failure,,,,,replay_failed_pydretries3

@@ -1,7 +1,0 @@
-{
-  "reproduce_cmd": "uv run python expt.py run --config-file benchmarks/natural_plan/conf/calendar.yaml llm.model=together_ai/deepseek-ai/DeepSeek-V3.1 cachier.enable_caching=true learn.train_dir=benchmarks/COMMON/orchestrator-results/_train_dirs/existing_workflow/natplan_calendar ptools.calendar_scheduling.method=direct ptools.calendar_scheduling.fn=__learned__.calendar_workflow ptools.calendar_scheduling.learner=orch_learner evaluate.entry_point=calendar_scheduling evaluate.result_dir=benchmarks/COMMON/orchestrator-results/existing_workflow/natplan_calendar evaluate.expt_name=test_deepseek_v3_1 evaluate.record_details=true evaluate.max_workers=4 dataset.n=null dataset.partition=test",
-  "accuracy": 0.07,
-  "total_cost_usd": 0.810103,
-  "total_time_sec": 7379.41,
-  "n_samples": 100
-}

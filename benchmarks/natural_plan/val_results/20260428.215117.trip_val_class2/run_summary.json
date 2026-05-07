@@ -1,7 +1,0 @@
-{
-  "reproduce_cmd": "uv run python expt.py run --config-file conf/trip.yaml ptools.trip_planning.method=learned_code ptools.trip_planning.learner=workflow_distill ptools.trip_planning.backoff=false learn.train_dir=benchmarks/natural_plan/learned_class2_v3 dataset.partition=valid dataset.n=30 evaluate.expt_name=trip_val_class2 evaluate.result_dir=val_results",
-  "accuracy": 0.3333333333333333,
-  "total_cost_usd": 0.085863,
-  "total_time_sec": 634.53,
-  "n_samples": 30
-}

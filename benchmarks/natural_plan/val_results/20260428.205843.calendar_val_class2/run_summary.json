@@ -1,7 +1,0 @@
-{
-  "reproduce_cmd": "uv run python expt.py run --config-file conf/calendar.yaml ptools.calendar_scheduling.method=learned_code ptools.calendar_scheduling.learner=workflow_distill ptools.calendar_scheduling.backoff=false learn.train_dir=benchmarks/natural_plan/learned_class2_v2 dataset.partition=valid dataset.n=30 evaluate.expt_name=calendar_val_class2 evaluate.result_dir=val_results",
-  "accuracy": 0.9333333333333333,
-  "total_cost_usd": 0,
-  "total_time_sec": 0,
-  "n_samples": 30
-}

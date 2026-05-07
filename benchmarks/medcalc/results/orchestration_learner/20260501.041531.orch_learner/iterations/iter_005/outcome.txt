@@ -1,4 +1,0 @@
-ROLLED BACK
-accuracy: 59.2% -> 51.3%
-cost: $nan -> $0.0026
-best so far: 59.2%

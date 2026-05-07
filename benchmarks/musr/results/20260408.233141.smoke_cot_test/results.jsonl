@@ -1,2 +1,0 @@
-{"predicted_output": 1, "expected_output": 1, "correct": true, "input_tokens": 1532.0, "output_tokens": 415.0, "latency": 28.417868852615356, "cost": 0.00243375, "case_name": "ex042", "expt_name": "smoke_cot_test"}
-{"predicted_output": 0, "expected_output": 0, "correct": true, "input_tokens": 1153.0, "output_tokens": 577.0, "latency": 5.888367176055908, "cost": 0.0021625000000000004, "case_name": "ex041", "expt_name": "smoke_cot_test"}

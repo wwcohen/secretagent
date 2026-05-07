@@ -1,4 +1,0 @@
-answer_question:
-  method: direct
-  fn: __learned__.answer_question_orchestrated_seed
-  learner: orch_learner

@@ -1,4 +1,0 @@
-compute_rulearena_answer:
-  backoff: false
-  learner: workflow_distill
-  method: learned_code

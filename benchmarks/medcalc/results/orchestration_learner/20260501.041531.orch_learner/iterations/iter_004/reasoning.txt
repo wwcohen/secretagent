@@ -1,7 +1,0 @@
-1. **Specific failure pattern identified**: The current Orchestrator achieves 59.2% accuracy by computing the scores entirely zero-shot mentally. However, the failures show the LLM making basic extraction omissions or arithmetic errors (off-by-1 or off-by-2) on complex scores like HAS-BLED, CHA2DS2-VASc, Caprini, and Glasgow-Blatchford because calculating these in a single shot without a "scratchpad" leads to hallucinated sums.
-2. **How many failures share this**: Almost all 31 non-timeout failures are caused by miscounting criteria or arithmetic errors during zero-shot aggregation.
-3. **Minimal change**: Instead of wrapping the entry point in brittle Python regex logic (which caused Iter 1 to fail) or stuffing a dense list of score rules into the prompt (which caused Iter 3 to fail via overfitting), I updated the `calculate_medical_value` docstring to **explicitly require the Orchestrator to use its available tool (`calculate_clinical_score`)**. The tools are already present, tested, and available in the module—they just weren't being utilized.
-4. **Why this won't break currently working cases**: 
-   - This leverages the framework's native tool-calling capabilities. 
-   - The Orchestrator will now explicitly generate a Chain-of-Thought (CoT) trace via the tool *before* securely returning the final float, significantly boosting arithmetic accuracy without altering the fragile `float` interface wrapper. 
-   - If the LLM decides to skip the tool, it safely falls back to the exact zero-shot behavior that already gets ~59% accuracy.

@@ -1,7 +1,0 @@
-{
-  "reproduce_cmd": "uv run python expt.py run --config-file benchmarks/natural_plan/conf/meeting.yaml llm.model=together_ai/deepseek-ai/DeepSeek-V3.1 cachier.enable_caching=false learn.train_dir=benchmarks/COMMON/orchestrator-results/_train_dirs/induced_seed_from_ptools/natplan_meeting ptools.meeting_planning.method=direct ptools.meeting_planning.fn=__learned__.meeting_planning_orchestrated_seed ptools.meeting_planning.learner=orch_learner evaluate.entry_point=meeting_planning evaluate.result_dir=benchmarks/natural_plan/test_results_full evaluate.expt_name=natplan_meeting_induced_seed_ptools_deepseek_v3_1 evaluate.record_details=true evaluate.max_workers=1 dataset.n=100 dataset.split=meeting",
-  "accuracy": 1.0,
-  "total_cost_usd": 0,
-  "total_time_sec": 0,
-  "n_samples": 100
-}

@@ -1,7 +1,0 @@
-{
-  "reproduce_cmd": "uv run python expt.py run --config-file conf/trip.yaml dataset.split=trip dataset.partition=valid dataset.n=50 ptools.trip_planning.method=direct ptools.trip_planning.fn=ptools_trip.trip_workflow llm.model=together_ai/deepseek-ai/DeepSeek-V3 evaluate.expt_name=nsga_014",
-  "accuracy": 0.18,
-  "total_cost_usd": 0.246483,
-  "total_time_sec": 1088.26,
-  "n_samples": 50
-}

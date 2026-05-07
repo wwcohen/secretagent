@@ -1,7 +1,0 @@
-case_name,predicted_output,predicted_numeric,expected_output,correct,exact_match,within_limits,absolute_error,calculator_name,category,output_type,input_tokens,output_tokens,latency,cost,expt_name
-test.0548,0,0.0,1.0,0.0,0.0,0.0,1.0,CURB-65 Score for Pneumonia Severity,risk,integer,2607.0,105.0,5.612016439437866,0.0017427,rule_evolved_deepseek_v31_failed_retry1
-test.0256,0,0.0,1.0,0.0,0.0,0.0,1.0,Revised Cardiac Risk Index for Pre-Operative Risk,risk,integer,2497.0,243.0,11.288614988327026,0.0019112999999999999,rule_evolved_deepseek_v31_failed_retry1
-test.0127,7.5,7.5,6.0,0.0,0.0,0.0,1.5,Wells' Criteria for Pulmonary Embolism,risk,integer,2684.0,376.0,11.312519073486328,0.0022496,rule_evolved_deepseek_v31_failed_retry1
-test.0128,3,3.0,7.5,0.0,0.0,0.0,4.5,Wells' Criteria for Pulmonary Embolism,risk,integer,2908.0,266.0,12.097695112228394,0.0021969999999999997,rule_evolved_deepseek_v31_failed_retry1
-test.0557,2,2.0,4.0,0.0,0.0,0.0,2.0,CURB-65 Score for Pneumonia Severity,risk,integer,2825.0,208.0,8.456915616989136,0.0020486,rule_evolved_deepseek_v31_failed_retry1
-test.0559,2,2.0,1.0,0.0,0.0,0.0,1.0,CURB-65 Score for Pneumonia Severity,risk,integer,2863.0,172.0,5.639740705490112,0.0020102,rule_evolved_deepseek_v31_failed_retry1

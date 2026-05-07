@@ -1,9 +1,0 @@
-ptools:
-  choose_response:
-    backoff: true
-    learner: codedistill
-    method: learned_code
-  table_operation:
-    backoff: true
-    learner: codedistill
-    method: learned_code

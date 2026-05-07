@@ -1,5 +1,0 @@
-case_name,predicted_output,expected_output,correct,input_tokens,output_tokens,latency,cost,expt_name
-ex046,"**exception raised**: no implementation registered for interface ""extract_discoveries""",3,False,1355.0,1280.0,6.688916444778442,0.00225875,gemini_flash_lite_minibatch
-ex008,"**exception raised**: no implementation registered for interface ""extract_discoveries""",2,False,1646.0,1125.0,7.707241773605347,0.002099,gemini_flash_lite_minibatch
-ex036,"**exception raised**: no implementation registered for interface ""extract_discoveries""",2,False,1366.0,1578.0,8.706115484237671,0.0027085,gemini_flash_lite_minibatch
-ex018,"**exception raised**: no implementation registered for interface ""extract_discoveries""",1,False,1573.0,1615.0,7.9570863246917725,0.00281575,gemini_flash_lite_minibatch

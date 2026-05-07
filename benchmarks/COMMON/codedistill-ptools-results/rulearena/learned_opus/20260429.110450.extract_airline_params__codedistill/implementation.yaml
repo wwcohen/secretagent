@@ -1,4 +1,0 @@
-extract_airline_params:
-  backoff: true
-  learner: codedistill
-  method: learned_code

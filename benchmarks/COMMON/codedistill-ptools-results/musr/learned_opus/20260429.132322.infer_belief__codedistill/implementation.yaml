@@ -1,4 +1,0 @@
-infer_belief:
-  backoff: true
-  learner: codedistill
-  method: learned_code

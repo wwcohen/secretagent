@@ -1,4 +1,0 @@
-propose_meeting_time_2:
-  backoff: true
-  learner: codedistill
-  method: learned_code

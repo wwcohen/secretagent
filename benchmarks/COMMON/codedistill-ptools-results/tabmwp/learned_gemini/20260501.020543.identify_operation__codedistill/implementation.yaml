@@ -1,4 +1,0 @@
-identify_operation:
-  backoff: true
-  learner: codedistill
-  method: learned_code

@@ -1,4 +1,0 @@
-find_available_slots:
-  backoff: true
-  learner: codedistill
-  method: learned_code

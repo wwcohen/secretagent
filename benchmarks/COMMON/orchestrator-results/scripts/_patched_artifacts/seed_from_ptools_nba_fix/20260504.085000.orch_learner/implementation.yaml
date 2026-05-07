@@ -1,4 +1,0 @@
-compute_rulearena_answer:
-  method: direct
-  fn: __learned__.compute_rulearena_answer_orchestrated_seed
-  learner: orch_learner

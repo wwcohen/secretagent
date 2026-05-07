@@ -1,7 +1,0 @@
-{
-  "reproduce_cmd": "uv run python expt.py run --config-file conf/trip.yaml dataset.partition=valid dataset.n=100 evaluate.expt_name=natplan_trip_val_full_class2_gemini evaluate.record_details=true evaluate.result_dir=val_results_full llm.model=together_ai/deepseek-ai/DeepSeek-V3.1 ptools.trip_planning.method=learned_code ptools.trip_planning.learner=workflow_distill ptools.trip_planning.backoff=true learn.train_dir=benchmarks/natural_plan/learned_class2_gemini",
-  "accuracy": 0.91,
-  "total_cost_usd": 0,
-  "total_time_sec": 0,
-  "n_samples": 100
-}

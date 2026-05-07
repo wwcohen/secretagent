@@ -1,4 +1,0 @@
-_extract_tax_raw:
-  backoff: true
-  learner: codedistill
-  method: learned_code

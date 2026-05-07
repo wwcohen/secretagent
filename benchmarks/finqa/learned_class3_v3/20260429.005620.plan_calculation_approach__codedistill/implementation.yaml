@@ -1,4 +1,0 @@
-plan_calculation_approach:
-  backoff: true
-  learner: codedistill
-  method: learned_code

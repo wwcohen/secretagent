@@ -1,9 +1,0 @@
-case_name,predicted_output,expected_output,correct,input_tokens,output_tokens,latency,cost,expt_name
-ex053,**exception raised**: cannot find final answer,2,False,3148.0,4096.0,93.37518620491028,0.008851999999999999,replay_failed
-ex043,**exception raised**: cannot find final answer,2,False,1168.0,3496.0,63.719059467315674,0.006644000000000001,replay_failed
-ex098,**exception raised**: cannot find final answer,2,False,1243.0,2615.0,66.08885073661804,0.0051913,replay_failed
-ex085,**exception raised**: cannot find final answer,0,False,1196.0,2738.0,66.05991625785828,0.005372200000000001,replay_failed
-ex077,**exception raised**: cannot find final answer,1,False,1202.0,2849.0,64.93784809112549,0.0055645,replay_failed
-ex064,**exception raised**: cannot find final answer,1,False,1239.0,2805.0,54.28476619720459,0.0055119,replay_failed
-ex004,**exception raised**: cannot find final answer,2,False,1120.0,3990.0,83.1672010421753,0.007455,replay_failed
-ex081,**exception raised**: cannot find final answer,1,False,3331.0,4096.0,87.62750101089478,0.0089618,replay_failed

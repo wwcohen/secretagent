@@ -1,8 +1,0 @@
-calculate_medical_value:
-  learner: ptool_inducer
-  method: simulate_pydantic
-  tool_module: __learned__
-  tools:
-  - apply_clinical_calculation
-  - extract_and_prepare_clinical_data
-  - evaluate_clinical_score

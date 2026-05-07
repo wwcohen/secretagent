@@ -1,3 +1,0 @@
-ptools:
-  compute_rulearena_answer:
-    method: simulate

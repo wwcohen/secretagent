@@ -1,4 +1,0 @@
-calculate_medical_value:
-  backoff: true
-  learner: workflow_distill
-  method: learned_code

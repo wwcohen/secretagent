@@ -1,4 +1,0 @@
-answer_question_workflow:
-  backoff: true
-  learner: workflow_distill
-  method: learned_code

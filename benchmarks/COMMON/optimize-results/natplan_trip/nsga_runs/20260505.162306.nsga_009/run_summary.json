@@ -1,7 +1,0 @@
-{
-  "reproduce_cmd": "uv run python expt.py run --config-file conf/trip.yaml dataset.split=trip dataset.partition=valid dataset.n=50 ptools.trip_planning.method=prompt_llm ptools.trip_planning.prompt_template_file=prompt_templates/trip_zs_cot.txt llm.model=together_ai/openai/gpt-oss-20b evaluate.expt_name=nsga_009",
-  "accuracy": 0.0,
-  "total_cost_usd": 0.045399,
-  "total_time_sec": 984.77,
-  "n_samples": 50
-}

@@ -1,3 +1,0 @@
-ptools:
-  compute_nba_answer:
-    method: simulate
