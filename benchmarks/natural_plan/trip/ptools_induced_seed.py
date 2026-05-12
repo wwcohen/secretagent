@@ -1,8 +1,8 @@
-"""Generated staging ptools for NaturalPlan meeting induced seed orchestration."""
+"""Generated staging ptools for NaturalPlan trip induced seed orchestration."""
 
 from pathlib import Path
 
-from ptools_meeting import *  # noqa: F401,F403
+from ptools import *  # noqa: F401,F403
 
 
 def _load_induced(relative_path: str) -> None:
@@ -21,4 +21,4 @@ def _load_induced(relative_path: str) -> None:
     exec(compile(source, str(path), "exec"), globals())
 
 
-_load_induced("natural_plan/induced_ptools_seed42_correct_llm_meeting.py")
+_load_induced("natural_plan/induced_ptools_seed42_correct_llm_trip.py")

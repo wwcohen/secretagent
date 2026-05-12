@@ -20,24 +20,24 @@ NATURAL_PLAN_DIR = Path(__file__).resolve().parent.parent / "natural_plan"
 
 TASK_CONFIG = {
     "calendar": {
-        "config_file": "conf/calendar.yaml",
-        "ptools_module": "ptools_calendar",
+        "config_file": "calendar/conf/calendar.yaml",
+        "ptools_module": "ptools",
         "interface": "calendar_scheduling",
-        "workflow_fn": "ptools_calendar.calendar_workflow",
+        "workflow_fn": "ptools.calendar_workflow",
         "tools": ["parse_schedules", "find_available_slots", "select_and_format"],
     },
     "meeting": {
-        "config_file": "conf/meeting.yaml",
-        "ptools_module": "ptools_meeting",
+        "config_file": "meeting/conf/meeting.yaml",
+        "ptools_module": "ptools",
         "interface": "meeting_planning",
-        "workflow_fn": "ptools_meeting.meeting_workflow",
+        "workflow_fn": "ptools.meeting_workflow",
         "tools": ["parse_meeting_info", "plan_visit_order", "build_meeting_plan"],
     },
     "trip": {
-        "config_file": "conf/trip.yaml",
-        "ptools_module": "ptools_trip",
+        "config_file": "trip/conf/trip.yaml",
+        "ptools_module": "ptools",
         "interface": "trip_planning",
-        "workflow_fn": "ptools_trip.trip_workflow",
+        "workflow_fn": "ptools.trip_workflow",
         "tools": ["parse_trip_constraints", "find_valid_route", "build_trip_plan"],
     },
 }

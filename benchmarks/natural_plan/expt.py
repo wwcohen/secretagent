@@ -43,9 +43,9 @@ import typer
 if os.environ.get("TOGETHER_API_KEY") and not os.environ.get("TOGETHER_AI_API_KEY"):
     os.environ["TOGETHER_AI_API_KEY"] = os.environ["TOGETHER_API_KEY"]
 
-_BENCHMARK_DIR = Path(__file__).resolve().parent
+_BENCHMARK_DIR = Path(__file__).resolve().parent  # natural_plan/ (task-set level)
 _SECRETAGENT_ROOT = _BENCHMARK_DIR.parent.parent
-_DATA_DIR = _BENCHMARK_DIR / 'data'
+_DATA_DIR = Path.cwd() / 'data'  # per-task subdir's data/
 
 sys.path.insert(0, str(_SECRETAGENT_ROOT / 'src'))
 sys.path.insert(0, str(_BENCHMARK_DIR))
@@ -63,9 +63,9 @@ from eval_utils import (
 )
 
 SPLIT_TO_MODULE = {
-    'calendar': 'ptools_calendar',
-    'meeting': 'ptools_meeting',
-    'trip': 'ptools_trip',
+    'calendar': 'ptools',
+    'meeting': 'ptools',
+    'trip': 'ptools',
 }
 
 DATA_FILES = {
@@ -272,9 +272,9 @@ def run(
 
     cfg_path = Path(config_file)
     if not cfg_path.is_absolute():
-        cfg_path = _BENCHMARK_DIR / cfg_path
+        cfg_path = Path.cwd() / cfg_path
     config.configure(yaml_file=str(cfg_path), dotlist=ctx.args)
-    config.set_root(_BENCHMARK_DIR)
+    config.set_root(Path.cwd())
 
     task = config.require('dataset.split')
     ptools = importlib.import_module(SPLIT_TO_MODULE[task])

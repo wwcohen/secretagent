@@ -24,4 +24,4 @@ methods:
     - ptools.trip_planning.prompt_template_file=prompt_templates/trip_zs_cot.txt
   workflow:
     - ptools.trip_planning.method=direct
-    - ptools.trip_planning.fn=ptools_trip.trip_workflow
+    - ptools.trip_planning.fn=ptools.trip_workflow
