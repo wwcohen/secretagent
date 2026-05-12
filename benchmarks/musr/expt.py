@@ -45,27 +45,13 @@ from secretagent.core import implement_via_config
 from secretagent.dataset import Dataset, Case
 from secretagent.evaluate import Evaluator
 
-_BASE_SPLIT_TO_MODULE = {
-    'murder_mysteries': 'ptools_murder',
-    'object_placements': 'ptools_object',
-    'team_allocation': 'ptools_team',
-}
-
-def _resolve_module(split: str) -> str:
-    """Map split name (possibly with _train/_val/_test suffix) to module."""
-    for base, module in _BASE_SPLIT_TO_MODULE.items():
-        if split == base or split.startswith(base + '_'):
-            return module
-    raise KeyError(f'Unknown split: {split}')
-
-
 class MUSREvaluator(Evaluator):
     def compare_predictions(self, predicted_output, expected_output) -> dict[str, Any]:
         return dict(correct=(predicted_output == expected_output))
 
 
 def load_dataset(split: str) -> Dataset:
-    json_file = Path(__file__).parent / 'data' / f'{split}.json'
+    json_file = Path.cwd() / 'data' / f'{split}.json'
     with open(json_file) as f:
         data = json.load(f)
 
@@ -94,15 +80,15 @@ def run(ctx: typer.Context,
         config_file: str = typer.Option(..., help="Config YAML file")):
     """Run MUSR evaluation. Extra args are config overrides in dot notation."""
 
-    # Resolve config_file relative to benchmark dir if not absolute
+    # Resolve config_file relative to CWD (per-task subdir) if not absolute
     cfg_path = Path(config_file)
     if not cfg_path.is_absolute():
-        cfg_path = _BENCHMARK_DIR / cfg_path
+        cfg_path = Path.cwd() / cfg_path
     config.configure(yaml_file=str(cfg_path), dotlist=ctx.args)
-    config.set_root(_BENCHMARK_DIR)
+    config.set_root(Path.cwd())
 
     split = config.require('dataset.split')
-    ptools = importlib.import_module(_resolve_module(split))
+    ptools = importlib.import_module('ptools')
     implement_via_config(ptools, config.require('ptools'))
 
     dataset = load_dataset(split).configure(

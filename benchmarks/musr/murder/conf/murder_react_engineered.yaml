@@ -1,9 +1,9 @@
 # ReAct + engineered (hand-designed) ptools: pydantic-ai agent over the
-# narrative, with the 3 hand-designed object-placement ptools as the
-# tool set. Tools: solve_extract_movements, solve_extract_discoveries,
-# solve_infer_belief (the agent does NOT need to pass the narrative —
-# it is preset on the runtime by react_engineered_answer_impl).
-# Test split (seed-42 partition: train=75 / val=75 / test=remainder=106)
+# narrative, with the 3 hand-designed murder ptools as the tool set.
+# Tools: solve_extract_suspects, solve_verify_alibis, solve_deduce_murderer
+# (the agent does NOT need to pass the narrative — it is preset on the
+# runtime by react_engineered_answer_impl).
+# Test split (seed-42 partition: train=75 / val=75 / test=remainder=100)
 llm:
   model: together_ai/deepseek-ai/DeepSeek-V3
 
@@ -12,28 +12,28 @@ cachier:
   enable_caching: false
 
 evaluate:
-  expt_name: object_react_engineered
+  expt_name: murder_react_engineered
   result_dir: results
   entry_point: answer_question
 
 dataset:
-  split: object_placements_test
+  split: murder_mysteries_test
   shuffle_seed: 42
 
 ptools:
-  extract_movements:
+  extract_suspects_and_evidence:
     method: simulate
-  extract_discoveries:
+  verify_alibis:
     method: simulate
-  infer_belief:
+  deduce_murderer:
     method: simulate
   react_solve_engineered:
     method: react_pydantic
     preamble: "Answer the following multiple-choice question using the available tools. Read each tool's docstring before deciding which to call; the narrative is already loaded into the runtime so tools that need it will receive it automatically. After enough evidence, return the 0-based answer index as a short string (e.g. \"0\", \"1\", \"2\"). Stop calling tools after deciding."
     tools:
-      - ptools_object.solve_extract_movements
-      - ptools_object.solve_extract_discoveries
-      - ptools_object.solve_infer_belief
+      - ptools.solve_extract_suspects
+      - ptools.solve_verify_alibis
+      - ptools.solve_deduce_murderer
   answer_question:
     method: direct
     fn: ptools_common.react_engineered_answer_impl
