@@ -74,12 +74,12 @@ PENG_TRACE=$(ls -d "$ROOT/benchmarks/bbh/penguins_in_a_table/recordings_full"/*t
 GEO_TRACE=$(ls -d "$ROOT/benchmarks/bbh/geometric_shapes/recordings_full"/*train_full 2>/dev/null | tail -1)
 DATE_TRACE=$(ls -d "$ROOT/benchmarks/bbh/date_understanding/recordings_full"/*train_full 2>/dev/null | tail -1)
 MEDCALC_TRACE=$(ls -d "$ROOT/benchmarks/medcalc/recordings_full"/*train_full 2>/dev/null | tail -1)
-FINQA_TRACE=$(ls -d "$ROOT/benchmarks/finqa/recordings_full"/*train_full 2>/dev/null | tail -1)
+FINQA_TRACE=$(ls -d "$ROOT/benchmarks/finqa/finqa/recordings_full"/*train_full 2>/dev/null | tail -1)
 AIRLINE_TRACE=$(ls -d "$ROOT/benchmarks/rulearena/recordings_full"/*airline_train_full 2>/dev/null | tail -1)
 TRACE_OBJ=$(ls -d "$ROOT/benchmarks/musr/recordings_full"/*musr_object_train_full 2>/dev/null | tail -1)
 TRACE_TEAM=$(ls -d "$ROOT/benchmarks/musr/recordings_full"/*musr_team_train_full 2>/dev/null | tail -1)
 TRACE_MURDER=$(ls -d "$ROOT/benchmarks/musr/recordings_full"/*musr_murder_train_train_full 2>/dev/null | tail -1)
-TRACE_TABMWP=$(ls -d "$ROOT/benchmarks/tabmwp/recordings_full"/*tabmwp_train_full 2>/dev/null | tail -1)
+TRACE_TABMWP=$(ls -d "$ROOT/benchmarks/tabmwp/tabmwp/recordings_full"/*tabmwp_train_full 2>/dev/null | tail -1)
 
 # Cross-dataset files
 CAL_DS="$ROOT/benchmarks/natural_plan/data/calendar_train.json"

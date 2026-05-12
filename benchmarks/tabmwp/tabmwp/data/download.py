@@ -7,7 +7,7 @@ Source: https://github.com/lupantech/PromptPG/tree/main/data/tabmwp
 License: CC BY-NC-SA 4.0
 
 Usage:
-    uv run benchmarks/tabmwp/data/download.py
+    uv run benchmarks/tabmwp/tabmwp/data/download.py
 """
 
 import json

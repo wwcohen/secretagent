@@ -106,7 +106,7 @@ The LLM handles *understanding and planning* while Python handles *data retrieva
 
 ## Reproducing
 
-All experiments use the generic CLI (`secretagent.cli.expt`) from `benchmarks/finqa/`:
+All experiments use the generic CLI (`secretagent.cli.expt`) from `benchmarks/finqa/finqa/`:
 
 ```bash
 cd benchmarks/finqa

@@ -19,7 +19,7 @@ from conftest import needs_api_key, CI_TEST_MODEL
 from secretagent import config
 from secretagent.core import implement_via_config
 
-TABMWP_DIR = Path(__file__).resolve().parent.parent / "tabmwp"
+TABMWP_DIR = Path(__file__).resolve().parent.parent / "tabmwp" / "tabmwp"
 if str(TABMWP_DIR) not in sys.path:
     sys.path.insert(0, str(TABMWP_DIR))
 

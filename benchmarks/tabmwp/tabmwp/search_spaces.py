@@ -22,7 +22,7 @@ MODELS = [
 ]
 
 # -- Method levels (level name -> config file) --
-# Config files from benchmarks/tabmwp/conf/, each sets ptools bindings.
+# Config files from benchmarks/tabmwp/tabmwp/conf/, each sets ptools bindings.
 
 LEVELS = {
     "unstructured_baseline": "conf/unstructured_baseline.yaml",

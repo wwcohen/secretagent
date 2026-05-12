@@ -21,7 +21,7 @@ TabMWP is a good testbed for secretagent because the table-plus-question format 
 Data was downloaded from the PromptPG GitHub repository using `download.py` in this directory.
 
 ```bash
-uv run benchmarks/tabmwp/data/download.py
+uv run benchmarks/tabmwp/tabmwp/data/download.py
 ```
 
 ## Files

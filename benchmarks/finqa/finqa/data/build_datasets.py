@@ -9,8 +9,8 @@ Expects ``raw/*.json`` from ``download.py``. Writes:
 
 Usage::
 
-    uv run python benchmarks/finqa/data/build_datasets.py
-    uv run python benchmarks/finqa/data/build_datasets.py --max-per-split 50   # smoke test
+    uv run python benchmarks/finqa/finqa/data/build_datasets.py
+    uv run python benchmarks/finqa/finqa/data/build_datasets.py --max-per-split 50   # smoke test
 
 """
 

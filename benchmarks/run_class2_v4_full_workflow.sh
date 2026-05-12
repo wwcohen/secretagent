@@ -17,7 +17,7 @@ PENG_TRACE=$(ls -d "$ROOT/benchmarks/bbh/penguins_in_a_table/recordings_full"/*t
 GEO_TRACE=$(ls -d "$ROOT/benchmarks/bbh/geometric_shapes/recordings_full"/*train_full 2>/dev/null | tail -1)
 DATE_TRACE=$(ls -d "$ROOT/benchmarks/bbh/date_understanding/recordings_full"/*train_full 2>/dev/null | tail -1)
 MEDCALC_TRACE=$(ls -d "$ROOT/benchmarks/medcalc/recordings_full"/*train_full 2>/dev/null | tail -1)
-FINQA_TRACE=$(ls -d "$ROOT/benchmarks/finqa/recordings_full"/*train_full 2>/dev/null | tail -1)
+FINQA_TRACE=$(ls -d "$ROOT/benchmarks/finqa/finqa/recordings_full"/*train_full 2>/dev/null | tail -1)
 AIRLINE_TRACE=$(ls -d "$ROOT/benchmarks/rulearena/recordings_full"/*airline_train_full 2>/dev/null | tail -1)
 
 # Datasets — use the ones available (some have _50 suffix only)
@@ -29,7 +29,7 @@ GEO_DS="$ROOT/benchmarks/bbh/geometric_shapes/data/train.json"
 PENG_DS="$ROOT/benchmarks/bbh/penguins_in_a_table/data/train.json"
 DATE_DS="$ROOT/benchmarks/bbh/date_understanding/data/train.json"
 MEDCALC_DS="$ROOT/benchmarks/medcalc/data_train_100_diverse.json"
-FINQA_DS="$ROOT/benchmarks/finqa/data/train.json"
+FINQA_DS="$ROOT/benchmarks/finqa/finqa/data/train.json"
 AIRLINE_DS="$ROOT/benchmarks/rulearena/airline_train_50.json"
 
 run_wf() {

@@ -17,14 +17,14 @@
 **Regeneration**
 
 ```bash
-uv run python benchmarks/finqa/data/download.py
-uv run python benchmarks/finqa/data/build_datasets.py
+uv run python benchmarks/finqa/finqa/data/download.py
+uv run python benchmarks/finqa/finqa/data/build_datasets.py
 ```
 
 Large raw files are gitignored; generated JSON splits are gitignored. Quick slice:
 
 ```bash
-uv run python benchmarks/finqa/data/build_datasets.py --max-per-split 20
+uv run python benchmarks/finqa/finqa/data/build_datasets.py --max-per-split 20
 ```
 
 **If `dataset.n=100` only runs a handful of examples:** rebuild without `--max-per-split`.

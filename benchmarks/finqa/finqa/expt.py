@@ -1,6 +1,6 @@
 """FinQA benchmark runner (config file + FinQAEvaluator).
 
-From ``benchmarks/finqa``::
+From ``benchmarks/finqa/finqa``::
 
     uv run python expt.py run --config-file conf/conf.yaml dataset.n=5
     uv run python expt.py run --config-file conf/zeroshot_prompt.yaml evaluate.expt_name=zp

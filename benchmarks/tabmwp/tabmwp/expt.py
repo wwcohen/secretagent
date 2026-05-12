@@ -3,34 +3,34 @@
 Example CLI commands:
 
     # download data first (from project root)
-    uv run benchmarks/tabmwp/data/download.py
+    uv run benchmarks/tabmwp/tabmwp/data/download.py
 
     # structured baseline (single simulate call on top-level interface)
-    uv run python benchmarks/tabmwp/expt.py run --config-file conf/structured_baseline.yaml
+    uv run python benchmarks/tabmwp/tabmwp/expt.py run --config-file conf/structured_baseline.yaml
 
     # unstructured baseline (vanilla zero-shot prompt, no Python-stub framing)
-    uv run python benchmarks/tabmwp/expt.py run --config-file conf/unstructured_baseline.yaml
+    uv run python benchmarks/tabmwp/tabmwp/expt.py run --config-file conf/unstructured_baseline.yaml
 
     # in-context workflow
-    uv run python benchmarks/tabmwp/expt.py run --config-file conf/workflow_incontext.yaml
+    uv run python benchmarks/tabmwp/tabmwp/expt.py run --config-file conf/workflow_incontext.yaml
 
     # tool-based workflow
-    uv run python benchmarks/tabmwp/expt.py run --config-file conf/workflow_tools.yaml
+    uv run python benchmarks/tabmwp/tabmwp/expt.py run --config-file conf/workflow_tools.yaml
 
     # program of thought
-    uv run python benchmarks/tabmwp/expt.py run --config-file conf/pot.yaml
+    uv run python benchmarks/tabmwp/tabmwp/expt.py run --config-file conf/pot.yaml
 
     # react agent with tools
-    uv run python benchmarks/tabmwp/expt.py run --config-file conf/react.yaml
+    uv run python benchmarks/tabmwp/tabmwp/expt.py run --config-file conf/react.yaml
 
     # orchestrated pipeline
-    uv run python benchmarks/tabmwp/expt.py run --config-file conf/orchestrated.yaml
+    uv run python benchmarks/tabmwp/tabmwp/expt.py run --config-file conf/orchestrated.yaml
 
     # override n and model
-    uv run python benchmarks/tabmwp/expt.py run --config-file conf/unstructured_baseline.yaml dataset.n=10 llm.model=claude-haiku-4-5-20251001
+    uv run python benchmarks/tabmwp/tabmwp/expt.py run --config-file conf/unstructured_baseline.yaml dataset.n=10 llm.model=claude-haiku-4-5-20251001
 
     # quick test (single example, verbose)
-    uv run python benchmarks/tabmwp/expt.py quick-test --config-file conf/unstructured_baseline.yaml
+    uv run python benchmarks/tabmwp/tabmwp/expt.py quick-test --config-file conf/unstructured_baseline.yaml
 """
 
 import json

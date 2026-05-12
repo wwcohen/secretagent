@@ -37,7 +37,7 @@ from conftest import needs_api_key, CI_TEST_MODEL
 from secretagent import config
 from secretagent.core import implement_via_config
 
-MAB_DIR = Path(__file__).resolve().parent.parent / 'medagentbench'
+MAB_DIR = Path(__file__).resolve().parent.parent / 'medagentbench' / 'medagentbench'
 if str(MAB_DIR) not in sys.path:
     sys.path.insert(0, str(MAB_DIR))
 
@@ -59,7 +59,7 @@ needs_fhir = pytest.mark.skipif(
     not _fhir_reachable(),
     reason=(
         f'MedAgentBench FHIR server not reachable at {FHIR_BASE}. '
-        'Start with: make -C benchmarks/medagentbench docker-start'
+        'Start with: make -C benchmarks/medagentbench/medagentbench docker-start'
     ),
 )
 

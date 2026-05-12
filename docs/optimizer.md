@@ -125,7 +125,7 @@ uv run -m secretagent.cli.optimize nsga2 \
     --pop-size 12 --n-gen 5 dataset.n=20
 ```
 
-### FinQA example (from `benchmarks/finqa/`)
+### FinQA example (from `benchmarks/finqa/finqa/`)
 
 ```bash
 uv run -m secretagent.cli.optimize nsga2 \

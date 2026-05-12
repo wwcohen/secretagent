@@ -3,16 +3,16 @@
 Example CLI commands:
 
     # run with default config
-    uv run python benchmarks/designbench/expt.py run --config-file conf/conf.yaml
+    uv run python benchmarks/designbench/designbench/expt.py run --config-file conf/conf.yaml
 
     # run first 10 examples
-    uv run python benchmarks/designbench/expt.py run --config-file conf/conf.yaml dataset.n=10
+    uv run python benchmarks/designbench/designbench/expt.py run --config-file conf/conf.yaml dataset.n=10
 
     # change model
-    uv run python benchmarks/designbench/expt.py run --config-file conf/conf.yaml llm.model=gpt-4o-mini
+    uv run python benchmarks/designbench/designbench/expt.py run --config-file conf/conf.yaml llm.model=gpt-4o-mini
 
     # skip visual evaluation (generation only)
-    uv run python benchmarks/designbench/expt.py run --config-file conf/conf.yaml benchmark.skip_eval=true
+    uv run python benchmarks/designbench/designbench/expt.py run --config-file conf/conf.yaml benchmark.skip_eval=true
 """
 
 import json

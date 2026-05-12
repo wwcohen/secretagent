@@ -94,7 +94,7 @@ uv run -m secretagent.cli.learn workflow-codedistill \
 echo "[$(date)] musr_team class2 done rc=$?"
 
 # tabmwp
-TRACE_TM=$(ls -d "$ROOT/benchmarks/tabmwp/recordings_full/"*tabmwp_train_full 2>/dev/null | tail -1)
+TRACE_TM=$(ls -d "$ROOT/benchmarks/tabmwp/tabmwp/recordings_full/"*tabmwp_train_full 2>/dev/null | tail -1)
 echo "[$(date)] tabmwp class2 distill rebuild"
 cd "$ROOT/benchmarks/tabmwp"
 uv run -m secretagent.cli.learn workflow-codedistill \
@@ -149,7 +149,7 @@ uv run python expt.py run --config-file conf/workflow_incontext.yaml \
   "ptools.tabmwp_solve.method=learned_code" \
   "ptools.tabmwp_solve.learner=workflow_distill" \
   "ptools.tabmwp_solve.backoff=true" \
-  "learn.train_dir=$ROOT/benchmarks/tabmwp/learned_class2_opus" \
+  "learn.train_dir=$ROOT/benchmarks/tabmwp/tabmwp/learned_class2_opus" \
   > "$LOG_DIR/tabmwp_class2_val_v2.log" 2>&1
 echo "[$(date)] tabmwp class2 val rc=$?"
 
@@ -205,7 +205,7 @@ fi
 
 # tabmwp class3 val
 cd "$ROOT/benchmarks/tabmwp"
-INDUCED_TM_DIR=$(ls -d "$ROOT/benchmarks/tabmwp/learned_class3_opus/"*"tabmwp_solve__ptool_inducer" 2>/dev/null | tail -1)
+INDUCED_TM_DIR=$(ls -d "$ROOT/benchmarks/tabmwp/tabmwp/learned_class3_opus/"*"tabmwp_solve__ptool_inducer" 2>/dev/null | tail -1)
 if [ -n "$INDUCED_TM_DIR" ] && [ -f "$INDUCED_TM_DIR/learned_ptools.py" ]; then
   declare -a TM_PT_OVERRIDES=()
   while IFS= read -r name; do
@@ -222,7 +222,7 @@ if [ -n "$INDUCED_TM_DIR" ] && [ -f "$INDUCED_TM_DIR/learned_ptools.py" ]; then
     "ptools.tabmwp_solve.method=learned_code" \
     "ptools.tabmwp_solve.learner=workflow_distill" \
     "ptools.tabmwp_solve.backoff=true" \
-    "learn.train_dir=$ROOT/benchmarks/tabmwp/learned_class3_opus" \
+    "learn.train_dir=$ROOT/benchmarks/tabmwp/tabmwp/learned_class3_opus" \
     > "$LOG_DIR/tabmwp_class3_val_v2.log" 2>&1
   echo "[$(date)] tabmwp class3 val rc=$?"
 fi

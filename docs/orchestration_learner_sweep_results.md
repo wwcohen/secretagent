@@ -10,12 +10,12 @@ Research questions and findings: [orchestration_learner_research_findings.html](
 - Interactive curves: `docs/orchestration_learner_sweep_curves.html`
 - Research findings dashboard: `docs/orchestration_learner_research_findings.html`
 - Checked-in result roots referenced by this report:
-  - `benchmarks/finqa/results/orchestration_learner/`
+  - `benchmarks/finqa/finqa/results/orchestration_learner/`
   - `benchmarks/medcalc/results/orchestration_learner/`
   - `benchmarks/musr/results/orchestration_learner/`
   - `benchmarks/natural_plan/results/orchestration_learner/`
   - `benchmarks/rulearena/results/orchestration_learner/`
-  - `benchmarks/tabmwp/results/orchestration_learner/`
+  - `benchmarks/tabmwp/tabmwp/results/orchestration_learner/`
   - `benchmarks/bbh/sports_understanding/results/orchestration_learner/`
   - `benchmarks/bbh/geometric_shapes/results/orchestration_learner/`
   - `benchmarks/bbh/penguins_in_a_table/results/orchestration_learner/`
@@ -41,7 +41,7 @@ The final workflow used for scoring is always the function bound in `implementat
 
 | Table benchmark | Result root | Entry point |
 |---|---|---|
-| `finqa` | `benchmarks/finqa/results/orchestration_learner/` | `answer_finqa` |
+| `finqa` | `benchmarks/finqa/finqa/results/orchestration_learner/` | `answer_finqa` |
 | `medcalc` | `benchmarks/medcalc/results/orchestration_learner/` | `calculate_medical_value` |
 | `musr_murder` | `benchmarks/musr/results/orchestration_learner/` | `answer_question_workflow` |
 | `musr_object` | `benchmarks/musr/results/orchestration_learner/` | `answer_question_workflow` |
@@ -52,7 +52,7 @@ The final workflow used for scoring is always the function bound in `implementat
 | `rulearena_airline` | `benchmarks/rulearena/results/orchestration_learner/` | `compute_rulearena_answer` |
 | `rulearena_nba` | `benchmarks/rulearena/results/orchestration_learner/` | `compute_rulearena_answer` |
 | `rulearena_tax` | `benchmarks/rulearena/results/orchestration_learner/` | `compute_rulearena_answer` |
-| `tabmwp` | `benchmarks/tabmwp/results/orchestration_learner/` | `tabmwp_solve` |
+| `tabmwp` | `benchmarks/tabmwp/tabmwp/results/orchestration_learner/` | `tabmwp_solve` |
 | `sports_understanding` | `benchmarks/bbh/sports_understanding/results/orchestration_learner/` | `are_sports_in_sentence_consistent` |
 | `geometric_shapes` | `benchmarks/bbh/geometric_shapes/results/orchestration_learner/` | `identify_shape` |
 | `penguins_in_a_table` | `benchmarks/bbh/penguins_in_a_table/results/orchestration_learner/` | `answer_penguin_question` |

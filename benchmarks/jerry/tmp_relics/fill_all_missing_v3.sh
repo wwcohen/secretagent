@@ -221,7 +221,7 @@ echo "[$(date)] === STEP 3: vals (parallel) ==="
     "ptools.tabmwp_solve.method=learned_code" \
     "ptools.tabmwp_solve.learner=workflow_distill" \
     "ptools.tabmwp_solve.backoff=true" \
-    "learn.train_dir=$ROOT/benchmarks/tabmwp/learned_class2_opus" \
+    "learn.train_dir=$ROOT/benchmarks/tabmwp/tabmwp/learned_class2_opus" \
     > "$LOG_DIR/tabmwp_class2_val_v3.log" 2>&1
   echo "[$(date)] tabmwp class2 val rc=$?"
 ) &

@@ -21,7 +21,7 @@ from secretagent import config
 from secretagent.core import implement_via_config
 from secretagent.dataset import Case, Dataset
 
-FINQA_DIR = Path(__file__).resolve().parent.parent / "finqa"
+FINQA_DIR = Path(__file__).resolve().parent.parent / "finqa" / "finqa"
 CONF_FILE = FINQA_DIR / "conf" / "conf.yaml"
 
 if str(FINQA_DIR) not in sys.path:

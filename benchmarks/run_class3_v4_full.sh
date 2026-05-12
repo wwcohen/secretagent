@@ -55,8 +55,8 @@ fi
 
 # finqa
 cd "$ROOT/benchmarks/finqa"
-INDUCED=$(ls "$ROOT/benchmarks/finqa/learned_class3_v3"/*answer_finqa__ptool_inducer/learned_ptools.py 2>/dev/null | tail -1)
-STAGE_B=$(ls -d "$ROOT/benchmarks/finqa/learned_class3_v3/induced_recordings"/*induced_record 2>/dev/null | tail -1)
+INDUCED=$(ls "$ROOT/benchmarks/finqa/finqa/learned_class3_v3"/*answer_finqa__ptool_inducer/learned_ptools.py 2>/dev/null | tail -1)
+STAGE_B=$(ls -d "$ROOT/benchmarks/finqa/finqa/learned_class3_v3/induced_recordings"/*induced_record 2>/dev/null | tail -1)
 if [ -n "$INDUCED" ]; then
   run_v4 finqa \
     uv run -m secretagent.cli.learn workflow-codedistill \

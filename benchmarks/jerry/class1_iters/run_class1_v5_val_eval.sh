@@ -39,7 +39,7 @@ for n, kvs in (cfg.get('ptools', {}) or {}).items():
 run_finqa_val() {
   local gate="$1"
   local out_dir="learned_v5_${gate}gate"
-  local cfg="$ROOT/benchmarks/finqa/$out_dir/codedistill_config.yaml"
+  local cfg="$ROOT/benchmarks/finqa/finqa/$out_dir/codedistill_config.yaml"
   if [ ! -f "$cfg" ]; then
     echo "[finqa gate=$gate] no cfg — skip"; return
   fi
@@ -59,7 +59,7 @@ for n, kvs in (cfg.get('ptools', {}) or {}).items():
   nohup uv run python expt.py run \
     --config-file conf/workflow.yaml \
     "${PTOOL_ARGS[@]}" \
-    "learn.train_dir=$ROOT/benchmarks/finqa/$out_dir" \
+    "learn.train_dir=$ROOT/benchmarks/finqa/finqa/$out_dir" \
     dataset.split=valid dataset.n=100 \
     "evaluate.expt_name=finqa_val_full_class1v5_${gate}gate" \
     evaluate.result_dir=val_results_full > /tmp/finqa_v5_${gate}.log 2>&1 &

@@ -12,7 +12,7 @@ Use this file to track the benchmark runs you want to keep.
 ## Dataset Setup
 
 - DesignBench root (default lookup): `/Users/goku/Work/Spring_26/IS/DesignBench` (exists)
-- Local benchmark data path required by `expt.py`: `benchmarks/designbench/data/generation/<framework>`
+- Local benchmark data path required by `expt.py`: `benchmarks/designbench/designbench/data/generation/<framework>`
 - Local data status in this repo: **present** (`vanilla/react/vue/angular` dirs available)
 - Source dataset stats (from sibling DesignBench repo):
   - `vanilla`: 120 valid cases (120 with reference image)
@@ -64,8 +64,8 @@ Use this file to track the benchmark runs you want to keep.
 ```bash
 # 0) Prepare local dataset expected by expt.py
 #    (Run from secretagent root)
-mkdir -p benchmarks/designbench/data
-cp -R ../DesignBench/data/generation benchmarks/designbench/data/
+mkdir -p benchmarks/designbench/designbench/data
+cp -R ../DesignBench/data/generation benchmarks/designbench/designbench/data/
 
 # 1) Move into benchmark dir
 cd benchmarks/designbench

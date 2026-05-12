@@ -18,7 +18,7 @@ WRONG_RATE="${WRONG_RATE:-0.20}"
 
 CAL_REC="$ROOT/benchmarks/natural_plan/recordings_full/20260429.005822.natplan_calendar_train_train_full"
 MEET_REC="$ROOT/benchmarks/natural_plan/recordings_full/20260429.030705.natplan_meeting_train_train_full"
-FINQA_REC="$ROOT/benchmarks/finqa/recordings_full/20260429.011245.finqa_train_train_full"
+FINQA_REC="$ROOT/benchmarks/finqa/finqa/recordings_full/20260429.011245.finqa_train_train_full"
 
 distill() {
   local label="$1"; local cwd="$2"; local rec="$3"; local gate="$4"

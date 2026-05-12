@@ -16,7 +16,7 @@ from conftest import CI_TEST_MODEL, needs_api_key
 from secretagent import config
 from secretagent.core import implement_via_config
 
-DESIGNBENCH_DIR = Path(__file__).resolve().parent.parent / "designbench"
+DESIGNBENCH_DIR = Path(__file__).resolve().parent.parent / "designbench" / "designbench"
 CONF_FILE = DESIGNBENCH_DIR / "conf" / "conf.yaml"
 
 

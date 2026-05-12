@@ -27,12 +27,12 @@ GEO_TRACE=$(ls -d "$ROOT/benchmarks/bbh/geometric_shapes/recordings/"*.bbh_geome
 PENG_TRACE=$(ls -d "$ROOT/benchmarks/bbh/penguins_in_a_table/recordings/"*.bbh_penguins_train_record_v2 2>/dev/null | tail -1)
 DATE_TRACE=$(ls -d "$ROOT/benchmarks/bbh/date_understanding/recordings/"*.date_train_record_v4 2>/dev/null | tail -1)
 MEDCALC_TRACE=$(ls -d "$ROOT/benchmarks/medcalc/recordings/"*.medcalc_train_record 2>/dev/null | tail -1)
-FINQA_TRACE=$(ls -d "$ROOT/benchmarks/finqa/recordings/"*.finqa_train_record 2>/dev/null | tail -1)
+FINQA_TRACE=$(ls -d "$ROOT/benchmarks/finqa/finqa/recordings/"*.finqa_train_record 2>/dev/null | tail -1)
 AIRLINE_TRACE=$(ls -d "$ROOT/benchmarks/rulearena/recordings/"*.airline_train_record 2>/dev/null | tail -1)
 
 # ReAct traces (only musr/finqa have them)
 MUSR_REACT=$(ls -d "$ROOT/benchmarks/musr/recordings_class3/"*.murder_react_train 2>/dev/null | tail -1)
-FINQA_REACT=$(ls -d "$ROOT/benchmarks/finqa/recordings_class3/"*.finqa_react_train 2>/dev/null | tail -1)
+FINQA_REACT=$(ls -d "$ROOT/benchmarks/finqa/finqa/recordings_class3/"*.finqa_react_train 2>/dev/null | tail -1)
 
 # Cross-benchmark dataset files
 CAL_DS="$ROOT/benchmarks/natural_plan/data/calendar_train_50.json"
@@ -43,7 +43,7 @@ GEO_DS="$ROOT/benchmarks/bbh/geometric_shapes/data/train.json"
 PENG_DS="$ROOT/benchmarks/bbh/penguins_in_a_table/data/train.json"
 DATE_DS="$ROOT/benchmarks/bbh/date_understanding/data/train.json"
 MEDCALC_DS="$ROOT/benchmarks/medcalc/data_train_100_diverse.json"
-FINQA_DS="$ROOT/benchmarks/finqa/data/train.json"
+FINQA_DS="$ROOT/benchmarks/finqa/finqa/data/train.json"
 AIRLINE_DS="$ROOT/benchmarks/rulearena/airline_train_50.json"
 
 run_wf() {

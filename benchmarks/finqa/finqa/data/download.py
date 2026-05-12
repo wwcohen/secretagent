@@ -3,13 +3,13 @@
 
 Run from the repository root or from this directory::
 
-    uv run python benchmarks/finqa/data/download.py
+    uv run python benchmarks/finqa/finqa/data/download.py
 
-Files are written to ``benchmarks/finqa/data/raw/``:
+Files are written to ``benchmarks/finqa/finqa/data/raw/``:
 
 - ``train.json``, ``dev.json``, ``test.json`` — labeled splits
 
-Next step: ``uv run python benchmarks/finqa/data/build_datasets.py``
+Next step: ``uv run python benchmarks/finqa/finqa/data/build_datasets.py``
 """
 
 from __future__ import annotations
@@ -37,7 +37,7 @@ def main() -> None:
         urllib.request.urlretrieve(url, dest)
         print(f"  wrote {dest.stat().st_size} bytes")
 
-    print("Done. Run: uv run python benchmarks/finqa/data/build_datasets.py")
+    print("Done. Run: uv run python benchmarks/finqa/finqa/data/build_datasets.py")
 
 
 if __name__ == "__main__":

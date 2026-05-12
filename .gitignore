@@ -249,8 +249,8 @@ paper/results/orchestrator-results/scripts/_train_dirs/**
 !paper/results/orchestrator-results/scripts/_train_dirs/**/
 !paper/results/orchestrator-results/scripts/_train_dirs/**/*.orch_learner
 docs/superpowers/
-benchmarks/designbench/data/
-benchmarks/designbench/results/
+benchmarks/designbench/designbench/data/
+benchmarks/designbench/designbench/results/
 benchmarks/results/designbench/*/*/artifacts/
 
 learning_correctness_table_filled.tex
