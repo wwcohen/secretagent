@@ -182,7 +182,7 @@ The learner's in-process final eval hit tool-name registration conflicts for bot
 
 ### Existing benchmark subset evaluation
 
-These evaluations used the exact existing benchmark case lists under `benchmarks/COMMON/results/medcalc/` and loaded those case IDs from the cached MedCalc train split.
+These evaluations used the exact existing benchmark case lists under `paper/results/results/medcalc/` and loaded those case IDs from the cached MedCalc train split.
 
 | Experiment | Benchmark result directory | Cases | Accuracy | Exact match | Final ptools |
 |---|---|---:|---:|---:|---|

@@ -9,7 +9,7 @@ set -a; source "$ROOT/.env"; set +a
 DS_V31="together_ai/deepseek-ai/DeepSeek-V3.1"
 DS_V3="together_ai/deepseek-ai/DeepSeek-V3"
 
-WF="$ROOT/benchmarks/COMMON/codedistill-workflow-results"
+WF="$ROOT/paper/results/codedistill-workflow-results"
 
 musr_test() {
   local task=$1   # murder|object|team

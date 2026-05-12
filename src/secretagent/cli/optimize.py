@@ -403,7 +403,7 @@ def cross_summary(
         # Two supported layouts:
         #   <bench>/results/<file>      -> name = parts[-3]   (canonical sweep cwd)
         #   <...>/<bench>/<file>        -> name = parts[-2]   (snapshot dirs under
-        #                                                     benchmarks/COMMON/optimize-results/<bench>/)
+        #                                                     paper/results/optimize-results/<bench>/)
         if len(parts) >= 3 and parts[-2] == "results":
             name = parts[-3]
         elif len(parts) >= 2:

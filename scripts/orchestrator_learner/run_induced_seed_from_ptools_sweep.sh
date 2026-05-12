@@ -23,7 +23,7 @@ MAX_WORKERS="${MAX_WORKERS:-1}"
 MAX_ITERATIONS="${MAX_ITERATIONS:-5}"
 RUN_TIMESTAMP="${ORCH_RUN_TIMESTAMP:-$(date +%Y%m%d.%H%M%S)}"
 LOG_DIR="$REPO_ROOT/logs/orchestration_runs/$RUN_TIMESTAMP/induced_seed_from_ptools"
-LINK_ROOT="$REPO_ROOT/benchmarks/COMMON/orchestrator-results/_train_dirs/induced_seed_from_ptools"
+LINK_ROOT="$REPO_ROOT/paper/results/orchestrator-results/_train_dirs/induced_seed_from_ptools"
 export PYDANTIC_DISABLE_PLUGINS="${PYDANTIC_DISABLE_PLUGINS:-1}"
 mkdir -p "$LOG_DIR" "$LINK_ROOT"
 

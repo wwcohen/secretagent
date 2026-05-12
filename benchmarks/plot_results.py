@@ -23,14 +23,14 @@ BENCHMARKS_DIR = ROOT / 'benchmarks'
 # Map of benchmark name → (full path, label, color)
 # NEW path layout (post-COMMON reorg):
 #   - baseline val_results_full + recordings_full live in benchmarks/<bench>/ (per-bench)
-#   - class1 val/test/learned live in benchmarks/COMMON/codedistill-ptools-results/<bench>/
-#   - class2 val/test/learned live in benchmarks/COMMON/codedistill-workflow-results/<bench>/
+#   - class1 val/test/learned live in paper/results/codedistill-ptools-results/<bench>/
+#   - class2 val/test/learned live in paper/results/codedistill-workflow-results/<bench>/
 # The plot reader needs to look in BOTH the per-bench dir (for baseline) and the
 # COMMON dirs (for class1/2 results).
-COMMON_PT  = BENCHMARKS_DIR / 'COMMON' / 'codedistill-ptools-results'
-COMMON_WF  = BENCHMARKS_DIR / 'COMMON' / 'codedistill-workflow-results'
-COMMON_ORCH = BENCHMARKS_DIR / 'COMMON' / 'orchestrator-results'
-COMMON_ORCH_INDUCED = BENCHMARKS_DIR / 'COMMON' / 'orchestrator-induced-ptools-results'
+COMMON_PT  = ROOT / 'paper' / 'results' / 'codedistill-ptools-results'
+COMMON_WF  = ROOT / 'paper' / 'results' / 'codedistill-workflow-results'
+COMMON_ORCH = ROOT / 'paper' / 'results' / 'orchestrator-results'
+COMMON_ORCH_INDUCED = ROOT / 'paper' / 'results' / 'orchestrator-induced-ptools-results'
 
 # (label, per-bench-dir for baseline, COMMON-dir-name for ptools, COMMON-dir-name for workflow)
 BENCHMARKS_INFO = {

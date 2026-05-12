@@ -9,7 +9,7 @@ set -a; source "$ROOT/.env"; set +a
 DS_V31="together_ai/deepseek-ai/DeepSeek-V3.1"
 DS_V3="together_ai/deepseek-ai/DeepSeek-V3"
 
-WF_COMMON="$ROOT/benchmarks/COMMON/codedistill-workflow-results"
+WF_COMMON="$ROOT/paper/results/codedistill-workflow-results"
 
 # --- musr family ---
 musr_val() {

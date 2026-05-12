@@ -17,7 +17,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import pandas as pd
 
-OPTIMIZE_DIR = Path(__file__).resolve().parent.parent / "benchmarks" / "COMMON" / "optimize-results"
+OPTIMIZE_DIR = Path(__file__).resolve().parent.parent / "paper" / "results" / "optimize-results"
 
 
 def load_points_from_dirs(parent_dir):

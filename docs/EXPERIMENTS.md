@@ -8,7 +8,7 @@ The main result should have `expt_name` of `workflow`x
 .  This is using a
 handcoded workflow and a handcoded set of ptools (plus tools, if your
 task has "real" Python tool).  You should store it under
-`benchmarks/COMMON/results/BENCHMARK/SUBTASK/`.
+`paper/results/results/BENCHMARK/SUBTASK/`.
 
 **Notes:** Use `cli/expt.py` to run the experiment if possible.  If
 it's not possible let me know why and we will see how we need to

@@ -16,8 +16,8 @@ BENCHES = [
 ]
 
 # Post-COMMON-reorg, the opus/gemini class1/class2 results live in:
-#   benchmarks/COMMON/codedistill-ptools-results/<dst>/{val,test}_results_full/
-#   benchmarks/COMMON/codedistill-workflow-results/<dst>/{val,test}_results_full/
+#   paper/results/codedistill-ptools-results/<dst>/{val,test}_results_full/
+#   paper/results/codedistill-workflow-results/<dst>/{val,test}_results_full/
 # Mapping bench → dst (some bbh names get flattened to bbh_<sub>):
 COMMON_BENCH_NAMES = {
     "natural_plan": "natural_plan",
@@ -157,10 +157,10 @@ for bench in BENCHES:
             continue
         scan(bench, scope, base)
 
-# Also scan COMMON/codedistill-{ptools,workflow}-results/<dst>/{val,test}_results_full/
+# Also scan paper/results/codedistill-{ptools,workflow}-results/<dst>/{val,test}_results_full/
 def scan_common(bench, dst, common_subdir, scope_prefix):
-    """bench is the canonical bench dir; common_subdir is the dirname under COMMON/."""
-    base = ROOT / 'COMMON' / common_subdir / dst
+    """bench is the canonical bench dir; common_subdir is the dirname under paper/results/."""
+    base = ROOT.parent / 'paper' / 'results' / common_subdir / dst
     if not base.exists():
         return
     for results_kind in ['val_results_full', 'test_results_full']:
@@ -196,7 +196,7 @@ for bench in BENCHES:
 
 
 def scan_orchestrator_common(bench, dst, common_subdir, scope):
-    base = ROOT / 'COMMON' / common_subdir / dst / 'test_results_full'
+    base = ROOT.parent / 'paper' / 'results' / common_subdir / dst / 'test_results_full'
     if not base.exists():
         return
     for d in sorted(base.iterdir()):

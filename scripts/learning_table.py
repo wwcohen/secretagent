@@ -134,7 +134,7 @@ def find_orchestrator_learned_csv(task, subtask):
 def find_optimizer_csv(task, subtask):
     """Find best NSGA-II test-pass results CSV for a task/subtask.
 
-    Scans benchmarks/COMMON/results/<task>/<subtask>/*.test_pass_* for the
+    Scans paper/results/results/<task>/<subtask>/*.test_pass_* for the
     Pareto-frontier configurations exported from the optimizer pipeline,
     and returns the CSV path of the configuration with the highest
     mean(correct) on test (Pareto top-1 by accuracy)."""

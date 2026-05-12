@@ -5,8 +5,8 @@ Usage:
     uv run scripts/benchmark_status.py [--task TASK] [--subtask SUBTASK]
 
 For every TASK/SUBTASK this code checks that there is a subdirectory D
-in the main branch of the repo called benchmarks/COMMON/results/TASK/SUBTASK
-(eg benchmarks/COMMON/results/musr/team). That subdirectory D should contain
+in the main branch of the repo called paper/results/results/TASK/SUBTASK
+(eg paper/results/results/musr/team). That subdirectory D should contain
 a valid "results directory" for the expt_name S, for each S in
 'workflow', 'pot', 'react', 'structured_baseline', and 'zs_cot_prompt'.
 
@@ -187,7 +187,7 @@ def find_all_result_dirs(parent_repo_path: str) -> list[tuple[str, str]]:
 def check_benchmark(task_subtask: str, full: bool = False) -> tuple[int, list[str]]:
     """Check a single TASK/SUBTASK and return (score, details)."""
     task, subtask = task_subtask.split("/")
-    results_repo_path = f"benchmarks/COMMON/results/{task}/{subtask}"
+    results_repo_path = f"paper/results/results/{task}/{subtask}"
 
     if not exists_on_branch(results_repo_path):
         return 0, [f"  result directory {results_repo_path} not found on main"]

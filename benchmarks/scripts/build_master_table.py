@@ -207,7 +207,7 @@ out_text.append('\n\n## N\n\n')
 out_text.append(n_fmt.to_markdown())
 rendered = ''.join(out_text)
 
-for out_path in [Path('/tmp/master_table.md'), ROOT / 'COMMON' / 'master_table.md']:
+for out_path in [Path('/tmp/master_table.md'), ROOT.parent / 'paper' / 'results' / 'master_table.md']:
     out_path.write_text(rendered)
 print('\nWrote /tmp/master_table.md')
-print(f'Wrote {ROOT / "COMMON" / "master_table.md"}')
+print(f'Wrote {ROOT.parent / "paper" / "results" / "master_table.md"}')

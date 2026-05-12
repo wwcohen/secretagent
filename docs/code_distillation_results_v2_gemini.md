@@ -245,7 +245,7 @@ extract simulate returns garbage.
 
 All 6 distills ran with `--max-rounds 2 --n-candidates 5`, total wall
 time ~45 min for the longest (musr_team). Each one's cache + intermediate
-data is in `benchmarks/COMMON/codedistill-workflow-results/<bench>/learned_class3_gemini_<sub>/`.
+data is in `paper/results/codedistill-workflow-results/<bench>/learned_class3_gemini_<sub>/`.
 
 ### Caveats
 
@@ -266,7 +266,7 @@ data is in `benchmarks/COMMON/codedistill-workflow-results/<bench>/learned_class
 
 Re-ran each cached learner on the test split, no re-distill. Same flags
 as val except `dataset.partition=test` / `dataset.split=*_test`. Outputs
-under `benchmarks/COMMON/codedistill-workflow-results/<bench>/test_results_full/`.
+under `paper/results/codedistill-workflow-results/<bench>/test_results_full/`.
 
 | benchmark | n | val (c3_gemini) | **test (c3_gemini)** | Δ test−val |
 |---|---|---|---|---|

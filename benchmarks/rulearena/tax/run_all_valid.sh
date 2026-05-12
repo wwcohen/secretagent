@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Run all 5 strategies on the full valid set, sequentially. Cases run one at a
 # time inside each strategy (matches the team's sequential default; see
-# benchmarks/COMMON/results/, where 185/190 runs use max_workers=1). Continues on
+# paper/results/results/, where 185/190 runs use max_workers=1). Continues on
 # per-strategy failures so one bad run doesn't abort the others.
 #
 # Usage:    bash run_all_valid.sh

@@ -59,7 +59,7 @@ json.dump(out, open('$out', 'w'), indent=2)
 }
 
 # Common output dir helper (writes to COMMON/codedistill-workflow-results/<bench>/learned_class3_gemini/)
-WF_COMMON="$ROOT/benchmarks/COMMON/codedistill-workflow-results"
+WF_COMMON="$ROOT/paper/results/codedistill-workflow-results"
 
 # === musr 3 tasks ===
 musr_one() {
