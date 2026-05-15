@@ -1,5 +1,0 @@
-are_sports_in_sentence_consistent:
-  learner: ptool_editer
-  method: simulate_pydantic
-  tool_module: __learned__
-  tools: __all__

@@ -1,5 +1,0 @@
-case_name,predicted_output,expected_output,correct,input_tokens,output_tokens,latency,cost,expt_name
-valid.043,**exception raised**: cannot find final answer,True,0.0,328.0,25.0,2.214712142944336,3.53e-05,analyze_sentence_gemma-3n-E4B-it
-valid.002,False,False,1.0,1410.0,371.0,7.831360816955566,0.0012739000000000001,analyze_sentence_gemma-3n-E4B-it
-valid.013,False,False,1.0,1414.0,170.0,4.114363193511963,0.0009309,analyze_sentence_gemma-3n-E4B-it
-valid.006,**exception raised**: cannot find final answer,False,0.0,331.0,17.0,0.9426140785217285,3.48e-05,analyze_sentence_gemma-3n-E4B-it

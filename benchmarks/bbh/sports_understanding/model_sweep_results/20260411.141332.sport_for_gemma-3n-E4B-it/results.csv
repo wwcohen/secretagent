@@ -1,5 +1,0 @@
-case_name,predicted_output,expected_output,correct,input_tokens,output_tokens,latency,cost,expt_name
-valid.043,True,True,1.0,1155.0,48.0,3.0002479553222656,0.00043919999999999994,sport_for_gemma-3n-E4B-it
-valid.002,False,False,1.0,1466.0,64.0,3.226090908050537,0.00048239999999999996,sport_for_gemma-3n-E4B-it
-valid.013,False,False,1.0,1471.0,68.0,2.8661956787109375,0.0004864,sport_for_gemma-3n-E4B-it
-valid.006,False,False,1.0,1161.0,51.0,7.308283805847168,0.0004464,sport_for_gemma-3n-E4B-it
