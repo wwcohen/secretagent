@@ -31,20 +31,33 @@
   * Mostly done except
     - scripts that use old locations might not work - according to claude
 	- paper/results is a start at the reorg of results
+      - papers/results/results
     - medcalc is an issue
 	- rulearena is an issue???
     - test_natural_plan.py 
-	  — TASK_CONFIG constants updated to new paths, but the surrounding _import_modules / _run_eval framework still does os.chdir(NATURAL_PLAN_DIR) and loads ptools from the task-set dir. Needs a rewrite for the per-task cwd model. Tests fail until then.
-- Legacy scripts (benchmarks/jerry/, scripts/orchestrator_learner/, benchmarks/scripts/) still reference ptools_murder/object/team/calendar/meeting/trip by their old module names. Not in the active critical path but they'll break if re-run.
-- rulearena cleanup still pending — needs the test_rulearena.py rewrite (same per-task cwd issue as test_natural_plan).
-- medcalc split still pending — depends on the missing-data/ question (where does medcalc data come from at runtime? a download script? a different repo?).
-The paper/results/results/ double-results awkwardness — flagged earlier; worth deciding whether to rename the inner one.
-=======
-
+	  — TASK_CONFIG constants updated to new paths, but the
+      surrounding _import_modules / _run_eval framework still does
+      os.chdir(NATURAL_PLAN_DIR) and loads ptools from the task-set
+      dir. Needs a rewrite for the per-task cwd model. Tests fail
+      until then.
+    - Legacy scripts (benchmarks/jerry/,
+      scripts/orchestrator_learner/, benchmarks/scripts/) still
+      reference ptools_murder/object/team/calendar/meeting/trip by
+      their old module names. Not in the active critical path but
+      they'll break if re-run.
+    - rulearena cleanup still pending — needs the test_rulearena.py rewrite (same per-task cwd issue as test_natural_plan).
+    - medcalc split still pending — depends on the missing-data/ question (where does medcalc data come from at runtime? a download script? a different repo?).
 
 * CLEAN UP caching
   * keep cache in the benchmark task/subtask
 * CLEAN UP config relative/non-relative paths
+  * DONE: removed expt.py set_root, instead save relative-path configs
+    as relative to project root when you save them.
+    * TODO: clean up all the other set_root calls
+	  * and then root = config.get('root') or config.get('original_working_dir')
+    * TODO: get rid of defaulting to root/data, and the explicit expt.py --interface XXXX
+    * TODO: refactor module_loading code
+
   * GOAL: you can rerun an expt using the info in the config
     * make this work!
   * idea: add to the config
