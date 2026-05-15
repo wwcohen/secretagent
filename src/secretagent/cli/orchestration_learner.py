@@ -23,7 +23,6 @@ Usage (from benchmark directory, e.g. benchmarks/medcalc/):
 """
 
 import os
-import sys
 from pathlib import Path
 
 os.environ['PYTHONUNBUFFERED'] = '1'

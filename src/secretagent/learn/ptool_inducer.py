@@ -365,11 +365,11 @@ class PtoolInducer(Learner):
               f'only_correct={self.only_correct})')
 
         self._labels = self._categorize(items)
-        n_labeled = sum(1 for l in self._labels if l)
+        n_labeled = sum(1 for lab in self._labels if lab)
         print(f'categorized {n_labeled}/{len(items)} thoughts')
 
         self._labels = self._merge(self._labels)
-        self._counts = Counter(l for l in self._labels if l).most_common()
+        self._counts = Counter(lab for lab in self._labels if lab).most_common()
         print(f'unique categories after merge: {len(self._counts)}')
 
         self._ptools = []
@@ -378,8 +378,8 @@ class PtoolInducer(Learner):
                 break
             if count < self.min_count:
                 break
-            examples = [items[i] for i, l in enumerate(self._labels)
-                        if l == cat][:5]
+            examples = [items[i] for i, lab in enumerate(self._labels)
+                        if lab == cat][:5]
             spec = self._synthesize(cat, examples)
             if spec is None:
                 continue
@@ -429,7 +429,7 @@ class PtoolInducer(Learner):
     def _merge(self, labels: list[Optional[str]],
                target_min: int = 5, target_max: int = 10
                ) -> list[Optional[str]]:
-        counts = Counter(l for l in labels if l)
+        counts = Counter(lab for lab in labels if lab)
         if len(counts) <= target_max:
             return labels
         block = '\n'.join(f'  "{k}" — {v}' for k, v in counts.most_common())
@@ -454,15 +454,15 @@ class PtoolInducer(Learner):
                     mapping[o] = canonical
         lc = {k.lower(): v for k, v in mapping.items()}
         merged: list[Optional[str]] = []
-        for l in labels:
-            if l is None:
+        for lab in labels:
+            if lab is None:
                 merged.append(None)
-            elif l in mapping:
-                merged.append(mapping[l])
-            elif l.lower() in lc:
-                merged.append(lc[l.lower()])
+            elif lab in mapping:
+                merged.append(mapping[lab])
+            elif lab.lower() in lc:
+                merged.append(lc[lab.lower()])
             else:
-                merged.append(l)
+                merged.append(lab)
         return merged
 
     def _synthesize(self, category: str, examples: list[dict]
@@ -585,7 +585,7 @@ class PtoolInducer(Learner):
             'only_correct': self.only_correct,
             'model': self.model,
             'n_thoughts': len(self._items),
-            'n_labeled': sum(1 for l in self._labels if l),
+            'n_labeled': sum(1 for lab in self._labels if lab),
             'n_unique_categories': len(self._counts),
             'ptools': self._ptools,
             'categories': [
@@ -624,6 +624,6 @@ class PtoolInducer(Learner):
     def report(self) -> str:
         return (
             f'induced {len(self._ptools)} ptools from '
-            f'{sum(1 for l in self._labels if l)} labeled thoughts '
+            f'{sum(1 for lab in self._labels if lab)} labeled thoughts '
             f'(mode={self.trace_mode}, only_correct={self.only_correct})'
         )

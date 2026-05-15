@@ -181,7 +181,7 @@ def nsga2(
     total = space_size(dims)
     print(f"NSGA-II search: {len(dims)} dimensions, {total:,} configs")
     print(f"  cwd: {cwd_path}")
-    print(f"  Genes:")
+    print("  Genes:")
     for i, dim in enumerate(dims):
         tag = " (compound)" if dim.key in compound else ""
         print(f"    [{i}] {dim.key}: {dim.size} values{tag}")

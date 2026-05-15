@@ -3,6 +3,8 @@ from pathlib import Path
 import pytest
 import pandas as pd
 
+pytestmark = pytest.mark.filterwarnings("ignore::RuntimeWarning")
+
 from omegaconf import OmegaConf
 from typer.testing import CliRunner
 

@@ -81,7 +81,7 @@ def echo_boxed(text: str, tag:str = ''):
             lines.append(raw)
         else:
             lines.extend(textwrap.wrap(raw, width=box_width))
-    width = max((len(l) for l in lines), default=0)
+    width = max((len(line) for line in lines), default=0)
     print('┌' + tag.center(width + 2, '─') + '┐')
     for line in lines:
         print('│ ' + line.ljust(width) + ' │')

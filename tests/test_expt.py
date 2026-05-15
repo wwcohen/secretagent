@@ -16,7 +16,7 @@ def reset_global_config():
     config.GLOBAL_CONFIG = OmegaConf.create()
 
 
-def _fake_setup(dotlist):
+def _fake_setup(dotlist, config_file=None):
     """Simulate setup_and_load_dataset: mutates config and returns a dataset."""
     config.configure(llm={'model': 'mutated-model'}, echo={'call': True})
     ds = MagicMock()

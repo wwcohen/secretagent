@@ -12,9 +12,7 @@ Stage D: Merge Stage A's top-level binding with Stage C's per-ptool overrides
 import collections
 import json
 import shlex
-import shutil
 import subprocess
-import sys
 from pathlib import Path
 from typing import Optional
 
@@ -88,7 +86,7 @@ def _build_overrides_for_stage_b(
         f'ptools.{interface_name}.tools={tools_str}',
         f'ptools.{interface_name}.tool_module={iface_cfg.get("tool_module", "__learned__")}',
         f'ptools.{interface_name}.learner={iface_cfg.get("learner", "ptool_inducer")}',
-        f'evaluate.record_details=true',
+        'evaluate.record_details=true',
         f'evaluate.result_dir={record_dir}',
         f'evaluate.expt_name={record_expt_name}',
     ]

@@ -1048,8 +1048,8 @@ class OrchestrationLearner(Learner):
                     f'could not import expt module from {benchmark_dir}: {e}')
             load_dataset = getattr(evaluator_module, 'load_dataset', None)
             if load_dataset is None:
-                load_dataset = lambda split: _load_local_json_dataset(
-                    benchmark_dir, split)
+                def load_dataset(split, _bd=benchmark_dir):
+                    return _load_local_json_dataset(_bd, split)
             evaluator_cls = _find_evaluator_cls(evaluator_module, benchmark_dir)
             evaluator_sig = inspect.signature(evaluator_cls)
             if 'task' in evaluator_sig.parameters:

@@ -26,7 +26,7 @@ import os
 import random
 import textwrap
 from pathlib import Path
-from typing import Any, Optional
+from typing import Optional
 
 import yaml
 
@@ -350,7 +350,7 @@ class WorkflowDistillLearner(CodeDistillLearner):
         parts = [
             f"You are writing the workflow function `{self.interface_name}` "
             f"that solves a task end-to-end by orchestrating existing tools.\n",
-            f"Task examples (input → expected output):\n",
+            "Task examples (input → expected output):\n",
             examples_text,
         ]
 
@@ -461,7 +461,6 @@ class WorkflowDistillLearner(CodeDistillLearner):
         from secretagent import config
         from secretagent.core import implement_via_config
         from omegaconf import OmegaConf
-        import importlib
         config.configure(yaml_file=self.conf_file)
         ptool_module = _load_tool_module(self.tool_module)
         ptools_cfg = config.get('ptools')
