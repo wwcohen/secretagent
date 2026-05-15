@@ -168,12 +168,13 @@ Generic benchmark experiment runner. Run from a benchmark directory that contain
 Run a benchmark evaluation.
 
 ```
-uv run python -m secretagent.cli.expt run --interface MODULE.NAME [--evaluator MODULE.CLASS] [DOTLIST_OVERRIDES...]
+uv run python -m secretagent.cli.expt run [--config FILE] [--interface MODULE.NAME] [--evaluator MODULE.CLASS] [DOTLIST_OVERRIDES...]
 ```
 
 | Option | Description |
 |---|---|
-| `--interface` | (required) Top-level interface as `module.name`, e.g. `ptools.my_fn` |
+| `--config` | YAML config file (default: `conf/conf.yaml`) |
+| `--interface` | Top-level interface as `module.name`, e.g. `ptools.my_fn` (default: from `evaluate.root_interface` config) |
 | `--evaluator` | Evaluator class as `module.ClassName` (default: `ExactMatchEvaluator`) |
 
 Extra args are parsed as config overrides in dot notation.
@@ -183,8 +184,14 @@ Extra args are parsed as config overrides in dot notation.
 Run the top-level interface on a single example with full tracing.
 
 ```
-uv run python -m secretagent.cli.expt quick-test --interface MODULE.NAME [DOTLIST_OVERRIDES...]
+uv run python -m secretagent.cli.expt quick-test [--config FILE] [--interface MODULE.NAME] [DOTLIST_OVERRIDES...]
 ```
+
+| Option | Description |
+|---|---|
+| `--config` | YAML config file (default: `conf/conf.yaml`) |
+| `--interface` | Top-level interface as `module.name` (default: from `evaluate.root_interface` config) |
+| `--case` | Case name to run, e.g. `valid.006` (default: first case) |
 
 ## secretagent.cli.optimize
 

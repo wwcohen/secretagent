@@ -68,14 +68,34 @@ def configuration(cfg=None, **kw):
     yield GLOBAL_CONFIG
     GLOBAL_CONFIG = saved
 
+SENTINEL_FILE = '.root-sentinel.txt'
+_PATH_KEY_SUFFIXES = ('_dir', '_file', '_module')
+
+def find_project_root(start=None):
+    """Walk up from start (default CWD) looking for SENTINEL_FILE.
+
+    Returns the Path of the directory containing the sentinel,
+    or raises FileNotFoundError.
+    """
+    start = Path(start) if start else Path.cwd()
+    for p in [start.resolve(), *start.resolve().parents]:
+        if (p / SENTINEL_FILE).exists():
+            return p
+    raise FileNotFoundError(
+        f'Could not find {SENTINEL_FILE} in any parent of {start}'
+    )
+
 def set_root(new_root):
     """Resolve relative paths in config against new_root.
+
+    .. deprecated:: Use config.save() which now auto-resolves paths
+       relative to the project root. Callers should stop calling set_root
+       and let relative paths remain relative at runtime.
 
     Finds every config value whose key ends with '_dir' or '_file',
     and if the value is a relative path, prepends new_root to make
     it absolute.
     """
-    from pathlib import Path
     new_root = Path(new_root)
     OmegaConf.update(GLOBAL_CONFIG, 'root', str(new_root))
 
@@ -85,17 +105,55 @@ def set_root(new_root):
             val = cfg[key]
             if isinstance(val, DictConfig):
                 _resolve(val, full_key + '.')
-            elif isinstance(val, str) and (key.endswith('_dir') or key.endswith('_file')):
+            elif isinstance(val, str) and (key.endswith(_PATH_KEY_SUFFIXES)):
                 if not Path(val).is_absolute():
                     OmegaConf.update(GLOBAL_CONFIG, full_key, str(new_root / val))
 
     _resolve(GLOBAL_CONFIG)
 
+def _reroot_paths(cfg, project_root):
+    """Return a copy of cfg with _dir/_file/_module paths relative to project_root.
+
+    Relative paths are resolved against CWD first, then made relative
+    to project_root.  Absolute paths under project_root are also made
+    relative.  Paths outside the project root are left absolute.
+    """
+    copy = OmegaConf.to_container(cfg, resolve=True)
+    cwd = Path.cwd().resolve()
+    project_root = Path(project_root).resolve()
+
+    def _walk(d):
+        for key, val in d.items():
+            if isinstance(val, dict):
+                _walk(val)
+            elif isinstance(val, str) and (key.endswith(_PATH_KEY_SUFFIXES)):
+                p = Path(val)
+                if not p.is_absolute():
+                    p = cwd / p
+                p = p.resolve()
+                try:
+                    d[key] = str(p.relative_to(project_root))
+                except ValueError:
+                    d[key] = str(p)
+
+    _walk(copy)
+    return OmegaConf.create(copy)
+
 def save(filename):
     """Save the global configuration in a file.
+
+    Paths (keys ending in _dir, _file, or _module) are rewritten to be relative
+    to the project root (found via .root-sentinel.txt).  If the project
+    root cannot be found, the config is saved as-is.
     """
+    try:
+        root = find_project_root()
+        augmented = OmegaConf.merge(GLOBAL_CONFIG, {'original_working_dir': '.'})
+        to_save = _reroot_paths(augmented, root)
+    except FileNotFoundError:
+        to_save = GLOBAL_CONFIG
     with open(filename, 'w') as fp:
-        fp.write(OmegaConf.to_yaml(GLOBAL_CONFIG))
+        fp.write(OmegaConf.to_yaml(to_save))
 
 #
 # some utils for working with configs that don't involve changing the global config

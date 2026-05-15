@@ -13,6 +13,7 @@ import warnings
 from secretagent import config, record, savefile
 from secretagent.dataset import Case, Dataset
 from secretagent.core import Interface
+from secretagent.implement.util import resolve_dotted
 
 
 class Evaluator(ABC):
@@ -169,12 +170,17 @@ class Evaluator(ABC):
             pbar.close()
             
 
-    def evaluate(self, dataset: Dataset, interface: Interface) -> Path:
+    def evaluate(self, dataset: Dataset, interface: Interface | None = None) -> Path:
         """Compute and save measurements for a dataset.
+
+        If interface is None, it is resolved from the config key
+        ``evaluate.root_interface`` (e.g. ``ptools.my_fn``).
 
         Results are put in csv format into a savefile.  Returns the
         path to the csv file.
         """
+        if interface is None:
+            interface = resolve_dotted(config.require('evaluate.root_interface'))
         expt_name = config.get('evaluate.expt_name')
         result_dir = config.require('evaluate.result_dir')
         csv_path, jsonl_path = savefile.filename_list(

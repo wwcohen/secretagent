@@ -116,7 +116,91 @@ def test_sanity_check_warns_on_unknown_key():
         config.sanity_check("test", ["llm.nonexistent=foo"], cfg)
 
 
-# --- config.set_root() ---
+# --- config.find_project_root() ---
+
+def test_find_project_root(tmp_path):
+    root = tmp_path / "proj"
+    root.mkdir()
+    (root / config.SENTINEL_FILE).write_text("sentinel")
+    sub = root / "a" / "b"
+    sub.mkdir(parents=True)
+    assert config.find_project_root(sub) == root
+
+
+def test_find_project_root_at_root(tmp_path):
+    (tmp_path / config.SENTINEL_FILE).write_text("sentinel")
+    assert config.find_project_root(tmp_path) == tmp_path
+
+
+def test_find_project_root_missing(tmp_path):
+    with pytest.raises(FileNotFoundError):
+        config.find_project_root(tmp_path)
+
+
+# --- config.save() with path rerooting ---
+
+def test_save_reroots_relative_paths(tmp_path, monkeypatch):
+    """Relative paths should be saved relative to project root."""
+    root = tmp_path / "proj"
+    bench = root / "benchmarks" / "test"
+    bench.mkdir(parents=True)
+    (root / config.SENTINEL_FILE).write_text("sentinel")
+    monkeypatch.chdir(bench)
+
+    config.configure(cachier={"cache_dir": "llm_cache"}, evaluate={"result_dir": "results"})
+    outfile = tmp_path / "out.yaml"
+    config.save(outfile)
+
+    saved = OmegaConf.load(outfile)
+    assert OmegaConf.select(saved, "cachier.cache_dir") == "benchmarks/test/llm_cache"
+    assert OmegaConf.select(saved, "evaluate.result_dir") == "benchmarks/test/results"
+    assert OmegaConf.select(saved, "original_working_dir") == "benchmarks/test"
+
+
+def test_save_reroots_absolute_paths_under_root(tmp_path, monkeypatch):
+    """Absolute paths under the project root should become relative."""
+    root = tmp_path / "proj"
+    root.mkdir()
+    (root / config.SENTINEL_FILE).write_text("sentinel")
+    monkeypatch.chdir(root)
+
+    config.configure(cachier={"cache_dir": str(root / "data" / "cache")})
+    outfile = tmp_path / "out.yaml"
+    config.save(outfile)
+
+    saved = OmegaConf.load(outfile)
+    assert OmegaConf.select(saved, "cachier.cache_dir") == "data/cache"
+
+
+def test_save_leaves_non_path_keys(tmp_path, monkeypatch):
+    """Keys not ending in _dir or _file should be untouched."""
+    root = tmp_path / "proj"
+    root.mkdir()
+    (root / config.SENTINEL_FILE).write_text("sentinel")
+    monkeypatch.chdir(root)
+
+    config.configure(llm={"model": "gpt-4o"})
+    outfile = tmp_path / "out.yaml"
+    config.save(outfile)
+
+    saved = OmegaConf.load(outfile)
+    assert OmegaConf.select(saved, "llm.model") == "gpt-4o"
+
+
+def test_save_does_not_mutate_global_config(tmp_path, monkeypatch):
+    """save() should not change GLOBAL_CONFIG."""
+    root = tmp_path / "proj"
+    bench = root / "bench"
+    bench.mkdir(parents=True)
+    (root / config.SENTINEL_FILE).write_text("sentinel")
+    monkeypatch.chdir(bench)
+
+    config.configure(cachier={"cache_dir": "llm_cache"})
+    config.save(tmp_path / "out.yaml")
+    assert config.get("cachier.cache_dir") == "llm_cache"
+
+
+# --- config.set_root() (deprecated) ---
 
 def test_set_root_resolves_relative_dir():
     config.configure(evaluate={"result_dir": "results"})

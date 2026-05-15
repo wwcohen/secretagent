@@ -1,0 +1,5 @@
+This file is a sentinel that marks this directory as the root of the
+project.
+
+Do not delete it or rename it, and do not create any file with the
+same name anywhere in this source tree.

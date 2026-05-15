@@ -145,3 +145,7 @@ other stats (e.g., input/output tokens and cost).
 ## CLI tools
 
 See @docs/CLI.md
+
+## Coding style
+
+ * Import everything at the top of the file

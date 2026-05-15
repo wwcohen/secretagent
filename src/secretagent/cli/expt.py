@@ -19,9 +19,11 @@ Example CLI commands (from a benchmark directory)::
 """
 
 import importlib
+import importlib.util
 import pandas as pd
 from pathlib import Path
 import pprint
+import sys
 
 import typer
 
@@ -37,6 +39,35 @@ from secretagent.implement.util import resolve_dotted
 
 _EXTRA_ARGS = {"allow_extra_args": True, "allow_interspersed_args": False}
 
+def _load_module_from_path(module_path: str | Path):
+    """Load a Python module from a filesystem path.
+
+    module_path can be a directory (package) or a .py file.  If it's a
+    directory, __init__.py is loaded.  The module is registered in
+    sys.modules under a unique name derived from the path to avoid
+    collisions between different ptools modules.
+    """
+    module_path = Path(module_path)
+    if module_path.is_dir():
+        file_path = module_path / '__init__.py'
+    elif module_path.suffix == '.py':
+        file_path = module_path
+    else:
+        file_path = module_path.with_suffix('.py')
+    if not file_path.exists():
+        raise FileNotFoundError(f'Cannot find module at {file_path}')
+    # unique key so multiple ptools don't collide in sys.modules
+    sys_key = f'_ptools_{file_path.resolve()}'
+    if sys_key in sys.modules:
+        return sys.modules[sys_key]
+    spec = importlib.util.spec_from_file_location(module_path.name, str(file_path))
+    mod = importlib.util.module_from_spec(spec)
+    sys.modules[sys_key] = mod
+    # also register under the basename so internal imports work
+    sys.modules[module_path.name] = mod
+    spec.loader.exec_module(mod)
+    return mod
+
 def setup_and_load_dataset(dotlist: list[str], config_file: str | Path | None = None) -> Dataset:
     """Load config, dataset, and configure ptools.
 
@@ -51,27 +82,29 @@ def setup_and_load_dataset(dotlist: list[str], config_file: str | Path | None = 
     if config_file is None:
         config_file = root / 'conf' / 'conf.yaml'
     config.configure(yaml_file=config_file, dotlist=dotlist)
-    config.set_root(root)
 
+    owd = Path(config.get('original_working_dir', '.'))
     split = config.require('dataset.split')
-    dataset_json_file = root / 'data' / f'{split}.json'
+    json_data_dir = Path(config.get('dataset.json_data_dir', str(owd / 'data')))
+    dataset_json_file = json_data_dir / f'{split}.json'
     dataset = Dataset.model_validate_json(dataset_json_file.read_text(encoding='utf-8'))
     dataset.configure(
         shuffle_seed=config.get('dataset.shuffle_seed'),
         n=config.get('dataset.n') or None  # don't pass in 0
     )
-    ptools = importlib.import_module('ptools')
+    ptools = _load_module_from_path(config.get('dataset.ptools_module', str(owd / 'ptools')))
     implement_via_config(ptools, config.require('ptools'))
     return dataset
 
 def run_experiment(
-        top_level_interface: Interface,
+        top_level_interface: Interface | None = None,
         dotlist: list[str] | None = None,
-        evaluator: Evaluator | None = None
+        evaluator: Evaluator | None = None,
+        config_file: str | Path | None = None,
 ) -> pd.DataFrame:
     # prevent permanent changes to the config
     with config.configuration():
-        dataset = setup_and_load_dataset(dotlist or [])
+        dataset = setup_and_load_dataset(dotlist or [], config_file=config_file)
         evaluator = evaluator or ExactMatchEvaluator()
         csv_path = evaluator.evaluate(dataset, top_level_interface)
         # print a summary
@@ -90,8 +123,9 @@ app = typer.Typer()
 @app.command(context_settings=_EXTRA_ARGS)
 def run(
     ctx: typer.Context,
+    config_file: str = typer.Option(None, "--config", help="YAML config file (default: conf/conf.yaml)"),
     evaluator: str = typer.Option(None, help="Evaluator class as 'module.ClassName'"),
-    interface: str = typer.Option(..., help="Top-level interface as 'module.name'"),
+    interface: str = typer.Option(None, help="Top-level interface as 'module.name' (default: from evaluate.root_interface config)"),
 ):
     """Run a benchmark evaluation.
 
@@ -99,11 +133,12 @@ def run(
         uv run python -m secretagent.cli.expt run --interface ptools.my_fn llm.model=gpt-4o
     """
     eval_instance = resolve_dotted(evaluator)() if evaluator else None
-    top_level = resolve_dotted(interface)
+    top_level = resolve_dotted(interface) if interface else None
     run_experiment(
         top_level_interface=top_level,
         dotlist=ctx.args,
-        evaluator=eval_instance)
+        evaluator=eval_instance,
+        config_file=config_file)
 
 
 def _resolve_case(dataset, case_name):
@@ -120,7 +155,8 @@ def _resolve_case(dataset, case_name):
 @app.command(context_settings=_EXTRA_ARGS)
 def quick_test(
     ctx: typer.Context,
-    interface: str = typer.Option(..., help="Top-level interface as 'module.name'"),
+    config_file: str = typer.Option(None, "--config", help="YAML config file (default: conf/conf.yaml)"),
+    interface: str = typer.Option(None, help="Top-level interface as 'module.name' (default: from evaluate.root_interface config)"),
     case: str = typer.Option(None, help="Case name to run, e.g. valid.006. Defaults to first case."),
 ):
     """Do a quick test of a configuration.
@@ -129,9 +165,9 @@ def quick_test(
     top-level interface on a single example, tracing as much as
     possible.
     """
-    dataset = setup_and_load_dataset(ctx.args)
+    dataset = setup_and_load_dataset(ctx.args, config_file=config_file)
     print('dataset is', dataset.summary())
-    top_level = resolve_dotted(interface)
+    top_level = resolve_dotted(interface or config.require('evaluate.root_interface'))
     pprint.pprint(config.GLOBAL_CONFIG)
 
     test_case = _resolve_case(dataset, case)
@@ -153,7 +189,8 @@ def quick_test(
 @app.command(context_settings=_EXTRA_ARGS)
 def cached_test(
     ctx: typer.Context,
-    interface: str = typer.Option(..., help="Top-level interface as 'module.name'"),
+    config_file: str = typer.Option(None, "--config", help="YAML config file (default: conf/conf.yaml)"),
+    interface: str = typer.Option(None, help="Top-level interface as 'module.name' (default: from evaluate.root_interface config)"),
     case: str = typer.Option(None, help="Case name to run, e.g. valid.006. Defaults to first case."),
 ):
     """Test a configuration on a single example, keeping the LLM cache active.
@@ -161,9 +198,9 @@ def cached_test(
     Same as quick-test, but does not disable caching — repeat runs reuse
     previously cached LLM calls so iteration on a single case is cheap.
     """
-    dataset = setup_and_load_dataset(ctx.args)
+    dataset = setup_and_load_dataset(ctx.args, config_file=config_file)
     print('dataset is', dataset.summary())
-    top_level = resolve_dotted(interface)
+    top_level = resolve_dotted(interface or config.require('evaluate.root_interface'))
     pprint.pprint(config.GLOBAL_CONFIG)
 
     test_case = _resolve_case(dataset, case)

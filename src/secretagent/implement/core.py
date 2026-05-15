@@ -274,7 +274,7 @@ class PromptLLMFactory(Implementation.Factory):
             # templates without relying on cwd — the historical behavior.
             path = pathlib.Path(prompt_template_file)
             if not path.is_absolute() and not path.exists():
-                root = config.get('root')
+                root = config.get('root') or config.get('original_working_dir')
                 if root is not None:
                     root_path = pathlib.Path(root) / prompt_template_file
                     if root_path.exists():
