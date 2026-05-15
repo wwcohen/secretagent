@@ -1,5 +1,6 @@
 llm:
-  model: together_ai/deepseek-ai/DeepSeek-V3.1
+#  model: together_ai/deepseek-ai/DeepSeek-V3.1
+  model: gemini/gemini-3.1-flash-lite-preview
 
 cachier:
   cache_dir: llm_cache
