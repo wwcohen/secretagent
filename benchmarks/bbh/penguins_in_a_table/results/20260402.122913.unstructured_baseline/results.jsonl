@@ -1,4 +1,0 @@
-{"predicted_output": "FINAL ANSWER", "expected_output": "(A)", "correct": 0.0, "input_tokens": 529.0, "output_tokens": 373.0, "latency": 4.676259756088257, "cost": 0.00027059999999999996, "case_name": "valid.017", "expt_name": "unstructured_baseline"}
-{"predicted_output": "(C)", "expected_output": "(C)", "correct": 1.0, "input_tokens": 520.0, "output_tokens": 378.0, "latency": 3.3972697257995605, "cost": 0.00026940000000000004, "case_name": "valid.001", "expt_name": "unstructured_baseline"}
-{"predicted_output": "(C)", "expected_output": "(C)", "correct": 1.0, "input_tokens": 520.0, "output_tokens": 375.0, "latency": 3.291548490524292, "cost": 0.0002685, "case_name": "valid.009", "expt_name": "unstructured_baseline"}
-{"predicted_output": "(C)", "expected_output": "(C)", "correct": 1.0, "input_tokens": 532.0, "output_tokens": 442.0, "latency": 4.084015846252441, "cost": 0.0002922, "case_name": "valid.037", "expt_name": "unstructured_baseline"}

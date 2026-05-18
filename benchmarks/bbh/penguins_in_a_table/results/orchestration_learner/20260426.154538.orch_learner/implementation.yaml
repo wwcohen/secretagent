@@ -1,4 +1,0 @@
-answer_penguin_question:
-  method: direct
-  fn: __learned__.penguins_workflow
-  learner: orch_learner

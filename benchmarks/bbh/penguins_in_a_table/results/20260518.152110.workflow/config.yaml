@@ -1,0 +1,24 @@
+llm:
+  model: gemini/gemini-3.1-flash-lite-preview
+cachier:
+  cache_dir: benchmarks/bbh/penguins_in_a_table/llm_cache
+evaluate:
+  result_dir: benchmarks/bbh/penguins_in_a_table/results
+  expt_name: workflow
+  root_interface: ptools.answer_penguin_question
+dataset:
+  split: test
+  shuffle_seed: 137
+ptools:
+  analyze_input:
+    method: simulate
+  table_operation:
+    method: simulate
+  answer_question:
+    method: simulate
+  choose_response:
+    method: simulate
+  answer_penguin_question:
+    method: direct
+    fn: ptools.penguins_workflow
+original_working_dir: benchmarks/bbh/penguins_in_a_table
