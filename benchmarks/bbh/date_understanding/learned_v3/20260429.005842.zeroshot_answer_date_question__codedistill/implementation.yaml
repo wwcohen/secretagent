@@ -1,4 +1,0 @@
-zeroshot_answer_date_question:
-  backoff: true
-  learner: codedistill
-  method: learned_code
