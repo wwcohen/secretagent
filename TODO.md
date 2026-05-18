@@ -40,6 +40,7 @@
       os.chdir(NATURAL_PLAN_DIR) and loads ptools from the task-set
       dir. Needs a rewrite for the per-task cwd model. Tests fail
       until then.
+      - this might be workable with the new expt.py 
     - Legacy scripts (benchmarks/jerry/,
       scripts/orchestrator_learner/, benchmarks/scripts/) still
       reference ptools_murder/object/team/calendar/meeting/trip by
@@ -59,7 +60,7 @@
     * TODO: refactor module_loading code
 
   * GOAL: you can rerun an expt using the info in the config
-    * make this work!
+    * mostly DONE but needs tests
   * idea: add to the config
     * evaluate.root_interface 
     * evaluate.TIMESTAMP
