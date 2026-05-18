@@ -1,0 +1,28 @@
+llm:
+  model: gemini/gemini-3.1-flash-lite-preview
+cachier:
+  cache_dir: benchmarks/bbh/date_understanding/llm_cache
+evaluate:
+  result_dir: benchmarks/bbh/date_understanding/results
+  root_interface: ptools.answer_date_question
+  expt_name: workflow
+dataset:
+  split: test
+  shuffle_seed: 137
+ptools:
+  extract_options:
+    method: simulate
+  extract_date_facts:
+    method: simulate
+  extract_question:
+    method: simulate
+  make_inference:
+    method: simulate
+  answer_question:
+    method: simulate
+  match_option:
+    method: simulate
+  answer_date_question:
+    method: direct
+    fn: ptools.date_understanding_workflow
+original_working_dir: .

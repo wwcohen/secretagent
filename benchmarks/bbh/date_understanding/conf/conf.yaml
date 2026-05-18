@@ -6,16 +6,17 @@ llm:
   # model: together_ai/Qwen/Qwen3-30B-A3B
   # model: together_ai/google/gemma-3-27b-it
   # model: together_ai/mistralai/Mistral-Small-24B-Instruct-2501
-  # model: gemini/gemini-2.5-flash
   # model: gemini/gemini-2.5-pro
   # model: gemini/gemini-2.0-flash
-  model: together_ai/deepseek-ai/DeepSeek-V3.1
+  # model: together_ai/openai/gpt-oss-120b
+  model: gemini/gemini-3.1-flash-lite-preview
 
 cachier:
   cache_dir: llm_cache
 
 evaluate:
   result_dir: results
+  root_interface: ptools.answer_date_question
   expt_name: DEFAULT # means the expt isn't fully configured and should be discarded
 
 dataset:
