@@ -1,4 +1,0 @@
-case_name,predicted_output,expected_output,correct,input_tokens,output_tokens,latency,cost,expt_name
-valid.043,**exception raised**: Exceeded maximum retries (1) for output validation,(J),0.0,7636.0,2451.0,23.159231424331665,0.019891,workflow
-valid.002,**exception raised**: Exceeded maximum retries (1) for output validation,(E),0.0,6820.0,2131.0,19.284457206726074,0.017475,workflow
-valid.013,**exception raised**: Exceeded maximum retries (1) for output validation,(B),0.0,6198.0,3041.0,24.668991565704346,0.021403,workflow

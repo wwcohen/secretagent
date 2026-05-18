@@ -1,0 +1,601 @@
+case_name,predicted_output,expected_output,correct,input_tokens,output_tokens,latency,cost,expt_name
+valid.043,"**exception raised**: status_code: 400, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.BadRequestError: GeminiException BadRequestError - {
+  ""error"": {
+    ""code"": 400,
+    ""message"": ""* GenerateContentRequest.tools[0].function_declarations[6].parameters.properties[options].items.items: missing field.\n"",
+    ""status"": ""INVALID_ARGUMENT""
+  }
+}
+",(J),0.0,,,,,react
+valid.002,"**exception raised**: status_code: 400, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.BadRequestError: GeminiException BadRequestError - {
+  ""error"": {
+    ""code"": 400,
+    ""message"": ""* GenerateContentRequest.tools[0].function_declarations[6].parameters.properties[options].items.items: missing field.\n"",
+    ""status"": ""INVALID_ARGUMENT""
+  }
+}
+",(E),0.0,,,,,react
+valid.013,"**exception raised**: status_code: 400, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.BadRequestError: GeminiException BadRequestError - {
+  ""error"": {
+    ""code"": 400,
+    ""message"": ""* GenerateContentRequest.tools[0].function_declarations[6].parameters.properties[options].items.items: missing field.\n"",
+    ""status"": ""INVALID_ARGUMENT""
+  }
+}
+",(B),0.0,,,,,react
+valid.006,"**exception raised**: status_code: 400, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.BadRequestError: GeminiException BadRequestError - {
+  ""error"": {
+    ""code"": 400,
+    ""message"": ""* GenerateContentRequest.tools[0].function_declarations[6].parameters.properties[options].items.items: missing field.\n"",
+    ""status"": ""INVALID_ARGUMENT""
+  }
+}
+",(D),0.0,,,,,react
+valid.048,"**exception raised**: status_code: 400, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.BadRequestError: GeminiException BadRequestError - {
+  ""error"": {
+    ""code"": 400,
+    ""message"": ""* GenerateContentRequest.tools[0].function_declarations[6].parameters.properties[options].items.items: missing field.\n"",
+    ""status"": ""INVALID_ARGUMENT""
+  }
+}
+",(E),0.0,,,,,react
+valid.035,"**exception raised**: status_code: 400, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.BadRequestError: GeminiException BadRequestError - {
+  ""error"": {
+    ""code"": 400,
+    ""message"": ""* GenerateContentRequest.tools[0].function_declarations[6].parameters.properties[options].items.items: missing field.\n"",
+    ""status"": ""INVALID_ARGUMENT""
+  }
+}
+",(F),0.0,,,,,react
+valid.036,"**exception raised**: status_code: 400, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.BadRequestError: GeminiException BadRequestError - {
+  ""error"": {
+    ""code"": 400,
+    ""message"": ""* GenerateContentRequest.tools[0].function_declarations[6].parameters.properties[options].items.items: missing field.\n"",
+    ""status"": ""INVALID_ARGUMENT""
+  }
+}
+",(J),0.0,,,,,react
+valid.072,"**exception raised**: status_code: 400, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.BadRequestError: GeminiException BadRequestError - {
+  ""error"": {
+    ""code"": 400,
+    ""message"": ""* GenerateContentRequest.tools[0].function_declarations[6].parameters.properties[options].items.items: missing field.\n"",
+    ""status"": ""INVALID_ARGUMENT""
+  }
+}
+",(E),0.0,,,,,react
+valid.058,"**exception raised**: status_code: 400, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.BadRequestError: GeminiException BadRequestError - {
+  ""error"": {
+    ""code"": 400,
+    ""message"": ""* GenerateContentRequest.tools[0].function_declarations[6].parameters.properties[options].items.items: missing field.\n"",
+    ""status"": ""INVALID_ARGUMENT""
+  }
+}
+",(I),0.0,,,,,react
+valid.046,"**exception raised**: status_code: 400, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.BadRequestError: GeminiException BadRequestError - {
+  ""error"": {
+    ""code"": 400,
+    ""message"": ""* GenerateContentRequest.tools[0].function_declarations[6].parameters.properties[options].items.items: missing field.\n"",
+    ""status"": ""INVALID_ARGUMENT""
+  }
+}
+",(E),0.0,,,,,react
+valid.037,"**exception raised**: status_code: 400, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.BadRequestError: GeminiException BadRequestError - {
+  ""error"": {
+    ""code"": 400,
+    ""message"": ""* GenerateContentRequest.tools[0].function_declarations[6].parameters.properties[options].items.items: missing field.\n"",
+    ""status"": ""INVALID_ARGUMENT""
+  }
+}
+",(K),0.0,,,,,react
+valid.005,"**exception raised**: status_code: 400, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.BadRequestError: GeminiException BadRequestError - {
+  ""error"": {
+    ""code"": 400,
+    ""message"": ""* GenerateContentRequest.tools[0].function_declarations[6].parameters.properties[options].items.items: missing field.\n"",
+    ""status"": ""INVALID_ARGUMENT""
+  }
+}
+",(I),0.0,,,,,react
+valid.069,"**exception raised**: status_code: 400, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.BadRequestError: GeminiException BadRequestError - {
+  ""error"": {
+    ""code"": 400,
+    ""message"": ""* GenerateContentRequest.tools[0].function_declarations[6].parameters.properties[options].items.items: missing field.\n"",
+    ""status"": ""INVALID_ARGUMENT""
+  }
+}
+",(D),0.0,,,,,react
+valid.014,"**exception raised**: status_code: 400, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.BadRequestError: GeminiException BadRequestError - {
+  ""error"": {
+    ""code"": 400,
+    ""message"": ""* GenerateContentRequest.tools[0].function_declarations[6].parameters.properties[options].items.items: missing field.\n"",
+    ""status"": ""INVALID_ARGUMENT""
+  }
+}
+",(J),0.0,,,,,react
+valid.045,"**exception raised**: status_code: 400, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.BadRequestError: GeminiException BadRequestError - {
+  ""error"": {
+    ""code"": 400,
+    ""message"": ""* GenerateContentRequest.tools[0].function_declarations[6].parameters.properties[options].items.items: missing field.\n"",
+    ""status"": ""INVALID_ARGUMENT""
+  }
+}
+",(D),0.0,,,,,react
+valid.038,"**exception raised**: status_code: 400, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.BadRequestError: GeminiException BadRequestError - {
+  ""error"": {
+    ""code"": 400,
+    ""message"": ""* GenerateContentRequest.tools[0].function_declarations[6].parameters.properties[options].items.items: missing field.\n"",
+    ""status"": ""INVALID_ARGUMENT""
+  }
+}
+",(J),0.0,,,,,react
+valid.016,"**exception raised**: status_code: 400, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.BadRequestError: GeminiException BadRequestError - {
+  ""error"": {
+    ""code"": 400,
+    ""message"": ""* GenerateContentRequest.tools[0].function_declarations[6].parameters.properties[options].items.items: missing field.\n"",
+    ""status"": ""INVALID_ARGUMENT""
+  }
+}
+",(D),0.0,,,,,react
+valid.063,"**exception raised**: status_code: 400, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.BadRequestError: GeminiException BadRequestError - {
+  ""error"": {
+    ""code"": 400,
+    ""message"": ""* GenerateContentRequest.tools[0].function_declarations[6].parameters.properties[options].items.items: missing field.\n"",
+    ""status"": ""INVALID_ARGUMENT""
+  }
+}
+",(F),0.0,,,,,react
+valid.003,"**exception raised**: status_code: 400, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.BadRequestError: GeminiException BadRequestError - {
+  ""error"": {
+    ""code"": 400,
+    ""message"": ""* GenerateContentRequest.tools[0].function_declarations[6].parameters.properties[options].items.items: missing field.\n"",
+    ""status"": ""INVALID_ARGUMENT""
+  }
+}
+",(B),0.0,,,,,react
+valid.064,"**exception raised**: status_code: 400, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.BadRequestError: GeminiException BadRequestError - {
+  ""error"": {
+    ""code"": 400,
+    ""message"": ""* GenerateContentRequest.tools[0].function_declarations[6].parameters.properties[options].items.items: missing field.\n"",
+    ""status"": ""INVALID_ARGUMENT""
+  }
+}
+",(G),0.0,,,,,react
+valid.055,"**exception raised**: status_code: 400, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.BadRequestError: GeminiException BadRequestError - {
+  ""error"": {
+    ""code"": 400,
+    ""message"": ""* GenerateContentRequest.tools[0].function_declarations[6].parameters.properties[options].items.items: missing field.\n"",
+    ""status"": ""INVALID_ARGUMENT""
+  }
+}
+",(K),0.0,,,,,react
+valid.047,"**exception raised**: status_code: 400, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.BadRequestError: GeminiException BadRequestError - {
+  ""error"": {
+    ""code"": 400,
+    ""message"": ""* GenerateContentRequest.tools[0].function_declarations[6].parameters.properties[options].items.items: missing field.\n"",
+    ""status"": ""INVALID_ARGUMENT""
+  }
+}
+",(F),0.0,,,,,react
+valid.028,"**exception raised**: status_code: 400, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.BadRequestError: GeminiException BadRequestError - {
+  ""error"": {
+    ""code"": 400,
+    ""message"": ""* GenerateContentRequest.tools[0].function_declarations[6].parameters.properties[options].items.items: missing field.\n"",
+    ""status"": ""INVALID_ARGUMENT""
+  }
+}
+",(K),0.0,,,,,react
+valid.034,"**exception raised**: status_code: 400, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.BadRequestError: GeminiException BadRequestError - {
+  ""error"": {
+    ""code"": 400,
+    ""message"": ""* GenerateContentRequest.tools[0].function_declarations[6].parameters.properties[options].items.items: missing field.\n"",
+    ""status"": ""INVALID_ARGUMENT""
+  }
+}
+",(K),0.0,,,,,react
+valid.026,"**exception raised**: status_code: 400, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.BadRequestError: GeminiException BadRequestError - {
+  ""error"": {
+    ""code"": 400,
+    ""message"": ""* GenerateContentRequest.tools[0].function_declarations[6].parameters.properties[options].items.items: missing field.\n"",
+    ""status"": ""INVALID_ARGUMENT""
+  }
+}
+",(E),0.0,,,,,react
+valid.057,"**exception raised**: status_code: 400, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.BadRequestError: GeminiException BadRequestError - {
+  ""error"": {
+    ""code"": 400,
+    ""message"": ""* GenerateContentRequest.tools[0].function_declarations[6].parameters.properties[options].items.items: missing field.\n"",
+    ""status"": ""INVALID_ARGUMENT""
+  }
+}
+",(F),0.0,,,,,react
+valid.018,"**exception raised**: status_code: 400, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.BadRequestError: GeminiException BadRequestError - {
+  ""error"": {
+    ""code"": 400,
+    ""message"": ""* GenerateContentRequest.tools[0].function_declarations[6].parameters.properties[options].items.items: missing field.\n"",
+    ""status"": ""INVALID_ARGUMENT""
+  }
+}
+",(I),0.0,,,,,react
+valid.017,"**exception raised**: status_code: 400, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.BadRequestError: GeminiException BadRequestError - {
+  ""error"": {
+    ""code"": 400,
+    ""message"": ""* GenerateContentRequest.tools[0].function_declarations[6].parameters.properties[options].items.items: missing field.\n"",
+    ""status"": ""INVALID_ARGUMENT""
+  }
+}
+",(B),0.0,,,,,react
+valid.010,"**exception raised**: status_code: 400, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.BadRequestError: GeminiException BadRequestError - {
+  ""error"": {
+    ""code"": 400,
+    ""message"": ""* GenerateContentRequest.tools[0].function_declarations[6].parameters.properties[options].items.items: missing field.\n"",
+    ""status"": ""INVALID_ARGUMENT""
+  }
+}
+",(B),0.0,,,,,react
+valid.019,"**exception raised**: status_code: 400, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.BadRequestError: GeminiException BadRequestError - {
+  ""error"": {
+    ""code"": 400,
+    ""message"": ""* GenerateContentRequest.tools[0].function_declarations[6].parameters.properties[options].items.items: missing field.\n"",
+    ""status"": ""INVALID_ARGUMENT""
+  }
+}
+",(D),0.0,,,,,react
+valid.065,"**exception raised**: status_code: 400, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.BadRequestError: GeminiException BadRequestError - {
+  ""error"": {
+    ""code"": 400,
+    ""message"": ""* GenerateContentRequest.tools[0].function_declarations[6].parameters.properties[options].items.items: missing field.\n"",
+    ""status"": ""INVALID_ARGUMENT""
+  }
+}
+",(C),0.0,,,,,react
+valid.012,"**exception raised**: status_code: 400, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.BadRequestError: GeminiException BadRequestError - {
+  ""error"": {
+    ""code"": 400,
+    ""message"": ""* GenerateContentRequest.tools[0].function_declarations[6].parameters.properties[options].items.items: missing field.\n"",
+    ""status"": ""INVALID_ARGUMENT""
+  }
+}
+",(D),0.0,,,,,react
+valid.007,"**exception raised**: status_code: 400, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.BadRequestError: GeminiException BadRequestError - {
+  ""error"": {
+    ""code"": 400,
+    ""message"": ""* GenerateContentRequest.tools[0].function_declarations[6].parameters.properties[options].items.items: missing field.\n"",
+    ""status"": ""INVALID_ARGUMENT""
+  }
+}
+",(G),0.0,,,,,react
+valid.032,"**exception raised**: status_code: 400, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.BadRequestError: GeminiException BadRequestError - {
+  ""error"": {
+    ""code"": 400,
+    ""message"": ""* GenerateContentRequest.tools[0].function_declarations[6].parameters.properties[options].items.items: missing field.\n"",
+    ""status"": ""INVALID_ARGUMENT""
+  }
+}
+",(K),0.0,,,,,react
+valid.049,"**exception raised**: status_code: 400, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.BadRequestError: GeminiException BadRequestError - {
+  ""error"": {
+    ""code"": 400,
+    ""message"": ""* GenerateContentRequest.tools[0].function_declarations[6].parameters.properties[options].items.items: missing field.\n"",
+    ""status"": ""INVALID_ARGUMENT""
+  }
+}
+",(E),0.0,,,,,react
+valid.004,"**exception raised**: status_code: 400, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.BadRequestError: GeminiException BadRequestError - {
+  ""error"": {
+    ""code"": 400,
+    ""message"": ""* GenerateContentRequest.tools[0].function_declarations[6].parameters.properties[options].items.items: missing field.\n"",
+    ""status"": ""INVALID_ARGUMENT""
+  }
+}
+",(C),0.0,,,,,react
+valid.054,"**exception raised**: status_code: 400, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.BadRequestError: GeminiException BadRequestError - {
+  ""error"": {
+    ""code"": 400,
+    ""message"": ""* GenerateContentRequest.tools[0].function_declarations[6].parameters.properties[options].items.items: missing field.\n"",
+    ""status"": ""INVALID_ARGUMENT""
+  }
+}
+",(K),0.0,,,,,react
+valid.025,"**exception raised**: status_code: 400, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.BadRequestError: GeminiException BadRequestError - {
+  ""error"": {
+    ""code"": 400,
+    ""message"": ""* GenerateContentRequest.tools[0].function_declarations[6].parameters.properties[options].items.items: missing field.\n"",
+    ""status"": ""INVALID_ARGUMENT""
+  }
+}
+",(I),0.0,,,,,react
+valid.061,"**exception raised**: status_code: 400, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.BadRequestError: GeminiException BadRequestError - {
+  ""error"": {
+    ""code"": 400,
+    ""message"": ""* GenerateContentRequest.tools[0].function_declarations[6].parameters.properties[options].items.items: missing field.\n"",
+    ""status"": ""INVALID_ARGUMENT""
+  }
+}
+",(C),0.0,,,,,react
+valid.040,"**exception raised**: status_code: 400, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.BadRequestError: GeminiException BadRequestError - {
+  ""error"": {
+    ""code"": 400,
+    ""message"": ""* GenerateContentRequest.tools[0].function_declarations[6].parameters.properties[options].items.items: missing field.\n"",
+    ""status"": ""INVALID_ARGUMENT""
+  }
+}
+",(C),0.0,,,,,react
+valid.020,"**exception raised**: status_code: 400, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.BadRequestError: GeminiException BadRequestError - {
+  ""error"": {
+    ""code"": 400,
+    ""message"": ""* GenerateContentRequest.tools[0].function_declarations[6].parameters.properties[options].items.items: missing field.\n"",
+    ""status"": ""INVALID_ARGUMENT""
+  }
+}
+",(C),0.0,,,,,react
+valid.070,"**exception raised**: status_code: 400, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.BadRequestError: GeminiException BadRequestError - {
+  ""error"": {
+    ""code"": 400,
+    ""message"": ""* GenerateContentRequest.tools[0].function_declarations[6].parameters.properties[options].items.items: missing field.\n"",
+    ""status"": ""INVALID_ARGUMENT""
+  }
+}
+",(K),0.0,,,,,react
+valid.031,"**exception raised**: status_code: 400, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.BadRequestError: GeminiException BadRequestError - {
+  ""error"": {
+    ""code"": 400,
+    ""message"": ""* GenerateContentRequest.tools[0].function_declarations[6].parameters.properties[options].items.items: missing field.\n"",
+    ""status"": ""INVALID_ARGUMENT""
+  }
+}
+",(J),0.0,,,,,react
+valid.015,"**exception raised**: status_code: 400, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.BadRequestError: GeminiException BadRequestError - {
+  ""error"": {
+    ""code"": 400,
+    ""message"": ""* GenerateContentRequest.tools[0].function_declarations[6].parameters.properties[options].items.items: missing field.\n"",
+    ""status"": ""INVALID_ARGUMENT""
+  }
+}
+",(G),0.0,,,,,react
+valid.022,"**exception raised**: status_code: 400, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.BadRequestError: GeminiException BadRequestError - {
+  ""error"": {
+    ""code"": 400,
+    ""message"": ""* GenerateContentRequest.tools[0].function_declarations[6].parameters.properties[options].items.items: missing field.\n"",
+    ""status"": ""INVALID_ARGUMENT""
+  }
+}
+",(E),0.0,,,,,react
+valid.011,"**exception raised**: status_code: 400, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.BadRequestError: GeminiException BadRequestError - {
+  ""error"": {
+    ""code"": 400,
+    ""message"": ""* GenerateContentRequest.tools[0].function_declarations[6].parameters.properties[options].items.items: missing field.\n"",
+    ""status"": ""INVALID_ARGUMENT""
+  }
+}
+",(J),0.0,,,,,react
+valid.073,"**exception raised**: status_code: 400, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.BadRequestError: GeminiException BadRequestError - {
+  ""error"": {
+    ""code"": 400,
+    ""message"": ""* GenerateContentRequest.tools[0].function_declarations[6].parameters.properties[options].items.items: missing field.\n"",
+    ""status"": ""INVALID_ARGUMENT""
+  }
+}
+",(E),0.0,,,,,react
+valid.059,"**exception raised**: status_code: 400, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.BadRequestError: GeminiException BadRequestError - {
+  ""error"": {
+    ""code"": 400,
+    ""message"": ""* GenerateContentRequest.tools[0].function_declarations[6].parameters.properties[options].items.items: missing field.\n"",
+    ""status"": ""INVALID_ARGUMENT""
+  }
+}
+",(C),0.0,,,,,react
+valid.074,"**exception raised**: status_code: 400, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.BadRequestError: GeminiException BadRequestError - {
+  ""error"": {
+    ""code"": 400,
+    ""message"": ""* GenerateContentRequest.tools[0].function_declarations[6].parameters.properties[options].items.items: missing field.\n"",
+    ""status"": ""INVALID_ARGUMENT""
+  }
+}
+",(J),0.0,,,,,react
+valid.067,"**exception raised**: status_code: 400, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.BadRequestError: GeminiException BadRequestError - {
+  ""error"": {
+    ""code"": 400,
+    ""message"": ""* GenerateContentRequest.tools[0].function_declarations[6].parameters.properties[options].items.items: missing field.\n"",
+    ""status"": ""INVALID_ARGUMENT""
+  }
+}
+",(D),0.0,,,,,react
+valid.042,"**exception raised**: status_code: 400, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.BadRequestError: GeminiException BadRequestError - {
+  ""error"": {
+    ""code"": 400,
+    ""message"": ""* GenerateContentRequest.tools[0].function_declarations[6].parameters.properties[options].items.items: missing field.\n"",
+    ""status"": ""INVALID_ARGUMENT""
+  }
+}
+",(B),0.0,,,,,react
+valid.066,"**exception raised**: status_code: 400, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.BadRequestError: GeminiException BadRequestError - {
+  ""error"": {
+    ""code"": 400,
+    ""message"": ""* GenerateContentRequest.tools[0].function_declarations[6].parameters.properties[options].items.items: missing field.\n"",
+    ""status"": ""INVALID_ARGUMENT""
+  }
+}
+",(I),0.0,,,,,react
+valid.039,"**exception raised**: status_code: 400, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.BadRequestError: GeminiException BadRequestError - {
+  ""error"": {
+    ""code"": 400,
+    ""message"": ""* GenerateContentRequest.tools[0].function_declarations[6].parameters.properties[options].items.items: missing field.\n"",
+    ""status"": ""INVALID_ARGUMENT""
+  }
+}
+",(E),0.0,,,,,react
+valid.000,"**exception raised**: status_code: 400, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.BadRequestError: GeminiException BadRequestError - {
+  ""error"": {
+    ""code"": 400,
+    ""message"": ""* GenerateContentRequest.tools[0].function_declarations[6].parameters.properties[options].items.items: missing field.\n"",
+    ""status"": ""INVALID_ARGUMENT""
+  }
+}
+",(F),0.0,,,,,react
+valid.021,"**exception raised**: status_code: 400, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.BadRequestError: GeminiException BadRequestError - {
+  ""error"": {
+    ""code"": 400,
+    ""message"": ""* GenerateContentRequest.tools[0].function_declarations[6].parameters.properties[options].items.items: missing field.\n"",
+    ""status"": ""INVALID_ARGUMENT""
+  }
+}
+",(K),0.0,,,,,react
+valid.056,"**exception raised**: status_code: 400, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.BadRequestError: GeminiException BadRequestError - {
+  ""error"": {
+    ""code"": 400,
+    ""message"": ""* GenerateContentRequest.tools[0].function_declarations[6].parameters.properties[options].items.items: missing field.\n"",
+    ""status"": ""INVALID_ARGUMENT""
+  }
+}
+",(E),0.0,,,,,react
+valid.060,"**exception raised**: status_code: 400, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.BadRequestError: GeminiException BadRequestError - {
+  ""error"": {
+    ""code"": 400,
+    ""message"": ""* GenerateContentRequest.tools[0].function_declarations[6].parameters.properties[options].items.items: missing field.\n"",
+    ""status"": ""INVALID_ARGUMENT""
+  }
+}
+",(C),0.0,,,,,react
+valid.027,"**exception raised**: status_code: 400, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.BadRequestError: GeminiException BadRequestError - {
+  ""error"": {
+    ""code"": 400,
+    ""message"": ""* GenerateContentRequest.tools[0].function_declarations[6].parameters.properties[options].items.items: missing field.\n"",
+    ""status"": ""INVALID_ARGUMENT""
+  }
+}
+",(F),0.0,,,,,react
+valid.008,"**exception raised**: status_code: 400, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.BadRequestError: GeminiException BadRequestError - {
+  ""error"": {
+    ""code"": 400,
+    ""message"": ""* GenerateContentRequest.tools[0].function_declarations[6].parameters.properties[options].items.items: missing field.\n"",
+    ""status"": ""INVALID_ARGUMENT""
+  }
+}
+",(D),0.0,,,,,react
+valid.030,"**exception raised**: status_code: 400, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.BadRequestError: GeminiException BadRequestError - {
+  ""error"": {
+    ""code"": 400,
+    ""message"": ""* GenerateContentRequest.tools[0].function_declarations[6].parameters.properties[options].items.items: missing field.\n"",
+    ""status"": ""INVALID_ARGUMENT""
+  }
+}
+",(K),0.0,,,,,react
+valid.033,"**exception raised**: status_code: 400, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.BadRequestError: GeminiException BadRequestError - {
+  ""error"": {
+    ""code"": 400,
+    ""message"": ""* GenerateContentRequest.tools[0].function_declarations[6].parameters.properties[options].items.items: missing field.\n"",
+    ""status"": ""INVALID_ARGUMENT""
+  }
+}
+",(G),0.0,,,,,react
+valid.068,"**exception raised**: status_code: 400, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.BadRequestError: GeminiException BadRequestError - {
+  ""error"": {
+    ""code"": 400,
+    ""message"": ""* GenerateContentRequest.tools[0].function_declarations[6].parameters.properties[options].items.items: missing field.\n"",
+    ""status"": ""INVALID_ARGUMENT""
+  }
+}
+",(B),0.0,,,,,react
+valid.053,"**exception raised**: status_code: 400, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.BadRequestError: GeminiException BadRequestError - {
+  ""error"": {
+    ""code"": 400,
+    ""message"": ""* GenerateContentRequest.tools[0].function_declarations[6].parameters.properties[options].items.items: missing field.\n"",
+    ""status"": ""INVALID_ARGUMENT""
+  }
+}
+",(K),0.0,,,,,react
+valid.050,"**exception raised**: status_code: 400, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.BadRequestError: GeminiException BadRequestError - {
+  ""error"": {
+    ""code"": 400,
+    ""message"": ""* GenerateContentRequest.tools[0].function_declarations[6].parameters.properties[options].items.items: missing field.\n"",
+    ""status"": ""INVALID_ARGUMENT""
+  }
+}
+",(C),0.0,,,,,react
+valid.071,"**exception raised**: status_code: 400, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.BadRequestError: GeminiException BadRequestError - {
+  ""error"": {
+    ""code"": 400,
+    ""message"": ""* GenerateContentRequest.tools[0].function_declarations[6].parameters.properties[options].items.items: missing field.\n"",
+    ""status"": ""INVALID_ARGUMENT""
+  }
+}
+",(K),0.0,,,,,react
+valid.051,"**exception raised**: status_code: 400, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.BadRequestError: GeminiException BadRequestError - {
+  ""error"": {
+    ""code"": 400,
+    ""message"": ""* GenerateContentRequest.tools[0].function_declarations[6].parameters.properties[options].items.items: missing field.\n"",
+    ""status"": ""INVALID_ARGUMENT""
+  }
+}
+",(E),0.0,,,,,react
+valid.001,"**exception raised**: status_code: 400, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.BadRequestError: GeminiException BadRequestError - {
+  ""error"": {
+    ""code"": 400,
+    ""message"": ""* GenerateContentRequest.tools[0].function_declarations[6].parameters.properties[options].items.items: missing field.\n"",
+    ""status"": ""INVALID_ARGUMENT""
+  }
+}
+",(C),0.0,,,,,react
+valid.044,"**exception raised**: status_code: 400, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.BadRequestError: GeminiException BadRequestError - {
+  ""error"": {
+    ""code"": 400,
+    ""message"": ""* GenerateContentRequest.tools[0].function_declarations[6].parameters.properties[options].items.items: missing field.\n"",
+    ""status"": ""INVALID_ARGUMENT""
+  }
+}
+",(D),0.0,,,,,react
+valid.062,"**exception raised**: status_code: 400, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.BadRequestError: GeminiException BadRequestError - {
+  ""error"": {
+    ""code"": 400,
+    ""message"": ""* GenerateContentRequest.tools[0].function_declarations[6].parameters.properties[options].items.items: missing field.\n"",
+    ""status"": ""INVALID_ARGUMENT""
+  }
+}
+",(E),0.0,,,,,react
+valid.029,"**exception raised**: status_code: 400, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.BadRequestError: GeminiException BadRequestError - {
+  ""error"": {
+    ""code"": 400,
+    ""message"": ""* GenerateContentRequest.tools[0].function_declarations[6].parameters.properties[options].items.items: missing field.\n"",
+    ""status"": ""INVALID_ARGUMENT""
+  }
+}
+",(F),0.0,,,,,react
+valid.024,"**exception raised**: status_code: 400, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.BadRequestError: GeminiException BadRequestError - {
+  ""error"": {
+    ""code"": 400,
+    ""message"": ""* GenerateContentRequest.tools[0].function_declarations[6].parameters.properties[options].items.items: missing field.\n"",
+    ""status"": ""INVALID_ARGUMENT""
+  }
+}
+",(J),0.0,,,,,react
+valid.041,"**exception raised**: status_code: 400, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.BadRequestError: GeminiException BadRequestError - {
+  ""error"": {
+    ""code"": 400,
+    ""message"": ""* GenerateContentRequest.tools[0].function_declarations[6].parameters.properties[options].items.items: missing field.\n"",
+    ""status"": ""INVALID_ARGUMENT""
+  }
+}
+",(J),0.0,,,,,react
+valid.052,"**exception raised**: status_code: 400, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.BadRequestError: GeminiException BadRequestError - {
+  ""error"": {
+    ""code"": 400,
+    ""message"": ""* GenerateContentRequest.tools[0].function_declarations[6].parameters.properties[options].items.items: missing field.\n"",
+    ""status"": ""INVALID_ARGUMENT""
+  }
+}
+",(C),0.0,,,,,react
+valid.023,"**exception raised**: status_code: 400, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.BadRequestError: GeminiException BadRequestError - {
+  ""error"": {
+    ""code"": 400,
+    ""message"": ""* GenerateContentRequest.tools[0].function_declarations[6].parameters.properties[options].items.items: missing field.\n"",
+    ""status"": ""INVALID_ARGUMENT""
+  }
+}
+",(K),0.0,,,,,react
+valid.009,"**exception raised**: status_code: 400, model_name: gemini/gemini-3.1-flash-lite-preview, body: litellm.BadRequestError: GeminiException BadRequestError - {
+  ""error"": {
+    ""code"": 400,
+    ""message"": ""* GenerateContentRequest.tools[0].function_declarations[6].parameters.properties[options].items.items: missing field.\n"",
+    ""status"": ""INVALID_ARGUMENT""
+  }
+}
+",(G),0.0,,,,,react

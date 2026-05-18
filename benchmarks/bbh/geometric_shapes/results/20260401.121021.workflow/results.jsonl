@@ -1,5 +1,0 @@
-{"predicted_output": "(J)", "expected_output": "(J)", "correct": 1.0, "input_tokens": 3140.0, "output_tokens": 2377.0, "latency": 23.605591535568237, "cost": 0.015025, "case_name": "valid.043", "expt_name": "workflow"}
-{"predicted_output": "(E)", "expected_output": "(E)", "correct": 1.0, "input_tokens": 2006.0, "output_tokens": 885.0, "latency": 11.296359539031982, "cost": 0.006431, "case_name": "valid.002", "expt_name": "workflow"}
-{"predicted_output": "(C)", "expected_output": "(B)", "correct": 0.0, "input_tokens": 6586.0, "output_tokens": 5453.0, "latency": 55.114049434661865, "cost": 0.033851, "case_name": "valid.013", "expt_name": "workflow"}
-{"predicted_output": "(H)", "expected_output": "(D)", "correct": 0.0, "input_tokens": 4871.0, "output_tokens": 4308.0, "latency": 39.24108386039734, "cost": 0.026411000000000004, "case_name": "valid.006", "expt_name": "workflow"}
-{"predicted_output": "(E)", "expected_output": "(E)", "correct": 1.0, "input_tokens": 2013.0, "output_tokens": 1407.0, "latency": 13.413533687591553, "cost": 0.009048, "case_name": "valid.048", "expt_name": "workflow"}

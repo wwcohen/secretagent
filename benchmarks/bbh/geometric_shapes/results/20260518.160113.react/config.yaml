@@ -1,0 +1,40 @@
+llm:
+  model: gemini/gemini-3.1-flash-lite-preview
+cachier:
+  cache_dir: benchmarks/bbh/geometric_shapes/llm_cache
+evaluate:
+  result_dir: benchmarks/bbh/geometric_shapes/results
+  expt_name: react
+  root_interface: ptools.identify_shape
+dataset:
+  split: valid
+  shuffle_seed: 137
+ptools:
+  extract_path:
+    method: simulate
+  extract_options:
+    method: simulate
+  decompose_path:
+    method: simulate
+  describe_command:
+    method: simulate
+  compute_angle:
+    method: simulate
+  describe_shape:
+    method: simulate
+  select_option:
+    method: simulate
+  identify_shape:
+    method: direct
+    fn: ptools.geometric_shapes_react_workflow
+  react_identify_shape:
+    method: simulate_pydantic
+    tools:
+    - ptools.extract_path
+    - ptools.extract_options
+    - ptools.decompose_path
+    - ptools.describe_command
+    - ptools.compute_angle
+    - ptools.describe_shape
+    - ptools.select_option
+original_working_dir: benchmarks/bbh/geometric_shapes

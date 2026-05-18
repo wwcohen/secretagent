@@ -1,4 +1,0 @@
-case_name,predicted_output,expected_output,correct,input_tokens,output_tokens,latency,cost,expt_name
-valid.043,**exception raised**: list index out of range,(J),0.0,8660.0,3024.0,27.243152141571045,0.02378,workflow
-valid.002,**exception raised**: list index out of range,(E),0.0,7764.0,2470.0,21.906398057937622,0.020114,workflow
-valid.013,"(Based on the documentation and the input provided, the function would return:)",(B),0.0,8334.0,4457.0,35.01775884628296,0.030619,workflow
