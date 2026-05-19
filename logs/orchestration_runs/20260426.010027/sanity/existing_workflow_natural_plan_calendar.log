@@ -1,95 +1,0 @@
-Created scratch module .orchestration_learner/ptools_calendar_20260426.013514_scratch.py from ptools_calendar.py
-
-=== Loading datasets ===
-Train: 2 cases from calendar
-Eval: 1 cases from calendar
-Train: 2 cases
-Eval: 1 cases
-Sampling: adapter:natural_plan_calendar
-
-=== Orchestration Learner ===
-Benchmark: natural_plan
-Config: calendar.yaml
-Ptools module: ptools_calendar (ptools_calendar_20260426.013514_scratch.py)
-Scratch evolved: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/natural_plan/.orchestration_learner/ptools_calendar_20260426.013514_scratch.py
-Entry point: calendar_scheduling
-Supervisor: gemini/gemini-3.1-pro-preview
-Train: 2 cases, Eval: 1 cases
-Max iterations: 1
-Output: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/natural_plan/results/orchestration_learner/20260426.013514.orch_learner
-[supervisor] evolved ptools: ptools_calendar_20260426.013514_scratch.py
-
-[supervisor] === Initial Evaluation ===
-  0%|          | 0/2 [00:00<?, ?it/s] 50%|█████     | 1/2 [00:04<00:04,  4.08s/it]100%|██████████| 2/2 [00:04<00:00,  2.00s/it]100%|██████████| 2/2 [00:04<00:00,  2.31s/it]
-saved in /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/natural_plan/results/orchestration_learner/20260426.013515.rc_iter0/results.csv
-prompt trace: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/natural_plan/results/orchestration_learner/20260426.013515.rc_iter0/prompt_trace.jsonl
-[supervisor] evaluating baseline on held-out set...
-  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00,  1.44it/s]100%|██████████| 1/1 [00:00<00:00,  1.44it/s]
-saved in /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/natural_plan/results/orchestration_learner/20260426.013520.rc_iter0_eval/results.csv
-prompt trace: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/natural_plan/results/orchestration_learner/20260426.013520.rc_iter0_eval/prompt_trace.jsonl
-[supervisor] baseline eval accuracy: 0.0%
-[supervisor] baseline: accuracy=0.0%, avg_cost=$0.0013
-[supervisor] baseline eval: 0.0%
-Pipeline accuracy: 0.0%, avg cost: $0.0013/case, 2 cases
-
-Per-ptool breakdown:
-  find_available_slots: cost_frac=42.0%, calls/case=1.0, avg_cost=$0.0005, lift=N/A, errors=0
-  parse_schedules: cost_frac=42.9%, calls/case=1.0, avg_cost=$0.0005, lift=N/A, errors=0
-  select_and_format: cost_frac=15.0%, calls/case=1.0, avg_cost=$0.0002, lift=N/A, errors=0
-
-[supervisor] === Iteration 1/1 ===
-[supervisor] calling supervisor LLM...
-[supervisor] supervisor cost: $0.3518
-[supervisor] reasoning: An analysis of the failure cases reveals two critical issues in the pipeline causing the 0.0% accuracy:
-
-1. **Hardcoded Control Flow:** The `calendar_workflow` hardcodes the `"earliest"` preference when calling `select_and_format`. Even when the problem explicitly specifies constraints like "avoid m
-[supervisor] re-evaluating on train set...
-  0%|          | 0/2 [00:00<?, ?it/s] 50%|█████     | 1/2 [00:00<00:00,  5.40it/s]100%|██████████| 2/2 [00:00<00:00,  5.39it/s]100%|██████████| 2/2 [00:00<00:00,  5.38it/s]
-saved in /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/natural_plan/results/orchestration_learner/20260426.013521.rc_iter1/results.csv
-prompt trace: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/natural_plan/results/orchestration_learner/20260426.013521.rc_iter1/prompt_trace.jsonl
-[supervisor] train: 100.0% (2/2 correct, 0 timeouts)
-[supervisor] cost: $0.0006/case
-[supervisor] evaluating on held-out set...
-  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00,  5.36it/s]100%|██████████| 1/1 [00:00<00:00,  5.35it/s]
-saved in /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/natural_plan/results/orchestration_learner/20260426.013521.rc_iter1_eval/results.csv
-prompt trace: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/natural_plan/results/orchestration_learner/20260426.013521.rc_iter1_eval/prompt_trace.jsonl
-[supervisor] eval:  100.0% (1/1 correct)
-[supervisor] KEPT: train 0.0%→100.0%, eval 0.0%→100.0%, best=0.0%
-[report] saved /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/natural_plan/results/orchestration_learner/20260426.013514.orch_learner/report.html
-
-[supervisor] === Summary ===
-Iterations: 1
-Best accuracy: 100.0% (iteration 1)
-Total supervisor cost: $0.3518
-Evolved ptools saved to: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/natural_plan/.orchestration_learner/ptools_calendar_20260426.013514_scratch.py
-
-=== Final Evaluation on Held-Out Set (1 cases) ===
-  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00,  2.06it/s]100%|██████████| 1/1 [00:00<00:00,  2.06it/s]
-saved in /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/natural_plan/results/orchestration_learner/20260426.013514.orch_learner/final_eval/20260426.013522.rc_final_eval/results.csv
-prompt trace: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/natural_plan/results/orchestration_learner/20260426.013514.orch_learner/final_eval/20260426.013522.rc_final_eval/prompt_trace.jsonl
-Final eval accuracy: 100.0%
-Final eval avg cost: $0.0011
-
-=== Generating Plots & Report ===
-[plots] saved /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/natural_plan/results/orchestration_learner/20260426.013514.orch_learner/plots/accuracy_over_iterations.png
-[plots] saved /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/natural_plan/results/orchestration_learner/20260426.013514.orch_learner/plots/cost_over_iterations.png
-[plots] saved /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/natural_plan/results/orchestration_learner/20260426.013514.orch_learner/plots/accuracy_vs_cost.png
-[report] saved /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/natural_plan/results/orchestration_learner/20260426.013514.orch_learner/report.html
-best train accuracy: 100.0% (iteration 1)
-iterations: 2
-supervisor cost: $0.3518
-final eval accuracy: 100.0%
-saved output to /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/natural_plan/results/orchestration_learner/20260426.013514.orch_learner/implementation.yaml
-
-============================================================
-=== Orchestration Learner Complete ===
-============================================================
-Best train accuracy: 100.0% (iteration 1)
-Final eval accuracy: 100.0%
-Total supervisor cost: $0.3518
-Output saved to: /mnt/d/Aditya/CMU/Research/William_Cohen_Group/Codebase/secretagent/benchmarks/natural_plan/results/orchestration_learner/20260426.013514.orch_learner
-
-Iteration log:
-  Iter     Train  Fail   TO      Eval    Sup $      Status
-     0     0.0%     2    0     0.0%  $0.0000        KEPT
-     1   100.0%     0    0   100.0%  $0.3518        KEPT
