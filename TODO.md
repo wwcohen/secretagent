@@ -1,25 +1,3 @@
-# Misc Cleanups
-
- * cli/... - clean up docs for them
- * clean up cli/bench.py
-   * Need to think this through, but maybe takes logdir and list of
-     `path/to/benchmark_dir` plus dotpair overrides or a config
-    * launches parallel jobs that run from benchmark root, each will
-	  * load conf `working_dir/conf/conf.yaml` 
-	  * make it relative to benchmark root
-      * override as needed with dotpair
-	    * results, recordings, learned, etc all overridden -> logdir
-	    * ....
-
-## From docs/TODO.md
-
- * add `result.py rename --to '%O_oss2b' results/*` - to help cleanup results
- * look at pot failures and see if there is an easy way to improve them - 
- * Current 2026-04-24  Several easy POT losses appear to be plumbing fixes rather than reasoning failures: eg. sandbox/code-extraction issues - eg. typing imports being blocked (penguins), fixable by replaying the cached generated code with typing allowed. Some runs can often return tuples like ("E", "04/11/1985") (especially in datetime tasks) when the evaluator wants just (E). There are smaller similar issues from blocked json/fractions imports and no-code-block outputs. The low hanging fruits seem to be generic PoT robustness fixes: allow a few safe imports, improve code-block extraction, and normalize final answer shape. MUSR, NatPlan and Medcalc Rule failures look like strategy misses, as opposed to plumbing
- * What's the use case for llm streaming in llm_util?
- * More guidance for claude/devs on defensive programming
-
-
 # Cleaning up to allow scalable clean experiments
 
 ## New File Layout
@@ -37,6 +15,11 @@
  |   | |   results
  |   | |   | bbh 
 ```
+
+## Comments
+
+ * lots and lots of loose code in musr
+ * 
 
 ## Caching
 
@@ -94,5 +77,29 @@
     - rulearena cleanup still pending — needs the test_rulearena.py rewrite (same per-task cwd issue as test_natural_plan).
     - medcalc split still pending — depends on the missing-data/ question (where does medcalc data come from at runtime? a download script? a different repo?).
 
+
+
+
+
+# Misc Cleanups
+
+ * cli/... - clean up docs for them
+ * clean up cli/bench.py
+   * Need to think this through, but maybe takes logdir and list of
+     `path/to/benchmark_dir` plus dotpair overrides or a config
+    * launches parallel jobs that run from benchmark root, each will
+	  * load conf `working_dir/conf/conf.yaml` 
+	  * make it relative to benchmark root
+      * override as needed with dotpair
+	    * results, recordings, learned, etc all overridden -> logdir
+	    * ....
+
+## From docs/TODO.md
+
+ * add `result.py rename --to '%O_oss2b' results/*` - to help cleanup results
+ * look at pot failures and see if there is an easy way to improve them - 
+ * Current 2026-04-24  Several easy POT losses appear to be plumbing fixes rather than reasoning failures: eg. sandbox/code-extraction issues - eg. typing imports being blocked (penguins), fixable by replaying the cached generated code with typing allowed. Some runs can often return tuples like ("E", "04/11/1985") (especially in datetime tasks) when the evaluator wants just (E). There are smaller similar issues from blocked json/fractions imports and no-code-block outputs. The low hanging fruits seem to be generic PoT robustness fixes: allow a few safe imports, improve code-block extraction, and normalize final answer shape. MUSR, NatPlan and Medcalc Rule failures look like strategy misses, as opposed to plumbing
+ * What's the use case for llm streaming in llm_util?
+ * More guidance for claude/devs on defensive programming
 
 
