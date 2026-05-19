@@ -8,7 +8,7 @@ Derived from the program trace mock in penguins_in_a_table.py
 (doctest-prompting project).
 """
 
-from typing import Any, List, Tuple
+from typing import Any, List
 
 from secretagent.core import interface, implement_via
 from secretagent.evaluate import Evaluator
@@ -23,19 +23,19 @@ class PenguinsEvaluator(Evaluator):
 # ── sub-tools ────────────────────────────────────────────────────────────────
 
 @interface
-def analyze_input(input_str: str) -> Tuple[List[List[str]], List[str], str, List[Tuple[str, str]]]:
+def analyze_input(input_str: str) -> List[Any]:
     """Accept an input and extract an information table, one or more actions
     being performed on the table, a question being asked about the table,
     and the possible answers to the question.
 
-    Returns (table, actions, question, options) where:
+    Returns [table, actions, question, options] where:
       - table is a list of rows, each row a list of string cell values
         (first row is the header)
       - actions is a list of natural-language action descriptions to apply
         to the table (may be empty)
       - question is the question string
-      - options is a list of (letter, answer_text) pairs,
-        e.g. [('A', '1'), ('B', '2'), ...]
+      - options is a list of [letter, answer_text] pairs,
+        e.g. [['A', '1'], ['B', '2'], ...]
     """
     ...
 
@@ -57,11 +57,11 @@ def answer_question(table: List[List[str]], question: str) -> str:
     ...
 
 @interface
-def choose_response(answer: str, options: List[Tuple[str, str]]) -> Tuple[str, str]:
+def choose_response(answer: str, options: List[List[str]]) -> List[str]:
     """Take an answer to a question and a list of multiple-choice options and
     return the multiple-choice option best matching the answer.
 
-    Returns the (letter, answer_text) pair, e.g. ('A', '1').
+    Returns the [letter, answer_text] pair, e.g. ['A', '1'].
     """
     ...
 
