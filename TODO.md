@@ -103,3 +103,123 @@
  * More guidance for claude/devs on defensive programming
 
 
+# Cleaning up the Orchestrate-related code
+
+## `experimental/improve.py` and the `self_improve.py` scripts
+
+`src/secretagent/experimental/improve.py` (641 LOC, one file) is
+load-bearing despite the `experimental/` name. Active callers:
+
+  * `src/secretagent/orchestrate/transforms/evolve.py` — the
+    `evolve` transform delegates to `improve_ptool_within_workflow`.
+  * `benchmarks/medcalc/self_improve.py`
+  * `benchmarks/natural_plan/self_improve.py`
+  * `benchmarks/musr/self_improve.py`
+  * `benchmarks/medagentbench/medagentbench/expt.py` — imports
+    `improve_ptool_within_workflow`, `_apply_variant`, `_get_ptool_info`,
+    `_FitnessTracker`, `_llm_call`, `_extract_code`.
+
+The fact that underscored names (`_FitnessTracker`, `_llm_call`,
+`_extract_code`, `_apply_variant`, `_get_ptool_info`) are imported
+externally is a smell — the public API hasn't been settled. Worth
+either promoting these into a real module under `orchestrate/` (or a
+new top-level home) and giving them non-underscored names, or making
+medagentbench depend on the higher-level helpers only.
+
+The three benchmark `self_improve.py` scripts (medcalc 214, natural_plan
+242, musr 308) are near-clones implementing the same loop:
+
+  1. Baseline eval over the full eval set; record initial accuracy.
+  2. `profile_from_results([result_dir])` (free — derived from saved
+     recordings) to get per-ptool cost share and error patterns.
+  3. `_pick_weakest_ptool()` scores ptools by
+     `cost_fraction + 0.5 * error_rate`, skips utility ptools
+     (`extract_index`, `raw_answer`, `format_answer`) and any with
+     <3 calls; excludes already-tried ones.
+  4. `improve_ptool_within_workflow(...)` runs a small evolutionary
+     loop (population × generations, optional `--pareto`) on a
+     small training subset (≈15–20 cases) and returns a new
+     variant for the target ptool.
+  5. `_apply_variant()` hot-swaps the ptool's implementation; re-eval
+     on the full eval set; if accuracy improves, commit & save to
+     `evolved/<timestamp>.<ptool>/{evolved.py,metadata.json}`. If it
+     regresses, restore `implementation` / `doc` / `src`.
+  6. Repeat until target accuracy hit, `max_iterations` exhausted, or
+     no candidate ptool remains.
+
+  CLI knobs (all three): `--target-accuracy`, `--max-iterations`,
+  `--train-n`, `--population-size`, `--n-generations`, `--pareto`,
+  `--config-file`.
+
+  Per-benchmark differences are only in plumbing: each imports its own
+  evaluator (`MedCalcEvaluator` / `NaturalPlanEvaluator` / …) and
+  `setup` / `load_dataset` from the local `expt.py`. Default
+  `--target-accuracy` differs (medcalc 0.50, natural_plan 0.60).
+  `musr/self_improve.py` carries some extra glue (Dataset/Case import,
+  ~308 LOC vs ~220).
+
+  TODO:
+  * Decide where this lives. `experimental/` is misleading given the
+    number of callers; either fold the algorithm into
+    `orchestrate/` proper or give it its own subpackage (e.g.
+    `self_improve/`).
+  * Collapse the three `self_improve.py` clones into a shared runner
+    (probably `secretagent.<new_home>.run_self_improve(evaluator,
+    workflow_interface, eval_dataset, train_cases, **knobs)`). Each
+    benchmark should reduce to ~30 lines of wiring.
+  * Stop exporting underscored helpers; promote what medagentbench
+    needs to public names, or refactor medagentbench to consume only
+    the top-level entry point.
+  * Consider whether `_pick_weakest_ptool` belongs alongside the
+    profiler (it's a profile-consumer, not benchmark-specific).
+
+## Relationship to `learn/orchestrate_learner.py`
+
+There are currently **two independent self-improvement implementations**
+in the repo, doing roughly the same thing:
+
+  1. **`learn/orchestrate_learner.py`** (1,355 LOC) — the "real"
+     learner. Driven via `secretagent.cli.orchestration_learner` and
+     the `scripts/orchestrator_learner/*.sh` sweep (15 benchmarks:
+     finqa, medcalc, 3 musr splits, 3 natural_plan splits, 3
+     rulearena splits, tabmwp, sports/geometric/penguins).
+     Supervisor LLM (Gemini Pro) + actor LLM (Gemini Flash Lite)
+     iteratively analyzes failures, proposes code edits, hill-climbs
+     on accuracy with rollback. Output is a savefile-tracked dir:
+     `<bench>/results/orchestration_learner/<timestamp>.orch_learner/`
+     with `config.yaml`, `implementation.yaml`, `run_metadata.json`,
+     `iterations/iter_*/ptools_{before,after}.py`, `ptools_evolved.py`,
+     HTML report. Two "classes": `existing_workflow` and
+     `seed_from_ptools` (--seed-orchestrate, seeded from induced
+     ptools). `summarize_induced_seed_sweep.py` cross-tabulates runs
+     against test results via `run_metadata.json`.
+
+  2. **`experimental/improve.py`** + `self_improve.py` (641 + ~750
+     LOC) — the lighter pathway described above. No supervisor
+     model, no savefile tracking, output is just
+     `benchmarks/<bench>/evolved/<timestamp>.<ptool>/{evolved.py,
+     metadata.json}`. Only three benchmark drivers
+     (medcalc/natural_plan/musr) plus medagentbench consuming the
+     underscored helpers directly.
+
+The framing question for cleanup isn't only "where should
+`improve.py` live" — it's **"should `improve.py` exist at all?"**
+The orchestrator_learner is Factory-registered, savefile-tracked,
+swept across all 15 benchmarks, and follows the CLAUDE.md "learning
+creates new implementations" pattern. The `self_improve.py` pathway
+looks like an earlier/parallel exploration that never got
+generalized.
+
+  TODO (rephrased):
+  * Audit what `experimental/improve.py` does that
+    `learn/orchestrate_learner.py` does *not* (e.g. evolutionary
+    population×generations + Pareto vs. supervisor-driven single-edit
+    iteration — are both modes actually needed?).
+  * If orchestrate_learner subsumes it: migrate
+    `orchestrate/transforms/evolve.py`, medagentbench, and the three
+    `self_improve.py` drivers to the orchestrator_learner pathway,
+    then delete `experimental/`.
+  * If both modes are needed: name the distinction
+    (e.g. `learn/evolutionary_improver.py` vs.
+    `learn/orchestrate_learner.py`) and stop hiding one under
+    `experimental/`.
