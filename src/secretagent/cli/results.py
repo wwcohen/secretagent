@@ -574,6 +574,7 @@ def delete_obsolete(
         for d in to_delete:
             shutil.rmtree(d)
             print(f'  deleted {d}')
+        print('\nIf these dirs were tracked in git, run `git add -u` to stage the deletions.')
 
 
 def _find_benchmarks_dir() -> Path:

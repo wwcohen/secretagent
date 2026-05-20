@@ -19,7 +19,6 @@
 ## Comments
 
  * lots and lots of loose code in musr
- * 
 
 ## Caching
 
@@ -27,7 +26,7 @@
 
 ## Configs
 
-* CLEAN UP result configs: DONE
+* CLEAN UP result configs: STARTED
   * CHANGES in cli/expt.py
     * TODO: tests for the changes, adding evaluate.TIMESTEP to the config automatically
     * --interface XXXX now defaults to evaluate.root_interface
@@ -42,6 +41,19 @@
     * expt.py run can be invoked with --config path/to/results/FOO/config.yaml as an option
 	  * the complicated part was loading the ptools.py directory
         * TODO: refactor module loading code, it's duplicated in expt.py and implement/learned_code
+* TODO:
+ * config files should specify separate input/output locations, OmegaConf can handle this:
+```
+   root:                                                                                                                                                                            
+    task: benchmarks/bbh/sports_understanding                                                                                                                                      
+    log: papers/experiments/hero_table/logs                                                                                                                                        
+                                                                                                                                                                                   
+  dataset:                                                                                                                                                                         
+    data_json_dir: ${root.task}/data
+                                                                                                                                                                                   
+  evaluate:                                                                                                                                                                      
+    result_dir: ${root.log}/results
+```
 
 ## Benchmarks
 
@@ -107,6 +119,14 @@
 
 ## `experimental/improve.py` and the `self_improve.py` scripts
 
+### STATUS
+
+ * removed the `self_improve.py` scripts
+ * haven't refactored orchestrate to not use `improve_ptool_within_workflow`
+   and haven't touched medagentbench
+
+### More detail (mostly from Claude)
+
 `src/secretagent/experimental/improve.py` (641 LOC, one file) is
 load-bearing despite the `experimental/` name. Active callers:
 
@@ -127,46 +147,20 @@ new top-level home) and giving them non-underscored names, or making
 medagentbench depend on the higher-level helpers only.
 
 The three benchmark `self_improve.py` scripts (medcalc 214, natural_plan
-242, musr 308) are near-clones implementing the same loop:
+242, musr 308) are near-clones implementing the same loop.
 
-  1. Baseline eval over the full eval set; record initial accuracy.
-  2. `profile_from_results([result_dir])` (free — derived from saved
-     recordings) to get per-ptool cost share and error patterns.
-  3. `_pick_weakest_ptool()` scores ptools by
-     `cost_fraction + 0.5 * error_rate`, skips utility ptools
-     (`extract_index`, `raw_answer`, `format_answer`) and any with
-     <3 calls; excludes already-tried ones.
-  4. `improve_ptool_within_workflow(...)` runs a small evolutionary
-     loop (population × generations, optional `--pareto`) on a
-     small training subset (≈15–20 cases) and returns a new
-     variant for the target ptool.
-  5. `_apply_variant()` hot-swaps the ptool's implementation; re-eval
-     on the full eval set; if accuracy improves, commit & save to
-     `evolved/<timestamp>.<ptool>/{evolved.py,metadata.json}`. If it
-     regresses, restore `implementation` / `doc` / `src`.
-  6. Repeat until target accuracy hit, `max_iterations` exhausted, or
-     no candidate ptool remains.
-
-  CLI knobs (all three): `--target-accuracy`, `--max-iterations`,
-  `--train-n`, `--population-size`, `--n-generations`, `--pareto`,
-  `--config-file`.
-
-  Per-benchmark differences are only in plumbing: each imports its own
-  evaluator (`MedCalcEvaluator` / `NaturalPlanEvaluator` / …) and
-  `setup` / `load_dataset` from the local `expt.py`. Default
-  `--target-accuracy` differs (medcalc 0.50, natural_plan 0.60).
-  `musr/self_improve.py` carries some extra glue (Dataset/Case import,
-  ~308 LOC vs ~220).
+Per-benchmark differences are only in plumbing: each imports its own
+evaluator (`MedCalcEvaluator` / `NaturalPlanEvaluator` / …) and
+`setup` / `load_dataset` from the local `expt.py`. Default
+`--target-accuracy` differs (medcalc 0.50, natural_plan 0.60).
+`musr/self_improve.py` carries some extra glue (Dataset/Case import,
+~308 LOC vs ~220).
 
   TODO:
   * Decide where this lives. `experimental/` is misleading given the
     number of callers; either fold the algorithm into
     `orchestrate/` proper or give it its own subpackage (e.g.
     `self_improve/`).
-  * Collapse the three `self_improve.py` clones into a shared runner
-    (probably `secretagent.<new_home>.run_self_improve(evaluator,
-    workflow_interface, eval_dataset, train_cases, **knobs)`). Each
-    benchmark should reduce to ~30 lines of wiring.
   * Stop exporting underscored helpers; promote what medagentbench
     needs to public names, or refactor medagentbench to consume only
     the top-level entry point.
