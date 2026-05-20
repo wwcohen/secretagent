@@ -1,7 +1,7 @@
 """Search space definitions for MuSR benchmark domains.
 
-Method levels are selected via --config-file (each level differs in
-entry_point and ptools bindings). The model dimension is a standard
+Method levels are selected via --config (each level differs in
+root_interface and ptools bindings). The model dimension is a standard
 SearchDimension searched via dotlist override.
 
 Follows the MedCalc pattern: outer loop over LEVELS, inner search over models.

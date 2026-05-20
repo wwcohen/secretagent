@@ -8,8 +8,7 @@ cachier:
 evaluate:
   expt_name: murder_workflow
   result_dir: results
-  entry_point: answer_question_workflow
-
+  root_interface: ptools.answer_question_workflow
 dataset:
   split: murder_mysteries_test
   shuffle_seed: 42

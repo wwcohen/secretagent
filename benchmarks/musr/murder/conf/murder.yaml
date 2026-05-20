@@ -1,18 +1,16 @@
 llm:
-  model: claude-haiku-4-5-20251001
+  model: gemini/gemini-3.1-flash-lite-preview
 
 cachier:
   cache_dir: llm_cache
 
 evaluate:
-  expt_name: murder_workflow
   result_dir: results
-  entry_point: answer_question
-
+  expt_name: DEFAULT # means the expt isn't fully configured and should be discarded
+  root_interface: ptools.answer_question
 dataset:
-  split: murder_mysteries
+  split: murder_mysteries_val
   shuffle_seed: 42
-  n: 4
 
 ptools:
   raw_answer:
@@ -26,6 +24,4 @@ ptools:
   deduce_murderer:
     method: simulate
   answer_question:
-    method: direct
-  answer_question_workflow:
-    method: direct
+    method: DEFAULT # should raise error

@@ -11,8 +11,7 @@ cachier:
 evaluate:
   expt_name: murder_react_train
   result_dir: results
-  entry_point: answer_question
-
+  root_interface: ptools.answer_question
 dataset:
   split: murder_mysteries_train
   shuffle_seed: 42

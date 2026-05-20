@@ -15,8 +15,7 @@ echo:
 evaluate:
   expt_name: object_orchestrated
   result_dir: results
-  entry_point: answer_question_workflow
-
+  root_interface: ptools.answer_question_workflow
 dataset:
   split: object_placements
   shuffle_seed: 42

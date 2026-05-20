@@ -55,7 +55,7 @@ def main(
 
     for level_name, config_file in levels.items():
         print(f"=== {level_name} ({config_file}) ===")
-        base_command = f"uv run python expt.py run --config-file {config_file}"
+        base_command = f"uv run python -m secretagent.cli.expt run --config {config_file}"
         base_dotlist = [f"dataset.n={dataset_n}"]
 
         eval_cache = EvalCache(

@@ -12,8 +12,7 @@ cachier:
 evaluate:
   expt_name: team_induced_seed_from_ptools
   result_dir: results
-  entry_point: answer_question
-
+  root_interface: ptools.answer_question
 dataset:
   split: team_allocation
   shuffle_seed: 42

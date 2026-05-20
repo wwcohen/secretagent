@@ -12,8 +12,7 @@ cachier:
 evaluate:
   expt_name: simplified_unstructured_baseline
   result_dir: results
-  entry_point: answer_question
-
+  root_interface: ptools.answer_question
 dataset:
   split: team_allocation_val
   shuffle_seed: 42

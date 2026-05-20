@@ -12,13 +12,13 @@ N ?= 75
 # --- Team allocation (best: single ptool + thinking, 84%) ---
 
 workflow:
-	uv run python ../expt.py run --config-file conf/team.yaml \
+	uv run python -m secretagent.cli.expt run --config conf/team.yaml \
 	  evaluate.expt_name=team llm.model=$(MODEL) dataset.n=$(N)
 
 # --- Simplified unstructured baseline (true zero-shot, no CoT phrasing) ---
 
 simplified_unstructured_baseline:
-	uv run python ../expt.py run --config-file conf/team_simplified_unstructured_baseline.yaml \
+	uv run python -m secretagent.cli.expt run --config conf/team_simplified_unstructured_baseline.yaml \
 	  llm.model=$(MODEL) dataset.n=$(N)
 
 # --- View results ---

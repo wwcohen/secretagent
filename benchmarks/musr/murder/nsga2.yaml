@@ -13,7 +13,7 @@
 # `src/secretagent/learn/inducer_results/musr/` still have the bad import and
 # must not be loaded directly.
 
-command: uv run python expt.py run --config-file conf/murder.yaml
+command: uv run python -m secretagent.cli.expt run --config conf/murder.yaml
 
 models:
   - together_ai/deepseek-ai/DeepSeek-V3.1
@@ -30,7 +30,7 @@ methods:
     - ptools.answer_question.method=prompt_llm
     - ptools.answer_question.prompt_template_file=prompt_templates/zero_shot_cot.txt
   workflow:
-    - evaluate.entry_point=answer_question_workflow
+    - evaluate.root_interface=ptools.answer_question_workflow
     - ptools.answer_question_workflow.method=direct
   pot:
     - ptools.answer_question.method=program_of_thought
@@ -50,7 +50,7 @@ methods:
     - ptools.react_solve.tools=__all__
     - learn.train_dir=learned/murder
   wf_orch:
-    - evaluate.entry_point=answer_question_workflow
+    - evaluate.root_interface=ptools.answer_question_workflow
     - ptools.answer_question_workflow.method=direct
     - ptools.answer_question_workflow.fn=__learned__.answer_question_workflow_orchestrated_seed
     - ptools.answer_question_workflow.learner=orch_learner

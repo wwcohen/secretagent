@@ -14,7 +14,7 @@ cachier:
 evaluate:
   expt_name: object_self_improve
   result_dir: results
-  entry_point: answer_question_workflow
+  root_interface: ptools.answer_question_workflow
   record_details: true
 
 dataset:

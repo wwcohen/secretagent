@@ -18,7 +18,8 @@ import json
 import pathlib
 import sys
 
-# Mirror expt.py path setup so this script is runnable from the benchmark dir.
+# Put the project src/ and this benchmark dir on sys.path so the script is
+# runnable from anywhere.
 _BENCHMARK_DIR = pathlib.Path(__file__).resolve().parent
 _PROJECT_ROOT = _BENCHMARK_DIR.parent.parent
 sys.path.insert(0, str(_PROJECT_ROOT / 'src'))

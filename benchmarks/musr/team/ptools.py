@@ -12,6 +12,12 @@ isolate "human-designed library structure" from "induced library
 structure" in a fair comparison.
 """
 
+import sys
+from pathlib import Path
+# ptools_common lives in the MUSR benchmark dir (one level up); add it to sys.path
+# so this module is importable when loaded by secretagent.cli.expt.
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
 from secretagent.core import interface
 from ptools_common import (  # noqa: F401  (re-export so the loaded ptools module exposes them)
     raw_answer,

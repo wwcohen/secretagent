@@ -1,5 +1,0 @@
-config_idx,expt_name,evaluate.entry_point,llm.thinking,accuracy,elapsed,csv_path,status,total_cost,cost_per_q,total_latency,latency_per_q,input_tokens_per_q,output_tokens_per_q
-1,sweep_001,answer_question,false,0.64,138.4083697795868,/Users/lexlei/Workspace/01_Research/secretagent/benchmarks/musr/results/20260325.175716.sweep_001/results.csv,ok,0.15970875,0.00212945,131.82311844825745,1.7576415793100992,1649.64,53.92
-3,sweep_003,answer_question_workflow,false,0.6266666666666667,1550.3000619411469,/Users/lexlei/Workspace/01_Research/secretagent/benchmarks/musr/results/20260325.182936.sweep_003/results.csv,ok,0.5951437499999999,0.007935249999999998,1540.7516241073608,20.543354988098145,5603.826666666667,744.3733333333333
-0,sweep_000,answer_question,true,0.6133333333333333,618.5772981643677,/Users/lexlei/Workspace/01_Research/secretagent/benchmarks/musr/results/20260325.174659.sweep_000/results.csv,ok,0.1905524999999997,0.002540699999999996,610.7995021343231,8.143993361790974,1673.5866666666666,358.97333333333336
-2,sweep_002,answer_question_workflow,true,,1800.0266098976135,,timeout,,,,,,

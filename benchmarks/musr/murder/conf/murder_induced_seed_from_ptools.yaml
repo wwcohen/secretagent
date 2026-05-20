@@ -13,8 +13,7 @@ cachier:
 evaluate:
   expt_name: murder_induced_seed_from_ptools
   result_dir: results
-  entry_point: answer_question_workflow
-
+  root_interface: ptools.answer_question_workflow
 dataset:
   split: murder_mysteries
   shuffle_seed: 42

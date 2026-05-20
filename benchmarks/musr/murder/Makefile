@@ -1,45 +1,66 @@
 #
-# Run experiments — MUSR murder mysteries
-#
-# Usage: make workflow, make simplified_unstructured_baseline, etc.
-# Override model: make workflow MODEL=together_ai/deepseek-ai/DeepSeek-V3
-# Override n: make workflow N=75
+# Run experiments - all on the validation data
 #
 
-MODEL ?= together_ai/deepseek-ai/DeepSeek-V3
-N ?= 75
+DOTPAIRS ?=
 
-# --- Murder mysteries (best: 3-step workflow, 72%) ---
+EXPT = uv run python -m secretagent.cli.expt
+SAR = uv run python -m secretagent.cli.results
 
+basics: unstructured_baseline structured_baseline workflow pot react
+
+# the hand-coded workflow
 workflow:
-	uv run python ../expt.py run --config-file conf/murder.yaml \
-	  evaluate.expt_name=murder_workflow llm.model=$(MODEL) dataset.n=$(N) \
-	  evaluate.entry_point=answer_question_workflow
+	$(EXPT) run evaluate.expt_name=workflow $(DOTPAIRS) \
+	  ptools.answer_question.method=direct \
+	  ptools.answer_question.fn=ptools.answer_question_workflow
 
-# --- Simplified unstructured baseline (true zero-shot, no CoT phrasing) ---
+# zero-shot structured queries
+structured_baseline:
+	$(EXPT) run evaluate.expt_name=structured_baseline $(DOTPAIRS) \
+	  ptools.answer_question.method=simulate
 
-simplified_unstructured_baseline:
-	uv run python ../expt.py run --config-file conf/murder_simplified_unstructured_baseline.yaml \
-	  llm.model=$(MODEL) dataset.n=$(N)
+# zero-shot unstructured queries with a vanilla prompt
+unstructured_baseline:
+	$(EXPT) run evaluate.expt_name=unstructured_baseline $(DOTPAIRS) \
+	  ptools.answer_question.method=prompt_llm \
+	  ptools.answer_question.prompt_template_file='../prompt_templates/simplified_unstructured.txt'
 
-# --- View results ---
+# program of thought
+pot:
+	$(EXPT) run evaluate.expt_name=pot $(DOTPAIRS) \
+	  ptools.answer_question.method=program_of_thought \
+	  ptools.answer_question.tools=__all__
+
+
+# react
+react:
+	$(EXPT) run evaluate.expt_name=react $(DOTPAIRS) \
+	  ptools.answer_question.method=simulate_pydantic \
+	  ptools.answer_question.tools=__all__
+
+CHECK = ?
+
+
+plot:
+	$(SAR) plot --metric cost- --metric correct results/*; open plot_results.png
 
 list:
-	uv run python -m secretagent.cli.results list results/*
+	$(SAR) list $(CHECK) results/*
 
 avg:
-	uv run python -m secretagent.cli.results average --metric correct --metric cost results/*
+	$(SAR) average --metric correct --metric cost $(CHECK) results/*
+
+pair:
+	$(SAR) pair --metric correct --metric cost $(CHECK) results/*
 
 compare:
-	uv run python -m secretagent.cli.results compare-configs results/*
+	$(SAR) compare-configs $(CHECK) results/*
+
+#
+# track costs so far
+#
 
 costs:
 	uv run python -m secretagent.cli.costs llm_cache
 
-# --- Pareto sweep (exhaustive: levels x models) ---
-
-N_PARETO ?= 5
-TIMEOUT_PARETO ?= 600
-
-pareto:
-	uv run python ../run_pareto.py --domain murder --dataset-n $(N_PARETO) --timeout $(TIMEOUT_PARETO)

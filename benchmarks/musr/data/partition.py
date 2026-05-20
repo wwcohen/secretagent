@@ -1,46 +1,56 @@
-"""Partition MUSR datasets into train/val/test splits.
+"""Partition each MUSR Dataset JSON file into train/val/test splits.
 
-Usage:
-    uv run python data/partition.py
+Reads ``<task>/data/<split>.json`` (produced by ``download.py``) and writes
+``<task>/data/<split>_train.json``, ``<split>_val.json``, ``<split>_test.json``
+with 75 / 75 / remainder cases each (shuffled with seed 42).
 
-Creates {split}_train.json, {split}_val.json, {split}_test.json
-with 75/75/100 examples each (shuffled with seed 42).
+Usage (from repo root):
+    uv run python benchmarks/musr/data/partition.py
 """
 
 import json
 import random
 from pathlib import Path
 
-DATA_DIR = Path(__file__).parent
+BENCHMARK_DIR = Path(__file__).resolve().parent.parent
 SEED = 42
 TRAIN_N = 75
 VAL_N = 75
 # TEST_N = remainder
 
-SPLITS = ['murder_mysteries', 'object_placements', 'team_allocation']
+# (huggingface split name, task subdir name)
+SPLITS = [
+    ("murder_mysteries",  "murder"),
+    ("object_placements", "object"),
+    ("team_allocation",   "team"),
+]
 
 
-def partition(split: str):
-    with open(DATA_DIR / f'{split}.json') as f:
+def partition(split: str, task: str):
+    in_path = BENCHMARK_DIR / task / "data" / f"{split}.json"
+    with open(in_path) as f:
         data = json.load(f)
 
-    examples = data['examples']
+    cases = list(data["cases"])
     rng = random.Random(SEED)
-    rng.shuffle(examples)
+    rng.shuffle(cases)
 
-    train = examples[:TRAIN_N]
-    val = examples[TRAIN_N:TRAIN_N + VAL_N]
-    test = examples[TRAIN_N + VAL_N:]
+    parts = [
+        ("train", cases[:TRAIN_N]),
+        ("val",   cases[TRAIN_N:TRAIN_N + VAL_N]),
+        ("test",  cases[TRAIN_N + VAL_N:]),
+    ]
 
-    for name, subset in [('train', train), ('val', val), ('test', test)]:
-        out = {**data, 'examples': subset}
-        out_path = DATA_DIR / f'{split}_{name}.json'
-        with open(out_path, 'w') as f:
+    for name, subset in parts:
+        out_split = f"{split}_{name}"
+        out = {**data, "split": out_split, "cases": subset}
+        out_path = BENCHMARK_DIR / task / "data" / f"{out_split}.json"
+        with open(out_path, "w") as f:
             json.dump(out, f, indent=2)
-        print(f'{split}_{name}: {len(subset)} examples -> {out_path.name}')
+        print(f"{out_split}: {len(subset)} cases -> {out_path}")
 
 
-if __name__ == '__main__':
-    for split in SPLITS:
-        partition(split)
+if __name__ == "__main__":
+    for split, task in SPLITS:
+        partition(split, task)
         print()

@@ -16,8 +16,7 @@ echo:
 evaluate:
   expt_name: murder_orchestrated
   result_dir: results
-  entry_point: answer_question_workflow
-
+  root_interface: ptools.answer_question_workflow
 dataset:
   split: murder_mysteries
   shuffle_seed: 42
