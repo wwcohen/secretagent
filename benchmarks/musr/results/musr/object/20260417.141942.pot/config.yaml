@@ -1,0 +1,25 @@
+llm:
+  model: together_ai/deepseek-ai/DeepSeek-V3
+cachier:
+  cache_dir: /Users/lexl/Research_group/secretagent/benchmarks/musr/llm_cache
+  enable_caching: false
+evaluate:
+  expt_name: object_pot_test
+  result_dir: /Users/lexl/Research_group/secretagent/benchmarks/musr/results
+  entry_point: answer_question
+dataset:
+  split: object_placements_test
+  shuffle_seed: 42
+  'n': null
+ptools:
+  raw_answer:
+    method: simulate
+  extract_index:
+    method: simulate
+  infer_belief:
+    method: simulate
+  answer_question:
+    method: program_of_thought
+    tools: __all__
+  answer_question_workflow:
+    method: direct
