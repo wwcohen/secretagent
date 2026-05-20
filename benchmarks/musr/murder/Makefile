@@ -43,7 +43,7 @@ CHECK = ?
 
 
 plot:
-	$(SAR) plot --metric cost- --metric correct results/*; open plot_results.png
+	$(SAR) plot --metric cost- --metric correct results/*; open results_plot.png
 
 list:
 	$(SAR) list $(CHECK) results/*
