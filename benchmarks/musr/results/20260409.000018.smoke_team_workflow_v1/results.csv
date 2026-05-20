@@ -1,3 +1,0 @@
-case_name,predicted_output,expected_output,correct,input_tokens,output_tokens,latency,cost,expt_name
-ex042,2,2,True,2599.0,396.0,16.021083116531372,0.0037437500000000005,smoke_team_workflow_v1
-ex041,2,1,False,2684.0,427.0,10.23889708518982,0.0038887500000000003,smoke_team_workflow_v1

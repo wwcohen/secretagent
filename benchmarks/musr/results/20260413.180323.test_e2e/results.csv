@@ -1,2 +1,0 @@
-case_name,predicted_output,expected_output,correct,expt_name
-ex044,,0,False,test_e2e

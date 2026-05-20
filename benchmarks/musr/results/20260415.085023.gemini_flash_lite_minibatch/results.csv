@@ -1,5 +1,0 @@
-case_name,predicted_output,expected_output,correct,input_tokens,output_tokens,latency,cost,expt_name
-ex008,1,1,True,1111.0,842.0,5.368427276611328,0.00154075,gemini_flash_lite_minibatch
-ex036,0,0,True,1223.0,1052.0,7.16349458694458,0.00188375,gemini_flash_lite_minibatch
-ex018,1,0,False,1277.0,1349.0,8.731549263000488,0.0023427499999999998,gemini_flash_lite_minibatch
-ex046,0,0,True,1250.0,1051.0,9.725298166275024,0.001889,gemini_flash_lite_minibatch

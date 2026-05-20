@@ -1,9 +1,0 @@
-An analysis of the execution traces reveals two critical insights into why the pipeline is failing and why previous iterations didn't resolve it:
-
-1. **Unused Entry Point:** In Iteration 3, a safe CoT extraction pattern was implemented in `answer_question_orchestrated_seed`. However, the pipeline's execution trace shows it's still invoking `answer_question` directly, which relies purely on the zero-shot `raw_answer` and completely ignores the new CoT logic.
-2. **Flawed "Hard Rules" in CoT:** The previous CoT prompt enforced a strict "HARD RULE" to *never* pair conflicting individuals. However, analyzing cases like `ex038` and `ex052` demonstrates that **skill constraints override interpersonal dynamics**. If an individual is physically incapable of or strictly averse to a role (e.g., Benjamin hates public speaking, Emma gets anxious performing), they *must* be relegated to the other role, even if it forces them into a team with someone they conflict with. Zero-shot misses these nuances entirely, but a rigid ruleset would also fail them.
-
-### Minimal, Targeted Fix:
-1. **Redesign the CoT Prompt**: Update `holistic_think_and_solve` to instruct the LLM to balance skill constraints against interpersonal dynamics, explicitly noting that skill limitations and aversions dictate the foundation, while synergies/conflicts serve as the tie-breakers. 
-2. **Deploy Safely**: Modify the active entry point (`answer_question`) to utilize this CoT function. 
-3. **Bulletproof Extraction**: To avoid the 0.0% parsing crashes of Iterations 1 and 2, we enforce a strict `<CHOICE:>` delimiter in the CoT prompt. In Python, we cleanly split the output string to pass *only* the final choice string to `extract_index`. We maintain a defensive try/except fallback to the zero-shot pipeline.

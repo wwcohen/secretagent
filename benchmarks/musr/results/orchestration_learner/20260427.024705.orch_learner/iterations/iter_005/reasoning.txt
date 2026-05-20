@@ -1,8 +1,0 @@
-An analysis of the execution traces and previous iterations reveals exactly why the pipeline is failing and why previous CoT attempts failed:
-
-1. **Active Entry Point**: The execution trace explicitly shows `raw_answer -> extract_index` (2 LLM calls). This proves that the evaluation harness is directly invoking `answer_question`, completely bypassing the `answer_question_orchestrated_seed` and its CoT logic (`holistic_think_and_solve`). 
-2. **Why CoT Failed**: In Iteration 4, modifying `answer_question` to use CoT *hurt* accuracy because forcing a zero-shot LLM to output rigid CoT with strict formatting constraints often breaks downstream regex extractors, leading to failures on otherwise easy cases.
-3. **The Core Logic Gap**: The baseline `raw_answer` gets 85.7% accuracy, but fails on ~15% of edge cases because it lacks a clear rubric for resolving trade-offs. The failures consistently require weighing **Hard Constraints** (severe aversions or skill deficits) against **Interpersonal Dynamics** (synergies and conflicts). As noted in Iter 4, hard constraints *must* override conflicts (e.g., in `ex038`, Emma and Benjamin conflict, but they *must* be paired because they are both terrified of acting). 
-
-### The Targeted Fix
-Instead of rewriting the pipeline to use risky CoT, we maintain the highly stable `raw_answer -> extract_index` zero-shot flow. We simply inject a strict **Team Allocation Rules rubric** into the narrative context inside `answer_question`. This guides the LLM's attention to correctly weigh skills vs. conflicts without risking any output formatting regressions.

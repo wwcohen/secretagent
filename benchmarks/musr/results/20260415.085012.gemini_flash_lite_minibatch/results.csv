@@ -1,5 +1,0 @@
-case_name,predicted_output,expected_output,correct,expt_name
-ex046,"**exception raised**: no implementation registered for interface ""extract_movements""",3,False,gemini_flash_lite_minibatch
-ex018,"**exception raised**: no implementation registered for interface ""extract_movements""",1,False,gemini_flash_lite_minibatch
-ex008,"**exception raised**: no implementation registered for interface ""extract_movements""",2,False,gemini_flash_lite_minibatch
-ex036,"**exception raised**: no implementation registered for interface ""extract_movements""",2,False,gemini_flash_lite_minibatch
