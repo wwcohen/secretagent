@@ -1,4 +1,0 @@
-final_team_selection:
-  backoff: true
-  learner: codedistill
-  method: learned_code

@@ -1,4 +1,0 @@
-analyze_narrative_evidence:
-  backoff: true
-  learner: codedistill
-  method: learned_code

@@ -1,4 +1,0 @@
-search_suspect_attributes:
-  backoff: true
-  learner: codedistill
-  method: learned_code

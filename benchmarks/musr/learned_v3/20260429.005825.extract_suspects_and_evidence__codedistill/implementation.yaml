@@ -1,4 +1,0 @@
-extract_suspects_and_evidence:
-  backoff: true
-  learner: codedistill
-  method: learned_code

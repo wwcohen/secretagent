@@ -1,4 +1,0 @@
-summarize_evidence_findings:
-  backoff: true
-  learner: codedistill
-  method: learned_code
