@@ -95,7 +95,7 @@ def test_load_yaml_cfg(tmp_path):
 
 
 def test_load_yaml_cfg_missing_file(tmp_path):
-    with pytest.raises(ValueError, match="expected config file"):
+    with pytest.raises(FileNotFoundError):
         config.load_yaml_cfg(tmp_path / "nonexistent.yaml")
 
 
@@ -137,40 +137,7 @@ def test_find_project_root_missing(tmp_path):
         config.find_project_root(tmp_path)
 
 
-# --- config.save() with path rerooting ---
-
-def test_save_reroots_relative_paths(tmp_path, monkeypatch):
-    """Relative paths should be saved relative to project root."""
-    root = tmp_path / "proj"
-    bench = root / "benchmarks" / "test"
-    bench.mkdir(parents=True)
-    (root / config.SENTINEL_FILE).write_text("sentinel")
-    monkeypatch.chdir(bench)
-
-    config.configure(cachier={"cache_dir": "llm_cache"}, evaluate={"result_dir": "results"})
-    outfile = tmp_path / "out.yaml"
-    config.save(outfile)
-
-    saved = OmegaConf.load(outfile)
-    assert OmegaConf.select(saved, "cachier.cache_dir") == "benchmarks/test/llm_cache"
-    assert OmegaConf.select(saved, "evaluate.result_dir") == "benchmarks/test/results"
-    assert OmegaConf.select(saved, "original_working_dir") == "benchmarks/test"
-
-
-def test_save_reroots_absolute_paths_under_root(tmp_path, monkeypatch):
-    """Absolute paths under the project root should become relative."""
-    root = tmp_path / "proj"
-    root.mkdir()
-    (root / config.SENTINEL_FILE).write_text("sentinel")
-    monkeypatch.chdir(root)
-
-    config.configure(cachier={"cache_dir": str(root / "data" / "cache")})
-    outfile = tmp_path / "out.yaml"
-    config.save(outfile)
-
-    saved = OmegaConf.load(outfile)
-    assert OmegaConf.select(saved, "cachier.cache_dir") == "data/cache"
-
+# --- config.save() ---
 
 def test_save_leaves_non_path_keys(tmp_path, monkeypatch):
     """Keys not ending in _dir or _file should be untouched."""

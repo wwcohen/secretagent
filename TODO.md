@@ -26,23 +26,22 @@
 
 ## Configs
 
-* CLEAN UP result configs: STARTED
-  * CHANGES in cli/expt.py
-    * TODO: tests for the changes, adding evaluate.TIMESTEP to the config automatically
-    * --interface XXXX now defaults to evaluate.root_interface
-	  * TODO: get rid of it
-    * set_root is not called on load
-	  * TODO: get rid of it
-	* paths are set to be relative to project root (marked with
-      .root-sentinel.txt file) when configs are written
-      * also original_working_dir is set 
-        * someone, maybe Jerry, also introduced a config.get('root') for loading
-	      prompts from a directory, I switches this to "config.get('root') or config.get('original_working_dir')"
+* CLEAN UP deprecated set_root and reset in config.py
+
+* CLEAN UP result configs: DONE
+  * in cli/expt.py and config.py
+	* paths are set to be relative to project root using the
+      ${root.repo}/ syntax.
+    * there is also:
+	  * root.task that input directories are relative to
+	  * root.logs that output directories are relative to
+    * someone, maybe Jerry, also introduced a config.get('root') for loading
     * expt.py run can be invoked with --config path/to/results/FOO/config.yaml as an option
 	  * the complicated part was loading the ptools.py directory
         * TODO: refactor module loading code, it's duplicated in expt.py and implement/learned_code
-* TODO:
- * config files should specify separate input/output locations, OmegaConf can handle this:
+
+* Need to fix natural plan tests
+
 ```
    root:                                                                                                                                                                            
     task: benchmarks/bbh/sports_understanding                                                                                                                                      

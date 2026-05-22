@@ -9,17 +9,6 @@ import warnings
 
 GLOBAL_CONFIG: DictConfig = OmegaConf.create()
 
-def reset():
-    """Drop all accumulated configuration state.
-
-    OmegaConf.merge is additive, so calling configure() repeatedly piles
-    keys onto GLOBAL_CONFIG indefinitely. Tests and drivers that want to
-    start a fresh scope should call reset() first.
-    """
-    global GLOBAL_CONFIG
-    GLOBAL_CONFIG = OmegaConf.create()
-
-
 def configure(yaml_file=None, cfg=None, dotlist=None, **kw):
     """Merge in config from a DictConfig, YAML file path, or keyword args.
 
@@ -29,8 +18,14 @@ def configure(yaml_file=None, cfg=None, dotlist=None, **kw):
       dotlist: a list of strings like "llm.model=gpt3.5" or None
 
     All other keyword arguments will be merged with OmegaConf.
+    Merge order is yaml_file, cfg, dotlist, kw.
     """
     global GLOBAL_CONFIG
+
+    # we need the pathto.repo to be inserted before we
+    # load the yaml, since it might not be present
+    GLOBAL_CONFIG = _add_path_to_repo_key(GLOBAL_CONFIG)
+
     if yaml_file is not None:
         GLOBAL_CONFIG = OmegaConf.merge(GLOBAL_CONFIG, OmegaConf.load(yaml_file))
     if cfg is not None:
@@ -39,6 +34,18 @@ def configure(yaml_file=None, cfg=None, dotlist=None, **kw):
         GLOBAL_CONFIG = OmegaConf.merge(GLOBAL_CONFIG, OmegaConf.from_dotlist(dotlist))
     if kw:
         GLOBAL_CONFIG = OmegaConf.merge(GLOBAL_CONFIG, kw)
+
+    # if we've loaded a snapshot with someone else's pathto.repo,
+    # then override with ours
+    GLOBAL_CONFIG = _add_path_to_repo_key(GLOBAL_CONFIG)
+
+
+def _add_path_to_repo_key(cfg):
+    """Set pathto.repo to the actual path to the secretagent rep.
+    """
+    repo_default = {'pathto':{'repo': str(find_project_root().resolve())}}
+    cfg = OmegaConf.merge(cfg, repo_default)
+    return cfg
 
 def get(key: str, default=None) -> Any:
     """Get a value using dot-notation (e.g. 'llm.model').
@@ -88,9 +95,10 @@ def find_project_root(start=None):
 def set_root(new_root):
     """Resolve relative paths in config against new_root.
 
-    .. deprecated:: Use config.save() which now auto-resolves paths
-       relative to the project root. Callers should stop calling set_root
-       and let relative paths remain relative at runtime.
+    .. deprecated:: better practice is to specify locations relative
+    to ${root.task}, for experimental "inputs", and ${root.logs},
+    for "outputs".  These in turn should be specified relative to
+    ${root.repo} which is pre-defined.
 
     Finds every config value whose key ends with '_dir' or '_file',
     and if the value is a relative path, prepends new_root to make
@@ -111,59 +119,39 @@ def set_root(new_root):
 
     _resolve(GLOBAL_CONFIG)
 
-def _reroot_paths(cfg, project_root):
-    """Return a copy of cfg with _dir/_file/_module paths relative to project_root.
+def reset():
+    """Drop all accumulated configuration state.
 
-    Relative paths are resolved against CWD first, then made relative
-    to project_root.  Absolute paths under project_root are also made
-    relative.  Paths outside the project root are left absolute.
+    OmegaConf.merge is additive, so calling configure() repeatedly piles
+    keys onto GLOBAL_CONFIG indefinitely. Tests and drivers that want to
+    start a fresh scope should call reset() first.
     """
-    copy = OmegaConf.to_container(cfg, resolve=True)
-    cwd = Path.cwd().resolve()
-    project_root = Path(project_root).resolve()
+    global GLOBAL_CONFIG
+    GLOBAL_CONFIG = OmegaConf.create()
 
-    def _walk(d):
-        for key, val in d.items():
-            if isinstance(val, dict):
-                _walk(val)
-            elif isinstance(val, str) and (key.endswith(_PATH_KEY_SUFFIXES)):
-                p = Path(val)
-                if not p.is_absolute():
-                    p = cwd / p
-                p = p.resolve()
-                try:
-                    d[key] = str(p.relative_to(project_root))
-                except ValueError:
-                    d[key] = str(p)
-
-    _walk(copy)
-    return OmegaConf.create(copy)
 
 def save(filename):
     """Save the global configuration in a file.
-
-    Paths (keys ending in _dir, _file, or _module) are rewritten to be relative
-    to the project root (found via .root-sentinel.txt).  If the project
-    root cannot be found, the config is saved as-is.
     """
-    try:
-        root = find_project_root()
-        augmented = OmegaConf.merge(GLOBAL_CONFIG, {'original_working_dir': '.'})
-        to_save = _reroot_paths(augmented, root)
-    except FileNotFoundError:
-        to_save = GLOBAL_CONFIG
+    global GLOBAL_CONFIG
+    # add info about where this was originally saved
+    GLOBAL_CONFIG = OmegaConf.merge(
+        GLOBAL_CONFIG, 
+        {'saved_under': Path(filename).parent.name})
     with open(filename, 'w') as fp:
-        fp.write(OmegaConf.to_yaml(to_save))
+        fp.write(OmegaConf.to_yaml(GLOBAL_CONFIG))
 
 #
 # some utils for working with configs that don't involve changing the global config
 #
 
 def load_yaml_cfg(pathlike):
-    path = Path(pathlike)
-    if not path.exists():
-        raise ValueError(f'expected config file at {path}')
-    return OmegaConf.load(path)
+    yaml_path = Path(pathlike)
+    cfg = OmegaConf.load(yaml_path)
+    # if we've loaded a snapshot with someone else's pathto.repo,
+    # then override with ours
+    cfg = _add_path_to_repo_key(cfg)
+    return cfg
 
 def to_dotlist(cfg):
     """Flatten a nested dict into dot-separated keys."""
@@ -180,7 +168,7 @@ def to_dotlist(cfg):
     return collect_pairs(cfg, [])
 
 def sanity_check(context_msg: str, dotlist, full_cfg):
-    """
+    """Make sure everything in a dotlist overrides an actual key in the config.
     """
     for pair in dotlist:
         key, val = pair.split('=')

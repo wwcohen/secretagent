@@ -359,6 +359,7 @@ def test_export_copies_dirs(tmp_path, monkeypatch):
     """Export copies filtered result dirs to paper/results/results/<rel_path>."""
     bench_dir = tmp_path / 'benchmarks' / 'mybench'
     bench_dir.mkdir(parents=True)
+    (tmp_path / config.SENTINEL_FILE).write_text('sentinel')
     d1 = _make_expt(bench_dir, 'results/20260101.120000.alpha', 'alpha',
                     {'llm': {'model': 'a'}},
                     [{'correct': 1, 'cost': 0.01}])
@@ -378,6 +379,7 @@ def test_export_skips_existing(tmp_path, monkeypatch):
     """Export skips directories that already exist at the destination."""
     bench_dir = tmp_path / 'benchmarks' / 'mybench'
     bench_dir.mkdir(parents=True)
+    (tmp_path / config.SENTINEL_FILE).write_text('sentinel')
     d1 = _make_expt(bench_dir, 'results/20260101.120000.alpha', 'alpha',
                     {'llm': {'model': 'a'}},
                     [{'correct': 1, 'cost': 0.01}])
@@ -393,6 +395,7 @@ def test_export_as_path(tmp_path, monkeypatch):
     """--as overrides the relative path under paper/results/results/."""
     bench_dir = tmp_path / 'benchmarks' / 'mybench'
     bench_dir.mkdir(parents=True)
+    (tmp_path / config.SENTINEL_FILE).write_text('sentinel')
     d1 = _make_expt(bench_dir, 'results/20260101.120000.alpha', 'alpha',
                     {'llm': {'model': 'a'}},
                     [{'correct': 1, 'cost': 0.01}])

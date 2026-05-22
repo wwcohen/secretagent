@@ -83,16 +83,16 @@ def setup_and_load_dataset(dotlist: list[str], config_file: str | Path | None = 
         config_file = root / 'conf' / 'conf.yaml'
     config.configure(yaml_file=config_file, dotlist=dotlist)
 
-    owd = Path(config.get('original_working_dir', '.'))
+    taskdir = Path(config.get('pathto.task', '.'))
     split = config.require('dataset.split')
-    json_data_dir = Path(config.get('dataset.json_data_dir', str(owd / 'data')))
+    json_data_dir = Path(config.get('dataset.json_data_dir', str( taskdir / 'data')))
     dataset_json_file = json_data_dir / f'{split}.json'
     dataset = Dataset.model_validate_json(dataset_json_file.read_text(encoding='utf-8'))
     dataset.configure(
         shuffle_seed=config.get('dataset.shuffle_seed'),
         n=config.get('dataset.n') or None  # don't pass in 0
     )
-    ptools = _load_module_from_path(config.get('dataset.ptools_module', str(owd / 'ptools')))
+    ptools = _load_module_from_path(config.get('dataset.ptools_module', str(taskdir / 'ptools')))
     implement_via_config(ptools, config.require('ptools'))
     return dataset
 

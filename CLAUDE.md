@@ -149,3 +149,4 @@ See @docs/CLI.md
 ## Coding style
 
  * Import everything at the top of the file
+ * Minimize defensive programming to keep things simple
