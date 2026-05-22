@@ -34,35 +34,47 @@ Your directory structure will look something like this:
 
 Use `ptools.py` to define the top-level Interface for problems in this
 dataset, and any ptools that will used.  Also put hand-coded tools or
-workflows here
+workflows here.
 
 ## Setting up the datasets
 
 In `data/` write code to build three datasets, `train.json`,
-`valid.json`, and `test.json`.  Each of these is a json-serialized  
+`valid.json`, and `test.json`.  Each of these should be a json-serialized  
 `Dataset` object.
-
 
 ## Setting up the experiments
 
-You can probably use `secretagent/cli/expt.py`.  Look at
+You can probably use `secretagent/cli/expt.py`.  (Via uv, so the
+command is `uv run python -m secretagent.cli.expt`) Look at
 `benchmarks/bbh/sports_understanding/Makefile` for examples of how to
 call it.  Each experiment will load the shared configuration from
 conf/conf.yaml, and any any experiment-specific configuration params
-from the command line.  Things that must be passed in include:
-    * the top-level interface, passed in as `--interface glob` to expt.py
-	* optionally the classname of the `Evaluator` you will use, which
-      defaults to checking for an exact match between predicted and
-      expected outputs.
-       * If you dont use exact match evaluate responses, you need to
-	     subclass evaluate.Evaluator, and pass that in as `--evaluator
-	     foo`.  A minimal subclass implementation computes one metric
-	     by comparing the `predicted_output` and `expected_output`.
+from the command line.
 
-Configs that must be passed in include:
-	* `evaluate.expt_name`, which is where the results of the
-      evaluation will be filed.
-    * implementations for all the ptools (if they are not the default
+When you run `expt.py` it will load in `conf/conf.yaml`, which should
+have the common information needed by experiments.  Some conventions:
+ * resources, like dataset files and ptools, are located relative to
+   the directory `${pathto.task}` which should be defined relative to
+   `${pathto.repo}`, the project root.  You don't need to define the
+   repo root, that is pre-defined before the config is loaded.
+ * outputs, like results, learned results, etc, should be defined
+   relative to `${pathto.logs}`.  This is sometimes the same as the
+   task directory but not always.
+ * the cache directory `cachier.cache_dir` is in the task directory,
+   so it can be shared across different experiment on the task.
+
+On the `expt.py` command line, you may need to specify to expt.py the
+classname of the `Evaluator` you will use, which defaults to checking
+for an exact match between predicted and expected outputs.  If you
+dont use exact match evaluate responses, you need to subclass
+evaluate.Evaluator, and pass that in as `--evaluator foo`.  A minimal
+subclass implementation computes one metric by comparing the
+`predicted_output` and `expected_output`.
+
+Configs that must be passed to experiment include:
+  * `evaluate.expt_name`, which is where the results of the evaluation
+      will be filed.
+  * implementations for all the ptools (if they are not the default
 	  specified in the shared config)
 
 ## Viewing results

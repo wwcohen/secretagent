@@ -136,6 +136,8 @@ This project is heavily configuration-driven, like most ML systems.
 
 See @docs/CONFIG_KEYS.md
 
+For advice on configuring benchmark experiments see @benchmarks/HOWTO.md.
+
 ## Caching
 
 Calls to llm models should be routed thru litellm, usually through
