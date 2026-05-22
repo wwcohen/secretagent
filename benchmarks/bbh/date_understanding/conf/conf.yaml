@@ -11,17 +11,22 @@ llm:
   # model: together_ai/openai/gpt-oss-120b
   model: gemini/gemini-3.1-flash-lite-preview
 
+pathto:
+  task: ${pathto.repo}/benchmarks/bbh/date_understanding
+  logs: ${pathto.task}
+
 cachier:
-  cache_dir: llm_cache
+  cache_dir: ${pathto.task}/llm_cache
 
 evaluate:
-  result_dir: results
+  result_dir: ${pathto.logs}/results
   root_interface: ptools.answer_date_question
   expt_name: DEFAULT # means the expt isn't fully configured and should be discarded
 
 dataset:
   split: test
   shuffle_seed: 137
+  json_data_dir: ${pathto.task}/data
 
 ptools:
   extract_options:

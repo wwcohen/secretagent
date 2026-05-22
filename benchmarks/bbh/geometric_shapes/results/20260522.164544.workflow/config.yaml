@@ -1,14 +1,19 @@
+pathto:
+  repo: /Users/wcohen/Documents/code/secretagent
+  task: ${pathto.repo}/benchmarks/bbh/geometric_shapes
+  logs: ${pathto.task}
 llm:
   model: gemini/gemini-3.1-flash-lite-preview
 cachier:
-  cache_dir: benchmarks/bbh/geometric_shapes/llm_cache
+  cache_dir: ${pathto.task}/llm_cache
 evaluate:
-  result_dir: benchmarks/bbh/geometric_shapes/results
+  result_dir: ${pathto.logs}/results
   expt_name: workflow
   root_interface: ptools.identify_shape
 dataset:
   split: valid
   shuffle_seed: 137
+  json_data_dir: ${pathto.task}/data
 ptools:
   extract_path:
     method: simulate
@@ -27,4 +32,4 @@ ptools:
   identify_shape:
     method: direct
     fn: ptools.geometric_shapes_workflow
-original_working_dir: benchmarks/bbh/geometric_shapes
+saved_under: 20260522.164544.workflow

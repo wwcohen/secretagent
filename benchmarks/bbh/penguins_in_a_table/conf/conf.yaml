@@ -14,17 +14,22 @@ llm:
   # model: gemini/gemini-2.5-flash
   model: gemini/gemini-3.1-flash-lite-preview
 
+pathto:
+  task: ${pathto.repo}/benchmarks/bbh/penguins_in_a_table
+  logs: ${pathto.task}
+
 cachier:
-  cache_dir: llm_cache
+  cache_dir: ${pathto.task}/llm_cache
 
 evaluate:
-  result_dir: results
+  result_dir: ${pathto.logs}/results
   expt_name: DEFAULT # means the expt isn't fully configured and should be discarded
   root_interface: ptools.answer_penguin_question
 
 dataset:
   split: test
   shuffle_seed: 137
+  json_data_dir: ${pathto.task}/data
 
 ptools:
   analyze_input:
