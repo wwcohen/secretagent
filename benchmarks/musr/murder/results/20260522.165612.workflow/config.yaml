@@ -1,22 +1,19 @@
-llm:
-  model: gemini/gemini-3.1-flash-lite-preview
-
 pathto:
+  repo: /Users/wcohen/Documents/code/secretagent
   task: ${pathto.repo}/benchmarks/musr/murder
   logs: ${pathto.task}
-
+llm:
+  model: gemini/gemini-3.1-flash-lite-preview
 cachier:
   cache_dir: ${pathto.task}/llm_cache
-
 evaluate:
   result_dir: ${pathto.logs}/results
-  expt_name: DEFAULT # means the expt isn't fully configured and should be discarded
+  expt_name: workflow
   root_interface: ptools.answer_question
 dataset:
   split: murder_mysteries_val
   shuffle_seed: 42
   json_data_dir: ${pathto.task}/data
-
 ptools:
   extract_index:
     method: simulate
@@ -27,4 +24,6 @@ ptools:
   deduce_murderer:
     method: simulate
   answer_question:
-    method: DEFAULT # should raise error
+    method: direct
+    fn: ptools.answer_question_workflow
+saved_under: 20260522.165612.workflow
