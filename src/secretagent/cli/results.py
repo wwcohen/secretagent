@@ -30,6 +30,7 @@ Example usage:
 """
 
 from collections import Counter
+import shlex
 import shutil
 import typer
 import pandas as pd
@@ -575,6 +576,7 @@ def delete_obsolete(
             shutil.rmtree(d)
             print(f'  deleted {d}')
         print('\nIf these dirs were tracked in git, run `git add -u` to stage the deletions.')
+        print(f"git add -u -- {' '.join(shlex.quote(str(d)) for d in to_delete)}")
 
 
 def _find_benchmarks_dir() -> Path:
