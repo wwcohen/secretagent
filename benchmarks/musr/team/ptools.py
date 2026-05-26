@@ -108,7 +108,6 @@ def answer_question(narrative: str, question: str, choices: list) -> int:
     return extract_index(text, choices)
 
 
-@interface
 def answer_question_workflow(narrative: str, question: str, choices: list) -> int:
     """Solve by extracting team requirements, scoring assignments, then matching.
 
