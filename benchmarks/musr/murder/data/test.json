@@ -1,6 +1,6 @@
 {
   "name": "musr",
-  "split": "murder_mysteries_test",
+  "split": "test",
   "cases": [
     {
       "name": "ex217",

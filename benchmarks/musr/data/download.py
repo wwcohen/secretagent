@@ -3,12 +3,12 @@
 # ///
 """Download the MUSR dataset from HuggingFace and save as Dataset JSON files.
 
-For each MUSR task, writes a standard secretagent Dataset JSON file into
-the task's data/ subdirectory:
+For each MUSR task, writes a standard secretagent Dataset JSON file holding
+the full split into the task's data/ subdirectory:
 
-    benchmarks/musr/murder/data/murder_mysteries.json
-    benchmarks/musr/object/data/object_placements.json
-    benchmarks/musr/team/data/team_allocation.json
+    benchmarks/musr/murder/data/data.json
+    benchmarks/musr/object/data/data.json
+    benchmarks/musr/team/data/data.json
 
 Each Case stores (narrative, question, choices) as input_args and the
 0-based answer_index as expected_output.
@@ -49,8 +49,8 @@ def main():
         out_dir = benchmark_dir / task / "data"
         out_dir.mkdir(parents=True, exist_ok=True)
         cases = [_to_case(i, dict(row)) for i, row in enumerate(ds[split])]
-        dataset = {"name": "musr", "split": split, "cases": cases}
-        out_path = out_dir / f"{split}.json"
+        dataset = {"name": "musr", "split": "data", "cases": cases}
+        out_path = out_dir / "data.json"
         with open(out_path, "w") as f:
             json.dump(dataset, f, indent=2)
         print(f"{split}: {len(cases)} cases -> {out_path}")

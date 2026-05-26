@@ -1,6 +1,6 @@
 {
   "name": "musr",
-  "split": "murder_mysteries_train",
+  "split": "train",
   "cases": [
     {
       "name": "ex044",

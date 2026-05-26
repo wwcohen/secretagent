@@ -1,8 +1,8 @@
-"""Partition each MUSR Dataset JSON file into train/val/test splits.
+"""Partition each MUSR Dataset JSON file into train/valid/test splits.
 
-Reads ``<task>/data/<split>.json`` (produced by ``download.py``) and writes
-``<task>/data/<split>_train.json``, ``<split>_val.json``, ``<split>_test.json``
-with 75 / 75 / remainder cases each (shuffled with seed 42).
+Reads ``<task>/data/data.json`` (produced by ``download.py``) and writes
+``<task>/data/train.json``, ``valid.json``, ``test.json`` with
+75 / 75 / remainder cases each (shuffled with seed 42).
 
 Usage (from repo root):
     uv run python benchmarks/musr/data/partition.py
@@ -27,7 +27,7 @@ SPLITS = [
 
 
 def partition(split: str, task: str):
-    in_path = BENCHMARK_DIR / task / "data" / f"{split}.json"
+    in_path = BENCHMARK_DIR / task / "data" / "data.json"
     with open(in_path) as f:
         data = json.load(f)
 
@@ -37,17 +37,16 @@ def partition(split: str, task: str):
 
     parts = [
         ("train", cases[:TRAIN_N]),
-        ("val",   cases[TRAIN_N:TRAIN_N + VAL_N]),
+        ("valid", cases[TRAIN_N:TRAIN_N + VAL_N]),
         ("test",  cases[TRAIN_N + VAL_N:]),
     ]
 
     for name, subset in parts:
-        out_split = f"{split}_{name}"
-        out = {**data, "split": out_split, "cases": subset}
-        out_path = BENCHMARK_DIR / task / "data" / f"{out_split}.json"
+        out = {**data, "split": name, "cases": subset}
+        out_path = BENCHMARK_DIR / task / "data" / f"{name}.json"
         with open(out_path, "w") as f:
             json.dump(out, f, indent=2)
-        print(f"{out_split}: {len(subset)} cases -> {out_path}")
+        print(f"{name}: {len(subset)} cases -> {out_path}")
 
 
 if __name__ == "__main__":

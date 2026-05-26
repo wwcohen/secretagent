@@ -1,6 +1,6 @@
 {
   "name": "musr",
-  "split": "team_allocation_train",
+  "split": "train",
   "cases": [
     {
       "name": "ex044",

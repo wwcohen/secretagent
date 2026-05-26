@@ -1,6 +1,6 @@
 {
   "name": "musr",
-  "split": "team_allocation",
+  "split": "data",
   "cases": [
     {
       "name": "ex000",

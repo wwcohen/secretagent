@@ -1,6 +1,6 @@
 {
   "name": "musr",
-  "split": "team_allocation_val",
+  "split": "valid",
   "cases": [
     {
       "name": "ex249",

@@ -1,6 +1,6 @@
 {
   "name": "musr",
-  "split": "object_placements_train",
+  "split": "train",
   "cases": [
     {
       "name": "ex234",

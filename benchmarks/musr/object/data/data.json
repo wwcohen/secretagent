@@ -1,6 +1,6 @@
 {
   "name": "musr",
-  "split": "object_placements",
+  "split": "data",
   "cases": [
     {
       "name": "ex000",

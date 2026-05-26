@@ -1,6 +1,6 @@
 {
   "name": "musr",
-  "split": "object_placements_val",
+  "split": "valid",
   "cases": [
     {
       "name": "ex172",

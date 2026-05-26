@@ -13,7 +13,7 @@ evaluate:
   expt_name: DEFAULT # means the expt isn't fully configured and should be discarded
   root_interface: ptools.answer_question
 dataset:
-  split: murder_mysteries_val
+  split: valid
   shuffle_seed: 42
   json_data_dir: ${pathto.task}/data
 

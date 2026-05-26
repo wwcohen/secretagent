@@ -1,6 +1,6 @@
 {
   "name": "musr",
-  "split": "murder_mysteries",
+  "split": "data",
   "cases": [
     {
       "name": "ex000",
