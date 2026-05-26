@@ -1,0 +1,29 @@
+pathto:
+  repo: /Users/wcohen/Documents/code/secretagent
+  task: ${pathto.repo}/benchmarks/musr/object
+  logs: ${pathto.task}
+llm:
+  model: gemini/gemini-3.1-flash-lite
+cachier:
+  cache_dir: ${pathto.task}/llm_cache
+evaluate:
+  result_dir: ${pathto.logs}/results
+  expt_name: react
+  root_interface: ptools.answer_question
+dataset:
+  split: valid
+  shuffle_seed: 42
+  json_data_dir: ${pathto.task}/data
+ptools:
+  extract_index:
+    method: simulate
+  extract_movements:
+    method: simulate
+  extract_discoveries:
+    method: simulate
+  infer_belief:
+    method: simulate
+  answer_question:
+    method: simulate_pydantic
+    tools: __all__
+saved_under: 20260526.170056.react
