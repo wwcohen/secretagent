@@ -1,4 +1,0 @@
-parse_trip_constraints:
-  backoff: true
-  learner: codedistill
-  method: learned_code

@@ -1,4 +1,0 @@
-build_trip_plan:
-  backoff: 'true'
-  learner: codedistill
-  method: learned_code
