@@ -1,6 +1,6 @@
 llm:
 #  model: together_ai/deepseek-ai/DeepSeek-V3.1
-  model: gemini/gemini-3.1-flash-lite-preview
+  model: gemini/gemini-3.1-flash-lite
 
 pathto:
   task: ${pathto.repo}/benchmarks/bbh/sports_understanding
