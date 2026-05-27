@@ -2,17 +2,17 @@
 export
 
 # Optional: set DATASET_PARTITION=test (or =valid, =train) to run on a
-# pre-split file (data/calendar_{partition}.json) and write outputs to
-# results-<partition>/. Defaults: full data + dataset.shuffle_seed/n, results/.
+# specific split (data/<split>.json) and write outputs to
+# results-<split>/. Defaults: dataset.split from conf (valid), results/.
 PARTITION_OVERRIDE =
 EXPORT_SRC = results
 ifdef DATASET_PARTITION
-  PARTITION_OVERRIDE = dataset.partition=$(DATASET_PARTITION) evaluate.result_dir=results-$(DATASET_PARTITION)
+  PARTITION_OVERRIDE = dataset.split=$(DATASET_PARTITION) evaluate.result_dir=results-$(DATASET_PARTITION)
   EXPORT_SRC = results-$(DATASET_PARTITION)
 endif
 
 CAL_N ?= 100
-CAL_BASE = uv run python ../expt.py run --config-file conf/calendar.yaml dataset.n=$(CAL_N) $(PARTITION_OVERRIDE)
+CAL_BASE = uv run python -m secretagent.cli.expt run --config conf/calendar.yaml --evaluator evaluator.CalendarEvaluator dataset.n=$(CAL_N) $(PARTITION_OVERRIDE)
 
 workflow:
 	$(CAL_BASE) evaluate.expt_name=workflow \
@@ -56,7 +56,6 @@ parallel:
 
 export:
 	uv run python -m secretagent.cli.results export \
-	  --check dataset.split=calendar \
 	  --as natural_plan/calendar \
 	  $(EXPORT_SRC)/*
 

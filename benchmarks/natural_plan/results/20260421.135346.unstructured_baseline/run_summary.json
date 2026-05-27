@@ -1,7 +1,0 @@
-{
-  "reproduce_cmd": "uv run python expt.py run --config-file conf/trip.yaml dataset.n=100 evaluate.expt_name=unstructured_baseline ptools.trip_planning.method=prompt_llm ptools.trip_planning.prompt_template_file=prompt_templates/zeroshot_trip.txt",
-  "accuracy": 0.09,
-  "total_cost_usd": 0.337592,
-  "total_time_sec": 4071.48,
-  "n_samples": 100
-}

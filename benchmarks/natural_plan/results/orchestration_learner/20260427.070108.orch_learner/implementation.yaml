@@ -1,4 +1,0 @@
-trip_planning:
-  method: direct
-  fn: __learned__.trip_planning_orchestrated_seed
-  learner: orch_learner

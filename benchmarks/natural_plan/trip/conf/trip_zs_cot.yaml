@@ -3,21 +3,23 @@ llm:
   model: together_ai/deepseek-ai/DeepSeek-V3.1
   timeout: 180
 
+pathto:
+  task: ${pathto.repo}/benchmarks/natural_plan/trip
+  logs: ${pathto.task}
+
 cachier:
-  cache_dir: llm_cache
+  cache_dir: ${pathto.task}/llm_cache
   enable_caching: true
 
 evaluate:
   expt_name: trip_zs_cot
-  result_dir: results
-  entry_point: trip_planning
-  prompt_trace: true
+  result_dir: ${pathto.logs}/results
+  root_interface: ptools.trip_planning
+  record_details: true
 
 dataset:
-  split: trip
-  partition: train
+  split: train
   shuffle_seed: 42
-  prompt_mode: 0shot
 
 ptools:
   parse_trip_constraints:

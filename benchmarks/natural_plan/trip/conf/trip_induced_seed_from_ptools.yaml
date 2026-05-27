@@ -6,24 +6,23 @@ orchestrate:
   model: gemini/gemini-3.1-pro-preview
   max_retries: 3
 
+pathto:
+  task: ${pathto.repo}/benchmarks/natural_plan/trip
+  logs: ${pathto.task}
+
 cachier:
-  cache_dir: llm_cache
+  cache_dir: ${pathto.task}/llm_cache
   enable_caching: true
 
 evaluate:
-  result_dir: results
+  result_dir: ${pathto.logs}/results
   expt_name: trip_induced_seed_from_ptools
-  entry_point: trip_planning
-  prompt_trace: true
+  root_interface: ptools.trip_planning
+  record_details: true
 
 dataset:
-  split: trip
+  split: train
   shuffle_seed: 42
-  prompt_mode: 0shot
-  n: 4
-  stratified: false
-  sample_n: 50
-  sample_seed: 42
 
 ptools:
   _define_problem_and_strategy_impl:

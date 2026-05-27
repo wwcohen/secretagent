@@ -4,12 +4,12 @@ export
 PARTITION_OVERRIDE =
 EXPORT_SRC = results
 ifdef DATASET_PARTITION
-  PARTITION_OVERRIDE = dataset.partition=$(DATASET_PARTITION) evaluate.result_dir=results-$(DATASET_PARTITION)
+  PARTITION_OVERRIDE = dataset.split=$(DATASET_PARTITION) evaluate.result_dir=results-$(DATASET_PARTITION)
   EXPORT_SRC = results-$(DATASET_PARTITION)
 endif
 
 MEET_N ?= 100
-MEET_BASE = uv run python ../expt.py run --config-file conf/meeting.yaml dataset.n=$(MEET_N) $(PARTITION_OVERRIDE)
+MEET_BASE = uv run python -m secretagent.cli.expt run --config conf/meeting.yaml --evaluator evaluator.MeetingEvaluator dataset.n=$(MEET_N) $(PARTITION_OVERRIDE)
 
 workflow:
 	$(MEET_BASE) evaluate.expt_name=workflow \
@@ -46,7 +46,6 @@ parallel:
 
 export:
 	uv run python -m secretagent.cli.results export \
-	  --check dataset.split=meeting \
 	  --as natural_plan/meeting \
 	  $(EXPORT_SRC)/*
 

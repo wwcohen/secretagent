@@ -3,21 +3,23 @@
 llm:
   model: together_ai/deepseek-ai/DeepSeek-V3.1
 
+pathto:
+  task: ${pathto.repo}/benchmarks/natural_plan/calendar
+  logs: ${pathto.task}
+
 cachier:
-  cache_dir: llm_cache
+  cache_dir: ${pathto.task}/llm_cache
   enable_caching: false
 
 evaluate:
   expt_name: calendar_zs_cot
-  result_dir: results
-  entry_point: calendar_scheduling
-  prompt_trace: true
+  result_dir: ${pathto.logs}/results
+  root_interface: ptools.calendar_scheduling
+  record_details: true
 
 dataset:
-  split: calendar
-  partition: train
+  split: train
   shuffle_seed: 42
-  prompt_mode: 0shot
 
 ptools:
   parse_schedules:

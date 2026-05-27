@@ -1,9 +1,0 @@
-An analysis of the failures reveals a few specific issues that cascade through the pipeline:
-1. **Misinterpretation of Directed Flights**: In `parse_trip_constraints`, the LLM consistently parses directed flights (e.g. "from Riga to Tallinn") as bidirectional. This causes the next step to hallucinate paths that aren't actually possible.
-2. **Time Window Arithmetic Failures**: The LLM running `find_valid_route` struggles to keep a running sum of dates in its head when it just outputs a JSON array, often selecting routes that violate time windows because it miscalculated the day overlapping offset.
-3. **Format Hallucinations**: In `build_trip_plan`, the LLM drops required phrasing (e.g. the first line must explicitly use `"Arriving in {City} and visit..."`), miscalculates day ranges, or hallucinates apologies if it detects a prior step failed.
-
-To fix these issues safely without introducing a risky programmatic DFS (which caused regressions previously):
-- I have updated the `parse_trip_constraints` docstring to add strict, explicit rules for handling directed vs bidirectional flights.
-- I have updated the `find_valid_route` docstring to force a **Chain-of-Thought (CoT)** reasoning block *before* outputting the JSON array. This helps the LLM calculate overlapping days explicitly and verify time windows.
-- I have converted `build_trip_plan` into a deterministic pure Python function. This entirely eliminates hallucinated dates, skipped prefixes, and formatting errors while seamlessly working within the existing orchestrator and cutting execution costs.

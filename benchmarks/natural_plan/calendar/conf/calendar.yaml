@@ -2,23 +2,22 @@ llm:
   model: together_ai/deepseek-ai/DeepSeek-V3.1
   timeout: 180  # seconds; prevents hang on stalled HTTP calls
 
+pathto:
+  task: ${pathto.repo}/benchmarks/natural_plan/calendar
+  logs: ${pathto.task}
+
 cachier:
-  cache_dir: llm_cache
+  cache_dir: ${pathto.task}/llm_cache
 
 evaluate:
-  result_dir: results
+  result_dir: ${pathto.logs}/results
   expt_name: DEFAULT
-  entry_point: calendar_scheduling
-  prompt_trace: true
+  root_interface: ptools.calendar_scheduling
+  record_details: true
 
 dataset:
-  split: calendar
+  split: valid
   shuffle_seed: 42
-  prompt_mode: 0shot
-  n: 4
-  stratified: false
-  sample_n: 50
-  sample_seed: 42
 
 ptools:
   parse_schedules:

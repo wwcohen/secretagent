@@ -1,7 +1,0 @@
-{
-  "reproduce_cmd": "uv run python expt.py run --config-file conf/meeting.yaml dataset.partition=valid ptools.meeting_planning.method=direct ptools.meeting_planning.fn=ptools_meeting.meeting_workflow llm.model=gemini/gemini-3.1-flash-lite-preview evaluate.expt_name=workflow_gemini_flash_lite evaluate.max_workers=4 dataset.n=10",
-  "accuracy": 0.0,
-  "total_cost_usd": 0.035105,
-  "total_time_sec": 114.16,
-  "n_samples": 10
-}

@@ -1,7 +1,0 @@
-{
-  "reproduce_cmd": "uv run python expt.py run --config-file conf/trip.yaml dataset.partition=valid ptools.trip_planning.method=simulate --minibatch llm.model=gemini/gemini-3.1-flash-lite-preview evaluate.expt_name=gemini_flash_lite_minibatch evaluate.max_workers=4",
-  "accuracy": 0.0,
-  "total_cost_usd": 0.001842,
-  "total_time_sec": 10.75,
-  "n_samples": 4
-}

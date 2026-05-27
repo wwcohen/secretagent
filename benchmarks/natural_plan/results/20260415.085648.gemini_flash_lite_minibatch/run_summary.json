@@ -1,7 +1,0 @@
-{
-  "reproduce_cmd": "uv run python expt.py run --config-file conf/calendar.yaml dataset.partition=valid ptools.calendar_scheduling.method=simulate --minibatch llm.model=gemini/gemini-3.1-flash-lite-preview evaluate.expt_name=gemini_flash_lite_minibatch evaluate.max_workers=4",
-  "accuracy": 0.5,
-  "total_cost_usd": 0.001509,
-  "total_time_sec": 7.74,
-  "n_samples": 4
-}
