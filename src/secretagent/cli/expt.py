@@ -30,7 +30,7 @@ import typer
 from secretagent import record, config
 from secretagent.core import implement_via_config, Interface
 from secretagent.dataset import Dataset
-from secretagent.evaluate import ExactMatchEvaluator, Evaluator
+from secretagent.evaluate import ExactMatchEvaluator, Evaluator, evaluator_for_match
 from secretagent.implement.util import resolve_dotted
 
 #
@@ -112,7 +112,9 @@ def run_experiment(
     # prevent permanent changes to the config
     with config.configuration():
         dataset = setup_and_load_dataset(dotlist or [], config_file=config_file)
-        evaluator = evaluator or ExactMatchEvaluator()
+        if evaluator is None:
+            match = config.get('evaluate.match')
+            evaluator = evaluator_for_match(match) if match else ExactMatchEvaluator()
         csv_path = evaluator.evaluate(dataset, top_level_interface)
         # print a summary
         df = pd.read_csv(csv_path)

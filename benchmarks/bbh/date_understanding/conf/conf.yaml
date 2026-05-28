@@ -22,6 +22,7 @@ evaluate:
   result_dir: ${pathto.logs}/results
   root_interface: ptools.answer_date_question
   expt_name: DEFAULT # means the expt isn't fully configured and should be discarded
+  match: multiple_choice
 
 dataset:
   split: test

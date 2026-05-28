@@ -3,38 +3,37 @@
 #
 
 EXPT = uv run python -m secretagent.cli.expt
-EVALUATOR = --evaluator ptools.GeometricShapesEvaluator
 DOTPAIRS ?=
 
 basics: unstructured_baseline structured_baseline workflow pot react
 
 # the hand-coded workflow
 workflow:
-	$(EXPT) run $(EVALUATOR) evaluate.expt_name=workflow $(DOTPAIRS) \
+	$(EXPT) run evaluate.expt_name=workflow $(DOTPAIRS) \
 	  ptools.identify_shape.method=direct \
 	  ptools.identify_shape.fn=ptools.geometric_shapes_workflow
 
 # zero-shot structured queries
 structured_baseline:
-	$(EXPT) run $(EVALUATOR) evaluate.expt_name=structured_baseline $(DOTPAIRS) \
+	$(EXPT) run evaluate.expt_name=structured_baseline $(DOTPAIRS) \
 	  ptools.identify_shape.method=simulate
 
 # zero-shot unstructured queries with a vanilla prompt
 unstructured_baseline:
-	$(EXPT) run $(EVALUATOR) evaluate.expt_name=unstructured_baseline $(DOTPAIRS) \
+	$(EXPT) run evaluate.expt_name=unstructured_baseline $(DOTPAIRS) \
 	  ptools.identify_shape.method=direct \
 	  ptools.identify_shape.fn=ptools.zeroshot_unstructured_workflow
 
 # program of thought
 pot:
-	$(EXPT) run $(EVALUATOR) evaluate.expt_name=pot $(DOTPAIRS) \
+	$(EXPT) run evaluate.expt_name=pot $(DOTPAIRS) \
 	  ptools.identify_shape.method=program_of_thought \
 	  ptools.identify_shape.tools=[ptools.extract_path,ptools.extract_options,ptools.decompose_path,ptools.describe_command,ptools.compute_angle,ptools.describe_shape,ptools.select_option]
 
 # ReAct using simulate_pydantic (which runs ReAct if there are tools),
 # wrapped with extract_option_letter so the final output is the bare letter.
 react:
-	$(EXPT) run $(EVALUATOR) evaluate.expt_name=react $(DOTPAIRS) \
+	$(EXPT) run evaluate.expt_name=react $(DOTPAIRS) \
 	  ptools.identify_shape.method=direct \
 	  ptools.identify_shape.fn=ptools.geometric_shapes_react_workflow \
 	  ptools.react_identify_shape.method=simulate_pydantic \

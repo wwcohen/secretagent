@@ -213,3 +213,41 @@ class ExactMatchEvaluator(Evaluator):
 
     def compare_predictions(self, predicted_output, expected_output) -> dict[str, Any]:
         return dict(correct=float(predicted_output == expected_output))
+
+
+class MultipleChoiceEvaluator(Evaluator):
+    """Match a letter-form multiple-choice answer ("(A)", "A", " (A) "
+    all normalize to "A").
+
+    Drop-in for the bbh-style evaluator that was repeated across
+    benchmarks/bbh/*/ptools.py. Select via the conf shortcut
+    ``evaluate.match: multiple_choice``.
+    """
+
+    @staticmethod
+    def _normalize(s) -> str:
+        return str(s).strip().strip('()').strip()
+
+    def compare_predictions(self, predicted_output, expected_output) -> dict[str, Any]:
+        return dict(correct=float(
+            self._normalize(predicted_output) == self._normalize(expected_output)))
+
+
+# Conf shortcut: ``evaluate.match: <name>`` resolves to one of these.
+# Keep the registry tight — users wanting custom evaluators should still
+# pass ``--evaluator MODULE.CLASS`` on the CLI.
+_BUILTIN_EVALUATORS: dict[str, type[Evaluator]] = {
+    'exact_match': ExactMatchEvaluator,
+    'multiple_choice': MultipleChoiceEvaluator,
+}
+
+
+def evaluator_for_match(name: str) -> Evaluator:
+    """Construct a built-in evaluator by short name (for evaluate.match)."""
+    try:
+        return _BUILTIN_EVALUATORS[name]()
+    except KeyError:
+        valid = ', '.join(sorted(_BUILTIN_EVALUATORS))
+        raise ValueError(
+            f'unknown evaluate.match={name!r}; expected one of: {valid}'
+        ) from None
