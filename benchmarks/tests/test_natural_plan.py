@@ -1,172 +1,90 @@
 """Lightweight pytest suite for benchmarks/natural_plan/.
 
-Mirrors the Makefile baselines (unstructured, structured, workflow, pot, react)
-across all three tasks (calendar, meeting, trip) — 15 tests total, 2 examples each.
+Modeled on tests/test_sports_understanding.py: import a task's ptools +
+evaluator, bind the sub-tool interfaces to 'simulate', run the workflow
+on a real dataset example, and score it with the task evaluator. One
+parametrized case per task (calendar, meeting, trip).
+
+The evaluator test needs no API key — it feeds each task's golden plan
+back through its evaluator and checks it scores as correct.
 """
 
-import importlib
-import os
-import sys
+import json
 from pathlib import Path
 
-import pandas as pd
 import pytest
 
-from conftest import needs_api_key, CI_TEST_MODEL
+from conftest import needs_api_key, CI_TEST_MODEL, load_benchmark_modules
 from secretagent import config
-from secretagent.core import implement_via_config
 
 NATURAL_PLAN_DIR = Path(__file__).resolve().parent.parent / "natural_plan"
 
-TASK_CONFIG = {
+TASKS = {
     "calendar": {
-        "config_file": "calendar/conf/calendar.yaml",
-        "ptools_module": "ptools",
-        "interface": "calendar_scheduling",
-        "workflow_fn": "ptools.calendar_workflow",
+        "workflow": "calendar_workflow",
         "tools": ["parse_schedules", "find_available_slots", "select_and_format"],
+        "evaluator": "CalendarEvaluator",
     },
     "meeting": {
-        "config_file": "meeting/conf/meeting.yaml",
-        "ptools_module": "ptools",
-        "interface": "meeting_planning",
-        "workflow_fn": "ptools.meeting_workflow",
+        "workflow": "meeting_workflow",
         "tools": ["parse_meeting_info", "plan_visit_order", "build_meeting_plan"],
+        "evaluator": "MeetingEvaluator",
     },
     "trip": {
-        "config_file": "trip/conf/trip.yaml",
-        "ptools_module": "ptools",
-        "interface": "trip_planning",
-        "workflow_fn": "ptools.trip_workflow",
+        "workflow": "trip_workflow",
         "tools": ["parse_trip_constraints", "find_valid_route", "build_trip_plan"],
+        "evaluator": "TripEvaluator",
     },
 }
 
 
-def _import_modules(task):
-    """Import ptools, eval_utils, and expt from benchmarks/natural_plan/."""
-    from conftest import load_benchmark_modules
-    tc = TASK_CONFIG[task]
-    ptools_mod, _eval_utils, expt_mod = load_benchmark_modules(
-        NATURAL_PLAN_DIR, tc["ptools_module"], "eval_utils", "expt",
+def _load_task(task):
+    """Import the task's ptools and evaluator modules from its subdir."""
+    ptools, evaluator_mod = load_benchmark_modules(
+        NATURAL_PLAN_DIR / task, "ptools", "evaluator",
     )
-    return ptools_mod, expt_mod.NaturalPlanEvaluator, expt_mod.load_dataset
+    return ptools, evaluator_mod
 
 
-def _run_eval(tmp_path, task, extra_dotlist, n=2):
-    """Configure pipeline, load n examples, evaluate, return DataFrame."""
-    prev_cwd = os.getcwd()
-    try:
-        os.chdir(NATURAL_PLAN_DIR)
-        ptools_mod, NaturalPlanEvaluator, load_dataset = _import_modules(task)
-        tc = TASK_CONFIG[task]
-
-        # Reset global config to avoid cross-task contamination
-        config.reset()
-
-        conf_path = NATURAL_PLAN_DIR / tc["config_file"]
-        config.configure(
-            yaml_file=str(conf_path),
-            dotlist=[
-                f"llm.model={CI_TEST_MODEL}",
-                f"evaluate.result_dir={tmp_path}",
-                f"dataset.n={n}",
-                "dataset.prompt_mode=0shot",
-            ] + extra_dotlist,
-        )
-        config.set_root(NATURAL_PLAN_DIR)
-        implement_via_config(ptools_mod, config.require("ptools"))
-
-        dataset = load_dataset(task, prompt_mode="0shot")
-        dataset.configure(
-            shuffle_seed=config.get("dataset.shuffle_seed"),
-            n=n,
-        )
-
-        interface = getattr(ptools_mod, tc["interface"])
-        evaluator = NaturalPlanEvaluator(task)
-        csv_path = evaluator.evaluate(dataset, interface)
-        df = pd.read_csv(csv_path)
-        assert len(df) == n
-        assert "correct" in df.columns
-        return df
-    finally:
-        os.chdir(prev_cwd)
+def _first_case(task):
+    """Return (prompt, expected_output) for the first valid.json case."""
+    data = json.loads(
+        (NATURAL_PLAN_DIR / task / "data" / "valid.json").read_text(encoding="utf-8")
+    )
+    case = data["cases"][0]
+    return case["input_args"][0], case["expected_output"]
 
 
-def _structured_dotlist(task):
-    iface = TASK_CONFIG[task]["interface"]
-    return [
-        f"evaluate.expt_name=test_{task}_structured",
-        f"ptools.{iface}.method=simulate",
-    ]
+def _golden_response(expected_output):
+    """Golden plan as a single string (meeting goldens are lists of steps)."""
+    golden = expected_output["golden_plan"]
+    return " ".join(golden) if isinstance(golden, list) else golden
 
 
-def _unstructured_dotlist(task):
-    iface = TASK_CONFIG[task]["interface"]
-    return [
-        f"evaluate.expt_name=test_{task}_unstructured",
-        f"ptools.{iface}.method=prompt_llm",
-        f"ptools.{iface}.prompt_template_file=prompt_templates/zeroshot_{task}.txt",
-    ]
-
-
-def _workflow_dotlist(task):
-    tc = TASK_CONFIG[task]
-    return [
-        f"evaluate.expt_name=test_{task}_workflow",
-        f"ptools.{tc['interface']}.method=direct",
-        f"ptools.{tc['interface']}.fn={tc['workflow_fn']}",
-    ]
-
-
-def _pot_dotlist(task):
-    tc = TASK_CONFIG[task]
-    mod = tc["ptools_module"]
-    tools = ",".join(f"{mod}.{t}" for t in tc["tools"])
-    return [
-        f"evaluate.expt_name=test_{task}_pot",
-        f"ptools.{tc['interface']}.method=program_of_thought",
-        f"ptools.{tc['interface']}.tools=[{tools}]",
-    ]
-
-
-def _react_dotlist(task):
-    tc = TASK_CONFIG[task]
-    mod = tc["ptools_module"]
-    tools = ",".join(f"{mod}.{t}" for t in tc["tools"])
-    return [
-        f"evaluate.expt_name=test_{task}_react",
-        f"ptools.{tc['interface']}.method=simulate_pydantic",
-        f"ptools.{tc['interface']}.tools=[{tools}]",
-    ]
+@pytest.mark.parametrize("task", ["calendar", "meeting", "trip"])
+def test_evaluator_scores_golden(task):
+    """Each task's evaluator scores its own golden plan as correct."""
+    _, evaluator_mod = _load_task(task)
+    _, expected_output = _first_case(task)
+    evaluator = getattr(evaluator_mod, TASKS[task]["evaluator"])()
+    result = evaluator.compare_predictions(_golden_response(expected_output), expected_output)
+    assert result["correct"] is True
 
 
 @needs_api_key
-class TestNaturalPlanBasics:
-    """Integration tests matching the Makefile baselines, 2 examples each."""
+@pytest.mark.parametrize("task", ["calendar", "meeting", "trip"])
+def test_workflow(task):
+    """Bind sub-tools to 'simulate', run the workflow, and score the result."""
+    ptools, evaluator_mod = _load_task(task)
+    tc = TASKS[task]
+    for tool in tc["tools"]:
+        getattr(ptools, tool).implement_via("simulate")
 
-    @pytest.mark.parametrize("task", ["calendar", "meeting", "trip"])
-    def test_structured_baseline(self, tmp_path, task):
-        df = _run_eval(tmp_path, task, _structured_dotlist(task))
-        assert "correct" in df.columns
+    prompt, expected_output = _first_case(task)
+    with config.configuration(llm={"model": CI_TEST_MODEL}):
+        result = getattr(ptools, tc["workflow"])(prompt)
 
-    @pytest.mark.parametrize("task", ["calendar", "meeting", "trip"])
-    def test_unstructured_baseline(self, tmp_path, task):
-        df = _run_eval(tmp_path, task, _unstructured_dotlist(task))
-        assert "correct" in df.columns
-
-    @pytest.mark.parametrize("task", ["calendar", "meeting", "trip"])
-    def test_workflow(self, tmp_path, task):
-        df = _run_eval(tmp_path, task, _workflow_dotlist(task))
-        assert "correct" in df.columns
-
-    @pytest.mark.parametrize("task", ["calendar", "meeting", "trip"])
-    def test_pot(self, tmp_path, task):
-        df = _run_eval(tmp_path, task, _pot_dotlist(task))
-        assert "correct" in df.columns
-
-    @pytest.mark.parametrize("task", ["calendar", "meeting", "trip"])
-    def test_react(self, tmp_path, task):
-        df = _run_eval(tmp_path, task, _react_dotlist(task))
-        assert "correct" in df.columns
+    assert isinstance(result, str) and result.strip()
+    evaluator = getattr(evaluator_mod, tc["evaluator"])()
+    scored = evaluator.compare_predictions(result, expected_output)
+    assert isinstance(scored["correct"], bool)
