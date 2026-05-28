@@ -1,0 +1,31 @@
+pathto:
+  repo: /Users/wcohen/Documents/code/secretagent
+  task: ${pathto.repo}/benchmarks/natural_plan/trip
+  logs: ${pathto.task}
+llm:
+  timeout: 180
+  model: gemini/gemini-3.1-flash-lite
+cachier:
+  cache_dir: ${pathto.task}/llm_cache
+evaluate:
+  result_dir: ${pathto.logs}/results
+  expt_name: react
+  root_interface: ptools.trip_planning
+  record_details: true
+dataset:
+  split: valid
+  shuffle_seed: 42
+ptools:
+  parse_trip_constraints:
+    method: simulate
+  find_valid_route:
+    method: simulate
+  build_trip_plan:
+    method: simulate
+  trip_planning:
+    method: simulate_pydantic
+    tools:
+    - ptools.parse_trip_constraints
+    - ptools.find_valid_route
+    - ptools.build_trip_plan
+saved_under: 20260527.175435.react

@@ -1,0 +1,28 @@
+pathto:
+  repo: /Users/wcohen/Documents/code/secretagent
+  task: ${pathto.repo}/benchmarks/natural_plan/trip
+  logs: ${pathto.task}
+llm:
+  timeout: 180
+  model: gemini/gemini-3.1-flash-lite
+cachier:
+  cache_dir: ${pathto.task}/llm_cache
+evaluate:
+  result_dir: ${pathto.logs}/results
+  expt_name: unstructured_baseline
+  root_interface: ptools.trip_planning
+  record_details: true
+dataset:
+  split: valid
+  shuffle_seed: 42
+ptools:
+  parse_trip_constraints:
+    method: simulate
+  find_valid_route:
+    method: simulate
+  build_trip_plan:
+    method: simulate
+  trip_planning:
+    method: prompt_llm
+    prompt_template_file: prompt_templates/zeroshot_trip.txt
+saved_under: 20260527.173426.unstructured_baseline
