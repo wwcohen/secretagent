@@ -1,24 +1,20 @@
-llm:
-  model: gemini/gemini-3.1-flash-lite
-  timeout: 180  # seconds; prevents hang on stalled HTTP calls
-
 pathto:
+  repo: /Users/wcohen/Documents/code/secretagent
   task: ${pathto.repo}/benchmarks/natural_plan/calendar
   logs: ${pathto.task}
-
+llm:
+  model: gemini/gemini-3.1-flash-lite
+  timeout: 180
 cachier:
   cache_dir: ${pathto.task}/llm_cache
-
 evaluate:
   result_dir: ${pathto.logs}/results
-  expt_name: DEFAULT
+  expt_name: structured_baseline
   root_interface: ptools.calendar_scheduling
   record_details: true
-
 dataset:
   split: valid
   shuffle_seed: 42
-
 ptools:
   parse_schedules:
     method: simulate
@@ -27,4 +23,5 @@ ptools:
   select_and_format:
     method: simulate
   calendar_scheduling:
-    method: DEFAULT
+    method: simulate
+saved_under: 20260528.135102.structured_baseline
