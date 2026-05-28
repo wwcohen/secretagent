@@ -9,6 +9,7 @@ cachier:
 evaluate:
   result_dir: results
   expt_name: DEFAULT  # must be overridden by a strategy config
+  root_interface: ptools.compute_nba_answer
 
 dataset:
   split: valid
