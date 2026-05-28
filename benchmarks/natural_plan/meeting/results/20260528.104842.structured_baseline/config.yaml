@@ -1,0 +1,27 @@
+pathto:
+  repo: /Users/wcohen/Documents/code/secretagent
+  task: ${pathto.repo}/benchmarks/natural_plan/meeting
+  logs: ${pathto.task}
+llm:
+  model: gemini/gemini-3.1-flash-lite
+  timeout: 180
+cachier:
+  cache_dir: ${pathto.task}/llm_cache
+evaluate:
+  result_dir: ${pathto.logs}/results
+  expt_name: structured_baseline
+  root_interface: ptools.meeting_planning
+  record_details: true
+dataset:
+  split: valid
+  shuffle_seed: 42
+ptools:
+  parse_meeting_info:
+    method: simulate
+  plan_visit_order:
+    method: simulate
+  build_meeting_plan:
+    method: simulate
+  meeting_planning:
+    method: simulate
+saved_under: 20260528.104842.structured_baseline
