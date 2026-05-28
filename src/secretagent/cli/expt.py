@@ -30,7 +30,7 @@ import typer
 from secretagent import record, config
 from secretagent.core import implement_via_config, Interface
 from secretagent.dataset import Dataset
-from secretagent.evaluate import ExactMatchEvaluator, Evaluator
+from secretagent.evaluate import ExactMatchEvaluator, Evaluator, evaluator_for_match
 from secretagent.implement.util import resolve_dotted
 
 #
@@ -93,6 +93,13 @@ def setup_and_load_dataset(dotlist: list[str], config_file: str | Path | None = 
         n=config.get('dataset.n') or None  # don't pass in 0
     )
     ptools = _load_module_from_path(config.get('dataset.ptools_module', str(taskdir / 'ptools')))
+    # Optional setup hook called with the loaded dataset, e.g. to populate
+    # a module-level state dict in ptools before binding (tabmwp's
+    # _TABLE_STORE). Runs after ptools is on sys.modules so the dotted
+    # name resolves into it.
+    setup_hook = config.get('dataset.setup_hook')
+    if setup_hook:
+        resolve_dotted(setup_hook)(dataset)
     implement_via_config(ptools, config.require('ptools'))
     return dataset
 
@@ -105,7 +112,9 @@ def run_experiment(
     # prevent permanent changes to the config
     with config.configuration():
         dataset = setup_and_load_dataset(dotlist or [], config_file=config_file)
-        evaluator = evaluator or ExactMatchEvaluator()
+        if evaluator is None:
+            match = config.get('evaluate.match')
+            evaluator = evaluator_for_match(match) if match else ExactMatchEvaluator()
         csv_path = evaluator.evaluate(dataset, top_level_interface)
         # print a summary
         df = pd.read_csv(csv_path)

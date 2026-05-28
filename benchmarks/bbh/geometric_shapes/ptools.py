@@ -8,14 +8,6 @@ from collections import defaultdict
 from typing import Any, List, Optional, Tuple
 
 from secretagent.core import interface, implement_via
-from secretagent.evaluate import Evaluator
-
-
-class GeometricShapesEvaluator(Evaluator):
-    def compare_predictions(self, predicted_output, expected_output) -> dict[str, Any]:
-        def normalize(s):
-            return str(s).strip().strip('()')
-        return dict(correct=float(normalize(predicted_output) == normalize(expected_output)))
 
 # ── path normalization ──────────────────────────────────────────────────────
 

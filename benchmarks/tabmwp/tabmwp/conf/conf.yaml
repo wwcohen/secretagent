@@ -7,11 +7,13 @@ cachier:
 evaluate:
   result_dir: results
   expt_name: DEFAULT  # must be overridden per experiment
+  root_interface: ptools.tabmwp_solve
 
 dataset:
-  split: test1k
+  split: val1k
   shuffle_seed: 42
   n: 4
+  setup_hook: ptools.load_table_store
 
 # Default: all reasoning ptools simulated, top-level must be overridden
 ptools:

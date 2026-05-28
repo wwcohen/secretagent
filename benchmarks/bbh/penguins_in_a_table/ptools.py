@@ -11,14 +11,6 @@ Derived from the program trace mock in penguins_in_a_table.py
 from typing import Any, List
 
 from secretagent.core import interface, implement_via
-from secretagent.evaluate import Evaluator
-
-
-class PenguinsEvaluator(Evaluator):
-    def compare_predictions(self, predicted_output, expected_output) -> dict[str, Any]:
-        def normalize(s):
-            return str(s).strip().strip('()')
-        return dict(correct=float(normalize(predicted_output) == normalize(expected_output)))
 
 # ── sub-tools ────────────────────────────────────────────────────────────────
 

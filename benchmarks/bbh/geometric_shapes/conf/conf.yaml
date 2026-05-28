@@ -23,6 +23,7 @@ evaluate:
   result_dir: ${pathto.logs}/results
   expt_name: DEFAULT # means the expt isn't fully configured and should be discarded
   root_interface: ptools.identify_shape
+  match: multiple_choice
 
 dataset:
   split: valid
