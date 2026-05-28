@@ -7,6 +7,7 @@ cachier:
 evaluate:
   result_dir: results
   expt_name: DEFAULT
+  root_interface: ptools.answer_finqa
 
 dataset:
   split: valid
