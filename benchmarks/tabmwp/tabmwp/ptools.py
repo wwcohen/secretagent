@@ -22,17 +22,21 @@ from secretagent.core import interface, implement_via
 _TABLE_STORE: dict[str, dict] = {}
 
 
-def load_table_store(dataset_dict: dict) -> None:
-    """Populate the table store from the raw dataset dict.
+def load_table_store(dataset) -> None:
+    """Populate the table store from a loaded Dataset.
 
-    Called by expt.py before running experiments.
+    Each Case is expected to have metadata with table, table_for_pd,
+    and table_title (populated by data/partition.py). Wired via the
+    dataset.setup_hook config in conf.yaml so the generic CLI calls
+    this after dataset load and before binding implementations.
     """
     _TABLE_STORE.clear()
-    for ex_id, ex in dataset_dict.items():
-        _TABLE_STORE[ex_id] = {
-            "table": ex["table"],
-            "table_for_pd": ex["table_for_pd"],
-            "table_title": ex.get("table_title"),
+    for case in dataset.cases:
+        meta = case.metadata or {}
+        _TABLE_STORE[case.name] = {
+            "table": meta.get("table"),
+            "table_for_pd": meta.get("table_for_pd"),
+            "table_title": meta.get("table_title"),
         }
 
 

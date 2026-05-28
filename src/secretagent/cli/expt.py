@@ -93,6 +93,13 @@ def setup_and_load_dataset(dotlist: list[str], config_file: str | Path | None = 
         n=config.get('dataset.n') or None  # don't pass in 0
     )
     ptools = _load_module_from_path(config.get('dataset.ptools_module', str(taskdir / 'ptools')))
+    # Optional setup hook called with the loaded dataset, e.g. to populate
+    # a module-level state dict in ptools before binding (tabmwp's
+    # _TABLE_STORE). Runs after ptools is on sys.modules so the dotted
+    # name resolves into it.
+    setup_hook = config.get('dataset.setup_hook')
+    if setup_hook:
+        resolve_dotted(setup_hook)(dataset)
     implement_via_config(ptools, config.require('ptools'))
     return dataset
 
