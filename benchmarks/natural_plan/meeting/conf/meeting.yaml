@@ -1,5 +1,5 @@
 llm:
-  model: together_ai/deepseek-ai/DeepSeek-V3.1
+  model: gemini/gemini-3.1-flash-lite
   timeout: 180  # seconds; prevents hang on stalled HTTP calls
 
 pathto:
