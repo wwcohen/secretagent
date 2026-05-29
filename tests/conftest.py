@@ -5,7 +5,7 @@ import pytest
 
 # Model used by integration tests. Override via CI_TEST_MODEL env var
 # to run tests against a different provider (e.g. togetherai/deepseek-ai/DeepSeek-V3.1).
-CI_TEST_MODEL = os.environ.get('CI_TEST_MODEL', 'claude-haiku-4-5-20251001')
+CI_TEST_MODEL = os.environ.get('CI_TEST_MODEL', 'gemini/gemini-3.1-flash-lite')
 
 
 def _has_llm_key():

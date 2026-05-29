@@ -12,7 +12,7 @@ from pathlib import Path
 import pytest
 
 # Model used by integration tests. Override via CI_TEST_MODEL env var.
-CI_TEST_MODEL = os.environ.get('CI_TEST_MODEL', 'claude-haiku-4-5-20251001')
+CI_TEST_MODEL = os.environ.get('CI_TEST_MODEL', 'gemini/gemini-3.1-flash-lite')
 
 
 def _has_llm_key():

@@ -40,21 +40,8 @@
 	  * the complicated part was loading the ptools.py directory
         * TODO: refactor module loading code, it's duplicated in expt.py and implement/learned_code
 
-* Need to map over the rest of musr and natural plan.
-
-* Need to fix natural plan tests
-
-```
-   root:                                                                                                                                                                            
-    task: benchmarks/bbh/sports_understanding                                                                                                                                      
-    log: papers/experiments/hero_table/logs                                                                                                                                        
-                                                                                                                                                                                   
-  dataset:                                                                                                                                                                         
-    data_json_dir: ${root.task}/data
-                                                                                                                                                                                   
-  evaluate:                                                                                                                                                                      
-    result_dir: ${root.log}/results
-```
+* Clean up --evaluator to default to config('evaluate.evaluator_class') which is read with `resolve_dotted` DONE
+  * Maybe get rid of the evaluate.match config option? DISCUSS
 
 ## Benchmarks
 
@@ -69,19 +56,15 @@
 	* prompt_templates
   * clean up the non-bbh directories to follow the same scheme
   * add benchmark tests for each in benchmarks/tests
+	* need to write musr benchmark/tests
+    * need to fix the rulearena benchmark/tests
+	* need to make the `natural_plan` benchmark/tests follow the `sports_understanding` plan
   * Mostly done except
     - scripts that use old locations might not work - according to claude
 	- paper/results is a start at the reorg of results
       - papers/results/results
     - medcalc is an issue
-	- rulearena is an issue???
-    - test_natural_plan.py 
-	  — TASK_CONFIG constants updated to new paths, but the
-      surrounding _import_modules / _run_eval framework still does
-      os.chdir(NATURAL_PLAN_DIR) and loads ptools from the task-set
-      dir. Needs a rewrite for the per-task cwd model. Tests fail
-      until then.
-      - this might be workable with the new expt.py 
+	- rulearena is an issue
     - Legacy scripts (benchmarks/jerry/,
       scripts/orchestrator_learner/, benchmarks/scripts/) still
       reference ptools_murder/object/team/calendar/meeting/trip by
@@ -108,21 +91,19 @@
 
  * add `result.py rename --to '%O_oss2b' results/*` - to help cleanup results
  * look at pot failures and see if there is an easy way to improve them - 
- * Current 2026-04-24 Several easy POT losses appear to be plumbing
-   fixes rather than reasoning failures: eg. sandbox/code-extraction
-   issues - eg. typing imports being blocked (penguins), fixable by
-   replaying the cached generated code with typing allowed. Some runs
-   can often return tuples like ("E", "04/11/1985") (especially in
-   datetime tasks) when the evaluator wants just (E). There are
-   smaller similar issues from blocked json/fractions imports and
-   no-code-block outputs. The low hanging fruits seem to be generic
-   PoT robustness fixes: allow a few safe imports, improve code-block
-   extraction, and normalize final answer shape. MUSR, NatPlan and
-   Medcalc Rule failures look like strategy misses, as opposed to
-   plumbing
+   * Current 2026-04-24 Several easy POT losses appear to be plumbing
+     fixes rather than reasoning failures: eg. sandbox/code-extraction
+     issues - eg. typing imports being blocked (penguins), fixable by
+     replaying the cached generated code with typing allowed. Some
+     runs can often return tuples like ("E", "04/11/1985") (especially
+     in datetime tasks) when the evaluator wants just (E). There are
+     smaller similar issues from blocked json/fractions imports and
+     no-code-block outputs. The low hanging fruits seem to be generic
+     PoT robustness fixes: allow a few safe imports, improve
+     code-block extraction, and normalize final answer shape. MUSR,
+     NatPlan and Medcalc Rule failures look like strategy misses, as
+     opposed to plumbing
  * What's the use case for llm streaming in llm_util?
- * More guidance for claude/devs on defensive programming
-
 
 # Cleaning up the Orchestrate-related code
 

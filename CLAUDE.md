@@ -134,6 +134,18 @@ This project is heavily configuration-driven, like most ML systems.
  * `with config.configuration(echo=dict(service=True, ...)):` is a context manager
  that sets config parameters temporarily and restores them when it exits.
 
+### Path resolution: `${pathto.repo}`
+
+`config.configure()` auto-sets `pathto.repo` to the repo root on every
+call. The root is found by `find_project_root()` (in `config.py`), which
+walks up from the current working directory until it finds the
+`.root-sentinel.txt` marker file. Because resolution is anchored to that
+sentinel, `${pathto.repo}` (and interpolations built on it like
+`${pathto.task}`) resolve correctly from *any* cwd inside the repo — so
+config files and code should reference paths via `${pathto.repo}/...`
+rather than relying on cwd or `set_root` (deprecated). No `chdir` into a
+task directory is needed.
+
 See @docs/CONFIG_KEYS.md
 
 For advice on configuring benchmark experiments see @benchmarks/HOWTO.md.
