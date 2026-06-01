@@ -1,0 +1,34 @@
+pathto:
+  repo: C:\Users\Cassandra\Desktop\Work Projects\Secret Agent Project\secretagent
+  task: ${pathto.repo}/benchmarks/bbh/date_understanding
+  logs: ${pathto.task}
+llm:
+  model: gemini/gemini-3.1-flash-lite
+cachier:
+  cache_dir: ${pathto.task}/llm_cache
+evaluate:
+  result_dir: ${pathto.logs}/results
+  root_interface: ptools.answer_date_question
+  expt_name: workflow
+  match: multiple_choice
+dataset:
+  split: valid
+  shuffle_seed: 137
+  json_data_dir: ${pathto.task}/data
+ptools:
+  extract_options:
+    method: simulate
+  extract_date_facts:
+    method: simulate
+  extract_question:
+    method: simulate
+  make_inference:
+    method: simulate
+  answer_question:
+    method: simulate
+  match_option:
+    method: simulate
+  answer_date_question:
+    method: direct
+    fn: ptools.date_understanding_workflow
+saved_under: 20260601.151950.workflow

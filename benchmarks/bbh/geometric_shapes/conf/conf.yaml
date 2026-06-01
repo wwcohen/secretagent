@@ -10,7 +10,7 @@ llm:
   # model: gemini/gemini-2.5-pro
   # model: gemini/gemini-2.0-flash
   # model: claude-haiku-4-5-20251001
-  model: gemini/gemini-3.1-flash-lite-preview
+  model: gemini/gemini-3.1-flash-lite
 
 pathto:
   task: ${pathto.repo}/benchmarks/bbh/geometric_shapes

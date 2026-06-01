@@ -7,32 +7,31 @@ temporal relationships.
 Derived from the BIG-Bench Hard date_understanding task.
 """
 
-from typing import Any, List, Tuple
+from pydantic import BaseModel, Field
 
 from secretagent.core import interface, implement_via
 
 
-# An option is a possible multiple-choice answer, encoded as (letter, date),
-# where letter is a short string like A,B,C,D,E,F and date is a string in
-# MM/DD/YYYY format, i.e. Tuple[str, str].
+class DateOption(BaseModel):
+    """A single labeled multiple-choice date answer."""
+    letter: str = Field(..., description="Single-letter label, e.g. 'A'.")
+    date: str = Field(..., description="Date in MM/DD/YYYY format, e.g. '12/14/1937'.")
 
 
 # ── sub-tools ────────────────────────────────────────────────────────────────
 
 @interface
-def extract_options(input_str: str) -> List[Tuple[str, str]]:
-    """Extract the possible multiple-choice answers from the input string.
-
-    Returns a list of (letter, date_str) pairs, e.g. [('A', '12/14/2026'), ...].
+def extract_options(input_str: str) -> list[DateOption]:
+    """Extract the possible multiple-choice date answers from the input string.
 
     Examples:
     >>> extract_options("Q: Today is Christmas Eve of 1937. What is the date 10 days ago in MM/DD/YYYY?\\nOptions:\\n(A) 12/14/2026\\n(B) 12/14/1950\\n(C) 12/14/2007\\n(D) 12/14/1937\\n")
-    [('A', '12/14/2026'), ('B', '12/14/1950'), ('C', '12/14/2007'), ('D', '12/14/1937')]
+    [DateOption(letter='A', date='12/14/2026'), DateOption(letter='B', date='12/14/1950'), DateOption(letter='C', date='12/14/2007'), DateOption(letter='D', date='12/14/1937')]
     """
     ...
 
 @interface
-def extract_date_facts(input_str: str) -> List[str]:
+def extract_date_facts(input_str: str) -> list[str]:
     """Extract the background facts about dates needed to answer the question
     from the input string.
 
@@ -55,7 +54,7 @@ def extract_question(input_str: str) -> str:
     ...
 
 @interface
-def make_inference(date_fact: str, context: List[str]) -> str:
+def make_inference(date_fact: str, context: list[str]) -> str:
     """Given a background fact about dates, and a list of previously
     stated facts, make a relevant inference.
 
@@ -70,7 +69,7 @@ def make_inference(date_fact: str, context: List[str]) -> str:
     ...
 
 @interface
-def answer_question(question: str, inferences: List[str]) -> str:
+def answer_question(question: str, inferences: list[str]) -> str:
     """Given a question and a list of inferences about dates, construct a
     natural language answer to the question.
 
@@ -81,14 +80,12 @@ def answer_question(question: str, inferences: List[str]) -> str:
     ...
 
 @interface
-def match_option(answer: str, options: List[Tuple[str, str]]) -> Tuple[str, str]:
-    """Find the multiple-choice option that best matches an answer string.
-
-    Returns the matching (letter, date) pair.
+def match_option(answer: str, options: list[DateOption]) -> DateOption:
+    """Pick the DateOption whose date best matches the given answer string.
 
     Examples:
-    >>> match_option('10 days before 12/24/1937 is 12/14/1937.', [('A', '12/14/2026'), ('B', '12/14/1950'), ('C', '12/14/2007'), ('D', '12/14/1937')])
-    ('D', '12/14/1937')
+    >>> match_option('10 days before 12/24/1937 is 12/14/1937.', [DateOption(letter='A', date='12/14/2026'), DateOption(letter='B', date='12/14/1950'), DateOption(letter='C', date='12/14/2007'), DateOption(letter='D', date='12/14/1937')])
+    DateOption(letter='D', date='12/14/1937')
     """
     ...
 
@@ -141,8 +138,8 @@ def date_understanding_workflow(input_str: str) -> str:
                   for i, fact in enumerate(date_facts)]
     question = extract_question(input_str)
     answer = answer_question(question, inferences)
-    letter, _ = match_option(answer, options)
-    return f'({letter})'
+    chosen = match_option(answer, options)
+    return f'({chosen.letter})'
 
 
 #

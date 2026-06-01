@@ -1,0 +1,44 @@
+case_name,predicted_output,expected_output,correct,input_tokens,output_tokens,latency,cost,expt_name
+valid.017,(A),(A),1.0,2690.0,554.0,4.185268878936768,0.0015035,pot
+valid.001,(C),(C),1.0,2666.0,627.0,3.6388721466064453,0.0016070000000000001,pot
+valid.009,(C),(C),1.0,2666.0,548.0,3.5889673233032227,0.0014885,pot
+valid.037,"**exception raised**: Code execution failed at line 'final_answer(Option(letter='C', answer_text='Vincent'))' due to: InterpreterError: Forbidden function evaluation: 'Option' is not among the explicitly allowed tools or defined/imported in the preceding code",(C),0.0,3022.0,597.0,4.387383699417114,0.0016510000000000001,pot
+valid.021,(E),(E),1.0,3269.0,830.0,4.757119178771973,0.00206225,pot
+valid.018,(B),(A),0.0,3113.0,891.0,4.81037712097168,0.0021147500000000003,pot
+valid.036,letter='D' answer_text='Gwen',(D),0.0,3008.0,581.0,4.425705432891846,0.0016235,pot
+valid.008,(C),(C),1.0,2998.0,588.0,4.0286619663238525,0.0016315,pot
+valid.023,(E),(B),0.0,3291.0,838.0,4.547245740890503,0.00207975,pot
+valid.006,C,(C),1.0,2913.0,806.0,4.26618504524231,0.0019372500000000002,pot
+valid.007,(A),(C),0.0,3022.0,613.0,4.122595548629761,0.001675,pot
+valid.003,(A),(B),0.0,2645.0,625.0,3.5952303409576416,0.00159875,pot
+valid.029,(C),(C),1.0,3022.0,610.0,4.4136083126068115,0.0016705000000000001,pot
+valid.005,(B),(B),1.0,2890.0,848.0,155.1587209701538,0.0019944999999999997,pot
+valid.002,(E),(A),0.0,2667.0,552.0,3.5459728240966797,0.00149475,pot
+valid.041,letter='B' answer_text='Bernard',(B),0.0,2651.0,509.0,3.183359384536743,0.00142625,pot
+valid.033,(B),(B),1.0,2676.0,553.0,4.451653480529785,0.0014984999999999998,pot
+valid.024,(A),(A),1.0,2651.0,501.0,3.25888729095459,0.00141425,pot
+valid.019,(A),(A),1.0,2657.0,524.0,3.4087352752685547,0.0014502500000000002,pot
+valid.034,(A),(D),0.0,3230.0,762.0,4.5311033725738525,0.0019505,pot
+valid.010,(B),(C),0.0,3460.0,773.0,5.5010175704956055,0.0020245000000000003,pot
+valid.035,(E),(E),1.0,3113.0,699.0,4.77848744392395,0.0018267499999999998,pot
+valid.027,(B),(B),1.0,2679.0,549.0,3.2212483882904053,0.00149325,pot
+valid.013,(B),(B),1.0,3089.0,663.0,4.363314867019653,0.00176675,pot
+valid.042,(D),(D),1.0,3276.0,919.0,5.110193967819214,0.0021975,pot
+valid.015,(E),(E),1.0,3091.0,672.0,4.415042877197266,0.0017807500000000002,pot
+valid.016,(C),(C),1.0,2657.0,535.0,3.474463701248169,0.0014667500000000002,pot
+valid.028,(D),(D),1.0,2652.0,548.0,3.938288688659668,0.001485,pot
+valid.040,(C),(C),1.0,3473.0,775.0,4.724541902542114,0.00203075,pot
+valid.038,(A),(A),1.0,3229.0,749.0,4.525851249694824,0.00193075,pot
+valid.030,(B),(B),1.0,2865.0,778.0,4.422974109649658,0.00188325,pot
+valid.039,(A),(A),1.0,2364.0,582.0,3.063706636428833,0.001464,pot
+valid.032,"**exception raised**: Code execution failed at line 'final_answer(Option(letter='(D)', answer_text='55'))' due to: InterpreterError: Forbidden function evaluation: 'Option' is not among the explicitly allowed tools or defined/imported in the preceding code",(D),0.0,3230.0,821.0,4.701508045196533,0.002039,pot
+valid.025,(A),(A),1.0,3046.0,653.0,4.3814377784729,0.001741,pot
+valid.000,(A),(A),1.0,3046.0,661.0,4.665408134460449,0.0017529999999999998,pot
+valid.022,(A),(A),1.0,2660.0,525.0,3.4072844982147217,0.0014524999999999998,pot
+valid.031,"**exception raised**: Code execution failed at line 'final_answer(Option(letter='A', answer_text='1'))' due to: InterpreterError: Forbidden function evaluation: 'Option' is not among the explicitly allowed tools or defined/imported in the preceding code",(A),0.0,2702.0,588.0,3.3467371463775635,0.0015574999999999999,pot
+valid.014,(E),(E),1.0,3516.0,910.0,5.421501874923706,0.002244,pot
+valid.012,(A),(D),0.0,3454.0,796.0,5.184169292449951,0.0020575000000000003,pot
+valid.020,(E),(C),0.0,3135.0,653.0,4.258490085601807,0.00176325,pot
+valid.026,(C),(C),1.0,3099.0,698.0,5.141260147094727,0.00182175,pot
+valid.011,(C),(C),1.0,3317.0,852.0,4.880704641342163,0.0021072499999999997,pot
+valid.004,"**exception raised**: Code execution failed at line 'final_answer(Option(letter=result_option.letter, answer_text=result_option.answer_text))' due to: InterpreterError: Forbidden function evaluation: 'Option' is not among the explicitly allowed tools or defined/imported in the preceding code",(D),0.0,2913.0,728.0,4.227417945861816,0.0018202499999999998,pot

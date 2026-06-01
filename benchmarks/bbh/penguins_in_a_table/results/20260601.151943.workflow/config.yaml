@@ -1,0 +1,30 @@
+pathto:
+  repo: C:\Users\Cassandra\Desktop\Work Projects\Secret Agent Project\secretagent
+  task: ${pathto.repo}/benchmarks/bbh/penguins_in_a_table
+  logs: ${pathto.task}
+llm:
+  model: gemini/gemini-3.1-flash-lite
+cachier:
+  cache_dir: ${pathto.task}/llm_cache
+evaluate:
+  result_dir: ${pathto.logs}/results
+  expt_name: workflow
+  root_interface: ptools.answer_penguin_question
+  match: multiple_choice
+dataset:
+  split: valid
+  shuffle_seed: 137
+  json_data_dir: ${pathto.task}/data
+ptools:
+  analyze_input:
+    method: simulate
+  table_operation:
+    method: simulate
+  answer_question:
+    method: simulate
+  choose_response:
+    method: simulate
+  answer_penguin_question:
+    method: direct
+    fn: ptools.penguins_workflow
+saved_under: 20260601.151943.workflow

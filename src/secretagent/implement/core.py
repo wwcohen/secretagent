@@ -4,6 +4,7 @@ Provides DirectFactory, SimulateFactory, PromptLLMFactory, and PoTFactory.
 """
 
 import ast
+import inspect
 import json
 import pathlib
 import re
@@ -203,6 +204,9 @@ class SimulateFactory(Implementation.Factory):
                 end = text.rfind(close_ch)
                 candidate = text[start:end + 1].strip() if start != -1 and end != -1 else ''
             if candidate:
+                pydantic_result = _parse_pydantic_constructor(candidate, return_type)
+                if pydantic_result is not None:
+                    return pydantic_result
                 try:
                     parsed = json.loads(candidate)
                 except json.JSONDecodeError:
@@ -357,49 +361,139 @@ def _eval_ast_node(node):
 
 
 def _parse_pydantic_constructor(text: str, return_type):
-    """If text is `ClassName(...)` and return_type is a pydantic BaseModel,
-    parse the constructor call and call return_type.model_validate.
+    """Parse text as Python constructor syntax for return_type.
 
-    Returns None if not applicable so the caller can fall through to
+    Handles three shapes:
+      * Bare `BaseModel`         -> text is `ClassName(field=value, ...)`.
+      * `list[BaseModel]`        -> text is `[ClassName(...), ClassName(...)]`.
+      * `tuple[BaseModel, ...]`  -> text is `(ClassName(...), ...)`.
+
+    Returns None when not applicable so the caller can fall through to
     json.loads / ast.literal_eval.
     """
     try:
         from pydantic import BaseModel
     except ImportError:
         return None
-    if not (isinstance(return_type, type) and issubclass(return_type, BaseModel)):
-        return None
     try:
         tree = ast.parse(text.strip(), mode='eval')
     except SyntaxError:
         return None
-    if not isinstance(tree.body, ast.Call) or not isinstance(tree.body.func, ast.Name):
-        return None
-    kwargs = {kw.arg: _eval_ast_node(kw.value) for kw in tree.body.keywords}
-    return return_type.model_validate(kwargs)
+
+    # Bare BaseModel: ClassName(field=value, ...)
+    if isinstance(return_type, type) and issubclass(return_type, BaseModel):
+        if not isinstance(tree.body, ast.Call) or not isinstance(tree.body.func, ast.Name):
+            return None
+        kwargs = {kw.arg: _eval_ast_node(kw.value) for kw in tree.body.keywords}
+        return return_type.model_validate(kwargs)
+
+    # Container[BaseModel]: [ClassName(...), ...] or (ClassName(...), ...)
+    origin = getattr(return_type, '__origin__', None)
+    args = getattr(return_type, '__args__', ())
+    if origin in (list, tuple) and args:
+        item_type = args[0]
+        if not (isinstance(item_type, type) and issubclass(item_type, BaseModel)):
+            return None
+        node_type = ast.List if origin is list else ast.Tuple
+        if not isinstance(tree.body, node_type):
+            return None
+        items = []
+        for el in tree.body.elts:
+            if isinstance(el, ast.Call):
+                kwargs = {kw.arg: _eval_ast_node(kw.value) for kw in el.keywords}
+                items.append(item_type.model_validate(kwargs))
+            else:
+                items.append(item_type.model_validate(_eval_ast_node(el)))
+        return items if origin is list else tuple(items)
+    return None
+
+
+def _walk_pydantic_models(annotation):
+    """Yield each BaseModel subclass referenced anywhere in a type annotation.
+
+    Handles bare `Model`, container parameterizations like `list[Model]` /
+    `tuple[Model, ...]` / `dict[str, Model]`, and unions / Optional.
+    """
+    try:
+        from pydantic import BaseModel
+    except ImportError:
+        return
+    if isinstance(annotation, type) and issubclass(annotation, BaseModel):
+        yield annotation
+        return
+    for arg in getattr(annotation, '__args__', ()) or ():
+        yield from _walk_pydantic_models(arg)
 
 
 def _format_pydantic_schema(model_cls) -> str:
-    """Build a schema block to embed in simulate prompts.
+    """Build a class-source block to embed in simulate / PoT prompts.
 
     Returns an empty string for non-pydantic return types so the prompt
-    template substitution stays a no-op.  When the return type is a
-    pydantic BaseModel, embeds the JSON Schema so the LLM sees the
-    actual field names and types instead of inferring them from the
-    function signature alone.
+    template substitution stays a no-op. When the return type is a
+    pydantic BaseModel (or a container thereof — `list[Model]` /
+    `tuple[Model, ...]`), emit the Python class source for the model
+    and every BaseModel it transitively references, so the LLM sees the
+    actual Python shape it should construct and access via attribute
+    syntax. This is more reliable than embedding JSON Schema, which
+    visually looks dict-shaped and tends to elicit `obj['field']`
+    subscript access in generated code.
     """
     try:
         from pydantic import BaseModel
     except ImportError:
         return ""
-    if not (isinstance(model_cls, type) and issubclass(model_cls, BaseModel)):
+
+    # Unwrap simple container parameterizations so the prompt names the
+    # element type (`list[Option]` -> `Option`, with a note about the list).
+    inner = model_cls
+    container_descr = ""
+    origin = getattr(model_cls, '__origin__', None)
+    args = getattr(model_cls, '__args__', ())
+    if origin in (list, tuple) and args:
+        candidate = args[0]
+        if isinstance(candidate, type) and issubclass(candidate, BaseModel):
+            inner = candidate
+            container_descr = (
+                " (return a list of these)" if origin is list
+                else " (return a tuple of these)"
+            )
+
+    if not (isinstance(inner, type) and issubclass(inner, BaseModel)):
         return ""
-    schema = model_cls.model_json_schema()
+
+    # Collect every referenced BaseModel in dependency order (deps first).
+    blocks = []
+    seen = set()
+
+    def collect(cls):
+        if cls in seen:
+            return
+        seen.add(cls)
+        for finfo in cls.model_fields.values():
+            for dep in _walk_pydantic_models(finfo.annotation):
+                collect(dep)
+        try:
+            blocks.append(inspect.getsource(cls).rstrip())
+        except (OSError, TypeError):
+            # Source unavailable (e.g. dynamically-generated class) — skip.
+            pass
+
+    collect(inner)
+    if not blocks:
+        return ""
+
+    body = "\n\n\n".join(blocks)
     return (
-        f"\nThe return value must be a `{model_cls.__name__}` matching this JSON Schema:\n\n"
-        f"```json\n{json.dumps(schema, indent=2)}\n```\n\n"
-        f"Use EXACTLY the field names and types shown above. Return a single JSON object\n"
-        f"matching this schema (no extra fields, no renamed fields).\n"
+        f"\nThe return value is a `{inner.__name__}` pydantic model"
+        f"{container_descr}.\n"
+        f"- In code, access fields with attribute syntax (`obj.field`), "
+        f"NOT subscript (`obj['field']`).\n"
+        f"- When writing the value inside `<answer>...</answer>` tags, "
+        f"emit a Python constructor call — `{inner.__name__}(field=value, "
+        f"field=value, ...)` — NOT the bare `field=value field=value` "
+        f"that `print(x)` produces for a pydantic model. This overrides "
+        f"the generic print(x) format instruction.\n\n"
+        f"```python\n{body}\n```\n"
     )
 
 

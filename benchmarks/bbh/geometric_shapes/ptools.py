@@ -5,21 +5,29 @@ returning the correct multiple-choice letter (e.g. "(J)").
 """
 
 from collections import defaultdict
-from typing import Any, List, Optional, Tuple
+
+from pydantic import BaseModel, Field
 
 from secretagent.core import interface, implement_via
 
+
+class ShapeOption(BaseModel):
+    """A single labeled multiple-choice shape answer."""
+    letter: str = Field(..., description="Single-letter label, e.g. 'A'.")
+    shape_name: str = Field(..., description="The shape name, e.g. 'circle'.")
+
+
 # ── path normalization ──────────────────────────────────────────────────────
 
-def _round_pt(x: float, y: float, decimals: int = 2) -> Tuple[float, float]:
+def _round_pt(x: float, y: float, decimals: int = 2) -> tuple[float, float]:
     return (round(x, decimals), round(y, decimals))
 
-def _parse_coord(s: str) -> Tuple[float, float]:
+def _parse_coord(s: str) -> tuple[float, float]:
     """Parse 'x,y' or 'x y' into a float tuple."""
     parts = s.replace(',', ' ').split()
     return (float(parts[0]), float(parts[1]))
 
-def _segments_from_commands(commands: List[str]) -> List[Tuple[Tuple[float, float], Tuple[float, float]]]:
+def _segments_from_commands(commands: list[str]) -> list[tuple[tuple[float, float], tuple[float, float]]]:
     """Extract line segments from a list of SVG commands.
 
     Returns a list of (start, end) point pairs, one per L command.
@@ -72,7 +80,7 @@ def _find_eulerian_path(adj, degree):
     path.reverse()
     return path
 
-def normalize_path(commands: List[str]) -> List[str]:
+def normalize_path(commands: list[str]) -> list[str]:
     """Rearrange SVG commands into continuous chains where possible.
 
     Treats each L command as an undirected edge between two points, then
@@ -147,19 +155,17 @@ def extract_path(input: str) -> str:
     ...
 
 @interface
-def extract_options(input: str) -> List[Tuple[str, str]]:
+def extract_options(input: str) -> list[ShapeOption]:
     """Extract just the labeled answer options from the prompt.
-
-    Returns a list of (letter, shape_name) pairs.
 
     Examples:
     >>> extract_options('... Options:\\n(A) circle\\n(B) kite\\n(C) triangle')
-    [('A', 'circle'), ('B', 'kite'), ('C', 'triangle')]
+    [ShapeOption(letter='A', shape_name='circle'), ShapeOption(letter='B', shape_name='kite'), ShapeOption(letter='C', shape_name='triangle')]
     """
     ...
 
 @interface
-def decompose_path(path: str) -> List[str]:
+def decompose_path(path: str) -> list[str]:
     """Break an SVG path string into a list of individual command strings.
 
     Each entry is one command with its arguments, e.g. 'M 37.73,31.58' or 'L 41.81,33.73'.
@@ -167,7 +173,7 @@ def decompose_path(path: str) -> List[str]:
     ...
 
 @interface
-def describe_command(command: str, previous_command: Optional[str] = None) -> str:
+def describe_command(command: str, previous_command: str | None = None) -> str:
     """Describe what a single SVG path command does in plain English,
     including where it starts from.
 
@@ -194,14 +200,14 @@ def compute_angle(prev_command: str, current_command: str, next_command: str) ->
     ...
 
 @interface
-def describe_shape(annotated_commands: List[str]) -> str:
+def describe_shape(annotated_commands: list[str]) -> str:
     """Given the full list of commands with angle descriptions interspersed,
     describe what geometric shape the path forms.
     """
     ...
 
 @interface
-def select_option(description: str, options: List[Tuple[str, str]]) -> str:
+def select_option(description: str, options: list[ShapeOption]) -> str:
     """Given a shape description and the list of answer options, return the
     option letter that best matches, e.g. '(F)'.
     """

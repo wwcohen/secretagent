@@ -1,0 +1,35 @@
+pathto:
+  repo: C:\Users\Cassandra\Desktop\Work Projects\Secret Agent Project\secretagent
+  task: ${pathto.repo}/benchmarks/bbh/geometric_shapes
+  logs: ${pathto.task}
+llm:
+  model: gemini/gemini-3.1-flash-lite
+cachier:
+  cache_dir: ${pathto.task}/llm_cache
+evaluate:
+  result_dir: ${pathto.logs}/results
+  expt_name: structured_baseline
+  root_interface: ptools.identify_shape
+  match: multiple_choice
+dataset:
+  split: valid
+  shuffle_seed: 137
+  json_data_dir: ${pathto.task}/data
+ptools:
+  extract_path:
+    method: simulate
+  extract_options:
+    method: simulate
+  decompose_path:
+    method: simulate
+  describe_command:
+    method: simulate
+  compute_angle:
+    method: simulate
+  describe_shape:
+    method: simulate
+  select_option:
+    method: simulate
+  identify_shape:
+    method: simulate
+saved_under: 20260601.151938.structured_baseline

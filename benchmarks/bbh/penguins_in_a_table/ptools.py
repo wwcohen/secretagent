@@ -8,31 +8,38 @@ Derived from the program trace mock in penguins_in_a_table.py
 (doctest-prompting project).
 """
 
-from typing import Any, List
+from pydantic import BaseModel, Field
 
 from secretagent.core import interface, implement_via
+
+
+class Option(BaseModel):
+    """A single labeled multiple-choice answer."""
+    letter: str = Field(..., description="Single-letter label, e.g. 'A'.")
+    answer_text: str = Field(..., description="The choice text, e.g. 'Vincent'.")
+
+
+class TableQuery(BaseModel):
+    """A penguins-in-a-table question parsed into its components."""
+    table: list[list[str]] = Field(
+        ..., description="Header row plus data rows, each row a list of cell strings.")
+    actions: list[str] = Field(
+        ..., description="Natural-language modifications to apply to the table; may be empty.")
+    question: str = Field(..., description="The question text to answer about the table.")
+    options: list[Option] = Field(..., description="Labeled answer options.")
+
 
 # ── sub-tools ────────────────────────────────────────────────────────────────
 
 @interface
-def analyze_input(input_str: str) -> List[Any]:
-    """Accept an input and extract an information table, one or more actions
-    being performed on the table, a question being asked about the table,
-    and the possible answers to the question.
-
-    Returns [table, actions, question, options] where:
-      - table is a list of rows, each row a list of string cell values
-        (first row is the header)
-      - actions is a list of natural-language action descriptions to apply
-        to the table (may be empty)
-      - question is the question string
-      - options is a list of [letter, answer_text] pairs,
-        e.g. [['A', '1'], ['B', '2'], ...]
+def analyze_input(input_str: str) -> TableQuery:
+    """Accept an input string and extract the table, modifications, question,
+    and labeled answer options as a structured TableQuery.
     """
     ...
 
 @interface
-def table_operation(table: List[List[str]], action: str) -> List[List[str]]:
+def table_operation(table: list[list[str]], action: str) -> list[list[str]]:
     """Take a table and an action to perform on that table, and return a copy
     of the table after performing the action.
 
@@ -42,18 +49,16 @@ def table_operation(table: List[List[str]], action: str) -> List[List[str]]:
     ...
 
 @interface
-def answer_question(table: List[List[str]], question: str) -> str:
+def answer_question(table: list[list[str]], question: str) -> str:
     """Take a table and a question about information in that table, and return
     the answer to that question as a plain string.
     """
     ...
 
 @interface
-def choose_response(answer: str, options: List[List[str]]) -> List[str]:
-    """Take an answer to a question and a list of multiple-choice options and
-    return the multiple-choice option best matching the answer.
-
-    Returns the [letter, answer_text] pair, e.g. ['A', '1'].
+def choose_response(answer: str, options: list[Option]) -> Option:
+    """Pick the multiple-choice Option whose answer_text best matches the
+    given free-form answer string.
     """
     ...
 
@@ -95,12 +100,13 @@ def penguins_workflow(input_str: str) -> str:
         ptools.answer_penguin_question.method=direct
         ptools.answer_penguin_question.fn=ptools.penguins_workflow
     """
-    table, actions, question, options = analyze_input(input_str)
-    for action in actions:
+    q = analyze_input(input_str)
+    table = q.table
+    for action in q.actions:
         table = table_operation(table, action)
-    answer = answer_question(table, question)
-    letter, _ = choose_response(answer, options)
-    return f'({letter})'
+    answer = answer_question(table, q.question)
+    chosen = choose_response(answer, q.options)
+    return f'({chosen.letter})'
 
 # ── zero-shot unstructured workflow ──────────────────────────────────────────
 
