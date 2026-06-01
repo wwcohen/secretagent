@@ -38,6 +38,14 @@ def times_ten(x: int) -> int:
 times_ten.implement_via('direct')
 
 
+@interface
+def concat_kw(clue: str, enumeration: str) -> str:
+    """Join two keyword args — used to verify input_kw plumbing."""
+    return f'{clue}|{enumeration}'
+
+concat_kw.implement_via('direct')
+
+
 # --- aggregate_usage_stats ---
 
 def test_aggregate_usage_stats():
@@ -78,6 +86,25 @@ def test_evaluate_uses_expt_name(tmp_path):
     jsonl_path = csv_path.parent / 'results.jsonl'
     rows = [json.loads(line) for line in jsonl_path.read_text().splitlines()]
     assert all(r['expt_name'] == 'my_expt' for r in rows)
+
+
+def test_measure_threads_input_kw():
+    """Cases with input_args=None and only input_kw must reach the interface as kwargs."""
+    ev = DummyEvaluator()
+    case = Case(name='c1', input_kw={'clue': 'hi', 'enumeration': '(2)'},
+                expected_output='hi|(2)')
+    result = ev.measure(case, concat_kw)
+    assert result['predicted_output'] == 'hi|(2)'
+    assert result['correct'] is True
+
+
+def test_measure_threads_both_input_args_and_kw():
+    """Both input_args and input_kw should be forwarded together."""
+    ev = DummyEvaluator()
+    case = Case(name='c1', input_args=['hi'], input_kw={'enumeration': '(2)'},
+                expected_output='hi|(2)')
+    result = ev.measure(case, concat_kw)
+    assert result['predicted_output'] == 'hi|(2)'
 
 
 def test_evaluate_saves_results(tmp_path):

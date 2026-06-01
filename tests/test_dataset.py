@@ -17,6 +17,7 @@ def test_case_minimal():
     c = Case(name='c1')
     assert c.name == 'c1'
     assert c.input_args is None
+    assert c.input_kw is None
     assert c.expected_output is None
 
 
@@ -27,6 +28,26 @@ def test_case_with_fields():
     assert c.input_kw == {'x': 3}
     assert c.expected_output == 6
     assert c.metadata == {'source': 'test'}
+
+
+def test_case_input_kw_only():
+    """A case whose inputs are all keyword-only (input_args null)."""
+    c = Case(name='c1', input_kw={'clue': 'abc', 'enumeration': '(3)'},
+             expected_output='xyz')
+    assert c.input_args is None
+    assert c.input_kw == {'clue': 'abc', 'enumeration': '(3)'}
+
+
+def test_case_json_round_trip_input_kw():
+    """input_kw survives JSON serialization (the dataset load path)."""
+    raw = (
+        '{"name":"c1","input_args":null,'
+        '"input_kw":{"clue":"x","enumeration":"(5)"},'
+        '"expected_output":"y"}'
+    )
+    c = Case.model_validate_json(raw)
+    assert c.input_args is None
+    assert c.input_kw == {'clue': 'x', 'enumeration': '(5)'}
 
 
 # --- Dataset ---

@@ -42,9 +42,11 @@ class Evaluator(ABC):
         (recorder output) under the 'rollout' key.
         """
         # record a run
+        input_args = example.input_args or ()
+        input_kw = example.input_kw or {}
         with record.recorder() as records:
             try:
-                predicted_output = interface(*example.input_args)  # type: ignore[misc]
+                predicted_output = interface(*input_args, **input_kw)  # type: ignore[misc]
             except Exception as ex:
                 predicted_output = f'**exception raised**: {ex}'
         llm_usage_stats = self.aggregate_usage_stats(records)

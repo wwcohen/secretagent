@@ -180,8 +180,10 @@ def quick_test(
     pprint.pprint(config.GLOBAL_CONFIG)
 
     test_case = _resolve_case(dataset, case)
-    input_args = test_case.input_args
+    input_args = test_case.input_args or ()
+    input_kw = test_case.input_kw or {}
     print('input_args', input_args)
+    print('input_kw', input_kw)
     with config.configuration(
             cachier={'enable_caching': False},
             echo={
@@ -190,7 +192,7 @@ def quick_test(
                 'code_eval_input': True, 'code_eval_output': True}
     ):
         with record.recorder() as records:
-            predicted_output = top_level(*input_args)
+            predicted_output = top_level(*input_args, **input_kw)
     print('predicted output', predicted_output)
     pprint.pprint(records)
 
@@ -213,8 +215,10 @@ def cached_test(
     pprint.pprint(config.GLOBAL_CONFIG)
 
     test_case = _resolve_case(dataset, case)
-    input_args = test_case.input_args
+    input_args = test_case.input_args or ()
+    input_kw = test_case.input_kw or {}
     print('input_args', input_args)
+    print('input_kw', input_kw)
     with config.configuration(
             echo={
                 'model': True,
@@ -222,7 +226,7 @@ def cached_test(
                 'code_eval_input': True, 'code_eval_output': True}
     ):
         with record.recorder() as records:
-            predicted_output = top_level(*input_args)
+            predicted_output = top_level(*input_args, **input_kw)
     print('predicted output', predicted_output)
     pprint.pprint(records)
 
