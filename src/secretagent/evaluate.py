@@ -5,6 +5,7 @@ from abc import ABC, abstractmethod
 import json
 import os
 from pathlib import Path
+import re
 import pandas as pd
 from tqdm import tqdm
 from typing import Any, Iterator
@@ -218,17 +219,29 @@ class ExactMatchEvaluator(Evaluator):
 
 
 class MultipleChoiceEvaluator(Evaluator):
-    """Match a letter-form multiple-choice answer ("(A)", "A", " (A) "
-    all normalize to "A").
+    """Match a letter-form multiple-choice answer.
+
+    Accepts the four shapes BBH POT / pydantic refactors actually produce:
+      * `"(A)"`, `"A"`, `" (A) "`           — bare letter (drop parens / ws)
+      * `"letter='A' date='12/14/1937'"`    — pydantic v2 print(model)
+      * `"('A', '04/11/1985')"`             — old-style tuple final answer
+        (see Arthur's TODO note about date returning two-item tuples).
 
     Drop-in for the bbh-style evaluator that was repeated across
     benchmarks/bbh/*/ptools.py. Select via the conf shortcut
     ``evaluate.match: multiple_choice``.
     """
 
-    @staticmethod
-    def _normalize(s) -> str:
-        return str(s).strip().strip('()').strip()
+    _LETTER_FIELD = re.compile(r"letter\s*=\s*['\"]?([A-Za-z])\b")
+    _TUPLE_LETTER = re.compile(r"^\(\s*['\"]?([A-Za-z])['\"]?\s*,")
+
+    @classmethod
+    def _normalize(cls, s) -> str:
+        s = str(s).strip()
+        m = cls._LETTER_FIELD.search(s) or cls._TUPLE_LETTER.search(s)
+        if m:
+            return m.group(1)
+        return s.strip('()').strip()
 
     def compare_predictions(self, predicted_output, expected_output) -> dict[str, Any]:
         return dict(correct=float(
