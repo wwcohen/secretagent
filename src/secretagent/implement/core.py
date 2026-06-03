@@ -584,13 +584,31 @@ class PoTFactory(ToolUsingFactory):
         self.inject_args = inject_args
         resolved_tools = self.setup_tools(tools, tool_module=tool_module, learner=learner)
         tool_functions = {fn.__name__: fn for fn in resolved_tools}
+        # collect interfaces for tool stubs in the prompt
+        self.tool_interfaces = [
+            iface for iface in all_interfaces()
+            if iface is not interface
+            and iface.implementation is not None
+            and iface.name in tool_functions]
+        # Also expose any pydantic model classes referenced in tool
+        # return-type annotations so generated code can construct them.
+        # Without this, code like `final_answer(DateOption(letter='A',
+        # date='...'))` raises `Forbidden function evaluation: 'DateOption'
+        # is not among the explicitly allowed tools or defined/imported in
+        # the preceding code` — even though the LLM correctly read the
+        # schema from the prompt.
+        pydantic_models: dict[str, Any] = {}
+        for iface in self.tool_interfaces:
+            ret = iface.annotations.get('return')
+            for model_cls in _walk_pydantic_models(ret):
+                pydantic_models[model_cls.__name__] = model_cls
         self.python_executor = LocalPythonExecutor(
             additional_authorized_imports=(additional_imports or []),
             )
         # Put tool functions in custom_tools directly, since
         # LocalPythonExecutor.__call__ passes custom_tools (not
         # additional_functions) to evaluate_python_code.
-        self.python_executor.custom_tools = tool_functions
+        self.python_executor.custom_tools = {**tool_functions, **pydantic_models}
         # Merge smolagents' BASE_PYTHON_TOOLS (len, list, dict, sorted,
         # etc.) into static_tools so generated code can use standard
         # builtins. Previously these were blocked because static_tools
@@ -599,12 +617,6 @@ class PoTFactory(ToolUsingFactory):
             **BASE_PYTHON_TOOLS,
             "final_answer": lambda x: x,
         }
-        # collect interfaces for tool stubs in the prompt
-        self.tool_interfaces = [
-            iface for iface in all_interfaces()
-            if iface is not interface
-            and iface.implementation is not None
-            and iface.name in tool_functions]
 
     def __call__(self, *args, **kw):
         interface = self.bound_interface

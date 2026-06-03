@@ -1,43 +1,41 @@
 pathto:
   repo: C:\Users\Cassandra\Desktop\Work Projects\Secret Agent Project\secretagent
-  task: ${pathto.repo}/benchmarks/bbh/geometric_shapes
+  task: ${pathto.repo}/benchmarks/bbh/date_understanding
   logs: ${pathto.task}
 llm:
   model: gemini/gemini-3.1-flash-lite
 cachier:
   cache_dir: ${pathto.task}/llm_cache
+  enable_caching: false
 evaluate:
   result_dir: ${pathto.logs}/results
+  root_interface: ptools.answer_date_question
   expt_name: pot
-  root_interface: ptools.identify_shape
   match: multiple_choice
 dataset:
   split: valid
   shuffle_seed: 137
   json_data_dir: ${pathto.task}/data
 ptools:
-  extract_path:
-    method: simulate
   extract_options:
     method: simulate
-  decompose_path:
+  extract_date_facts:
     method: simulate
-  describe_command:
+  extract_question:
     method: simulate
-  compute_angle:
+  make_inference:
     method: simulate
-  describe_shape:
+  answer_question:
     method: simulate
-  select_option:
+  match_option:
     method: simulate
-  identify_shape:
+  answer_date_question:
     method: program_of_thought
     tools:
-    - ptools.extract_path
     - ptools.extract_options
-    - ptools.decompose_path
-    - ptools.describe_command
-    - ptools.compute_angle
-    - ptools.describe_shape
-    - ptools.select_option
-saved_under: 20260601.152344.pot
+    - ptools.extract_date_facts
+    - ptools.extract_question
+    - ptools.make_inference
+    - ptools.answer_question
+    - ptools.match_option
+saved_under: 20260603.135615.pot

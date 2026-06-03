@@ -6,6 +6,7 @@ llm:
   model: gemini/gemini-3.1-flash-lite
 cachier:
   cache_dir: ${pathto.task}/llm_cache
+  enable_caching: false
 evaluate:
   result_dir: ${pathto.logs}/results
   expt_name: pot
@@ -31,4 +32,4 @@ ptools:
     - ptools.table_operation
     - ptools.answer_question
     - ptools.choose_response
-saved_under: 20260601.152133.pot
+saved_under: 20260603.135529.pot
