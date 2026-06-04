@@ -16,9 +16,10 @@
  |   | |   | bbh 
 ```
 
-## Comments
+## Bugs
 
- * lots and lots of loose code in musr
+ * dataset.Cases with input_kws are allowed but not really supported properly
+   * probably fixed
 
 ## Caching
 
@@ -26,45 +27,61 @@
 
 ## Configs
 
-* CLEAN UP deprecated set_root and reset in config.py
+* CLEAN UP deprecated set_root and reset in config.py - done
+
+* Make pathto.repo an environment variable => Cassie
+  OmegaConf supports environment variable interpolation via the built-in oc.env resolver:
+
+                                                                                                                                 
+```
+  api_key: ${oc.env:OPENAI_API_KEY}
+  model: ${oc.env:MODEL_NAME,gpt-4}   # with default
+
+  The second arg is an optional default if the variable is unset. Works out of the box — no resolver registration needed.
+```
+
+  So set up a .env file and initialize it with PATHTO_REPO=...
+  (.env is in .gitignore, .env-sample is checked in)
+
+  # then before you config.load_config...
+
+  import os
+  from dotenv import load_dotenv
+  # Load the variables from the .env file into the system environment
+  load_dotenv()
+  # now ${oc.env:XXX} will work when you load the config.
 
 * CLEAN UP result configs: DONE
   * in cli/expt.py and config.py
-	* paths are set to be relative to project root using the
-      ${root.repo}/ syntax.
-    * there is also:
-	  * root.task that input directories are relative to
-	  * root.logs that output directories are relative to
-    * someone, maybe Jerry, also introduced a config.get('root') for loading
-    * expt.py run can be invoked with --config path/to/results/FOO/config.yaml as an option
-	  * the complicated part was loading the ptools.py directory
-        * TODO: refactor module loading code, it's duplicated in expt.py and implement/learned_code
-
-* Clean up --evaluator to default to config('evaluate.evaluator_class') which is read with `resolve_dotted` DONE
-  * Maybe get rid of the evaluate.match config option? DISCUSS
+	* paths to be set to be relative to project root using the
+      ${oc.env:PATHTO_REPO} syntax.
+    * someone, maybe Jerry, also introduced a config.get('root') for loading, need to replace ==> Cassie
+	* TODO: refactor module loading code, it's duplicated in expt.py and implement/learned_code
 
 ## Benchmarks
 
 * CLEAN UP benchmarks
-  * should be just about running benchmarks, not saving results for the paper
-    * thus: benchmarks => COMMON should be moved, to root/paper/results
-  * every benchmark should be task/subtask/  - eg bbh/data_understanding - and under that
-    * conf
-	* data
-	* ptools.py
-	* Makefile
-	* prompt_templates
+  * write and
   * clean up the non-bbh directories to follow the same scheme
-  * add benchmark tests for each in benchmarks/tests
+  * add benchmark tests for each benchmark that we've converted in benchmarks/tests => Cassie
 	* need to write musr benchmark/tests
     * need to fix the rulearena benchmark/tests
-	* need to make the `natural_plan` benchmark/tests follow the `sports_understanding` plan
   * Mostly done except
-    - scripts that use old locations might not work - according to claude
-	- paper/results is a start at the reorg of results
-      - papers/results/results
+	- paper/results is a start at the reorg of results => Cassie
+      - Goal: approximately reproduce table1 of the paper
+        - but on gemini, 3.1-flash-lite, and 3-1-pro
+	    - running requires specifying the task inputs and the place to store logs and results and shouldn't change the benchmark/task/subtask
+        - want to rerun all the 'basic' strategies and do the
+          experiments from the repository root with no logs left in
+          the benchmark/task/subtask directories
+	      - there's still some config information to collect from
+            Makefile I think but we should minimize this, and if we
+            need to collect it, put it in the benchmark directories
+            not in the code you write.
+
+  * Lower priority:
+    - scripts that use old locations might not work - according to claude => Cassie
     - medcalc is an issue
-	- rulearena is an issue
     - Legacy scripts (benchmarks/jerry/,
       scripts/orchestrator_learner/, benchmarks/scripts/) still
       reference ptools_murder/object/team/calendar/meeting/trip by
@@ -74,10 +91,15 @@
     - medcalc split still pending — depends on the missing-data/ question (where does medcalc data come from at runtime? a download script? a different repo?).
 
 
+# Dependencies
+
+ * Track down dependencies
+   * clip, torch?
+
 # Misc Cleanups
 
  * cli/... - clean up docs for them
- * clean up cli/bench.py
+ * clean up cli/bench.py => get rid of this? Cassie
    * Need to think this through, but maybe takes logdir and list of
      `path/to/benchmark_dir` plus dotpair overrides or a config
       * launches parallel jobs that run from benchmark root, each will
@@ -89,21 +111,9 @@
 
 ## From docs/TODO.md
 
- * add `result.py rename --to '%O_oss2b' results/*` - to help cleanup results
  * look at pot failures and see if there is an easy way to improve them - 
-   * Current 2026-04-24 Several easy POT losses appear to be plumbing
-     fixes rather than reasoning failures: eg. sandbox/code-extraction
-     issues - eg. typing imports being blocked (penguins), fixable by
-     replaying the cached generated code with typing allowed. Some
-     runs can often return tuples like ("E", "04/11/1985") (especially
-     in datetime tasks) when the evaluator wants just (E). There are
-     smaller similar issues from blocked json/fractions imports and
-     no-code-block outputs. The low hanging fruits seem to be generic
-     PoT robustness fixes: allow a few safe imports, improve
-     code-block extraction, and normalize final answer shape. MUSR,
-     NatPlan and Medcalc Rule failures look like strategy misses, as
-     opposed to plumbing
  * What's the use case for llm streaming in llm_util?
+ * Do we really need multi-threading and such
 
 # Cleaning up the Orchestrate-related code
 
@@ -156,7 +166,6 @@ evaluator (`MedCalcEvaluator` / `NaturalPlanEvaluator` / …) and
     the top-level entry point.
   * Consider whether `_pick_weakest_ptool` belongs alongside the
     profiler (it's a profile-consumer, not benchmark-specific).
-
 
 # Proposal: ToolFactory for per-call tool state
 
