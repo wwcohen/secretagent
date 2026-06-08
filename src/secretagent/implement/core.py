@@ -272,17 +272,19 @@ class PromptLLMFactory(Implementation.Factory):
             raise ValueError(
                 'Exactly one of prompt_template_str or prompt_template_file must be given')
         if prompt_template_file is not None:
-            # Relative paths resolve against config.get('root') when set,
-            # falling back to the current working directory. This lets a
-            # caller that has already called config.set_root() load
-            # templates without relying on cwd — the historical behavior.
+            # A relative template path that doesn't exist relative to the
+            # cwd is resolved against the benchmark's ${pathto.task}, then
+            # the repo root ${pathto.repo} (i.e. $PATHTO_REPO). This lets a
+            # ptool reference a template by a repo-relative path without
+            # relying on cwd.
             path = pathlib.Path(prompt_template_file)
             if not path.is_absolute() and not path.exists():
-                root = config.get('root') or config.get('pathto.task')
-                if root is not None:
-                    root_path = pathlib.Path(root) / prompt_template_file
-                    if root_path.exists():
-                        path = root_path
+                for base in (config.get('pathto.task'), config.get('pathto.repo')):
+                    if base is not None:
+                        candidate = pathlib.Path(base) / prompt_template_file
+                        if candidate.exists():
+                            path = candidate
+                            break
             prompt_template_str = path.read_text()
         self.template = Template(dedent(prompt_template_str))
         self.answer_pattern = answer_pattern
