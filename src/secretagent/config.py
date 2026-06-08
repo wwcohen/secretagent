@@ -5,9 +5,16 @@ from contextlib import contextmanager
 from omegaconf import OmegaConf, DictConfig
 from typing import Any
 from pathlib import Path
+from dotenv import load_dotenv
+import os
 import warnings
 
 GLOBAL_CONFIG: DictConfig = OmegaConf.create()
+
+# Name of the environment variable holding the repo root. Configs may
+# reference it directly via OmegaConf's built-in resolver,
+# ``${oc.env:PATHTO_REPO}``; it is also mirrored into ``pathto.repo``.
+PATHTO_REPO_ENV = 'PATHTO_REPO'
 
 def configure(yaml_file=None, cfg=None, dotlist=None, **kw):
     """Merge in config from a DictConfig, YAML file path, or keyword args.
@@ -40,10 +47,43 @@ def configure(yaml_file=None, cfg=None, dotlist=None, **kw):
     GLOBAL_CONFIG = _add_path_to_repo_key(GLOBAL_CONFIG)
 
 
-def _add_path_to_repo_key(cfg):
-    """Set pathto.repo to the actual path to the secretagent rep.
+_DOTENV_LOADED = False
+
+def _load_dotenv_once():
+    """Load the repo's .env into the environment, exactly once.
+
+    The .env is looked up at the repo root (sentinel-anchored) so that
+    ``${oc.env:...}`` interpolations resolve regardless of the current
+    working directory. Falls back to dotenv's default cwd-upward search
+    if the sentinel can't be found.
     """
-    repo_default = {'pathto':{'repo': str(find_project_root().resolve())}}
+    global _DOTENV_LOADED
+    if _DOTENV_LOADED:
+        return
+    try:
+        load_dotenv(find_project_root() / '.env')
+    except FileNotFoundError:
+        load_dotenv()
+    _DOTENV_LOADED = True
+
+def repo_root() -> str:
+    """The repo root: ``$PATHTO_REPO`` if set (e.g. via .env), else
+    auto-detected from the ``.root-sentinel.txt`` marker.
+
+    When auto-detected, the value is written back into ``os.environ`` so
+    that ``${oc.env:PATHTO_REPO}`` resolves to the same path.
+    """
+    _load_dotenv_once()
+    repo = os.environ.get(PATHTO_REPO_ENV)
+    if not repo:
+        repo = str(find_project_root().resolve())
+        os.environ[PATHTO_REPO_ENV] = repo
+    return repo
+
+def _add_path_to_repo_key(cfg):
+    """Set pathto.repo to the actual path to the secretagent repo.
+    """
+    repo_default = {'pathto':{'repo': repo_root()}}
     cfg = OmegaConf.merge(cfg, repo_default)
     return cfg
 

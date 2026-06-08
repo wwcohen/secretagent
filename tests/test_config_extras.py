@@ -1,5 +1,6 @@
 """Tests for config.configure(dotlist=...), config.set_root(), and implement_via_config."""
 
+import os
 import types
 import pytest
 from omegaconf import OmegaConf
@@ -135,6 +136,31 @@ def test_find_project_root_at_root(tmp_path):
 def test_find_project_root_missing(tmp_path):
     with pytest.raises(FileNotFoundError):
         config.find_project_root(tmp_path)
+
+
+# --- PATHTO_REPO env var / repo_root() ---
+
+def test_pathto_repo_from_env(monkeypatch):
+    """pathto.repo is sourced from $PATHTO_REPO when it is set."""
+    monkeypatch.setenv("PATHTO_REPO", "/custom/repo/root")
+    config.configure()
+    assert config.get("pathto.repo") == "/custom/repo/root"
+
+
+def test_oc_env_pathto_repo_resolves(monkeypatch):
+    """Configs can interpolate the env var directly via ${oc.env:PATHTO_REPO}."""
+    monkeypatch.setenv("PATHTO_REPO", "/custom/repo/root")
+    config.configure(cfg=OmegaConf.create({"some_dir": "${oc.env:PATHTO_REPO}/data"}))
+    assert config.get("some_dir") == "/custom/repo/root/data"
+
+
+def test_repo_root_autodetects_and_exports(monkeypatch):
+    """With no $PATHTO_REPO, repo_root() falls back to the sentinel and
+    writes the detected path back into the environment so ${oc.env:...} works."""
+    monkeypatch.delenv("PATHTO_REPO", raising=False)
+    root = config.repo_root()
+    assert root == str(config.find_project_root().resolve())
+    assert os.environ["PATHTO_REPO"] == root
 
 
 # --- config.save() ---
