@@ -115,6 +115,74 @@
  * What's the use case for llm streaming in llm_util?
  * Do we really need multi-threading and such
 
+# Code-review findings (2026-06-09, Claude cleanup pass)
+
+Found during a thorough src/ review. Each was verified by reading the
+code. Five small, isolated bugs were already fixed (config.configuration
+try/finally; PTP $schema_block KeyError; GA crossover doc/src restore;
+debug replay input_kw; Dataset.tail count) — the items below are the ones
+left to do, needing more judgment or touching shared/research code.
+
+## Bugs (not yet fixed)
+
+ * `learnedcode._load_learned_module` skips `sys.modules` registration
+   (implement/learnedcode.py:14), so classes from a `learned.py` won't
+   pickle — breaks caching their output. It's one of three divergent
+   copies of the loader; fix via the consolidation below (this is the
+   "refactor module loading code" item under Configs).
+ * `improve_pipeline` regression branch doesn't roll back
+   (orchestrate/improve.py:147): a rejected iteration leaves global
+   `config` and rebound ptools mutated, so the next iteration profiles
+   dirty state. `improve_with_supervisor` rolls back correctly; this
+   loop doesn't.
+ * `PruneTransform` can never fire: `PtoolProfile.lift` is never
+   populated by `profile_from_results` (profiler.py:155) but
+   `should_apply` requires `lift is not None` (prune.py:28). Either
+   compute lift per ptool or change the trigger.
+ * `RepairTransform` feeds the LLM an empty profile
+   (repair.py:96): `format_profiling_summary(PipelineProfile(accuracy=0.0,
+   ptool_profiles={}))` — the prompt says "accuracy 0.0%, no breakdown".
+   Pass the real profile through.
+ * `SelfConsistencyFactory` records `stats={}` (selfconsistency.py:99):
+   N billed LLM calls are reported as zero cost/latency. Aggregate the
+   per-sample stats (cf. pydantic.py which records NaN, not 0).
+
+## Duplication / refactors
+
+ * Three divergent dynamic module loaders: `expt._load_module_from_path`
+   (cli/expt.py:42, most complete), `learnedcode._load_learned_module`
+   (no sys.modules reg — see bug above), `util._load_module_from_file`
+   (fixed-name reg). Consolidate on one. (== the Configs "refactor module
+   loading code" TODO.)
+ * `_get_dirs` is byte-identical in cli/results.py:76 and cli/debug.py:28
+   — trivial to share.
+ * learn/ distill round-loop is ~50 near-identical lines in
+   codedistill.py:259 vs workflow_distill.py:501; the holdout-split is
+   duplicated three times (learn/base.py, codedistill.py,
+   workflow_distill.py). Extract shared helpers.
+ * evaluate.py builds the same skipped-case failure-row dict three times
+   (evaluate.py:110-168); cli/results.py repeats the metric-default +
+   parse_metrics + read-CSV preamble in 5 commands.
+
+## Low-priority dead code
+
+ * composer `_extract_last_function_body` is unused (composer.py:233) and
+   its `entry_signature` arg (also unused in `_strip_def_line`).
+ * vlm.py threads a dead `output_mode` param into `_call_vlm_impl`.
+ * pydantic.py `_run_agent_impl` reassigns its `return_type` arg before
+   use (cache key keys on the passed value — confusing, not yet a bug).
+ * Stub transforms expand/induce/restructure raise NotImplementedError
+   but are registered; induce/restructure return should_apply=True every
+   iteration (no-op work each loop).
+
+## Pre-existing test issues (not from this pass)
+
+ * Test pollution: test_pot + test_resolve_tools fail in full-suite
+   ordering because the global `_INTERFACES` registry leaks a `concat_kw`
+   stub across modules. Add a conftest registry-reset fixture.
+ * The 5 test_config_extras `set_root` failures are Windows
+   path-separator assertions in deprecated code.
+
 # Cleaning up the Orchestrate-related code
 
 ## `experimental/improve.py` and the `self_improve.py` scripts

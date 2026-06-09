@@ -590,7 +590,13 @@ Return ONLY a ```python``` code block."""
             except Exception:
                 pass
             finally:
+                # Restore all three fields: _apply_variant mutates doc/src
+                # for simulate ptools (which don't touch implementation),
+                # so restoring only implementation would leak the previous
+                # candidate's prompt into the next crossover evaluation.
                 ptool.implementation = original_impl
+                ptool.doc = original_doc
+                ptool.src = original_src
 
         population = survivors + offspring
         generation_history.append({'gen': gen, 'population': len(population)})

@@ -24,7 +24,7 @@ import pathlib
 
 from secretagent import config
 from secretagent.core import register_factory
-from secretagent.implement.core import SimulateFactory
+from secretagent.implement.core import SimulateFactory, _format_pydantic_schema
 from secretagent.implement.util import load_template
 
 
@@ -64,11 +64,14 @@ class PTPFactory(SimulateFactory):
         # Use traces as examples (instead of doctest I/O pairs)
         examples_text = self.traces_text
 
+        return_type = interface.annotations.get('return', str)
+        schema_block = _format_pydantic_schema(return_type)
         prompt = template.substitute(
             dict(stub_src=interface.src,
                  input_args=input_args,
                  thoughts=thoughts,
-                 examples=examples_text))
+                 examples=examples_text,
+                 schema_block=schema_block))
         return prompt
 
 

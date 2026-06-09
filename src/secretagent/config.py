@@ -112,8 +112,10 @@ def configuration(cfg=None, **kw):
     global GLOBAL_CONFIG
     saved = GLOBAL_CONFIG.copy()
     configure(cfg=cfg, **kw)
-    yield GLOBAL_CONFIG
-    GLOBAL_CONFIG = saved
+    try:
+        yield GLOBAL_CONFIG
+    finally:
+        GLOBAL_CONFIG = saved
 
 SENTINEL_FILE = '.root-sentinel.txt'
 _PATH_KEY_SUFFIXES = ('_dir', '_file', '_module')

@@ -44,7 +44,7 @@ class Dataset(BaseModel):
         Returns self, after modification, to support chaining.
         """
         self.cases = self.cases[n:]
-        print(f'Discarded first {len(self.cases)} cases')
+        print(f'Discarded first {n} cases')
         return self
 
     def shuffle(self, seed: int | None) -> Dataset:

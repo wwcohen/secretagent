@@ -123,6 +123,7 @@ def replay(
     pprint.pprint(config.GLOBAL_CONFIG)
 
     print('input_args', case.input_args)
+    print('input_kw', case.input_kw)
     with config.configuration(
             echo={
                 'model': True,
@@ -130,7 +131,7 @@ def replay(
                 'code_eval_input': True, 'code_eval_output': True}
     ):
         with record.recorder() as records:
-            predicted_output = top_level(*case.input_args)
+            predicted_output = top_level(*case.input_args, **(case.input_kw or {}))
     print('predicted output', predicted_output)
     pprint.pprint(records)
 
