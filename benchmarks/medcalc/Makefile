@@ -9,6 +9,16 @@
 MODEL ?= together_ai/Qwen/Qwen3.5-9B
 N ?= 5
 
+# --- Data ---
+
+# Snapshot MedCalc-Bench (~51MB, CC BY-SA 4.0) into data/ for offline runs.
+# data/ is gitignored; see data/ATTRIBUTION.md.
+# .PHONY because a data/ directory exists — otherwise make sees the target as
+# "up to date" and never runs the snapshot.
+.PHONY: data
+data:
+	uv run python expt.py snapshot-data
+
 # --- Run targets (one per level) ---
 
 baseline:

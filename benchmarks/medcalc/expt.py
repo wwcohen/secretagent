@@ -188,18 +188,40 @@ def _apply_dataset_filters(cases: list[Case]) -> list[Case]:
     return filtered
 
 
-def load_dataset(split: str) -> Dataset:
-    """Load MedCalc-Bench from HuggingFace and convert to secretagent Dataset."""
+DATA_DIR = Path(__file__).parent / 'data'
+
+
+def _parse_hf_split(split: str) -> list[Case]:
+    """Download `split` from HuggingFace and parse rows into Cases (unfiltered)."""
     from datasets import load_dataset as hf_load
 
-    print(f"Loading MedCalc-Bench {split} split from HuggingFace...")
+    print(f"Downloading MedCalc-Bench {split} split from HuggingFace...")
     ds = hf_load("ncbi/MedCalc-Bench-v1.2", split=split)
-
     cases = []
     for idx, row in enumerate(ds):
         case = _parse_row(row, idx, split)
         if case is not None:
             cases.append(case)
+    return cases
+
+
+def load_dataset(split: str) -> Dataset:
+    """Load MedCalc-Bench cases for `split`.
+
+    Prefers a local snapshot at data/{split}.json (produced by the
+    ``snapshot-data`` command / ``make data``) so runs work offline; falls
+    back to a live HuggingFace download if the snapshot isn't present. The
+    snapshot is unfiltered — the config-driven category filter is applied
+    here so it stays per-run.
+    """
+    local = DATA_DIR / f'{split}.json'
+    if local.exists():
+        print(f"Loading MedCalc-Bench {split} split from {local}...")
+        cases = Dataset.model_validate_json(local.read_text(encoding='utf-8')).cases
+    else:
+        print(f"No local snapshot at {local}; downloading from HuggingFace "
+              f"(run `make data` to cache it offline)...")
+        cases = _parse_hf_split(split)
 
     cases = _apply_dataset_filters(cases)
     print(f"Loaded {len(cases)} cases from {split} split")
@@ -493,6 +515,22 @@ app = typer.Typer()
 @app.callback()
 def callback():
     """MedCalc-Bench benchmark."""
+
+
+@app.command()
+def snapshot_data(splits: str = typer.Option('train,test', help="Comma-separated HF splits")):
+    """Download MedCalc-Bench and cache it under data/{split}.json for offline runs.
+
+    data/ is gitignored: the snapshot is ~51MB and the dataset is CC BY-SA 4.0
+    (see data/ATTRIBUTION.md), so it's regenerated locally rather than committed.
+    """
+    DATA_DIR.mkdir(exist_ok=True)
+    for split in [s.strip() for s in splits.split(',') if s.strip()]:
+        cases = _parse_hf_split(split)
+        ds = Dataset(name='medcalc', split=split, cases=cases)
+        out = DATA_DIR / f'{split}.json'
+        out.write_text(ds.model_dump_json(), encoding='utf-8')
+        print(f"Wrote {len(cases)} cases -> {out} ({out.stat().st_size / 1e6:.1f} MB)")
 
 
 @app.command(context_settings=_EXTRA_ARGS)

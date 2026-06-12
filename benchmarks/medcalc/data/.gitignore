@@ -1,0 +1,6 @@
+# The MedCalc-Bench snapshot (data/{train,test}.json, ~51MB) is regenerated
+# locally with `make data` rather than committed — see ATTRIBUTION.md.
+# Ignore the data files but keep this .gitignore and ATTRIBUTION.md tracked.
+*.json
+!.gitignore
+!ATTRIBUTION.md
