@@ -6,8 +6,18 @@ from typing import Any
 
 from secretagent import config
 from secretagent.dataset import Case, Dataset
-from secretagent.core import interface
+from secretagent.core import interface, _INTERFACES
 from secretagent.evaluate import Evaluator
+
+
+def teardown_module(module):
+    """Remove this module's interfaces from the global registry so they
+    don't leak into other modules (e.g. resolve_tools('__all__') in
+    test_resolve_tools). These are registered at import via @interface, so
+    per-test snapshot/restore in conftest can't evict them on its own."""
+    for fn in (times_ten, concat_kw):
+        if fn in _INTERFACES:
+            _INTERFACES.remove(fn)
 
 
 @pytest.fixture(autouse=True)

@@ -91,14 +91,17 @@ def test_resolve_tools_all():
         """Main."""
 
     resolved = resolve_tools(main_fn, '__all__')
-    # should include wrappers for tool_a and tool_b
-    names = [fn.__name__ for fn in resolved]
-    assert 'tool_a' in names
-    assert 'tool_b' in names
+    # Select wrappers by name rather than calling every tool: '__all__' may
+    # include interfaces registered by other test modules, so calling all of
+    # them with (5) is fragile (e.g. a 2-arg tool would raise).
+    by_name = {fn.__name__: fn for fn in resolved}
+    assert 'tool_a' in by_name
+    assert 'tool_b' in by_name
     # wrappers should delegate to the interface implementations
-    assert any(fn(5) == 6 for fn in resolved)   # tool_a: x+1
-    assert any(fn(5) == 7 for fn in resolved)   # tool_b: x+2
+    assert by_name['tool_a'](5) == 6   # tool_a: x+1
+    assert by_name['tool_b'](5) == 7   # tool_b: x+2
     # should not include main_fn (unimplemented, and it's the excluded interface)
+    assert 'main_fn' not in by_name
     _INTERFACES.remove(tool_a)
     _INTERFACES.remove(tool_b)
     _INTERFACES.remove(main_fn)

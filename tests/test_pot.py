@@ -4,7 +4,7 @@ import pytest
 from omegaconf import OmegaConf
 
 from conftest import needs_api_key, CI_TEST_MODEL
-from secretagent import config, record
+from secretagent import config, record, llm_util
 from secretagent.core import interface, all_factories, _INTERFACES
 from secretagent.implement.core import PoTFactory
 
@@ -85,10 +85,11 @@ def test_create_prompt_includes_pydantic_tool_schema():
 
     factory = PoTFactory()
     prompt = factory.create_prompt(caller, [my_tool], None, "test")
-    assert 'ToolResult' in prompt
-    assert '"verdict"' in prompt
-    assert '"type": "boolean"' in prompt
-    assert '"detail"' in prompt
+    # _format_pydantic_schema embeds the model's class *source* (not JSON
+    # schema), so the LLM constructs ToolResult(...) and uses attribute access.
+    assert 'class ToolResult' in prompt
+    assert 'verdict: bool' in prompt
+    assert 'detail: str' in prompt
     _INTERFACES.remove(my_tool)
     _INTERFACES.remove(caller)
 
@@ -198,6 +199,54 @@ def test_state_does_not_leak_between_calls():
     executor.state = {}
     with pytest.raises(Exception):
         executor("final_answer(leaked_var)\n")
+
+
+# --- end-to-end plumbing (LLM stubbed: deterministic, no API key) ---
+
+def test_pot_executes_and_records_generated_code_stubbed(monkeypatch):
+    """Deterministic counterpart to test_pot_records_generated_code.
+
+    Stubs the LLM so the test exercises PoT's real plumbing — code
+    extraction, sandbox execution of the tool call, and recording the
+    generated code — without a live (flaky, billed) model call. The live
+    model's capability is covered by the @needs_api_key tests / benchmarks.
+    """
+    @interface
+    def inc(x: int) -> int:
+        """Return x + 1."""
+        return x + 1
+
+    inc.implement_via('direct')
+
+    @interface
+    def add_two(x: int) -> int:
+        """Return x + 2 by calling inc twice."""
+
+    add_two.implement_via('program_of_thought', llm={'model': 'stub-model'})
+
+    canned = (
+        "Here is the solution:\n"
+        "```python\n"
+        "result = inc(inc(5))\n"
+        "final_answer(result)\n"
+        "```"
+    )
+    monkeypatch.setattr(llm_util, 'llm', lambda prompt, model, *a, **k: (canned, {}))
+
+    with record.recorder() as rollout:
+        answer = add_two(5)
+
+    # the canned code actually ran in the sandbox, calling the inc tool
+    assert answer == 7
+    # and the generated code was recorded in the rollout
+    pot_entries = [r for r in rollout if r['func'] == 'add_two']
+    assert len(pot_entries) == 1
+    code = pot_entries[0]['step_info']['generated_code']
+    assert 'inc' in code
+    assert 'final_answer' in code
+
+    _INTERFACES.remove(inc)
+    _INTERFACES.remove(add_two)
 
 
 # --- integration tests (require API key) ---

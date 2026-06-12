@@ -74,6 +74,13 @@ def test_dataset_tail():
     assert result is ds
 
 
+def test_dataset_tail_prints_discarded_count(capsys):
+    """Regression: tail(n) reports the discarded count (n), not the kept count."""
+    ds = _make_dataset(5)
+    ds.tail(3)
+    assert 'Discarded first 3 cases' in capsys.readouterr().out
+
+
 def test_dataset_shuffle_with_seed():
     ds = _make_dataset(10)
     original_names = [c.name for c in ds.cases]

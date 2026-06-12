@@ -175,13 +175,41 @@ left to do, needing more judgment or touching shared/research code.
    but are registered; induce/restructure return should_apply=True every
    iteration (no-op work each loop).
 
-## Pre-existing test issues (not from this pass)
+## Regression tests added (done this pass)
 
- * Test pollution: test_pot + test_resolve_tools fail in full-suite
-   ordering because the global `_INTERFACES` registry leaks a `concat_kw`
-   stub across modules. Add a conftest registry-reset fixture.
- * The 5 test_config_extras `set_root` failures are Windows
-   path-separator assertions in deprecated code.
+ * New `tests/test_ptp.py` — first PTP coverage; locks the `$schema_block`
+   KeyError fix (create_prompt builds with/without a pydantic return type).
+ * New stubbed PoT plumbing test in `tests/test_pot.py`
+   (`test_pot_executes_and_records_generated_code_stubbed`): runs the
+   sandbox + checks recorded code deterministically, no API key. Also fixed
+   the stale `test_create_prompt_includes_pydantic_tool_schema` (now asserts
+   class-source output, matching `_format_pydantic_schema`).
+ * `tests/test_config_extras.py` — `config.configuration` restore-on-exception
+   (the finally fix) + template resolution via `pathto.task` / `pathto.repo`.
+ * `tests/test_dataset.py` — `tail()` prints the discarded count.
+ * `tests/conftest.py` — `needs_api_key` now accepts any of ANTHROPIC /
+   GEMINI / TOGETHER_API_KEY / TOGETHERAI_API_KEY (Together-only no longer
+   wrongly skipped).
+ * Suite: 399 passed, 15 skipped offline (the 15 are live @needs_api_key
+   integration tests, skipped only when keys are unset).
+
+## Test issues (fixed this pass)
+
+ * Fixed: `test_resolve_tools_all` now selects '__all__' wrappers by name
+   instead of calling every tool, so a leaked 2-arg interface no longer
+   breaks it. Added a defensive conftest `_isolate_interfaces` fixture and
+   a `teardown_module` in test_evaluate to evict its module-level stubs.
+ * Fixed: the 5 `set_root` tests are now OS-agnostic (Path() comparison +
+   OS-absolute paths) instead of asserting POSIX separators.
+
+## Test coverage gaps (regression tests still missing)
+
+ * Two of the five bugs fixed in f77cae8f have no direct regression test:
+   - cli/debug.py `replay` forwarding `input_kw` (covered only indirectly
+     via concat_kw at the Evaluator level).
+   - experimental/improve.py crossover restoring `doc`/`src`.
+   Both need heavier harnessing (a CLI result dir / a full GA workflow).
+   Add when convenient.
 
 # Cleaning up the Orchestrate-related code
 
