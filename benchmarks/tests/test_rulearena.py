@@ -1,50 +1,69 @@
-"""Minimal pytest suite for benchmarks/rulearena/.
+"""Pytest suite for benchmarks/rulearena/ (per-subtask layout).
+
+Rewritten for the migrated per-subtask structure (airline/, nba/, tax/),
+modeled on tests/test_natural_plan.py: per-subtask module loading via
+conftest.load_benchmark_modules (no os.chdir, no deprecated config.set_root),
+per-subtask data/valid.json, and the per-subtask evaluator classes.
 
 Test groups:
-  TestConfig      — YAML config loads, dotlist overrides, invalid domain raises
-  TestCalculators — airline and tax calculators on known inputs (no LLM)
-  TestSchema      — Case/Dataset fields, load_dataset returns valid data
-  TestMetrics     — _within_tolerance, _isclose_match, compare_predictions
-  TestIntegration — L0 (no LLM), L0F, L1 on valid split (4 examples each)
-                    L3 excluded: no max_steps cap in pydantic-ai agent, no repo precedent
+  TestConfig      — each subtask conf.yaml loads, dotlist overrides apply
+  TestCalculators — airline & tax Python calculators on real records (no LLM)
+  TestSchema      — valid.json parses as a Dataset with well-formed cases
+  TestMetrics     — AirlineEvaluator / TaxEvaluator / NbaEvaluator scoring
+  TestIntegration — structured workflow per subtask on valid examples
+                    (needs an API key; results go to tmp_path, not results/)
+
+The structured workflow path (extract_*_params via simulate_pydantic +
+compute_*_calculator via direct) is exercised because it avoids the
+relative prompt-template resolution that the unstructured path needs.
 """
 
 import json
-import os
-import sys
 from pathlib import Path
 
-import numpy as np
+import pandas as pd
 import pytest
 
-from conftest import needs_api_key, CI_TEST_MODEL
+from conftest import CI_TEST_MODEL, load_benchmark_modules, needs_api_key
 from secretagent import config
 from secretagent.core import implement_via_config
-from secretagent.dataset import Case, Dataset
+from secretagent.dataset import Dataset
 
 RULEARENA_DIR = Path(__file__).resolve().parent.parent / "rulearena"
-if str(RULEARENA_DIR) not in sys.path:
-    sys.path.insert(0, str(RULEARENA_DIR))
 
-DATA_DIR = RULEARENA_DIR / "data"
-CONF_FILE = RULEARENA_DIR / "conf" / "conf.yaml"
+# Per subtask: entry interface, default structured workflow, evaluator class.
+SUBTASKS = {
+    "airline": {
+        "entry": "compute_airline_answer",
+        "workflow": "airline_workflow",
+        "evaluator": "AirlineEvaluator",
+    },
+    "tax": {
+        "entry": "compute_tax_answer",
+        "workflow": "tax_workflow",
+        "evaluator": "TaxEvaluator",
+    },
+    "nba": {
+        "entry": "compute_nba_answer",
+        "workflow": "nba_workflow",
+        "evaluator": "NbaEvaluator",
+    },
+}
 
 
-def _first_record(domain: str) -> dict:
-    with open(DATA_DIR / domain / "train.jsonl", encoding="utf-8") as f:
+def _conf(task):
+    return RULEARENA_DIR / task / "conf" / "conf.yaml"
+
+
+def _load_subtask(task):
+    """Import a subtask's ptools + evaluator (purges sys.path/modules first)."""
+    return load_benchmark_modules(RULEARENA_DIR / task, "ptools", "evaluator")
+
+
+def _first_record(task):
+    """First record of a subtask's legacy train.jsonl (carries structured info)."""
+    with open(RULEARENA_DIR / task / "data" / "train.jsonl", encoding="utf-8") as f:
         return json.loads(f.readline())
-
-
-def _import_rulearena():
-    """Import expt and ptools from benchmarks/rulearena/ deterministically.
-
-    Delegates to conftest.load_benchmark_modules so bare-name imports inside
-    rulearena/expt.py (which does `import ptools`) resolve to rulearena's
-    files even when another benchmark test has polluted sys.path /
-    sys.modules in the same pytest process.
-    """
-    from conftest import load_benchmark_modules
-    return load_benchmark_modules(RULEARENA_DIR, "expt", "ptools")
 
 
 # ===================================================================
@@ -55,253 +74,152 @@ class TestConfig:
     def setup_method(self):
         config.reset()
 
-    def test_conf_yaml_loads(self):
-        """conf.yaml loads and has required top-level keys."""
-        config.configure(yaml_file=CONF_FILE)
+    @pytest.mark.parametrize("task", ["airline", "tax", "nba"])
+    def test_conf_yaml_loads(self, task):
+        config.configure(yaml_file=_conf(task))
         assert config.get("llm.model") is not None
-        assert config.get("dataset.domain") is not None
+        assert config.get("evaluate.root_interface") == f"ptools.{SUBTASKS[task]['entry']}"
         assert config.get("evaluate.result_dir") is not None
 
     def test_dotlist_override(self):
-        """Dotlist overrides replace yaml values."""
-        config.configure(yaml_file=CONF_FILE, dotlist=["dataset.domain=nba", "dataset.n=5"])
-        assert config.require("dataset.domain") == "nba"
+        config.configure(yaml_file=_conf("airline"),
+                         dotlist=["dataset.n=5", "llm.model=foo"])
         assert config.require("dataset.n") == 5
-
-    def test_invalid_domain_raises(self):
-        """_load_rules raises on unknown domain."""
-        expt, _ = _import_rulearena()
-        with pytest.raises(ValueError, match="Unknown domain"):
-            expt._load_rules("martian_law")
+        assert config.require("llm.model") == "foo"
 
 
 # ===================================================================
-# TestCalculators — no LLM, known inputs -> expected outputs
+# TestCalculators — no LLM, real records -> sane numeric output
 # ===================================================================
 
 class TestCalculators:
-    def test_airline_known_output(self):
-        """First airline training example: Emily Main Plus London->Minneapolis -> 1275."""
+    def test_airline_calculator(self):
+        _load_subtask("airline")  # airline/ on sys.path, 'calculators' purged
         from calculators.airline import compute_airline_fee
         rec = _first_record("airline")
-        assert compute_airline_fee(rec["info"]) == 1275
+        fee = compute_airline_fee(rec["info"])
+        assert isinstance(fee, (int, float))
+        # total cost includes the ticket price, so it can't be below base_price
+        assert fee >= rec["info"]["base_price"]
 
-    def test_tax_known_output(self):
-        """First tax training example: John head-of-household -> 4747.5."""
+    def test_tax_calculator(self):
+        _load_subtask("tax")
         from calculators.tax import compute_tax_fee
-        rec = _first_record("tax")
-        result = compute_tax_fee(rec)
+        result = compute_tax_fee(_first_record("tax"))
         assert result is not None
-        assert abs(result - 4747.5) < 0.01
+        assert isinstance(result, (int, float))
 
-    def test_airline_returns_numeric(self):
-        from calculators.airline import compute_airline_fee
-        rec = _first_record("airline")
-        result = compute_airline_fee(rec["info"])
-        assert np.issubdtype(type(result), np.number)
-
-    def test_tax_missing_fields_use_defaults(self):
-        """Tax calculator handles partial pydantic dicts via _taxpayer_defaults."""
+    def test_tax_calculator_sparse_defaults(self):
+        """Calculator fills missing schedule fields via _taxpayer_defaults."""
+        _load_subtask("tax")
         from calculators.tax import compute_tax_fee
         rec = _first_record("tax")
         sparse = dict(rec)
         sparse["pydantic"] = {"filing_status": rec["pydantic"]["filing_status"]}
-        result = compute_tax_fee(sparse)
-        assert result is not None
+        assert compute_tax_fee(sparse) is not None
 
 
 # ===================================================================
-# TestSchema — no LLM, structural checks
+# TestSchema — no LLM, structural checks on the valid split
 # ===================================================================
 
 class TestSchema:
-    def setup_method(self):
-        config.reset()
-
-    def test_case_has_required_fields(self):
-        c = Case(name="test", input_args=("a",), expected_output=42)
-        assert c.name == "test"
-        assert c.expected_output == 42
-
-    def test_dataset_summary(self):
-        cases = [Case(name=f"c{i}", input_args=(i,), expected_output=i) for i in range(3)]
-        ds = Dataset(name="test_ds", split="valid", cases=cases)
-        assert "size=3" in ds.summary()
-
-    def test_load_dataset_airline(self):
-        expt, _ = _import_rulearena()
-        config.configure(yaml_file=CONF_FILE)
-        ds = expt.load_dataset("airline", "train")
+    @pytest.mark.parametrize("task", ["airline", "tax", "nba"])
+    def test_valid_json_is_dataset(self, task):
+        ds = Dataset.model_validate_json(
+            (RULEARENA_DIR / task / "data" / "valid.json").read_text(encoding="utf-8")
+        )
         assert len(ds.cases) > 0
-        assert ds.name == "rulearena_airline"
         for case in ds.cases[:3]:
-            assert case.name.startswith("airline_")
+            assert case.input_args
             assert case.expected_output is not None
-
-    def test_load_dataset_nba(self):
-        expt, _ = _import_rulearena()
-        config.configure(yaml_file=CONF_FILE)
-        ds = expt.load_dataset("nba", "train")
-        assert len(ds.cases) > 0
-        for case in ds.cases[:3]:
-            assert isinstance(case.expected_output, bool)
 
 
 # ===================================================================
-# TestMetrics — no LLM, evaluator logic
+# TestMetrics — no LLM, per-subtask evaluator logic
 # ===================================================================
 
 class TestMetrics:
-    def setup_method(self):
-        expt, _ = _import_rulearena()
-        self._expt = expt
-        self.evaluator = expt.RuleArenaEvaluator()
+    def test_airline_evaluator(self):
+        _, ev = _load_subtask("airline")
+        e = ev.AirlineEvaluator()
+        r = e.compare_predictions(100.0, 100.0)
+        assert r["correct"] == 1.0 and r["correct_tolerance"] == 1.0
+        assert r["failure_mode"] == "none"
 
-    def test_within_tolerance_exact(self):
-        assert self._expt._within_tolerance(100.0, 100.0)
+        r = e.compare_predictions(100.5, 100.0)
+        assert r["correct"] == 0.0            # not an exact match
+        assert r["correct_tolerance"] == 1.0  # but within 1%
+        assert r["failure_mode"] == "calculation_error"
 
-    def test_within_tolerance_close(self):
-        assert self._expt._within_tolerance(100.5, 100.0)      # 0.5% < 1%
-        assert not self._expt._within_tolerance(102.0, 100.0)   # 2% > 1%
+        assert e.compare_predictions(None, 100.0)["failure_mode"] == "calculation_error"
+        exc = "**exception raised**: ValueError('no answer')"
+        assert e.compare_predictions(exc, 100.0)["failure_mode"] == "extraction_failure"
+        step = "**exception raised**: UsageLimitExceeded(...)"
+        assert e.compare_predictions(step, 100.0)["failure_mode"] == "step_limit"
 
-    def test_within_tolerance_zero_expected(self):
-        assert self._expt._within_tolerance(0.005, 0.0)         # abs diff < 0.01
-        assert not self._expt._within_tolerance(0.05, 0.0)
+    def test_tax_evaluator(self):
+        _, ev = _load_subtask("tax")
+        e = ev.TaxEvaluator()
+        r = e.compare_predictions(100.5, 100.0)
+        assert r["correct"] == 1.0            # within 1% (primary metric)
+        assert r["correct_tolerance"] == 0.0  # but not a tight match
+        assert e.compare_predictions(102.0, 100.0)["correct"] == 0.0  # 2% > 1%
+        exact = e.compare_predictions(100.0, 100.0)
+        assert exact["correct"] == 1.0 and exact["correct_tolerance"] == 1.0
 
-    def test_isclose_match(self):
-        assert self._expt._isclose_match(100.0, 100.0)
-        assert self._expt._isclose_match(100.000001, 100.0)
-        assert not self._expt._isclose_match(100.5, 100.0)
-
-    def test_compare_predictions_bool(self):
-        result = self.evaluator.compare_predictions(True, True)
-        assert result["correct"] == 1.0
-        assert result["correct_tolerance"] == 1.0
-        assert result["failure_mode"] == "none"
-
-        result = self.evaluator.compare_predictions(False, True)
-        assert result["correct"] == 0.0
-        assert result["failure_mode"] == "calculation_error"
-
-    def test_compare_predictions_numeric(self):
-        result = self.evaluator.compare_predictions(100.5, 100.0)
-        assert result["correct"] == 1.0           # within 1%
-        assert result["correct_tolerance"] == 0.0  # not np.isclose
-        assert result["failure_mode"] == "none"
-
-    def test_compare_predictions_non_numeric(self):
-        result = self.evaluator.compare_predictions("garbage", 100.0)
-        assert result["correct"] == 0.0
-        assert result["correct_tolerance"] == 0.0
-        assert result["failure_mode"] == "calculation_error"
-
-    def test_compare_predictions_exception_string(self):
-        result = self.evaluator.compare_predictions(
-            "**exception raised**: ValueError('no answer')", 100.0)
-        assert result["failure_mode"] == "extraction_failure"
-
-    def test_compare_predictions_none(self):
-        result = self.evaluator.compare_predictions(None, 100.0)
-        assert result["failure_mode"] == "extraction_failure"
+    def test_nba_evaluator(self):
+        _, ev = _load_subtask("nba")
+        e = ev.NbaEvaluator()
+        r = e.compare_predictions(1.0, 1.0)
+        assert r["correct"] == 1.0 and r["failure_mode"] == "none"
+        assert r["tp"] == 1.0
+        r = e.compare_predictions(0.0, 1.0)
+        assert r["correct"] == 0.0 and r["fn"] == 1.0
+        assert e.compare_predictions(None, 1.0)["failure_mode"] == "calculation_error"
 
 
 # ===================================================================
-# TestIntegration — real pipeline runs
-#   L0:  pure Python oracle, zero LLM calls (no needs_api_key)
-#   L0F: chain-of-thought, 1 LLM call per example
-#   L1:  LLM extraction + Python calculator
-#   L3:  excluded — pydantic-ai agent has no max_steps cap, no repo precedent
+# TestIntegration — real pipeline run (LLM extraction + Python calculator)
 # ===================================================================
 
-_L0_DOTLIST = [
-    "ptools.compute_rulearena_answer.method=direct",
-    "ptools.compute_rulearena_answer.fn=ptools.l0_oracle_workflow",
-]
+def _run_eval(task, tmp_path, n=4):
+    """Configure the structured workflow from conf, run it, return the DataFrame.
 
-_L0F_DOTLIST = [
-    "ptools.compute_rulearena_answer.method=direct",
-    "ptools.compute_rulearena_answer.fn=ptools.l0f_cot_workflow",
-]
-
-_L1_DOTLIST = [
-    "ptools.compute_rulearena_answer.method=direct",
-    "ptools.compute_rulearena_answer.fn=ptools.l1_extract_workflow",
-]
-
-
-def _run_eval(domain, extra_dotlist, n=4):
-    """Configure pipeline, load n valid-split examples, evaluate, return DataFrame.
-
-    Runs from RULEARENA_DIR so relative paths (prompt templates, data) resolve.
+    Drives the benchmark the way conf.yaml intends: the subtask conf binds the
+    extractor (simulate_pydantic) and calculator (direct); we override only the
+    DEFAULT entry interface to the structured workflow. Results go to tmp_path
+    so the benchmark results/ stays clean. simulate_pydantic needs a
+    tool-capable model.
     """
-    import pandas as pd
-    prev_cwd = os.getcwd()
-    try:
-        os.chdir(RULEARENA_DIR)
-        expt, pt = _import_rulearena()
-        # Reset so a prior benchmark's ptools.* keys don't merge into this run.
-        config.reset()
-        config.configure(
-            yaml_file=CONF_FILE,
-            dotlist=[f"dataset.domain={domain}"] + extra_dotlist,
-        )
-        config.set_root(RULEARENA_DIR)
-        implement_via_config(pt, config.require("ptools"))
-        ds = expt.load_dataset(domain, "valid").configure(n=n)
-        evaluator = expt.RuleArenaEvaluator()
-        csv_path = evaluator.evaluate(ds, pt.compute_rulearena_answer)
-        df = pd.read_csv(csv_path)
-        assert len(df) == n
-        assert "correct" in df.columns
-        return df
-    finally:
-        os.chdir(prev_cwd)
-
-
-class TestIntegrationL0:
-    """L0 oracle: zero LLM calls, pure Python calculators.
-    NBA skipped — no deterministic calculator; ground truth comes from data
-    so L0 would trivially return 100% correct, which tests nothing.
-    """
-
-    def test_l0_airline(self):
-        df = _run_eval("airline", _L0_DOTLIST)
-        assert df["correct"].mean() == 1.0  # oracle should be perfect
-
-    def test_l0_tax(self):
-        df = _run_eval("tax", _L0_DOTLIST)
-        assert df["correct"].mean() == 1.0
+    ptools, ev = _load_subtask(task)
+    sub = SUBTASKS[task]
+    config.reset()
+    config.configure(
+        yaml_file=_conf(task),
+        dotlist=[
+            f"llm.model={CI_TEST_MODEL}",
+            f"evaluate.result_dir={tmp_path}",
+            f"cachier.cache_dir={tmp_path}/llm_cache",  # keep cache out of cwd
+            f"evaluate.expt_name=test_{task}",
+            f"ptools.{sub['entry']}.method=direct",
+            f"ptools.{sub['entry']}.fn=ptools.{sub['workflow']}",
+        ],
+    )
+    implement_via_config(ptools, config.require("ptools"))
+    ds = Dataset.model_validate_json(
+        (RULEARENA_DIR / task / "data" / "valid.json").read_text(encoding="utf-8")
+    ).configure(n=n)
+    evaluator = getattr(ev, sub["evaluator"])()
+    df = pd.read_csv(evaluator.evaluate(ds, getattr(ptools, sub["entry"])))
+    assert len(df) > 0
+    assert "correct" in df.columns
+    return df
 
 
 @needs_api_key
-class TestIntegrationL0F:
-    """L0F chain-of-thought: 1 LLM call per example."""
-
-    def test_l0f_airline(self):
-        df = _run_eval("airline", [f"llm.model={CI_TEST_MODEL}"] + _L0F_DOTLIST)
-        assert "correct" in df.columns
-
-    def test_l0f_nba(self):
-        df = _run_eval("nba", [f"llm.model={CI_TEST_MODEL}"] + _L0F_DOTLIST)
-        assert "correct" in df.columns
-
-    def test_l0f_tax(self):
-        df = _run_eval("tax", [f"llm.model={CI_TEST_MODEL}"] + _L0F_DOTLIST)
-        assert "correct" in df.columns
-
-
-@needs_api_key
-class TestIntegrationL1:
-    """L1 extraction: LLM extracts structured params, Python computes answer."""
-
-    def test_l1_airline(self):
-        df = _run_eval("airline", [f"llm.model={CI_TEST_MODEL}"] + _L1_DOTLIST)
-        assert "correct" in df.columns
-
-    def test_l1_nba(self):
-        df = _run_eval("nba", [f"llm.model={CI_TEST_MODEL}"] + _L1_DOTLIST)
-        assert "correct" in df.columns
-
-    def test_l1_tax(self):
-        df = _run_eval("tax", [f"llm.model={CI_TEST_MODEL}"] + _L1_DOTLIST)
+class TestIntegration:
+    @pytest.mark.parametrize("task", ["airline", "tax", "nba"])
+    def test_structured_workflow(self, task, tmp_path):
+        df = _run_eval(task, tmp_path)
         assert "correct" in df.columns

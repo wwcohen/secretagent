@@ -1,2 +1,8 @@
 __pycache__/
 docs/
+
+# Run artifacts — kept out of the benchmark dir per the clean-experiments goal.
+# (Caches stay tracked-able per TODO: "Keep caches in the benchmark dirs for now".)
+logs_*.txt
+results/
+plot_*.png

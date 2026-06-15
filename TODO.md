@@ -89,7 +89,7 @@
       they'll break if re-run.
     - rulearena cleanup still pending — needs the test_rulearena.py rewrite (same per-task cwd issue as test_natural_plan).
     - medcalc split still pending — depends on the missing-data/ question (where does medcalc data come from at runtime? a download script? a different repo?).
-      RESOLVED 2026-06-10: data is the HuggingFace dataset `ncbi/MedCalc-Bench-v1.2` (CC BY-SA 4.0, not gated). Added a `snapshot-data` command + `make data` that caches it to `benchmarks/medcalc/data/{train,test}.json` (gitignored, ~43MB; see data/ATTRIBUTION.md); `load_dataset` prefers the local snapshot with a live-HF fallback. Remaining: convert medcalc to the full bbh task/subtask shape + write `test_medcalc.py`.
+      RESOLVED 2026-06-10: data is the HuggingFace dataset `ncbi/MedCalc-Bench-v1.2` (CC BY-SA 4.0, not gated). Added a `snapshot-data` command + `make data` that caches it to `benchmarks/medcalc/data/{train,test}.json` (gitignored, ~43MB; see data/ATTRIBUTION.md); `load_dataset` prefers the local snapshot with a live-HF fallback. `test_medcalc.py` DONE 2026-06-15 (no-API + integration tests pass). Remaining: convert medcalc to the full bbh task/subtask shape — deferred as a design call (per-category split vs keep single-task; see PERSONAL_TODO 2026-06-15).
 
 
 # Dependencies
