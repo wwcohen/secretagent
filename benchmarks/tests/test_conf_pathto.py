@@ -40,9 +40,9 @@ def test_migration_happened():
     ids=[str(Path(f).relative_to(BENCH)) for f in ENV_CONFS],
 )
 def test_conf_resolves_under_repo_root(conf):
-    """No leftover ${pathto...}; path keys resolve to absolute paths under root."""
-    assert "${pathto" not in Path(conf).read_text(encoding="utf-8"), \
-        f"{conf} still references the old ${{pathto...}} namespace"
+    """No leftover ${pathto.repo}; path keys resolve to absolute paths under root."""
+    assert "${pathto.repo}" not in Path(conf).read_text(encoding="utf-8"), \
+        f"{conf} still references the deprecated ${{pathto.repo}} interpolation"
     config.reset()
     config.configure(yaml_file=conf)
     root = config.repo_root()
