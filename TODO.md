@@ -29,27 +29,8 @@
 
 * CLEAN UP deprecated set_root and reset in config.py - done
 
-* Make pathto.repo an environment variable => Cassie
-  OmegaConf supports environment variable interpolation via the built-in oc.env resolver:
-
-                                                                                                                                 
-```
-  api_key: ${oc.env:OPENAI_API_KEY}
-  model: ${oc.env:MODEL_NAME,gpt-4}   # with default
-
-  The second arg is an optional default if the variable is unset. Works out of the box — no resolver registration needed.
-```
-
-  So set up a .env file and initialize it with PATHTO_REPO=...
-  (.env is in .gitignore, .env-sample is checked in)
-
-  # then before you config.load_config...
-
-  import os
-  from dotenv import load_dotenv
-  # Load the variables from the .env file into the system environment
-  load_dotenv()
-  # now ${oc.env:XXX} will work when you load the config.
+* Make pathto.repo an environment variable => Cassie -done??
+  Need to check existing conf.yaml files for that - Cassie
 
 * CLEAN UP result configs: DONE
   * in cli/expt.py and config.py
@@ -264,7 +245,47 @@ evaluator (`MedCalcEvaluator` / `NaturalPlanEvaluator` / …) and
   * Consider whether `_pick_weakest_ptool` belongs alongside the
     profiler (it's a profile-consumer, not benchmark-specific).
 
-# Proposal: ToolFactory for per-call tool state
+# Proposal: ToolFactory for per-call tool state (William)
+
+Status:
+ * Implemented in `simulate_pydantic` (commit bded5cac). Setup accepts a
+   `tool_factory` kwarg (dotted class name, mutually exclusive with
+   `tools`/`tool_module`); each `__call__` instantiates the class, runs
+   `init(*args, **kw)`, and uses `tools()` as the agent's tool list.
+   No-API tests in `tests/test_pydantic_impl.py` cover the mechanism
+   (per-call isolation verified by stubbing `_run_agent`).
+ * MUSR React path migrated: search/lookup/finish are now bound methods
+   on `NarrativeToolFactory` (`benchmarks/musr/ptools_common.py`).
+   `_REACT_STATE` retained for the engineered-React path and
+   learner-induced ptools that still read it directly.
+ * Murder uses its own `MurderToolFactory` (engineered tools auto-pass
+   the narrative); see `benchmarks/musr/murder/ptools.py` and the
+   `react_factory:` target in that benchmark's Makefile.
+ * HOWTO section: "Tool bundles with shared state: ToolFactory" in
+   `benchmarks/HOWTO.md`.
+
+## Followups
+
+ * Support `tool_factory` in `PoTFactory` (`src/secretagent/implement/core.py`).
+   Mechanical wiring is small — instantiate per `__call__`, drop the
+   bound methods into `python_executor.custom_tools` keyed by
+   `fn.__name__`. The lift is the prompt: PoTFactory currently renders
+   tool stubs from `Interface.src`, so it needs a parallel path that
+   synthesizes stubs from `inspect.signature(method)` + `method.__doc__`
+   + a return-annotation walk for referenced pydantic models. Estimate:
+   half a day, ~30-50 LOC of new helper.
+ * Engineered-React path in MUSR object/team still uses `_REACT_STATE`
+   for narrative access in the per-task `solve_*` wrappers
+   (`benchmarks/musr/{object,team}/ptools.py`). Migrate them to a per-task
+   `ToolFactory` subclass (parallel to `MurderToolFactory`).
+ * Learner template: `ptool_inducer.py`'s `--state-module` /
+   `--state-expr` flags generate code that reads `_REACT_STATE[...]`
+   directly. Update the generator to emit a `ToolFactory` subclass
+   instead, so newly-induced ptools are concurrency-safe.
+ * Decide whether ToolFactory's per-call configuration method should
+   stay as `init` or fold into `__init__` (let the subclass take the
+   call args as constructor args, so `tool_factory_cls(*args, **kw)`
+   replaces the two-step `cls()` + `provider.init(...)`).
 
 ## Problem
 
