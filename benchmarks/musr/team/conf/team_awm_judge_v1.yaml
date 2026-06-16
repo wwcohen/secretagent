@@ -20,10 +20,7 @@ ptools:
     method: simulate_pydantic_with_workflow
     workflow_file: awm_workflows_judge_v1.json
     workflow_key: team
-    tools:
-      - ptools_common.search
-      - ptools_common.lookup
-      - ptools_common.finish
+    tool_factory: ptools_common.NarrativeToolFactory
   answer_question:
     method: direct
     fn: ptools_common.react_answer_impl
