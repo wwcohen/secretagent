@@ -1,0 +1,107 @@
+case_name,predicted_output,expected_output,correct,input_tokens,output_tokens,latency,cost,expt_name
+ex065,0,0,True,1181.0,9.0,0.5015559196472168,0.0014875,object_unstructured_baseline_test
+ex042,1,1,True,1492.0,9.0,0.32946109771728516,0.00187625,object_unstructured_baseline_test
+ex015,2,1,False,1134.0,9.0,0.5463857650756836,0.0014287500000000001,object_unstructured_baseline_test
+ex009,3,2,False,1390.0,665.0,17.066850185394287,0.0025687500000000003,object_unstructured_baseline_test
+ex100,**exception raised**: invalid literal for int() with base 10: 'shed',2,False,1408.0,10.0,0.3578050136566162,0.0017725,object_unstructured_baseline_test
+ex058,0,4,False,1462.0,147.0,2.7665889263153076,0.00201125,object_unstructured_baseline_test
+ex001,2,1,False,1346.0,9.0,0.4600379467010498,0.0016937500000000002,object_unstructured_baseline_test
+ex073,1,0,False,1103.0,9.0,0.4164261817932129,0.0013900000000000002,object_unstructured_baseline_test
+ex076,2,2,True,1259.0,9.0,1.692777395248413,0.001585,object_unstructured_baseline_test
+ex082,0,2,False,1406.0,9.0,0.6152570247650146,0.0017687500000000001,object_unstructured_baseline_test
+ex080,2,2,True,1040.0,9.0,0.7799148559570312,0.0013112500000000001,object_unstructured_baseline_test
+ex083,0,0,True,1220.0,9.0,0.6789629459381104,0.00153625,object_unstructured_baseline_test
+ex010,2,2,True,1306.0,9.0,0.6562459468841553,0.00164375,object_unstructured_baseline_test
+ex041,3,3,True,1563.0,9.0,0.5058879852294922,0.001965,object_unstructured_baseline_test
+ex067,**exception raised**: invalid literal for int() with base 10: 'top shelf',0,False,1302.0,10.0,0.6561300754547119,0.00164,object_unstructured_baseline_test
+ex066,2,1,False,1000.0,9.0,0.6972732543945312,0.00126125,object_unstructured_baseline_test
+ex052,2,1,False,1190.0,9.0,0.5016288757324219,0.00149875,object_unstructured_baseline_test
+ex056,0,0,True,1713.0,9.0,0.46697998046875,0.0021525000000000003,object_unstructured_baseline_test
+ex033,0,0,True,1180.0,9.0,0.35523486137390137,0.0014862500000000002,object_unstructured_baseline_test
+ex030,2,2,True,1561.0,9.0,0.6499929428100586,0.0019625000000000003,object_unstructured_baseline_test
+ex068,2,0,False,1168.0,9.0,0.5256707668304443,0.0014712500000000001,object_unstructured_baseline_test
+ex060,**exception raised**: invalid literal for int() with base 10: 'main gallery',3,False,1712.0,10.0,1.141606330871582,0.0021525,object_unstructured_baseline_test
+ex072,1,1,True,1335.0,9.0,0.4917182922363281,0.00168,object_unstructured_baseline_test
+ex026,**exception raised**: invalid literal for int() with base 10: 'counter',0,False,1302.0,9.0,0.969290018081665,0.00163875,object_unstructured_baseline_test
+ex059,2,3,False,1169.0,117.0,2.8920645713806152,0.0016075,object_unstructured_baseline_test
+ex008,1,0,False,1098.0,9.0,0.3282909393310547,0.00138375,object_unstructured_baseline_test
+ex021,3,3,True,999.0,433.0,5.78557014465332,0.0017900000000000001,object_unstructured_baseline_test
+ex063,3,2,False,1462.0,9.0,0.4376699924468994,0.00183875,object_unstructured_baseline_test
+ex032,3,0,False,1390.0,9.0,0.32833003997802734,0.00174875,object_unstructured_baseline_test
+ex084,0,1,False,1215.0,9.0,0.4679241180419922,0.0015300000000000001,object_unstructured_baseline_test
+ex037,1,0,False,1346.0,9.0,0.5307579040527344,0.0016937500000000002,object_unstructured_baseline_test
+ex044,2,0,False,1301.0,9.0,0.48929786682128906,0.0016375,object_unstructured_baseline_test
+ex078,0,1,False,1304.0,9.0,0.41045308113098145,0.0016412500000000001,object_unstructured_baseline_test
+ex098,2,0,False,1052.0,9.0,0.49261999130249023,0.0013262500000000002,object_unstructured_baseline_test
+ex050,2,0,False,1170.0,9.0,0.7851769924163818,0.00147375,object_unstructured_baseline_test
+ex062,2,0,False,1234.0,9.0,0.6491918563842773,0.00155375,object_unstructured_baseline_test
+ex045,1,1,True,1088.0,9.0,0.4451601505279541,0.00137125,object_unstructured_baseline_test
+ex049,1,2,False,1672.0,9.0,0.4815990924835205,0.0021012500000000003,object_unstructured_baseline_test
+ex047,0,0,True,1098.0,9.0,1.0755813121795654,0.00138375,object_unstructured_baseline_test
+ex104,3,3,True,1104.0,9.0,0.5985949039459229,0.0013912500000000001,object_unstructured_baseline_test
+ex055,**exception raised**: invalid literal for int() with base 10: 'barn',0,False,1301.0,10.0,0.4881279468536377,0.00163875,object_unstructured_baseline_test
+ex089,1,0,False,1671.0,9.0,0.753575325012207,0.0021000000000000003,object_unstructured_baseline_test
+ex012,1,2,False,1000.0,9.0,0.5394868850708008,0.00126125,object_unstructured_baseline_test
+ex036,1,1,True,1042.0,9.0,0.4262838363647461,0.00131375,object_unstructured_baseline_test
+ex023,0,0,True,1267.0,100.0,1.781200885772705,0.0017087500000000002,object_unstructured_baseline_test
+ex039,3,3,True,1187.0,236.0,2.0059070587158203,0.00177875,object_unstructured_baseline_test
+ex040,1,1,True,1266.0,9.0,0.6494011878967285,0.0015937500000000001,object_unstructured_baseline_test
+ex018,**exception raised**: invalid literal for int() with base 10: 'front desk',2,False,1400.0,10.0,0.5619781017303467,0.0017625,object_unstructured_baseline_test
+ex079,1,2,False,1346.0,9.0,0.5123670101165771,0.0016937500000000002,object_unstructured_baseline_test
+ex005,2,0,False,1491.0,9.0,0.5191388130187988,0.0018750000000000001,object_unstructured_baseline_test
+ex024,2,2,True,1098.0,9.0,0.3494129180908203,0.00138375,object_unstructured_baseline_test
+ex007,1,1,True,1181.0,169.0,4.693728923797607,0.0016875000000000002,object_unstructured_baseline_test
+ex034,**exception raised**: invalid literal for int() with base 10: 'nightstand',2,False,1134.0,10.0,0.9403219223022461,0.00143,object_unstructured_baseline_test
+ex085,0,4,False,1237.0,463.0,5.10556697845459,0.002125,object_unstructured_baseline_test
+ex046,2,0,False,1254.0,100.0,1.8127412796020508,0.0016925,object_unstructured_baseline_test
+ex002,2,3,False,1591.0,9.0,0.41003990173339844,0.002,object_unstructured_baseline_test
+ex051,2,2,True,1172.0,9.0,0.7212841510772705,0.0014762500000000001,object_unstructured_baseline_test
+ex016,2,2,True,1304.0,9.0,0.6284468173980713,0.0016412500000000001,object_unstructured_baseline_test
+ex038,0,0,True,1209.0,9.0,0.4126749038696289,0.0015225000000000002,object_unstructured_baseline_test
+ex061,2,2,True,1294.0,9.0,0.6108081340789795,0.0016287500000000002,object_unstructured_baseline_test
+ex105,0,1,False,1237.0,9.0,0.5980579853057861,0.0015575,object_unstructured_baseline_test
+ex022,1,2,False,1210.0,9.0,0.43607664108276367,0.0015237500000000001,object_unstructured_baseline_test
+ex006,0,0,True,1396.0,9.0,0.8077619075775146,0.0017562500000000002,object_unstructured_baseline_test
+ex048,0,0,True,1133.0,9.0,0.5276110172271729,0.0014275000000000002,object_unstructured_baseline_test
+ex087,1,2,False,1126.0,9.0,0.46747899055480957,0.00141875,object_unstructured_baseline_test
+ex096,0,0,True,1458.0,57.0,1.809427261352539,0.00189375,object_unstructured_baseline_test
+ex070,**exception raised**: invalid literal for int() with base 10: 'top shelf',2,False,1302.0,10.0,0.4866292476654053,0.00164,object_unstructured_baseline_test
+ex095,0,2,False,1406.0,9.0,0.3279709815979004,0.0017687500000000001,object_unstructured_baseline_test
+ex019,2,0,False,1190.0,9.0,0.7833778858184814,0.00149875,object_unstructured_baseline_test
+ex074,2,3,False,1238.0,9.0,0.639805793762207,0.00155875,object_unstructured_baseline_test
+ex043,2,3,False,1126.0,9.0,0.612562894821167,0.00141875,object_unstructured_baseline_test
+ex090,2,2,True,1168.0,9.0,0.6593878269195557,0.0014712500000000001,object_unstructured_baseline_test
+ex020,0,0,True,1209.0,9.0,0.5812728404998779,0.0015225000000000002,object_unstructured_baseline_test
+ex000,0,0,True,1714.0,9.0,0.5901837348937988,0.0021537500000000003,object_unstructured_baseline_test
+ex101,2,3,False,1059.0,9.0,0.5285582542419434,0.001335,object_unstructured_baseline_test
+ex091,1,1,True,1334.0,9.0,0.5238509178161621,0.0016787500000000001,object_unstructured_baseline_test
+ex057,2,0,False,1147.0,9.0,0.3243558406829834,0.001445,object_unstructured_baseline_test
+ex099,0,2,False,1191.0,9.0,0.45844483375549316,0.0015,object_unstructured_baseline_test
+ex053,2,3,False,1190.0,9.0,0.9872288703918457,0.00149875,object_unstructured_baseline_test
+ex093,2,0,False,1254.0,9.0,0.49147891998291016,0.00157875,object_unstructured_baseline_test
+ex025,**exception raised**: invalid literal for int() with base 10: 'equipment rack',1,False,1296.0,11.0,0.7595229148864746,0.0016337500000000002,object_unstructured_baseline_test
+ex071,1,2,False,1395.0,9.0,0.47779107093811035,0.001755,object_unstructured_baseline_test
+ex088,2,3,False,1104.0,9.0,0.8318002223968506,0.0013912500000000001,object_unstructured_baseline_test
+ex077,2,0,False,1181.0,9.0,0.34375596046447754,0.0014875,object_unstructured_baseline_test
+ex064,4,4,True,1260.0,9.0,0.3149449825286865,0.0015862500000000002,object_unstructured_baseline_test
+ex029,2,2,True,1168.0,9.0,0.35033082962036133,0.0014712500000000001,object_unstructured_baseline_test
+ex027,2,2,True,1286.0,9.0,0.8606772422790527,0.0016187500000000002,object_unstructured_baseline_test
+ex092,2,3,False,1126.0,9.0,0.4461019039154053,0.00141875,object_unstructured_baseline_test
+ex103,1,1,True,1052.0,9.0,0.45472168922424316,0.0013262500000000002,object_unstructured_baseline_test
+ex004,2,1,False,1116.0,9.0,0.4806351661682129,0.0014062500000000002,object_unstructured_baseline_test
+ex054,**exception raised**: invalid literal for int() with base 10: 'equipment rack',1,False,1285.0,11.0,0.49391603469848633,0.0016200000000000001,object_unstructured_baseline_test
+ex075,3,3,True,1495.0,9.0,0.6456730365753174,0.0018800000000000002,object_unstructured_baseline_test
+ex011,2,1,False,1255.0,9.0,0.3203468322753906,0.00158,object_unstructured_baseline_test
+ex069,1,0,False,1379.0,9.0,0.4624769687652588,0.0017350000000000002,object_unstructured_baseline_test
+ex097,**exception raised**: invalid literal for int() with base 10: 'equipment rack',0,False,1285.0,11.0,0.6178479194641113,0.0016200000000000001,object_unstructured_baseline_test
+ex086,3,3,True,1400.0,212.0,5.711402893066406,0.0020150000000000003,object_unstructured_baseline_test
+ex013,1,1,True,1146.0,9.0,0.8026669025421143,0.0014437500000000002,object_unstructured_baseline_test
+ex102,2,0,False,1396.0,9.0,0.3441948890686035,0.0017562500000000002,object_unstructured_baseline_test
+ex017,1,2,False,1395.0,9.0,0.41521215438842773,0.001755,object_unstructured_baseline_test
+ex028,2,3,False,1173.0,9.0,0.5048031806945801,0.0014775,object_unstructured_baseline_test
+ex031,2,3,False,1238.0,9.0,0.6569180488586426,0.00155875,object_unstructured_baseline_test
+ex035,2,0,False,1346.0,132.0,2.235302209854126,0.0018475000000000002,object_unstructured_baseline_test
+ex094,1,2,False,1252.0,9.0,0.3649919033050537,0.0015762500000000002,object_unstructured_baseline_test
+ex003,2,3,False,1360.0,9.0,0.7231411933898926,0.00171125,object_unstructured_baseline_test
+ex014,0,2,False,1219.0,9.0,0.5855739116668701,0.0015350000000000001,object_unstructured_baseline_test
+ex081,2,1,False,1492.0,9.0,0.5699639320373535,0.00187625,object_unstructured_baseline_test

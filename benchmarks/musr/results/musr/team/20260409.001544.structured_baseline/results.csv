@@ -1,0 +1,101 @@
+case_name,predicted_output,expected_output,correct,input_tokens,output_tokens,latency,cost,expt_name
+ex042,2,2,True,623.0,266.0,4.992005109786987,0.00111125,team_zs_cot_prompt
+ex041,1,1,True,760.0,731.0,8.722392082214355,0.0018637500000000002,team_zs_cot_prompt
+ex091,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',2,False,752.0,961.0,9.449475049972534,0.00214125,team_zs_cot_prompt
+ex009,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',2,False,696.0,815.0,9.5066077709198,0.0018887500000000002,team_zs_cot_prompt
+ex065,1,1,True,714.0,864.0,12.933780908584595,0.0019725000000000003,team_zs_cot_prompt
+ex050,2,2,True,690.0,541.0,14.9097740650177,0.0015387500000000002,team_zs_cot_prompt
+ex001,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',2,False,815.0,2048.0,25.81316900253296,0.0035787500000000003,team_zs_cot_prompt
+ex070,1,1,True,762.0,1251.0,10.12017011642456,0.0025162500000000003,team_zs_cot_prompt
+ex015,2,2,True,791.0,652.0,11.49162769317627,0.0018037500000000002,team_zs_cot_prompt
+ex078,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',0,False,822.0,654.0,19.904865026474,0.001845,team_zs_cot_prompt
+ex073,1,1,True,635.0,612.0,8.09114694595337,0.0015587500000000002,team_zs_cot_prompt
+ex010,2,2,True,788.0,1269.0,30.083225965499878,0.00257125,team_zs_cot_prompt
+ex055,0,2,False,653.0,799.0,21.480895042419434,0.0018150000000000002,team_zs_cot_prompt
+ex056,2,2,True,732.0,1646.0,46.657447814941406,0.0029725000000000003,team_zs_cot_prompt
+ex072,0,0,True,718.0,567.0,19.703278064727783,0.00160625,team_zs_cot_prompt
+ex045,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',2,False,661.0,712.0,16.674968004226685,0.0017162500000000001,team_zs_cot_prompt
+ex048,1,0,False,796.0,413.0,14.260447978973389,0.00151125,team_zs_cot_prompt
+ex092,0,0,True,750.0,445.0,20.716747045516968,0.00149375,team_zs_cot_prompt
+ex076,1,1,True,634.0,1578.0,65.81633996963501,0.002765,team_zs_cot_prompt
+ex037,2,2,True,642.0,1181.0,11.142118215560913,0.0022787500000000004,team_zs_cot_prompt
+ex030,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',1,False,770.0,852.0,19.450390815734863,0.0020275000000000002,team_zs_cot_prompt
+ex021,2,1,False,656.0,995.0,27.776923179626465,0.00206375,team_zs_cot_prompt
+ex032,1,1,True,767.0,498.0,8.181926965713501,0.0015812500000000002,team_zs_cot_prompt
+ex096,2,0,False,750.0,1594.0,67.38379120826721,0.0029300000000000003,team_zs_cot_prompt
+ex080,2,2,True,678.0,1118.0,115.18572902679443,0.002245,team_zs_cot_prompt
+ex049,1,1,True,780.0,1030.0,22.29853105545044,0.0022625,team_zs_cot_prompt
+ex083,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',2,False,757.0,897.0,67.26076221466064,0.0020675,team_zs_cot_prompt
+ex026,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',2,False,722.0,742.0,11.44026803970337,0.00183,team_zs_cot_prompt
+ex087,1,1,True,659.0,1587.0,25.378575801849365,0.0028075,team_zs_cot_prompt
+ex033,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',1,False,692.0,1302.0,19.919908046722412,0.0024925,team_zs_cot_prompt
+ex008,1,1,True,802.0,716.0,12.605952024459839,0.0018975000000000003,team_zs_cot_prompt
+ex047,0,0,True,784.0,606.0,54.11639904975891,0.0017375000000000003,team_zs_cot_prompt
+ex059,1,2,False,710.0,1108.0,41.02087712287903,0.0022725,team_zs_cot_prompt
+ex063,1,1,True,760.0,521.0,15.329084157943726,0.0016012500000000002,team_zs_cot_prompt
+ex074,2,2,True,803.0,695.0,8.404951810836792,0.0018725,team_zs_cot_prompt
+ex044,2,2,True,712.0,1630.0,13.106174945831299,0.0029275000000000004,team_zs_cot_prompt
+ex098,2,2,True,801.0,849.0,18.73357582092285,0.0020625,team_zs_cot_prompt
+ex052,2,1,False,816.0,1357.0,29.201703310012817,0.00271625,team_zs_cot_prompt
+ex085,0,0,True,763.0,514.0,8.224522113800049,0.00159625,team_zs_cot_prompt
+ex012,2,2,True,776.0,666.0,18.089493989944458,0.0018025,team_zs_cot_prompt
+ex036,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',2,False,756.0,1120.0,23.258164167404175,0.0023450000000000003,team_zs_cot_prompt
+ex023,1,1,True,651.0,1199.0,31.737648963928223,0.0023125000000000003,team_zs_cot_prompt
+ex039,1,1,True,760.0,386.0,4.012298107147217,0.0014325000000000002,team_zs_cot_prompt
+ex040,2,2,True,750.0,993.0,20.071669101715088,0.00217875,team_zs_cot_prompt
+ex018,2,2,True,722.0,1198.0,41.94461703300476,0.0024000000000000002,team_zs_cot_prompt
+ex066,0,0,True,831.0,958.0,72.59009194374084,0.0022362500000000004,team_zs_cot_prompt
+ex061,1,1,True,720.0,1213.0,35.33488988876343,0.00241625,team_zs_cot_prompt
+ex060,2,2,True,625.0,1021.0,73.97525405883789,0.0020575000000000003,team_zs_cot_prompt
+ex007,0,0,True,747.0,625.0,46.851197957992554,0.0017150000000000002,team_zs_cot_prompt
+ex034,2,2,True,691.0,1250.0,118.19369101524353,0.00242625,team_zs_cot_prompt
+ex099,2,2,True,612.0,514.0,38.313822746276855,0.0014075000000000001,team_zs_cot_prompt
+ex046,1,0,False,722.0,868.0,83.76473379135132,0.0019875,team_zs_cot_prompt
+ex002,0,0,True,751.0,608.0,6.096250772476196,0.0016987500000000002,team_zs_cot_prompt
+ex051,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',2,False,657.0,1730.0,17.2186381816864,0.0029837500000000003,team_zs_cot_prompt
+ex016,2,1,False,724.0,1139.0,29.516623735427856,0.00232875,team_zs_cot_prompt
+ex038,2,0,False,666.0,1806.0,18.37815499305725,0.0030900000000000003,team_zs_cot_prompt
+ex058,2,2,True,713.0,804.0,20.073857069015503,0.0018962500000000001,team_zs_cot_prompt
+ex068,2,2,True,677.0,424.0,12.079617023468018,0.0013762500000000003,team_zs_cot_prompt
+ex022,0,2,False,624.0,928.0,22.404316902160645,0.00194,team_zs_cot_prompt
+ex062,2,2,True,670.0,569.0,30.799165964126587,0.0015487500000000002,team_zs_cot_prompt
+ex024,1,1,True,766.0,657.0,23.789494037628174,0.0017787500000000002,team_zs_cot_prompt
+ex005,0,0,True,761.0,995.0,14.283786535263062,0.002195,team_zs_cot_prompt
+ex006,2,2,True,768.0,605.0,22.731051921844482,0.0017162500000000003,team_zs_cot_prompt
+ex067,0,0,True,718.0,847.0,10.51357889175415,0.00195625,team_zs_cot_prompt
+ex082,0,1,False,748.0,881.0,18.526269912719727,0.00203625,team_zs_cot_prompt
+ex019,0,2,False,668.0,746.0,9.123220920562744,0.0017675,team_zs_cot_prompt
+ex079,0,0,True,738.0,919.0,20.335636854171753,0.00207125,team_zs_cot_prompt
+ex043,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',2,False,742.0,1092.0,22.908622980117798,0.0022925000000000003,team_zs_cot_prompt
+ex090,0,0,True,701.0,1621.0,56.96634006500244,0.0029025000000000006,team_zs_cot_prompt
+ex020,0,0,True,748.0,1948.0,44.34486699104309,0.00337,team_zs_cot_prompt
+ex000,2,1,False,831.0,1156.0,39.29987597465515,0.0024837500000000003,team_zs_cot_prompt
+ex095,1,1,True,658.0,1180.0,22.496850967407227,0.0022975,team_zs_cot_prompt
+ex057,0,1,False,709.0,1788.0,28.951816082000732,0.00312125,team_zs_cot_prompt
+ex093,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',1,False,837.0,972.0,82.22892332077026,0.0022612500000000002,team_zs_cot_prompt
+ex053,2,2,True,686.0,914.0,7.328013896942139,0.002,team_zs_cot_prompt
+ex089,0,0,True,747.0,797.0,6.19842267036438,0.0019300000000000003,team_zs_cot_prompt
+ex025,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',0,False,793.0,1725.0,143.35529375076294,0.0031475,team_zs_cot_prompt
+ex071,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',0,False,728.0,2048.0,108.36877274513245,0.0034700000000000004,team_zs_cot_prompt
+ex084,1,1,True,745.0,1180.0,32.557721853256226,0.0024062500000000004,team_zs_cot_prompt
+ex077,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',1,False,774.0,997.0,27.60629105567932,0.0022137500000000004,team_zs_cot_prompt
+ex064,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',1,False,797.0,1094.0,29.796193838119507,0.0023637500000000004,team_zs_cot_prompt
+ex029,0,2,False,778.0,913.0,75.37358498573303,0.00211375,team_zs_cot_prompt
+ex027,0,0,True,719.0,947.0,39.7087140083313,0.0020825,team_zs_cot_prompt
+ex088,2,2,True,673.0,1238.0,20.237481832504272,0.0023887500000000002,team_zs_cot_prompt
+ex097,0,0,True,634.0,595.0,6.177227973937988,0.00153625,team_zs_cot_prompt
+ex004,1,2,False,696.0,1585.0,54.07148504257202,0.0028512500000000005,team_zs_cot_prompt
+ex054,1,1,True,621.0,590.0,16.692229986190796,0.0015137500000000001,team_zs_cot_prompt
+ex075,1,1,True,721.0,573.0,15.2168288230896,0.0016175,team_zs_cot_prompt
+ex011,2,1,False,620.0,902.0,37.725897789001465,0.0019025000000000001,team_zs_cot_prompt
+ex069,2,1,False,777.0,1471.0,110.10486197471619,0.00281,team_zs_cot_prompt
+ex086,2,1,False,829.0,737.0,47.0652060508728,0.0019575,team_zs_cot_prompt
+ex013,1,1,True,642.0,657.0,21.312463998794556,0.0016237500000000002,team_zs_cot_prompt
+ex017,1,1,True,858.0,466.0,31.62754201889038,0.0016550000000000002,team_zs_cot_prompt
+ex028,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',2,False,659.0,2.0,0.2945389747619629,0.00082625,team_zs_cot_prompt
+ex031,2,2,True,660.0,1209.0,106.61899518966675,0.0023362500000000002,team_zs_cot_prompt
+ex035,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',2,False,615.0,1617.0,36.61220192909241,0.00279,team_zs_cot_prompt
+ex094,2,2,True,820.0,557.0,12.135958194732666,0.0017212500000000001,team_zs_cot_prompt
+ex003,1,1,True,664.0,2027.0,34.155389070510864,0.0033637500000000004,team_zs_cot_prompt
+ex014,0,0,True,762.0,391.0,6.118752956390381,0.0014412500000000003,team_zs_cot_prompt
+ex081,1,1,True,867.0,1001.0,13.71738600730896,0.0023350000000000003,team_zs_cot_prompt
