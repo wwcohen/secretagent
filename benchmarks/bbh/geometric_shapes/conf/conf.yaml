@@ -12,15 +12,11 @@ llm:
   # model: claude-haiku-4-5-20251001
   model: gemini/gemini-3.1-flash-lite
 
-pathto:
-  task: ${pathto.repo}/benchmarks/bbh/geometric_shapes
-  logs: ${pathto.task}
-
 cachier:
-  cache_dir: ${pathto.task}/llm_cache
+  cache_dir: ${oc.env:PATHTO_REPO}/benchmarks/bbh/geometric_shapes/llm_cache
 
 evaluate:
-  result_dir: ${pathto.logs}/results
+  result_dir: ${oc.env:PATHTO_REPO}/benchmarks/bbh/geometric_shapes/results
   expt_name: DEFAULT # means the expt isn't fully configured and should be discarded
   root_interface: ptools.identify_shape
   match: multiple_choice
@@ -28,7 +24,7 @@ evaluate:
 dataset:
   split: valid
   shuffle_seed: 137
-  json_data_dir: ${pathto.task}/data
+  json_data_dir: ${oc.env:PATHTO_REPO}/benchmarks/bbh/geometric_shapes/data
 
 ptools:
   extract_path:

@@ -7,16 +7,12 @@ improve:
 orchestrate:
   model: together_ai/Qwen/Qwen3.5-397B-A17B
 
-pathto:
-  task: ${pathto.repo}/benchmarks/natural_plan/trip
-  logs: ${pathto.task}
-
 cachier:
-  cache_dir: ${pathto.task}/llm_cache
+  cache_dir: ${oc.env:PATHTO_REPO}/benchmarks/natural_plan/trip/llm_cache
   enable_caching: false
 
 evaluate:
-  result_dir: ${pathto.logs}/results
+  result_dir: ${oc.env:PATHTO_REPO}/benchmarks/natural_plan/trip/results
   expt_name: trip_self_improve
   root_interface: ptools.trip_planning
   record_details: true

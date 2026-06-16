@@ -2,15 +2,11 @@ llm:
   model: gemini/gemini-3.1-flash-lite
   timeout: 180  # seconds; prevents hang on stalled HTTP calls
 
-pathto:
-  task: ${pathto.repo}/benchmarks/natural_plan/meeting
-  logs: ${pathto.task}
-
 cachier:
-  cache_dir: ${pathto.task}/llm_cache
+  cache_dir: ${oc.env:PATHTO_REPO}/benchmarks/natural_plan/meeting/llm_cache
 
 evaluate:
-  result_dir: ${pathto.logs}/results
+  result_dir: ${oc.env:PATHTO_REPO}/benchmarks/natural_plan/meeting/results
   expt_name: DEFAULT
   root_interface: ptools.meeting_planning
   record_details: true
