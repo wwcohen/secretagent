@@ -6,16 +6,12 @@ orchestrate:
   model: gemini/gemini-3.1-pro-preview
   max_retries: 3
 
-pathto:
-  task: ${pathto.repo}/benchmarks/natural_plan/meeting
-  logs: ${pathto.task}
-
 cachier:
-  cache_dir: ${pathto.task}/llm_cache
+  cache_dir: ${oc.env:PATHTO_REPO}/benchmarks/natural_plan/meeting/llm_cache
   enable_caching: true
 
 evaluate:
-  result_dir: ${pathto.logs}/results
+  result_dir: ${oc.env:PATHTO_REPO}/benchmarks/natural_plan/meeting/results
   expt_name: meeting_induced_seed_from_ptools
   root_interface: ptools.meeting_planning
   record_details: true

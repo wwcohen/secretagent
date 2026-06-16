@@ -3,17 +3,13 @@
 llm:
   model: together_ai/deepseek-ai/DeepSeek-V3.1
 
-pathto:
-  task: ${pathto.repo}/benchmarks/natural_plan/calendar
-  logs: ${pathto.task}
-
 cachier:
-  cache_dir: ${pathto.task}/llm_cache
+  cache_dir: ${oc.env:PATHTO_REPO}/benchmarks/natural_plan/calendar/llm_cache
   enable_caching: false
 
 evaluate:
   expt_name: calendar_zs_cot
-  result_dir: ${pathto.logs}/results
+  result_dir: ${oc.env:PATHTO_REPO}/benchmarks/natural_plan/calendar/results
   root_interface: ptools.calendar_scheduling
   record_details: true
 

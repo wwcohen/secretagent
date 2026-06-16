@@ -2,22 +2,18 @@ llm:
 #  model: together_ai/deepseek-ai/DeepSeek-V3.1
   model: gemini/gemini-3.1-flash-lite
 
-pathto:
-  task: ${pathto.repo}/benchmarks/bbh/sports_understanding
-  logs: ${pathto.task}
-
 cachier:
-  cache_dir: ${pathto.task}/llm_cache
+  cache_dir: ${oc.env:PATHTO_REPO}/benchmarks/bbh/sports_understanding/llm_cache
 
 evaluate:
-  result_dir: ${pathto.logs}/results
+  result_dir: ${oc.env:PATHTO_REPO}/benchmarks/bbh/sports_understanding/results
   expt_name: DEFAULT # means the expt isn't fully configured and should be discarded
   root_interface: ptools.are_sports_in_sentence_consistent
 
 dataset:
   split: valid
   shuffle_seed: 137
-  json_data_dir: ${pathto.task}/data
+  json_data_dir: ${oc.env:PATHTO_REPO}/benchmarks/bbh/sports_understanding/data
 
 ptools:
   analyze_sentence:
