@@ -11,11 +11,6 @@ import warnings
 
 GLOBAL_CONFIG: DictConfig = OmegaConf.create()
 
-# Name of the environment variable holding the repo root. Configs may
-# reference it directly via OmegaConf's built-in resolver,
-# ``${oc.env:PATHTO_REPO}``; it is also mirrored into ``pathto.repo``.
-PATHTO_REPO_ENV = 'PATHTO_REPO'
-
 def configure(yaml_file=None, cfg=None, dotlist=None, **kw):
     """Merge in config from a DictConfig, YAML file path, or keyword args.
 
@@ -74,10 +69,10 @@ def repo_root() -> str:
     that ``${oc.env:PATHTO_REPO}`` resolves to the same path.
     """
     _load_dotenv_once()
-    repo = os.environ.get(PATHTO_REPO_ENV)
+    repo = os.environ.get('PATHTO_REPO')
     if not repo:
         repo = str(find_project_root().resolve())
-        os.environ[PATHTO_REPO_ENV] = repo
+        os.environ['PATHTO_REPO'] = repo
     return repo
 
 def _add_path_to_repo_key(cfg):

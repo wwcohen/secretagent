@@ -1,0 +1,19 @@
+# Basic strategies for `make basics`, driven from the repo root by
+# secretagent.cli.basics. Mirrors this task's Makefile.
+config: conf/trip.yaml
+evaluator: evaluator.TripEvaluator
+strategies:
+  structured_baseline:
+    - ptools.trip_planning.method=simulate
+  unstructured_baseline:
+    - ptools.trip_planning.method=prompt_llm
+    - ptools.trip_planning.prompt_template_file=prompt_templates/zeroshot_trip.txt
+  workflow:
+    - ptools.trip_planning.method=direct
+    - ptools.trip_planning.fn=ptools.trip_workflow
+  pot:
+    - ptools.trip_planning.method=program_of_thought
+    - ptools.trip_planning.tools=[ptools.parse_trip_constraints,ptools.find_valid_route,ptools.build_trip_plan]
+  react:
+    - ptools.trip_planning.method=simulate_pydantic
+    - ptools.trip_planning.tools=[ptools.parse_trip_constraints,ptools.find_valid_route,ptools.build_trip_plan]

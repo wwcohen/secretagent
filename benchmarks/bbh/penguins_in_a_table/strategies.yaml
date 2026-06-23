@@ -1,0 +1,22 @@
+# Basic strategies for `make basics`, driven from the repo root by
+# secretagent.cli.basics. Mirrors this task's Makefile; root_interface is
+# set in conf/conf.yaml so no --interface is needed.
+config: conf/conf.yaml
+evaluator: null  # default ExactMatchEvaluator
+strategies:
+  unstructured_baseline:
+    - ptools.answer_penguin_question.method=direct
+    - ptools.answer_penguin_question.fn=ptools.zeroshot_unstructured_workflow
+  structured_baseline:
+    - ptools.answer_penguin_question.method=simulate
+  workflow:
+    - ptools.answer_penguin_question.method=direct
+    - ptools.answer_penguin_question.fn=ptools.penguins_workflow
+  pot:
+    - ptools.answer_penguin_question.method=program_of_thought
+    - ptools.answer_penguin_question.tools=[ptools.analyze_input,ptools.table_operation,ptools.answer_question,ptools.choose_response]
+  react:
+    - ptools.answer_penguin_question.method=direct
+    - ptools.answer_penguin_question.fn=ptools.penguins_react_workflow
+    - ptools.react_answer_penguin_question.method=simulate_pydantic
+    - ptools.react_answer_penguin_question.tools=[ptools.analyze_input,ptools.table_operation,ptools.answer_question,ptools.choose_response]

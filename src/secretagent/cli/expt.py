@@ -39,6 +39,24 @@ from secretagent.implement.util import resolve_dotted
 
 _EXTRA_ARGS = {"allow_extra_args": True, "allow_interspersed_args": False}
 
+def _taskdir_for(config_file: str | Path | None) -> Path:
+    """The benchmark task dir for a config file.
+
+    Configs live at <taskdir>/conf/<name>.yaml, and ptools.py / data/ /
+    evaluator.py / prompt_templates/ sit in <taskdir>. With no config
+    file we fall back to the cwd (legacy: run from inside the task dir).
+    """
+    if config_file is None:
+        return Path.cwd()
+    return Path(config_file).resolve().parent.parent
+
+def _put_on_path(taskdir: Path) -> None:
+    """Make task-local modules (evaluator, ptools siblings) importable by
+    bare name from any cwd, e.g. when running from the repo root."""
+    p = str(taskdir)
+    if p not in sys.path:
+        sys.path.insert(0, p)
+
 def _load_module_from_path(module_path: str | Path):
     """Load a Python module from a filesystem path.
 
@@ -78,12 +96,21 @@ def setup_and_load_dataset(dotlist: list[str], config_file: str | Path | None = 
 
     Returns dataset ready for evaluation.
     """
-    root = Path.cwd()
     if config_file is None:
-        config_file = root / 'conf' / 'conf.yaml'
+        config_file = Path.cwd() / 'conf' / 'conf.yaml'
+    config_file = Path(config_file).resolve()
     config.configure(yaml_file=config_file, dotlist=dotlist)
 
-    taskdir = Path(config.get('pathto.task', '.'))
+    # The task dir holds ptools.py and data/; the config lives at
+    # <taskdir>/conf/<name>.yaml. Deriving it from the config file's
+    # location (rather than cwd) lets an experiment run from any cwd,
+    # e.g. the repo root via `--config benchmarks/.../conf/conf.yaml`.
+    # An explicit pathto.task still wins when set. We write it back into
+    # the config so downstream factories that resolve relative *_file
+    # paths against pathto.task (e.g. prompt_llm's template) also work.
+    taskdir = Path(config.get('pathto.task') or config_file.parent.parent)
+    config.configure(cfg={'pathto': {'task': str(taskdir)}})
+    _put_on_path(taskdir)
     split = config.require('dataset.split')
     json_data_dir = Path(config.get('dataset.json_data_dir', str( taskdir / 'data')))
     dataset_json_file = json_data_dir / f'{split}.json'
@@ -141,6 +168,10 @@ def run(
     Extra args are parsed as config overrides in dot notation, e.g.:
         uv run python -m secretagent.cli.expt run --interface ptools.my_fn llm.model=gpt-4o
     """
+    # Put the task dir on sys.path first so a task-local --evaluator /
+    # --interface (e.g. evaluator.TripEvaluator) imports by bare name
+    # when running from the repo root.
+    _put_on_path(_taskdir_for(config_file))
     eval_instance = resolve_dotted(evaluator)() if evaluator else None
     top_level = resolve_dotted(interface) if interface else None
     run_experiment(

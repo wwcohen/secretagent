@@ -1,0 +1,22 @@
+# Basic strategies for `make basics`, driven from the repo root by
+# secretagent.cli.basics. Mirrors this task's Makefile; root_interface is
+# set in conf/conf.yaml so no --interface is needed.
+config: conf/conf.yaml
+evaluator: null  # default ExactMatchEvaluator
+strategies:
+  unstructured_baseline:
+    - ptools.identify_shape.method=direct
+    - ptools.identify_shape.fn=ptools.zeroshot_unstructured_workflow
+  structured_baseline:
+    - ptools.identify_shape.method=simulate
+  workflow:
+    - ptools.identify_shape.method=direct
+    - ptools.identify_shape.fn=ptools.geometric_shapes_workflow
+  pot:
+    - ptools.identify_shape.method=program_of_thought
+    - ptools.identify_shape.tools=[ptools.extract_path,ptools.extract_options,ptools.decompose_path,ptools.describe_command,ptools.compute_angle,ptools.describe_shape,ptools.select_option]
+  react:
+    - ptools.identify_shape.method=direct
+    - ptools.identify_shape.fn=ptools.geometric_shapes_react_workflow
+    - ptools.react_identify_shape.method=simulate_pydantic
+    - ptools.react_identify_shape.tools=[ptools.extract_path,ptools.extract_options,ptools.decompose_path,ptools.describe_command,ptools.compute_angle,ptools.describe_shape,ptools.select_option]

@@ -1,0 +1,19 @@
+# Basic strategies for `make basics`, driven from the repo root by
+# secretagent.cli.basics. Mirrors this task's Makefile.
+config: conf/meeting.yaml
+evaluator: evaluator.MeetingEvaluator
+strategies:
+  structured_baseline:
+    - ptools.meeting_planning.method=simulate
+  unstructured_baseline:
+    - ptools.meeting_planning.method=prompt_llm
+    - ptools.meeting_planning.prompt_template_file=prompt_templates/zeroshot_meeting.txt
+  workflow:
+    - ptools.meeting_planning.method=direct
+    - ptools.meeting_planning.fn=ptools.meeting_workflow
+  pot:
+    - ptools.meeting_planning.method=program_of_thought
+    - ptools.meeting_planning.tools=[ptools.parse_meeting_info,ptools.plan_visit_order,ptools.build_meeting_plan]
+  react:
+    - ptools.meeting_planning.method=simulate_pydantic
+    - ptools.meeting_planning.tools=[ptools.parse_meeting_info,ptools.plan_visit_order,ptools.build_meeting_plan]

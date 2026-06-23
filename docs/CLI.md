@@ -2,6 +2,52 @@
 
 All CLI tools live in `src/secretagent/cli/` and are run with `uv run -m`.
 
+## secretagent.cli.basics
+
+Repo-root runner for the per-task `make basics` strategy grid. Discovers a
+per-task `strategies.yaml` manifest under `benchmarks/` (so strategy config
+lives in the benchmark dirs, not in code), then runs each
+`model × task × strategy` cell via `secretagent.cli.expt run` as a
+subprocess. Results are written under `overall_results/<model>/<task>/<strategy>/`
+at the repo root — nothing is written into the benchmark/task dirs — and a
+top-level `overall_results/summary.csv` aggregates `correct`/`cost` per cell.
+Each task's own LLM cache (the absolute `cachier.cache_dir` in its conf) is
+reused, so reruns are cheap. Run it from the repo root; no `cd` needed.
+
+A manifest declares the config file (relative to the task dir), an optional
+dotted `evaluator`, and each strategy's dotlist overrides — a faithful copy of
+the task's Makefile `basics` targets.
+
+### list
+
+Show discovered tasks and their strategies.
+
+```
+uv run python -m secretagent.cli.basics list
+```
+
+### run
+
+Run the grid.
+
+```
+uv run python -m secretagent.cli.basics run [--models M1,M2] [--tasks IDS] \
+  [--strategies NAMES] [--n N] [--out DIR] [--dry-run] [DOTLIST_OVERRIDES...]
+```
+
+| Option | Default | Description |
+|---|---|---|
+| `--models` | `gemini/gemini-3.1-pro-preview,gemini/gemini-2.5-flash-lite` | Comma-separated `llm.model` values |
+| `--tasks` | all discovered | Comma-separated task ids, e.g. `bbh/penguins_in_a_table,natural_plan/trip` |
+| `--strategies` | all in each manifest | Comma-separated strategy names |
+| `--n` | full pool | `dataset.n` (minibatch size) |
+| `--out` | `overall_results` | Output root for results |
+| `--dry-run` | `false` | Print the assembled commands without running them |
+
+Extra positional args are passed as dotlist overrides to every cell and win
+over the driver's own (they are appended last). A cell that exits non-zero is
+recorded as failed in the summary and does not abort the rest of the grid.
+
 ## secretagent.cli.bench
 
 Universal benchmark runner. Dispatches to per-benchmark runners as subprocesses.

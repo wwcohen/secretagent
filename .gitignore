@@ -6,6 +6,10 @@ docs/medcalc_orchestrator_report.md
 orchestrate_cache/
 results_plot.png
 benchmarks/**/results/*DEFAULT
+# repo-root runner output (secretagent.cli.basics). Real runs are tracked so
+# results are reviewable; only throwaway DEFAULT-named runs are ignored
+# (mirrors benchmarks/**/results/*DEFAULT above).
+overall_results/**/*DEFAULT
 benchmarks/**/training/
 benchmarks/**/ptools_evolved.py
 benchmarks/**/tmp*.py

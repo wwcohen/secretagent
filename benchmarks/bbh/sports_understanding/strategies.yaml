@@ -1,0 +1,21 @@
+# Basic strategies for `make basics`, driven from the repo root by
+# secretagent.cli.basics. Mirrors this task's Makefile; root_interface is
+# set in conf/conf.yaml so no --interface is needed. Note: react binds the
+# top interface directly to simulate_pydantic (no react_ wrapper fn here).
+config: conf/conf.yaml
+evaluator: null  # default ExactMatchEvaluator
+strategies:
+  unstructured_baseline:
+    - ptools.are_sports_in_sentence_consistent.method=direct
+    - ptools.are_sports_in_sentence_consistent.fn=ptools.zeroshot_unstructured_workflow
+  structured_baseline:
+    - ptools.are_sports_in_sentence_consistent.method=simulate
+  workflow:
+    - ptools.are_sports_in_sentence_consistent.method=direct
+    - ptools.are_sports_in_sentence_consistent.fn=ptools.sports_understanding_workflow
+  pot:
+    - ptools.are_sports_in_sentence_consistent.method=program_of_thought
+    - ptools.are_sports_in_sentence_consistent.tools=[ptools.analyze_sentence,ptools.sport_for,ptools.consistent_sports]
+  react:
+    - ptools.are_sports_in_sentence_consistent.method=simulate_pydantic
+    - ptools.are_sports_in_sentence_consistent.tools=[ptools.analyze_sentence,ptools.sport_for,ptools.consistent_sports]

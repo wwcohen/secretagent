@@ -1,0 +1,19 @@
+# Basic strategies for `make basics`, driven from the repo root by
+# secretagent.cli.basics. Mirrors this task's Makefile.
+config: conf/calendar.yaml
+evaluator: evaluator.CalendarEvaluator
+strategies:
+  structured_baseline:
+    - ptools.calendar_scheduling.method=simulate
+  unstructured_baseline:
+    - ptools.calendar_scheduling.method=prompt_llm
+    - ptools.calendar_scheduling.prompt_template_file=prompt_templates/zeroshot_calendar.txt
+  workflow:
+    - ptools.calendar_scheduling.method=direct
+    - ptools.calendar_scheduling.fn=ptools.calendar_workflow
+  pot:
+    - ptools.calendar_scheduling.method=program_of_thought
+    - ptools.calendar_scheduling.tools=[ptools.parse_schedules,ptools.find_available_slots,ptools.select_and_format]
+  react:
+    - ptools.calendar_scheduling.method=simulate_pydantic
+    - ptools.calendar_scheduling.tools=[ptools.parse_schedules,ptools.find_available_slots,ptools.select_and_format]
