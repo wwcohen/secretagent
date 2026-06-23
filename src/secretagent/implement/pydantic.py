@@ -8,6 +8,7 @@ import hashlib
 import inspect
 import reprlib
 import time
+from typing import Any, Callable
 from pydantic import Field
 from pydantic_ai import Agent
 from pydantic_ai_litellm import LiteLLMModel
@@ -18,8 +19,37 @@ from secretagent.cache_util import cached
 from secretagent.core import register_factory
 from secretagent.implement.core import (
     SimulateFactory, ToolUsingFactory, _format_pydantic_schema)
-from secretagent.implement.util import load_template
+from secretagent.implement.util import load_template, resolve_dotted
 from secretagent.llm_util import echo_boxed, _retry_with_backoff
+
+
+class ToolFactory:
+    """Per-call container for a related set of agent tools.
+
+    Subclasses define a related group of tools that share per-call state
+    (e.g. the narrative being analyzed by a ReAct agent). The consuming
+    implementation factory creates a fresh instance per __call__, invokes
+    init(*args, **kw) with the interface's call arguments, and uses
+    tools() to obtain the list of bound methods to hand to the agent.
+
+    A fresh instance per call gives per-call state on ``self`` with no
+    cross-call or cross-thread interference — replacing the older pattern
+    of stashing state in a module-global dict, which races under
+    ``evaluate.max_workers > 1``. Because tools are plain bound methods,
+    the same subclass can drive a pydantic-ai Agent (which accepts bound
+    methods) and a PoT smolagents sandbox (which keys on ``fn.__name__``).
+    """
+
+    def init(self, *call_args, **call_kw) -> None:
+        """Initialize per-call state from the interface's call arguments.
+
+        Override to capture whatever the tools need. The base is a no-op
+        so subclasses with no per-call state can omit it.
+        """
+
+    def tools(self) -> list[Callable]:
+        """Return the bound tool methods to hand to the agent or sandbox."""
+        raise NotImplementedError
 
 def _run_agent_hashkey(_, kwds):
     """Create a hashkey for the arguments of _run_agent.
@@ -150,19 +180,37 @@ class SimulatePydanticFactory(SimulateFactory, ToolUsingFactory):
     """
 
     tools: list = Field(default_factory=list)
+    tool_factory_cls: Any = None
     prompt_kw: dict = Field(default_factory=dict)
 
-    def setup(self, tools=None, tool_module=None, learner=None, **prompt_kw):
-        self.tools = self.setup_tools(tools, tool_module=tool_module, learner=learner)
-        for tool in self.tools:
-            if not inspect.isfunction(tool):
+    def setup(self, tools=None, tool_module=None, learner=None,
+              tool_factory=None, **prompt_kw):
+        if tool_factory is not None:
+            if tools is not None or tool_module is not None:
                 raise ValueError(
-                    f'Tool {reprlib.repr(tool)} is not a function; '
-                    f'simulate_pydantic requires plain functions')
+                    'tool_factory is mutually exclusive with tools / tool_module')
+            cls = resolve_dotted(tool_factory) if isinstance(tool_factory, str) else tool_factory
+            if not (isinstance(cls, type) and issubclass(cls, ToolFactory)):
+                raise ValueError(
+                    f'tool_factory={tool_factory!r} must resolve to a ToolFactory subclass')
+            self.tool_factory_cls = cls
+        else:
+            self.tools = self.setup_tools(tools, tool_module=tool_module, learner=learner)
+            for tool in self.tools:
+                if not inspect.isfunction(tool):
+                    raise ValueError(
+                        f'Tool {reprlib.repr(tool)} is not a function; '
+                        f'simulate_pydantic requires plain functions')
         self.prompt_kw = prompt_kw
 
     def __call__(self, *args, **kw):
         interface = self.bound_interface
+        if self.tool_factory_cls is not None:
+            provider = self.tool_factory_cls()
+            provider.init(*args, **kw)
+            call_tools = provider.tools()
+        else:
+            call_tools = self.tools
         with config.configuration(**self.prompt_kw):
             prompt = self.create_prompt(interface, *args, **kw)
             try:
@@ -171,7 +219,7 @@ class SimulatePydanticFactory(SimulateFactory, ToolUsingFactory):
                     model_name=self.llm_model,
                     return_type=interface.annotations.get('return', str),
                     prompt=prompt,
-                    tools=self.tools)
+                    tools=call_tools)
             except Exception as ex:
                 # pydantic-ai may have made LLM calls before the agent loop
                 # raised (e.g. when a tool-call's args don't match the

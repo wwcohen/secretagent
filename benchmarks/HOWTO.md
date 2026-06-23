@@ -36,6 +36,117 @@ Use `ptools.py` to define the top-level Interface for problems in this
 dataset, and any ptools that will used.  Also put hand-coded tools or
 workflows here.
 
+## Tool bundles with shared state: `ToolFactory`
+
+> Worked example: `benchmarks/musr/murder/` —
+> `MurderToolFactory` in `ptools.py`, wired by the `react_factory`
+> target in `Makefile`. Read those alongside this section.
+
+A `simulate_pydantic` agent's tools are plain functions, and the agent
+has to pass each argument explicitly on every call.  When several tools
+share a large input — e.g. a long narrative the agent inspects via many
+small probes — repeating that input on every tool call is wasteful and
+sometimes simply too long for the model.
+
+A `ToolFactory` lets you bundle a related group of tools whose
+per-call state lives on `self`.  A fresh instance is created **per
+interface call**; `init()` receives the interface's call arguments and
+seeds the state; `tools()` returns the bound methods that the agent
+will call.  Because each interface call gets its own instance there is
+no cross-call leakage and `evaluate.max_workers > 1` is safe.
+
+### Defining a ToolFactory
+
+Subclass `ToolFactory` (in `secretagent.implement.pydantic`) and
+override `init` and `tools`. The bound methods become the agent's tool
+set; their docstrings are the prompts the agent reads. See
+`benchmarks/musr/murder/ptools.py` for a complete example
+(`MurderToolFactory`).
+
+```python
+from secretagent.implement.pydantic import ToolFactory
+
+class MyToolFactory(ToolFactory):
+    """Tools for solving FOO problems over a shared CONTEXT."""
+
+    def __init__(self):
+        self.context: str = ''
+
+    def init(self, context, question, choices):
+        # Called once per interface call, BEFORE the agent runs.
+        # Receives the same positional args that the top-level interface
+        # was called with — store whatever the tools need on self.
+        self.context = context
+
+    def my_tool(self, query: str) -> str:
+        """Docstring shown to the agent — explain when/how to call this."""
+        return do_something(self.context, query)
+
+    def another_tool(self, intermediate: str) -> str:
+        """Threads intermediate results between steps."""
+        return refine(self.context, intermediate)
+
+    def tools(self):
+        return [self.my_tool, self.another_tool]
+```
+
+Rules:
+- `__init__()` runs once per instance and should set defaults for every
+  attribute the bound methods read.  Don't put per-call state there
+  unless you also re-initialize it in `init()`.
+- `init(*args, **kwargs)` receives whatever the top-level interface was
+  called with.  Use an explicit signature matching the interface, e.g.
+  `init(self, narrative, question, choices)`, and store only what the
+  tools need.
+- Bound methods (the things `tools()` returns) are the agent-facing
+  tools.  Their docstrings are the only documentation the agent sees,
+  so write them as if for the LLM.  Their signatures should NOT include
+  the shared state — that's the whole point.
+
+### Wiring a ToolFactory
+
+Bind the `simulate_pydantic` factory with a `tool_factory` kwarg
+giving the dotted name of the subclass (resolvable via the loaded
+ptools module).  `tool_factory` is mutually exclusive with `tools` /
+`tool_module`; you pick one or the other.
+
+In a YAML config:
+
+```yaml
+ptools:
+  answer_question:
+    method: simulate_pydantic
+    tool_factory: ptools.MyToolFactory
+```
+
+Or as command-line dotpair overrides (e.g. in a Makefile target):
+
+```makefile
+react_factory:
+	$(EXPT) run evaluate.expt_name=react_factory $(DOTPAIRS) \
+	  ptools.answer_question.method=simulate_pydantic \
+	  ptools.answer_question.tool_factory=ptools.MyToolFactory
+```
+
+At call time `SimulatePydanticFactory.__call__(*args, **kw)` does
+roughly:
+
+```python
+provider = MyToolFactory()              # fresh per call
+provider.init(*args, **kw)              # seed state from interface args
+tools = provider.tools()                # bound methods, ready to use
+# ... agent runs with `tools` ...
+```
+
+### When NOT to use it
+
+If your sub-tools take their arguments naturally (no large shared
+input, no per-call mutable state, no pagination cursors), just list
+them as plain `tools:` — the `ToolFactory` is for the cases where the
+agent would otherwise have to thread one big argument through every
+tool call, or where the tools need to share evolving state between
+calls.
+
 ## Setting up the datasets
 
 In `data/` write code to build three datasets, `train.json`,

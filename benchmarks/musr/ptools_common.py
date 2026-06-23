@@ -10,7 +10,7 @@ from pydantic import Field
 
 from secretagent import config
 from secretagent.core import interface, register_factory
-from secretagent.implement.pydantic import SimulatePydanticFactory
+from secretagent.implement.pydantic import SimulatePydanticFactory, ToolFactory
 from secretagent.llm_util import llm
 
 
@@ -35,18 +35,34 @@ def extract_index(answer_text: str, choices: list) -> int:
 # MUSR where the "environment" is the narrative passage rather than
 # Wikipedia.
 #
-# The tools need read-access to the current narrative, but the
-# secretagent @interface decorator registers tools as global singletons.
-# We use module-level state (`_REACT_STATE`) instead of closures —
-# benchmark evaluation is sequential (one example at a time per
-# process), so a single mutable dict is safe. The entry point
-# `react_answer_impl` resets the state at the start of each example.
+# Two co-existing wirings:
 #
-# Wiring (config snippet):
+# (1) Preferred — `tool_factory: ptools_common.NarrativeToolFactory`.
+#     simulate_pydantic constructs a fresh `NarrativeToolFactory` per
+#     interface call; its `init()` stores the narrative on the instance
+#     and `tools()` returns the bound search/lookup/finish methods.
+#     Per-call state lives on `self`, so `evaluate.max_workers > 1` is
+#     safe.
+#
+# (2) Legacy — module-global `_REACT_STATE` dict with free-function
+#     `search` / `lookup` / `finish` listed under `tools:`. Kept because
+#     learner-induced `learned_ptools.py` files (loaded via
+#     `tool_module=__learned__` in nsga2 `react_learned` arms) generate
+#     code that reads `_REACT_STATE['narrative']` directly. Single-
+#     threaded only.
+#
+# Wiring (config snippets):
+#   # (1) Preferred:
 #   ptools:
-#     search:        {method: direct}
-#     lookup:        {method: direct}
-#     finish:        {method: direct}
+#     react_solve:
+#       method: simulate_pydantic
+#       tool_factory: ptools_common.NarrativeToolFactory
+#     answer_question:
+#       method: direct
+#       fn: ptools_common.react_answer_impl
+#
+#   # (2) Legacy (still used by induced/learned ptools):
+#   ptools:
 #     react_solve:
 #       method: simulate_pydantic
 #       tools:
@@ -155,6 +171,93 @@ def finish(answer_index: int) -> str:
     )
 
 
+class NarrativeToolFactory(ToolFactory):
+    """Per-call tool bundle for ReAct over a MUSR narrative.
+
+    Bind via `tool_factory: ptools_common.NarrativeToolFactory` on a
+    simulate_pydantic ptool. A fresh instance is created per interface
+    call; `init()` stores the narrative on `self` and `tools()` returns
+    the bound search/lookup/finish methods.
+    """
+
+    def __init__(self):
+        self.narrative: str = ''
+        self.finish_answer: int | None = None
+        self.lookup_last: str | None = None
+        self.lookup_matches: list[str] = []
+        self.lookup_idx: int = 0
+
+    def init(self, narrative, question, choices):
+        self.narrative = narrative
+        self.finish_answer = None
+        self.lookup_last = None
+        self.lookup_matches = []
+        self.lookup_idx = 0
+
+    def search(self, query: str) -> str:
+        """Search the narrative for sentences containing the query (case-insensitive substring match).
+
+        Returns up to 5 matching sentences, each prefixed with '- '. If more
+        than 5 sentences match, indicates how many additional matches were
+        truncated. Use this for broad keyword exploration over the narrative
+        (e.g. search('alibi'), search('Alice'), search('9pm')).
+        """
+        if not self.narrative:
+            return "Error: no narrative loaded for this call."
+        sentences = _split_into_sentences(self.narrative)
+        q = query.lower()
+        matches = [s for s in sentences if q in s.lower()]
+        if not matches:
+            return f"No sentences contain {query!r}."
+        head = matches[:5]
+        body = '\n'.join(f"- {s}" for s in head)
+        if len(matches) > 5:
+            body += f"\n(... {len(matches) - 5} more matches; refine the query or use lookup to paginate)"
+        return body
+
+    def lookup(self, string: str) -> str:
+        """Paginate through sentences in the narrative containing the string.
+
+        First call with a new string returns the first match; subsequent
+        calls with the SAME string return the next match. Calling with a
+        different string resets pagination. Returns 'No more matches.' when
+        exhausted. Use this when search returned too many matches and you
+        want to walk through them one at a time.
+        """
+        if not self.narrative:
+            return "Error: no narrative loaded for this call."
+        if self.lookup_last != string:
+            sentences = _split_into_sentences(self.narrative)
+            s_lower = string.lower()
+            self.lookup_last = string
+            self.lookup_matches = [s for s in sentences if s_lower in s.lower()]
+            self.lookup_idx = 0
+        if not self.lookup_matches:
+            return f"No sentences contain {string!r}."
+        if self.lookup_idx >= len(self.lookup_matches):
+            return f"No more matches for {string!r} ({len(self.lookup_matches)} total)."
+        result = self.lookup_matches[self.lookup_idx]
+        self.lookup_idx += 1
+        return f"({self.lookup_idx}/{len(self.lookup_matches)}) {result}"
+
+    def finish(self, answer_index: int) -> str:
+        """Submit the final 0-based answer index.
+
+        Call this exactly once when you have determined the correct answer.
+        The answer_index must be the 0-based index into the choices list
+        (0 for the first choice, 1 for the second, etc.). After calling
+        finish, stop calling other tools and respond with the same index.
+        """
+        self.finish_answer = int(answer_index)
+        return (
+            f"Recorded answer index {answer_index}. "
+            "Stop calling tools and respond with the same index."
+        )
+
+    def tools(self):
+        return [self.search, self.lookup, self.finish]
+
+
 @interface
 def react_solve(narrative: str, question: str, choices: list) -> str:
     """Solve a multiple-choice MUSR question by ReAct over the narrative.
@@ -184,14 +287,20 @@ def react_solve(narrative: str, question: str, choices: list) -> str:
 def react_answer_impl(narrative: str, question: str, choices: list) -> int:
     """Direct-method entry point for ReAct configs.
 
-    Sets up per-call state, runs `react_solve` (which is bound to a
-    pydantic-ai Agent with the search/lookup/finish tools), and returns
-    the 0-based answer index.
+    Runs `react_solve` (which is bound to a pydantic-ai Agent with the
+    search/lookup/finish tools — either via NarrativeToolFactory or via
+    the legacy free-function trio) and returns the 0-based answer index
+    parsed from the agent's string output.
+
+    Calls `_reset_react_state(narrative)` before the agent run so that
+    learner-induced `learned_ptools.py` files (which still read
+    `_REACT_STATE['narrative']` directly) keep working under the
+    `react_learned` arm. The NarrativeToolFactory path doesn't read from
+    `_REACT_STATE` at all — its tools live on `self`.
 
     Recovery order:
-      1. If the agent called finish(), use the recorded index.
-      2. Else, parse the first integer found in the agent's string output.
-      3. Else, return -1 (recorded as wrong by the evaluator).
+      1. Parse the first integer found in the agent's string output.
+      2. Else, return -1 (recorded as wrong by the evaluator).
 
     Bind via:
         ptools:
@@ -205,12 +314,7 @@ def react_answer_impl(narrative: str, question: str, choices: list) -> int:
         raw = react_solve(narrative, question, choices)
     except Exception:
         # Agent loop blew up (e.g. request limit, output validation).
-        # finish() may still have been called before the failure — fall
-        # through and check state.
         pass
-    final = _REACT_STATE['finish_answer']
-    if final is not None:
-        return int(final)
     if isinstance(raw, str):
         m = re.search(r'-?\d+', raw)
         if m:
@@ -337,8 +441,11 @@ class SimulatePydanticWithWorkflowFactory(SimulatePydanticFactory):
 
     workflow_text: str = Field(default='')
 
-    def setup(self, workflow_file=None, workflow_key=None, tools=None, **prompt_kw):
-        super().setup(tools=tools, **prompt_kw)
+    def setup(self, workflow_file=None, workflow_key=None,
+              tools=None, tool_module=None, learner=None,
+              tool_factory=None, **prompt_kw):
+        super().setup(tools=tools, tool_module=tool_module, learner=learner,
+                      tool_factory=tool_factory, **prompt_kw)
         if workflow_file:
             content = pathlib.Path(workflow_file).read_text()
             if str(workflow_file).endswith('.json'):

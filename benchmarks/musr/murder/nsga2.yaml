@@ -40,7 +40,7 @@ methods:
     - ptools.answer_question.method=direct
     - ptools.answer_question.fn=ptools_common.react_answer_impl
     - ptools.react_solve.method=simulate_pydantic
-    - ptools.react_solve.tools=[ptools_common.search,ptools_common.lookup,ptools_common.finish]
+    - ptools.react_solve.tool_factory=ptools_common.NarrativeToolFactory
   react_learned:
     - ptools.answer_question.method=direct
     - ptools.answer_question.fn=ptools_common.react_answer_impl

@@ -19,10 +19,7 @@ dataset:
 ptools:
   react_solve:
     method: simulate_pydantic
-    tools:
-      - ptools_common.search
-      - ptools_common.lookup
-      - ptools_common.finish
+    tool_factory: ptools_common.NarrativeToolFactory
   answer_question:
     method: direct
     fn: ptools_common.react_answer_impl

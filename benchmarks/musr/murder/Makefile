@@ -7,7 +7,7 @@ DOTPAIRS ?=
 EXPT = uv run python -m secretagent.cli.expt
 SAR = uv run python -m secretagent.cli.results
 
-basics: unstructured_baseline structured_baseline workflow pot react
+basics: unstructured_baseline structured_baseline workflow pot react react_engineered
 
 # the hand-coded workflow
 workflow:
@@ -38,6 +38,14 @@ react:
 	$(EXPT) run evaluate.expt_name=react $(DOTPAIRS) \
 	  ptools.answer_question.method=simulate_pydantic \
 	  ptools.answer_question.tools=__all__
+
+# engineered react — agent uses MurderToolFactory, which stores the
+# narrative on init() so tools don't have to be passed it on every call
+
+react_factory:
+	$(EXPT) run evaluate.expt_name=react_factory $(DOTPAIRS) \
+	  ptools.answer_question.method=simulate_pydantic \
+	  ptools.answer_question.tool_factory=ptools.MurderToolFactory
 
 CHECK = ?
 

@@ -7,7 +7,9 @@ from pydantic import BaseModel
 from conftest import needs_api_key, CI_TEST_MODEL
 from secretagent import config, record
 from secretagent.core import interface, all_factories, _INTERFACES
-from secretagent.implement.pydantic import SimulatePydanticFactory, _summarize_messages
+from secretagent.implement import pydantic as pydantic_module
+from secretagent.implement.pydantic import (
+    SimulatePydanticFactory, ToolFactory, _summarize_messages)
 
 
 @pytest.fixture(autouse=True)
@@ -103,6 +105,135 @@ def test_summarize_messages_mixed():
     assert steps[1] == {'tool_call': 'calc', 'args': {'x': 1}}
     assert steps[2] == {'tool_return': 'calc', 'output': '42'}
     assert steps[3] == {'thought': 'done'}
+
+
+# --- ToolFactory: per-call tool state ---
+
+class _CounterFactory(ToolFactory):
+    """ToolFactory with one bound-method tool whose state is per-instance."""
+
+    def __init__(self):
+        self.narrative = None
+        self.calls = 0
+
+    def init(self, narrative, *_args, **_kw):
+        self.narrative = narrative
+        self.calls = 0
+
+    def peek(self, query):
+        """Return a snippet of the narrative containing the query."""
+        self.calls += 1
+        return f'{query}-in-{self.narrative}'
+
+    def tools(self):
+        return [self.peek]
+
+
+def test_tool_factory_base_tools_not_implemented():
+    factory = ToolFactory()
+    with pytest.raises(NotImplementedError):
+        factory.tools()
+
+
+def test_tool_factory_default_init_is_noop():
+    # Base init() is a no-op so subclasses with no per-call state can omit it.
+    ToolFactory().init('whatever', x=1)
+
+
+def test_setup_resolves_tool_factory_string():
+    @interface
+    def use_peek(narrative: str) -> str:
+        """Pick a snippet."""
+
+    factory = SimulatePydanticFactory()
+    factory.bound_interface = use_peek
+    factory.setup(tool_factory='test_pydantic_impl._CounterFactory')
+    assert factory.tool_factory_cls is _CounterFactory
+    assert factory.tools == []  # legacy field unused on the tool_factory path
+    _INTERFACES.remove(use_peek)
+
+
+def test_setup_accepts_tool_factory_class_directly():
+    @interface
+    def use_peek(narrative: str) -> str:
+        """Pick a snippet."""
+
+    factory = SimulatePydanticFactory()
+    factory.bound_interface = use_peek
+    factory.setup(tool_factory=_CounterFactory)
+    assert factory.tool_factory_cls is _CounterFactory
+    _INTERFACES.remove(use_peek)
+
+
+def test_setup_rejects_non_tool_factory_class():
+    @interface
+    def use_peek(narrative: str) -> str:
+        """Pick a snippet."""
+
+    factory = SimulatePydanticFactory()
+    factory.bound_interface = use_peek
+    with pytest.raises(ValueError, match='ToolFactory subclass'):
+        factory.setup(tool_factory=str)
+    _INTERFACES.remove(use_peek)
+
+
+def test_setup_rejects_tool_factory_with_tools():
+    @interface
+    def use_peek(narrative: str) -> str:
+        """Pick a snippet."""
+
+    factory = SimulatePydanticFactory()
+    factory.bound_interface = use_peek
+    with pytest.raises(ValueError, match='mutually exclusive'):
+        factory.setup(tool_factory=_CounterFactory, tools=[])
+    _INTERFACES.remove(use_peek)
+
+
+def test_call_instantiates_tool_factory_fresh_per_call(monkeypatch):
+    """Each __call__ creates a fresh ToolFactory instance and gets its tools.
+
+    Verified by stubbing _run_agent to capture the tools it sees. The
+    bound method on a fresh instance has a different `__self__` for each
+    call, proving no instance reuse.
+    """
+    @interface
+    def use_peek(narrative: str) -> str:
+        """Pick a snippet."""
+
+    seen_selves = []
+    seen_tool_names = []
+
+    def fake_run_agent(*, interface, model_name, return_type, prompt, tools):
+        # tools is a list of bound methods; capture their __self__ identity.
+        seen_selves.append(tools[0].__self__)
+        seen_tool_names.append(tools[0].__name__)
+        return 'ok', {'cost': 0, 'latency': 0,
+                      'input_tokens': 0, 'output_tokens': 0}, []
+
+    monkeypatch.setattr(pydantic_module, '_run_agent', fake_run_agent)
+    use_peek.implement_via(
+        'simulate_pydantic',
+        tool_factory=_CounterFactory,
+        llm={'model': CI_TEST_MODEL})
+
+    use_peek('first-narrative')
+    use_peek('second-narrative')
+
+    assert seen_tool_names == ['peek', 'peek']
+    # Two distinct ToolFactory instances — no cross-call state.
+    assert seen_selves[0] is not seen_selves[1]
+    assert isinstance(seen_selves[0], _CounterFactory)
+    assert seen_selves[0].narrative == 'first-narrative'
+    assert seen_selves[1].narrative == 'second-narrative'
+    _INTERFACES.remove(use_peek)
+
+
+def test_tool_factory_bound_methods_have_name():
+    """Caching keys on tool.__name__ — bound methods must carry it."""
+    factory = _CounterFactory()
+    factory.init('narr')
+    tools = factory.tools()
+    assert tools[0].__name__ == 'peek'
 
 
 # --- integration test (requires API key) ---
