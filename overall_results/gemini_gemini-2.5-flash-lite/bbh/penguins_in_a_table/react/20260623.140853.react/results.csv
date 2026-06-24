@@ -1,0 +1,292 @@
+case_name,predicted_output,expected_output,correct,input_tokens,output_tokens,latency,cost,expt_name
+test.018,"**exception raised**: status_code: 503, model_name: gemini/gemini-2.5-flash-lite, body: litellm.ServiceUnavailableError: GeminiException - {
+  ""error"": {
+    ""code"": 503,
+    ""message"": ""This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later."",
+    ""status"": ""UNAVAILABLE""
+  }
+}
+",(A),0.0,,,,,react
+test.040,"**exception raised**: status_code: 503, model_name: gemini/gemini-2.5-flash-lite, body: litellm.ServiceUnavailableError: GeminiException - {
+  ""error"": {
+    ""code"": 503,
+    ""message"": ""This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later."",
+    ""status"": ""UNAVAILABLE""
+  }
+}
+",(A),0.0,,,,,react
+test.048,None,(D),0.0,6545.0,631.0,9.026453495025635,0.0009068999999999999,react
+test.017,None,(D),0.0,953.0,10.0,2.7013087272644043,9.929999999999999e-05,react
+test.007,(C),(C),1.0,1334.0,289.0,6.441916465759277,0.000249,react
+test.059,"**exception raised**: status_code: 503, model_name: gemini/gemini-2.5-flash-lite, body: litellm.ServiceUnavailableError: GeminiException - {
+  ""error"": {
+    ""code"": 503,
+    ""message"": ""This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later."",
+    ""status"": ""UNAVAILABLE""
+  }
+}
+",(B),0.0,,,,,react
+test.049,,(D),0.0,947.0,8.0,4.558185577392578,9.79e-05,react
+test.024,"**exception raised**: status_code: 503, model_name: gemini/gemini-2.5-flash-lite, body: litellm.ServiceUnavailableError: GeminiException - {
+  ""error"": {
+    ""code"": 503,
+    ""message"": ""This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later."",
+    ""status"": ""UNAVAILABLE""
+  }
+}
+",(A),0.0,,,,,react
+test.013,None,(D),0.0,1072.0,10.0,0.9509060382843018,0.00011119999999999999,react
+test.019,None,(E),0.0,970.0,10.0,2.9595203399658203,0.00010099999999999999,react
+test.035,(A),(C),0.0,963.0,24.0,3.6452136039733887,0.0001059,react
+test.054,None,(E),0.0,1063.0,10.0,1.532522201538086,0.00011029999999999998,react
+test.044,"**exception raised**: status_code: 503, model_name: gemini/gemini-2.5-flash-lite, body: litellm.ServiceUnavailableError: GeminiException - {
+  ""error"": {
+    ""code"": 503,
+    ""message"": ""This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later."",
+    ""status"": ""UNAVAILABLE""
+  }
+}
+",(A),0.0,,,,,react
+test.005,C,(D),0.0,981.0,12.0,0.6650588512420654,0.0001029,react
+test.037,"**exception raised**: status_code: 503, model_name: gemini/gemini-2.5-flash-lite, body: litellm.ServiceUnavailableError: GeminiException - {
+  ""error"": {
+    ""code"": 503,
+    ""message"": ""This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later."",
+    ""status"": ""UNAVAILABLE""
+  }
+}
+",(E),0.0,,,,,react
+test.038,"**exception raised**: status_code: 503, model_name: gemini/gemini-2.5-flash-lite, body: litellm.ServiceUnavailableError: GeminiException - {
+  ""error"": {
+    ""code"": 503,
+    ""message"": ""This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later."",
+    ""status"": ""UNAVAILABLE""
+  }
+}
+",(A),0.0,,,,,react
+test.006,"**exception raised**: status_code: 503, model_name: gemini/gemini-2.5-flash-lite, body: litellm.ServiceUnavailableError: GeminiException - {
+  ""error"": {
+    ""code"": 503,
+    ""message"": ""This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later."",
+    ""status"": ""UNAVAILABLE""
+  }
+}
+",(D),0.0,,,,,react
+test.003,,(C),0.0,977.0,8.0,3.297086000442505,0.0001009,react
+test.016,"**exception raised**: status_code: 503, model_name: gemini/gemini-2.5-flash-lite, body: litellm.ServiceUnavailableError: GeminiException - {
+  ""error"": {
+    ""code"": 503,
+    ""message"": ""This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later."",
+    ""status"": ""UNAVAILABLE""
+  }
+}
+",(A),0.0,,,,,react
+test.034,None,(B),0.0,952.0,10.0,0.7207441329956055,9.919999999999999e-05,react
+test.002,,(D),0.0,1046.0,8.0,10.309072732925415,0.00010779999999999999,react
+test.057,None,(A),0.0,946.0,10.0,2.468367338180542,9.859999999999998e-05,react
+test.029,(C),(C),1.0,1162.0,217.0,3.4421510696411133,0.00020299999999999997,react
+test.028,(B),(B),1.0,1034.0,92.0,2.7335009574890137,0.0001402,react
+test.039,"**exception raised**: status_code: 503, model_name: gemini/gemini-2.5-flash-lite, body: litellm.ServiceUnavailableError: GeminiException - {
+  ""error"": {
+    ""code"": 503,
+    ""message"": ""This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later."",
+    ""status"": ""UNAVAILABLE""
+  }
+}
+",(D),0.0,,,,,react
+test.041,"**exception raised**: status_code: 503, model_name: gemini/gemini-2.5-flash-lite, body: litellm.ServiceUnavailableError: GeminiException - {
+  ""error"": {
+    ""code"": 503,
+    ""message"": ""This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later."",
+    ""status"": ""UNAVAILABLE""
+  }
+}
+",(A),0.0,,,,,react
+test.043,None,(B),0.0,1042.0,11.0,2.7618329524993896,0.0001086,react
+test.010,"**exception raised**: status_code: 503, model_name: gemini/gemini-2.5-flash-lite, body: litellm.ServiceUnavailableError: GeminiException - {
+  ""error"": {
+    ""code"": 503,
+    ""message"": ""This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later."",
+    ""status"": ""UNAVAILABLE""
+  }
+}
+",(D),0.0,,,,,react
+test.047,,(C),0.0,1046.0,8.0,2.4649288654327393,0.00010779999999999999,react
+test.055,"**exception raised**: status_code: 503, model_name: gemini/gemini-2.5-flash-lite, body: litellm.ServiceUnavailableError: GeminiException - {
+  ""error"": {
+    ""code"": 503,
+    ""message"": ""This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later."",
+    ""status"": ""UNAVAILABLE""
+  }
+}
+",(E),0.0,,,,,react
+test.036,"**exception raised**: status_code: 503, model_name: gemini/gemini-2.5-flash-lite, body: litellm.ServiceUnavailableError: GeminiException - {
+  ""error"": {
+    ""code"": 503,
+    ""message"": ""This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later."",
+    ""status"": ""UNAVAILABLE""
+  }
+}
+",(B),0.0,,,,,react
+test.053,"**exception raised**: status_code: 503, model_name: gemini/gemini-2.5-flash-lite, body: litellm.ServiceUnavailableError: GeminiException - {
+  ""error"": {
+    ""code"": 503,
+    ""message"": ""This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later."",
+    ""status"": ""UNAVAILABLE""
+  }
+}
+",(A),0.0,,,,,react
+test.015,"**exception raised**: status_code: 503, model_name: gemini/gemini-2.5-flash-lite, body: litellm.ServiceUnavailableError: GeminiException - {
+  ""error"": {
+    ""code"": 503,
+    ""message"": ""This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later."",
+    ""status"": ""UNAVAILABLE""
+  }
+}
+",(A),0.0,,,,,react
+test.052,"**exception raised**: status_code: 503, model_name: gemini/gemini-2.5-flash-lite, body: litellm.ServiceUnavailableError: GeminiException - {
+  ""error"": {
+    ""code"": 503,
+    ""message"": ""This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later."",
+    ""status"": ""UNAVAILABLE""
+  }
+}
+",(A),0.0,,,,,react
+test.058,"**exception raised**: litellm.ServiceUnavailableError: GeminiException - {
+  ""error"": {
+    ""code"": 503,
+    ""message"": ""This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later."",
+    ""status"": ""UNAVAILABLE""
+  }
+}
+",(A),0.0,749.0,988.0,5.5176169872283936,0.00047009999999999993,react
+test.023,"**exception raised**: status_code: 503, model_name: gemini/gemini-2.5-flash-lite, body: litellm.ServiceUnavailableError: GeminiException - {
+  ""error"": {
+    ""code"": 503,
+    ""message"": ""This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later."",
+    ""status"": ""UNAVAILABLE""
+  }
+}
+",(D),0.0,,,,,react
+test.045,"**exception raised**: status_code: 503, model_name: gemini/gemini-2.5-flash-lite, body: litellm.ServiceUnavailableError: GeminiException - {
+  ""error"": {
+    ""code"": 503,
+    ""message"": ""This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later."",
+    ""status"": ""UNAVAILABLE""
+  }
+}
+",(D),0.0,,,,,react
+test.009,"**exception raised**: status_code: 503, model_name: gemini/gemini-2.5-flash-lite, body: litellm.ServiceUnavailableError: GeminiException - {
+  ""error"": {
+    ""code"": 503,
+    ""message"": ""This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later."",
+    ""status"": ""UNAVAILABLE""
+  }
+}
+",(B),0.0,,,,,react
+test.001,"**exception raised**: status_code: 503, model_name: gemini/gemini-2.5-flash-lite, body: litellm.ServiceUnavailableError: GeminiException - {
+  ""error"": {
+    ""code"": 503,
+    ""message"": ""This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later."",
+    ""status"": ""UNAVAILABLE""
+  }
+}
+",(B),0.0,,,,,react
+test.051,"**exception raised**: status_code: 503, model_name: gemini/gemini-2.5-flash-lite, body: litellm.ServiceUnavailableError: GeminiException - {
+  ""error"": {
+    ""code"": 503,
+    ""message"": ""This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later."",
+    ""status"": ""UNAVAILABLE""
+  }
+}
+",(C),0.0,,,,,react
+test.021,C,(A),0.0,958.0,14.0,4.1968042850494385,0.0001014,react
+test.042,"**exception raised**: status_code: 503, model_name: gemini/gemini-2.5-flash-lite, body: litellm.ServiceUnavailableError: GeminiException - {
+  ""error"": {
+    ""code"": 503,
+    ""message"": ""This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later."",
+    ""status"": ""UNAVAILABLE""
+  }
+}
+",(A),0.0,,,,,react
+test.046,"**exception raised**: status_code: 503, model_name: gemini/gemini-2.5-flash-lite, body: litellm.ServiceUnavailableError: GeminiException - {
+  ""error"": {
+    ""code"": 503,
+    ""message"": ""This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later."",
+    ""status"": ""UNAVAILABLE""
+  }
+}
+",(A),0.0,,,,,react
+test.027,,(D),0.0,948.0,8.0,0.860814094543457,9.8e-05,react
+test.008,None,(B),0.0,948.0,10.0,3.739408016204834,9.879999999999999e-05,react
+test.030,"**exception raised**: status_code: 503, model_name: gemini/gemini-2.5-flash-lite, body: litellm.ServiceUnavailableError: GeminiException - {
+  ""error"": {
+    ""code"": 503,
+    ""message"": ""This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later."",
+    ""status"": ""UNAVAILABLE""
+  }
+}
+",(D),0.0,,,,,react
+test.033,2,(B),0.0,1073.0,10.0,9.279282093048096,0.0001113,react
+test.050,"**exception raised**: status_code: 503, model_name: gemini/gemini-2.5-flash-lite, body: litellm.ServiceUnavailableError: GeminiException - {
+  ""error"": {
+    ""code"": 503,
+    ""message"": ""This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later."",
+    ""status"": ""UNAVAILABLE""
+  }
+}
+",(C),0.0,,,,,react
+test.056,"**exception raised**: status_code: 503, model_name: gemini/gemini-2.5-flash-lite, body: litellm.ServiceUnavailableError: GeminiException - {
+  ""error"": {
+    ""code"": 503,
+    ""message"": ""This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later."",
+    ""status"": ""UNAVAILABLE""
+  }
+}
+",(D),0.0,,,,,react
+test.032,"**exception raised**: status_code: 503, model_name: gemini/gemini-2.5-flash-lite, body: litellm.ServiceUnavailableError: GeminiException - {
+  ""error"": {
+    ""code"": 503,
+    ""message"": ""This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later."",
+    ""status"": ""UNAVAILABLE""
+  }
+}
+",(A),0.0,,,,,react
+test.025,(E),(E),1.0,1100.0,161.0,4.793254613876343,0.00017439999999999998,react
+test.000,,(C),0.0,991.0,8.0,0.7141048908233643,0.00010229999999999999,react
+test.022,"**exception raised**: status_code: 503, model_name: gemini/gemini-2.5-flash-lite, body: litellm.ServiceUnavailableError: GeminiException - {
+  ""error"": {
+    ""code"": 503,
+    ""message"": ""This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later."",
+    ""status"": ""UNAVAILABLE""
+  }
+}
+",(C),0.0,,,,,react
+test.031,(B),(B),1.0,1106.0,67.0,4.031405448913574,0.00013739999999999998,react
+test.014,"**exception raised**: status_code: 503, model_name: gemini/gemini-2.5-flash-lite, body: litellm.ServiceUnavailableError: GeminiException - {
+  ""error"": {
+    ""code"": 503,
+    ""message"": ""This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later."",
+    ""status"": ""UNAVAILABLE""
+  }
+}
+",(E),0.0,,,,,react
+test.012,"**exception raised**: status_code: 503, model_name: gemini/gemini-2.5-flash-lite, body: litellm.ServiceUnavailableError: GeminiException - {
+  ""error"": {
+    ""code"": 503,
+    ""message"": ""This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later."",
+    ""status"": ""UNAVAILABLE""
+  }
+}
+",(E),0.0,,,,,react
+test.020,(C),(D),0.0,2368.0,628.0,9.144372701644897,0.000488,react
+test.026,E,(E),1.0,8516.0,788.0,12.627048015594482,0.0011668,react
+test.011,A,(B),0.0,1003.0,14.0,6.6416332721710205,0.00010589999999999999,react
+test.004,"**exception raised**: status_code: 503, model_name: gemini/gemini-2.5-flash-lite, body: litellm.ServiceUnavailableError: GeminiException - {
+  ""error"": {
+    ""code"": 503,
+    ""message"": ""This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later."",
+    ""status"": ""UNAVAILABLE""
+  }
+}
+",(A),0.0,,,,,react

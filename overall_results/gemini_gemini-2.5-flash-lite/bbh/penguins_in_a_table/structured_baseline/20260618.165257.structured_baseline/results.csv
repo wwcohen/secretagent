@@ -1,0 +1,61 @@
+case_name,predicted_output,expected_output,correct,input_tokens,output_tokens,latency,cost,expt_name
+test.018,(A),(A),1.0,424.0,11.0,0.6311538219451904,4.68e-05,structured_baseline
+test.040,(A),(A),1.0,392.0,11.0,0.5397195816040039,4.3599999999999996e-05,structured_baseline
+test.048,(A),(D),0.0,434.0,11.0,0.39476752281188965,4.7799999999999996e-05,structured_baseline
+test.017,(D),(D),1.0,397.0,11.0,0.3395252227783203,4.4099999999999995e-05,structured_baseline
+test.007,(D),(C),0.0,492.0,11.0,0.33858609199523926,5.3599999999999995e-05,structured_baseline
+test.059,(A),(B),0.0,440.0,11.0,0.3609011173248291,4.84e-05,structured_baseline
+test.049,(A),(D),0.0,391.0,11.0,0.3525567054748535,4.3499999999999993e-05,structured_baseline
+test.024,(A),(A),1.0,389.0,11.0,0.3295173645019531,4.3299999999999995e-05,structured_baseline
+test.013,(D),(D),1.0,516.0,11.0,0.3333888053894043,5.6e-05,structured_baseline
+test.019,(E) James,(E),0.0,414.0,12.0,0.32584643363952637,4.62e-05,structured_baseline
+test.035,(C),(C),1.0,396.0,11.0,0.3276524543762207,4.4e-05,structured_baseline
+test.054,(E) James,(E),0.0,507.0,12.0,0.35488438606262207,5.55e-05,structured_baseline
+test.044,(B),(A),0.0,407.0,11.0,0.3281059265136719,4.51e-05,structured_baseline
+test.005,(C),(D),0.0,425.0,11.0,0.34379005432128906,4.6899999999999995e-05,structured_baseline
+test.037,(E) James,(E),0.0,426.0,12.0,0.3453984260559082,4.74e-05,structured_baseline
+test.038,(A),(A),1.0,414.0,11.0,0.31592702865600586,4.5799999999999995e-05,structured_baseline
+test.006,(D),(D),1.0,424.0,11.0,2.7130792140960693,4.68e-05,structured_baseline
+test.003,(C) Vincent,(C),0.0,421.0,12.0,0.34122323989868164,4.69e-05,structured_baseline
+test.016,(A),(A),1.0,392.0,11.0,0.3485128879547119,4.3599999999999996e-05,structured_baseline
+test.034,(B),(B),1.0,396.0,11.0,0.34438443183898926,4.4e-05,structured_baseline
+test.002,(D),(D),1.0,490.0,11.0,0.3626289367675781,5.34e-05,structured_baseline
+test.057,(A),(A),1.0,390.0,11.0,0.3223001956939697,4.34e-05,structured_baseline
+test.029,(C),(C),1.0,392.0,11.0,0.5444667339324951,4.3599999999999996e-05,structured_baseline
+test.028,(B),(B),1.0,399.0,11.0,0.28467249870300293,4.43e-05,structured_baseline
+test.039,(B),(D),0.0,394.0,11.0,0.3034079074859619,4.3799999999999994e-05,structured_baseline
+test.041,(A),(A),1.0,444.0,11.0,0.322063684463501,4.8799999999999994e-05,structured_baseline
+test.043,(B),(B),1.0,485.0,11.0,0.3363196849822998,5.29e-05,structured_baseline
+test.010,(D),(D),1.0,517.0,11.0,0.2732973098754883,5.6099999999999995e-05,structured_baseline
+test.047,(A),(C),0.0,490.0,11.0,0.34509801864624023,5.34e-05,structured_baseline
+test.055,(E) James,(E),0.0,417.0,12.0,0.2953064441680908,4.65e-05,structured_baseline
+test.036,(B),(B),1.0,389.0,11.0,0.30434179306030273,4.3299999999999995e-05,structured_baseline
+test.053,(A),(A),1.0,415.0,11.0,0.30913662910461426,4.59e-05,structured_baseline
+test.015,(A),(A),1.0,432.0,11.0,0.286562442779541,4.76e-05,structured_baseline
+test.052,(C),(A),0.0,407.0,11.0,0.30289435386657715,4.51e-05,structured_baseline
+test.058,(C),(A),0.0,411.0,11.0,0.3176124095916748,4.5499999999999995e-05,structured_baseline
+test.023,(D),(D),1.0,510.0,11.0,0.2744557857513428,5.54e-05,structured_baseline
+test.045,(A),(D),0.0,390.0,11.0,0.3548886775970459,4.34e-05,structured_baseline
+test.009,(B),(B),1.0,518.0,11.0,0.3848404884338379,5.62e-05,structured_baseline
+test.001,(B),(B),1.0,517.0,11.0,0.31279921531677246,5.6099999999999995e-05,structured_baseline
+test.051,(B),(C),0.0,403.0,11.0,0.3169128894805908,4.4699999999999996e-05,structured_baseline
+test.021,(B),(A),0.0,399.0,11.0,0.3065822124481201,4.43e-05,structured_baseline
+test.042,(B),(A),0.0,436.0,11.0,0.30997633934020996,4.7999999999999994e-05,structured_baseline
+test.046,(B),(A),0.0,492.0,11.0,0.28584909439086914,5.3599999999999995e-05,structured_baseline
+test.027,(A),(D),0.0,392.0,11.0,0.36610889434814453,4.3599999999999996e-05,structured_baseline
+test.008,(B),(B),1.0,392.0,11.0,0.4020729064941406,4.3599999999999996e-05,structured_baseline
+test.030,(D),(D),1.0,400.0,11.0,0.31156229972839355,4.4399999999999995e-05,structured_baseline
+test.033,(B),(B),1.0,515.0,11.0,0.2904069423675537,5.59e-05,structured_baseline
+test.050,(E) James,(C),0.0,422.0,12.0,0.37544870376586914,4.7e-05,structured_baseline
+test.056,(A),(D),0.0,409.0,11.0,0.2934699058532715,4.5299999999999997e-05,structured_baseline
+test.032,(A),(A),1.0,432.0,11.0,0.3320014476776123,4.76e-05,structured_baseline
+test.025,(E) penguins,(E),0.0,392.0,12.0,0.31824231147766113,4.4e-05,structured_baseline
+test.000,(C),(C),1.0,435.0,11.0,0.33593082427978516,4.79e-05,structured_baseline
+test.022,(A),(C),0.0,390.0,11.0,0.32254910469055176,4.34e-05,structured_baseline
+test.031,(A),(B),0.0,496.0,11.0,0.30771541595458984,5.4e-05,structured_baseline
+test.014,(E) James,(E),0.0,429.0,12.0,0.322279691696167,4.77e-05,structured_baseline
+test.012,(E) James,(E),0.0,414.0,12.0,0.3204069137573242,4.62e-05,structured_baseline
+test.020,(C),(D),0.0,411.0,11.0,0.29878687858581543,4.5499999999999995e-05,structured_baseline
+test.026,(D) Marian,(E),0.0,515.0,12.0,0.32674455642700195,5.63e-05,structured_baseline
+test.011,(A),(B),0.0,444.0,11.0,0.32973647117614746,4.8799999999999994e-05,structured_baseline
+test.004,(B),(A),0.0,522.0,11.0,0.3423895835876465,5.6599999999999993e-05,structured_baseline

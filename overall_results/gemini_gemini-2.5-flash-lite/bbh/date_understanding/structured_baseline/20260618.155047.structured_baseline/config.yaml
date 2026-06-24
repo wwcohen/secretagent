@@ -1,0 +1,34 @@
+pathto:
+  repo: C:/Users/Cassandra/Desktop/Work Projects/Secret Agent Project/secretagent
+  task: C:\Users\Cassandra\Desktop\Work Projects\Secret Agent Project\secretagent\benchmarks\bbh\date_understanding
+llm:
+  model: gemini/gemini-2.5-flash-lite
+cachier:
+  cache_dir: ${oc.env:PATHTO_REPO}/benchmarks/bbh/date_understanding/llm_cache
+evaluate:
+  result_dir: C:\Users\Cassandra\Desktop\Work Projects\Secret Agent Project\secretagent\overall_results\gemini_gemini-2.5-flash-lite\bbh\date_understanding\structured_baseline
+  root_interface: ptools.answer_date_question
+  expt_name: structured_baseline
+  match: multiple_choice
+dataset:
+  split: test
+  shuffle_seed: 137
+  json_data_dir: ${oc.env:PATHTO_REPO}/benchmarks/bbh/date_understanding/data
+ptools:
+  extract_options:
+    method: simulate
+  extract_date_facts:
+    method: simulate
+  extract_question:
+    method: simulate
+  make_inference:
+    method: simulate
+  answer_question:
+    method: simulate
+  match_option:
+    method: simulate
+  answer_date_question:
+    method: simulate
+pydantic:
+  retries: 2
+saved_under: 20260618.155047.structured_baseline

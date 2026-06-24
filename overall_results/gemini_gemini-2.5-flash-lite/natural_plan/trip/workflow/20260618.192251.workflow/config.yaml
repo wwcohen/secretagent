@@ -1,0 +1,29 @@
+pathto:
+  repo: C:/Users/Cassandra/Desktop/Work Projects/Secret Agent Project/secretagent
+  task: C:\Users\Cassandra\Desktop\Work Projects\Secret Agent Project\secretagent\benchmarks\natural_plan\trip
+llm:
+  timeout: 180
+  model: gemini/gemini-2.5-flash-lite
+cachier:
+  cache_dir: ${oc.env:PATHTO_REPO}/benchmarks/natural_plan/trip/llm_cache
+evaluate:
+  result_dir: C:\Users\Cassandra\Desktop\Work Projects\Secret Agent Project\secretagent\overall_results\gemini_gemini-2.5-flash-lite\natural_plan\trip\workflow
+  expt_name: workflow
+  root_interface: ptools.trip_planning
+  record_details: true
+dataset:
+  split: valid
+  shuffle_seed: 42
+ptools:
+  parse_trip_constraints:
+    method: simulate
+  find_valid_route:
+    method: simulate
+  build_trip_plan:
+    method: simulate
+  trip_planning:
+    method: direct
+    fn: ptools.trip_workflow
+pydantic:
+  retries: 2
+saved_under: 20260618.192251.workflow
