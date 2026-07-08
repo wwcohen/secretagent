@@ -1,0 +1,29 @@
+pathto:
+  repo: C:/Users/Cassandra/Desktop/Work Projects/Secret Agent Project/secretagent
+  task: C:\Users\Cassandra\Desktop\Work Projects\Secret Agent Project\secretagent\benchmarks\natural_plan\calendar
+llm:
+  model: gemini/gemini-3.1-pro-preview
+  timeout: 180
+cachier:
+  cache_dir: ${oc.env:PATHTO_REPO}/benchmarks/natural_plan/calendar/llm_cache
+evaluate:
+  result_dir: C:\Users\Cassandra\Desktop\Work Projects\Secret Agent Project\secretagent\overall_results\gemini_gemini-3.1-pro-preview\natural_plan\calendar\workflow
+  expt_name: workflow
+  root_interface: ptools.calendar_scheduling
+  record_details: true
+dataset:
+  split: valid
+  shuffle_seed: 42
+ptools:
+  parse_schedules:
+    method: simulate
+  find_available_slots:
+    method: simulate
+  select_and_format:
+    method: simulate
+  calendar_scheduling:
+    method: direct
+    fn: ptools.calendar_workflow
+pydantic:
+  retries: 2
+saved_under: 20260629.134021.workflow

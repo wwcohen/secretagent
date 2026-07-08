@@ -1,0 +1,101 @@
+case_name,predicted_output,expected_output,correct,input_tokens,output_tokens,latency,cost,expt_name
+test.089,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',(D),0.0,186.0,284.0,1.3300254344940186,0.0001322,unstructured_baseline
+test.099,E,(E),1.0,388.0,258.0,1.683429479598999,0.00014199999999999998,unstructured_baseline
+test.077,E,(E),1.0,382.0,20.0,0.669295072555542,4.62e-05,unstructured_baseline
+test.058,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',(F),0.0,182.0,260.0,1.305555820465088,0.0001222,unstructured_baseline
+test.059,A,(A),1.0,378.0,20.0,0.8433847427368164,4.58e-05,unstructured_baseline
+test.011,C,(C),1.0,390.0,313.0,1.6129231452941895,0.0001642,unstructured_baseline
+test.025,F,(F),1.0,387.0,250.0,1.4562840461730957,0.0001387,unstructured_baseline
+test.083,D,(D),1.0,372.0,206.0,1.191866397857666,0.00011959999999999998,unstructured_baseline
+test.005,A,(A),1.0,380.0,20.0,0.7314724922180176,4.599999999999999e-05,unstructured_baseline
+test.086,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',(D),0.0,178.0,235.0,1.155419111251831,0.0001118,unstructured_baseline
+test.019,B,(B),1.0,379.0,300.0,2.0861430168151855,0.0001579,unstructured_baseline
+test.068,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',(A),0.0,168.0,414.0,1.536208152770996,0.0001824,unstructured_baseline
+test.010,A,(A),1.0,384.0,20.0,0.7578272819519043,4.64e-05,unstructured_baseline
+test.081,B,(B),1.0,393.0,228.0,1.473982334136963,0.0001305,unstructured_baseline
+test.085,F,(F),1.0,384.0,242.0,1.4236085414886475,0.0001352,unstructured_baseline
+test.071,D,(D),1.0,369.0,364.0,1.6474709510803223,0.00018249999999999996,unstructured_baseline
+test.047,C,(C),1.0,393.0,260.0,1.4836866855621338,0.0001433,unstructured_baseline
+test.016,B,(B),1.0,384.0,92.0,0.9837322235107422,7.52e-05,unstructured_baseline
+test.098,E,(E),1.0,380.0,20.0,0.683079719543457,4.599999999999999e-05,unstructured_baseline
+test.026,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',(B),0.0,180.0,1210.0,4.088436603546143,0.000502,unstructured_baseline
+test.076,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',(B),0.0,178.0,266.0,1.1533210277557373,0.00012419999999999998,unstructured_baseline
+test.057,E,(E),1.0,398.0,241.0,1.2465202808380127,0.0001362,unstructured_baseline
+test.075,E,(E),1.0,389.0,20.0,0.7050490379333496,4.69e-05,unstructured_baseline
+test.080,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',(C),0.0,184.0,3725.0,13.47732925415039,0.0015084,unstructured_baseline
+test.004,C,(C),1.0,407.0,234.0,1.2752771377563477,0.00013429999999999998,unstructured_baseline
+test.055,D,(D),1.0,398.0,130.0,1.0216915607452393,9.18e-05,unstructured_baseline
+test.084,D,(D),1.0,398.0,292.0,1.6166067123413086,0.00015659999999999998,unstructured_baseline
+test.039,F,(F),1.0,384.0,20.0,0.7546980381011963,4.64e-05,unstructured_baseline
+test.094,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',(B),0.0,167.0,317.0,1.2516777515411377,0.0001435,unstructured_baseline
+test.069,B,(B),1.0,408.0,348.0,1.7517738342285156,0.00017999999999999998,unstructured_baseline
+test.064,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',(C),0.0,180.0,709.0,2.924952983856201,0.0003016,unstructured_baseline
+test.030,B,(B),1.0,398.0,343.0,1.7714755535125732,0.000177,unstructured_baseline
+test.087,B,(B),1.0,386.0,20.0,1.212418556213379,4.6599999999999994e-05,unstructured_baseline
+test.027,B,(B),1.0,395.0,766.0,3.177454948425293,0.0003459,unstructured_baseline
+test.063,A,(A),1.0,401.0,352.0,1.8488147258758545,0.00018089999999999998,unstructured_baseline
+test.028,C,(C),1.0,382.0,20.0,0.7006497383117676,4.62e-05,unstructured_baseline
+test.053,D,(D),1.0,385.0,192.0,1.430750846862793,0.00011529999999999998,unstructured_baseline
+test.014,A,(A),1.0,410.0,20.0,0.8208272457122803,4.9e-05,unstructured_baseline
+test.070,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',(F),0.0,178.0,363.0,1.4212894439697266,0.000163,unstructured_baseline
+test.048,D,(D),1.0,390.0,20.0,0.6579461097717285,4.699999999999999e-05,unstructured_baseline
+test.013,A,(A),1.0,382.0,311.0,1.7905166149139404,0.0001626,unstructured_baseline
+test.079,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',(B),0.0,181.0,576.0,2.3726329803466797,0.00024849999999999997,unstructured_baseline
+test.033,F,(F),1.0,388.0,259.0,1.5094077587127686,0.0001424,unstructured_baseline
+test.095,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',(F),0.0,189.0,272.0,1.099083423614502,0.0001277,unstructured_baseline
+test.006,D,(D),1.0,393.0,388.0,1.8546531200408936,0.00019449999999999998,unstructured_baseline
+test.097,E,(E),1.0,387.0,216.0,1.1252083778381348,0.0001251,unstructured_baseline
+test.015,E,(E),1.0,382.0,204.0,1.2004892826080322,0.00011979999999999998,unstructured_baseline
+test.056,B,(B),1.0,384.0,455.0,2.0557332038879395,0.0002204,unstructured_baseline
+test.021,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',(F),0.0,177.0,274.0,1.163891315460205,0.0001273,unstructured_baseline
+test.045,B,(B),1.0,399.0,505.0,1.99342679977417,0.0002419,unstructured_baseline
+test.037,D,(D),1.0,374.0,191.0,1.2537977695465088,0.00011379999999999999,unstructured_baseline
+test.035,C,(C),1.0,379.0,336.0,1.7973616123199463,0.0001723,unstructured_baseline
+test.036,F,(F),1.0,390.0,259.0,1.4120991230010986,0.0001426,unstructured_baseline
+test.034,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',(E),0.0,170.0,268.0,1.1109752655029297,0.00012419999999999998,unstructured_baseline
+test.020,A,(A),1.0,371.0,205.0,1.3283817768096924,0.0001191,unstructured_baseline
+test.038,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',(E),0.0,166.0,658.0,2.747960090637207,0.0002798,unstructured_baseline
+test.002,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',(E),0.0,169.0,323.0,1.3484880924224854,0.0001461,unstructured_baseline
+test.012,F,(F),1.0,388.0,309.0,1.8392527103424072,0.0001624,unstructured_baseline
+test.007,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',(F),0.0,179.0,910.0,3.1195971965789795,0.00038189999999999996,unstructured_baseline
+test.032,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',(D),0.0,177.0,2714.0,10.315770387649536,0.0011033,unstructured_baseline
+test.072,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',(F),0.0,177.0,1503.0,6.322491645812988,0.0006189,unstructured_baseline
+test.073,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',(C),0.0,186.0,326.0,1.3089311122894287,0.000149,unstructured_baseline
+test.074,B,(B),1.0,386.0,101.0,0.9038820266723633,7.9e-05,unstructured_baseline
+test.008,C,(C),1.0,402.0,417.0,1.970870018005371,0.00020699999999999996,unstructured_baseline
+test.043,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',(E),0.0,161.0,628.0,2.187903881072998,0.0002673,unstructured_baseline
+test.090,D,(D),1.0,398.0,269.0,3.263193130493164,0.0001474,unstructured_baseline
+test.091,D,(D),1.0,389.0,238.0,4.463115692138672,0.00013409999999999998,unstructured_baseline
+test.040,B,(B),1.0,403.0,391.0,3.6385390758514404,0.00019669999999999998,unstructured_baseline
+test.088,C,(C),1.0,400.0,232.0,1.6367263793945312,0.0001328,unstructured_baseline
+test.049,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',(F),0.0,171.0,238.0,1.2382416725158691,0.00011229999999999999,unstructured_baseline
+test.093,C,(C),1.0,384.0,351.0,1.8385419845581055,0.00017879999999999998,unstructured_baseline
+test.031,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',(A),0.0,184.0,265.0,1.3771233558654785,0.0001244,unstructured_baseline
+test.092,E,(E),1.0,393.0,1880.0,8.188304424285889,0.0007913,unstructured_baseline
+test.022,D,(D),1.0,389.0,364.0,1.7523794174194336,0.00018449999999999999,unstructured_baseline
+test.046,B,(B),1.0,407.0,323.0,1.7185933589935303,0.00016989999999999998,unstructured_baseline
+test.061,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',(C),0.0,185.0,281.0,1.2771940231323242,0.00013089999999999998,unstructured_baseline
+test.018,E,(E),1.0,403.0,432.0,2.3253226280212402,0.00021309999999999998,unstructured_baseline
+test.003,B,(B),1.0,371.0,158.0,1.2829174995422363,0.0001003,unstructured_baseline
+test.078,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',(C),0.0,166.0,462.0,1.9822375774383545,0.0002014,unstructured_baseline
+test.000,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',(D),0.0,167.0,96.0,0.6438307762145996,5.51e-05,unstructured_baseline
+test.042,D,(D),1.0,390.0,296.0,1.8457763195037842,0.0001574,unstructured_baseline
+test.082,C,(C),1.0,397.0,301.0,1.5259900093078613,0.0001601,unstructured_baseline
+test.066,C,(C),1.0,402.0,368.0,1.6942391395568848,0.00018739999999999997,unstructured_baseline
+test.054,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',(E),0.0,167.0,344.0,1.3227589130401611,0.00015429999999999998,unstructured_baseline
+test.017,D,(D),1.0,397.0,488.0,2.231832981109619,0.0002349,unstructured_baseline
+test.060,B,(B),1.0,396.0,365.0,1.859358310699463,0.00018559999999999998,unstructured_baseline
+test.067,C,(C),1.0,390.0,210.0,1.3270902633666992,0.000123,unstructured_baseline
+test.050,D,(D),1.0,368.0,226.0,1.309699296951294,0.0001272,unstructured_baseline
+test.096,D,(D),1.0,395.0,298.0,1.5763297080993652,0.00015869999999999998,unstructured_baseline
+test.065,A,(A),1.0,407.0,108.0,1.0737931728363037,8.389999999999999e-05,unstructured_baseline
+test.051,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',(E),0.0,172.0,391.0,1.4541206359863281,0.0001736,unstructured_baseline
+test.001,A,(A),1.0,388.0,236.0,1.495347023010254,0.00013319999999999999,unstructured_baseline
+test.044,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',(C),0.0,166.0,459.0,1.7771844863891602,0.0002002,unstructured_baseline
+test.062,C,(C),1.0,394.0,359.0,1.8228750228881836,0.00018299999999999998,unstructured_baseline
+test.029,D,(D),1.0,403.0,213.0,1.2238311767578125,0.0001255,unstructured_baseline
+test.024,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',(B),0.0,190.0,332.0,1.3771870136260986,0.0001518,unstructured_baseline
+test.041,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',(F),0.0,164.0,8447.0,32.76264476776123,0.0033952,unstructured_baseline
+test.052,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',(D),0.0,162.0,289.0,1.4335994720458984,0.0001318,unstructured_baseline
+test.023,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',(A),0.0,168.0,470.0,1.771019697189331,0.0002048,unstructured_baseline
+test.009,E,(E),1.0,402.0,412.0,2.003645420074463,0.00020499999999999997,unstructured_baseline

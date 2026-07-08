@@ -8,6 +8,8 @@ Derived from the program trace mock in penguins_in_a_table.py
 (doctest-prompting project).
 """
 
+import re
+
 from pydantic import BaseModel, Field
 
 from secretagent.core import interface, implement_via
@@ -143,4 +145,12 @@ def penguins_react_workflow(input_str: str) -> str:
         ptools.react_answer_penguin_question.tools=[...]
     """
     react_answer = react_answer_penguin_question(input_str)
+    # Fast-path: the option letter is usually already present as "(X)" in
+    # the freeform answer. Grab the last such match (final answers come
+    # last) before falling back to the LLM-based extractor, which returns
+    # None on verbose/meta answers (esp. from strong models). Pure Python,
+    # so a rerun reuses the cached ReAct answer with no new LLM calls.
+    letters = re.findall(r'\(([A-Z])\)', react_answer or '')
+    if letters:
+        return f'({letters[-1]})'
     return extract_option_letter(react_answer)

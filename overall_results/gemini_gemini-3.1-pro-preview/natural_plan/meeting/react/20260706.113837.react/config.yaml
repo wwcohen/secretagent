@@ -1,0 +1,32 @@
+pathto:
+  repo: C:/Users/Cassandra/Desktop/Work Projects/Secret Agent Project/secretagent
+  task: C:\Users\Cassandra\Desktop\Work Projects\Secret Agent Project\secretagent\benchmarks\natural_plan\meeting
+llm:
+  model: gemini/gemini-3.1-pro-preview
+  timeout: 180
+cachier:
+  cache_dir: ${oc.env:PATHTO_REPO}/benchmarks/natural_plan/meeting/llm_cache
+evaluate:
+  result_dir: C:\Users\Cassandra\Desktop\Work Projects\Secret Agent Project\secretagent\overall_results\gemini_gemini-3.1-pro-preview\natural_plan\meeting\react
+  expt_name: react
+  root_interface: ptools.meeting_planning
+  record_details: true
+dataset:
+  split: valid
+  shuffle_seed: 42
+ptools:
+  parse_meeting_info:
+    method: simulate
+  plan_visit_order:
+    method: simulate
+  build_meeting_plan:
+    method: simulate
+  meeting_planning:
+    method: simulate_pydantic
+    tools:
+    - ptools.parse_meeting_info
+    - ptools.plan_visit_order
+    - ptools.build_meeting_plan
+pydantic:
+  retries: 2
+saved_under: 20260706.113837.react

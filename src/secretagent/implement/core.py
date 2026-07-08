@@ -604,8 +604,16 @@ class PoTFactory(ToolUsingFactory):
             ret = iface.annotations.get('return')
             for model_cls in _walk_pydantic_models(ret):
                 pydantic_models[model_cls.__name__] = model_cls
+        # Authorize a safe stdlib set in the sandbox by default: the LLM
+        # routinely `import json` (etc.) unprompted, and smolagents blocks
+        # it otherwise (InterpreterError -> the code crashes and scores
+        # wrong). These are added to the executor only, not the prompt, so
+        # existing pot codegen cache entries stay valid.
         self.python_executor = LocalPythonExecutor(
-            additional_authorized_imports=(additional_imports or []),
+            additional_authorized_imports=sorted(
+                {'json', 're', 'math', 'datetime', 'itertools',
+                 'collections', 'statistics'}
+                | set(additional_imports or [])),
             )
         # Put tool functions in custom_tools directly, since
         # LocalPythonExecutor.__call__ passes custom_tools (not

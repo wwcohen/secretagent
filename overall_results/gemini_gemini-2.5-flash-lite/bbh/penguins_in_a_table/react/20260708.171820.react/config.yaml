@@ -1,0 +1,40 @@
+pathto:
+  repo: C:/Users/Cassandra/Desktop/Work Projects/Secret Agent Project/secretagent
+  task: C:\Users\Cassandra\Desktop\Work Projects\Secret Agent Project\secretagent\benchmarks\bbh\penguins_in_a_table
+llm:
+  model: gemini/gemini-2.5-flash-lite
+cachier:
+  cache_dir: ${oc.env:PATHTO_REPO}/benchmarks/bbh/penguins_in_a_table/llm_cache
+evaluate:
+  result_dir: C:\Users\Cassandra\Desktop\Work Projects\Secret Agent Project\secretagent\overall_results\gemini_gemini-2.5-flash-lite\bbh\penguins_in_a_table\react
+  expt_name: react
+  root_interface: ptools.answer_penguin_question
+  match: multiple_choice
+dataset:
+  split: test
+  shuffle_seed: 137
+  json_data_dir: ${oc.env:PATHTO_REPO}/benchmarks/bbh/penguins_in_a_table/data
+ptools:
+  analyze_input:
+    method: simulate
+  table_operation:
+    method: simulate
+  answer_question:
+    method: simulate
+  choose_response:
+    method: simulate
+  answer_penguin_question:
+    method: direct
+    fn: ptools.penguins_react_workflow
+  react_answer_penguin_question:
+    method: simulate_pydantic
+    tools:
+    - ptools.analyze_input
+    - ptools.table_operation
+    - ptools.answer_question
+    - ptools.choose_response
+pydantic:
+  retries: 2
+--out: null
+_penguins_regex: null
+saved_under: 20260708.171820.react

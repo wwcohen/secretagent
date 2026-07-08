@@ -1,0 +1,31 @@
+pathto:
+  repo: C:/Users/Cassandra/Desktop/Work Projects/Secret Agent Project/secretagent
+  task: C:\Users\Cassandra\Desktop\Work Projects\Secret Agent Project\secretagent\benchmarks\bbh\penguins_in_a_table
+llm:
+  model: gemini/gemini-3.1-pro-preview
+cachier:
+  cache_dir: ${oc.env:PATHTO_REPO}/benchmarks/bbh/penguins_in_a_table/llm_cache
+evaluate:
+  result_dir: C:\Users\Cassandra\Desktop\Work Projects\Secret Agent Project\secretagent\overall_results\gemini_gemini-3.1-pro-preview\bbh\penguins_in_a_table\unstructured_baseline
+  expt_name: unstructured_baseline
+  root_interface: ptools.answer_penguin_question
+  match: multiple_choice
+dataset:
+  split: test
+  shuffle_seed: 137
+  json_data_dir: ${oc.env:PATHTO_REPO}/benchmarks/bbh/penguins_in_a_table/data
+ptools:
+  analyze_input:
+    method: simulate
+  table_operation:
+    method: simulate
+  answer_question:
+    method: simulate
+  choose_response:
+    method: simulate
+  answer_penguin_question:
+    method: direct
+    fn: ptools.zeroshot_unstructured_workflow
+pydantic:
+  retries: 2
+saved_under: 20260708.122918.unstructured_baseline

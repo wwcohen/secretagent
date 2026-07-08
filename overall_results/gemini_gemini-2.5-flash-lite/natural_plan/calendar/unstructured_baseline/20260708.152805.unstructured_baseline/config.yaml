@@ -1,0 +1,29 @@
+pathto:
+  repo: C:/Users/Cassandra/Desktop/Work Projects/Secret Agent Project/secretagent
+  task: C:\Users\Cassandra\Desktop\Work Projects\Secret Agent Project\secretagent\benchmarks\natural_plan\calendar
+llm:
+  model: gemini/gemini-2.5-flash-lite
+  timeout: 180
+cachier:
+  cache_dir: ${oc.env:PATHTO_REPO}/benchmarks/natural_plan/calendar/llm_cache
+evaluate:
+  result_dir: C:\Users\Cassandra\Desktop\Work Projects\Secret Agent Project\secretagent\overall_results\gemini_gemini-2.5-flash-lite\natural_plan\calendar\unstructured_baseline
+  expt_name: unstructured_baseline
+  root_interface: ptools.calendar_scheduling
+  record_details: true
+dataset:
+  split: valid
+  shuffle_seed: 42
+ptools:
+  parse_schedules:
+    method: simulate
+  find_available_slots:
+    method: simulate
+  select_and_format:
+    method: simulate
+  calendar_scheduling:
+    method: prompt_llm
+    prompt_template_file: prompt_templates/zeroshot_calendar.txt
+pydantic:
+  retries: 2
+saved_under: 20260708.152805.unstructured_baseline

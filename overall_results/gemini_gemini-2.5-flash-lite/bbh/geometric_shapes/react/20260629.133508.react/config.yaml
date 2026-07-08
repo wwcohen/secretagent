@@ -1,0 +1,47 @@
+pathto:
+  repo: C:/Users/Cassandra/Desktop/Work Projects/Secret Agent Project/secretagent
+  task: C:\Users\Cassandra\Desktop\Work Projects\Secret Agent Project\secretagent\benchmarks\bbh\geometric_shapes
+llm:
+  model: gemini/gemini-2.5-flash-lite
+cachier:
+  cache_dir: ${oc.env:PATHTO_REPO}/benchmarks/bbh/geometric_shapes/llm_cache
+evaluate:
+  result_dir: C:\Users\Cassandra\Desktop\Work Projects\Secret Agent Project\secretagent\overall_results\gemini_gemini-2.5-flash-lite\bbh\geometric_shapes\react
+  expt_name: react
+  root_interface: ptools.identify_shape
+  match: multiple_choice
+dataset:
+  split: valid
+  shuffle_seed: 137
+  json_data_dir: ${oc.env:PATHTO_REPO}/benchmarks/bbh/geometric_shapes/data
+ptools:
+  extract_path:
+    method: simulate
+  extract_options:
+    method: simulate
+  decompose_path:
+    method: simulate
+  describe_command:
+    method: simulate
+  compute_angle:
+    method: simulate
+  describe_shape:
+    method: simulate
+  select_option:
+    method: simulate
+  identify_shape:
+    method: direct
+    fn: ptools.geometric_shapes_react_workflow
+  react_identify_shape:
+    method: simulate_pydantic
+    tools:
+    - ptools.extract_path
+    - ptools.extract_options
+    - ptools.decompose_path
+    - ptools.describe_command
+    - ptools.compute_angle
+    - ptools.describe_shape
+    - ptools.select_option
+pydantic:
+  retries: 2
+saved_under: 20260629.133508.react

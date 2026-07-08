@@ -1,0 +1,61 @@
+case_name,predicted_output,expected_output,correct,input_tokens,output_tokens,latency,cost,expt_name
+test.018,A,(A),1.0,447.0,20.0,1.0380001068115234,5.2699999999999993e-05,unstructured_baseline
+test.040,A,(A),1.0,416.0,75.0,1.0745935440063477,7.159999999999999e-05,unstructured_baseline
+test.048,D,(D),1.0,457.0,235.0,1.7533693313598633,0.0001397,unstructured_baseline
+test.017,D,(D),1.0,421.0,20.0,1.005098819732666,5.01e-05,unstructured_baseline
+test.007,D,(C),0.0,512.0,20.0,0.9860134124755859,5.92e-05,unstructured_baseline
+test.059,B,(B),1.0,463.0,259.0,1.3280532360076904,0.00014989999999999998,unstructured_baseline
+test.049,D,(D),1.0,415.0,20.0,0.9860837459564209,4.95e-05,unstructured_baseline
+test.024,A,(A),1.0,413.0,20.0,0.8525280952453613,4.929999999999999e-05,unstructured_baseline
+test.013,D,(D),1.0,535.0,20.0,1.0467417240142822,6.149999999999999e-05,unstructured_baseline
+test.019,E,(E),1.0,437.0,20.0,0.6881165504455566,5.1699999999999996e-05,unstructured_baseline
+test.035,C,(C),1.0,420.0,20.0,0.6957347393035889,4.9999999999999996e-05,unstructured_baseline
+test.054,E,(E),1.0,526.0,20.0,0.7278435230255127,6.0599999999999996e-05,unstructured_baseline
+test.044,A,(A),1.0,431.0,210.0,1.373072624206543,0.0001271,unstructured_baseline
+test.005,D,(D),1.0,448.0,182.0,1.3468408584594727,0.0001176,unstructured_baseline
+test.037,E,(E),1.0,449.0,20.0,0.6175246238708496,5.29e-05,unstructured_baseline
+test.038,A,(A),1.0,437.0,20.0,0.7449288368225098,5.1699999999999996e-05,unstructured_baseline
+test.006,D,(D),1.0,447.0,20.0,1.0147595405578613,5.2699999999999993e-05,unstructured_baseline
+test.003,C,(C),1.0,444.0,20.0,0.63201904296875,5.24e-05,unstructured_baseline
+test.016,A,(A),1.0,417.0,20.0,0.7447454929351807,4.97e-05,unstructured_baseline
+test.034,B,(B),1.0,420.0,20.0,0.6006777286529541,4.9999999999999996e-05,unstructured_baseline
+test.002,D,(D),1.0,510.0,20.0,1.009498119354248,5.9e-05,unstructured_baseline
+test.057,A,(A),1.0,414.0,117.0,1.090217113494873,8.819999999999999e-05,unstructured_baseline
+test.029,C,(C),1.0,416.0,20.0,0.627680778503418,4.96e-05,unstructured_baseline
+test.028,B,(B),1.0,423.0,220.0,1.2640316486358643,0.0001303,unstructured_baseline
+test.039,D,(D),1.0,418.0,266.0,1.9675896167755127,0.0001482,unstructured_baseline
+test.041,A,(A),1.0,467.0,373.0,1.6220934391021729,0.0001959,unstructured_baseline
+test.043,B,(B),1.0,505.0,191.0,1.1202690601348877,0.0001269,unstructured_baseline
+test.010,D,(D),1.0,536.0,96.0,1.2117104530334473,9.199999999999999e-05,unstructured_baseline
+test.047,C,(C),1.0,510.0,60.0,0.7882125377655029,7.5e-05,unstructured_baseline
+test.055,(E),(E),1.0,442.0,23.0,0.7244067192077637,5.34e-05,unstructured_baseline
+test.036,B,(B),1.0,413.0,20.0,0.6588907241821289,4.929999999999999e-05,unstructured_baseline
+test.053,A,(A),1.0,439.0,120.0,1.1205763816833496,9.189999999999998e-05,unstructured_baseline
+test.015,A,(A),1.0,455.0,197.0,1.3746254444122314,0.00012429999999999999,unstructured_baseline
+test.052,A,(A),1.0,431.0,344.0,1.9937407970428467,0.0001807,unstructured_baseline
+test.058,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',(A),0.0,217.0,217.0,0.9828271865844727,0.0001085,unstructured_baseline
+test.023,D,(D),1.0,529.0,20.0,0.9647643566131592,6.089999999999999e-05,unstructured_baseline
+test.045,A,(D),0.0,414.0,20.0,0.7820591926574707,4.9399999999999995e-05,unstructured_baseline
+test.009,C,(B),0.0,537.0,20.0,0.6898200511932373,6.17e-05,unstructured_baseline
+test.001,B,(B),1.0,536.0,312.0,1.4771230220794678,0.00017839999999999997,unstructured_baseline
+test.051,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',(C),0.0,209.0,197.0,0.6080384254455566,9.969999999999998e-05,unstructured_baseline
+test.021,A,(A),1.0,423.0,162.0,1.2761549949645996,0.00010709999999999999,unstructured_baseline
+test.042,A,(A),1.0,459.0,311.0,1.532299280166626,0.0001703,unstructured_baseline
+test.046,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',(A),0.0,294.0,1318.0,4.77181077003479,0.0005566,unstructured_baseline
+test.027,D,(D),1.0,416.0,75.0,1.1475212574005127,7.159999999999999e-05,unstructured_baseline
+test.008,B,(B),1.0,416.0,20.0,0.663764476776123,4.96e-05,unstructured_baseline
+test.030,D,(D),1.0,424.0,20.0,0.9461805820465088,5.039999999999999e-05,unstructured_baseline
+test.033,B,(B),1.0,534.0,20.0,0.6373074054718018,6.139999999999999e-05,unstructured_baseline
+test.050,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',(C),0.0,227.0,63.0,0.5833258628845215,4.79e-05,unstructured_baseline
+test.056,A,(D),0.0,433.0,20.0,0.8357243537902832,5.13e-05,unstructured_baseline
+test.032,A,(A),1.0,455.0,271.0,1.5787937641143799,0.0001539,unstructured_baseline
+test.025,E,(E),1.0,416.0,20.0,0.6797537803649902,4.96e-05,unstructured_baseline
+test.000,C,(C),1.0,458.0,20.0,0.648561954498291,5.379999999999999e-05,unstructured_baseline
+test.022,C,(C),1.0,414.0,20.0,0.7364599704742432,4.9399999999999995e-05,unstructured_baseline
+test.031,B,(B),1.0,516.0,224.0,1.1961312294006348,0.0001412,unstructured_baseline
+test.014,E,(E),1.0,452.0,20.0,0.7050442695617676,5.319999999999999e-05,unstructured_baseline
+test.012,E,(E),1.0,437.0,20.0,0.7061312198638916,5.1699999999999996e-05,unstructured_baseline
+test.020,D,(D),1.0,434.0,20.0,0.9661264419555664,5.14e-05,unstructured_baseline
+test.026,**exception raised**: cannot find answer matching pattern '<answer>(.*)</answer>',(E),0.0,316.0,156.0,0.813784122467041,9.4e-05,unstructured_baseline
+test.011,B,(B),1.0,467.0,443.0,1.9056718349456787,0.0002239,unstructured_baseline
+test.004,A,(A),1.0,541.0,140.0,1.1585116386413574,0.00011009999999999999,unstructured_baseline

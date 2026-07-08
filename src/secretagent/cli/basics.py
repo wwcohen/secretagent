@@ -31,6 +31,7 @@ Usage::
     uv run python -m secretagent.cli.basics run --models gemini/gemini-3.1-pro
 """
 
+import os
 import subprocess
 from pathlib import Path
 
@@ -158,7 +159,11 @@ def run(
                 if dry_run:
                     continue
                 result_dir.mkdir(parents=True, exist_ok=True)
-                rc = subprocess.run(cmd, cwd=_PROJECT_ROOT).returncode
+                # Run each cell in Python UTF-8 mode so LLM output with
+                # non-cp1252 chars doesn't crash on Windows ('charmap' codec
+                # can't encode ...). Affects both stdio and open() defaults.
+                env = {**os.environ, 'PYTHONUTF8': '1', 'PYTHONIOENCODING': 'utf-8'}
+                rc = subprocess.run(cmd, cwd=_PROJECT_ROOT, env=env).returncode
                 metrics = _latest_metrics(result_dir) if rc == 0 else {}
                 rows.append({
                     'model': model, 'task': task.id, 'strategy': strategy,
