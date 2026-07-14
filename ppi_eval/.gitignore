@@ -1,0 +1,6 @@
+# Regenerable / heavy artifacts -- keep the reusable caches + figures, drop the
+# raw subprocess run dirs (the consolidated truth_*.json / cheap_preds_*.json
+# and the committed figures supersede them).
+__pycache__/
+cache/rollouts/
+cache/truth_runs/
