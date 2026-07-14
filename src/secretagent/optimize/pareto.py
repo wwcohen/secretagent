@@ -140,6 +140,14 @@ class EvalCache:
                     df = pd.read_csv(csv_path)
                     accuracy = df[self.metric].mean()
                     raw_cost = df["cost"].mean() if "cost" in df.columns else 0.0
+                    # PPI hook: no-op unless optimize.use_ppi is set, in which
+                    # case the two objectives become PPI estimates that fuse this
+                    # labeled run with a cached cheap-prediction pool.
+                    try:
+                        from ppi_eval.hook import maybe_ppi
+                        accuracy, raw_cost = maybe_ppi(df, self.metric, accuracy, raw_cost)
+                    except ImportError:
+                        pass
                     if math.isnan(raw_cost) or math.isnan(accuracy):
                         cost_per_q = math.inf
                         print(f"    NaN in results — treating as failed ({elapsed:.0f}s)")
