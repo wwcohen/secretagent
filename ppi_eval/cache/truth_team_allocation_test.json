@@ -1,0 +1,2512 @@
+{
+  "structured_baseline": {
+    "ex042": {
+      "correct": 1.0,
+      "cost": 0.0026336,
+      "input_tokens": 787.0
+    },
+    "ex041": {
+      "correct": 0.0,
+      "cost": 0.0105036,
+      "input_tokens": 912.0
+    },
+    "ex091": {
+      "correct": 0.0,
+      "cost": 0.0105008,
+      "input_tokens": 911.0
+    },
+    "ex009": {
+      "correct": 1.0,
+      "cost": 0.0065404,
+      "input_tokens": 868.0
+    },
+    "ex065": {
+      "correct": 0.0,
+      "cost": 0.0104913,
+      "input_tokens": 871.0
+    },
+    "ex050": {
+      "correct": 1.0,
+      "cost": 0.003023,
+      "input_tokens": 860.0
+    },
+    "ex001": {
+      "correct": 1.0,
+      "cost": 0.0098237,
+      "input_tokens": 979.0
+    },
+    "ex070": {
+      "correct": 1.0,
+      "cost": 0.0026751,
+      "input_tokens": 917.0
+    },
+    "ex015": {
+      "correct": 1.0,
+      "cost": 0.0043055,
+      "input_tokens": 960.0
+    },
+    "ex078": {
+      "correct": 1.0,
+      "cost": 0.0095566,
+      "input_tokens": 997.0
+    },
+    "ex073": {
+      "correct": 1.0,
+      "cost": 0.0063694,
+      "input_tokens": 798.0
+    },
+    "ex010": {
+      "correct": 1.0,
+      "cost": 0.0047396,
+      "input_tokens": 957.0
+    },
+    "ex055": {
+      "correct": 0.0,
+      "cost": 0.0031935,
+      "input_tokens": 820.0
+    },
+    "ex056": {
+      "correct": 0.0,
+      "cost": 0.0104994,
+      "input_tokens": 898.0
+    },
+    "ex072": {
+      "correct": 1.0,
+      "cost": 0.0049189,
+      "input_tokens": 863.0
+    },
+    "ex045": {
+      "correct": 1.0,
+      "cost": 0.0050959,
+      "input_tokens": 828.0
+    },
+    "ex048": {
+      "correct": 0.0,
+      "cost": 0.0056258,
+      "input_tokens": 961.0
+    },
+    "ex092": {
+      "correct": 1.0,
+      "cost": 0.0094757,
+      "input_tokens": 894.0
+    },
+    "ex076": {
+      "correct": 1.0,
+      "cost": 0.0067464,
+      "input_tokens": 788.0
+    },
+    "ex037": {
+      "correct": 1.0,
+      "cost": 0.0092065,
+      "input_tokens": 805.0
+    },
+    "ex030": {
+      "correct": 1.0,
+      "cost": 0.0038237,
+      "input_tokens": 929.0
+    },
+    "ex021": {
+      "correct": 0.0,
+      "cost": 0.0044195,
+      "input_tokens": 815.0
+    },
+    "ex032": {
+      "correct": 1.0,
+      "cost": 0.0039425,
+      "input_tokens": 925.0
+    },
+    "ex096": {
+      "correct": 0.0,
+      "cost": 0.0105054,
+      "input_tokens": 918.0
+    },
+    "ex080": {
+      "correct": 0.0,
+      "cost": 0.0104811,
+      "input_tokens": 837.0
+    },
+    "ex049": {
+      "correct": 1.0,
+      "cost": 0.0064907,
+      "input_tokens": 944.0
+    },
+    "ex083": {
+      "correct": 1.0,
+      "cost": 0.0039377,
+      "input_tokens": 934.0
+    },
+    "ex026": {
+      "correct": 0.0,
+      "cost": 0.0104949,
+      "input_tokens": 883.0
+    },
+    "ex087": {
+      "correct": 0.0,
+      "cost": 0.0080307,
+      "input_tokens": 819.0
+    },
+    "ex033": {
+      "correct": 0.0,
+      "cost": 0.0093299,
+      "input_tokens": 858.0
+    },
+    "ex008": {
+      "correct": 1.0,
+      "cost": 0.0056732,
+      "input_tokens": 969.0
+    },
+    "ex047": {
+      "correct": 1.0,
+      "cost": 0.0035185,
+      "input_tokens": 945.0
+    },
+    "ex059": {
+      "correct": 0.0,
+      "cost": 0.0080832,
+      "input_tokens": 869.0
+    },
+    "ex063": {
+      "correct": 1.0,
+      "cost": 0.0067779,
+      "input_tokens": 918.0
+    },
+    "ex074": {
+      "correct": 0.0,
+      "cost": 0.0078755,
+      "input_tokens": 960.0
+    },
+    "ex044": {
+      "correct": 0.0,
+      "cost": 0.0104946,
+      "input_tokens": 882.0
+    },
+    "ex098": {
+      "correct": 1.0,
+      "cost": 0.0052902,
+      "input_tokens": 959.0
+    },
+    "ex052": {
+      "correct": 0.0,
+      "cost": 0.010524,
+      "input_tokens": 980.0
+    },
+    "ex085": {
+      "correct": 1.0,
+      "cost": 0.0037244,
+      "input_tokens": 923.0
+    },
+    "ex012": {
+      "correct": 1.0,
+      "cost": 0.0034704,
+      "input_tokens": 943.0
+    },
+    "ex036": {
+      "correct": 1.0,
+      "cost": 0.0070182,
+      "input_tokens": 919.0
+    },
+    "ex023": {
+      "correct": 1.0,
+      "cost": 0.0037651,
+      "input_tokens": 817.0
+    },
+    "ex039": {
+      "correct": 1.0,
+      "cost": 0.0028875,
+      "input_tokens": 925.0
+    },
+    "ex040": {
+      "correct": 1.0,
+      "cost": 0.0052911,
+      "input_tokens": 912.0
+    },
+    "ex018": {
+      "correct": 1.0,
+      "cost": 0.0070138,
+      "input_tokens": 871.0
+    },
+    "ex066": {
+      "correct": 1.0,
+      "cost": 0.0079104,
+      "input_tokens": 993.0
+    },
+    "ex061": {
+      "correct": 1.0,
+      "cost": 0.0033828,
+      "input_tokens": 876.0
+    },
+    "ex060": {
+      "correct": 1.0,
+      "cost": 0.0047012,
+      "input_tokens": 779.0
+    },
+    "ex007": {
+      "correct": 0.0,
+      "cost": 0.0034697,
+      "input_tokens": 899.0
+    },
+    "ex034": {
+      "correct": 1.0,
+      "cost": 0.0052763,
+      "input_tokens": 846.0
+    },
+    "ex099": {
+      "correct": 1.0,
+      "cost": 0.0061404,
+      "input_tokens": 768.0
+    },
+    "ex046": {
+      "correct": 0.0,
+      "cost": 0.0104894,
+      "input_tokens": 873.0
+    },
+    "ex002": {
+      "correct": 1.0,
+      "cost": 0.0025146,
+      "input_tokens": 907.0
+    },
+    "ex051": {
+      "correct": 0.0,
+      "cost": 0.0104724,
+      "input_tokens": 808.0
+    },
+    "ex016": {
+      "correct": 0.0,
+      "cost": 0.0104895,
+      "input_tokens": 865.0
+    },
+    "ex038": {
+      "correct": 0.0,
+      "cost": 0.0104781,
+      "input_tokens": 827.0
+    },
+    "ex058": {
+      "correct": 1.0,
+      "cost": 0.0043021,
+      "input_tokens": 882.0
+    },
+    "ex068": {
+      "correct": 1.0,
+      "cost": 0.0027276,
+      "input_tokens": 842.0
+    },
+    "ex022": {
+      "correct": 0.0,
+      "cost": 0.0043724,
+      "input_tokens": 783.0
+    },
+    "ex062": {
+      "correct": 1.0,
+      "cost": 0.0049666,
+      "input_tokens": 822.0
+    },
+    "ex024": {
+      "correct": 1.0,
+      "cost": 0.004501,
+      "input_tokens": 920.0
+    },
+    "ex005": {
+      "correct": 0.0,
+      "cost": 0.0057729,
+      "input_tokens": 918.0
+    },
+    "ex006": {
+      "correct": 1.0,
+      "cost": 0.0044042,
+      "input_tokens": 939.0
+    },
+    "ex067": {
+      "correct": 1.0,
+      "cost": 0.0091184,
+      "input_tokens": 878.0
+    },
+    "ex082": {
+      "correct": 0.0,
+      "cost": 0.0065092,
+      "input_tokens": 914.0
+    },
+    "ex019": {
+      "correct": 0.0,
+      "cost": 0.010479,
+      "input_tokens": 830.0
+    },
+    "ex079": {
+      "correct": 1.0,
+      "cost": 0.0069585,
+      "input_tokens": 895.0
+    },
+    "ex043": {
+      "correct": 1.0,
+      "cost": 0.0085821,
+      "input_tokens": 907.0
+    },
+    "ex090": {
+      "correct": 0.0,
+      "cost": 0.010098,
+      "input_tokens": 860.0
+    },
+    "ex020": {
+      "correct": 0.0,
+      "cost": 0.0104981,
+      "input_tokens": 902.0
+    },
+    "ex000": {
+      "correct": 0.0,
+      "cost": 0.0069451,
+      "input_tokens": 992.0
+    },
+    "ex095": {
+      "correct": 1.0,
+      "cost": 0.0049266,
+      "input_tokens": 822.0
+    },
+    "ex057": {
+      "correct": 0.0,
+      "cost": 0.0104916,
+      "input_tokens": 872.0
+    },
+    "ex093": {
+      "correct": 0.0,
+      "cost": 0.0105282,
+      "input_tokens": 994.0
+    },
+    "ex053": {
+      "correct": 1.0,
+      "cost": 0.0066025,
+      "input_tokens": 850.0
+    },
+    "ex089": {
+      "correct": 1.0,
+      "cost": 0.0045752,
+      "input_tokens": 909.0
+    },
+    "ex025": {
+      "correct": 0.0,
+      "cost": 0.0105129,
+      "input_tokens": 943.0
+    },
+    "ex071": {
+      "correct": 0.0,
+      "cost": 0.0096773,
+      "input_tokens": 891.0
+    },
+    "ex084": {
+      "correct": 1.0,
+      "cost": 0.0071049,
+      "input_tokens": 908.0
+    },
+    "ex077": {
+      "correct": 1.0,
+      "cost": 0.0101294,
+      "input_tokens": 948.0
+    },
+    "ex064": {
+      "correct": 0.0,
+      "cost": 0.0064083,
+      "input_tokens": 986.0
+    },
+    "ex029": {
+      "correct": 0.0,
+      "cost": 0.0102888,
+      "input_tokens": 946.0
+    },
+    "ex027": {
+      "correct": 1.0,
+      "cost": 0.0073167,
+      "input_tokens": 889.0
+    },
+    "ex088": {
+      "correct": 1.0,
+      "cost": 0.0034092,
+      "input_tokens": 839.0
+    },
+    "ex097": {
+      "correct": 1.0,
+      "cost": 0.00405,
+      "input_tokens": 800.0
+    },
+    "ex004": {
+      "correct": 0.0,
+      "cost": 0.00897,
+      "input_tokens": 850.0
+    },
+    "ex054": {
+      "correct": 1.0,
+      "cost": 0.0053052,
+      "input_tokens": 784.0
+    },
+    "ex075": {
+      "correct": 1.0,
+      "cost": 0.0047185,
+      "input_tokens": 895.0
+    },
+    "ex011": {
+      "correct": 1.0,
+      "cost": 0.0093686,
+      "input_tokens": 787.0
+    },
+    "ex069": {
+      "correct": 0.0,
+      "cost": 0.0044435,
+      "input_tokens": 945.0
+    },
+    "ex086": {
+      "correct": 0.0,
+      "cost": 0.0076579,
+      "input_tokens": 993.0
+    },
+    "ex013": {
+      "correct": 1.0,
+      "cost": 0.0061077,
+      "input_tokens": 809.0
+    },
+    "ex017": {
+      "correct": 0.0,
+      "cost": 0.0105359,
+      "input_tokens": 1028.0
+    },
+    "ex028": {
+      "correct": 0.0,
+      "cost": 0.0104778,
+      "input_tokens": 826.0
+    },
+    "ex031": {
+      "correct": 1.0,
+      "cost": 0.0032163,
+      "input_tokens": 821.0
+    },
+    "ex035": {
+      "correct": 1.0,
+      "cost": 0.0082268,
+      "input_tokens": 781.0
+    },
+    "ex094": {
+      "correct": 1.0,
+      "cost": 0.0029851,
+      "input_tokens": 992.0
+    },
+    "ex003": {
+      "correct": 0.0,
+      "cost": 0.0100767,
+      "input_tokens": 839.0
+    },
+    "ex014": {
+      "correct": 1.0,
+      "cost": 0.0027401,
+      "input_tokens": 917.0
+    },
+    "ex081": {
+      "correct": 1.0,
+      "cost": 0.0044886,
+      "input_tokens": 1037.0
+    }
+  },
+  "zs_cot": {
+    "ex042": {
+      "correct": 0.0,
+      "cost": 0.0030087,
+      "input_tokens": 629.0
+    },
+    "ex041": {
+      "correct": 0.0,
+      "cost": 0.0098506,
+      "input_tokens": 752.0
+    },
+    "ex091": {
+      "correct": 0.0,
+      "cost": 0.0104558999999999,
+      "input_tokens": 753.0
+    },
+    "ex009": {
+      "correct": 0.0,
+      "cost": 0.0104427,
+      "input_tokens": 709.0
+    },
+    "ex065": {
+      "correct": 0.0,
+      "cost": 0.0104439,
+      "input_tokens": 713.0
+    },
+    "ex050": {
+      "correct": 0.0,
+      "cost": 0.0037659,
+      "input_tokens": 703.0
+    },
+    "ex001": {
+      "correct": 0.0,
+      "cost": 0.0104742,
+      "input_tokens": 814.0
+    },
+    "ex070": {
+      "correct": 0.0,
+      "cost": 0.0044027,
+      "input_tokens": 759.0
+    },
+    "ex015": {
+      "correct": 0.0,
+      "cost": 0.0054219,
+      "input_tokens": 798.0
+    },
+    "ex078": {
+      "correct": 0.0,
+      "cost": 0.0071983,
+      "input_tokens": 836.0
+    },
+    "ex073": {
+      "correct": 0.0,
+      "cost": 0.006587,
+      "input_tokens": 640.0
+    },
+    "ex010": {
+      "correct": 0.0,
+      "cost": 0.0072044,
+      "input_tokens": 798.0
+    },
+    "ex055": {
+      "correct": 0.0,
+      "cost": 0.0104283,
+      "input_tokens": 661.0
+    },
+    "ex056": {
+      "correct": 0.0,
+      "cost": 0.0104502,
+      "input_tokens": 734.0
+    },
+    "ex072": {
+      "correct": 0.0,
+      "cost": 0.0056893,
+      "input_tokens": 706.0
+    },
+    "ex045": {
+      "correct": 0.0,
+      "cost": 0.0093891,
+      "input_tokens": 672.0
+    },
+    "ex048": {
+      "correct": 0.0,
+      "cost": 0.0057466,
+      "input_tokens": 797.0
+    },
+    "ex092": {
+      "correct": 0.0,
+      "cost": 0.0050711,
+      "input_tokens": 737.0
+    },
+    "ex076": {
+      "correct": 0.0,
+      "cost": 0.0067184,
+      "input_tokens": 628.0
+    },
+    "ex037": {
+      "correct": 0.0,
+      "cost": 0.0104238,
+      "input_tokens": 646.0
+    },
+    "ex030": {
+      "correct": 0.0,
+      "cost": 0.0053985,
+      "input_tokens": 770.0
+    },
+    "ex021": {
+      "correct": 0.0,
+      "cost": 0.0055718,
+      "input_tokens": 656.0
+    },
+    "ex032": {
+      "correct": 0.0,
+      "cost": 0.0044561,
+      "input_tokens": 762.0
+    },
+    "ex096": {
+      "correct": 0.0,
+      "cost": 0.0098146,
+      "input_tokens": 757.0
+    },
+    "ex080": {
+      "correct": 0.0,
+      "cost": 0.010434,
+      "input_tokens": 680.0
+    },
+    "ex049": {
+      "correct": 0.0,
+      "cost": 0.0074193,
+      "input_tokens": 781.0
+    },
+    "ex083": {
+      "correct": 0.0,
+      "cost": 0.0087866,
+      "input_tokens": 772.0
+    },
+    "ex026": {
+      "correct": 0.0,
+      "cost": 0.0076344,
+      "input_tokens": 723.0
+    },
+    "ex087": {
+      "correct": 0.0,
+      "cost": 0.0102133,
+      "input_tokens": 661.0
+    },
+    "ex033": {
+      "correct": 0.0,
+      "cost": 0.0087975,
+      "input_tokens": 700.0
+    },
+    "ex008": {
+      "correct": 0.0,
+      "cost": 0.0055915,
+      "input_tokens": 805.0
+    },
+    "ex047": {
+      "correct": 0.0,
+      "cost": 0.005618,
+      "input_tokens": 785.0
+    },
+    "ex059": {
+      "correct": 0.0,
+      "cost": 0.0104427,
+      "input_tokens": 709.0
+    },
+    "ex063": {
+      "correct": 0.0,
+      "cost": 0.0103355,
+      "input_tokens": 760.0
+    },
+    "ex074": {
+      "correct": 0.0,
+      "cost": 0.0076497,
+      "input_tokens": 799.0
+    },
+    "ex044": {
+      "correct": 0.0,
+      "cost": 0.0104407,
+      "input_tokens": 719.0
+    },
+    "ex098": {
+      "correct": 0.0,
+      "cost": 0.008931,
+      "input_tokens": 795.0
+    },
+    "ex052": {
+      "correct": 0.0,
+      "cost": 0.0104754,
+      "input_tokens": 818.0
+    },
+    "ex085": {
+      "correct": 0.0,
+      "cost": 0.0050702,
+      "input_tokens": 759.0
+    },
+    "ex012": {
+      "correct": 0.0,
+      "cost": 0.0058068,
+      "input_tokens": 781.0
+    },
+    "ex036": {
+      "correct": 0.0,
+      "cost": 0.0090408,
+      "input_tokens": 761.0
+    },
+    "ex023": {
+      "correct": 0.0,
+      "cost": 0.0086796,
+      "input_tokens": 657.0
+    },
+    "ex039": {
+      "correct": 0.0,
+      "cost": 0.0033236,
+      "input_tokens": 762.0
+    },
+    "ex040": {
+      "correct": 0.0,
+      "cost": 0.0070009,
+      "input_tokens": 753.0
+    },
+    "ex018": {
+      "correct": 0.0,
+      "cost": 0.0104439,
+      "input_tokens": 713.0
+    },
+    "ex066": {
+      "correct": 0.0,
+      "cost": 0.0068287,
+      "input_tokens": 829.0
+    },
+    "ex061": {
+      "correct": 0.0,
+      "cost": 0.0059523,
+      "input_tokens": 716.0
+    },
+    "ex060": {
+      "correct": 0.0,
+      "cost": 0.0064241,
+      "input_tokens": 622.0
+    },
+    "ex007": {
+      "correct": 0.0,
+      "cost": 0.0043564,
+      "input_tokens": 738.0
+    },
+    "ex034": {
+      "correct": 0.0,
+      "cost": 0.0064264,
+      "input_tokens": 688.0
+    },
+    "ex099": {
+      "correct": 0.0,
+      "cost": 0.0068355,
+      "input_tokens": 610.0
+    },
+    "ex046": {
+      "correct": 0.0,
+      "cost": 0.0104451,
+      "input_tokens": 717.0
+    },
+    "ex002": {
+      "correct": 0.0,
+      "cost": 0.0038966,
+      "input_tokens": 747.0
+    },
+    "ex051": {
+      "correct": 0.0,
+      "cost": 0.0085494,
+      "input_tokens": 648.0
+    },
+    "ex016": {
+      "correct": 0.0,
+      "cost": 0.0104412,
+      "input_tokens": 704.0
+    },
+    "ex038": {
+      "correct": 0.0,
+      "cost": 0.0074551,
+      "input_tokens": 667.0
+    },
+    "ex058": {
+      "correct": 0.0,
+      "cost": 0.0046066,
+      "input_tokens": 722.0
+    },
+    "ex068": {
+      "correct": 0.0,
+      "cost": 0.0047346,
+      "input_tokens": 682.0
+    },
+    "ex022": {
+      "correct": 0.0,
+      "cost": 0.009955,
+      "input_tokens": 625.0
+    },
+    "ex062": {
+      "correct": 0.0,
+      "cost": 0.0062767,
+      "input_tokens": 664.0
+    },
+    "ex024": {
+      "correct": 0.0,
+      "cost": 0.0053736,
+      "input_tokens": 762.0
+    },
+    "ex005": {
+      "correct": 0.0,
+      "cost": 0.0063877,
+      "input_tokens": 759.0
+    },
+    "ex006": {
+      "correct": 0.0,
+      "cost": 0.0066712,
+      "input_tokens": 779.0
+    },
+    "ex067": {
+      "correct": 0.0,
+      "cost": 0.0093635,
+      "input_tokens": 720.0
+    },
+    "ex082": {
+      "correct": 0.0,
+      "cost": 0.0092309,
+      "input_tokens": 753.0
+    },
+    "ex019": {
+      "correct": 0.0,
+      "cost": 0.0104319,
+      "input_tokens": 673.0
+    },
+    "ex079": {
+      "correct": 0.0,
+      "cost": 0.0103205,
+      "input_tokens": 735.0
+    },
+    "ex043": {
+      "correct": 0.0,
+      "cost": 0.0104541,
+      "input_tokens": 747.0
+    },
+    "ex090": {
+      "correct": 0.0,
+      "cost": 0.0065703,
+      "input_tokens": 701.0
+    },
+    "ex020": {
+      "correct": 0.0,
+      "cost": 0.0104535,
+      "input_tokens": 745.0
+    },
+    "ex000": {
+      "correct": 0.0,
+      "cost": 0.0104802,
+      "input_tokens": 834.0
+    },
+    "ex095": {
+      "correct": 0.0,
+      "cost": 0.0096836,
+      "input_tokens": 662.0
+    },
+    "ex057": {
+      "correct": 0.0,
+      "cost": 0.0104433,
+      "input_tokens": 711.0
+    },
+    "ex093": {
+      "correct": 0.0,
+      "cost": 0.0093427,
+      "input_tokens": 834.0
+    },
+    "ex053": {
+      "correct": 0.0,
+      "cost": 0.0068632,
+      "input_tokens": 694.0
+    },
+    "ex089": {
+      "correct": 0.0,
+      "cost": 0.0076121999999999,
+      "input_tokens": 749.0
+    },
+    "ex025": {
+      "correct": 0.0,
+      "cost": 0.0099155,
+      "input_tokens": 785.0
+    },
+    "ex071": {
+      "correct": 0.0,
+      "cost": 0.0104493,
+      "input_tokens": 731.0
+    },
+    "ex084": {
+      "correct": 0.0,
+      "cost": 0.0074613,
+      "input_tokens": 746.0
+    },
+    "ex077": {
+      "correct": 0.0,
+      "cost": 0.0064602,
+      "input_tokens": 784.0
+    },
+    "ex064": {
+      "correct": 0.0,
+      "cost": 0.0078807,
+      "input_tokens": 819.0
+    },
+    "ex029": {
+      "correct": 0.0,
+      "cost": 0.0104652,
+      "input_tokens": 784.0
+    },
+    "ex027": {
+      "correct": 0.0,
+      "cost": 0.0104499,
+      "input_tokens": 733.0
+    },
+    "ex088": {
+      "correct": 0.0,
+      "cost": 0.0078531,
+      "input_tokens": 677.0
+    },
+    "ex097": {
+      "correct": 0.0,
+      "cost": 0.0070526,
+      "input_tokens": 642.0
+    },
+    "ex004": {
+      "correct": 0.0,
+      "cost": 0.0104376,
+      "input_tokens": 692.0
+    },
+    "ex054": {
+      "correct": 0.0,
+      "cost": 0.0059931,
+      "input_tokens": 627.0
+    },
+    "ex075": {
+      "correct": 0.0,
+      "cost": 0.0056205,
+      "input_tokens": 735.0
+    },
+    "ex011": {
+      "correct": 0.0,
+      "cost": 0.0104181,
+      "input_tokens": 627.0
+    },
+    "ex069": {
+      "correct": 0.0,
+      "cost": 0.0104655,
+      "input_tokens": 785.0
+    },
+    "ex086": {
+      "correct": 0.0,
+      "cost": 0.0087686999999999,
+      "input_tokens": 829.0
+    },
+    "ex013": {
+      "correct": 0.0,
+      "cost": 0.0050372,
+      "input_tokens": 649.0
+    },
+    "ex017": {
+      "correct": 0.0,
+      "cost": 0.0055733,
+      "input_tokens": 861.0
+    },
+    "ex028": {
+      "correct": 0.0,
+      "cost": 0.0072129,
+      "input_tokens": 668.0
+    },
+    "ex031": {
+      "correct": 0.0,
+      "cost": 0.0047642,
+      "input_tokens": 664.0
+    },
+    "ex035": {
+      "correct": 0.0,
+      "cost": 0.0104169,
+      "input_tokens": 623.0
+    },
+    "ex094": {
+      "correct": 0.0,
+      "cost": 0.0062231,
+      "input_tokens": 827.0
+    },
+    "ex003": {
+      "correct": 0.0,
+      "cost": 0.0078993,
+      "input_tokens": 681.0
+    },
+    "ex014": {
+      "correct": 0.0,
+      "cost": 0.001954,
+      "input_tokens": 755.0
+    },
+    "ex081": {
+      "correct": 0.0,
+      "cost": 0.0053494,
+      "input_tokens": 873.0
+    }
+  },
+  "workflow": {
+    "ex042": {
+      "correct": 1.0,
+      "cost": 0.0171656,
+      "input_tokens": 2602.0
+    },
+    "ex041": {
+      "correct": 1.0,
+      "cost": 0.023551,
+      "input_tokens": 2945.0
+    },
+    "ex091": {
+      "correct": 0.0,
+      "cost": 0.0298333,
+      "input_tokens": 2936.0
+    },
+    "ex009": {
+      "correct": 1.0,
+      "cost": 0.0168351,
+      "input_tokens": 2767.0
+    },
+    "ex065": {
+      "correct": 0.0,
+      "cost": 0.0302496,
+      "input_tokens": 2882.0
+    },
+    "ex050": {
+      "correct": 0.0,
+      "cost": 0.0218478,
+      "input_tokens": 2776.0
+    },
+    "ex001": {
+      "correct": 0.0,
+      "cost": 0.0242278,
+      "input_tokens": 3076.0
+    },
+    "ex070": {
+      "correct": 1.0,
+      "cost": 0.021041,
+      "input_tokens": 2970.0
+    },
+    "ex015": {
+      "correct": 0.0,
+      "cost": 0.0221735,
+      "input_tokens": 3045.0
+    },
+    "ex078": {
+      "correct": 0.0,
+      "cost": 0.0316192,
+      "input_tokens": 3114.0
+    },
+    "ex073": {
+      "correct": 1.0,
+      "cost": 0.0198312,
+      "input_tokens": 2729.0
+    },
+    "ex010": {
+      "correct": 1.0,
+      "cost": 0.0189756,
+      "input_tokens": 3127.0
+    },
+    "ex055": {
+      "correct": 0.0,
+      "cost": 0.0170335,
+      "input_tokens": 2620.0
+    },
+    "ex056": {
+      "correct": 0.0,
+      "cost": 0.0295426,
+      "input_tokens": 2917.0
+    },
+    "ex072": {
+      "correct": 1.0,
+      "cost": 0.021224,
+      "input_tokens": 2955.0
+    },
+    "ex045": {
+      "correct": 1.0,
+      "cost": 0.0206429,
+      "input_tokens": 2843.0
+    },
+    "ex048": {
+      "correct": 0.0,
+      "cost": 0.0227066,
+      "input_tokens": 3022.0
+    },
+    "ex092": {
+      "correct": 1.0,
+      "cost": 0.0247205,
+      "input_tokens": 2910.0
+    },
+    "ex076": {
+      "correct": 1.0,
+      "cost": 0.0227098,
+      "input_tokens": 2691.0
+    },
+    "ex037": {
+      "correct": 1.0,
+      "cost": 0.0193871,
+      "input_tokens": 2857.0
+    },
+    "ex030": {
+      "correct": 1.0,
+      "cost": 0.020276,
+      "input_tokens": 2945.0
+    },
+    "ex021": {
+      "correct": 0.0,
+      "cost": 0.0263878,
+      "input_tokens": 2701.0
+    },
+    "ex032": {
+      "correct": 1.0,
+      "cost": 0.0219088,
+      "input_tokens": 3096.0
+    },
+    "ex096": {
+      "correct": 0.0,
+      "cost": 0.0229566,
+      "input_tokens": 2922.0
+    },
+    "ex080": {
+      "correct": 0.0,
+      "cost": 0.0315294,
+      "input_tokens": 2798.0
+    },
+    "ex049": {
+      "correct": 0.0,
+      "cost": 0.0295374,
+      "input_tokens": 3008.0
+    },
+    "ex083": {
+      "correct": 1.0,
+      "cost": 0.0192214,
+      "input_tokens": 2938.0
+    },
+    "ex026": {
+      "correct": 1.0,
+      "cost": 0.0195639,
+      "input_tokens": 2888.0
+    },
+    "ex087": {
+      "correct": 1.0,
+      "cost": 0.0219237,
+      "input_tokens": 2604.0
+    },
+    "ex033": {
+      "correct": 0.0,
+      "cost": 0.0227106,
+      "input_tokens": 2827.0
+    },
+    "ex008": {
+      "correct": 1.0,
+      "cost": 0.0226787,
+      "input_tokens": 3054.0
+    },
+    "ex047": {
+      "correct": 1.0,
+      "cost": 0.0196013,
+      "input_tokens": 2921.0
+    },
+    "ex059": {
+      "correct": 0.0,
+      "cost": 0.0296943,
+      "input_tokens": 2856.0
+    },
+    "ex063": {
+      "correct": 0.0,
+      "cost": 0.0223541999999999,
+      "input_tokens": 2964.0
+    },
+    "ex074": {
+      "correct": 1.0,
+      "cost": 0.0224124,
+      "input_tokens": 3033.0
+    },
+    "ex044": {
+      "correct": 0.0,
+      "cost": 0.0206722,
+      "input_tokens": 2924.0
+    },
+    "ex098": {
+      "correct": 1.0,
+      "cost": 0.0188409,
+      "input_tokens": 2978.0
+    },
+    "ex052": {
+      "correct": 0.0,
+      "cost": 0.0184274,
+      "input_tokens": 3008.0
+    },
+    "ex085": {
+      "correct": 1.0,
+      "cost": 0.0265612,
+      "input_tokens": 3054.0
+    },
+    "ex012": {
+      "correct": 0.0,
+      "cost": 0.0229412,
+      "input_tokens": 3004.0
+    },
+    "ex036": {
+      "correct": 1.0,
+      "cost": 0.0222864,
+      "input_tokens": 2913.0
+    },
+    "ex023": {
+      "correct": 0.0,
+      "cost": 0.0285186,
+      "input_tokens": 2762.0
+    },
+    "ex039": {
+      "correct": 1.0,
+      "cost": 0.0219903,
+      "input_tokens": 2976.0
+    },
+    "ex040": {
+      "correct": 1.0,
+      "cost": 0.0258843,
+      "input_tokens": 2931.0
+    },
+    "ex018": {
+      "correct": 0.0,
+      "cost": 0.0311527,
+      "input_tokens": 2859.0
+    },
+    "ex066": {
+      "correct": 1.0,
+      "cost": 0.0235923,
+      "input_tokens": 3116.0
+    },
+    "ex061": {
+      "correct": 0.0,
+      "cost": 0.0242709,
+      "input_tokens": 2928.0
+    },
+    "ex060": {
+      "correct": 1.0,
+      "cost": 0.0228554,
+      "input_tokens": 2668.0
+    },
+    "ex007": {
+      "correct": 1.0,
+      "cost": 0.0225258,
+      "input_tokens": 2911.0
+    },
+    "ex034": {
+      "correct": 0.0,
+      "cost": 0.0234829,
+      "input_tokens": 2818.0
+    },
+    "ex099": {
+      "correct": 1.0,
+      "cost": 0.017451,
+      "input_tokens": 2645.0
+    },
+    "ex046": {
+      "correct": 0.0,
+      "cost": 0.0315564,
+      "input_tokens": 2888.0
+    },
+    "ex002": {
+      "correct": 1.0,
+      "cost": 0.0198947,
+      "input_tokens": 3049.0
+    },
+    "ex051": {
+      "correct": 1.0,
+      "cost": 0.0213991,
+      "input_tokens": 2747.0
+    },
+    "ex016": {
+      "correct": 0.0,
+      "cost": 0.031545,
+      "input_tokens": 2850.0
+    },
+    "ex038": {
+      "correct": 0.0,
+      "cost": 0.0269066,
+      "input_tokens": 2772.0
+    },
+    "ex058": {
+      "correct": 1.0,
+      "cost": 0.0214712,
+      "input_tokens": 2904.0
+    },
+    "ex068": {
+      "correct": 1.0,
+      "cost": 0.0206466,
+      "input_tokens": 2772.0
+    },
+    "ex022": {
+      "correct": 0.0,
+      "cost": 0.0219631,
+      "input_tokens": 2752.0
+    },
+    "ex062": {
+      "correct": 1.0,
+      "cost": 0.0228377,
+      "input_tokens": 2759.0
+    },
+    "ex024": {
+      "correct": 1.0,
+      "cost": 0.0223232,
+      "input_tokens": 3094.0
+    },
+    "ex005": {
+      "correct": 1.0,
+      "cost": 0.0225912,
+      "input_tokens": 2904.0
+    },
+    "ex006": {
+      "correct": 0.0,
+      "cost": 0.0215992,
+      "input_tokens": 2964.0
+    },
+    "ex067": {
+      "correct": 1.0,
+      "cost": 0.0217691,
+      "input_tokens": 2872.0
+    },
+    "ex082": {
+      "correct": 0.0,
+      "cost": 0.022787,
+      "input_tokens": 2940.0
+    },
+    "ex019": {
+      "correct": 0.0,
+      "cost": 0.0225552,
+      "input_tokens": 2784.0
+    },
+    "ex079": {
+      "correct": 1.0,
+      "cost": 0.0227013,
+      "input_tokens": 2921.0
+    },
+    "ex043": {
+      "correct": 0.0,
+      "cost": 0.0311805,
+      "input_tokens": 2935.0
+    },
+    "ex090": {
+      "correct": 0.0,
+      "cost": 0.0315417,
+      "input_tokens": 2839.0
+    },
+    "ex020": {
+      "correct": 0.0,
+      "cost": 0.0303336,
+      "input_tokens": 2937.0
+    },
+    "ex000": {
+      "correct": 0.0,
+      "cost": 0.022663,
+      "input_tokens": 3110.0
+    },
+    "ex095": {
+      "correct": 1.0,
+      "cost": 0.0225018,
+      "input_tokens": 2881.0
+    },
+    "ex057": {
+      "correct": 0.0,
+      "cost": 0.0302785,
+      "input_tokens": 2870.0
+    },
+    "ex093": {
+      "correct": 0.0,
+      "cost": 0.0316242,
+      "input_tokens": 3114.0
+    },
+    "ex053": {
+      "correct": 0.0,
+      "cost": 0.0315301,
+      "input_tokens": 2817.0
+    },
+    "ex089": {
+      "correct": 0.0,
+      "cost": 0.0315735,
+      "input_tokens": 2945.0
+    },
+    "ex025": {
+      "correct": 1.0,
+      "cost": 0.0224256,
+      "input_tokens": 3002.0
+    },
+    "ex071": {
+      "correct": 0.0,
+      "cost": 0.0217006,
+      "input_tokens": 2802.0
+    },
+    "ex084": {
+      "correct": 1.0,
+      "cost": 0.0226567,
+      "input_tokens": 2939.0
+    },
+    "ex077": {
+      "correct": 1.0,
+      "cost": 0.0236064,
+      "input_tokens": 3013.0
+    },
+    "ex064": {
+      "correct": 1.0,
+      "cost": 0.0227218,
+      "input_tokens": 3206.0
+    },
+    "ex029": {
+      "correct": 0.0,
+      "cost": 0.0300289,
+      "input_tokens": 2988.0
+    },
+    "ex027": {
+      "correct": 0.0,
+      "cost": 0.0251635,
+      "input_tokens": 2895.0
+    },
+    "ex088": {
+      "correct": 1.0,
+      "cost": 0.0201445,
+      "input_tokens": 2765.0
+    },
+    "ex097": {
+      "correct": 1.0,
+      "cost": 0.0221523,
+      "input_tokens": 2716.0
+    },
+    "ex004": {
+      "correct": 0.0,
+      "cost": 0.0314822,
+      "input_tokens": 2824.0
+    },
+    "ex054": {
+      "correct": 1.0,
+      "cost": 0.0224978,
+      "input_tokens": 2701.0
+    },
+    "ex075": {
+      "correct": 0.0,
+      "cost": 0.022527,
+      "input_tokens": 2915.0
+    },
+    "ex011": {
+      "correct": 0.0,
+      "cost": 0.0296331,
+      "input_tokens": 2727.0
+    },
+    "ex069": {
+      "correct": 1.0,
+      "cost": 0.0277904,
+      "input_tokens": 2993.0
+    },
+    "ex086": {
+      "correct": 0.0,
+      "cost": 0.0299697,
+      "input_tokens": 3349.0
+    },
+    "ex013": {
+      "correct": 1.0,
+      "cost": 0.0208537,
+      "input_tokens": 2704.0
+    },
+    "ex017": {
+      "correct": 1.0,
+      "cost": 0.02263,
+      "input_tokens": 3250.0
+    },
+    "ex028": {
+      "correct": 0.0,
+      "cost": 0.0226738,
+      "input_tokens": 2771.0
+    },
+    "ex031": {
+      "correct": 0.0,
+      "cost": 0.0315183,
+      "input_tokens": 2761.0
+    },
+    "ex035": {
+      "correct": 1.0,
+      "cost": 0.0248293,
+      "input_tokens": 2681.0
+    },
+    "ex094": {
+      "correct": 1.0,
+      "cost": 0.0219024,
+      "input_tokens": 3183.0
+    },
+    "ex003": {
+      "correct": 1.0,
+      "cost": 0.0255206,
+      "input_tokens": 2802.0
+    },
+    "ex014": {
+      "correct": 1.0,
+      "cost": 0.0206036,
+      "input_tokens": 2887.0
+    },
+    "ex081": {
+      "correct": 1.0,
+      "cost": 0.0220264,
+      "input_tokens": 3188.0
+    }
+  },
+  "pot": {
+    "ex042": {
+      "correct": 1.0,
+      "cost": 0.0066635,
+      "input_tokens": 1970.0
+    },
+    "ex041": {
+      "correct": 1.0,
+      "cost": 0.0115485,
+      "input_tokens": 1070.0
+    },
+    "ex091": {
+      "correct": 0.0,
+      "cost": 0.0198082,
+      "input_tokens": 1069.0
+    },
+    "ex009": {
+      "correct": 0.0,
+      "cost": 0.0054778,
+      "input_tokens": 1026.0
+    },
+    "ex065": {
+      "correct": 0.0,
+      "cost": 0.0101564,
+      "input_tokens": 2138.0
+    },
+    "ex050": {
+      "correct": 1.0,
+      "cost": 0.0034604,
+      "input_tokens": 1018.0
+    },
+    "ex001": {
+      "correct": 0.0,
+      "cost": 0.0145086,
+      "input_tokens": 1137.0
+    },
+    "ex070": {
+      "correct": 1.0,
+      "cost": 0.0040425,
+      "input_tokens": 1075.0
+    },
+    "ex015": {
+      "correct": 1.0,
+      "cost": 0.0147722999999999,
+      "input_tokens": 2316.0
+    },
+    "ex078": {
+      "correct": 1.0,
+      "cost": 0.004209,
+      "input_tokens": 1155.0
+    },
+    "ex073": {
+      "correct": 1.0,
+      "cost": 0.0149643,
+      "input_tokens": 956.0
+    },
+    "ex010": {
+      "correct": 1.0,
+      "cost": 0.0129967,
+      "input_tokens": 2314.0
+    },
+    "ex055": {
+      "correct": 0.0,
+      "cost": 0.0052334,
+      "input_tokens": 978.0
+    },
+    "ex056": {
+      "correct": 1.0,
+      "cost": 0.0158027,
+      "input_tokens": 2184.0
+    },
+    "ex072": {
+      "correct": 1.0,
+      "cost": 0.0136038,
+      "input_tokens": 1021.0
+    },
+    "ex045": {
+      "correct": 1.0,
+      "cost": 0.0148658,
+      "input_tokens": 986.0
+    },
+    "ex048": {
+      "correct": 0.0,
+      "cost": 0.0131207,
+      "input_tokens": 1119.0
+    },
+    "ex092": {
+      "correct": 1.0,
+      "cost": 0.0061506,
+      "input_tokens": 1052.0
+    },
+    "ex076": {
+      "correct": 1.0,
+      "cost": 0.0131038,
+      "input_tokens": 946.0
+    },
+    "ex037": {
+      "correct": 1.0,
+      "cost": 0.0153739,
+      "input_tokens": 963.0
+    },
+    "ex030": {
+      "correct": 1.0,
+      "cost": 0.0228411,
+      "input_tokens": 1087.0
+    },
+    "ex021": {
+      "correct": 0.0,
+      "cost": 0.0137869,
+      "input_tokens": 973.0
+    },
+    "ex032": {
+      "correct": 1.0,
+      "cost": 0.0082551,
+      "input_tokens": 2242.0
+    },
+    "ex096": {
+      "correct": 1.0,
+      "cost": 0.0251108,
+      "input_tokens": 2236.0
+    },
+    "ex080": {
+      "correct": 1.0,
+      "cost": 0.0355448,
+      "input_tokens": 2066.0
+    },
+    "ex049": {
+      "correct": 1.0,
+      "cost": 0.0124601,
+      "input_tokens": 2292.0
+    },
+    "ex083": {
+      "correct": 1.0,
+      "cost": 0.0183676,
+      "input_tokens": 1092.0
+    },
+    "ex026": {
+      "correct": 1.0,
+      "cost": 0.0234461,
+      "input_tokens": 2162.0
+    },
+    "ex087": {
+      "correct": 0.0,
+      "cost": 0.0040931,
+      "input_tokens": 977.0
+    },
+    "ex033": {
+      "correct": 0.0,
+      "cost": 0.028266,
+      "input_tokens": 2120.0
+    },
+    "ex008": {
+      "correct": 1.0,
+      "cost": 0.0089314,
+      "input_tokens": 2338.0
+    },
+    "ex047": {
+      "correct": 1.0,
+      "cost": 0.0080407,
+      "input_tokens": 2294.0
+    },
+    "ex059": {
+      "correct": 1.0,
+      "cost": 0.017645,
+      "input_tokens": 2150.0
+    },
+    "ex063": {
+      "correct": 1.0,
+      "cost": 0.0241458,
+      "input_tokens": 2261.0
+    },
+    "ex074": {
+      "correct": 1.0,
+      "cost": 0.0161329,
+      "input_tokens": 1118.0
+    },
+    "ex044": {
+      "correct": 0.0,
+      "cost": 0.014012,
+      "input_tokens": 1040.0
+    },
+    "ex098": {
+      "correct": 1.0,
+      "cost": 0.0110451,
+      "input_tokens": 1117.0
+    },
+    "ex052": {
+      "correct": 0.0,
+      "cost": 0.0394268,
+      "input_tokens": 2356.0
+    },
+    "ex085": {
+      "correct": 1.0,
+      "cost": 0.0127337,
+      "input_tokens": 2254.0
+    },
+    "ex012": {
+      "correct": 1.0,
+      "cost": 0.0143934,
+      "input_tokens": 2278.0
+    },
+    "ex036": {
+      "correct": 0.0,
+      "cost": 0.0126476,
+      "input_tokens": 2242.0
+    },
+    "ex023": {
+      "correct": 1.0,
+      "cost": 0.0052666,
+      "input_tokens": 1297.0
+    },
+    "ex039": {
+      "correct": 1.0,
+      "cost": 0.0178224,
+      "input_tokens": 1083.0
+    },
+    "ex040": {
+      "correct": 1.0,
+      "cost": 0.0162684,
+      "input_tokens": 2228.0
+    },
+    "ex018": {
+      "correct": 1.0,
+      "cost": 0.0102337,
+      "input_tokens": 1029.0
+    },
+    "ex066": {
+      "correct": 1.0,
+      "cost": 0.0120803,
+      "input_tokens": 1151.0
+    },
+    "ex061": {
+      "correct": 1.0,
+      "cost": 0.0125702,
+      "input_tokens": 1034.0
+    },
+    "ex060": {
+      "correct": 1.0,
+      "cost": 0.0112612,
+      "input_tokens": 2004.0
+    },
+    "ex007": {
+      "correct": 1.0,
+      "cost": 0.0040596,
+      "input_tokens": 1057.0
+    },
+    "ex034": {
+      "correct": 1.0,
+      "cost": 0.0065687,
+      "input_tokens": 1004.0
+    },
+    "ex099": {
+      "correct": 1.0,
+      "cost": 0.0180203,
+      "input_tokens": 926.0
+    },
+    "ex046": {
+      "correct": 0.0,
+      "cost": 0.0206068,
+      "input_tokens": 1031.0
+    },
+    "ex002": {
+      "correct": 1.0,
+      "cost": 0.0064645,
+      "input_tokens": 1065.0
+    },
+    "ex051": {
+      "correct": 1.0,
+      "cost": 0.0115511,
+      "input_tokens": 2012.0
+    },
+    "ex016": {
+      "correct": 1.0,
+      "cost": 0.0225519,
+      "input_tokens": 1023.0
+    },
+    "ex038": {
+      "correct": 1.0,
+      "cost": 0.015753,
+      "input_tokens": 985.0
+    },
+    "ex058": {
+      "correct": 1.0,
+      "cost": 0.0134354,
+      "input_tokens": 2168.0
+    },
+    "ex068": {
+      "correct": 1.0,
+      "cost": 0.00516,
+      "input_tokens": 1000.0
+    },
+    "ex022": {
+      "correct": 0.0,
+      "cost": 0.0029373,
+      "input_tokens": 941.0
+    },
+    "ex062": {
+      "correct": 1.0,
+      "cost": 0.006439,
+      "input_tokens": 980.0
+    },
+    "ex024": {
+      "correct": 1.0,
+      "cost": 0.0124009,
+      "input_tokens": 1078.0
+    },
+    "ex005": {
+      "correct": 0.0,
+      "cost": 0.0052378,
+      "input_tokens": 1076.0
+    },
+    "ex006": {
+      "correct": 1.0,
+      "cost": 0.0090235,
+      "input_tokens": 2270.0
+    },
+    "ex067": {
+      "correct": 1.0,
+      "cost": 0.0120733,
+      "input_tokens": 1036.0
+    },
+    "ex082": {
+      "correct": 0.0,
+      "cost": 0.0076091,
+      "input_tokens": 1072.0
+    },
+    "ex019": {
+      "correct": 0.0,
+      "cost": 0.0057539,
+      "input_tokens": 988.0
+    },
+    "ex079": {
+      "correct": 1.0,
+      "cost": 0.0050109,
+      "input_tokens": 1053.0
+    },
+    "ex043": {
+      "correct": 1.0,
+      "cost": 0.0171695,
+      "input_tokens": 1065.0
+    },
+    "ex090": {
+      "correct": 0.0,
+      "cost": 0.0072229,
+      "input_tokens": 1018.0
+    },
+    "ex020": {
+      "correct": 0.0,
+      "cost": 0.023105,
+      "input_tokens": 2200.0
+    },
+    "ex000": {
+      "correct": 0.0,
+      "cost": 0.0142565,
+      "input_tokens": 2380.0
+    },
+    "ex095": {
+      "correct": 1.0,
+      "cost": 0.0113519,
+      "input_tokens": 2048.0
+    },
+    "ex057": {
+      "correct": 0.0,
+      "cost": 0.0294221,
+      "input_tokens": 2132.0
+    },
+    "ex093": {
+      "correct": 1.0,
+      "cost": 0.0175465,
+      "input_tokens": 2380.0
+    },
+    "ex053": {
+      "correct": 1.0,
+      "cost": 0.0157749,
+      "input_tokens": 1008.0
+    },
+    "ex089": {
+      "correct": 1.0,
+      "cost": 0.0095167,
+      "input_tokens": 2214.0
+    },
+    "ex025": {
+      "correct": 0.0,
+      "cost": 0.0173303,
+      "input_tokens": 1101.0
+    },
+    "ex071": {
+      "correct": 0.0,
+      "cost": 0.0061922,
+      "input_tokens": 1049.0
+    },
+    "ex084": {
+      "correct": 1.0,
+      "cost": 0.0146223,
+      "input_tokens": 1066.0
+    },
+    "ex077": {
+      "correct": 1.0,
+      "cost": 0.0189618,
+      "input_tokens": 1106.0
+    },
+    "ex064": {
+      "correct": 1.0,
+      "cost": 0.0301601,
+      "input_tokens": 2392.0
+    },
+    "ex029": {
+      "correct": 0.0,
+      "cost": 0.0195725,
+      "input_tokens": 2300.0
+    },
+    "ex027": {
+      "correct": 1.0,
+      "cost": 0.0184516,
+      "input_tokens": 1047.0
+    },
+    "ex088": {
+      "correct": 1.0,
+      "cost": 0.0066666,
+      "input_tokens": 997.0
+    },
+    "ex097": {
+      "correct": 1.0,
+      "cost": 0.0142024,
+      "input_tokens": 958.0
+    },
+    "ex004": {
+      "correct": 0.0,
+      "cost": 0.0188424,
+      "input_tokens": 1008.0
+    },
+    "ex054": {
+      "correct": 0.0,
+      "cost": 0.0132601,
+      "input_tokens": 942.0
+    },
+    "ex075": {
+      "correct": 1.0,
+      "cost": 0.0155459,
+      "input_tokens": 1053.0
+    },
+    "ex011": {
+      "correct": 1.0,
+      "cost": 0.019451,
+      "input_tokens": 945.0
+    },
+    "ex069": {
+      "correct": 0.0,
+      "cost": 0.0241358,
+      "input_tokens": 2286.0
+    },
+    "ex086": {
+      "correct": 0.0,
+      "cost": 0.0176678,
+      "input_tokens": 1151.0
+    },
+    "ex013": {
+      "correct": 1.0,
+      "cost": 0.0035951,
+      "input_tokens": 967.0
+    },
+    "ex017": {
+      "correct": 1.0,
+      "cost": 0.0048358,
+      "input_tokens": 1186.0
+    },
+    "ex028": {
+      "correct": 0.0,
+      "cost": 0.0122777,
+      "input_tokens": 984.0
+    },
+    "ex031": {
+      "correct": 1.0,
+      "cost": 0.0152462,
+      "input_tokens": 979.0
+    },
+    "ex035": {
+      "correct": 1.0,
+      "cost": 0.0247637,
+      "input_tokens": 1954.0
+    },
+    "ex094": {
+      "correct": 1.0,
+      "cost": 0.0084252,
+      "input_tokens": 2384.0
+    },
+    "ex003": {
+      "correct": 0.0,
+      "cost": 0.0189491,
+      "input_tokens": 997.0
+    },
+    "ex014": {
+      "correct": 1.0,
+      "cost": 0.00642,
+      "input_tokens": 2250.0
+    },
+    "ex081": {
+      "correct": 1.0,
+      "cost": 0.0109685,
+      "input_tokens": 1195.0
+    }
+  },
+  "wf_orch": {
+    "ex042": {
+      "correct": 1.0,
+      "cost": 0.0097441,
+      "input_tokens": 1222.0
+    },
+    "ex041": {
+      "correct": 1.0,
+      "cost": 0.0126769,
+      "input_tokens": 2273.0
+    },
+    "ex091": {
+      "correct": 0.0,
+      "cost": 0.0161891,
+      "input_tokens": 1497.0
+    },
+    "ex009": {
+      "correct": 1.0,
+      "cost": 0.0124498,
+      "input_tokens": 2266.0
+    },
+    "ex065": {
+      "correct": 1.0,
+      "cost": 0.0116342,
+      "input_tokens": 1289.0
+    },
+    "ex050": {
+      "correct": 0.0,
+      "cost": 0.020455,
+      "input_tokens": 1450.0
+    },
+    "ex001": {
+      "correct": 1.0,
+      "cost": 0.0117928,
+      "input_tokens": 2451.0
+    },
+    "ex070": {
+      "correct": 0.0,
+      "cost": 0.013549,
+      "input_tokens": 1805.0
+    },
+    "ex015": {
+      "correct": 1.0,
+      "cost": 0.0111534,
+      "input_tokens": 1378.0
+    },
+    "ex078": {
+      "correct": 1.0,
+      "cost": 0.0121896,
+      "input_tokens": 1582.0
+    },
+    "ex073": {
+      "correct": 1.0,
+      "cost": 0.0137925999999999,
+      "input_tokens": 1942.0
+    },
+    "ex010": {
+      "correct": 1.0,
+      "cost": 0.0126308,
+      "input_tokens": 1536.0
+    },
+    "ex055": {
+      "correct": 0.0,
+      "cost": 0.0092738,
+      "input_tokens": 1246.0
+    },
+    "ex056": {
+      "correct": 0.0,
+      "cost": 0.0194979,
+      "input_tokens": 1468.0
+    },
+    "ex072": {
+      "correct": 1.0,
+      "cost": 0.0094909,
+      "input_tokens": 1303.0
+    },
+    "ex045": {
+      "correct": 1.0,
+      "cost": 0.0098025,
+      "input_tokens": 1250.0
+    },
+    "ex048": {
+      "correct": 1.0,
+      "cost": 0.0136298,
+      "input_tokens": 2466.0
+    },
+    "ex092": {
+      "correct": 1.0,
+      "cost": 0.0118291,
+      "input_tokens": 1472.0
+    },
+    "ex076": {
+      "correct": 1.0,
+      "cost": 0.0096906,
+      "input_tokens": 1202.0
+    },
+    "ex037": {
+      "correct": 1.0,
+      "cost": 0.0093917,
+      "input_tokens": 1239.0
+    },
+    "ex030": {
+      "correct": 1.0,
+      "cost": 0.0106528,
+      "input_tokens": 1351.0
+    },
+    "ex021": {
+      "correct": 1.0,
+      "cost": 0.0105774,
+      "input_tokens": 1233.0
+    },
+    "ex032": {
+      "correct": 1.0,
+      "cost": 0.0120725,
+      "input_tokens": 1500.0
+    },
+    "ex096": {
+      "correct": 1.0,
+      "cost": 0.0096045,
+      "input_tokens": 1340.0
+    },
+    "ex080": {
+      "correct": 0.0,
+      "cost": 0.0184439,
+      "input_tokens": 1413.0
+    },
+    "ex049": {
+      "correct": 1.0,
+      "cost": 0.0125872,
+      "input_tokens": 1524.0
+    },
+    "ex083": {
+      "correct": 1.0,
+      "cost": 0.0072018,
+      "input_tokens": 1356.0
+    },
+    "ex026": {
+      "correct": 1.0,
+      "cost": 0.0111528,
+      "input_tokens": 1301.0
+    },
+    "ex087": {
+      "correct": 1.0,
+      "cost": 0.0087835,
+      "input_tokens": 1245.0
+    },
+    "ex033": {
+      "correct": 1.0,
+      "cost": 0.0376878,
+      "input_tokens": 2726.0
+    },
+    "ex008": {
+      "correct": 1.0,
+      "cost": 0.0128491,
+      "input_tokens": 1547.0
+    },
+    "ex047": {
+      "correct": 1.0,
+      "cost": 0.0099838,
+      "input_tokens": 1371.0
+    },
+    "ex059": {
+      "correct": 1.0,
+      "cost": 0.0112184,
+      "input_tokens": 1303.0
+    },
+    "ex063": {
+      "correct": 1.0,
+      "cost": 0.0110958,
+      "input_tokens": 1336.0
+    },
+    "ex074": {
+      "correct": 1.0,
+      "cost": 0.0139721999999999,
+      "input_tokens": 2024.0
+    },
+    "ex044": {
+      "correct": 1.0,
+      "cost": 0.0123867,
+      "input_tokens": 1989.0
+    },
+    "ex098": {
+      "correct": 1.0,
+      "cost": 0.0123799,
+      "input_tokens": 2108.0
+    },
+    "ex052": {
+      "correct": 1.0,
+      "cost": 0.0348203,
+      "input_tokens": 2951.0
+    },
+    "ex085": {
+      "correct": 1.0,
+      "cost": 0.0098134,
+      "input_tokens": 1353.0
+    },
+    "ex012": {
+      "correct": 1.0,
+      "cost": 0.0071696,
+      "input_tokens": 1357.0
+    },
+    "ex036": {
+      "correct": 0.0,
+      "cost": 0.0180846,
+      "input_tokens": 2532.0
+    },
+    "ex023": {
+      "correct": 1.0,
+      "cost": 0.0124076,
+      "input_tokens": 1442.0
+    },
+    "ex039": {
+      "correct": 1.0,
+      "cost": 0.0100954,
+      "input_tokens": 1343.0
+    },
+    "ex040": {
+      "correct": 1.0,
+      "cost": 0.0337906,
+      "input_tokens": 2827.0
+    },
+    "ex018": {
+      "correct": 1.0,
+      "cost": 0.010848,
+      "input_tokens": 1285.0
+    },
+    "ex066": {
+      "correct": 1.0,
+      "cost": 0.0182753,
+      "input_tokens": 2851.0
+    },
+    "ex061": {
+      "correct": 1.0,
+      "cost": 0.0123972,
+      "input_tokens": 1449.0
+    },
+    "ex060": {
+      "correct": 1.0,
+      "cost": 0.0126149,
+      "input_tokens": 1358.0
+    },
+    "ex007": {
+      "correct": 1.0,
+      "cost": 0.0093488,
+      "input_tokens": 1321.0
+    },
+    "ex034": {
+      "correct": 1.0,
+      "cost": 0.0073242,
+      "input_tokens": 1264.0
+    },
+    "ex099": {
+      "correct": 1.0,
+      "cost": 0.0075233,
+      "input_tokens": 1186.0
+    },
+    "ex046": {
+      "correct": 1.0,
+      "cost": 0.0105198,
+      "input_tokens": 1291.0
+    },
+    "ex002": {
+      "correct": 1.0,
+      "cost": 0.0069362,
+      "input_tokens": 1329.0
+    },
+    "ex051": {
+      "correct": 0.0,
+      "cost": 0.020489,
+      "input_tokens": 1380.0
+    },
+    "ex016": {
+      "correct": 1.0,
+      "cost": 0.0101249,
+      "input_tokens": 1283.0
+    },
+    "ex038": {
+      "correct": 0.0,
+      "cost": 0.0097348,
+      "input_tokens": 1241.0
+    },
+    "ex058": {
+      "correct": 1.0,
+      "cost": 0.0121524,
+      "input_tokens": 1458.0
+    },
+    "ex068": {
+      "correct": 1.0,
+      "cost": 0.007783,
+      "input_tokens": 1260.0
+    },
+    "ex022": {
+      "correct": 1.0,
+      "cost": 0.009409,
+      "input_tokens": 1205.0
+    },
+    "ex062": {
+      "correct": 1.0,
+      "cost": 0.011401,
+      "input_tokens": 1395.0
+    },
+    "ex024": {
+      "correct": 1.0,
+      "cost": 0.0090236,
+      "input_tokens": 1362.0
+    },
+    "ex005": {
+      "correct": 1.0,
+      "cost": 0.0125193,
+      "input_tokens": 2331.0
+    },
+    "ex006": {
+      "correct": 1.0,
+      "cost": 0.0125836,
+      "input_tokens": 1512.0
+    },
+    "ex067": {
+      "correct": 1.0,
+      "cost": 0.0080751,
+      "input_tokens": 1292.0
+    },
+    "ex082": {
+      "correct": 0.0,
+      "cost": 0.0166173,
+      "input_tokens": 1491.0
+    },
+    "ex019": {
+      "correct": 1.0,
+      "cost": 0.0074894,
+      "input_tokens": 1248.0
+    },
+    "ex079": {
+      "correct": 1.0,
+      "cost": 0.0125079,
+      "input_tokens": 1468.0
+    },
+    "ex043": {
+      "correct": 1.0,
+      "cost": 0.0161423,
+      "input_tokens": 1491.0
+    },
+    "ex090": {
+      "correct": 1.0,
+      "cost": 0.0077609,
+      "input_tokens": 1278.0
+    },
+    "ex020": {
+      "correct": 1.0,
+      "cost": 0.0399762,
+      "input_tokens": 2804.0
+    },
+    "ex000": {
+      "correct": 0.0,
+      "cost": 0.0124145,
+      "input_tokens": 1565.0
+    },
+    "ex095": {
+      "correct": 1.0,
+      "cost": 0.0089344,
+      "input_tokens": 1248.0
+    },
+    "ex057": {
+      "correct": 1.0,
+      "cost": 0.0092921,
+      "input_tokens": 1282.0
+    },
+    "ex093": {
+      "correct": 1.0,
+      "cost": 0.0122163,
+      "input_tokens": 1571.0
+    },
+    "ex053": {
+      "correct": 1.0,
+      "cost": 0.0121666,
+      "input_tokens": 1422.0
+    },
+    "ex089": {
+      "correct": 1.0,
+      "cost": 0.0122055,
+      "input_tokens": 1485.0
+    },
+    "ex025": {
+      "correct": 1.0,
+      "cost": 0.0347277,
+      "input_tokens": 2884.0
+    },
+    "ex071": {
+      "correct": 1.0,
+      "cost": 0.0261044,
+      "input_tokens": 2748.0
+    },
+    "ex084": {
+      "correct": 1.0,
+      "cost": 0.0102815,
+      "input_tokens": 1330.0
+    },
+    "ex077": {
+      "correct": 1.0,
+      "cost": 0.0123283,
+      "input_tokens": 1561.0
+    },
+    "ex064": {
+      "correct": 1.0,
+      "cost": 0.0169356,
+      "input_tokens": 1577.0
+    },
+    "ex029": {
+      "correct": 1.0,
+      "cost": 0.0111603,
+      "input_tokens": 1376.0
+    },
+    "ex027": {
+      "correct": 1.0,
+      "cost": 0.0123337,
+      "input_tokens": 2104.0
+    },
+    "ex088": {
+      "correct": 1.0,
+      "cost": 0.0115746,
+      "input_tokens": 2057.0
+    },
+    "ex097": {
+      "correct": 1.0,
+      "cost": 0.0104123,
+      "input_tokens": 1241.0
+    },
+    "ex004": {
+      "correct": 1.0,
+      "cost": 0.0099129,
+      "input_tokens": 1268.0
+    },
+    "ex054": {
+      "correct": 1.0,
+      "cost": 0.0127402,
+      "input_tokens": 1359.0
+    },
+    "ex075": {
+      "correct": 1.0,
+      "cost": 0.0128401,
+      "input_tokens": 1467.0
+    },
+    "ex011": {
+      "correct": 0.0,
+      "cost": 0.0200932,
+      "input_tokens": 1369.0
+    },
+    "ex069": {
+      "correct": 0.0,
+      "cost": 0.0319481,
+      "input_tokens": 2727.0
+    },
+    "ex086": {
+      "correct": 0.0,
+      "cost": 0.0200731,
+      "input_tokens": 1577.0
+    },
+    "ex013": {
+      "correct": 1.0,
+      "cost": 0.0057794,
+      "input_tokens": 1223.0
+    },
+    "ex017": {
+      "correct": 1.0,
+      "cost": 0.01112,
+      "input_tokens": 1450.0
+    },
+    "ex028": {
+      "correct": 0.0,
+      "cost": 0.0377613,
+      "input_tokens": 2646.0
+    },
+    "ex031": {
+      "correct": 1.0,
+      "cost": 0.0122154,
+      "input_tokens": 1393.0
+    },
+    "ex035": {
+      "correct": 1.0,
+      "cost": 0.005891,
+      "input_tokens": 1195.0
+    },
+    "ex094": {
+      "correct": 1.0,
+      "cost": 0.0119594,
+      "input_tokens": 1573.0
+    },
+    "ex003": {
+      "correct": 1.0,
+      "cost": 0.0118219,
+      "input_tokens": 1273.0
+    },
+    "ex014": {
+      "correct": 1.0,
+      "cost": 0.0091265,
+      "input_tokens": 1355.0
+    },
+    "ex081": {
+      "correct": 1.0,
+      "cost": 0.0087765,
+      "input_tokens": 1455.0
+    }
+  }
+}

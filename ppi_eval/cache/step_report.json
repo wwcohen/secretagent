@@ -1,0 +1,36 @@
+{
+  "meta": {
+    "n_label": 75,
+    "trials": 1000,
+    "configs": [
+      "structured_baseline",
+      "workflow",
+      "pot",
+      "wf_orch"
+    ],
+    "corr_f_y": {
+      "structured_baseline": 0.440187935154082,
+      "workflow": 0.297702050093369,
+      "pot": 0.46656947481584304,
+      "wf_orch": 0.09707441221944468
+    },
+    "n_pairs": 12,
+    "gap_cut": 0.1
+  },
+  "wrong_step": {
+    "naive": {
+      "wrong_pct": 2.3583333333333334,
+      "false_accept_pct": 0.85,
+      "false_reject_pct": 1.5083333333333333,
+      "wrong_close_gap_pct": 4.566666666666666,
+      "wrong_clear_gap_pct": 0.15
+    },
+    "R0": {
+      "wrong_pct": 2.275,
+      "false_accept_pct": 1.1,
+      "false_reject_pct": 1.175,
+      "wrong_close_gap_pct": 4.416666666666667,
+      "wrong_clear_gap_pct": 0.13333333333333333
+    }
+  }
+}
