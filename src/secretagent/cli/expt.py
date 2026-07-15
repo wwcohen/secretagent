@@ -78,6 +78,16 @@ def _load_module_from_path(module_path: str | Path):
     sys_key = f'_ptools_{file_path.resolve()}'
     if sys_key in sys.modules:
         return sys.modules[sys_key]
+    # Reuse a module already imported by bare name from the same file
+    # (e.g. resolve_dotted of --interface ptools.X, or evaluator.py doing
+    # `import ptools`, runs before we get here). Loading a second copy
+    # would re-run @interface and leave the first copy's Interface
+    # objects unbound — the evaluator then calls the unbound ones.
+    existing = sys.modules.get(module_path.name)
+    existing_file = getattr(existing, '__file__', None)
+    if existing_file and Path(existing_file).resolve() == file_path.resolve():
+        sys.modules[sys_key] = existing
+        return existing
     spec = importlib.util.spec_from_file_location(module_path.name, str(file_path))
     mod = importlib.util.module_from_spec(spec)
     sys.modules[sys_key] = mod
