@@ -209,7 +209,7 @@ class CodeDistillLearner(Learner):
     tag = 'codedistill'
 
     def __init__(self, interface_name: str, train_dir: str,
-                 model: str = 'claude-opus-4-6',
+                 model: str,
                  n_candidates: int = 3,
                  max_rounds: int = 3,
                  only_correct: bool = True):
@@ -434,8 +434,8 @@ class EndToEndDistillLearner(CodeDistillLearner):
 
     def __init__(self, interface_name: str, train_dir: str,
                  dataset_file: str,
+                 model: str,
                  output_field: Optional[str] = None,
-                 model: str = 'claude-opus-4-6',
                  n_candidates: int = 3,
                  max_rounds: int = 3):
         # Skip Learner.__init__ since we load data differently
@@ -565,8 +565,8 @@ def _discover_interfaces(dirs: list[Path], latest: int = 1,
 def distill_all(
     dirs: list[Path],
     train_dir: str,
+    model: str,
     max_wrong_rate: float = 0.05,
-    model: str = 'claude-opus-4-6',
     n_candidates: int = 3,
     max_rounds: int = 3,
     latest: int = 1,
