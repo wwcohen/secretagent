@@ -5,7 +5,8 @@
 .PHONY: basics unstructured_baseline structured_baseline workflow pot react \
         list avg pair compare plot costs resplit partition \
         record_react induce_ptools evaluate_ptool_inducer learn_ptool_pipeline \
-        record_workflow codedistill evaluate_codedistill learn_codedistill_pipeline \
+        record_workflow record_structured codedistill codedistill_gemini_cheap \
+        codedistill_gemini_pro evaluate_codedistill learn_codedistill_pipeline \
         orchestrated quick-test-orchestrated
 
 DOTPAIRS ?=
@@ -108,11 +109,33 @@ record_workflow:
 	  ptools.compute_nba_answer.fn=ptools.nba_workflow \
 	  $(RECORD_OPTS)
 
+# The workflow strategy binds the top level via method=direct, and direct
+# calls are never recorded — so workflow recordings contain no
+# compute_nba_answer examples for codedistill to collect. Record with
+# the simulate (structured_baseline) strategy, which records top-level i/o.
+record_structured:
+	uv run python -m secretagent.cli.expt run --interface ptools.compute_nba_answer --evaluator evaluator.NbaEvaluator evaluate.expt_name=structured_baseline \
+	  ptools.compute_nba_answer.method=simulate \
+	  $(RECORD_OPTS)
+
+# codedistill requires an explicit MODEL; use the gemini convenience targets
+# below, or pass MODEL=... (e.g. make codedistill MODEL=$(GEMINI_CHEAP)).
+GEMINI_CHEAP = gemini/gemini-3.1-flash-lite-preview
+GEMINI_PRO = gemini/gemini-3.1-pro-preview
+
 codedistill:
+	$(if $(MODEL),,$(error MODEL is required, e.g. make codedistill MODEL=$(GEMINI_CHEAP), or use codedistill_gemini_cheap / codedistill_gemini_pro))
 	uv run -m secretagent.cli.learn codedistill \
 	  --interface compute_nba_answer \
 	  --learned-dir learned_codedistill \
+	  --model $(MODEL) \
 	  recordings/*
+
+codedistill_gemini_cheap: MODEL = $(GEMINI_CHEAP)
+codedistill_gemini_cheap: codedistill
+
+codedistill_gemini_pro: MODEL = $(GEMINI_PRO)
+codedistill_gemini_pro: codedistill
 
 evaluate_codedistill:
 	uv run python -m secretagent.cli.expt run --interface ptools.compute_nba_answer --evaluator evaluator.NbaEvaluator evaluate.expt_name=codedistill \
@@ -121,7 +144,7 @@ evaluate_codedistill:
 	  ptools.compute_nba_answer.backoff=true \
 	  learn.train_dir=learned_codedistill
 
-learn_codedistill_pipeline: record_workflow codedistill evaluate_codedistill
+learn_codedistill_pipeline: record_structured codedistill evaluate_codedistill
 
 #
 # Orchestrated: LLM auto-generates a workflow composing all sub-tools

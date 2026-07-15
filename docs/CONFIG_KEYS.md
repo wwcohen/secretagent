@@ -11,7 +11,7 @@
    * `together_ai/openai/gpt-oss-120b` - good value, larger ($0.15/$0.60 per 1M tokens)
    * `together_ai/Qwen/Qwen3-Next-80B-A3B-Instruct` - good value, MoE ($0.15/$1.50 per 1M tokens)
    * `gemini/gemini-2.5-flash` - thinking model ($0.30/$2.50 per 1M tokens, 65K output)
-   * `gemini/gemini-2.5-flash-lite` - cheap Gemini ($0.10/$0.40 per 1M tokens, 65K output)
+   * `gemini/gemini-2.5-flash-lite` - RETIRED by Google as of 2026-07 (404s); use gemini-3.1-flash-lite-preview
    * `gemini/gemini-3.1-flash-lite-preview` - ultra-cheap Gemini preview ($0.25/$1.50 per 1M tokens, 65K output)
  * `llm.thinking` — if truthy, include `<thought>` scaffolding in simulate prompts
  * `llm.reasoning_effort` — for Gemini thinking models: low/medium/high
