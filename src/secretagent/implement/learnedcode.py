@@ -148,8 +148,16 @@ class LearnedCodeFactory(Implementation.Factory):
             self.backoff_impl = _build_backoff_impl(interface, learned_path.parent)
 
     def __call__(self, *args, **kw):
-        result = self.learned_fn(*args, **kw)
-        if result is None and self.backoff_impl is not None:
+        if self.backoff_impl is None:
+            return self.learned_fn(*args, **kw)
+        # The wrong_rate gate treats exceptions like None — safe abstentions
+        # (see codedistill._evaluate_on_cases) — so the runtime must too:
+        # a raising learned fn backs off rather than failing the case.
+        try:
+            result = self.learned_fn(*args, **kw)
+        except Exception:
+            result = None
+        if result is None:
             return self.backoff_impl.implementing_fn(*args, **kw)
         return result
 

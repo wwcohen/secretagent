@@ -143,6 +143,32 @@ def test_backoff_uses_direct_fn(tmp_path):
     assert fn('{"a": 1}') == {'a': 1}
 
 
+def test_backoff_falls_back_when_learned_raises(tmp_path):
+    """Exceptions count as abstentions (like codedistill's wrong_rate gate),
+    so a raising learned fn must back off, not fail the case."""
+    config.configure(learn=dict(train_dir=str(tmp_path)))
+    workdir = tmp_path / '20260101.120000.my_func11__rote'
+    _write_learned_py(workdir, 'my_func11', 'raise TypeError("bad arity")')
+    _write_source_configs(workdir, 'my_func11',
+                          {'method': 'direct', 'fn': 'json.loads'})
+    iface = _make_interface('my_func11')
+    factory = LearnedCodeFactory()
+    impl = factory.build_implementation(iface, learner='rote', backoff=True)
+    assert impl.implementing_fn('{"a": 1}') == {'a': 1}
+
+
+def test_no_backoff_lets_exception_propagate(tmp_path):
+    """Without backoff there is no fallback — exceptions should surface."""
+    config.configure(learn=dict(train_dir=str(tmp_path)))
+    workdir = tmp_path / '20260101.120000.my_func12__rote'
+    _write_learned_py(workdir, 'my_func12', 'raise TypeError("bad arity")')
+    iface = _make_interface('my_func12')
+    factory = LearnedCodeFactory()
+    impl = factory.build_implementation(iface, learner='rote')
+    with pytest.raises(TypeError, match='bad arity'):
+        impl.implementing_fn('x')
+
+
 def test_backoff_no_fallback_when_learned_has_answer(tmp_path):
     """When learned returns a value, backoff fn is not called."""
     config.configure(learn=dict(train_dir=str(tmp_path)))
