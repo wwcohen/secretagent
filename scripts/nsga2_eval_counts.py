@@ -18,9 +18,11 @@ valid split vs the requested n=50).
 Complements scripts/learning_costs.py, which sums the dollar costs but
 left the eval-count multiplier as a hand-written "x 30-50" bound.
 
-Usage:  uv run scripts/nsga2_eval_counts.py
+Usage:  uv run scripts/nsga2_eval_counts.py [--format {markdown,latex}]
 """
 
+import argparse
+import sys
 from collections import Counter
 from pathlib import Path
 
@@ -29,6 +31,24 @@ import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
 OPT = ROOT / "benchmarks" / "COMMON" / "optimize-results"
+
+NOTES = """Notes for the rebuttal text:
+ - 'configs' = rows in nsga2_summary.csv = evaluations actually launched; EvalCache
+   dedups repeated chromosomes ('dup hits' = generation-log cache_hits, never re-run).
+ - natplan meeting/trip used the exhaustive fallback (search space <= 20 configs),
+   not NSGA-II; their single generation row is synthetic (elapsed_s=0).
+ - sports_understanding has no per-config snapshots in COMMON; its minibatch was
+   dataset.split=valid dataset.n=50 per the archived EXPERIMENT_CMDS.md (Phase 1).
+ - medcalc: a sweep ran (test_pass_summary.csv residue) but nsga2_summary.csv was
+   never committed -> config count unrecoverable; do not cite one.
+ - rulearena airline/tax are registered spaces with no artifacts -> never run.
+ - musr_murder's minibatch split is murder_mysteries_test (visible above): its
+   Pareto selection used the test split, as its REPRODUCE.md discloses.
+ - Per-evaluation LLM *call* counts were not persisted. Dollar costs are summable
+   from nsga_runs/*/results.csv where snapshotted; rulearena_nba additionally has
+   a complete fresh-vs-uncached accounting in rulearena_nba/CACHE_FINDINGS.md.
+ - 'snapshot rows' counts all persisted results.csv rows, which include
+   sub-interface logging rows for react/pot configs (why it can exceed case-evals)."""
 
 
 def minibatch_info(bench_dir: Path):
@@ -54,7 +74,7 @@ def minibatch_info(bench_dir: Path):
     return mode(splits), mode(ns), mode(case_counts), total_rows, len(run_dirs)
 
 
-def main():
+def collect():
     rows, totals = [], Counter()
     for bench_dir in sorted(p for p in OPT.iterdir() if p.is_dir() and not p.name.startswith("_")):
         summary_file = bench_dir / "nsga2_summary.csv"
@@ -70,7 +90,7 @@ def main():
         dup_hits = int(gens["cache_hits"].sum())
         if int(gens.iloc[-1]["total_evals"]) != configs:
             print(f"WARNING {bench_dir.name}: summary rows ({configs}) != generations total_evals "
-                  f"({int(gens.iloc[-1]['total_evals'])})")
+                  f"({int(gens.iloc[-1]['total_evals'])})", file=sys.stderr)
 
         split, n, eff, case_rows, n_dirs = minibatch_info(bench_dir)
         rows.append({
@@ -84,7 +104,10 @@ def main():
         totals["nsga2" if not exhaustive else "exhaustive"] += configs
         if eff:
             totals["case_evals"] += configs * eff
+    return rows, totals
 
+
+def print_markdown(rows, totals):
     cols = ["benchmark", "mode", "pop x gen", "configs", "valid", "dup hits",
             "split", "n", "eff. cases", "case-evals", "snapshot rows", "dirs"]
     print("| " + " | ".join(cols) + " |")
@@ -95,25 +118,51 @@ def main():
     print(f"\nTotal configs evaluated: {totals['configs']} "
           f"({totals['nsga2']} true NSGA-II + {totals['exhaustive']} exhaustive enumeration)")
     print(f"Total case-evaluations (configs x effective cases, where snapshots exist): {totals['case_evals']}")
+    print("\n" + NOTES)
 
-    print("""
-Notes for the rebuttal text:
- - 'configs' = rows in nsga2_summary.csv = evaluations actually launched; EvalCache
-   dedups repeated chromosomes ('dup hits' = generation-log cache_hits, never re-run).
- - natplan meeting/trip used the exhaustive fallback (search space <= 20 configs),
-   not NSGA-II; their single generation row is synthetic (elapsed_s=0).
- - sports_understanding has no per-config snapshots in COMMON; its minibatch was
-   dataset.split=valid dataset.n=50 per the archived EXPERIMENT_CMDS.md (Phase 1).
- - medcalc: a sweep ran (test_pass_summary.csv residue) but nsga2_summary.csv was
-   never committed -> config count unrecoverable; do not cite one.
- - rulearena airline/tax are registered spaces with no artifacts -> never run.
- - musr_murder's minibatch split is murder_mysteries_test (visible above): its
-   Pareto selection used the test split, as its REPRODUCE.md discloses.
- - Per-evaluation LLM *call* counts were not persisted. Dollar costs are summable
-   from nsga_runs/*/results.csv where snapshotted; rulearena_nba additionally has
-   a complete fresh-vs-uncached accounting in rulearena_nba/CACHE_FINDINGS.md.
- - 'snapshot rows' counts all persisted results.csv rows, which include
-   sub-interface logging rows for react/pot configs (why it can exceed case-evals).""")
+
+def print_latex(rows, totals):
+    """Booktabs table* in the style of hero_table.py/learning_table.py _print_latex."""
+    esc = lambda s: str(s).replace("_", r"\_")
+    print(r"\begin{table*}[ht]")
+    print(r"\centering")
+    print(r"\begin{tabular}{llrrrrr}")
+    print(r"\toprule")
+    print(r"Benchmark & Mode & Pop$\times$Gen & Configs & Valid & $n$/eval & Case-evals \\")
+    print(r"\midrule")
+    for r in rows:
+        if r["mode"] == "ARTIFACTS MISSING":
+            print(esc(r["benchmark"]) + r" & \multicolumn{6}{c}{artifacts missing} \\")
+            continue
+        pop_gen = "--" if r["mode"] == "exhaustive" else r"$" + r["pop x gen"].replace("x", r"\times") + r"$"
+        n_eval = r["eff. cases"] if r["eff. cases"] != "-" else (r["n"] if r["n"] != "-" else "--")
+        case_evals = r["case-evals"] if r["case-evals"] is not None else "--"
+        print(" & ".join(str(x) for x in [esc(r["benchmark"]), r["mode"], pop_gen,
+                                          r["configs"], r["valid"], n_eval, case_evals]) + r" \\")
+    print(r"\midrule")
+    print(rf"Total & & & {totals['configs']} & & & {totals['case_evals']} \\")
+    print(r"\bottomrule")
+    print(r"\end{tabular}")
+    print(r"\caption{NSGA-II search accounting: candidate configurations evaluated per benchmark "
+          rf"({totals['nsga2']} via NSGA-II, pop.\ 12 $\times$ 5 generations, duplicates cached; "
+          rf"{totals['exhaustive']} via exhaustive enumeration of spaces $\leq$20 configs), "
+          r"each on a $\sim$50-example validation minibatch.}")
+    print(r"\end{table*}")
+    for line in NOTES.splitlines():
+        print("% " + line)
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    parser.add_argument("--format", choices=["markdown", "latex"], default="markdown",
+                        help="Output format (markdown table + notes, or booktabs LaTeX table)")
+    args = parser.parse_args()
+
+    rows, totals = collect()
+    if args.format == "latex":
+        print_latex(rows, totals)
+    else:
+        print_markdown(rows, totals)
 
 
 if __name__ == "__main__":
