@@ -26,6 +26,19 @@ subsets, and scoring matched exactly to the paper's cells.
 | `results/test_logs/` | frozen test-pass CSVs (per-case rows) |
 | `results/<bench>/*.log.gz` | full search logs (every LLM call with token/cost lines) |
 
+## Reproducing — three levels
+
+1. **Verify the reported numbers** (no API key, ~1 min): `uv run benchmarks/COMMON/aflow-rebuttal/make_summary.py`
+   recomputes every table from the committed artifacts (results.json, per-case test CSVs, logs).
+2. **Rerun the frozen evaluations** (GEMINI_API_KEY, ~$0.40): steps 1-3 below, then
+   `test_pass.py --dataset SportsUnderstanding --round 1` / `--dataset FinQA --round 3`,
+   plus `bash scripts/run_gemlite_reference_cells.sh all`. Temperature 0; our repeats were
+   byte-identical, so scores should match (modulo provider-side model updates).
+3. **Rerun the searches** (~$7, ~4 h): step 4 below. Statistical, not bitwise — AFlow's
+   parent selection is unseeded and optimizer outputs may vary; expect a similar-quality
+   search, not the same candidate sequence. The committed workspaces are the record of
+   the reported run.
+
 ## Reproduce from scratch
 
 ```bash
