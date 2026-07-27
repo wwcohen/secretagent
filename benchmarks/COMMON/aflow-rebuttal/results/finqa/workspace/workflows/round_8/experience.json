@@ -1,0 +1,7 @@
+{
+    "father node": 4,
+    "modification": "Change the number of generated solutions in the ensemble from 3 to 5 to improve the robustness of the self-consistency selection, and update the prompts to address specific edge cases identified in the logs (e.g., averaging over multiple years, using broader metrics when specific ones are missing, and handling ambiguous entities).",
+    "before": 0.72,
+    "after": 0.66,
+    "succeed": false
+}

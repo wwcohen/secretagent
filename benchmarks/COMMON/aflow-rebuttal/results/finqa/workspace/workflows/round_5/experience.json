@@ -1,0 +1,7 @@
+{
+    "father node": 1,
+    "modification": "Modified the instruction parameter in the `self.custom` call to use `prompt_custom.SOLVE_PROMPT` instead of an empty string, which encourages the model to perform step-by-step reasoning and accurate calculation before providing the final answer.",
+    "before": 0.52,
+    "after": 0.02,
+    "succeed": false
+}

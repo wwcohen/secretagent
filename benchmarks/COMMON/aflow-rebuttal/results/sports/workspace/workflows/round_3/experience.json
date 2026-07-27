@@ -1,0 +1,7 @@
+{
+    "father node": 2,
+    "modification": "Introduce the AnswerGenerate operator to generate step-by-step reasoning before formatting the final answer, improving accuracy through Chain of Thought.",
+    "before": 0.7600000000000001,
+    "after": 0.44,
+    "succeed": false
+}

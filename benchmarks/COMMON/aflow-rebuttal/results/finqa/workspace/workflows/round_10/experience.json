@@ -1,0 +1,7 @@
+{
+    "father node": 3,
+    "modification": "Change the workflow to a 3-step Self-Refine process: Solve -> Critique -> Revise. The Critique step explicitly checks for common financial reasoning errors (like base values and tax calculations) without outputting the final answer, and the Revise step calculates the final corrected answer based on the critique.",
+    "before": 0.7200000000000001,
+    "after": 0.72,
+    "succeed": false
+}

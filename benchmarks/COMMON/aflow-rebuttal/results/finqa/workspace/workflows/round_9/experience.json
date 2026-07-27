@@ -1,0 +1,7 @@
+{
+    "father node": 4,
+    "modification": "Add a formatting step using a new FORMAT_PROMPT to strictly extract the final numerical value, preventing extraction failures caused by conversational text or markdown. Also, update prompts to prevent rounding and handle missing specific metrics by using the closest available ones.",
+    "before": 0.72,
+    "after": 0.36,
+    "succeed": false
+}

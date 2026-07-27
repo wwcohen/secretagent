@@ -1,0 +1,51 @@
+inputs,prediction,expected_output,score,cost
+"Is the following sentence plausible? ""Ramires scored a header goal.""",yes,yes,1.0,0.02825290000000002
+"Is the following sentence plausible? ""Gerrit Cole committed a handball in the European Cup.""",yes,no,0.0,0.03612470000000003
+"Is the following sentence plausible? ""Connor McDavid threw a touchdown in the NFC divisional round.""",yes,no,0.0,0.032908900000000026
+"Is the following sentence plausible? ""Mookie Betts scored on the power play.""",yes,no,0.0,0.031760500000000025
+"Is the following sentence plausible? ""Sterling Shepard converted the first down.""",yes,yes,1.0,0.026890200000000017
+"Is the following sentence plausible? ""David Pastrnak skated backwards.""",yes,yes,1.0,0.020152300000000005
+"Is the following sentence plausible? ""Tristan Jarry dunked the ball.""",yes,no,0.0,0.036734900000000036
+"Is the following sentence plausible? ""Igor Shesterkin launched a hail mary.""",yes,no,0.0,0.04082860000000004
+"Is the following sentence plausible? ""Khyri Thomas  changed direction in the backfield in the NFC championship.""",yes,no,0.0,0.04558410000000006
+"Is the following sentence plausible? ""Gleyber Torres got a base hit.""",yes,yes,1.0,0.03691860000000004
+"Is the following sentence plausible? ""Nazem Kadri took a charge in the NBA Championship.""",yes,no,0.0,0.02852250000000002
+"Is the following sentence plausible? ""Aleksander Barkov passed the puck.""",yes,yes,1.0,0.028077700000000018
+"Is the following sentence plausible? ""Neymar took a backhand shot in the Stanley Cup.""",yes,no,0.0,0.04100890000000004
+"Is the following sentence plausible? ""Luis Robert was out at second.""",yes,yes,1.0,0.04388070000000005
+"Is the following sentence plausible? ""Norman Powell committed a blocking foul.""",yes,yes,1.0,0.02189830000000001
+"Is the following sentence plausible? ""Aleksander Barkov bricked the three pointer.""",yes,no,0.0,0.032998200000000026
+"Is the following sentence plausible? ""Nerlens Noel was out at home.""",yes,no,0.0,0.034889300000000026
+"Is the following sentence plausible? ""Neal Pionk shot from the six yard line.""",yes,no,0.0,0.04379310000000005
+"Is the following sentence plausible? ""Dylan Larkin walked on ball four.""",yes,no,0.0,0.04361620000000005
+"Is the following sentence plausible? ""Malcolm Brogdon banked the shot in.""",yes,yes,1.0,0.028971800000000023
+"Is the following sentence plausible? ""Michael Thomas took the snap.""",yes,yes,1.0,0.02861010000000002
+"Is the following sentence plausible? ""Marvin Jones lost control of the puck.""",yes,no,0.0,0.03903270000000004
+"Is the following sentence plausible? ""Kyle Tucker took a left footed shot.""",yes,no,0.0,0.04234160000000005
+"Is the following sentence plausible? ""De'Aaron Fox scored a bicycle kick.""",yes,no,0.0,0.031667800000000024
+"Is the following sentence plausible? ""Kendrick Nunn took a charge.""",yes,yes,1.0,0.028165300000000018
+"Is the following sentence plausible? ""Juan Soto took ball four.""",yes,yes,1.0,0.03569300000000003
+"Is the following sentence plausible? ""Mike Williams scored a bicycle kick in the FA Cup.""",yes,no,0.0,0.04370550000000005
+"Is the following sentence plausible? ""Jamal Murray walked on ball four.""",yes,no,0.0,0.04176630000000005
+"Is the following sentence plausible? ""Darius Slayton ran out of bounds in the AFC championship.""",yes,yes,1.0,0.024524500000000015
+"Is the following sentence plausible? ""Elias Lindholm took the snap.""",yes,no,0.0,0.036558000000000035
+"Is the following sentence plausible? ""Joao Moutinho was out at third.""",yes,no,0.0,0.04092130000000004
+"Is the following sentence plausible? ""Petr Cech bricked the three pointer.""",yes,no,0.0,0.032144900000000025
+"Is the following sentence plausible? ""Santi Cazorla earned a red card in the Champions League Final.""",yes,yes,1.0,0.03857190000000004
+"Is the following sentence plausible? ""Juan Soto shot from beyond the arc.""",yes,no,0.0,0.03848260000000004
+"Is the following sentence plausible? ""James Harden shot from outside the eighteen.""",yes,no,0.0,0.04549480000000006
+"Is the following sentence plausible? ""Mario Balotelli took a left footed shot in the Champions League Final.""",yes,yes,1.0,0.04243260000000005
+"Is the following sentence plausible? ""Amari Cooper scored a penalty kick.""",yes,no,0.0,0.038041600000000036
+"Is the following sentence plausible? ""Ryan O'Reilly hit the wheel route.""",yes,no,0.0,0.04396830000000005
+"Is the following sentence plausible? ""Josh Allen caught the screen pass.""",yes,yes,1.0,0.04225230000000005
+"Is the following sentence plausible? ""Jordan Binnington scored in the third period.""",yes,yes,1.0,0.04414860000000005
+"Is the following sentence plausible? ""DeVante Parker was called for icing.""",yes,no,0.0,0.034796600000000025
+"Is the following sentence plausible? ""Marcelo got on the end of a through ball.""",yes,yes,1.0,0.036824200000000036
+"Is the following sentence plausible? ""Bastian Schweinsteiger scored in added time.""",yes,yes,1.0,0.029059400000000023
+"Is the following sentence plausible? ""Jaylen Brown comitted a three second violation.""",yes,yes,1.0,0.03997360000000004
+"Is the following sentence plausible? ""Malcolm Brogdon drove into the restricted area in the Eastern Conference Finals.""",yes,yes,1.0,0.02843150000000002
+"Is the following sentence plausible? ""LaMelo Ball launched the half court shot in the Western Conference Finals.""",yes,yes,1.0,0.036647300000000035
+"Is the following sentence plausible? ""Joe Burrow gained five yards.""",yes,yes,1.0,0.02834220000000002
+"Is the following sentence plausible? ""Kailer Yamamoto caught the back shoulder fade.""",yes,no,0.0,0.04352690000000005
+"Is the following sentence plausible? ""Kwadwo Asamoah was flagged on the play.""",yes,no,0.0,0.04406100000000005
+"Is the following sentence plausible? ""Tyler Glasnow scored a penalty kick.""",yes,no,0.0,0.03988600000000004

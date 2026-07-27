@@ -1,0 +1,61 @@
+{
+    "3": {
+        "score": 0.7200000000000001,
+        "success": {},
+        "failure": {
+            "10": {
+                "modification": "Change the workflow to a 3-step Self-Refine process: Solve -> Critique -> Revise. The Critique step explicitly checks for common financial reasoning errors (like base values and tax calculations) without outputting the final answer, and the Revise step calculates the final corrected answer based on the critique.",
+                "score": 0.72
+            },
+            "4": {
+                "modification": "Introduce ScEnsemble operator to generate 3 solutions and select the best one before reviewing, and update prompts to handle implicit values and ratio calculations.",
+                "score": 0.72
+            },
+            "6": {
+                "modification": "Update SOLVE_PROMPT and REVIEW_PROMPT to explicitly prohibit rounding, handle implicit financial ratios (like CET1), and ensure correct base values for percentage changes. Modify the review input string formatting in the graph for better clarity.",
+                "score": 0.64
+            },
+            "7": {
+                "modification": "Introduce ScEnsemble operator after the review stage to generate 3 solutions, review all of them, and then select the best reviewed solution, improving overall accuracy.",
+                "score": 0.72
+            }
+        }
+    },
+    "4": {
+        "score": 0.72,
+        "success": {},
+        "failure": {
+            "11": {
+                "modification": "Modified the input string formatting in the review step to clearly separate the problem and the initial solution, and updated the prompts to handle typos (e.g., '2019s'), missing years (using the closest available), implicit calculations (Total = Part / Percentage), and percentage change calculations for 'decline'/'increase'.",
+                "score": 0.68
+            },
+            "8": {
+                "modification": "Change the number of generated solutions in the ensemble from 3 to 5 to improve the robustness of the self-consistency selection, and update the prompts to address specific edge cases identified in the logs (e.g., averaging over multiple years, using broader metrics when specific ones are missing, and handling ambiguous entities).",
+                "score": 0.66
+            },
+            "9": {
+                "modification": "Add a formatting step using a new FORMAT_PROMPT to strictly extract the final numerical value, preventing extraction failures caused by conversational text or markdown. Also, update prompts to prevent rounding and handle missing specific metrics by using the closest available ones.",
+                "score": 0.36
+            }
+        }
+    },
+    "1": {
+        "score": 0.52,
+        "success": {
+            "3": {
+                "modification": "Added a review step using the Custom operator to double-check the initial solution's data extraction and calculations, and updated the instructions to use detailed prompts (SOLVE_PROMPT and REVIEW_PROMPT) for better accuracy.",
+                "score": 0.7200000000000001
+            }
+        },
+        "failure": {
+            "2": {
+                "modification": "Add ScEnsemble operator to generate 3 solutions and select the most consistent one to improve accuracy.",
+                "score": 0.26
+            },
+            "5": {
+                "modification": "Modified the instruction parameter in the `self.custom` call to use `prompt_custom.SOLVE_PROMPT` instead of an empty string, which encourages the model to perform step-by-step reasoning and accurate calculation before providing the final answer.",
+                "score": 0.02
+            }
+        }
+    }
+}

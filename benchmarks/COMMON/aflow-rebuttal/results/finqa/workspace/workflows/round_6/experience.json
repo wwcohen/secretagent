@@ -1,0 +1,7 @@
+{
+    "father node": 3,
+    "modification": "Update SOLVE_PROMPT and REVIEW_PROMPT to explicitly prohibit rounding, handle implicit financial ratios (like CET1), and ensure correct base values for percentage changes. Modify the review input string formatting in the graph for better clarity.",
+    "before": 0.7200000000000001,
+    "after": 0.64,
+    "succeed": false
+}

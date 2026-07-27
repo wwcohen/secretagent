@@ -1,0 +1,2 @@
+ANSWER_FORMAT_PROMPT = """Based on the provided problem, thought process, and initial answer, determine the final answer. Answer with only 'yes' or 'no'.
+"""

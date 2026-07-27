@@ -1,0 +1,308 @@
+case_name,predicted_output,expected_output,correct,scored,input_tokens,output_tokens,latency,cost,expt_name
+test.00000,**exception raised**: Exceeded maximum retries (1) for output validation,94.0,0.0,True,,,,,gemlite_react_test300
+test.00001,14.5%,0.14464,0.0,True,1696.0,18.0,1.1483700275421143,0.00017679999999999996,gemlite_react_test300
+test.00002,**exception raised**: Exceeded maximum retries (1) for output validation,0.09864,0.0,True,,,,,gemlite_react_test300
+test.00003,121.4,0.02899,0.0,True,1567.0,18.0,1.2188913822174072,0.00016389999999999997,gemlite_react_test300
+test.00004,**exception raised**: Exceeded maximum retries (1) for output validation,1.1197,0.0,True,,,,,gemlite_react_test300
+test.00005,**exception raised**: No choices returned from LiteLLM,0.06757,0.0,True,,,,,gemlite_react_test300
+test.00006,**exception raised**: Exceeded maximum retries (1) for output validation,0.10039,0.0,True,,,,,gemlite_react_test300
+test.00007,**exception raised**: Exceeded maximum retries (1) for output validation,0.11689,0.0,True,,,,,gemlite_react_test300
+test.00008,**exception raised**: Exceeded maximum retries (1) for output validation,yes,0.0,True,,,,,gemlite_react_test300
+test.00009,**exception raised**: Exceeded maximum retries (1) for output validation,-35.0,0.0,True,,,,,gemlite_react_test300
+test.00010,**exception raised**: Exceeded maximum retries (1) for output validation,-0.04365,0.0,True,,,,,gemlite_react_test300
+test.00011,**exception raised**: Exceeded maximum retries (1) for output validation,0.22429,0.0,True,,,,,gemlite_react_test300
+test.00012,**exception raised**: Exceeded maximum retries (1) for output validation,0.24566,0.0,True,,,,,gemlite_react_test300
+test.00013,**exception raised**: Exceeded maximum retries (1) for output validation,no,0.0,True,,,,,gemlite_react_test300
+test.00014,**exception raised**: Exceeded maximum retries (1) for output validation,0.01714,0.0,True,,,,,gemlite_react_test300
+test.00015,**exception raised**: Exceeded maximum retries (1) for output validation,3297.66667,0.0,True,,,,,gemlite_react_test300
+test.00016,**exception raised**: Exceeded maximum retries (1) for output validation,65.0,0.0,True,,,,,gemlite_react_test300
+test.00017,**exception raised**: Exceeded maximum retries (1) for output validation,705.25,0.0,True,,,,,gemlite_react_test300
+test.00018,**exception raised**: Exceeded maximum retries (1) for output validation,0.10964,0.0,True,,,,,gemlite_react_test300
+test.00019,**exception raised**: Exceeded maximum retries (1) for output validation,68.9,0.0,True,,,,,gemlite_react_test300
+test.00020,**exception raised**: Exceeded maximum retries (1) for output validation,-0.08422,0.0,True,,,,,gemlite_react_test300
+test.00021,113.63%,1.1363,1.0,True,1290.0,22.0,1.348998785018921,0.0001378,gemlite_react_test300
+test.00022,**exception raised**: Exceeded maximum retries (1) for output validation,0.09302,0.0,True,,,,,gemlite_react_test300
+test.00023,**exception raised**: Exceeded maximum retries (1) for output validation,0.01741,0.0,True,,,,,gemlite_react_test300
+test.00024,1.591715976,1.59172,1.0,True,6891.0,3269.0,11.636346340179443,0.0019967,gemlite_react_test300
+test.00025,2.64,2.63855,1.0,True,3824.0,245.0,3.9781508445739746,0.00048039999999999997,gemlite_react_test300
+test.00026,**exception raised**: Exceeded maximum retries (1) for output validation,0.34807,0.0,True,,,,,gemlite_react_test300
+test.00027,**exception raised**: Exceeded maximum retries (1) for output validation,-0.30851,0.0,True,,,,,gemlite_react_test300
+test.00028,**exception raised**: Exceeded maximum retries (1) for output validation,5.8,0.0,True,,,,,gemlite_react_test300
+test.00029,**exception raised**: Exceeded maximum retries (1) for output validation,1.13599,0.0,True,,,,,gemlite_react_test300
+test.00030,**exception raised**: Exceeded maximum retries (1) for output validation,0.16417,0.0,True,,,,,gemlite_react_test300
+test.00031,**exception raised**: Exceeded maximum retries (1) for output validation,0.28238,0.0,True,,,,,gemlite_react_test300
+test.00032,829,829.0,1.0,True,1608.0,14.0,1.1808240413665771,0.00016639999999999998,gemlite_react_test300
+test.00033,**exception raised**: Exceeded maximum retries (1) for output validation,0.05543,0.0,True,,,,,gemlite_react_test300
+test.00034,**exception raised**: Exceeded maximum retries (1) for output validation,61545.0,0.0,True,,,,,gemlite_react_test300
+test.00035,**exception raised**: Exceeded maximum retries (1) for output validation,112.0,0.0,True,,,,,gemlite_react_test300
+test.00036,**exception raised**: Exceeded maximum retries (1) for output validation,0.64961,0.0,True,,,,,gemlite_react_test300
+test.00037,**exception raised**: Exceeded maximum retries (1) for output validation,0.75799,0.0,True,,,,,gemlite_react_test300
+test.00038,**exception raised**: Exceeded maximum retries (1) for output validation,12.1,0.0,True,,,,,gemlite_react_test300
+test.00039,**exception raised**: Exceeded maximum retries (1) for output validation,3876875.0,0.0,True,,,,,gemlite_react_test300
+test.00040,-191,-191.0,1.0,True,1535.0,16.0,1.334230661392212,0.00015989999999999998,gemlite_react_test300
+test.00041,**exception raised**: Exceeded maximum retries (1) for output validation,0.1216,0.0,True,,,,,gemlite_react_test300
+test.00042,**exception raised**: Exceeded maximum retries (1) for output validation,9294571.92,0.0,True,,,,,gemlite_react_test300
+test.00043,**exception raised**: Exceeded maximum retries (1) for output validation,0.45103,0.0,True,,,,,gemlite_react_test300
+test.00044,900.3,892.3,0.0,True,9344.0,1546.0,9.76927924156189,0.0015527999999999998,gemlite_react_test300
+test.00045,**exception raised**: Exceeded maximum retries (1) for output validation,31.32382,0.0,True,,,,,gemlite_react_test300
+test.00046,**exception raised**: Exceeded maximum retries (1) for output validation,0.42889,0.0,True,,,,,gemlite_react_test300
+test.00047,**exception raised**: Exceeded maximum retries (1) for output validation,0.07951,0.0,True,,,,,gemlite_react_test300
+test.00048,**exception raised**: Exceeded maximum retries (1) for output validation,16.93811,0.0,True,,,,,gemlite_react_test300
+test.00049,**exception raised**: Exceeded maximum retries (1) for output validation,0.3254,0.0,True,,,,,gemlite_react_test300
+test.00050,**exception raised**: Exceeded maximum retries (1) for output validation,-0.02918,0.0,True,,,,,gemlite_react_test300
+test.00051,**exception raised**: Exceeded maximum retries (1) for output validation,4.6,0.0,True,,,,,gemlite_react_test300
+test.00052,**exception raised**: Exceeded maximum retries (1) for output validation,299999990.4,0.0,True,,,,,gemlite_react_test300
+test.00053,**exception raised**: Exceeded maximum retries (1) for output validation,1e-05,0.0,True,,,,,gemlite_react_test300
+test.00054,**exception raised**: Exceeded maximum retries (1) for output validation,0.12204,0.0,True,,,,,gemlite_react_test300
+test.00055,**exception raised**: Exceeded maximum retries (1) for output validation,0.03825,0.0,True,,,,,gemlite_react_test300
+test.00056,**exception raised**: Exceeded maximum retries (1) for output validation,0.10563,0.0,True,,,,,gemlite_react_test300
+test.00057,**exception raised**: Exceeded maximum retries (1) for output validation,0.09583,0.0,True,,,,,gemlite_react_test300
+test.00058,**exception raised**: Exceeded maximum retries (1) for output validation,0.41935,0.0,True,,,,,gemlite_react_test300
+test.00059,**exception raised**: Exceeded maximum retries (1) for output validation,850636.0,0.0,True,,,,,gemlite_react_test300
+test.00060,**exception raised**: Exceeded maximum retries (1) for output validation,0.27273,0.0,True,,,,,gemlite_react_test300
+test.00061,**exception raised**: No choices returned from LiteLLM,9.8,0.0,True,,,,,gemlite_react_test300
+test.00062,**exception raised**: Exceeded maximum retries (1) for output validation,373153158.3,0.0,True,,,,,gemlite_react_test300
+test.00063,**exception raised**: Exceeded maximum retries (1) for output validation,18.0,0.0,True,,,,,gemlite_react_test300
+test.00064,**exception raised**: Exceeded maximum retries (1) for output validation,1.01571,0.0,True,,,,,gemlite_react_test300
+test.00065,,yes,0.0,True,1808.0,8.0,1.1290700435638428,0.000184,gemlite_react_test300
+test.00066,**exception raised**: Exceeded maximum retries (1) for output validation,0.53704,0.0,True,,,,,gemlite_react_test300
+test.00067,**exception raised**: Exceeded maximum retries (1) for output validation,0.82686,0.0,True,,,,,gemlite_react_test300
+test.00068,**exception raised**: Exceeded maximum retries (1) for output validation,60375000.0,0.0,True,,,,,gemlite_react_test300
+test.00069,**exception raised**: Exceeded maximum retries (1) for output validation,0.28713,0.0,True,,,,,gemlite_react_test300
+test.00070,**exception raised**: Exceeded maximum retries (1) for output validation,0.07288,0.0,True,,,,,gemlite_react_test300
+test.00071,"**exception raised**: status_code: 503, model_name: gemini/gemini-2.5-flash-lite, body: litellm.ServiceUnavailableError: GeminiException - {
+  ""error"": {
+    ""code"": 503,
+    ""message"": ""This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later."",
+    ""status"": ""UNAVAILABLE""
+  }
+}
+",-0.17588,0.0,True,,,,,gemlite_react_test300
+test.00072,**exception raised**: Exceeded maximum retries (1) for output validation,0.99509,0.0,True,,,,,gemlite_react_test300
+test.00073,**exception raised**: Exceeded maximum retries (1) for output validation,0.608,0.0,True,,,,,gemlite_react_test300
+test.00074,101,101.0,1.0,True,4086.0,1998.0,10.450857400894165,0.0012077999999999998,gemlite_react_test300
+test.00075,**exception raised**: Exceeded maximum retries (1) for output validation,0.12159,0.0,True,,,,,gemlite_react_test300
+test.00076,1126,1026.0,0.0,True,1768.0,16.0,1.291074275970459,0.0001832,gemlite_react_test300
+test.00077,**exception raised**: Exceeded maximum retries (1) for output validation,-26.0,0.0,True,,,,,gemlite_react_test300
+test.00078,**exception raised**: Exceeded maximum retries (1) for output validation,160035.0,0.0,True,,,,,gemlite_react_test300
+test.00079,**exception raised**: Exceeded maximum retries (1) for output validation,2.13755,0.0,True,,,,,gemlite_react_test300
+test.00080,100.00,110.49,0.0,True,1254.0,20.0,1.2552719116210938,0.0001334,gemlite_react_test300
+test.00081,37,26.42857,0.0,True,2194.0,12.0,1.2217645645141602,0.00022419999999999997,gemlite_react_test300
+test.00082,6.485117163,6.48512,1.0,True,6862.0,1349.0,6.650775194168091,0.0012257999999999998,gemlite_react_test300
+test.00083,**exception raised**: Exceeded maximum retries (1) for output validation,0.41084,0.0,True,,,,,gemlite_react_test300
+test.00084,**exception raised**: Exceeded maximum retries (1) for output validation,2.02778,0.0,True,,,,,gemlite_react_test300
+test.00085,**exception raised**: Exceeded maximum retries (1) for output validation,0.45049,0.0,True,,,,,gemlite_react_test300
+test.00086,**exception raised**: Exceeded maximum retries (1) for output validation,0.07756,0.0,True,,,,,gemlite_react_test300
+test.00087,719.68,719.68334,1.0,True,3489.0,422.0,3.037802219390869,0.0005177,gemlite_react_test300
+test.00088,300,300.0,1.0,True,2080.0,14.0,1.2425951957702637,0.0002136,gemlite_react_test300
+test.00089,22.05%,-0.11825,0.0,True,3763.0,586.0,4.792777061462402,0.0006106999999999999,gemlite_react_test300
+test.00090,**exception raised**: Exceeded maximum retries (1) for output validation,0.93571,0.0,True,,,,,gemlite_react_test300
+test.00091,**exception raised**: Exceeded maximum retries (1) for output validation,0.07157,0.0,True,,,,,gemlite_react_test300
+test.00092,3705.333333,822.06667,0.0,True,12516.0,303.0,8.753431797027588,0.0013727999999999998,gemlite_react_test300
+test.00093,**exception raised**: Exceeded maximum retries (1) for output validation,85929.0,0.0,True,,,,,gemlite_react_test300
+test.00094,0.3790,0.379,1.0,True,1407.0,20.0,1.1185579299926758,0.0001487,gemlite_react_test300
+test.00095,**exception raised**: Exceeded maximum retries (1) for output validation,364400.0,0.0,True,,,,,gemlite_react_test300
+test.00096,21.48%,0.2148,1.0,True,1445.0,20.0,1.3386633396148682,0.0001525,gemlite_react_test300
+test.00097,**exception raised**: Exceeded maximum retries (1) for output validation,192.0,0.0,True,,,,,gemlite_react_test300
+test.00098,**exception raised**: No choices returned from LiteLLM,-0.62548,0.0,True,,,,,gemlite_react_test300
+test.00099,**exception raised**: Exceeded maximum retries (1) for output validation,0.04161,0.0,True,,,,,gemlite_react_test300
+test.00100,**exception raised**: Exceeded maximum retries (1) for output validation,1.2465,0.0,True,,,,,gemlite_react_test300
+test.00101,**exception raised**: Exceeded maximum retries (1) for output validation,0.29652,0.0,True,,,,,gemlite_react_test300
+test.00102,**exception raised**: Exceeded maximum retries (1) for output validation,0.19366,0.0,True,,,,,gemlite_react_test300
+test.00103,**exception raised**: The next request would exceed the request_limit of 50,-0.04148,0.0,True,,,,,gemlite_react_test300
+test.00104,**exception raised**: Exceeded maximum retries (1) for output validation,0.55049,0.0,True,,,,,gemlite_react_test300
+test.00105,**exception raised**: Exceeded maximum retries (1) for output validation,338928.0,0.0,True,,,,,gemlite_react_test300
+test.00106,**exception raised**: Exceeded maximum retries (1) for output validation,0.67536,0.0,True,,,,,gemlite_react_test300
+test.00107,**exception raised**: Exceeded maximum retries (1) for output validation,-0.09731,0.0,True,,,,,gemlite_react_test300
+test.00108,242,2688.88889,0.0,True,11812.0,3565.0,32.20120429992676,0.0026072,gemlite_react_test300
+test.00109,**exception raised**: Exceeded maximum retries (1) for output validation,1.0,0.0,True,,,,,gemlite_react_test300
+test.00110,**exception raised**: Exceeded maximum retries (1) for output validation,-0.08451,0.0,True,,,,,gemlite_react_test300
+test.00111,-735,-8095.0,0.0,True,1593.0,16.0,1.2881205081939697,0.0001657,gemlite_react_test300
+test.00112,**exception raised**: Exceeded maximum retries (1) for output validation,0.81572,0.0,True,,,,,gemlite_react_test300
+test.00113,**exception raised**: Exceeded maximum retries (1) for output validation,0.45861,0.0,True,,,,,gemlite_react_test300
+test.00114,1.293,3879.0,0.0,True,2188.0,218.0,2.2595748901367188,0.00030599999999999996,gemlite_react_test300
+test.00115,367,445.0,0.0,True,1990.0,14.0,1.1880416870117188,0.00020459999999999999,gemlite_react_test300
+test.00116,**exception raised**: Exceeded maximum retries (1) for output validation,28809.0,0.0,True,,,,,gemlite_react_test300
+test.00117,**exception raised**: Exceeded maximum retries (1) for output validation,0.04828,0.0,True,,,,,gemlite_react_test300
+test.00118,**exception raised**: Exceeded maximum retries (1) for output validation,0.21277,0.0,True,,,,,gemlite_react_test300
+test.00119,**exception raised**: Exceeded maximum retries (1) for output validation,-85.0,0.0,True,,,,,gemlite_react_test300
+test.00120,**exception raised**: Exceeded maximum retries (1) for output validation,17447.0,0.0,True,,,,,gemlite_react_test300
+test.00121,**exception raised**: Exceeded maximum retries (1) for output validation,0.22972,0.0,True,,,,,gemlite_react_test300
+test.00122,184,0.00543,0.0,True,2088.0,15.0,1.1927483081817627,0.0002148,gemlite_react_test300
+test.00123,**exception raised**: Exceeded maximum retries (1) for output validation,0.79588,0.0,True,,,,,gemlite_react_test300
+test.00124,**exception raised**: Exceeded maximum retries (1) for output validation,0.01577,0.0,True,,,,,gemlite_react_test300
+test.00125,**exception raised**: Exceeded maximum retries (1) for output validation,0.16534,0.0,True,,,,,gemlite_react_test300
+test.00126,**exception raised**: Exceeded maximum retries (1) for output validation,-198.0,0.0,True,,,,,gemlite_react_test300
+test.00127,**exception raised**: Exceeded maximum retries (1) for output validation,26.8,0.0,True,,,,,gemlite_react_test300
+test.00128,**exception raised**: Exceeded maximum retries (1) for output validation,0.57228,0.0,True,,,,,gemlite_react_test300
+test.00129,**exception raised**: Exceeded maximum retries (1) for output validation,0.18962,0.0,True,,,,,gemlite_react_test300
+test.00130,296.67%,1.9667,0.0,True,1502.0,22.0,1.1911461353302002,0.00015900000000000002,gemlite_react_test300
+test.00131,**exception raised**: Exceeded maximum retries (1) for output validation,3.13115,0.0,True,,,,,gemlite_react_test300
+test.00132,1.0,1.0,1.0,True,1360.0,14.0,2.6960983276367188,0.0001416,gemlite_react_test300
+test.00133,**exception raised**: Exceeded maximum retries (1) for output validation,0.4029,0.0,True,,,,,gemlite_react_test300
+test.00134,**exception raised**: Exceeded maximum retries (1) for output validation,1.56326,0.0,True,,,,,gemlite_react_test300
+test.00135,**exception raised**: Exceeded maximum retries (1) for output validation,0.20207,0.0,True,,,,,gemlite_react_test300
+test.00136,**exception raised**: Exceeded maximum retries (1) for output validation,-26.06635,0.0,True,,,,,gemlite_react_test300
+test.00137,**exception raised**: Exceeded maximum retries (1) for output validation,0.39024,0.0,True,,,,,gemlite_react_test300
+test.00138,**exception raised**: Exceeded maximum retries (1) for output validation,284.0,0.0,True,,,,,gemlite_react_test300
+test.00139,**exception raised**: Exceeded maximum retries (1) for output validation,2185.50348,0.0,True,,,,,gemlite_react_test300
+test.00140,**exception raised**: Exceeded maximum retries (1) for output validation,0.48519,0.0,True,,,,,gemlite_react_test300
+test.00141,**exception raised**: Exceeded maximum retries (1) for output validation,11.0,0.0,True,,,,,gemlite_react_test300
+test.00142,**exception raised**: Exceeded maximum retries (1) for output validation,yes,0.0,True,,,,,gemlite_react_test300
+test.00143,33122.5,7947.0,0.0,True,1690.0,22.0,1.1870753765106201,0.00017779999999999998,gemlite_react_test300
+test.00144,**exception raised**: Exceeded maximum retries (1) for output validation,6111.0,0.0,True,,,,,gemlite_react_test300
+test.00145,**exception raised**: Exceeded maximum retries (1) for output validation,0.19351,0.0,True,,,,,gemlite_react_test300
+test.00146,0,0.0,1.0,True,1466.0,10.0,1.1352031230926514,0.00015059999999999997,gemlite_react_test300
+test.00147,**exception raised**: Exceeded maximum retries (1) for output validation,0.18923,0.0,True,,,,,gemlite_react_test300
+test.00148,208.14,yes,0.0,True,1377.0,55.0,1.331618070602417,0.00015969999999999998,gemlite_react_test300
+test.00149,**exception raised**: Exceeded maximum retries (1) for output validation,0.33263,0.0,True,,,,,gemlite_react_test300
+test.00150,1336,0.0314,0.0,True,1550.0,16.0,1.3419368267059326,0.0001614,gemlite_react_test300
+test.00151,**exception raised**: Exceeded maximum retries (1) for output validation,38290.0,0.0,True,,,,,gemlite_react_test300
+test.00152,**exception raised**: Exceeded maximum retries (1) for output validation,2.5,0.0,True,,,,,gemlite_react_test300
+test.00153,**exception raised**: Exceeded maximum retries (1) for output validation,0.22045,0.0,True,,,,,gemlite_react_test300
+test.00154,**exception raised**: Exceeded maximum retries (1) for output validation,115.56,0.0,True,,,,,gemlite_react_test300
+test.00155,**exception raised**: Exceeded maximum retries (1) for output validation,-0.55319,0.0,True,,,,,gemlite_react_test300
+test.00156,**exception raised**: Exceeded maximum retries (1) for output validation,95983.54,0.0,True,,,,,gemlite_react_test300
+test.00157,**exception raised**: Exceeded maximum retries (1) for output validation,349.0,0.0,True,,,,,gemlite_react_test300
+test.00158,**exception raised**: Exceeded maximum retries (1) for output validation,0.01197,0.0,True,,,,,gemlite_react_test300
+test.00159,10%,33.33333,0.0,True,1423.0,14.0,1.1559796333312988,0.0001479,gemlite_react_test300
+test.00160,110000000,120000000.0,0.0,True,1790.0,26.0,1.2173473834991455,0.0001894,gemlite_react_test300
+test.00161,-1.6,-9.2,0.0,True,1414.0,16.0,1.1396782398223877,0.0001478,gemlite_react_test300
+test.00162,**exception raised**: Exceeded maximum retries (1) for output validation,0.41379,0.0,True,,,,,gemlite_react_test300
+test.00163,12.3,12.3,1.0,True,1383.0,16.0,1.172149419784546,0.0001447,gemlite_react_test300
+test.00164,**exception raised**: Exceeded maximum retries (1) for output validation,0.34461,0.0,True,,,,,gemlite_react_test300
+test.00165,**exception raised**: Exceeded maximum retries (1) for output validation,231341.66667,0.0,True,,,,,gemlite_react_test300
+test.00166,**exception raised**: Exceeded maximum retries (1) for output validation,0.07427,0.0,True,,,,,gemlite_react_test300
+test.00167,**exception raised**: Exceeded maximum retries (1) for output validation,-41.0,0.0,True,,,,,gemlite_react_test300
+test.00168,**exception raised**: Exceeded maximum retries (1) for output validation,39.0,0.0,True,,,,,gemlite_react_test300
+test.00169,**exception raised**: Exceeded maximum retries (1) for output validation,0.03135,0.0,True,,,,,gemlite_react_test300
+test.00170,**exception raised**: Exceeded maximum retries (1) for output validation,-1.32432,0.0,True,,,,,gemlite_react_test300
+test.00171,**exception raised**: Exceeded maximum retries (1) for output validation,31.77215,0.0,True,,,,,gemlite_react_test300
+test.00172,15395,15395.0,1.0,True,1740.0,18.0,1.1932742595672607,0.00018119999999999996,gemlite_react_test300
+test.00173,-60518,43920.0,0.0,True,1736.0,20.0,1.2915527820587158,0.0001816,gemlite_react_test300
+test.00174,3.057,2983.0,0.0,True,1973.0,18.0,1.3230140209197998,0.00020449999999999998,gemlite_react_test300
+test.00175,**exception raised**: Exceeded maximum retries (1) for output validation,-0.0777,0.0,True,,,,,gemlite_react_test300
+test.00176,**exception raised**: Exceeded maximum retries (1) for output validation,-2.0,0.0,True,,,,,gemlite_react_test300
+test.00177,,no,0.0,True,1824.0,8.0,1.1640164852142334,0.0001856,gemlite_react_test300
+test.00178,**exception raised**: Exceeded maximum retries (1) for output validation,1056.0,0.0,True,,,,,gemlite_react_test300
+test.00179,None,yes,0.0,True,1334.0,20.0,1.1649396419525146,0.0001414,gemlite_react_test300
+test.00180,107.76%,0.0776,0.0,True,1239.0,22.0,1.2686307430267334,0.0001327,gemlite_react_test300
+test.00181,**exception raised**: Exceeded maximum retries (1) for output validation,20.0,0.0,True,,,,,gemlite_react_test300
+test.00182,**exception raised**: Exceeded maximum retries (1) for output validation,1723732.78,0.0,True,,,,,gemlite_react_test300
+test.00183,**exception raised**: Exceeded maximum retries (1) for output validation,1.2816,0.0,True,,,,,gemlite_react_test300
+test.00184,**exception raised**: Exceeded maximum retries (1) for output validation,0.21864,0.0,True,,,,,gemlite_react_test300
+test.00185,180993,0.52977,0.0,True,1636.0,20.0,1.287212610244751,0.0001716,gemlite_react_test300
+test.00186,13.02%,5.08,0.0,True,1677.0,20.0,1.258244276046753,0.0001757,gemlite_react_test300
+test.00187,**exception raised**: Exceeded maximum retries (1) for output validation,0.27404,0.0,True,,,,,gemlite_react_test300
+test.00188,**exception raised**: Exceeded maximum retries (1) for output validation,72075000.0,0.0,True,,,,,gemlite_react_test300
+test.00189,**exception raised**: Exceeded maximum retries (1) for output validation,1214.66667,0.0,True,,,,,gemlite_react_test300
+test.00190,1400,1.4,0.0,True,10915.0,2364.0,11.727106094360352,0.0020371,gemlite_react_test300
+test.00191,16.43,16.43,1.0,True,1513.0,317.0,1.976663589477539,0.0002781,gemlite_react_test300
+test.00192,**exception raised**: Exceeded maximum retries (1) for output validation,3739366.45,0.0,True,,,,,gemlite_react_test300
+test.00193,**exception raised**: Exceeded maximum retries (1) for output validation,6.2,0.0,True,,,,,gemlite_react_test300
+test.00194,**exception raised**: Exceeded maximum retries (1) for output validation,0.86957,0.0,True,,,,,gemlite_react_test300
+test.00195,**exception raised**: Exceeded maximum retries (1) for output validation,6.15385,0.0,True,,,,,gemlite_react_test300
+test.00196,**exception raised**: Exceeded maximum retries (1) for output validation,0.07667,0.0,True,,,,,gemlite_react_test300
+test.00197,**exception raised**: Exceeded maximum retries (1) for output validation,60829.2,0.0,True,,,,,gemlite_react_test300
+test.00198,**exception raised**: Exceeded maximum retries (1) for output validation,0.7271,0.0,True,,,,,gemlite_react_test300
+test.00199,**exception raised**: Exceeded maximum retries (1) for output validation,0.88834,0.0,True,,,,,gemlite_react_test300
+test.00200,**exception raised**: Exceeded maximum retries (1) for output validation,382.66667,0.0,True,,,,,gemlite_react_test300
+test.00201,**exception raised**: Exceeded maximum retries (1) for output validation,4.90575,0.0,True,,,,,gemlite_react_test300
+test.00202,0.0,1.7,0.0,True,1976.0,14.0,1.1501264572143555,0.0002032,gemlite_react_test300
+test.00203,0.362,0.3546,0.0,True,1575.0,18.0,1.2867341041564941,0.0001647,gemlite_react_test300
+test.00204,**exception raised**: Exceeded maximum retries (1) for output validation,1.07555,0.0,True,,,,,gemlite_react_test300
+test.00205,**exception raised**: Exceeded maximum retries (1) for output validation,0.80991,0.0,True,,,,,gemlite_react_test300
+test.00206,**exception raised**: Exceeded maximum retries (1) for output validation,0.18806,0.0,True,,,,,gemlite_react_test300
+test.00207,**exception raised**: Exceeded maximum retries (1) for output validation,0.16127,0.0,True,,,,,gemlite_react_test300
+test.00208,**exception raised**: Exceeded maximum retries (1) for output validation,2.63333,0.0,True,,,,,gemlite_react_test300
+test.00209,**exception raised**: Exceeded maximum retries (1) for output validation,2.50515,0.0,True,,,,,gemlite_react_test300
+test.00210,**exception raised**: Exceeded maximum retries (1) for output validation,0.08077,0.0,True,,,,,gemlite_react_test300
+test.00211,**exception raised**: Exceeded maximum retries (1) for output validation,38.81487,0.0,True,,,,,gemlite_react_test300
+test.00212,**exception raised**: Exceeded maximum retries (1) for output validation,11.07996,0.0,True,,,,,gemlite_react_test300
+test.00213,50 to 200,150.0,0.0,True,1576.0,23.0,1.2948851585388184,0.0001668,gemlite_react_test300
+test.00214,**exception raised**: Exceeded maximum retries (1) for output validation,57.65604,0.0,True,,,,,gemlite_react_test300
+test.00215,**exception raised**: Exceeded maximum retries (1) for output validation,0.01307,0.0,True,,,,,gemlite_react_test300
+test.00216,37.1,37.1,1.0,True,2115.0,298.0,2.250267505645752,0.00033069999999999996,gemlite_react_test300
+test.00217,**exception raised**: Exceeded maximum retries (1) for output validation,0.10058,0.0,True,,,,,gemlite_react_test300
+test.00218,**exception raised**: Exceeded maximum retries (1) for output validation,11.8,0.0,True,,,,,gemlite_react_test300
+test.00219,**exception raised**: Exceeded maximum retries (1) for output validation,-0.18519,0.0,True,,,,,gemlite_react_test300
+test.00220,**exception raised**: Exceeded maximum retries (1) for output validation,925031.0,0.0,True,,,,,gemlite_react_test300
+test.00221,**exception raised**: Exceeded maximum retries (1) for output validation,0.10253,0.0,True,,,,,gemlite_react_test300
+test.00222,**exception raised**: Exceeded maximum retries (1) for output validation,0.33333,0.0,True,,,,,gemlite_react_test300
+test.00223,**exception raised**: Exceeded maximum retries (1) for output validation,1.36746,0.0,True,,,,,gemlite_react_test300
+test.00224,**exception raised**: Exceeded maximum retries (1) for output validation,0.81572,0.0,True,,,,,gemlite_react_test300
+test.00225,**exception raised**: Exceeded maximum retries (1) for output validation,31.0,0.0,True,,,,,gemlite_react_test300
+test.00226,**exception raised**: Exceeded maximum retries (1) for output validation,0.18467,0.0,True,,,,,gemlite_react_test300
+test.00227,578,1.136,0.0,True,2155.0,14.0,1.2690188884735107,0.0002211,gemlite_react_test300
+test.00228,89.57%,0.9,0.0,True,2300.0,20.0,1.3005397319793701,0.00023799999999999998,gemlite_react_test300
+test.00229,**exception raised**: Exceeded maximum retries (1) for output validation,0.32012,0.0,True,,,,,gemlite_react_test300
+test.00230,**exception raised**: Exceeded maximum retries (1) for output validation,-0.09785,0.0,True,,,,,gemlite_react_test300
+test.00231,**exception raised**: Exceeded maximum retries (1) for output validation,0.29167,0.0,True,,,,,gemlite_react_test300
+test.00232,172.2,172.2,1.0,True,8824.0,1943.0,10.164004564285278,0.0016596,gemlite_react_test300
+test.00233,**exception raised**: Exceeded maximum retries (1) for output validation,0.19391,0.0,True,,,,,gemlite_react_test300
+test.00234,**exception raised**: Exceeded maximum retries (1) for output validation,658.13,0.0,True,,,,,gemlite_react_test300
+test.00235,**exception raised**: Exceeded maximum retries (1) for output validation,19.66667,0.0,True,,,,,gemlite_react_test300
+test.00236,**exception raised**: Exceeded maximum retries (1) for output validation,0.05677,0.0,True,,,,,gemlite_react_test300
+test.00237,**exception raised**: Exceeded maximum retries (1) for output validation,0.12702,0.0,True,,,,,gemlite_react_test300
+test.00238,7103,5590.0,0.0,True,2041.0,16.0,1.2713673114776611,0.0002105,gemlite_react_test300
+test.00239,36.9,36.9,1.0,True,1627.0,28.0,1.2347195148468018,0.0001739,gemlite_react_test300
+test.00240,**exception raised**: Exceeded maximum retries (1) for output validation,4781374.0,0.0,True,,,,,gemlite_react_test300
+test.00241,**exception raised**: Exceeded maximum retries (1) for output validation,0.01639,0.0,True,,,,,gemlite_react_test300
+test.00242,**exception raised**: Exceeded maximum retries (1) for output validation,0.23529,0.0,True,,,,,gemlite_react_test300
+test.00243,**exception raised**: Exceeded maximum retries (1) for output validation,6055.66667,0.0,True,,,,,gemlite_react_test300
+test.00244,**exception raised**: Exceeded maximum retries (1) for output validation,-0.0333,0.0,True,,,,,gemlite_react_test300
+test.00245,**exception raised**: Exceeded maximum retries (1) for output validation,-3155.0,0.0,True,,,,,gemlite_react_test300
+test.00246,**exception raised**: Exceeded maximum retries (1) for output validation,0.05823,0.0,True,,,,,gemlite_react_test300
+test.00247,503000 / 298,1687.91946,0.0,True,1567.0,30.0,1.2781429290771484,0.00016869999999999998,gemlite_react_test300
+test.00248,**exception raised**: Exceeded maximum retries (1) for output validation,0.24335,0.0,True,,,,,gemlite_react_test300
+test.00249,**exception raised**: Exceeded maximum retries (1) for output validation,0.41467,0.0,True,,,,,gemlite_react_test300
+test.00250,**exception raised**: Exceeded maximum retries (1) for output validation,6.25,0.0,True,,,,,gemlite_react_test300
+test.00251,**exception raised**: Exceeded maximum retries (1) for output validation,14.09032,0.0,True,,,,,gemlite_react_test300
+test.00252,**exception raised**: Exceeded maximum retries (1) for output validation,0.21838,0.0,True,,,,,gemlite_react_test300
+test.00253,**exception raised**: Exceeded maximum retries (1) for output validation,0.01639,0.0,True,,,,,gemlite_react_test300
+test.00254,**exception raised**: Exceeded maximum retries (1) for output validation,0.11237,0.0,True,,,,,gemlite_react_test300
+test.00255,**exception raised**: Exceeded maximum retries (1) for output validation,0.64092,0.0,True,,,,,gemlite_react_test300
+test.00256,**exception raised**: Exceeded maximum retries (1) for output validation,0.18186,0.0,True,,,,,gemlite_react_test300
+test.00257,**exception raised**: Exceeded maximum retries (1) for output validation,0.46318,0.0,True,,,,,gemlite_react_test300
+test.00258,**exception raised**: Exceeded maximum retries (1) for output validation,92.0,0.0,True,,,,,gemlite_react_test300
+test.00259,**exception raised**: Exceeded maximum retries (1) for output validation,2.7,0.0,True,,,,,gemlite_react_test300
+test.00260,**exception raised**: Exceeded maximum retries (1) for output validation,2.18154,0.0,True,,,,,gemlite_react_test300
+test.00261,**exception raised**: Exceeded maximum retries (1) for output validation,1.26067,0.0,True,,,,,gemlite_react_test300
+test.00262,**exception raised**: Exceeded maximum retries (1) for output validation,100.9,0.0,True,,,,,gemlite_react_test300
+test.00263,**exception raised**: The next request would exceed the request_limit of 50,1.94099,0.0,True,,,,,gemlite_react_test300
+test.00264,**exception raised**: Exceeded maximum retries (1) for output validation,674.0,0.0,True,,,,,gemlite_react_test300
+test.00265,57100,2e-05,0.0,True,1577.0,18.0,1.3548550605773926,0.0001649,gemlite_react_test300
+test.00266,**exception raised**: Exceeded maximum retries (1) for output validation,231341.66667,0.0,True,,,,,gemlite_react_test300
+test.00267,**exception raised**: Exceeded maximum retries (1) for output validation,747.0,0.0,True,,,,,gemlite_react_test300
+test.00268,4.70%,0.047,1.0,True,2144.0,18.0,1.1675999164581299,0.00022159999999999997,gemlite_react_test300
+test.00269,**exception raised**: Exceeded maximum retries (1) for output validation,88.57527,0.0,True,,,,,gemlite_react_test300
+test.00270,**exception raised**: Exceeded maximum retries (1) for output validation,0.62121,0.0,True,,,,,gemlite_react_test300
+test.00271,**exception raised**: Exceeded maximum retries (1) for output validation,0.08639,0.0,True,,,,,gemlite_react_test300
+test.00272,**exception raised**: Exceeded maximum retries (1) for output validation,0.13785,0.0,True,,,,,gemlite_react_test300
+test.00273,107.62%,1.0762,1.0,True,1236.0,22.0,1.3454170227050781,0.00013240000000000002,gemlite_react_test300
+test.00274,**exception raised**: The next request would exceed the request_limit of 50,-0.05114,0.0,True,,,,,gemlite_react_test300
+test.00275,**exception raised**: Exceeded maximum retries (1) for output validation,0.47887,0.0,True,,,,,gemlite_react_test300
+test.00276,**exception raised**: Exceeded maximum retries (1) for output validation,120.0,0.0,True,,,,,gemlite_react_test300
+test.00277,**exception raised**: Exceeded maximum retries (1) for output validation,0.4655,0.0,True,,,,,gemlite_react_test300
+test.00278,**exception raised**: Exceeded maximum retries (1) for output validation,0.13194,0.0,True,,,,,gemlite_react_test300
+test.00279,**exception raised**: Exceeded maximum retries (1) for output validation,0.14636,0.0,True,,,,,gemlite_react_test300
+test.00280,**exception raised**: Exceeded maximum retries (1) for output validation,no,0.0,True,,,,,gemlite_react_test300
+test.00281,31027,58665.0,0.0,True,1387.0,18.0,1.2868354320526123,0.00014589999999999997,gemlite_react_test300
+test.00282,**exception raised**: Exceeded maximum retries (1) for output validation,0.03816,0.0,True,,,,,gemlite_react_test300
+test.00283,**exception raised**: Exceeded maximum retries (1) for output validation,6.0,0.0,True,,,,,gemlite_react_test300
+test.00284,**exception raised**: Exceeded maximum retries (1) for output validation,0.11497,0.0,True,,,,,gemlite_react_test300
+test.00285,**exception raised**: Exceeded maximum retries (1) for output validation,0.3227,0.0,True,,,,,gemlite_react_test300
+test.00286,**exception raised**: Exceeded maximum retries (1) for output validation,1.5625,0.0,True,,,,,gemlite_react_test300
+test.00287,**exception raised**: Exceeded maximum retries (1) for output validation,353582.0,0.0,True,,,,,gemlite_react_test300
+test.00288,**exception raised**: Exceeded maximum retries (1) for output validation,0.26856,0.0,True,,,,,gemlite_react_test300
+test.00289,4214600,0.61053,0.0,True,1574.0,22.0,1.1631708145141602,0.00016619999999999997,gemlite_react_test300
+test.00290,**exception raised**: Exceeded maximum retries (1) for output validation,-0.08353,0.0,True,,,,,gemlite_react_test300
+test.00291,**exception raised**: Exceeded maximum retries (1) for output validation,0.85891,0.0,True,,,,,gemlite_react_test300
+test.00292,**exception raised**: Exceeded maximum retries (1) for output validation,-0.18309,0.0,True,,,,,gemlite_react_test300
+test.00293,**exception raised**: Exceeded maximum retries (1) for output validation,0.45103,0.0,True,,,,,gemlite_react_test300
+test.00294,**exception raised**: Exceeded maximum retries (1) for output validation,0.1326,0.0,True,,,,,gemlite_react_test300
+test.00295,**exception raised**: Exceeded maximum retries (1) for output validation,0.30469,0.0,True,,,,,gemlite_react_test300
+test.00296,**exception raised**: Exceeded maximum retries (1) for output validation,19.0,0.0,True,,,,,gemlite_react_test300
+test.00297,**exception raised**: Exceeded maximum retries (1) for output validation,-0.0733,0.0,True,,,,,gemlite_react_test300
+test.00298,**exception raised**: Exceeded maximum retries (1) for output validation,61.0,0.0,True,,,,,gemlite_react_test300
+test.00299,**exception raised**: Exceeded maximum retries (1) for output validation,0.10789,0.0,True,,,,,gemlite_react_test300

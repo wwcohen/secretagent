@@ -1,0 +1,7 @@
+{
+    "father node": 4,
+    "modification": "Introduce the ScEnsemble operator to implement self-consistency. Generate 3 answers, format them to 'yes' or 'no', and then ensemble them to select the most frequent answer, improving robustness.",
+    "before": 0.7600000000000001,
+    "after": 0.7399999999999999,
+    "succeed": false
+}

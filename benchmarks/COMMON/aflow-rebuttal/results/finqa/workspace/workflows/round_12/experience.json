@@ -1,0 +1,7 @@
+{
+    "father node": 10,
+    "modification": "Added `ScEnsemble` operator to perform self-consistency voting on 3 revised solutions to improve reliability, and updated the prompts to explicitly prevent premature rounding and resolve entity ambiguity by defaulting to the first mentioned entity.",
+    "before": 0.72,
+    "after": 0.72,
+    "succeed": false
+}

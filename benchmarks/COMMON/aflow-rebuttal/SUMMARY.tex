@@ -1,0 +1,11 @@
+% AFlow arm
+ bench  rounds  cand_evals  best_round  best_val  test  test_n  test_cost_per_case  search_cost  search_exec_cost  search_opt_cost_est  search_cost_incl_failed_attempts
+sports       9          27           1      0.76  0.75     100            0.000003       0.5861            0.4982               0.0879                            0.5861
+ finqa      12          18           3      0.72  0.67     300            0.001055       5.9314            1.5461               4.3854                            9.4048
+% Reference cells (gemini-2.5-flash-lite, secretagent harness)
+method            react  structured  unstructured  workflow  zeroshot
+bench  split n                                                       
+finqa  test  300   0.07        0.25           NaN     0.757      0.39
+       valid 50    0.12        0.30           NaN     0.840      0.54
+sports test  100   0.59        0.85          0.82     0.810       NaN
+       valid 50    0.86        0.90          0.74     0.940       NaN

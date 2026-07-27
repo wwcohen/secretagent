@@ -1,0 +1,74 @@
+diff --git a/run.py b/run.py
+index b4aa4ca..215c55c 100644
+--- a/run.py
++++ b/run.py
+@@ -53,6 +53,22 @@ EXPERIMENT_CONFIGS: Dict[str, ExperimentConfig] = {
+         question_type="code",
+         operators=["Custom", "CustomCodeGenerate", "ScEnsemble", "Test"],
+     ),
++    "SportsUnderstanding": ExperimentConfig(
++        dataset="SportsUnderstanding",
++        question_type="qa",
++        operators=["Custom", "AnswerGenerate", "ScEnsemble"],
++    ),
++    "FinQA": ExperimentConfig(
++        dataset="FinQA",
++        question_type="math",
++        # Programmer excluded: its code_fill parser extracts nothing from
++        # gemini-2.5-flash-lite output (markdown fences vs expected format),
++        # so Programmer-using candidates score 0 while costing ~90 min/round.
++        # Verified standalone 2026-07-27; see RUNBOOK.md.
++        # AnswerGenerate is NOT available in the math template (no class in
++        # operator.py, no operator.json entry) -> stock math set minus Programmer.
++        operators=["Custom", "ScEnsemble"],
++    ),
+ }
+ 
+ 
+diff --git a/scripts/async_llm.py b/scripts/async_llm.py
+index 3e8d7cf..1cf23c5 100644
+--- a/scripts/async_llm.py
++++ b/scripts/async_llm.py
+@@ -97,6 +97,10 @@ class ModelPricing:
+         "claude-3-5-sonnet": {"input": 0.003, "output": 0.015},
+         "o3":{"input":0.003, "output":0.015},
+         "o3-mini": {"input": 0.0011, "output": 0.0025},
++        # Gemini via OpenAI-compat endpoint; per-1K prices from litellm model_cost
++        # (same price source as the secretagent harness, for comparable cost columns)
++        "gemini-2.5-flash-lite": {"input": 0.0001, "output": 0.0004},
++        "gemini-3.1-pro-preview": {"input": 0.002, "output": 0.012},
+     }
+     
+     @classmethod
+diff --git a/scripts/evaluator.py b/scripts/evaluator.py
+index 8a7ace5..56d6f6f 100644
+--- a/scripts/evaluator.py
++++ b/scripts/evaluator.py
+@@ -6,7 +6,9 @@
+ from typing import Dict, Literal, Tuple
+ 
+ from benchmarks.benchmark import BaseBenchmark
++from benchmarks.bbh import BBHBenchmark
+ from benchmarks.drop import DROPBenchmark
++from benchmarks.finqa import FinQABenchmark
+ from benchmarks.gsm8k import GSM8KBenchmark
+ from benchmarks.hotpotqa import HotpotQABenchmark
+ from benchmarks.humaneval import HumanEvalBenchmark
+@@ -15,7 +17,7 @@ from benchmarks.mbpp import MBPPBenchmark
+ from benchmarks.livecodebench import LiveCodeBench
+ 
+ # If you want to customize tasks, add task types here and provide evaluation functions, just like the ones given above
+-DatasetType = Literal["HumanEval", "MBPP", "GSM8K", "MATH", "HotpotQA", "DROP", "LiveCodeBench"]
++DatasetType = Literal["HumanEval", "MBPP", "GSM8K", "MATH", "HotpotQA", "DROP", "LiveCodeBench", "SportsUnderstanding", "FinQA"]
+ 
+ 
+ class Evaluator:
+@@ -33,6 +35,8 @@ class Evaluator:
+             "MBPP": MBPPBenchmark,
+             "DROP": DROPBenchmark,
+             "LiveCodeBench": LiveCodeBench,
++            "SportsUnderstanding": BBHBenchmark,
++            "FinQA": FinQABenchmark,
+         }
+ 
+     async def graph_evaluate(

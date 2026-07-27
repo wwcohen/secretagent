@@ -1,0 +1,7 @@
+{
+    "father node": 1,
+    "modification": "Add ScEnsemble operator to perform self-consistency voting over 3 generated responses to improve accuracy.",
+    "before": 0.7600000000000001,
+    "after": 0.7600000000000001,
+    "succeed": false
+}
