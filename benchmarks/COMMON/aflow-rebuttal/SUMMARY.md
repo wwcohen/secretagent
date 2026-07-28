@@ -24,7 +24,9 @@
 | finqa   | zeroshot     | valid   |  50 |    0.54   | 0.006  |
 | finqa   | zeroshot     | test    | 300 |    0.39   | 0.036  |
 
-## AFlow candidate audit — every searched Sports round on held-out test
+## AFlow candidate audit: all Sports rounds scored on the held out test set
+Round 1 is the unmodified seed. Selection used validation scores only.
+
 |   round |   val |   test |   cost_per_case |   calls_per_case |   out_tok_per_case |
 |--------:|------:|-------:|----------------:|-----------------:|-------------------:|
 |       1 |  0.76 |   0.75 |       3.2e-06   |             1    |                1   |

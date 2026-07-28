@@ -160,11 +160,13 @@ def main():
     if len(refs):
         print(refs.round(4).to_markdown(index=False))
     else:
-        print("(none found yet — run scripts/run_gemlite_reference_cells.sh)")
+        print("(none found yet. run scripts/run_gemlite_reference_cells.sh)")
 
     audit = candidate_audit("sports", "SportsUnderstanding")
     if len(audit) > 1:
-        print("\n## AFlow candidate audit — every searched Sports round on held-out test")
+        print("\n## AFlow candidate audit: all Sports rounds scored on the held out test set")
+        print("Round 1 is the unmodified seed. Selection used validation scores only.")
+        print()
         print(audit.to_markdown(index=False))
 
 
