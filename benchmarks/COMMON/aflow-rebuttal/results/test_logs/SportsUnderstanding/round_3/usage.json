@@ -1,0 +1,13 @@
+{
+ "round": 3,
+ "n_cases": 100,
+ "score": 0.5,
+ "calls": 700,
+ "input_tokens": 61965,
+ "output_tokens": 217767,
+ "tracked_cost": 0.09330329999999884,
+ "calls_per_case": 7.0,
+ "in_tok_per_case": 619.65,
+ "out_tok_per_case": 2177.67,
+ "cost_per_case": 0.0009330329999999884
+}

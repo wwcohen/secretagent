@@ -76,6 +76,22 @@ def search_costs(bench: str):
     return out
 
 
+def candidate_audit(bench: str, dataset: str):
+    """Per-candidate held-out audit: every searched round scored once on the
+    test split with token/call accounting (usage.json written by test_pass.py)."""
+    v = val_rounds(bench)
+    rows = []
+    for uj in sorted(glob.glob(str(HERE / "results" / "test_logs" / dataset / "round_*" / "usage.json"))):
+        u = json.loads(Path(uj).read_text(encoding="utf-8"))
+        rows.append({"round": u["round"],
+                     "val": round(v["means"].get(u["round"], float("nan")), 3) if v else None,
+                     "test": round(u["score"], 3),
+                     "cost_per_case": round(u["cost_per_case"], 7),
+                     "calls_per_case": round(u["calls_per_case"], 2),
+                     "out_tok_per_case": round(u["out_tok_per_case"], 1)})
+    return pd.DataFrame(rows).sort_values("round") if rows else pd.DataFrame()
+
+
 def reference_cells():
     """gemlite_* run dirs in the two benchmarks' results/ (created by
     scripts/run_gemlite_reference_cells.sh)."""
@@ -145,6 +161,11 @@ def main():
         print(refs.round(4).to_markdown(index=False))
     else:
         print("(none found yet — run scripts/run_gemlite_reference_cells.sh)")
+
+    audit = candidate_audit("sports", "SportsUnderstanding")
+    if len(audit) > 1:
+        print("\n## AFlow candidate audit — every searched Sports round on held-out test")
+        print(audit.to_markdown(index=False))
 
 
 if __name__ == "__main__":
